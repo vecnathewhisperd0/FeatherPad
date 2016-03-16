@@ -1,0 +1,95 @@
+*********************
+*   Drag-and-Drop   *
+*********************
+
+Files can be dragged and dropped into FeatherPad windows.
+
+Also tabs can be dragged from a window and dropped into another window or outside all FeatherPad windows. In the first case, the dropped tab will appear after the previously active tab; in the second case, a new window containing the dropped tab will be created, i.e. the tab will be detached.
+
+************
+*   Tabs   *
+************
+
+Tabs are always reorderable.
+
+If there is more that one tab, each tab will have a right-click menu for closing its right or left tabs. Also it will be possible to detach the active tab by clicking the related item on the File menu or with Ctrl+T.
+
+********************
+*   File Opening   *
+********************
+
+If there is a FeatherPad window on the current virtual desktop, files will be opened as new tabs in it; otherwise, a new window will be created. Also when the window on the current desktop has a modal dialog, another window is created.
+
+If a file is opened multiple times, its second (third, ... ) instance will be uneditable by default and will have a light yellow background. To make it editable, click on the newly created 'Edit' button on the toolbar or the 'Edit' menu. After that, these two buttons will disappear again.
+
+*******************************************
+*   Encodings and Programming Languages   *
+*******************************************
+
+FeatherPad tries to guess encodings as well as programming languages (for syntax highlighting) when opening files. Although it often guesses encodings right, there is no exact way for that. Therefore, there are some encodings in the Options menu. If you choose one, the text could be saved with it by using the item "Save with Encoding" on the File menu. By default, all texts are saved with UTF-8.
+
+*******************************
+*   Searching and Replacing   *
+*******************************
+
+To remove the yellow highlights after finishing a search, just click on the 'Clear' icon of the search entry, or press Ctrl+K, or empty the search entry and press Enter or F3.
+
+The 'Replace' docked window respects the settings for 'Match Case' and 'Whole Word' on the search bar. It can be detached from and reattached to the the main window at top or bottom.
+
+***********************
+*   Going to A Line   *
+***********************
+
+The Jump bar can be shown by clicking its item on the toolbar or the Search menu. Jumping will happen after pressing Enter while the Jump spinbox is active. If the checkbox beside it is checked, all the text between the text cursor and the target line will be selected.
+
+******************
+*   Status Bar   *
+******************
+
+The status bar shows some information about the opened file and can be toggled with the item "Document Properties" on the File menu. You could also make it visible permanently in the Preferences dialog, in which case, the above-mentioned menu item will be removed.
+
+*********************************
+*   Fast Scrolling with Mouse   *
+*********************************
+
+For fast scrolling, put the cursor on the scrollbar. If it is on the text, the scrolling speed will be normal.
+
+*********************************
+*   Useful Keyboard Shortcuts   *
+*********************************
+
+This help:                  Ctrl+H
+Show/hide line numbers:     Ctrl+L
+Toggle wrapping state:      Ctrl+W
+Toggle auto-indentation:    Ctrl+I
+Toggle syntax highlighting: Ctrl+Shift+H
+Refresh (reload file):      Ctrl+Shift+R
+Jump to line:               Ctrl+J
+Select text to line:        Ctrl+Shift+J (The Jump bar should be visible)
+Show/hide search bar:       Ctrl+F
+Forward search:             F3 (or press Enter in the search entry)
+Backward search:            F4
+Match case:                 F5
+Whole word:                 F6
+'Replace' window:           Ctrl+R
+Forward replacement:        F7
+Backward replacement:       F8
+Replace all:                F9
+Clear a text entry:         Ctrl+K
+Preferences:                Ctrl+Shift+P
+Document statistics:        Ctrl+Shift+D
+Close tab:                  Ctrl+Shift+Q
+Detach tab:                 Ctrl+T
+Print:                      Ctrl+P
+Edit uneditable texts:      Ctrl+E
+
+Extra Shortcuts:
+=================
+(Un-)Fullscreen:            F11
+Resize window to 700x500:   Ctrl+Shift+W
+Zoom in:                    Ctrl+=
+Zoom out:                   Ctrl+-
+Reset zooming:              Ctrl+0
+Change text alignment:      Ctrl+Shift+A (for RTL languages)
+
+The remaining shortcuts are standard. All shortcuts, except for the extra ones above, can be found on menus or as tooltips.

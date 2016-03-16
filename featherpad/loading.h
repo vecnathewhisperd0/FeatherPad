@@ -1,0 +1,47 @@
+/*
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014 <tsujan2000@gmail.com>
+ *
+ * FeatherPad is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the
+ * Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * FeatherPad is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#ifndef LOADING_H
+#define LOADING_H
+
+#include <QThread>
+
+namespace FeatherPad {
+
+class Loading : public QThread {
+    Q_OBJECT
+
+public:
+    explicit Loading (QString fname, QString charset, bool enforceEncod, bool reload);
+    ~Loading();
+
+signals:
+    void completed (const QString str, const QString fname, const QString charset,
+                    bool enforceEncod, bool reload);
+
+private:
+    void run();
+
+    QString fname_;
+    QString charset_;
+    bool enforceEncod_;
+    bool reload_;
+};
+
+}
+
+#endif // LOADING_H

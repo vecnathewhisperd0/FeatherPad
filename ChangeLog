@@ -1,0 +1,282 @@
+V0.5.5
+---------
+ * Use a separate thread to get text. (Maybe useful later.)
+ * Set size limit for syntax highlighting.
+
+V0.5.4
+---------
+ * Code clean-up.
+ * Replaced the C++-only methods for validating UTF-8 with QTextCodec::toUnicode().
+ * Added HDPI support.
+ * Transformed signal-slot connections into the new syntax.
+
+V0.5.3
+---------
+ * Reversed the change that was made for bypassing the old KGlobal-locale warning message.
+ * Implemented auto-scrolling to selected file in file dialogs.
+ * Replaced search push-buttons with tool-buttons.
+
+V0.5.2
+---------
+ * At last, found a simple workaround for Qt5's scroll jump bug.
+ * Use singleShot instead of processEvents.
+ * Never use native dialogs (since KFileDialog can't be trusted).
+ * Removed a ridiculous cause of crash from closeEvent().
+ * Fixed an old bug in auto-indentation.
+
+V0.5.1
+---------
+ * Removed own icons.
+ * No context menu outside all tabs.
+
+V0.5.0
+---------
+ * Exported to Qt5 because Qt 5.4.2 seems OK.
+ * Workaround for a Qt5 bug, which prevents insertion of the non-breaking space (zero-width non-joiner, ZWNJ) with SHIFT+SPACE.
+
+V0.4.9
+---------
+ * Replaced "%U" with "%F" in the desktop file and used toLocalFile() if the file path is a URL.
+ * In log files, the day number may only have one digit.
+
+V0.4.8
+---------
+ * Use QSharedMemory, QLocalServer and QLocalSocket instead of QtSingleApplication to have a single-instance app with a simpler code.
+ * Instead of adding a member variable to the window class, use the qApp macro to get the app.
+ * Set window modality for the subdialogs of the print dialog too.
+ * Don't open new tabs in minimized windows; respect the minimized state!
+ * Use X11 functions for detecting the shaded state and unshading again because isMinimized() may not return true for shaded windows under all WMs.
+ * Format urls and email addresses inside single-line comments too.
+ * Format special notes inside comments.
+ * Format qmake paths.
+ * Some languages need backslash as the line ending for multiline quotes.
+ * Remove server instance from previous crash.
+ * Use documentMode.
+
+V0.4.7
+---------
+ * Take into account some DEs that don't support _NET_CURRENT_DESKTOP.
+ * Always use absoluteFilePath() when opening a file.
+ * Use absolutePath() instead of dir().path() to show the path of the opened file as tooltip.
+ * Do nothing in keyPressEvent() if the text is readonly.
+ * Guarantee a fixed height for lineedits.
+ * Instead of hiding and showing a window to resize it to the default size, reparent it with a dummy widget and take it out again to guarantee resizing under all DEs.
+
+V0.4.6
+---------
+ * Faster mouse wheel scrolling when the mouse cursor is on the vertical scrollbar.
+ * Use changeEvent() to get the window state because not all window managers trigger resizeEvent() when a window is unmaximized.
+ * Rehighlight found matches after zooming out or changing font.
+ * For returning to the default size to be possible under all circumstances, hide the window before resizing and show it again afterward.
+
+V0.4.5
+---------
+ * Added syntax highlighting for HTML embedded JavaScript.
+ * Added syntax highlighting for extra bash keywords.
+ * Added syntax highlighting for srt subtitles and gtkrc.
+ * A workaround for the scrollbar range(s) not being updated after zooming in the text.
+ * To unshade the active window, it's enough to consider it minimized and then, restore and activate it.
+
+V0.4.4
+---------
+ * Added HTML multiline comment highlighting.
+ * Added syntax highlighting for makefile, cmake, qmake, troff, theme files and Ruby.
+
+V0.4.3
+---------
+ * Code clean-up.
+ * Unshade the active window when a tab is created or a file is opened in it.
+ * Remove the settings for "max" and "fullscreen" when the window size isn't saved.
+
+V0.4.2
+---------
+ * Added '/usr/lib/x86_64-linux-gnu/libX11.so' as a system library to the project to fix the new error messages "x11.o: undefined reference to symbol...".
+ * Corrected highlighting of Bash keywords and also url patterns.
+ * Show tab tooltips without delay.
+ * Don't use setFixedSize() with dialogs because it may prevent them from being centered when shown.
+ * Under KDE, when text is selected for the first time after starting FeatherPad, it isn't copied to the selection clipboard. Although I still don't know the cause (Klipper?), I found a workaround.
+
+V0.4.1
+--------
+ * Added tab context menus for closing other tabs.
+ * When text is selected, use the left and right arrow keys to go to the start and end of the selection respectively.
+ * Use hasUrls() instead of hasFormat("text/plain") in dragEnterEvent() for DnD to work with all file managers.
+ * When an empty file is opened in the current tab, open the next file in a new tab.
+
+V0.4.0
+--------
+ * Made FeatherPad independent from any icon set.
+ * Use an extra setTextCursor() in find() for the signal selectionChanged() be emitted (it's needed by the status bar).
+ * Set the toolbar icon size explicitly to 22x22.
+ * Made the status bar info selectable with mouse.
+ * More complete email address pattern in quotation highlighting.
+ * Fixed bugs in searching for multiline strings.
+
+V0.3.6
+--------
+ * When highlighting found matches, search for them only inside the visible part of the text.
+ * Fixed bugs in HTML highlighting.
+ * No need to enforce a central position for dialogs anymore.
+
+V0.3.5
+--------
+ * Restructured syntax highlighting.
+ * Fixed a bug common to Highlighter::isQuoted() and Highlighter::isMLCommented().
+ * Fixed HTML highlighting.
+ * Fixed a minor bug in CSS highlighting.
+ * Fixed some bugs related to quotation and commenting out.
+ * Don't disconnect the syntax highlighting signal in a QTextDocument when doing tab DND.
+
+V0.3.4
+--------
+ * A more advanced way of CSS syntax highlighting (with error handling).
+
+V0.3.3
+--------
+ * Fixed the CSS syntax highlighting.
+
+V0.3.2
+--------
+ * Rehighlight found matches after text replacement because they may need correction.
+ * Set style sheet only for the viewport of QPlainTextEdit.
+ * Added icons for GTK+ based environments and also for root.
+ * Always use raise() after activateWindow().
+ * Corrected a mistake, which had occurred during replacement of QLists with QHash.
+
+V0.3.1
+--------
+ * Corrected the C single-line comment.
+ * When opening a file, use the name of the currently opened file in the dialog.
+ * When saving a deleted file, show the save-as dialog only if the file isn't restorable (because its containing folder is removed).
+ * Disconnect everything connected to the signal modificationChanged() before setting text and reconnect them afterward.
+
+V0.3.0
+--------
+ * Use QHash instead of QLists to set and get the needed info on each tab.
+ * After a disastrous overwriting, I decided to use filters for saving as far as possible.
+
+V0.2.10
+--------
+ * Added an option to Preferences for always showing the statusbar.
+ * Format Apt's sources.list.
+ * Removed duplicate QActions.
+
+V0.2.9
+--------
+ * Yet faster highlighting of here-docs.
+ * Don't reset the chosen encoding of a new document to UTF-8 with tab switching.
+ * Offer saving before changing the encoding if the text of an opened file is modified.
+
+V0.2.8
+--------
+ * Better and faster highlighting of here-docs.
+ * To be able to open system files as well, use read() instead of getChar() for file opening.
+
+V0.2.7
+--------
+ * It seems that highlighting of here-docs works now, although not efficiently.
+
+V0.2.6
+--------
+ * A slightly better way for highlighting of here-documents.
+ * Cleaned up the detection of escaped quotes.
+ * Use link target to get mime type.
+
+V0.2.5
+--------
+ * TextBlockData needed a destructor.
+ * Syntax highlighting for Perl.
+ * Only an odd number of backslashes before a quotation mark means that it's escaped.
+
+V0.2.4
+---------
+ * Added parentheses and braces matching.
+
+V0.2.3
+---------
+ * Suppose that only the script languages (Bash, Lua and Python) have both single and double quotes.
+
+V0.2.2
+---------
+ * Added formatting of Bash "here documnents".
+
+V0.2.1
+---------
+ * Debugged and polished syntax highlighting.
+
+V0.2.0
+---------
+ * Dropped using of source-highlight-qt and source-highlight; devised a heuristic method instead.
+
+V0.1.11
+---------
+ * Included what was needed from source-highlight-qt in the source.
+ * Show the number of replaced occurrences.
+
+V0.1.10
+---------
+ * Fixed bugs in text highlighting.
+
+V0.1.9
+---------
+ * If a tab with a readonly text is dropped, don't activate cut and delete menuitems.
+ * No need to set the visibility of actionEdit when dropping tabs as it's set by tabChange().
+ * The tab detachment keyboard shortcut was ambiguous.
+ * Set the tab width proportional to the font size.
+ * Added 'About' dialog and 'Help'.
+ * Use path of containing folder as tab tootip and insert ellipsis for very long tooltips.
+ * Fixed a silly bug in tab DND.
+ * Write size to the config file only if necessary.
+ * Fixed a little bug in size preference.
+ * Enabled tooltips for inactive windows.
+
+V0.1.8
+---------
+ * A better way of giving window modality to open and save dialogs, which bypasses the KDE bug related to the KGlobal-locale warning message.
+ * No need to delete child widgets as they're deleted with their parents.
+ * Added Preferences.
+
+V0.1.7
+---------
+ * Added the number of selected characters to the status bar.
+
+V0.1.6
+---------
+ * Use a docked window instead of replace dialog.
+ * Fixed two bugs related to the clear shortcut and the clear button of LineEdit.
+
+V0.1.5
+---------
+ * Added calculation of word numbers to the status bar.
+ * It's more logical to keep a tab with empty document when another tab is dropped into its window.
+ * Fixed a bug related to the enabled/disabled states of the reload button and menu item.
+
+V0.1.4
+---------
+ * Simplified an X11 function (no need to get a list of all windows in the order of creation).
+ * Always use QX11Info::display() instead of XOpenDisplay(NULL), otherwise there would be a memory leak.
+
+V0.1.3
+---------
+ * Use closeTab() in detachTab().
+ * Prevent any possibility of memory leak by using appropriate destructors and returning QList instead of "Window*" from the X11 function List().
+ * Don't drop tab if the drop target has a modal dialog.
+ * Open a window and not a tab if a FeatherPad window is on the same desktop but has a modal dialog.
+
+V0.1.2
+---------
+ * Drop a dragged tab into the topmost FeatherPad window if the drop point is inside more than one window.
+ * Don't add a new tab if the current tab of the drop target has no text and isn't modified.
+ * Fixed a memory leak in the function whichDesktops().
+
+V0.1.1
+---------
+ * Tab drag-and-drop, including tab detachment and window merging, without using of Qt's DnD mechanism.
+ * Fixed disappearance of green highlights when the yellow ones were repainted.
+ * Better X11 functions.
+ * Use window modality and not application modality for all dialogs.
+ * Other minor fixes.
+
+V0.1.0
+---------
+ * FeatherPad is reborn in Qt :) I tried to make it similar to its GTK+ predecessor but it became even better.

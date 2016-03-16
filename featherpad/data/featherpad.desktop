@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Name=FeatherPad
+Comment=Lightweight text editor
+Exec=featherpad %F
+Icon=featherpad
+Terminal=false
+Type=Application
+MimeType=text/plain;
+Categories=Qt;Utility;TextEditor;
+X-KDE-StartupNotify=false
