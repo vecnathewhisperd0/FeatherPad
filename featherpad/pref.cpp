@@ -20,7 +20,6 @@
 
 #include "pref.h"
 #include "ui_predDialog.h"
-#include <QGroupBox>
 
 namespace FeatherPad {
 
@@ -66,7 +65,7 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     QPushButton *closeButton = ui->buttonBox->button (QDialogButtonBox::Close);
     connect (closeButton, &QAbstractButton::clicked, this, &QDialog::reject);
     setAttribute (Qt::WA_DeleteOnClose);
-    resize (minimumWidth(), minimumHeight());
+    resize (minimumSize());
 }
 /*************************/
 PrefDialog::~PrefDialog()

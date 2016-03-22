@@ -196,9 +196,15 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang) : QSyntaxHighligh
         rule.format = cFormat;
         highlightingRules.append (rule);
 
-        /* enum Qt::GlobalColor */
+        /* QtGlobal functions and enum Qt::GlobalColor */
         if (progLan == "cpp")
         {
+            cFormat.setFontItalic (true);
+            rule.pattern = QRegExp ("\\bq(App|Abs|Bound|Critical|Debug|Fatal|FuzzyCompare|InstallMsgHandler|MacVersion|Max|Min|Round64|Round|Version|Warning|getenv|putenv|rand|srand|tTrId|_check_ptr|t_set_sequence_auto_mnemonic|t_symbian_exception2Error|t_symbian_exception2LeaveL|t_symbian_throwIfError)\\b");
+            rule.format = cFormat;
+            highlightingRules.append (rule);
+            cFormat.setFontItalic (false);
+
             cFormat.setForeground (Qt::magenta);
             rule.pattern = QRegExp ("\\bQt\\s*::\\s*(white|black|red|darkRed|green|darkGreen|blue|darkBlue|cyan|darkCyan|magenta|darkMagenta|yellow|darkYellow|gray|darkGray|lightGray|transparent|color0|color1)\\b");
             rule.format = cFormat;

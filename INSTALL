@@ -1,0 +1,13 @@
+First install X11 and Qt5 development packages. In Debian-based systems, they are:
+
+* libx11-dev and libxext-dev (for X11)
+* qtbase5-dev and libqt5x11extras5-dev (for Qt5)
+
+Then open a terminal inside this folder and issue the following commands:
+
+	qmake && make
+	sudo make install
+
+Afterward, you could use this command for cleaning the source directory:
+
+	make distclean

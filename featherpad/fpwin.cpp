@@ -2239,9 +2239,9 @@ void FPwin::aboutDialog()
 {
     QMessageBox::about (this, "About FeatherPad",
                         tr ("<center><b><big>FeatherPad 0.5.5</big></b></center><br>"\
-                        "<center>A lightweight, tabbed, plain-text editor</center>\n"\
-                        "<center>based on Qt5</center><br>"\
-                        "<center>Author: <a href='mailto:tsujan2000@gmail.com?Subject=My%20Subject'>Pedram Pourang (aka. Tsu Jan)</a></center><p></p>"));
+                            "<center> A lightweight, tabbed, plain-text editor </center>\n"\
+                            "<center> based on Qt5 </center><br>"\
+                            "<center> Author: <a href='mailto:tsujan2000@gmail.com?Subject=My%20Subject'>Pedram Pourang (aka. Tsu Jan)</a> </center><p></p>"));
 }
 /*************************/
 void FPwin::helpDoc()
