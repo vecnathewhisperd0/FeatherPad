@@ -16,4 +16,6 @@ FeatherPad (by Pedram Pourang, a.k.a. Tsu Jan <tsujan2000@gmail.com>) is a light
 
 And other features that can be found in its settings, on its menus or when it is actually used.
 
+Please see INSTALL for instructions on compilation and installation!
+
 FeatherPad was written in GTK+-2.0 at first, then ported to GTK+-3.0, Qt4 (with new features) and, at last, Qt5.

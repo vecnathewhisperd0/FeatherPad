@@ -1,9 +1,3 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2013-04-01T17:05:31
-#
-#-------------------------------------------------
-
 QT += core gui \
       widgets \
       printsupport \
@@ -15,43 +9,43 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-    singleton.cpp \
-    fpwin.cpp \
-    encoding.cpp \
-    lineedit.cpp \
-    textedit.cpp \
-    tabbar.cpp \
-    x11.cpp \
-    highlighter.cpp \
-    find.cpp \
-    replace.cpp \
-    pref.cpp \
-    config.cpp \
-    brackets.cpp \
-    syntax.cpp \
-    highlighter-heredoc.cpp \
-    highlighter-html.cpp \
-    highlighter-patterns.cpp \
-    vscrollbar.cpp \
-    loading.cpp
+           singleton.cpp \
+           fpwin.cpp \
+           encoding.cpp \
+           lineedit.cpp \
+           textedit.cpp \
+           tabbar.cpp \
+           x11.cpp \
+           highlighter.cpp \
+           find.cpp \
+           replace.cpp \
+           pref.cpp \
+           config.cpp \
+           brackets.cpp \
+           syntax.cpp \
+           highlighter-heredoc.cpp \
+           highlighter-html.cpp \
+           highlighter-patterns.cpp \
+           vscrollbar.cpp \
+           loading.cpp
 
-HEADERS  += singleton.h \
-    fpwin.h \
-    encoding.h \
-    tabwidget.h \
-    lineedit.h \
-    textedit.h \
-    tabbar.h \
-    x11.h \
-    highlighter.h \
-    vscrollbar.h \
-    filedialog.h \
-    config.h \
-    pref.h \
-    loading.h
+HEADERS += singleton.h \
+           fpwin.h \
+           encoding.h \
+           tabwidget.h \
+           lineedit.h \
+           textedit.h \
+           tabbar.h \
+           x11.h \
+           highlighter.h \
+           vscrollbar.h \
+           filedialog.h \
+           config.h \
+           pref.h \
+           loading.h
 
-FORMS    += fp.ui \
-            predDialog.ui
+FORMS += fp.ui \
+         predDialog.ui
 
 unix:!macx: LIBS += -lX11
 

@@ -8,6 +8,8 @@ Then open a terminal inside this folder and issue the following commands:
 	qmake && make
 	sudo make install
 
+If your default Qt installation is not Qt5, put the full path of Qt5 qmake in the first command.
+
 Afterward, you could use this command for cleaning the source directory:
 
 	make distclean
