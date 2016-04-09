@@ -14,9 +14,8 @@
    <string>Untitled</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="featherpad">
-    <normaloff/>
-   </iconset>
+   <iconset resource="data/fp.qrc">
+    <normaloff>:/icons/featherpad.svg</normaloff>:/icons/featherpad.svg</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -69,9 +68,8 @@
          <string>Next</string>
         </property>
         <property name="icon">
-         <iconset theme="go-down">
-          <normaloff/>
-         </iconset>
+         <iconset resource="data/fp.qrc">
+          <normaloff>:/icons/go-down.svg</normaloff>:/icons/go-down.svg</iconset>
         </property>
         <property name="shortcut">
          <string>F3</string>
@@ -90,9 +88,8 @@
          <string>Previous</string>
         </property>
         <property name="icon">
-         <iconset theme="go-up">
-          <normaloff/>
-         </iconset>
+         <iconset resource="data/fp.qrc">
+          <normaloff>:/icons/go-up.svg</normaloff>:/icons/go-up.svg</iconset>
         </property>
         <property name="shortcut">
          <string>F4</string>
@@ -480,9 +477,8 @@
           <string>Previous</string>
          </property>
          <property name="icon">
-          <iconset theme="go-up">
-           <normaloff/>
-          </iconset>
+          <iconset resource="data/fp.qrc">
+           <normaloff>:/icons/go-up.svg</normaloff>:/icons/go-up.svg</iconset>
          </property>
          <property name="shortcut">
           <string>F8</string>
@@ -507,9 +503,8 @@
           <string>Next</string>
          </property>
          <property name="icon">
-          <iconset theme="go-down">
-           <normaloff/>
-          </iconset>
+          <iconset resource="data/fp.qrc">
+           <normaloff>:/icons/go-down.svg</normaloff>:/icons/go-down.svg</iconset>
          </property>
          <property name="shortcut">
           <string>F7</string>
@@ -534,9 +529,8 @@
           <string>All</string>
          </property>
          <property name="icon">
-          <iconset theme="arrow-down-double">
-           <normaloff/>
-          </iconset>
+          <iconset resource="data/fp.qrc">
+           <normaloff>:/icons/arrow-down-double.svg</normaloff>:/icons/arrow-down-double.svg</iconset>
          </property>
          <property name="shortcut">
           <string>F9</string>
@@ -553,9 +547,8 @@
   </widget>
   <action name="actionNew">
    <property name="icon">
-    <iconset theme="document-new">
-     <normaloff/>
-    </iconset>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/document-new.svg</normaloff>:/icons/document-new.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;New</string>
@@ -569,9 +562,8 @@
   </action>
   <action name="actionOpen">
    <property name="icon">
-    <iconset theme="document-open">
-     <normaloff/>
-    </iconset>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/document-open.svg</normaloff>:/icons/document-open.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Open</string>
@@ -588,9 +580,8 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset theme="document-save">
-     <normaloff/>
-    </iconset>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/document-save.svg</normaloff>:/icons/document-save.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Save</string>
@@ -607,9 +598,8 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset theme="edit-undo">
-     <normaloff/>
-    </iconset>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/edit-undo.svg</normaloff>:/icons/edit-undo.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Undo</string>
@@ -626,9 +616,8 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset theme="edit-redo">
-     <normaloff/>
-    </iconset>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/edit-redo.svg</normaloff>:/icons/edit-redo.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Redo</string>
@@ -645,9 +634,8 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset theme="view-refresh">
-     <normaloff/>
-    </iconset>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/view-refresh.svg</normaloff>:/icons/view-refresh.svg</iconset>
    </property>
    <property name="text">
     <string>Reload</string>
@@ -661,9 +649,8 @@
   </action>
   <action name="actionFind">
    <property name="icon">
-    <iconset theme="edit-find">
-     <normaloff/>
-    </iconset>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/edit-find.svg</normaloff>:/icons/edit-find.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Find</string>
@@ -677,9 +664,8 @@
   </action>
   <action name="actionReplace">
    <property name="icon">
-    <iconset theme="edit-find-replace">
-     <normaloff/>
-    </iconset>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/edit-find-replace.svg</normaloff>:/icons/edit-find-replace.svg</iconset>
    </property>
    <property name="text">
     <string>Find and &amp;Replace</string>
@@ -693,9 +679,8 @@
   </action>
   <action name="actionSaveAs">
    <property name="icon">
-    <iconset theme="document-save-as">
-     <normaloff/>
-    </iconset>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/document-save-as.svg</normaloff>:/icons/document-save-as.svg</iconset>
    </property>
    <property name="text">
     <string>Save &amp;As</string>
@@ -706,9 +691,8 @@
   </action>
   <action name="actionPrint">
    <property name="icon">
-    <iconset theme="document-print">
-     <normaloff/>
-    </iconset>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/document-print.svg</normaloff>:/icons/document-print.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Print</string>
@@ -719,9 +703,8 @@
   </action>
   <action name="actionDoc">
    <property name="icon">
-    <iconset theme="document-properties">
-     <normaloff/>
-    </iconset>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/document-properties.svg</normaloff>:/icons/document-properties.svg</iconset>
    </property>
    <property name="text">
     <string>Documen&amp;t Properties</string>
@@ -732,9 +715,8 @@
   </action>
   <action name="actionClose">
    <property name="icon">
-    <iconset theme="window-close">
-     <normaloff/>
-    </iconset>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/window-close.svg</normaloff>:/icons/window-close.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Close</string>
@@ -745,9 +727,8 @@
   </action>
   <action name="actionQuit">
    <property name="icon">
-    <iconset theme="application-exit">
-     <normaloff/>
-    </iconset>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/application-exit.svg</normaloff>:/icons/application-exit.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Quit</string>
@@ -761,9 +742,8 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset theme="edit-cut">
-     <normaloff/>
-    </iconset>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/edit-cut.svg</normaloff>:/icons/edit-cut.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Cut</string>
@@ -777,9 +757,8 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset theme="edit-copy">
-     <normaloff/>
-    </iconset>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/edit-copy.svg</normaloff>:/icons/edit-copy.svg</iconset>
    </property>
    <property name="text">
     <string>C&amp;opy</string>
@@ -790,9 +769,8 @@
   </action>
   <action name="actionPaste">
    <property name="icon">
-    <iconset theme="edit-paste">
-     <normaloff/>
-    </iconset>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/edit-paste.svg</normaloff>:/icons/edit-paste.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Paste</string>
@@ -806,9 +784,8 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset theme="edit-delete">
-     <normaloff/>
-    </iconset>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/edit-delete.svg</normaloff>:/icons/edit-delete.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Delete</string>
@@ -816,9 +793,8 @@
   </action>
   <action name="actionSelectAll">
    <property name="icon">
-    <iconset theme="edit-select-all">
-     <normaloff/>
-    </iconset>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/edit-select-all.svg</normaloff>:/icons/edit-select-all.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Select All</string>
@@ -829,9 +805,8 @@
   </action>
   <action name="actionFont">
    <property name="icon">
-    <iconset theme="preferences-desktop-font">
-     <normaloff/>
-    </iconset>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/preferences-desktop-font.svg</normaloff>:/icons/preferences-desktop-font.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Font</string>
@@ -892,9 +867,8 @@
   </action>
   <action name="actionPreferences">
    <property name="icon">
-    <iconset theme="preferences-system">
-     <normaloff/>
-    </iconset>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/preferences-system.svg</normaloff>:/icons/preferences-system.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Preferences</string>
@@ -905,9 +879,8 @@
   </action>
   <action name="actionHelp">
    <property name="icon">
-    <iconset theme="help-contents">
-     <normaloff/>
-    </iconset>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/help-contents.svg</normaloff>:/icons/help-contents.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Help</string>
@@ -918,9 +891,8 @@
   </action>
   <action name="actionAbout">
    <property name="icon">
-    <iconset theme="help-about">
-     <normaloff/>
-    </iconset>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/help-about.svg</normaloff>:/icons/help-about.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;About</string>
@@ -1133,9 +1105,8 @@
   </action>
   <action name="actionSaveCodec">
    <property name="icon">
-    <iconset theme="document-save-as">
-     <normaloff/>
-    </iconset>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/document-save-as.svg</normaloff>:/icons/document-save-as.svg</iconset>
    </property>
    <property name="text">
     <string>Save with &amp;Encoding</string>
@@ -1143,9 +1114,8 @@
   </action>
   <action name="actionJump">
    <property name="icon">
-    <iconset theme="go-jump">
-     <normaloff/>
-    </iconset>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/go-jump.svg</normaloff>:/icons/go-jump.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Jump to</string>
@@ -1159,9 +1129,8 @@
   </action>
   <action name="actionEdit">
    <property name="icon">
-    <iconset theme="document-edit">
-     <normaloff/>
-    </iconset>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/document-edit.svg</normaloff>:/icons/document-edit.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Edit</string>
@@ -1199,7 +1168,8 @@
   </action>
   <action name="actionCloseRight">
    <property name="icon">
-    <iconset theme="go-next"/>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/go-next.svg</normaloff>:/icons/go-next.svg</iconset>
    </property>
    <property name="text">
     <string>Close &amp;Right Tabs</string>
@@ -1207,7 +1177,8 @@
   </action>
   <action name="actionCloseLeft">
    <property name="icon">
-    <iconset theme="go-previous"/>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/go-previous.svg</normaloff>:/icons/go-previous.svg</iconset>
    </property>
    <property name="text">
     <string>Close &amp;Left Tabs</string>
@@ -1220,7 +1191,8 @@
   </action>
   <action name="actionCloseOther">
    <property name="icon">
-    <iconset theme="tab-close-other"/>
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/tab-close-other.svg</normaloff>:/icons/tab-close-other.svg</iconset>
    </property>
    <property name="text">
     <string>Close &amp;Other Tabs</string>
@@ -1241,7 +1213,9 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="data/fp.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>actionQuit</sender>

@@ -58,7 +58,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (NULL), ui (new
     wordButton->setToolButtonStyle (Qt::ToolButtonIconOnly);
     wordButton->setIconSize (QSize (16, 16));
     wordButton->setMaximumHeight (16);
-    wordButton->setIcon (QIcon::fromTheme("view-refresh"));
+    wordButton->setIcon (QIcon (":icons/view-refresh.svg"));
     //wordButton->setText (tr ("Refresh"));
     wordButton->setToolTip (tr ("Calculate number of words\n(For huge texts, this may be CPU-intensive.)"));
     connect (wordButton, &QAbstractButton::clicked, this, &FPwin::wordButtonStatus);
@@ -103,11 +103,6 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (NULL), ui (new
 
     ui->actionUTF_8->setChecked (true);
     ui->actionOther->setDisabled (true);
-
-    QIcon appIcon = QIcon::fromTheme ("featherpad");
-    if (appIcon.isNull())
-        appIcon = QIcon (QString (DATADIR) + "/pixmaps/featherpad.svg");
-    setWindowIcon (appIcon);
 
     connect (ui->actionNew, &QAction::triggered, this, &FPwin::newTab);
     connect (ui->actionDetach, &QAction::triggered, this, &FPwin::detachTab);

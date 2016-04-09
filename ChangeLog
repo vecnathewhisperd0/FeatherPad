@@ -1,3 +1,7 @@
+V0.5.5.1
+---------
+ * Because of a Qt5 bug, an app may crash on logging out (https://bugreports.qt.io/browse/QTBUG-50829). As a workaround, replaced all theme icons with own icons.
+
 V0.5.5
 ---------
  * Use a separate thread to get text. (Maybe useful later.)

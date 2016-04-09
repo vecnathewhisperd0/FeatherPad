@@ -47,6 +47,8 @@ HEADERS += singleton.h \
 FORMS += fp.ui \
          predDialog.ui
 
+RESOURCES += data/fp.qrc
+
 unix:!macx: LIBS += -lX11
 
 unix {
