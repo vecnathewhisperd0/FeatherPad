@@ -473,7 +473,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang) : QSyntaxHighligh
             rule.format = slFormat;
             highlightingRules.append (rule);
         }
-        rule.pattern = QRegExp ("\\b[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+");
+        rule.pattern = QRegExp ("\\b[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)]+");
         rule.format = urlFormat;
         highlightingRules.append (rule);
     }
