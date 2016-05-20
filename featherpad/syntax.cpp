@@ -95,7 +95,7 @@ void FPwin::getSyntax (const int index)
             progLan = "qmake";
         else if (fname.endsWith (".tr") || fname.endsWith (".t") || fname.endsWith (".roff"))
             progLan = "troff";
-        else if (fname.endsWith (".xml") || fname.endsWith (".svg") || fname.endsWith (".qrc"))
+        else if (fname.endsWith (".xml") || fname.endsWith (".svg") || fname.endsWith (".qrc") || fname.endsWith (".rdf"))
             progLan = "xml";
         else if (fname.endsWith (".css"))
             progLan = "css";
@@ -164,11 +164,7 @@ void FPwin::getSyntax (const int index)
             progLan = "qmake";
         else if (mime == "text/troff")
             progLan = "troff";
-        else if (mime == "application/xml" || mime == "image/svg+xml")
-            progLan = "xml";
-        else if (mime == "text/css")
-            progLan = "xml";
-        else if (mime == "application/x-designer")
+        else if (mime == "application/xml" || mime == "image/svg+xml" || mime == "text/css" || mime == "application/x-designer"|| mime == "text/rdf+xml" || mime == "application/rdf+xml")
             progLan = "xml";
         else if (mime == "text/x-changelog")
             progLan = "changelog";
