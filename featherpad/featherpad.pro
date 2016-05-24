@@ -6,7 +6,7 @@ QT += core gui \
 
 TARGET = featherpad
 TEMPLATE = app
-
+CONFIG += c++11
 
 SOURCES += main.cpp\
            singleton.cpp \

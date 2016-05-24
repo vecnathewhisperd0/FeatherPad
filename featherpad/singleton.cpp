@@ -180,5 +180,10 @@ void FPsingleton::handleMessage (const QString& message)
         /* ... otherwise, make a new window */
         newWin (message);
 }
+/*************************/
+/*void FPsingleton::quitting ()
+{
+    qDebug() << "About to quit";
+}*/
 
 }

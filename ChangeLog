@@ -1,7 +1,9 @@
-V0.5.5.1
+V0.5.6
 ---------
  * Because of a Qt5 bug, an app may crash on logging out (https://bugreports.qt.io/browse/QTBUG-50829). As a workaround, replaced all theme icons with own icons.
  * Added RDF to syntax highlighting.
+ * Enable C++11.
+ * Get unix quit signals, namely SIGQUIT, SIGINT (Ctrl-C), SIGTERM and SIGHUP (terminal closed).
 
 V0.5.5
 ---------

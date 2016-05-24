@@ -17,12 +17,26 @@
 
 #include "singleton.h"
 #include "x11.h"
+#include <signal.h>
+
+void handleQuitSignals (const std::vector<int>& quitSignals)
+{
+    auto handler = [](int sig) ->void {
+        //printf("\nUser signal = %d.\n", sig);
+        QCoreApplication::quit();
+    };
+
+    for (int sig : quitSignals )
+        signal (sig, handler); // handle these signals by quitting gracefully
+}
 
 int main (int argc, char *argv[])
 {
     /* QString(getenv("USER")) could also be used */
     QProcessEnvironment pe = QProcessEnvironment::systemEnvironment();
     FeatherPad::FPsingleton singleton (argc, argv, pe.value ("LOGNAME") + "-featherpad");
+
+    handleQuitSignals ({SIGQUIT, SIGINT, SIGTERM, SIGHUP}); // -> https://en.wikipedia.org/wiki/Unix_signal
 
 #if QT_VERSION >= 0x050500
     singleton.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
@@ -43,6 +57,7 @@ int main (int argc, char *argv[])
     if (singleton.sendMessage (info))
         return 0;
 
+    //QObject::connect (&singleton, SIGNAL(aboutToQuit()), &singleton, SLOT(quitting()));
     singleton.newWin (info);
     QObject::connect (&singleton, &FeatherPad::FPsingleton::messageReceived,
                       &singleton, &FeatherPad::FPsingleton::handleMessage);

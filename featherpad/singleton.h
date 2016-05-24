@@ -46,6 +46,7 @@ public:
 public slots:
     void receiveMessage();
     void handleMessage (const QString& message);
+    //void quitting();
 
 signals:
     void messageReceived (QString message);
