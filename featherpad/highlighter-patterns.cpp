@@ -37,7 +37,7 @@ QStringList Highlighter::keywords (QString& lang)
         else
             keywordPatterns << "\\b(class|const_cast|delete|dynamic_cast)\\b"
                             << "\\b(false|foreach|friend|inline|namespace|new|operator)\\b"
-                            << "\\b(nullptr|private|protected|public|reinterpret_cast|slots|static_cast)\\b"
+                            << "\\b(nullptr|private|protected|public|qobject_cast|reinterpret_cast|slots|static_cast)\\b"
                             << "\\b(template|true|this|throw|try|typeid|using|virtual)\\b";
     }
     else if (lang == "sh" || lang == "makefile" || lang == "cmake") // the characters "(", ";" and "&" will be reformatted after this

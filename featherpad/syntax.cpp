@@ -101,7 +101,7 @@ void FPwin::getSyntax (const int index)
             progLan = "css";
         else if (fname.endsWith (".desktop") || fname.endsWith (".desktop.in") || fname.endsWith (".directory"))
              progLan = "desktop";
-        else if (fname.endsWith (".js"))
+        else if (fname.endsWith (".js") || fname.endsWith (".qml"))
             progLan = "javascript";
         else if (fname.endsWith (".log", Qt::CaseInsensitive))
             progLan = "log";
@@ -164,13 +164,15 @@ void FPwin::getSyntax (const int index)
             progLan = "qmake";
         else if (mime == "text/troff")
             progLan = "troff";
-        else if (mime == "application/xml" || mime == "image/svg+xml" || mime == "text/css" || mime == "application/x-designer"|| mime == "text/rdf+xml" || mime == "application/rdf+xml")
+        else if (mime == "application/xml" || mime == "image/svg+xml" || mime == "application/x-designer"|| mime == "text/rdf+xml" || mime == "application/rdf+xml")
             progLan = "xml";
+        else if (mime == "text/css")
+            progLan = "css";
         else if (mime == "text/x-changelog")
             progLan = "changelog";
         else if (mime == "application/x-desktop")
             progLan = "desktop";
-        else if (mime == "application/javascript")
+        else if (mime == "application/javascript" || mime == "text/x-qml")
             progLan = "javascript";
         else if (mime == "text/x-log")
             progLan = "log";
