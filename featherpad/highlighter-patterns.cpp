@@ -128,10 +128,11 @@ QStringList Highlighter::keywords (QString& lang)
                         << "\\b(private|protected|prototype|public|return)\\b"
                         << "\\b(static|super|switch|synchronized)\\b"
                         << "\\b(throw|throws|this|transient|true|try|typeof)\\b"
-                        << "\\b(var|volatile|while|with)\\b";
-        if (lang == "qml")
-            keywordPatterns << "\\b(alias|import|readonly)\\b"
-                            << "\\bproperty\\b(?!\\s*:)";
+                        << "\\b(volatile|while|with)\\b";
+        if (lang == "javascript")
+            keywordPatterns << "\\b(var)\\b";
+        else if (lang == "qml")
+            keywordPatterns << "\\b(alias|id|import|property|readonly|signal)\\b";
     }
     else if (lang == "php")
         keywordPatterns << "\\b(__FILE__|__LINE__|__FUNCTION__|__CLASS__|__METHOD__|__DIR__|__NAMESPACE__)\\b"
@@ -167,9 +168,10 @@ QStringList Highlighter::types()
     {
         typePatterns << "^\\.IP\\b" << "^\\.RS\\b" << "^\\.RE\\b";
     }
-    else if (progLan == "qml")
+    if (progLan == "qml")
     {
-        typePatterns << "\\b(bool|int|real|string)\\b";
+        typePatterns << "\\b(bool|double|enumeration|int|list|real|string|url|var)\\b"
+                     << "\\b(color|date|font|matrix4x4|point|quaternion|rect|size|vector2d|vector3d|vector4d)\\b";
     }
     return typePatterns;
 }
