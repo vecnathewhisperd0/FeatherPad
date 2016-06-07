@@ -110,7 +110,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang) : QSyntaxHighligh
     /* may be overridden by the keywords format */
     if (progLan == "c" || progLan == "cpp"
         || progLan == "lua" || progLan == "python"
-        || lang == "javascript" || progLan == "php")
+        || lang == "javascript" || lang == "qml" || progLan == "php")
     {
         QTextCharFormat functionFormat;
         functionFormat.setFontItalic (true);
@@ -508,7 +508,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang) : QSyntaxHighligh
     /* single line comments */
     rule.pattern = QRegExp();
     if (progLan == "c" || progLan == "cpp" || lang == "javascript" // javascript inside html
-        || progLan == "php" /*|| progLan == "css"*/)
+        || lang == "qml" || progLan == "php" /*|| progLan == "css"*/)
     {
         rule.pattern = QRegExp ("//.*"); // why had I set it to QRegExp ("//(?!\\*).*")?
     }
@@ -530,7 +530,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang) : QSyntaxHighligh
 
     /* multiline comments */
     if (progLan == "c" || progLan == "cpp" || progLan == "javascript"
-        || progLan == "php" || progLan == "css")
+        || lang == "qml" || progLan == "php" || progLan == "css")
     {
         commentStartExpression = QRegExp ("/\\*");
         commentEndExpression = QRegExp ("\\*/");

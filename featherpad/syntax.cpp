@@ -101,8 +101,10 @@ void FPwin::getSyntax (const int index)
             progLan = "css";
         else if (fname.endsWith (".desktop") || fname.endsWith (".desktop.in") || fname.endsWith (".directory"))
              progLan = "desktop";
-        else if (fname.endsWith (".js") || fname.endsWith (".qml"))
+        else if (fname.endsWith (".js"))
             progLan = "javascript";
+        else if (fname.endsWith (".qml"))
+            progLan = "qml";
         else if (fname.endsWith (".log", Qt::CaseInsensitive))
             progLan = "log";
         else if (fname.endsWith (".php"))
@@ -172,8 +174,10 @@ void FPwin::getSyntax (const int index)
             progLan = "changelog";
         else if (mime == "application/x-desktop")
             progLan = "desktop";
-        else if (mime == "application/javascript" || mime == "text/x-qml")
+        else if (mime == "application/javascript")
             progLan = "javascript";
+        else if (mime == "text/x-qml")
+            progLan = "qml";
         else if (mime == "text/x-log")
             progLan = "log";
         else if (mime == "application/x-php" || mime == "text/x-php")

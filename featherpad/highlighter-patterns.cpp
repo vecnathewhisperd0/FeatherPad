@@ -116,7 +116,8 @@ QStringList Highlighter::keywords (QString& lang)
         keywordPatterns << "\\b(and|assert|break|class|continue)\\b"
                         << "\\b(def|del|elif|else|except|exec|False|finally|for|from|global)\\b"
                         << "\\b(if|is|import|in|lambda|None|not|or|print|raise|return|True|try|while|with|yield)\\b";
-    else if (lang == "javascript")
+    else if (lang == "javascript" || lang == "qml")
+    {
         keywordPatterns << "\\b(abstract|break)\\b"
                         << "\\b(case|catch|class|const|continue)\\b"
                         << "\\b(debugger|default|delete|do)\\b"
@@ -128,6 +129,10 @@ QStringList Highlighter::keywords (QString& lang)
                         << "\\b(static|super|switch|synchronized)\\b"
                         << "\\b(throw|throws|this|transient|true|try|typeof)\\b"
                         << "\\b(var|volatile|while|with)\\b";
+        if (lang == "qml")
+            keywordPatterns << "\\b(alias|import|readonly)\\b"
+                            << "\\bproperty\\b(?!\\s*:)";
+    }
     else if (lang == "php")
         keywordPatterns << "\\b(__FILE__|__LINE__|__FUNCTION__|__CLASS__|__METHOD__|__DIR__|__NAMESPACE__)\\b"
                         << "\\b(and|abstract|array|as|break)\\b"
@@ -161,6 +166,10 @@ QStringList Highlighter::types()
     else if (progLan == "troff")
     {
         typePatterns << "^\\.IP\\b" << "^\\.RS\\b" << "^\\.RE\\b";
+    }
+    else if (progLan == "qml")
+    {
+        typePatterns << "\\b(bool|int|real|string)\\b";
     }
     return typePatterns;
 }
