@@ -168,7 +168,7 @@ QStringList Highlighter::types()
     {
         typePatterns << "^\\.IP\\b" << "^\\.RS\\b" << "^\\.RE\\b";
     }
-    if (progLan == "qml")
+    else if (progLan == "qml")
     {
         typePatterns << "\\b(bool|double|enumeration|int|list|real|string|url|var)\\b"
                      << "\\b(color|date|font|matrix4x4|point|quaternion|rect|size|vector2d|vector3d|vector4d)\\b";

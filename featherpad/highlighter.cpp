@@ -296,7 +296,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang) : QSyntaxHighligh
              if (progLan == "sh")
                  rule.pattern = QRegExp ("\\b[A-Za-z0-9_]+(?=\\=)");
              else
-                 rule.pattern = QRegExp ("\\b[A-Za-z0-9_\\s]+(?=\\=)");
+                 rule.pattern = QRegExp ("\\b[A-Za-z0-9_\\s]+(?=\\+{,1}\\=)");
             rule.format = shFormat;
             highlightingRules.append (rule);
 

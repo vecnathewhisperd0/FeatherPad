@@ -166,7 +166,7 @@ void FPwin::getSyntax (const int index)
             progLan = "qmake";
         else if (mime == "text/troff")
             progLan = "troff";
-        else if (mime == "application/xml" || mime == "image/svg+xml" || mime == "application/x-designer"|| mime == "text/rdf+xml" || mime == "application/rdf+xml" || mime == "application/x-docbook+xml")
+        else if (mime == "application/xml" || mime == "image/svg+xml" || mime == "application/x-designer"|| mime == "text/rdf+xml" || mime == "application/rdf+xml" || mime == "application/x-docbook+xml" || mime == "application/x-xbel")
             progLan = "xml";
         else if (mime == "text/css")
             progLan = "css";

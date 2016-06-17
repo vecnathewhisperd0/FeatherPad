@@ -396,7 +396,7 @@ int FPwin::unSaved (int index, bool noToAll)
     if (textEdit->document()->isModified()
         || (!fname.isEmpty() && !QFile::exists (fname)))
     {
-        QMessageBox msgBox;
+        QMessageBox msgBox (this);
         msgBox.setIcon (QMessageBox::Warning);
         msgBox.setText (tr ("<center><b><big>Save changes?</big></b></center>"));
         if (textEdit->document()->isModified())
@@ -416,8 +416,8 @@ int FPwin::unSaved (int index, bool noToAll)
         if (noToAll)
             msgBox.setButtonText (QMessageBox::NoToAll, tr ("No to all"));
         msgBox.setDefaultButton (QMessageBox::Save);
-        msgBox.setParent (this, Qt::Dialog);
         msgBox.setWindowModality (Qt::WindowModal);
+        msgBox.setWindowFlags (Qt::Dialog);
         /* enforce a central position (QtCurve bug?) */
         /*msgBox.show();
         msgBox.move (x() + width()/2 - msgBox.width()/2,
@@ -1188,15 +1188,15 @@ bool FPwin::fileSave()
     {
         QString encoding  = checkToEncoding();
 
-        QMessageBox msgBox;
+        QMessageBox msgBox (this);
         msgBox.setIcon (QMessageBox::Question);
         msgBox.addButton (QMessageBox::Yes);
         msgBox.addButton (QMessageBox::No);
         msgBox.addButton (QMessageBox::Cancel);
         msgBox.setText (tr ("<center>Do you want to use <b>MS Windows</b> end-of-lines?</center>"));
         msgBox.setInformativeText (tr ("<center><i>This may be good for readability under MS Windows.</i></center>"));
-        msgBox.setParent (this, Qt::Dialog);
         msgBox.setWindowModality (Qt::WindowModal);
+        msgBox.setWindowFlags (Qt::Dialog);
         QString contents;
         int ln;
         QTextCodec *codec;
@@ -1271,8 +1271,8 @@ bool FPwin::fileSave()
                             QMessageBox::Close,
                             this);
         msgBox.setInformativeText (tr ("<center><i>%1.</i></center>").arg (str));
-        msgBox.setParent (this, Qt::Dialog);
         msgBox.setWindowModality (Qt::WindowModal);
+        msgBox.setWindowFlags (Qt::Dialog);
         msgBox.exec();
     }
     return success;
