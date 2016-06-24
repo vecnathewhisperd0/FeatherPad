@@ -144,9 +144,9 @@ void FPwin::getSyntax (const int index)
         else
             mime = getMimeType (QFileInfo (fname).symLinkTarget());
 
-        if (mime == "text/x-c++")
+        if (mime == "text/x-c++" || mime == "text/x-c++" || mime == "text/x-c++hdr" || mime == "text/x-chdr")
             progLan = "cpp";
-        else if (mime == "text/x-c")
+        else if (mime == "text/x-c" || mime == "text/x-csrc")
             progLan = "c";
         else if (mime == "application/x-shellscript" || mime == "text/x-shellscript")
             progLan = "sh";
