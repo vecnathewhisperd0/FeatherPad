@@ -188,7 +188,7 @@ void FPwin::getSyntax (const int index)
             progLan = "theme";
         else if (mime == "text/x-diff" || mime == "text/x-patch")
             progLan = "diff";
-        else if (mime == "text/html")
+        else if (mime == "text/html" || mime == "application/xhtml+xml")
             progLan = "html";
         /* start checking contents */
         /*else

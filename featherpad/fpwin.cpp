@@ -502,7 +502,7 @@ void FPwin::newTab()
     TextEdit *textEdit = new TextEdit;
     textEdit->setScrollJumpWorkaround (config.getScrollJumpWorkaround());
     QPalette palette = QApplication::palette();
-    QBrush brush = palette.window();
+    QBrush brush = palette.base();
     if (brush.color().value() <= 120)
         textEdit->viewport()->setStyleSheet (".QWidget {"
                                              "color: black;"
