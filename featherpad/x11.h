@@ -30,7 +30,6 @@ QList<Window> listXWins (Window w);
 namespace FeatherPad {
 
 long fromDesktop();
-QList<int> whichDesktops();
 long onWhichDesktop (Window w);
 bool isWindowShaded (Window window);
 void unshadeWindow (Window window);

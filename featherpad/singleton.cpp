@@ -122,13 +122,7 @@ void FPsingleton::handleMessage (const QString& message)
     /* get the desktop the command is issued from */
     long d = sl.at (0).toInt();
     bool found = false;
-    int X = 0, Y = 0, W = 0, H = 0;
-    if (d == -1) // for some DEs that don't support _NET_CURRENT_DESKTOP
-    {
-        const QRect sr = QApplication::desktop()->screenGeometry();
-        W = sr.width();
-        H = sr.height();
-    }
+    const QRect sr = QApplication::desktop()->screenGeometry();
     for (int i = 0; i < Wins.count(); ++i)
     {
         WId id = Wins.at (i)->winId();
@@ -141,16 +135,13 @@ void FPsingleton::handleMessage (const QString& message)
             && Wins.at (i)->findChildren<QDialog*>().isEmpty()
             && Wins.at (i)->findChildren<QMessageBox*>().isEmpty())
         {
-            if (d == -1)
+            /* consider viewports too, so that if more than half of the width as well as the height
+               of the window is inside the current viewport (of the current desktop), open a new tab */
+            QRect g = Wins.at (i)->geometry();
+            if (g.x() + g.width()/2 >= 0 && g.x() + g.width()/2 < sr.width()
+                && g.y() + g.height()/2 >= 0 && g.y() + g.height()/2 < sr.height())
             {
-                X = Wins.at (i)->geometry().x();
-                Y = Wins.at (i)->geometry().y();
-            }
-            if (d >= 0 || (d == -1
-                           && X >= 0 && X < W
-                           && Y >= 0 && Y < H))
-            {
-                if (d >= 0)
+                if (d >= 0) // it may be -1 for some DEs that don't support _NET_CURRENT_DESKTOP
                 {
                     /* first, pretend to KDE that a new window is created
                        (without this, the next new window would open on a wrong desktop) */

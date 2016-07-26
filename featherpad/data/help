@@ -18,7 +18,7 @@ If there is more that one tab, each tab will have a right-click menu for closing
 *   File Opening   *
 ********************
 
-If there is a FeatherPad window on the current virtual desktop, files will be opened as new tabs in it; otherwise, a new window will be created. Also when the window on the current desktop has a modal dialog, another window is created.
+If there is a FeatherPad window on the current virtual desktop or viewport, so that more than half of its width as well as its height is visible, files will be opened as new tabs in it; otherwise, a new window will be created. Also when the window on the current desktop/viewport has a modal dialog, another window is created.
 
 If a file is opened multiple times, its second (third, ... ) instance will be uneditable by default and will have a light yellow background. To make it editable, click on the newly created 'Edit' button on the toolbar or the 'Edit' menu. After that, these two buttons will disappear again.
 

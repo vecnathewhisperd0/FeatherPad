@@ -4,6 +4,7 @@ V0.5.6
  * Added RDF, QML, docbook and xhtml to syntax highlighting.
  * Enable C++11.
  * Get unix quit signals, namely SIGQUIT, SIGINT (Ctrl-C), SIGTERM and SIGHUP (terminal closed).
+ * When deciding to open a new window or tab, also consider the current viewport in addition to the current desktop. For example, Compiz has only one desktop, which may be divided into multiple viewports.
 
 V0.5.5
 ---------
