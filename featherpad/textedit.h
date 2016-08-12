@@ -143,11 +143,13 @@ protected:
             QPlainTextEdit::insertFromMimeData (source);
     }
 
+public slots:
+    void updateEditorGeometry();
+
 private slots:
     void updateLineNumberAreaWidth (int newBlockCount);
     void highlightCurrentLine();
     void updateLineNumberArea (const QRect&, int);
-    void updateEditorGeometry();
 
 private:
     QString computeIndentation (QTextCursor& cur) const

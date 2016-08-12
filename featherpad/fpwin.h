@@ -122,7 +122,6 @@ private slots:
     void matchBrackets();
     void addText (const QString text, const QString fileName, const QString charset,
                   bool enforceEncod, bool reload);
-    void updateEditorGeometry();
 
 public:
     QWidget *dummyWidget; // Bypasses KDE's demand for a new window.

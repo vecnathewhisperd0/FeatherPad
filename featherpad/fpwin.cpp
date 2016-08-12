@@ -591,12 +591,6 @@ void FPwin::newTab()
     raise();
 }
 /*************************/
-void FPwin::updateEditorGeometry()
-{
-    if (TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->currentWidget()))
-        textEdit->updateGeometry();
-}
-/*************************/
 void FPwin::zoomIn()
 {
     int index = ui->tabWidget->currentIndex();
@@ -612,7 +606,7 @@ void FPwin::zoomIn()
 
     /* this is sometimes needed for the
        scrollbar range(s) to be updated (a Qt bug?) */
-    QTimer::singleShot (0, this, SLOT (updateEditorGeometry()));
+    QTimer::singleShot (0, textEdit, SLOT (updateEditorGeometry()));
 }
 /*************************/
 void FPwin::zoomOut()
@@ -644,7 +638,7 @@ void FPwin::zoomZero()
     QFontMetrics metrics (config.getFont());
     textEdit->setTabStopWidth (4 * metrics.width (' '));
 
-    QTimer::singleShot (0, this, SLOT (updateEditorGeometry()));
+    QTimer::singleShot (0, textEdit, SLOT (updateEditorGeometry()));
 
     /* this may be a zoom-out */
     if (!tabsInfo_[textEdit]->searchEntry.isEmpty())
