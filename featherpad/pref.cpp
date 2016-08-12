@@ -70,7 +70,7 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
 /*************************/
 PrefDialog::~PrefDialog()
 {
-    delete ui; ui = NULL;
+    delete ui; ui = nullptr;
 }
 /*************************/
 void PrefDialog::prefSize (int checked)
@@ -129,12 +129,12 @@ void PrefDialog::prefStatusbar (int checked)
                 {
                     win->statusMsgWithLineCount (qobject_cast< TextEdit *>(win->ui->tabWidget->widget (index))
                                     ->document()->blockCount());
-                    TextEdit *textEdit = NULL;
+                    TextEdit *textEdit = nullptr;
                     QHash<TextEdit*,tabInfo*>::iterator it;
                     for (it = win->tabsInfo_.begin(); it != win->tabsInfo_.end(); ++it)
                     {
-                        connect (it.key(), SIGNAL (blockCountChanged (int)), win, SLOT (statusMsgWithLineCount (int)));
-                        connect (it.key(), SIGNAL (selectionChanged()), win, SLOT (statusMsg()));
+                        connect (it.key(), &QPlainTextEdit::blockCountChanged, win, &FPwin::statusMsgWithLineCount);
+                        connect (it.key(), &QPlainTextEdit::selectionChanged, win, &FPwin::statusMsg);
                     }
                     textEdit = qobject_cast< TextEdit *>(win->ui->tabWidget->widget (index));
                     tabInfo *tabinfo = win->tabsInfo_[textEdit];

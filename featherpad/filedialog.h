@@ -29,7 +29,7 @@ class FileDialog : public QFileDialog {
     Q_OBJECT
 public:
     FileDialog (QWidget *parent) : QFileDialog (parent) {
-        tView = NULL;
+        tView = nullptr;
         p = parent;
         setWindowModality (Qt::WindowModal);
         setViewMode (QFileDialog::Detail);

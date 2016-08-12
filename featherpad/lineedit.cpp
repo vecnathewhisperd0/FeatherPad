@@ -25,7 +25,7 @@ namespace FeatherPad {
 LineEdit::LineEdit (QWidget *parent)
     : QLineEdit (parent)
 {
-    klear = NULL;
+    klear = nullptr;
     returnOnClear = true;
     setClearButtonEnabled (true);
     QList<QToolButton*> list = findChildren<QToolButton*>();
@@ -34,10 +34,10 @@ LineEdit::LineEdit (QWidget *parent)
     if (clearButton)
     {
         clearButton->setToolTip ("Clear text (Ctrl+K)");
-        connect (clearButton, SIGNAL (clicked()), this, SLOT (Klear()));
+        connect (clearButton, &QAbstractButton::clicked, this, &LineEdit::Klear);
     }
-    connect (this, SIGNAL (editingFinished()), this, SLOT (unfocused()));
-    connect (this, SIGNAL (receivedFocus()), this, SLOT (focused()));
+    connect (this, &QLineEdit::editingFinished, this, &LineEdit::unfocused);
+    connect (this, &LineEdit::receivedFocus, this, &LineEdit::focused);
 }
 /*************************/
 LineEdit::~LineEdit()
@@ -69,9 +69,9 @@ void LineEdit::unfocused()
 
     if (klear)
     {
-        disconnect (klear, SIGNAL (activated()), this, SLOT (Klear()));
+        disconnect (klear, &QShortcut::activated, this, &LineEdit::Klear);
         delete klear;
-        klear = NULL;
+        klear = nullptr;
     }
 }
 /*************************/
@@ -80,7 +80,7 @@ void LineEdit::focused()
     if (klear) return;
 
     klear = new QShortcut (QKeySequence (tr ("Ctrl+K", "Clear text")), this);
-    connect (klear, SIGNAL (activated()), this, SLOT (Klear()));
+    connect (klear, &QShortcut::activated, this, &LineEdit::Klear);
 }
 
 }

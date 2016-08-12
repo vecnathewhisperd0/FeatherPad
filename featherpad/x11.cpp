@@ -36,7 +36,7 @@ long fromDesktop()
     long res = -1;
 
 #if defined Q_WS_X11 || defined Q_OS_LINUX
-    Display  *disp = QX11Info::display(); // memory leak with XOpenDisplay(NULL)?
+    Display  *disp = QX11Info::display();
     if (!disp) return res;
 
     Atom actual_type;

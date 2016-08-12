@@ -62,6 +62,7 @@ public:
 public slots:
     void newTabFromName (const QString& fileName);
     void newTab();
+    void statusMsg();
     void statusMsgWithLineCount (const int lines);
     void wordButtonStatus();
 
@@ -111,7 +112,6 @@ private slots:
     void defaultSize();
     void align();
     void docProp();
-    void statusMsg();
     void filePrint();
     void detachTab();
     void detachAndDropTab (QPoint& dropPos);
@@ -122,6 +122,7 @@ private slots:
     void matchBrackets();
     void addText (const QString text, const QString fileName, const QString charset,
                   bool enforceEncod, bool reload);
+    void updateEditorGeometry();
 
 public:
     QWidget *dummyWidget; // Bypasses KDE's demand for a new window.

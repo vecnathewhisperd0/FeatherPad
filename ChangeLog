@@ -5,6 +5,7 @@ V0.5.6
  * Enable C++11.
  * Get unix quit signals, namely SIGQUIT, SIGINT (Ctrl-C), SIGTERM and SIGHUP (terminal closed).
  * When deciding to open a new window or tab, also consider the current viewport in addition to the current desktop. For example, Compiz has only one desktop, which may be divided into multiple viewports.
+ * Explicitly call updateGeometry() for the text-edit on layout change if the main window is translucent. (Workaround for a regression in Qt-5.7?)
 
 V0.5.5
 ---------

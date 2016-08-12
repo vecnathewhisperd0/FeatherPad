@@ -1416,7 +1416,7 @@ void Highlighter::highlightBlock (const QString &text)
        a body block right now, or if it's a start delimiter
        that may go outside here-docs, keep its boolean data,
        which will be used in docChanged() for re-highlighting. */
-    TextBlockData *data = NULL;
+    TextBlockData *data = nullptr;
     bool delimBool = false;
     if ((previousBlockState() == delimState - 1 && currentBlockState() < delimState - 1)
         || (currentBlockState() == delimState && previousBlockState() < delimState - 1))

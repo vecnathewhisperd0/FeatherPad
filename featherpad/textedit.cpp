@@ -43,18 +43,18 @@ void TextEdit::showLineNumbers (bool show)
     if (show)
     {
         lineNumberArea->show();
-        connect (this, SIGNAL (blockCountChanged (int)), this, SLOT (updateLineNumberAreaWidth (int)));
-        connect (this, SIGNAL (updateRequest (QRect, int)), this, SLOT (updateLineNumberArea (QRect, int)));
-        connect (this, SIGNAL (cursorPositionChanged()), this, SLOT (highlightCurrentLine()));
+        connect (this, &QPlainTextEdit::blockCountChanged, this, &TextEdit::updateLineNumberAreaWidth);
+        connect (this, &QPlainTextEdit::updateRequest, this, &TextEdit::updateLineNumberArea);
+        connect (this, &QPlainTextEdit::cursorPositionChanged, this, &TextEdit::highlightCurrentLine);
 
         updateLineNumberAreaWidth (0);
         highlightCurrentLine();
     }
     else
     {
-        disconnect (this, SIGNAL (blockCountChanged (int)), this, SLOT (updateLineNumberAreaWidth (int)));
-        disconnect (this, SIGNAL (updateRequest (QRect, int)), this, SLOT (updateLineNumberArea (QRect, int)));
-        disconnect (this, SIGNAL (cursorPositionChanged()), this, SLOT (highlightCurrentLine()));
+        disconnect (this, &QPlainTextEdit::blockCountChanged, this, &TextEdit::updateLineNumberAreaWidth);
+        disconnect (this, &QPlainTextEdit::updateRequest, this, &TextEdit::updateLineNumberArea);
+        disconnect (this, &QPlainTextEdit::cursorPositionChanged, this, &TextEdit::highlightCurrentLine);
 
         lineNumberArea->hide();
         setViewportMargins (0, 0, 0, 0);
@@ -153,6 +153,20 @@ void TextEdit::lineNumberAreaPaintEvent (QPaintEvent *event)
         bottom = top + (int)blockBoundingRect (block).height();
         ++blockNumber;
     }
+}
+/*************************/
+void TextEdit::moveEvent (QMoveEvent *e)
+{
+    QPlainTextEdit::moveEvent (e);
+    /* This is needed when the main window is translucent because, in that case, the geometry
+       may be incorrect, as if the parent widget is the main window. (A regression in Qt-5.7?) */
+    if (e->pos() != QPoint(0,0) && window()->testAttribute(Qt::WA_TranslucentBackground))
+        QTimer::singleShot (0, this, SLOT (updateEditorGeometry()));
+}
+/*************************/
+void TextEdit::updateEditorGeometry()
+{
+    updateGeometry();
 }
 
 }

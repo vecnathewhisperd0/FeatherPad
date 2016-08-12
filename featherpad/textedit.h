@@ -124,6 +124,7 @@ protected:
     }
 
     void resizeEvent (QResizeEvent *event);
+    void moveEvent (QMoveEvent *event);
 
     /* we want to pass dropping of files to
        the main widget with a custom signal */
@@ -146,6 +147,7 @@ private slots:
     void updateLineNumberAreaWidth (int newBlockCount);
     void highlightCurrentLine();
     void updateLineNumberArea (const QRect&, int);
+    void updateEditorGeometry();
 
 private:
     QString computeIndentation (QTextCursor& cur) const

@@ -38,7 +38,7 @@
 
 namespace FeatherPad {
 
-FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (NULL), ui (new Ui::FPwin)
+FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (new Ui::FPwin)
 {
     ui->setupUi (this);
 
@@ -189,9 +189,9 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (NULL), ui (new
 /*************************/
 FPwin::~FPwin()
 {
-    delete dummyWidget; dummyWidget = NULL;
-    delete aGroup_; aGroup_ = NULL;
-    delete ui; ui = NULL;
+    delete dummyWidget; dummyWidget = nullptr;
+    delete aGroup_; aGroup_ = nullptr;
+    delete ui; ui = nullptr;
 }
 /*************************/
 void FPwin::closeEvent (QCloseEvent *event)
@@ -253,9 +253,9 @@ bool FPwin::closeTabs (int leftIndx, int rightIndx, bool closeall)
     bool keep = false;
     int index, count;
     int unsaved = 0;
-    TextEdit *textEdit = NULL;
-    Highlighter *highlighter = NULL;
-    tabInfo *tabinfo = NULL;
+    TextEdit *textEdit = nullptr;
+    Highlighter *highlighter = nullptr;
+    tabInfo *tabinfo = nullptr;
     while (unsaved == 0 && ui->tabWidget->count() > 0)
     {
         if (rightIndx == 0) break; // no tab on the left
@@ -282,11 +282,11 @@ bool FPwin::closeTabs (int leftIndx, int rightIndx, bool closeall)
             disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::hlight);
             tabinfo = tabsInfo_[textEdit];
             highlighter = tabinfo->highlighter;
-            delete highlighter; highlighter = NULL;
+            delete highlighter; highlighter = nullptr;
             tabsInfo_.remove (textEdit);
-            delete tabinfo; tabinfo = NULL;
+            delete tabinfo; tabinfo = nullptr;
             ui->tabWidget->removeTab (index);
-            delete textEdit; textEdit = NULL;
+            delete textEdit; textEdit = nullptr;
 
             if (rightIndx > -1) --rightIndx; // a left tab is removed
 
@@ -317,11 +317,11 @@ bool FPwin::closeTabs (int leftIndx, int rightIndx, bool closeall)
                 disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::hlight);
                 tabinfo = tabsInfo_[textEdit];
                 highlighter = tabinfo->highlighter;
-                delete highlighter; highlighter = NULL;
+                delete highlighter; highlighter = nullptr;
                 tabsInfo_.remove (textEdit);
-                delete tabinfo; tabinfo = NULL;
+                delete tabinfo; tabinfo = nullptr;
                 ui->tabWidget->removeTab (index);
-                delete textEdit; textEdit = NULL;
+                delete textEdit; textEdit = nullptr;
 
                 if (rightIndx > -1)
                 {
@@ -528,7 +528,7 @@ void FPwin::newTab()
     tabinfo->encoding = "UTF-8";
     tabinfo->prog = QString();
     tabinfo->wordNumber = -1;
-    tabinfo->highlighter = NULL;
+    tabinfo->highlighter = nullptr;
     tabinfo->greenSel = QList<QTextEdit::ExtraSelection>();
     tabinfo->redSel = QList<QTextEdit::ExtraSelection>();
     tabsInfo_[textEdit] = tabinfo;
@@ -591,6 +591,12 @@ void FPwin::newTab()
     raise();
 }
 /*************************/
+void FPwin::updateEditorGeometry()
+{
+    if (TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->currentWidget()))
+        textEdit->updateGeometry();
+}
+/*************************/
 void FPwin::zoomIn()
 {
     int index = ui->tabWidget->currentIndex();
@@ -604,14 +610,9 @@ void FPwin::zoomIn()
     QFontMetrics metrics (currentFont);
     textEdit->setTabStopWidth (4 * metrics.width (' '));
 
-    /* this trick is sometimes needed for the
-       scrollbar range(s) to be updated (a bug?) */
-    QSize currSize = textEdit->size();
-    QSize newSize;
-    newSize.setWidth (currSize.width() + 1);
-    newSize.setHeight (currSize.height() + 1);
-    textEdit->resize (newSize);
-    textEdit->resize (currSize);
+    /* this is sometimes needed for the
+       scrollbar range(s) to be updated (a Qt bug?) */
+    QTimer::singleShot (0, this, SLOT (updateEditorGeometry()));
 }
 /*************************/
 void FPwin::zoomOut()
@@ -643,12 +644,7 @@ void FPwin::zoomZero()
     QFontMetrics metrics (config.getFont());
     textEdit->setTabStopWidth (4 * metrics.width (' '));
 
-    QSize currSize = textEdit->size();
-    QSize newSize;
-    newSize.setWidth (currSize.width() + 1);
-    newSize.setHeight (currSize.height() + 1);
-    textEdit->resize (newSize);
-    textEdit->resize (currSize);
+    QTimer::singleShot (0, this, SLOT (updateEditorGeometry()));
 
     /* this may be a zoom-out */
     if (!tabsInfo_[textEdit]->searchEntry.isEmpty())
@@ -671,8 +667,8 @@ void FPwin::defaultSize()
        widget to guarantee resizing under all DEs */
     setParent (dummyWidget, Qt::SubWindow);
     resize (700, 500);
-    if (parent() != NULL)
-        setParent (NULL, Qt::Window);
+    if (parent() != nullptr)
+        setParent (nullptr, Qt::Window);
     QTimer::singleShot (0, this, SLOT (show()));
 }
 /*************************/
@@ -713,11 +709,11 @@ void FPwin::closeTab()
     disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::hlight);
     tabInfo *tabinfo = tabsInfo_[textEdit];
     Highlighter *highlighter = tabinfo->highlighter;
-    delete highlighter; highlighter = NULL;
+    delete highlighter; highlighter = nullptr;
     tabsInfo_.remove (textEdit);
-    delete tabinfo; tabinfo = NULL;
+    delete tabinfo; tabinfo = nullptr;
     ui->tabWidget->removeTab (index);
-    delete textEdit; textEdit = NULL;
+    delete textEdit; textEdit = nullptr;
     int count = ui->tabWidget->count();
     if (count == 0)
     {
@@ -738,11 +734,11 @@ void FPwin::closeTabAtIndex (int index)
     disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::hlight);
     tabInfo *tabinfo = tabsInfo_[textEdit];
     Highlighter *highlighter = tabinfo->highlighter;
-    delete highlighter; highlighter = NULL;
+    delete highlighter; highlighter = nullptr;
     tabsInfo_.remove (textEdit);
-    delete tabinfo; tabinfo = NULL;
+    delete tabinfo; tabinfo = nullptr;
     ui->tabWidget->removeTab (index);
-    delete textEdit; textEdit = NULL;
+    delete textEdit; textEdit = nullptr;
     int count = ui->tabWidget->count();
     if (count == 0)
     {
@@ -884,8 +880,8 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
         tabinfo->greenSel = QList<QTextEdit::ExtraSelection>();
 
         Highlighter *highlighter = tabinfo->highlighter;
-        tabinfo->highlighter = NULL;
-        delete highlighter; highlighter = NULL;
+        tabinfo->highlighter = nullptr;
+        delete highlighter; highlighter = nullptr;
     }
 
     QFileInfo fInfo = (fileName);
@@ -1225,7 +1221,7 @@ bool FPwin::fileSave()
             {
                 FILE * file;
                 file = fopen (fname.toUtf8().constData(), "wb");
-                if (file != NULL)
+                if (file != nullptr)
                 {
                     /* this worked correctly as I far as I tested */
                     fwrite (txt , 2 , ln + 1 , file);
@@ -1572,8 +1568,7 @@ void FPwin::jumpTo()
         ui->spinBox->setFocus();
         ui->spinBox->selectAll();
     }
-    else
-        /* return focus to doc */
+    else /* return focus to doc */
         qobject_cast< TextEdit *>(ui->tabWidget->currentWidget())->setFocus();
 }
 /*************************/
@@ -1924,7 +1919,7 @@ void FPwin::detachAndDropTab (QPoint& dropPos)
 
     /* remove from the list those windows
        that don't include dropPos...  */
-    FPwin *anotherFP = NULL;
+    FPwin *anotherFP = nullptr;
     int top = -1;
     int insertIndex = 0;
     i = 0;
@@ -2093,8 +2088,8 @@ void FPwin::detachAndDropTab (QPoint& dropPos)
         else if (!anotherFP->ui->actionSyntax->isChecked() && tabinfo->highlighter)
         {
             Highlighter *highlighter = tabinfo->highlighter;
-            tabinfo->highlighter = NULL;
-            delete highlighter; highlighter = NULL;
+            tabinfo->highlighter = nullptr;
+            delete highlighter; highlighter = nullptr;
         }
         if (anotherFP->ui->spinBox->isVisible())
             connect (textEdit->document(), &QTextDocument::blockCountChanged, anotherFP, &FPwin::setMax);

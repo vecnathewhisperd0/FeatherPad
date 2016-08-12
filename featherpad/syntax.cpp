@@ -24,12 +24,7 @@ static QString getMimeType (const QString &fname)
 {
     QMimeDatabase mimeDatabase;
     QMimeType mimeType = mimeDatabase.mimeTypeForFile (QFileInfo (fname));
-    QString result ("application/octet-stream");
-    result = mimeType.name();
-
-    //qDebug() << "Mime type: " + result;
-
-    return result;
+    return mimeType.name();
 }
 /*************************/
 void FPwin::toggleSyntaxHighlighting()
@@ -37,7 +32,7 @@ void FPwin::toggleSyntaxHighlighting()
     int count = ui->tabWidget->count();
     if (count == 0) return;
 
-    Highlighter *highlighter = NULL;
+    Highlighter *highlighter = nullptr;
     if (ui->actionSyntax->isChecked())
     {
         for (int i = 0; i < count; ++i)
@@ -50,8 +45,8 @@ void FPwin::toggleSyntaxHighlighting()
         {
             tabInfo *tabinfo = tabsInfo_[it.key()];
             highlighter = tabinfo->highlighter;
-            tabinfo->highlighter = NULL;
-            delete highlighter; highlighter = NULL;
+            tabinfo->highlighter = nullptr;
+            delete highlighter; highlighter = nullptr;
         }
     }
 }
