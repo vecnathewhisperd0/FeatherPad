@@ -2,6 +2,7 @@ V0.5.7
 ---------
  * Added libqt5svg5 as a dependency to 'INSTALL' (but it isn't a build dependency).
  * Added an option for choosing between own and system icons.
+ * Fixed a memory leak which was created when QtSingleApplication was removed.
 
 V0.5.6
 ---------

@@ -203,7 +203,7 @@ void FPwin::closeEvent (QCloseEvent *event)
         Config& config = singleton->getConfig();
         if (config.getRemSize() && windowState() == Qt::WindowNoState)
             config.setWinSize (size());
-        singleton->Wins.removeOne (this);
+        singleton->removeWin (this);
         event->accept();
     }
 }

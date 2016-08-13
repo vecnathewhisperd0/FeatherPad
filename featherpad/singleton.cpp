@@ -115,6 +115,12 @@ FPwin* FPsingleton::newWin (const QString& message)
     return fp;
 }
 /*************************/
+void FPsingleton::removeWin (FPwin *win)
+{
+    Wins.removeOne (win);
+    delete win; win = nullptr;
+}
+/*************************/
 void FPsingleton::handleMessage (const QString& message)
 {
     /* get all parts of the message */

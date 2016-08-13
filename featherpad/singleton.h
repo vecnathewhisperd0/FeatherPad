@@ -36,6 +36,7 @@ public:
 
     bool sendMessage (const QString &message);
     FPwin* newWin (const QString &message);
+    void removeWin (FPwin *win);
 
     QList<FPwin*> Wins; // All FeatherPad windows.
 
