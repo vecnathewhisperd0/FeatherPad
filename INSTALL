@@ -1,7 +1,16 @@
-First install X11 and Qt5 development packages. In Debian-based systems, they are:
+First install build dependencies. In Debian-based systems, they are:
 
+* g++
 * libx11-dev and libxext-dev (for X11)
 * qtbase5-dev and libqt5x11extras5-dev (for Qt5)
+* libqt5svg5 (for showing own icons -- not a build dependency)
+
+In Arch-based systems, the required package are:
+
+ * gcc (or gcc-multilib for multilib systems)
+ * libx11 and libxext (for X11)
+ * qt5-base and qt5-x11extras (for Qt5)
+ * qt5-svg (for showing own icons -- not a build dependency)
 
 Then open a terminal inside this folder and issue the following commands:
 

@@ -38,6 +38,13 @@ public:
         remSize_ = rem;
     }
 
+    bool getSysIcon() const {
+        return sysIcon_;
+    }
+    void setSysIcon (bool own) {
+        sysIcon_ = own;
+    }
+
     bool getIsMaxed() const {
         return isMaxed_;
     }
@@ -138,7 +145,7 @@ public:
     }
 
 private:
-    bool remSize_, noToolbar_, hideSearchbar_, showStatusbar_, remFont_, wrapByDefault_,
+    bool remSize_, sysIcon_, noToolbar_, hideSearchbar_, showStatusbar_, remFont_, wrapByDefault_,
          indentByDefault_, lineByDefault_, syntaxByDefault_, isMaxed_, isFull_,
          // Should a workaround for Qt5's "scroll jump" bug be applied?
          scrollJumpWorkaround_;

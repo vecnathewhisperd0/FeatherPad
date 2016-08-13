@@ -75,8 +75,6 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
 
     applyConfig();
 
-    if (!static_cast<FPsingleton*>(qApp)->getConfig().getShowStatusbar())
-        ui->statusBar->hide();
     newTab();
 
     aGroup_ = new QActionGroup (this);
@@ -243,6 +241,51 @@ void FPwin::applyConfig()
     ui->actionLineNumbers->setDisabled (config.getLineByDefault());
 
     ui->actionSyntax->setChecked (config.getSyntaxByDefault());
+
+    if (!config.getShowStatusbar())
+        ui->statusBar->hide();
+
+    if (config.getSysIcon())
+    {
+        ui->actionNew->setIcon (QIcon::fromTheme("document-new"));
+        ui->actionOpen->setIcon (QIcon::fromTheme("document-open"));
+        ui->actionSave->setIcon (QIcon::fromTheme("document-save"));
+        ui->actionSaveAs->setIcon (QIcon::fromTheme("document-save-as"));
+        ui->actionSaveCodec->setIcon (QIcon::fromTheme("document-save-as"));
+        ui->actionPrint->setIcon (QIcon::fromTheme("document-print"));
+        ui->actionDoc->setIcon (QIcon::fromTheme("document-properties"));
+        ui->actionUndo->setIcon (QIcon::fromTheme("edit-undo"));
+        ui->actionRedo->setIcon (QIcon::fromTheme("edit-redo"));
+        ui->actionCut->setIcon (QIcon::fromTheme("edit-cut"));
+        ui->actionCopy->setIcon (QIcon::fromTheme("edit-copy"));
+        ui->actionPaste->setIcon (QIcon::fromTheme("edit-paste"));
+        ui->actionDelete->setIcon (QIcon::fromTheme("edit-delete"));
+        ui->actionSelectAll->setIcon (QIcon::fromTheme("edit-select-all"));
+        ui->actionReload->setIcon (QIcon::fromTheme("view-refresh"));
+        ui->actionFind->setIcon (QIcon::fromTheme("edit-find"));
+        ui->actionReplace->setIcon (QIcon::fromTheme("edit-find-replace"));
+        ui->actionClose->setIcon (QIcon::fromTheme("window-close"));
+        ui->actionQuit->setIcon (QIcon::fromTheme("application-exit"));
+        ui->actionFont->setIcon (QIcon::fromTheme("preferences-desktop-font"));
+        ui->actionPreferences->setIcon (QIcon::fromTheme("preferences-system"));
+        ui->actionHelp->setIcon (QIcon::fromTheme("help-contents"));
+        ui->actionAbout->setIcon (QIcon::fromTheme("help-about"));
+        ui->actionJump->setIcon (QIcon::fromTheme("go-jump"));
+        ui->actionEdit->setIcon (QIcon::fromTheme("document-edit"));
+        ui->actionCloseRight->setIcon (QIcon::fromTheme("go-next"));
+        ui->actionCloseLeft->setIcon (QIcon::fromTheme("go-previous"));
+        ui->actionCloseOther->setIcon (QIcon::hasThemeIcon("tab-close-other") ? QIcon::fromTheme("tab-close-other") : QIcon());
+        ui->toolButton_nxt->setIcon (QIcon::fromTheme("go-down"));
+        ui->toolButton_prv->setIcon (QIcon::fromTheme("go-up"));
+        ui->toolButtonNext->setIcon (QIcon::fromTheme("go-down"));
+        ui->toolButtonPrv->setIcon (QIcon::fromTheme("go-up"));
+        ui->toolButtonAll->setIcon (QIcon::hasThemeIcon("arrow-down-double") ? QIcon::fromTheme("arrow-down-double") : QIcon());
+
+        setWindowIcon (QIcon::fromTheme ("featherpad"));
+
+        if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>())
+            wordButton->setIcon (QIcon::fromTheme("view-refresh"));
+    }
 }
 /*************************/
 // Here leftIndx is the tab's index, to whose right all tabs are to be closed.
@@ -2222,7 +2265,7 @@ void FPwin::prefDialog()
 void FPwin::aboutDialog()
 {
     QMessageBox::about (this, "About FeatherPad",
-                        tr ("<center><b><big>FeatherPad 0.5.6</big></b></center><br>"\
+                        tr ("<center><b><big>FeatherPad 0.5.7</big></b></center><br>"\
                             "<center> A lightweight, tabbed, plain-text editor </center>\n"\
                             "<center> based on Qt5 </center><br>"\
                             "<center> Author: <a href='mailto:tsujan2000@gmail.com?Subject=My%20Subject'>Pedram Pourang (aka. Tsu Jan)</a> </center><p></p>"));

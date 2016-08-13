@@ -29,20 +29,28 @@
        </widget>
       </item>
       <item row="1" column="0">
+       <widget class="QCheckBox" name="iconBox">
+        <property name="text">
+         <string>Use own icons
+(Needs app restart)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
        <widget class="QCheckBox" name="toolbarBox">
         <property name="text">
          <string>Do not show &amp;toolbar</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
+      <item row="3" column="0">
        <widget class="QCheckBox" name="searchbarBox">
         <property name="text">
          <string>Hide search &amp;bar by default</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="0">
+      <item row="4" column="0">
        <widget class="QCheckBox" name="statusBox">
         <property name="text">
          <string>Always show st&amp;atus bar</string>

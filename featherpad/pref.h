@@ -20,6 +20,7 @@ public:
 
 private slots:
     void prefSize (int checked);
+    void prefIcon (int checked);
     void prefToolbar (int checked);
     void prefSearchbar (int checked);
     void prefStatusbar (int checked);

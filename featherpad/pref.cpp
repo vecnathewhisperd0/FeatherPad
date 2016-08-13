@@ -35,6 +35,8 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
 
     ui->winSizeBox->setChecked (config.getRemSize());
     connect (ui->winSizeBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSize);
+    ui->iconBox->setChecked (!config.getSysIcon());
+    connect (ui->iconBox, &QCheckBox::stateChanged, this, &PrefDialog::prefIcon);
     ui->toolbarBox->setChecked (config.getNoToolbar());
     connect (ui->toolbarBox, &QCheckBox::stateChanged, this, &PrefDialog::prefToolbar);
     ui->searchbarBox->setChecked (config.getHideSearchbar());
@@ -80,6 +82,15 @@ void PrefDialog::prefSize (int checked)
         config.setRemSize (true);
     else if (checked == Qt::Unchecked)
         config.setRemSize (false);
+}
+/*************************/
+void PrefDialog::prefIcon (int checked)
+{
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    if (checked == Qt::Checked)
+        config.setSysIcon (false);
+    else if (checked == Qt::Unchecked)
+        config.setSysIcon (true);
 }
 /*************************/
 void PrefDialog::prefToolbar (int checked)

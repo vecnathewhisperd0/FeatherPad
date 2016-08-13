@@ -22,6 +22,7 @@ namespace FeatherPad {
 
 Config::Config():
     remSize_ (true),
+    sysIcon_ (false),
     noToolbar_ (false),
     hideSearchbar_ (false),
     showStatusbar_ (false),
@@ -57,6 +58,9 @@ void Config::readConfig()
         isMaxed_ = settings.value ("max", false).toBool();
         isFull_ = settings.value ("fullscreen", false).toBool();
     }
+
+    if (settings.value ("sysIcon").toBool())
+        sysIcon_ = true; // false by default
 
     if (settings.value ("noToolbar").toBool())
         noToolbar_ = true; // false by default
@@ -130,6 +134,7 @@ void Config::writeConfig()
         }
     }
 
+    settings.setValue ("sysIcon", sysIcon_);
     settings.setValue ("noToolbar", noToolbar_);
     settings.setValue ("hideSearchbar", hideSearchbar_);
     settings.setValue ("showStatusbar", showStatusbar_);
