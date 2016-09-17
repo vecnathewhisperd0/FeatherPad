@@ -43,6 +43,8 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     connect (ui->searchbarBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSearchbar);
     ui->statusBox->setChecked (config.getShowStatusbar());
     connect (ui->statusBox, &QCheckBox::stateChanged, this, &PrefDialog::prefStatusbar);
+    ui->transBox->setChecked (config.getTranslucencyWorkaround());
+    connect (ui->transBox, &QCheckBox::stateChanged, this, &PrefDialog::prefTranslucencyWorkaround);
 
     /************
      *** Text ***
@@ -58,8 +60,8 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     connect (ui->lineBox, &QCheckBox::stateChanged, this, &PrefDialog::prefLine);
     ui->syntaxBox->setChecked (config.getSyntaxByDefault());
     connect (ui->syntaxBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSyntax);
-    ui->workaroundBox->setChecked (config.getScrollJumpWorkaround());
-    connect (ui->workaroundBox, &QCheckBox::stateChanged, this, &PrefDialog::prefWorkaround);
+    ui->scrollBox->setChecked (config.getScrollJumpWorkaround());
+    connect (ui->scrollBox, &QCheckBox::stateChanged, this, &PrefDialog::prefScrollJumpWorkaround);
 
     ui->spinBox->setValue (config.getMaxSHSize());
     connect(ui->spinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefMaxSHSize);
@@ -253,7 +255,7 @@ void PrefDialog::prefSyntax (int checked)
         config.setSyntaxByDefault (false);
 }
 /*************************/
-void PrefDialog::prefWorkaround (int checked)
+void PrefDialog::prefScrollJumpWorkaround (int checked)
 {
     FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
     Config& config = singleton->getConfig();
@@ -267,7 +269,7 @@ void PrefDialog::prefWorkaround (int checked)
             {
                 for (int i = 0; i < count; ++i)
                     qobject_cast< TextEdit *>(singleton->Wins.at (i)->ui->tabWidget->widget (i))
-                                             ->setScrollJumpWorkaround(true);
+                                             ->setScrollJumpWorkaround (true);
             }
         }
     }
@@ -281,10 +283,20 @@ void PrefDialog::prefWorkaround (int checked)
             {
                 for (int i = 0; i < count; ++i)
                     qobject_cast< TextEdit *>(singleton->Wins.at (i)->ui->tabWidget->widget (i))
-                                             ->setScrollJumpWorkaround(false);
+                                             ->setScrollJumpWorkaround (false);
             }
         }
     }
+}
+/*************************/
+void PrefDialog::prefTranslucencyWorkaround (int checked)
+{
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    Config& config = singleton->getConfig();
+    if (checked == Qt::Checked)
+        config.setTranslucencyWorkaround (true);
+    else if (checked == Qt::Unchecked)
+        config.setTranslucencyWorkaround (false);
 }
 /*************************/
 void PrefDialog::prefMaxSHSize (int value)

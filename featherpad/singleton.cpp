@@ -28,6 +28,12 @@ FPsingleton::FPsingleton (int &argc, char *argv[], const QString uniqueKey)
              : QApplication (argc, argv), _uniqueKey (uniqueKey)
 {
     config_.readConfig();
+    if (config_.getTranslucencyWorkaround())
+    {
+        setAttribute (Qt::AA_DontCreateNativeWidgetSiblings);
+        setAttribute (Qt::AA_NativeWindows);
+    }
+
     sharedMemory.setKey (_uniqueKey);
     if (sharedMemory.attach())
         _isRunning = true;

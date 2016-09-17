@@ -144,11 +144,18 @@ public:
         scrollJumpWorkaround_ = workaround;
     }
 
+    bool getTranslucencyWorkaround() const {
+        return translucencyWorkaround_;
+    }
+    void setTranslucencyWorkaround (bool workaround) {
+        translucencyWorkaround_ = workaround;
+    }
+
 private:
     bool remSize_, sysIcon_, noToolbar_, hideSearchbar_, showStatusbar_, remFont_, wrapByDefault_,
          indentByDefault_, lineByDefault_, syntaxByDefault_, isMaxed_, isFull_,
-         // Should a workaround for Qt5's "scroll jump" bug be applied?
-         scrollJumpWorkaround_;
+         scrollJumpWorkaround_, // Should a workaround for Qt5's "scroll jump" bug be applied?
+         translucencyWorkaround_; // Should a workaround for the translucency bug of Qt-5.7 be applied?
     int maxSHSize_;
     QSize winSize_;
     QFont font_;

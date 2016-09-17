@@ -34,6 +34,7 @@ Config::Config():
     isMaxed_ (false),
     isFull_ (false),
     scrollJumpWorkaround_ (false),
+    translucencyWorkaround_ (false),
     maxSHSize_ (1),
     winSize_ (QSize (700, 500)),
     font_ (QFont ("Monospace", 9)) {}
@@ -70,6 +71,9 @@ void Config::readConfig()
 
     if (settings.value ("showStatusbar").toBool())
         showStatusbar_ = true; // false by default
+
+    if (settings.value ("translucencyWorkaround").toBool())
+        translucencyWorkaround_ = true; // false by default
 
     settings.endGroup();
 
@@ -138,6 +142,7 @@ void Config::writeConfig()
     settings.setValue ("noToolbar", noToolbar_);
     settings.setValue ("hideSearchbar", hideSearchbar_);
     settings.setValue ("showStatusbar", showStatusbar_);
+    settings.setValue ("translucencyWorkaround", translucencyWorkaround_);
 
     settings.endGroup();
 

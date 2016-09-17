@@ -115,14 +115,17 @@ bool Highlighter::isHereDocument (const QString &text)
     QString delimStr;
     /* Kate uses something like "<<(?:\\s*)([\\\\]{,1}[^\\s]+)" */
     QRegExp delim = QRegExp ("<<(?:\\s*)([\\\\]{,1}[A-Za-z0-9_]+)|<<(?:\\s*)(\'[A-Za-z0-9_]+\')|<<(?:\\s*)(\"[A-Za-z0-9_]+\")");
-    int pos, i;
+    int insideCommentPos = QRegExp ("\\s+#").indexIn (text);
+    int pos = 0;
 
     /* format the start delimiter */
     if (previousBlockState() != delimState - 1
         && currentBlockState() != delimState - 1
-        && (pos = delim.indexIn (text)) >= 0)
+        && QRegExp ("\\s*#").indexIn (text) != 0 // the whole line isn't commented out
+        && (pos = delim.indexIn (text)) >= 0
+        && (insideCommentPos == -1 || pos < insideCommentPos))
     {
-        i = 1;
+        int i = 1;
         while ((delimStr = delim.cap (i)).isEmpty() && i <= 3)
         {
             ++i;

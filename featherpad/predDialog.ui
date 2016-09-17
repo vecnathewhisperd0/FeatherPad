@@ -30,6 +30,9 @@
       </item>
       <item row="1" column="0">
        <widget class="QCheckBox" name="iconBox">
+        <property name="toolTip">
+         <string>Uncheck this if you want FeatherPad to use system icons!</string>
+        </property>
         <property name="text">
          <string>Use own icons
 (Needs app restart)</string>
@@ -54,6 +57,17 @@
        <widget class="QCheckBox" name="statusBox">
         <property name="text">
          <string>Always show st&amp;atus bar</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QCheckBox" name="transBox">
+        <property name="toolTip">
+         <string>Check this only if you see weird effects with translucent themes!</string>
+        </property>
+        <property name="text">
+         <string>Workaround for Qt5's translucency bug
+(Needs app restart)</string>
         </property>
        </widget>
       </item>
@@ -126,7 +140,7 @@
        </widget>
       </item>
       <item row="6" column="0" colspan="2">
-       <widget class="QCheckBox" name="workaroundBox">
+       <widget class="QCheckBox" name="scrollBox">
         <property name="text">
          <string>Workaround for &amp;Qt5's scroll jumb bug</string>
         </property>

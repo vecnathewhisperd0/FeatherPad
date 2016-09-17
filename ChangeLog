@@ -1,3 +1,10 @@
+V0.5.8
+---------
+ * The "here document" delimiter shouldn't be commented out.
+ * Format note and url patterns inside Python multiline quotes.
+ * When reformatting single-line comments inside Highlighter::multiLineComment(), consider note and url patterns too.
+ * Added a separate option for working around the translucency bug of Qt-5.7.
+
 V0.5.7
 ---------
  * Added libqt5svg5 as a dependency to 'INSTALL' (but it isn't a build dependency).

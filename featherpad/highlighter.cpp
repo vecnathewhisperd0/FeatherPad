@@ -767,6 +767,14 @@ void Highlighter::pythonMLComment (const QString &text, const int indx)
 {
     if (progLan != "python") return;
 
+    QRegExp urlPattern = QRegExp ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
+    QRegExp notePattern = QRegExp ("\\b(NOTE|TODO|FIXME|WARNING)\\b");
+    int pIndex = 0;
+    QTextCharFormat noteFormat;
+    noteFormat.setFontWeight (QFont::Bold);
+    noteFormat.setFontItalic (true);
+    noteFormat.setForeground (QColor (150, 0, 0));
+
     /* we reset tha block state because this method is also called
        during the multiline quotation formatting after clearing formats */
     setCurrentBlockState (-1);
@@ -863,6 +871,26 @@ void Highlighter::pythonMLComment (const QString &text, const int indx)
             quoteLength = endIndex - index
                           + commentStartExpression.matchedLength(); // 3
         setFormat (index, quoteLength, commentFormat);
+
+        /* format urls and email addresses inside the comment */
+        QString str = text.mid (index, quoteLength);
+        int indx = 0;
+        while ((pIndex = str.indexOf (urlPattern, indx)) > -1)
+        {
+            int ml = urlPattern.matchedLength();
+            setFormat (pIndex + index, ml, urlFormat);
+            indx = indx + ml;
+        }
+        /* format note patterns too */
+        indx = 0;
+        while ((pIndex = str.indexOf (notePattern, indx)) > -1)
+        {
+            int ml = notePattern.matchedLength();
+            if (format (pIndex) != urlFormat)
+              setFormat (pIndex + index, ml, noteFormat);
+            indx = indx + ml;
+        }
+
         /* the next quote may be different */
         commentStartExpression = QRegExp ("\"\"\"|\'\'\'");
         index = commentStartExpression.indexIn (text, index + quoteLength);
@@ -1335,7 +1363,7 @@ void Highlighter::multiLineQuote (const QString &text)
         /* if there's an end quote ... */
         if (endIndex >= 0)
         {
-            /* ... clear the comment format from there to reformat later as
+            /* ... clear the comment format from there to reformat later since
                a single-line or Python comment sign may have been quoted now */
             badIndex = endIndex + 1;
             QTextCharFormat neutral;
@@ -1381,7 +1409,12 @@ void Highlighter::multiLineQuote (const QString &text)
                     while (isQuoted (text, indx) || isMLCommented (text, indx))
                         indx = expression.indexIn (text, indx + 1);
                     if (indx >= 0)
-                        setFormat (indx, text.length() - indx, commentFormat);
+                    {
+                        //setFormat (indx, text.length() - indx, commentFormat);
+                        /* instead of only using setFormat(),
+                           also take into account url and note patterns */
+                        singleLineComment (text, indx);
+                    }
                     break;
                 }
             }

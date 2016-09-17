@@ -155,15 +155,6 @@ void TextEdit::lineNumberAreaPaintEvent (QPaintEvent *event)
     }
 }
 /*************************/
-void TextEdit::moveEvent (QMoveEvent *e)
-{
-    QPlainTextEdit::moveEvent (e);
-    /* This is needed when the main window is translucent because, in that case, the geometry
-       may be incorrect, as if the parent widget is the main window. (A regression in Qt-5.7?) */
-    if (e->pos() != e->oldPos() && window()->testAttribute(Qt::WA_TranslucentBackground))
-        QTimer::singleShot (0, this, SLOT (updateEditorGeometry()));
-}
-/*************************/
 void TextEdit::updateEditorGeometry()
 {
     updateGeometry();
