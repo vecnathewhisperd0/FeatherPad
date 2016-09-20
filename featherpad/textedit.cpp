@@ -23,6 +23,9 @@ namespace FeatherPad {
 TextEdit::TextEdit (QWidget *parent) : QPlainTextEdit (parent), autoIndentation (true)
 {
     scrollJumpWorkaround = false;
+    resizeTimerId = 0;
+    updateTimerId = 0;
+    Dy = 0;
     setFrameShape (QFrame::NoFrame);
     /* first we replace the widget's vertical scrollbar with ours because
        we want faster wheel scrolling when the mouse cursor is on the scrollbar */
@@ -31,6 +34,8 @@ TextEdit::TextEdit (QWidget *parent) : QPlainTextEdit (parent), autoIndentation 
 
     lineNumberArea = new LineNumberArea (this);
     lineNumberArea->hide();
+
+    connect (this, &QPlainTextEdit::updateRequest, this, &TextEdit::onUpdateRequesting);
 }
 /*************************/
 TextEdit::~TextEdit()
@@ -104,6 +109,33 @@ void TextEdit::resizeEvent (QResizeEvent *e)
 
     QRect cr = contentsRect();
     lineNumberArea->setGeometry (QRect (cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
+
+    if (resizeTimerId)
+    {
+        killTimer (resizeTimerId);
+        resizeTimerId = 0;
+    }
+    resizeTimerId = startTimer (50);
+}
+/*************************/
+void TextEdit::timerEvent (QTimerEvent *e)
+{
+    QPlainTextEdit::timerEvent (e);
+
+    if (e->timerId() == resizeTimerId)
+    {
+        killTimer (e->timerId());
+        resizeTimerId = 0;
+        emit resized();
+    }
+    else if (e->timerId() == updateTimerId)
+    {
+        killTimer (e->timerId());
+        updateTimerId = 0;
+        /* we use TextEdit's rect because the last rect that
+           updateRequest() provides after 50ms may be null */
+        emit updateRect (rect(), Dy);
+    }
 }
 /*************************/
 void TextEdit::highlightCurrentLine()
@@ -158,6 +190,20 @@ void TextEdit::lineNumberAreaPaintEvent (QPaintEvent *event)
 void TextEdit::updateEditorGeometry()
 {
     updateGeometry();
+}
+/*************************/
+void TextEdit::onUpdateRequesting (const QRect& /*rect*/, int dy)
+{
+    if (updateTimerId)
+    {
+        killTimer (updateTimerId);
+        updateTimerId = 0;
+        if (Dy == 0 || dy != 0) // dy can be zero at the end of 50ms
+            Dy = dy;
+    }
+    else Dy = dy;
+
+    updateTimerId = startTimer (50);
 }
 
 }

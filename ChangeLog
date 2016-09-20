@@ -1,9 +1,11 @@
 V0.5.8
 ---------
- * The "here document" delimiter shouldn't be commented out.
+ * The here-doc delimiter shouldn't be commented out.
  * Format note and url patterns inside Python multiline quotes.
  * When reformatting single-line comments inside Highlighter::multiLineComment(), consider note and url patterns too.
  * Added a separate option for working around the translucency bug of Qt-5.7.
+ * When highlighting the syntax, do the main (single-line) formatting only in the visible part of the text. In this way, syntax highlighting becomes very fast for most languages.
+ * A very simple logic for syntax highlighting of here-docs.
 
 V0.5.7
 ---------

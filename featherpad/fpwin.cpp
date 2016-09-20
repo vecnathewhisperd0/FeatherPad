@@ -288,6 +288,29 @@ void FPwin::applyConfig()
     }
 }
 /*************************/
+void FPwin::deleteTextEdit (int index)
+{
+    TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
+    /* Because deleting the syntax highlighter later will change
+       the text, we have two options to prevent a possible crash:
+         (1) disconnecting the textChanged() signals now; or
+         (2) truncating searchEntries after deleting the syntax highlighter. */
+    disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::wordButtonStatus);
+    disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::hlight);
+    tabInfo *tabinfo = tabsInfo_[textEdit];
+    if (Highlighter *highlighter = tabinfo->highlighter)
+    {
+        disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
+        disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
+        disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatonResizing);
+        delete highlighter; highlighter = nullptr;
+    }
+    tabsInfo_.remove (textEdit);
+    delete tabinfo; tabinfo = nullptr;
+    ui->tabWidget->removeTab (index);
+    delete textEdit; textEdit = nullptr;
+}
+/*************************/
 // Here leftIndx is the tab's index, to whose right all tabs are to be closed.
 // Similarly, rightIndx is the tab's index, to whose left all tabs are to be closed.
 // If they're both equal to -1, all tabs will be closed.
@@ -296,9 +319,6 @@ bool FPwin::closeTabs (int leftIndx, int rightIndx, bool closeall)
     bool keep = false;
     int index, count;
     int unsaved = 0;
-    TextEdit *textEdit = nullptr;
-    Highlighter *highlighter = nullptr;
-    tabInfo *tabinfo = nullptr;
     while (unsaved == 0 && ui->tabWidget->count() > 0)
     {
         if (rightIndx == 0) break; // no tab on the left
@@ -320,16 +340,7 @@ bool FPwin::closeTabs (int leftIndx, int rightIndx, bool closeall)
         switch (unsaved) {
         case 0: // close this tab and go to the next one
             keep = false;
-            textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
-            disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::wordButtonStatus);
-            disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::hlight);
-            tabinfo = tabsInfo_[textEdit];
-            highlighter = tabinfo->highlighter;
-            delete highlighter; highlighter = nullptr;
-            tabsInfo_.remove (textEdit);
-            delete tabinfo; tabinfo = nullptr;
-            ui->tabWidget->removeTab (index);
-            delete textEdit; textEdit = nullptr;
+            deleteTextEdit (index);
 
             if (rightIndx > -1) --rightIndx; // a left tab is removed
 
@@ -355,16 +366,7 @@ bool FPwin::closeTabs (int leftIndx, int rightIndx, bool closeall)
                 if (rightIndx == 0) break;
                 ui->tabWidget->setCurrentIndex (index);
 
-                textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
-                disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::wordButtonStatus);
-                disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::hlight);
-                tabinfo = tabsInfo_[textEdit];
-                highlighter = tabinfo->highlighter;
-                delete highlighter; highlighter = nullptr;
-                tabsInfo_.remove (textEdit);
-                delete tabinfo; tabinfo = nullptr;
-                ui->tabWidget->removeTab (index);
-                delete textEdit; textEdit = nullptr;
+                deleteTextEdit (index);
 
                 if (rightIndx > -1)
                 {
@@ -615,7 +617,6 @@ void FPwin::newTab()
     connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionDelete, &QAction::setEnabled);
     connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCopy, &QAction::setEnabled);
     connect (textEdit, &TextEdit::fileDropped, this, &FPwin::newTabFromName);
-    connect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
 
     /* I don't know why, under KDE, when text is selected
        for the first time, it isn't copied to the selection
@@ -666,6 +667,7 @@ void FPwin::zoomOut()
     QFontMetrics metrics (currentFont);
     textEdit->setTabStopWidth (4 * metrics.width (' '));
 
+    formatTextRect (textEdit->rect());
     if (!tabsInfo_[textEdit]->searchEntry.isEmpty())
         hlight();
 }
@@ -684,6 +686,7 @@ void FPwin::zoomZero()
     QTimer::singleShot (0, textEdit, SLOT (updateEditorGeometry()));
 
     /* this may be a zoom-out */
+    formatTextRect (textEdit->rect());
     if (!tabsInfo_[textEdit]->searchEntry.isEmpty())
         hlight();
 }
@@ -737,20 +740,7 @@ void FPwin::closeTab()
 
     if (unSaved (index, false)) return;
 
-    /* Because deleting the syntax highlighter later will change
-       the text, we have two options for preventing a possible crash:
-       (1) disconnecting the textChanged() signals now; or
-       (2) truncating searchEntries after deleting the syntax highlighter. */
-    TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
-    disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::wordButtonStatus);
-    disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::hlight);
-    tabInfo *tabinfo = tabsInfo_[textEdit];
-    Highlighter *highlighter = tabinfo->highlighter;
-    delete highlighter; highlighter = nullptr;
-    tabsInfo_.remove (textEdit);
-    delete tabinfo; tabinfo = nullptr;
-    ui->tabWidget->removeTab (index);
-    delete textEdit; textEdit = nullptr;
+    deleteTextEdit (index);
     int count = ui->tabWidget->count();
     if (count == 0)
     {
@@ -766,16 +756,7 @@ void FPwin::closeTabAtIndex (int index)
 {
     if (unSaved (index, false)) return;
 
-    TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
-    disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::wordButtonStatus);
-    disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::hlight);
-    tabInfo *tabinfo = tabsInfo_[textEdit];
-    Highlighter *highlighter = tabinfo->highlighter;
-    delete highlighter; highlighter = nullptr;
-    tabsInfo_.remove (textEdit);
-    delete tabinfo; tabinfo = nullptr;
-    ui->tabWidget->removeTab (index);
-    delete textEdit; textEdit = nullptr;
+    deleteTextEdit (index);
     int count = ui->tabWidget->count();
     if (count == 0)
     {
@@ -916,9 +897,14 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
     {
         tabinfo->greenSel = QList<QTextEdit::ExtraSelection>();
 
-        Highlighter *highlighter = tabinfo->highlighter;
-        tabinfo->highlighter = nullptr;
-        delete highlighter; highlighter = nullptr;
+        if (Highlighter *highlighter = tabinfo->highlighter)
+        {
+            disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
+            disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
+            disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatonResizing);
+            tabinfo->highlighter = nullptr;
+            delete highlighter; highlighter = nullptr;
+        }
     }
 
     QFileInfo fInfo = (fileName);
@@ -1524,6 +1510,8 @@ void FPwin::fontDialog()
         if (config.getRemFont())
             config.setFont (newFont);
 
+        /* the font can become smaller */
+        formatTextRect (textEdit->rect());
         if (!tabsInfo_[textEdit]->searchEntry.isEmpty())
             hlight();
     }
@@ -2037,8 +2025,7 @@ void FPwin::detachAndDropTab (QPoint& dropPos)
 
     TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
 
-    /* disconnect all signals except for syntax highlighting */
-    disconnect (textEdit, &QPlainTextEdit::updateRequest, this ,&FPwin::hlighting);
+    disconnect (textEdit, &TextEdit::updateRect, this ,&FPwin::hlighting);
     disconnect (textEdit, &QPlainTextEdit::textChanged, this ,&FPwin::hlight);
     disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::wordButtonStatus);
     disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::statusMsgWithLineCount);
@@ -2048,6 +2035,8 @@ void FPwin::detachAndDropTab (QPoint& dropPos)
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCopy, &QAction::setEnabled);
     disconnect (textEdit, &TextEdit::fileDropped, this, &FPwin::newTabFromName);
     disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
+    disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
+    disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatonResizing);
 
     disconnect (textEdit->document(), &QTextDocument::blockCountChanged, this, &FPwin::setMax);
     disconnect (textEdit->document(), &QTextDocument::modificationChanged, this, &FPwin::asterisk);
@@ -2088,7 +2077,10 @@ void FPwin::detachAndDropTab (QPoint& dropPos)
     {
         extraSelections.prepend (textEdit->currentLine);
     }
-    extraSelections.append (tabinfo->redSel);
+    if (top == -1 || anotherFP->ui->actionSyntax->isChecked())
+        extraSelections.append (tabinfo->redSel);
+    else
+        tabinfo->redSel = QList<QTextEdit::ExtraSelection>();
     textEdit->setExtraSelections (extraSelections);
 
     /* at last, set all properties correctly */
@@ -2139,7 +2131,7 @@ void FPwin::detachAndDropTab (QPoint& dropPos)
     if (!tabinfo->searchEntry.isEmpty())
     {
         connect (textEdit, &QPlainTextEdit::textChanged, anotherFP, &FPwin::hlight);
-        connect (textEdit, &QPlainTextEdit::updateRequest, anotherFP, &FPwin::hlighting);
+        connect (textEdit, &TextEdit::updateRect, anotherFP, &FPwin::hlighting);
         /* restore yellow highlights, which will automatically
            set the current line highlight if needed because the
            spin button and line number menuitem are set above */
@@ -2212,10 +2204,17 @@ void FPwin::detachAndDropTab (QPoint& dropPos)
         connect (textEdit, &QPlainTextEdit::copyAvailable, anotherFP->ui->actionDelete, &QAction::setEnabled);
     }
     connect (textEdit, &TextEdit::fileDropped, anotherFP, &FPwin::newTabFromName);
-    connect (textEdit, &QPlainTextEdit::cursorPositionChanged, anotherFP, &FPwin::matchBrackets);
 
     if (top > -1)
         anotherFP->ui->tabWidget->setCurrentIndex (insertIndex);
+
+    if (tabinfo->highlighter) // it's set to NULL above when top > -1 and syntax highlighting is disabled
+    {
+        anotherFP->matchBrackets();
+        connect (textEdit, &QPlainTextEdit::cursorPositionChanged, anotherFP, &FPwin::matchBrackets);
+        connect (textEdit, &TextEdit::updateRect, anotherFP, &FPwin::formatVisibleText);
+        connect (textEdit, &TextEdit::resized, anotherFP, &FPwin::formatonResizing);
+    }
 
     textEdit->setFocus();
 

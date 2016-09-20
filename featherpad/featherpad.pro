@@ -23,7 +23,6 @@ SOURCES += main.cpp\
            config.cpp \
            brackets.cpp \
            syntax.cpp \
-           highlighter-heredoc.cpp \
            highlighter-html.cpp \
            highlighter-patterns.cpp \
            vscrollbar.cpp \

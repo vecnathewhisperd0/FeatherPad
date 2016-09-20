@@ -207,15 +207,92 @@ void FPwin::syntaxHighlighting (const int index)
 
     TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
     tabInfo *tabinfo = tabsInfo_[textEdit];
+    QString progLan = tabinfo->prog;
+    if (progLan.isEmpty()) return;
 
     if (tabinfo->size > static_cast<FPsingleton*>(qApp)->getConfig().getMaxSHSize()*1024*1024)
         return;
 
+    connect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
+
+
+    QPoint Point (0, 0);
+    QTextCursor start = textEdit->cursorForPosition (Point);
+    if (start.isNull()) return;
+    int startPos = start.position();
+    if (startPos >= 0)
+        start.setPosition (startPos);
+    else
+        start.setPosition (0);
+    Point = QPoint (textEdit->geometry().height(), textEdit->geometry().width());
+    QTextCursor end = textEdit->cursorForPosition (Point);
+    if (end.isNull()) return;
+    int endPos = end.position();
+    end.movePosition (QTextCursor::End);
+    if (endPos <= end.position())
+        end.setPosition (endPos);
+
+    Highlighter *highlighter = new Highlighter (textEdit->document(), progLan, start, end);
+    tabinfo->highlighter = highlighter;
+
+    QCoreApplication::processEvents();
+    connect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
+    connect (textEdit, &TextEdit::resized, this, &FPwin::formatonResizing);
+}
+/*************************/
+void FPwin::formatVisibleText (const QRect &rect, int dy) const
+{
+    if (dy == 0) return;
+    formatTextRect (rect);
+}
+/*************************/
+void FPwin::formatonResizing() const
+{
+    int index = ui->tabWidget->currentIndex();
+    if (index == -1) return;
+
+    TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
+    formatTextRect (textEdit->rect());
+}
+/*************************/
+void FPwin::formatTextRect (QRect rect) const
+{
+    int index = ui->tabWidget->currentIndex();
+    if (index == -1) return;
+
+    TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
+    tabInfo *tabinfo = tabsInfo_[textEdit];
+    Highlighter *highlighter = tabinfo->highlighter;
+    if (highlighter == nullptr) return;
     QString progLan = tabinfo->prog;
-    if (!progLan.isEmpty())
+    if (progLan.isEmpty()) return;
+
+    QPoint Point (0, 0);
+    QTextCursor start = textEdit->cursorForPosition (Point);
+    if (start.isNull()) return;
+    int startPos = start.position();
+    if (startPos >= 0)
+        start.setPosition (startPos);
+    else
+        start.setPosition (0);
+    Point = QPoint (rect.height(), rect.width());
+    QTextCursor end = textEdit->cursorForPosition (Point);
+    if (end.isNull()) return;
+    int endPos = end.position();
+    end.movePosition (QTextCursor::End);
+    if (endPos <= end.position())
+        end.setPosition (endPos);
+
+    highlighter->setFirstRun (false);
+    QTextBlock block = start.block();
+    while (block.isValid() && block.blockNumber() <= end.blockNumber())
     {
-        Highlighter *highlighter = new Highlighter (textEdit->document(), progLan);
-        tabinfo->highlighter = highlighter;
+        if (!highlighter->getHighlighted().contains (block.blockNumber()))
+        {
+            highlighter->rehighlightBlock (block);
+            highlighter->addHighlighted (block.blockNumber());
+        }
+        block = block.next();
     }
 }
 

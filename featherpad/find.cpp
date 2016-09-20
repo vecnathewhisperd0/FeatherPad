@@ -216,7 +216,7 @@ void FPwin::find()
         newSrch = true;
     }
 
-    disconnect (textEdit, &QPlainTextEdit::updateRequest, this, &FPwin::hlighting);
+    disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::hlighting);
     disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::hlight);
 
     if (txt.isEmpty())
@@ -260,7 +260,7 @@ void FPwin::find()
        scrolled and even when no match is found (it may be added later) */
     hlight();
     connect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::hlight);
-    connect (textEdit, &QPlainTextEdit::updateRequest, this, &FPwin::hlighting);
+    connect (textEdit, &TextEdit::updateRect, this, &FPwin::hlighting);
 }
 /*************************/
 // Highlight found matches in the visible part of the text.

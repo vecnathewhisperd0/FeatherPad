@@ -15,7 +15,6 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QTextDocument>
 #include "highlighter.h"
 
 namespace FeatherPad {
@@ -51,11 +50,6 @@ QString TextBlockData::delimiter()
     return Delimiter;
 }
 /*************************/
-bool TextBlockData::isdelimiter()
-{
-    return isDelimiter;
-}
-/*************************/
 void TextBlockData::insertInfo (ParenthesisInfo *info)
 {
     int i = 0;
@@ -85,16 +79,14 @@ void TextBlockData::insertInfo (QString str)
     Delimiter = str;
 }
 /*************************/
-void TextBlockData::insertInfo (bool boolean)
-{
-    isDelimiter = boolean;
-}
-/*************************/
 // Here, the order of formatting is important because of overrides.
-Highlighter::Highlighter (QTextDocument *parent, QString lang) : QSyntaxHighlighter (parent)
+Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start, QTextCursor end) : QSyntaxHighlighter (parent)
 {
     if (lang.isEmpty()) return;
 
+    startCursor = start;
+    endCursor = end;
+    firstRun = true;
     progLan = lang;
 
     HighlightingRule rule;
@@ -266,12 +258,6 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang) : QSyntaxHighligh
     else if (progLan == "sh" || progLan == "makefile" || progLan == "cmake"
              || progLan == "perl" || progLan == "ruby")
     {
-        /* see docChanged() in  highlighter-heredoc.cpp */
-        connect (parent,
-                 &QTextDocument::contentsChange,
-                 this,
-                 &Highlighter::docChanged);
-
         /* # is the sh comment sign when it doesn't follow a character */
         if (progLan == "sh" || progLan == "makefile" || progLan == "cmake")
             rule.pattern = QRegExp ("^#.*|\\s+#.*");
@@ -559,9 +545,6 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang) : QSyntaxHighligh
         commentStartExpression = QRegExp ("<!--");
         commentEndExpression = QRegExp ("-->");
     }
-
-    /* the state of here-doc headers */
-    delimState = hereDocHeaderState;
 }
 /*************************/
 // Check if a start or end quotation mark is escaped at some position.
@@ -577,7 +560,8 @@ bool Highlighter::escapedQuote (const QString &text, const int pos, bool canEsca
     }
 
     /* check if the quote surrounds a here-doc delimiter */
-    if (currentBlockState() == delimState)
+    if ((currentBlockState() >= endState || currentBlockState() < -1)
+        && currentBlockState() % 2 == 0)
     {
         QRegExp delimPart = QRegExp ("<<\\s*");
         QRegExp delimPart1 = QRegExp ("<<(?:\\s*)(\'[A-Za-z0-9_]+)|<<(?:\\s*)(\"[A-Za-z0-9_]+)");
@@ -1433,41 +1417,104 @@ void Highlighter::multiLineQuote (const QString &text)
     }
 }
 /*************************/
+// Check if the current block is inside a "here document" and format it accordingly.
+bool Highlighter::isHereDocument (const QString &text)
+{
+    QTextCharFormat blockFormat;
+    blockFormat.setForeground (QColor (126, 0, 230));
+    QTextCharFormat delimFormat = blockFormat;
+    delimFormat.setFontWeight (QFont::Bold);
+    QString delimStr;
+    /* Kate uses something like "<<(?:\\s*)([\\\\]{,1}[^\\s]+)" */
+    QRegExp delim = QRegExp ("<<(?:\\s*)([\\\\]{,1}[A-Za-z0-9_]+)|<<(?:\\s*)(\'[A-Za-z0-9_]+\')|<<(?:\\s*)(\"[A-Za-z0-9_]+\")");
+    int insideCommentPos = QRegExp ("\\s+#").indexIn (text);
+    int pos = 0;
+
+    /* format the start delimiter */
+    if (previousBlockState() >= 0 && previousBlockState() < endState
+        && QRegExp ("\\s*#").indexIn (text) != 0 // the whole line isn't commented out
+        && (pos = delim.indexIn (text)) >= 0
+        && !isQuoted (text, pos)
+        && (insideCommentPos == -1 || pos < insideCommentPos))
+    {
+        int i = 1;
+        while ((delimStr = delim.cap (i)).isEmpty() && i <= 3)
+        {
+            ++i;
+            delimStr = delim.cap (i);
+        }
+        /* remove quotes */
+        if (delimStr.contains ('\''))
+            delimStr = delimStr.split ('\'').at (1);
+        if (delimStr.contains ('\"'))
+            delimStr = delimStr.split ('\"').at (1);
+        /* remove the start backslash if it exists */
+        if (QString (delimStr.at (0)) == "\\")
+            delimStr = delimStr.remove (0, 1);
+
+        if (!delimStr.isEmpty())
+        {
+            int n = qHash (delimStr);
+            setCurrentBlockState (2 * (n + (n >= 0 ? 9 : 0))); // always an even number but maybe negative
+            setFormat (text.indexOf (delimStr, pos),
+                       delimStr.length(),
+                       delimFormat);
+
+            TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData());
+            data->insertInfo (delimStr);
+            setCurrentBlockUserData (data);
+
+            return false;
+        }
+    }
+
+    if (previousBlockState() >= endState || previousBlockState() < -1)
+    {
+        QTextBlock block = currentBlock().previous();
+        TextBlockData *data = static_cast<TextBlockData *>(block.userData());
+        delimStr = data->delimiter();
+        if (text == delimStr
+            || (text.startsWith (delimStr)
+                && text.indexOf (QRegExp ("\\s+")) == delimStr.length()))
+        {
+            /* format the end delimiter */
+            setFormat (0,
+                       delimStr.length(),
+                       delimFormat);
+            return false;
+        }
+        else
+        {
+            /* format the contents */
+            TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData());
+            data->insertInfo (delimStr);
+            setCurrentBlockUserData (data);
+            if (previousBlockState() % 2 == 0)
+                setCurrentBlockState (previousBlockState() - 1);
+            else
+                setCurrentBlockState (previousBlockState());
+            setFormat (0, text.length(), blockFormat);
+            return true;
+        }
+    }
+
+    return false;
+}
+/*************************/
+// Start syntax highlighting!
 void Highlighter::highlightBlock (const QString &text)
 {
     if (progLan.isEmpty()) return;
 
     int index;
-
-    /****************************
-     *       Prepare for        *
-     *   Braces Matching and    *
-     * Here-Document Formatting *
-     ****************************/
-
-    /* if this is a here-doc end delimiter that may become
-       a body block right now, or if it's a start delimiter
-       that may go outside here-docs, keep its boolean data,
-       which will be used in docChanged() for re-highlighting. */
-    TextBlockData *data = nullptr;
-    bool delimBool = false;
-    if ((previousBlockState() == delimState - 1 && currentBlockState() < delimState - 1)
-        || (currentBlockState() == delimState && previousBlockState() < delimState - 1))
-    {
-        data = static_cast<TextBlockData *>(currentBlock().userData());
-        if (data) delimBool = data->isdelimiter();
-    }
-
-    data = new TextBlockData;
-    data->insertInfo (delimBool);
-    setCurrentBlockUserData (data); // to be changed later
-
-    /*****************************
-     * Start Syntax Highlighting *
-     *****************************/
-
+    TextBlockData *data = new TextBlockData;
+    setCurrentBlockUserData (data); // to be fed in later
     setCurrentBlockState (0);
-    /* "here documents" in bash */
+
+    /********************
+     * "Here" Documents *
+     ********************/
+
     if (progLan == "sh" || progLan == "makefile" || progLan == "cmake"
         || progLan == "perl" || progLan == "ruby")
     {
@@ -1480,7 +1527,7 @@ void Highlighter::highlightBlock (const QString &text)
      ************************/
 
     if (progLan != "html")
-    singleLineComment (text, 0);
+        singleLineComment (text, 0);
 
     /*******************
      * Python Comments *
@@ -1529,7 +1576,10 @@ void Highlighter::highlightBlock (const QString &text)
      * Main Formatting *
      *******************/
 
-    if (progLan != "html") // we format html embedded javascript in htmlJavascript()
+    if (progLan != "html" // we format html embedded javascript in htmlJavascript()
+        && (!firstRun
+            || (currentBlock().blockNumber() >= startCursor.blockNumber()
+                && currentBlock().blockNumber() <= endCursor.blockNumber())))
     {
         foreach (const HighlightingRule &rule, highlightingRules)
         {

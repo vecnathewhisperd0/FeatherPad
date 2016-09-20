@@ -94,6 +94,8 @@ private slots:
     void showHideSearch() const;
     void showLN (bool checked);
     void toggleSyntaxHighlighting();
+    void formatVisibleText (const QRect &rect, int dy) const;
+    void formatonResizing() const;
     void toggleWrapping();
     void toggleIndent();
     void replace();
@@ -129,6 +131,7 @@ public:
     QHash<TextEdit*,tabInfo*> tabsInfo_; // Needed info on each tab.
 
 private:
+    void deleteTextEdit (int index);
     void loadText (const QString& fileName, bool enforceEncod, bool reload);
     bool alreadyOpen (const QString& fileName) const;
     void setTitle (const QString& fileName);
@@ -152,6 +155,7 @@ private:
     bool matchLeftBrace (QTextBlock currentBlock, int index, int numRightBraces);
     bool matchRightBrace (QTextBlock currentBlock, int index, int numLeftBraces);
     void createSelection (int pos);
+    void formatTextRect (QRect rect) const;
 
     QActionGroup *aGroup_;
     QString lastFile_; // The last opened file.

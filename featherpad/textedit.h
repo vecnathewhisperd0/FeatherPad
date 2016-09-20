@@ -38,6 +38,13 @@ public:
     TextEdit (QWidget *parent = 0);
     ~TextEdit();
 
+    void setTextCursor (const QTextCursor &cursor)
+    {
+        QPlainTextEdit::setTextCursor (cursor);
+        /* this is needed for formatVisibleText() to be called (for syntax highlighting) */
+        emit QPlainTextEdit::updateRequest (rect(), 1);
+    }
+
     void lineNumberAreaPaintEvent (QPaintEvent *event);
     int lineNumberAreaWidth();
     void showLineNumbers (bool show);
@@ -52,6 +59,8 @@ public:
 signals:
     /* inform the main widget */
     void fileDropped (const QString&);
+    void resized(); // needed by syntax highlighting
+    void updateRect (const QRect &rect, int dy);
 
 protected:
     virtual void keyPressEvent (QKeyEvent *event)
@@ -124,6 +133,7 @@ protected:
     }
 
     void resizeEvent (QResizeEvent *event);
+    void timerEvent (QTimerEvent *event);
 
     /* we want to pass dropping of files to
        the main widget with a custom signal */
@@ -149,6 +159,7 @@ private slots:
     void updateLineNumberAreaWidth (int newBlockCount);
     void highlightCurrentLine();
     void updateLineNumberArea (const QRect&, int);
+    void onUpdateRequesting (const QRect&, int dy);
 
 private:
     QString computeIndentation (QTextCursor& cur) const
@@ -189,6 +200,8 @@ private:
 
     QWidget *lineNumberArea;
     bool scrollJumpWorkaround; // for working around Qt5's scroll jump bug
+    int resizeTimerId, updateTimerId; // for not wasting CPU's time
+    int Dy;
 };
 /*************************/
 class LineNumberArea : public QWidget

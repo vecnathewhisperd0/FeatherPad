@@ -19,8 +19,6 @@
 #define HIGHLIGHTER_H
 
 #include <QSyntaxHighlighter>
-#include <QHash>
-#include <QTextCharFormat>
 
 namespace FeatherPad {
 
@@ -46,17 +44,14 @@ public:
     QVector<ParenthesisInfo *> parentheses();
     QVector<BraceInfo *> braces();
     QString delimiter();
-    bool isdelimiter();
     void insertInfo (ParenthesisInfo *info);
     void insertInfo (BraceInfo *info);
     void insertInfo (QString str);
-    void insertInfo (bool boolean);
 
 private:
     QVector<ParenthesisInfo *> allParentheses;
     QVector<BraceInfo *> allBraces;
     QString Delimiter; // The delimiter string of a here-doc.
-    bool isDelimiter; // Is this block a here-doc delimiter?
 };
 /*************************/
 /* This is a tricky but effective way for syntax highlighting. */
@@ -65,13 +60,30 @@ class Highlighter : public QSyntaxHighlighter
     Q_OBJECT
 
 public:
-    Highlighter (QTextDocument *parent, QString lang);
+    Highlighter (QTextDocument *parent, QString lang, QTextCursor start, QTextCursor end);
+
+    void setStartCursor (QTextCursor cur) {
+        startCursor = cur;
+    }
+
+    void setEndCursor (QTextCursor cur) {
+        endCursor = cur;
+    }
+
+    QSet<int> getHighlighted() {
+        return highlighted;
+    }
+
+    void addHighlighted (int block) {
+        highlighted.insert (block);
+    }
+
+    void setFirstRun (bool first) {
+        firstRun = first;
+    }
 
 protected:
     void highlightBlock (const QString &text);
-
-private slots:
-    void docChanged (int pos, int, int);
 
 private:
     QStringList keywords (QString& lang);
@@ -111,8 +123,11 @@ private:
     /* Programming language: */
     QString progLan;
 
-    /* Needed for re-highlighting of here-docs: */
-    int delimState;
+    /* The start and end cursors of the visible text: */
+    QTextCursor startCursor, endCursor;
+    /* List of all blocks, for which the main formatting is already done: */
+    QSet<int> highlighted;
+    bool firstRun;
 
     /* Block states: */
     enum
@@ -126,12 +141,6 @@ private:
         /* Python comments: */
         pyDoubleQuoteState,
         pySingleQuoteState,
-
-        /* Here-documents: */
-        hereDocBodyState,
-        hereDocHeaderState,
-        // 8=9-1 is reserved.
-        hereDocTempState = 9,
 
         /* HTML: */
         htmlStyleState,
@@ -149,7 +158,10 @@ private:
         /* CSS: */
         cssBlockState,
         commentInCssState,
-        cssValueState
+        cssValueState,
+        endState // 18
+
+        /* For here-docs, state >= endState or state < -1. */
     };
 };
 
