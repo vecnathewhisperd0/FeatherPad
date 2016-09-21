@@ -92,7 +92,7 @@ void FPwin::getSyntax (const int index)
             progLan = "troff";
         else if (fname.endsWith (".xml") || fname.endsWith (".svg") || fname.endsWith (".qrc") || fname.endsWith (".rdf") || fname.endsWith (".docbook"))
             progLan = "xml";
-        else if (fname.endsWith (".css"))
+        else if (fname.endsWith (".css") || fname.endsWith (".qss"))
             progLan = "css";
         else if (fname.endsWith (".desktop") || fname.endsWith (".desktop.in") || fname.endsWith (".directory"))
              progLan = "desktop";
@@ -215,22 +215,10 @@ void FPwin::syntaxHighlighting (const int index)
 
     connect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
 
-
     QPoint Point (0, 0);
     QTextCursor start = textEdit->cursorForPosition (Point);
-    if (start.isNull()) return;
-    int startPos = start.position();
-    if (startPos >= 0)
-        start.setPosition (startPos);
-    else
-        start.setPosition (0);
     Point = QPoint (textEdit->geometry().height(), textEdit->geometry().width());
     QTextCursor end = textEdit->cursorForPosition (Point);
-    if (end.isNull()) return;
-    int endPos = end.position();
-    end.movePosition (QTextCursor::End);
-    if (endPos <= end.position())
-        end.setPosition (endPos);
 
     Highlighter *highlighter = new Highlighter (textEdit->document(), progLan, start, end);
     tabinfo->highlighter = highlighter;
@@ -269,29 +257,15 @@ void FPwin::formatTextRect (QRect rect) const
 
     QPoint Point (0, 0);
     QTextCursor start = textEdit->cursorForPosition (Point);
-    if (start.isNull()) return;
-    int startPos = start.position();
-    if (startPos >= 0)
-        start.setPosition (startPos);
-    else
-        start.setPosition (0);
     Point = QPoint (rect.height(), rect.width());
     QTextCursor end = textEdit->cursorForPosition (Point);
-    if (end.isNull()) return;
-    int endPos = end.position();
-    end.movePosition (QTextCursor::End);
-    if (endPos <= end.position())
-        end.setPosition (endPos);
 
-    highlighter->setFirstRun (false);
+    highlighter->setLimit (start, end);
     QTextBlock block = start.block();
     while (block.isValid() && block.blockNumber() <= end.blockNumber())
     {
         if (!highlighter->getHighlighted().contains (block.blockNumber()))
-        {
             highlighter->rehighlightBlock (block);
-            highlighter->addHighlighted (block.blockNumber());
-        }
         block = block.next();
     }
 }

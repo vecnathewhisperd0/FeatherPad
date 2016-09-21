@@ -62,24 +62,13 @@ class Highlighter : public QSyntaxHighlighter
 public:
     Highlighter (QTextDocument *parent, QString lang, QTextCursor start, QTextCursor end);
 
-    void setStartCursor (QTextCursor cur) {
-        startCursor = cur;
-    }
-
-    void setEndCursor (QTextCursor cur) {
-        endCursor = cur;
+    void setLimit (QTextCursor start, QTextCursor end) {
+        startCursor = start;
+        endCursor = end;
     }
 
     QSet<int> getHighlighted() {
         return highlighted;
-    }
-
-    void addHighlighted (int block) {
-        highlighted.insert (block);
-    }
-
-    void setFirstRun (bool first) {
-        firstRun = first;
     }
 
 protected:
@@ -127,7 +116,6 @@ private:
     QTextCursor startCursor, endCursor;
     /* List of all blocks, for which the main formatting is already done: */
     QSet<int> highlighted;
-    bool firstRun;
 
     /* Block states: */
     enum

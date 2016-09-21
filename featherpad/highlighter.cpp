@@ -86,7 +86,6 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
 
     startCursor = start;
     endCursor = end;
-    firstRun = true;
     progLan = lang;
 
     HighlightingRule rule;
@@ -1576,11 +1575,16 @@ void Highlighter::highlightBlock (const QString &text)
      * Main Formatting *
      *******************/
 
+    int bn = currentBlock().blockNumber();
+    /* we don't know whether this block is highlighted because of a change in it
+       or just because it has become visible, so we remove it from the list here
+       but, later, it'll be added to the list again if it's visible */
+    highlighted.remove (bn);
     if (progLan != "html" // we format html embedded javascript in htmlJavascript()
-        && (!firstRun
-            || (currentBlock().blockNumber() >= startCursor.blockNumber()
-                && currentBlock().blockNumber() <= endCursor.blockNumber())))
+        && bn >= startCursor.blockNumber()
+        && bn <= endCursor.blockNumber())
     {
+        highlighted.insert (bn);
         foreach (const HighlightingRule &rule, highlightingRules)
         {
             /* single-line comments are already formatted */
