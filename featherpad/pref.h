@@ -29,6 +29,7 @@ private slots:
     void prefIndent (int checked);
     void prefLine (int checked);
     void prefSyntax (int checked);
+    void prefDarkColScheme (int checked);
     void prefScrollJumpWorkaround (int checked);
     void prefTranslucencyWorkaround (int checked);
     void prefMaxSHSize (int value);

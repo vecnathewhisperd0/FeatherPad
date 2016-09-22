@@ -60,6 +60,8 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     connect (ui->lineBox, &QCheckBox::stateChanged, this, &PrefDialog::prefLine);
     ui->syntaxBox->setChecked (config.getSyntaxByDefault());
     connect (ui->syntaxBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSyntax);
+    ui->colBox->setChecked (config.getDarkColScheme());
+    connect (ui->colBox, &QCheckBox::stateChanged, this, &PrefDialog::prefDarkColScheme);
     ui->scrollBox->setChecked (config.getScrollJumpWorkaround());
     connect (ui->scrollBox, &QCheckBox::stateChanged, this, &PrefDialog::prefScrollJumpWorkaround);
 
@@ -253,6 +255,15 @@ void PrefDialog::prefSyntax (int checked)
         config.setSyntaxByDefault (true);
     else if (checked == Qt::Unchecked)
         config.setSyntaxByDefault (false);
+}
+/*************************/
+void PrefDialog::prefDarkColScheme (int checked)
+{
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    if (checked == Qt::Checked)
+        config.setDarkColScheme (true);
+    else if (checked == Qt::Unchecked)
+        config.setDarkColScheme (false); 
 }
 /*************************/
 void PrefDialog::prefScrollJumpWorkaround (int checked)

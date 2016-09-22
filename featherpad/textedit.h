@@ -49,10 +49,25 @@ public:
     int lineNumberAreaWidth();
     void showLineNumbers (bool show);
 
-    bool autoIndentation;
-    QTextEdit::ExtraSelection currentLine;
-    void setScrollJumpWorkaround (bool apply)
-    {
+    QTextEdit::ExtraSelection currentLineSelection() {
+        return currentLine;
+    }
+
+    void setAutoIndentation (bool indent) {
+        autoIndentation = indent;
+    }
+    bool getAutoIndentation() {
+        return autoIndentation;
+    }
+
+    void useDarkScheme (bool dark) {
+        darkScheme = dark;
+    }
+    bool hasDarkScheme() {
+        return darkScheme;
+    }
+
+    void setScrollJumpWorkaround (bool apply){
         scrollJumpWorkaround = apply;
     }
 
@@ -199,6 +214,9 @@ private:
     }
 
     QWidget *lineNumberArea;
+    QTextEdit::ExtraSelection currentLine;
+    bool autoIndentation;
+    bool darkScheme;
     bool scrollJumpWorkaround; // for working around Qt5's scroll jump bug
     int resizeTimerId, updateTimerId; // for not wasting CPU's time
     int Dy;

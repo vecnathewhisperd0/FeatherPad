@@ -43,7 +43,22 @@ void FPwin::toggleSyntaxHighlighting()
         QHash<TextEdit*,tabInfo*>::iterator it;
         for (it = tabsInfo_.begin(); it != tabsInfo_.end(); ++it)
         {
+            disconnect (it.key(), &TextEdit::updateRect, this, &FPwin::formatVisibleText);
+            disconnect (it.key(), &TextEdit::resized, this, &FPwin::formatonResizing);
+            disconnect (it.key(), &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
             tabInfo *tabinfo = tabsInfo_[it.key()];
+
+            QList<QTextEdit::ExtraSelection> extraSelections;
+            extraSelections.append (it.key()->extraSelections());
+            int n = tabinfo->redSel.count();
+            while (n > 0)
+            {
+                extraSelections.removeLast();
+                --n;
+            }
+            tabinfo->redSel = QList<QTextEdit::ExtraSelection>();
+            it.key()->setExtraSelections (extraSelections);
+
             highlighter = tabinfo->highlighter;
             tabinfo->highlighter = nullptr;
             delete highlighter; highlighter = nullptr;
@@ -213,17 +228,17 @@ void FPwin::syntaxHighlighting (const int index)
     if (tabinfo->size > static_cast<FPsingleton*>(qApp)->getConfig().getMaxSHSize()*1024*1024)
         return;
 
-    connect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
-
     QPoint Point (0, 0);
     QTextCursor start = textEdit->cursorForPosition (Point);
     Point = QPoint (textEdit->geometry().height(), textEdit->geometry().width());
     QTextCursor end = textEdit->cursorForPosition (Point);
 
-    Highlighter *highlighter = new Highlighter (textEdit->document(), progLan, start, end);
+    Highlighter *highlighter = new Highlighter (textEdit->document(), progLan, start, end, textEdit->hasDarkScheme());
     tabinfo->highlighter = highlighter;
 
     QCoreApplication::processEvents();
+    matchBrackets(); // in case the cursor is beside a bracket when the text is loaded
+    connect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
     connect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
     connect (textEdit, &TextEdit::resized, this, &FPwin::formatonResizing);
 }

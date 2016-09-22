@@ -225,7 +225,7 @@ void FPwin::find()
         QList<QTextEdit::ExtraSelection> extraSelections;
         tabinfo->greenSel = extraSelections; // not needed
         if (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible())
-            extraSelections.prepend (textEdit->currentLine);
+            extraSelections.prepend (textEdit->currentLineSelection());
         extraSelections.append (tabinfo->redSel);
         textEdit->setExtraSelections (extraSelections);
         return;
@@ -278,7 +278,7 @@ void FPwin::hlight() const
     QList<QTextEdit::ExtraSelection> extraSelections;
     /* prepend green highlights */
     extraSelections.append (tabinfo->greenSel);
-    QColor color = QColor (Qt::yellow);
+    QColor color = QColor (textEdit->hasDarkScheme() ? QColor (115, 115, 0) : Qt::yellow);
     QTextCursor found;
     /* first put a start cursor at the top left edge... */
     QPoint Point (0, 0);
@@ -318,7 +318,7 @@ void FPwin::hlight() const
     /* also prepend the current line highlight,
        so that it always comes first when it exists */
     if (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible())
-        extraSelections.prepend (textEdit->currentLine);
+        extraSelections.prepend (textEdit->currentLineSelection());
     /* append red highlights */
     extraSelections.append (tabinfo->redSel);
     textEdit->setExtraSelections (extraSelections);
@@ -364,7 +364,7 @@ void FPwin::setSearchFlags()
     setSearchFlagsAndHighlight (true);
 }
 /*************************/
-void FPwin::showHideSearch() const
+void FPwin::showHideSearch()
 {
     bool visibility = ui->lineEdit->isVisible();
 
@@ -376,8 +376,30 @@ void FPwin::showHideSearch() const
 
     if (!visibility)
         ui->lineEdit->setFocus();
-    else // return focus to the document
+    else
+    {
+        /* return focus to the document,... */
         qobject_cast< TextEdit *>(ui->tabWidget->currentWidget())->setFocus();
+        /* ... empty all search entries,... */
+        ui->lineEdit->clear();
+        /* ... and remove all yellow and green highlights */
+        int count = ui->tabWidget->count();
+        if (count > 0)
+        {
+            for (int index = 0; index < count; ++index)
+            {
+                TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
+                tabInfo *tabinfo = tabsInfo_[textEdit];
+                tabinfo->searchEntry = QString();
+                QList<QTextEdit::ExtraSelection> extraSelections;
+                tabinfo->greenSel = extraSelections; // not needed
+                if (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible())
+                    extraSelections.prepend (textEdit->currentLineSelection());
+                extraSelections.append (tabinfo->redSel);
+                textEdit->setExtraSelections (extraSelections);
+            }
+        }
+    }
 }
 
 }

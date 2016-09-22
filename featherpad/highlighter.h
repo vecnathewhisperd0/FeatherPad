@@ -60,7 +60,7 @@ class Highlighter : public QSyntaxHighlighter
     Q_OBJECT
 
 public:
-    Highlighter (QTextDocument *parent, QString lang, QTextCursor start, QTextCursor end);
+    Highlighter (QTextDocument *parent, QString lang, QTextCursor start, QTextCursor end, bool darkColorScheme);
 
     void setLimit (QTextCursor start, QTextCursor end) {
         startCursor = start;
@@ -111,6 +111,8 @@ private:
 
     /* Programming language: */
     QString progLan;
+
+    QColor Blue, DarkBlue, Red, DarkRed, DarkGreen, DarkMagenta, Violet, Brown;
 
     /* The start and end cursors of the visible text: */
     QTextCursor startCursor, endCursor;

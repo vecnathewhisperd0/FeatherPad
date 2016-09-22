@@ -33,7 +33,7 @@ void Highlighter::htmlBrackets (const QString &text)
     QRegExp braEndExp = QRegExp (">");
     QTextCharFormat htmlBraFormat;
     htmlBraFormat.setFontWeight (QFont::Bold);
-    htmlBraFormat.setForeground (QColor (126, 0, 230));
+    htmlBraFormat.setForeground (Violet);
     if (previousBlockState() != htmlBracketState
         && previousBlockState() != singleQuoteState
         && previousBlockState() != doubleQuoteState)
@@ -190,7 +190,7 @@ void Highlighter::htmlBrackets (const QString &text)
 
         QTextCharFormat htmlAttributeFormat;
         htmlAttributeFormat.setFontItalic (true);
-        htmlAttributeFormat.setForeground (QColor (160, 80, 0));
+        htmlAttributeFormat.setForeground (Brown);
         QRegExp attExp = QRegExp ("[A-Za-z0-9_\\-]+(?=\\s*\\=)");
         int attIndex = attExp.indexIn (text, braIndex);
         while (format (attIndex) == quotationFormat)
@@ -217,7 +217,7 @@ void Highlighter::htmlStyleHighlighter (const QString &text)
     QRegExp styleEndExp = QRegExp ("</style>");
     QTextCharFormat htmlStyleFormat;
     htmlStyleFormat.setFontWeight (QFont::Bold);
-    htmlStyleFormat.setForeground (QColor (126, 0, 230));
+    htmlStyleFormat.setForeground (Violet);
     if (previousBlockState() != htmlStyleState
         && previousBlockState() != htmlBlockState
         && previousBlockState() != htmlValueState
@@ -280,7 +280,7 @@ void Highlighter::htmlStyleHighlighter (const QString &text)
         QRegExp braEndExp = QRegExp (">");
         QTextCharFormat htmlBraFormat;
         htmlBraFormat.setFontWeight (QFont::Bold);
-        htmlBraFormat.setForeground (QColor (126, 0, 230));
+        htmlBraFormat.setForeground (Violet);
         if ((previousBlockState() != htmlStyleBracketState
              && previousBlockState() != htmlStyleSingleQuoteState
              && previousBlockState() != htmlStyleDoubleQuoteState)
@@ -437,7 +437,7 @@ void Highlighter::htmlStyleHighlighter (const QString &text)
 
             QTextCharFormat htmlAttributeFormat;
             htmlAttributeFormat.setFontItalic (true);
-            htmlAttributeFormat.setForeground (QColor (160, 80, 0));
+            htmlAttributeFormat.setForeground (Brown);
             QRegExp attExp = QRegExp ("[A-Za-z0-9_\\-]+(?=\\s*\\=)");
             int attIndex = attExp.indexIn (text, braIndex);
             while (format (attIndex) == quotationFormat)

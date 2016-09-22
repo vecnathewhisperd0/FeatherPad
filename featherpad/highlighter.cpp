@@ -80,7 +80,7 @@ void TextBlockData::insertInfo (QString str)
 }
 /*************************/
 // Here, the order of formatting is important because of overrides.
-Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start, QTextCursor end) : QSyntaxHighlighter (parent)
+Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start, QTextCursor end, bool darkColorScheme) : QSyntaxHighlighter (parent)
 {
     if (lang.isEmpty()) return;
 
@@ -89,6 +89,28 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
     progLan = lang;
 
     HighlightingRule rule;
+    if (!darkColorScheme)
+    {
+        Blue = Qt::blue;
+        DarkBlue = Qt::darkBlue;
+        Red = Qt::red;
+        DarkRed = QColor (150, 0, 0);
+        DarkGreen = Qt::darkGreen;
+        DarkMagenta = Qt::darkMagenta;
+        Violet = QColor (126, 0, 230);
+        Brown = QColor (160, 80, 0);
+    }
+    else
+    {
+        Blue = QColor (85, 227, 255);
+        DarkBlue = QColor (65, 154, 255);
+        Red = QColor (255, 120, 120);
+        DarkRed = QColor (255, 0, 0);
+        DarkGreen = Qt::green;
+        DarkMagenta = QColor (255, 153, 255);
+        Violet = QColor (255, 255, 0);
+        Brown = QColor (255, 200, 0);
+    }
 
     /*************
      * Functions *
@@ -105,7 +127,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
     {
         QTextCharFormat functionFormat;
         functionFormat.setFontItalic (true);
-        functionFormat.setForeground (Qt::blue);
+        functionFormat.setForeground (Blue);
         /* before parentheses */
         rule.pattern = QRegExp ("\\b[A-Za-z0-9_]+(?=\\s*\\()");
         rule.format = functionFormat;
@@ -127,11 +149,11 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
         rule.format = keywordFormat;
         highlightingRules.append (rule);
     }
-    keywordFormat.setForeground (Qt::darkBlue);
+    keywordFormat.setForeground (DarkBlue);
 
     /* types */
     QTextCharFormat typeFormat;
-    typeFormat.setForeground (Qt::darkMagenta); //(QColor (102, 0, 0));
+    typeFormat.setForeground (DarkMagenta); //(QColor (102, 0, 0));
 
     QStringList patterns;
 
@@ -147,7 +169,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
     if (progLan == "qmake")
     {
         QTextCharFormat qmpathFormat;
-        qmpathFormat.setForeground (Qt::blue);
+        qmpathFormat.setForeground (Blue);
         rule.pattern = QRegExp ("\\${1,2}([A-Za-z0-9_]+|\\[[A-Za-z0-9_]+\\]|\\([A-Za-z0-9_]+\\))");
         rule.format = qmpathFormat;
         highlightingRules.append (rule);
@@ -166,12 +188,12 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
      ***********/
 
     /* these are used for all comments */
-    commentFormat.setForeground (Qt::red);
+    commentFormat.setForeground (Red);
     commentFormat.setFontItalic (true);
 
     /* these can also be used inside multiline comments */
     urlFormat.setFontUnderline (true);
-    urlFormat.setForeground (Qt::blue);
+    urlFormat.setForeground (Blue);
 
     if (progLan == "c" || progLan == "cpp")
     {
@@ -179,7 +201,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
 
         /* Qt and Gtk+ specific classes */
         cFormat.setFontWeight (QFont::Bold);
-        cFormat.setForeground (Qt::darkMagenta);
+        cFormat.setForeground (DarkMagenta);
         if (progLan == "cpp")
             rule.pattern = QRegExp ("\\bQ[A-Za-z]+\\b");
         else
@@ -203,7 +225,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
         }
 
         /* preprocess */
-        cFormat.setForeground (Qt::blue);
+        cFormat.setForeground (Blue);
         rule.pattern = QRegExp ("^\\s*#\\s*include\\s|^\\s*#\\s*ifdef\\s|^\\s*#\\s*elif\\s|^\\s*#\\s*ifndef\\s|^\\s*#\\s*endif\\b|^\\s*#\\s*define\\s|^\\s*#\\s*undef\\s|^\\s*#\\s*error\\s|^\\s*#\\s*if\\s|^\\s*#\\s*else\\b");
         rule.format = cFormat;
         highlightingRules.append (rule);
@@ -212,7 +234,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
     {
         QTextCharFormat qmlFormat;
         qmlFormat.setFontWeight (QFont::Bold);
-        qmlFormat.setForeground (Qt::darkMagenta);
+        qmlFormat.setForeground (DarkMagenta);
         rule.pattern = QRegExp ("\\b(Qt[A-Za-z]+|Accessible|AnchorAnimation|AnchorChanges|AnimatedImage|AnimatedSprite|Animation|AnimationController|Animator|Behavior|BorderImage|Canvas|CanvasGradient|CanvasImageData|CanvasPixelArray|ColorAnimation|Column|Context2D|DoubleValidator|Drag|DragEvent|DropArea|EnterKey|Flickable|Flipable|Flow|FocusScope|FontLoader|FontMetrics|Gradient|GradientStop|Grid|GridMesh|GridView|Image|IntValidator|Item|ItemGrabResult|KeyEvent|KeyNavigation|Keys|LayoutMirroring|ListView|Loader|Matrix4x4|MouseArea|MouseEvent|MultiPointTouchArea|NumberAnimation|OpacityAnimator|OpenGLInfo|ParallelAnimation|ParentAnimation|ParentChange|Path|PathAnimation|PathArc|PathAttribute|PathCubic|PathCurve|PathElement|PathInterpolator|PathLine|PathPercent|PathQuad|PathSvg|PathView|PauseAnimation|PinchArea|PinchEvent|Positioner|PropertyAction|PropertyAnimation|PropertyChanges|Rectangle|RegExpValidator|Repeater|Rotation|RotationAnimation|RotationAnimator|Row|Scale|ScaleAnimator|ScriptAction|SequentialAnimation|ShaderEffect|ShaderEffectSource|Shortcut|SmoothedAnimation|SpringAnimation|Sprite|SpriteSequence|State|StateChangeScript|StateGroup|SystemPalette|Text|TextEdit|TextInput|TextMetrics|TouchPoint|Transform|Transition|Translate|UniformAnimator|Vector3dAnimation|ViewTransition|WheelEvent|XAnimator|YAnimator|CloseEvent|ColorDialog|ColumnLayout|Dialog|FileDialog|FontDialog|GridLayout|Layout|MessageDialog|RowLayout|StackLayout|LocalStorage|Screen|SignalSpy|TestCase|Window|XmlListModel|XmlRole|Action|ApplicationWindow|BusyIndicator|Button|Calendar|CheckBox|ComboBox|ExclusiveGroup|GroupBox|Label|Menu|MenuBar|MenuItem|MenuSeparator|ProgressBar|RadioButton|ScrollView|Slider|SpinBox|SplitView|Stack|StackView|StackViewDelegate|StatusBar|Switch|Tab|TabView|TableView|TableViewColumn|TextArea|TextField|ToolBar|ToolButton|TreeView|Affector|Age|AngleDirection|Attractor|CumulativeDirection|CustomParticle|Direction|EllipseShape|Emitter|Friction|Gravity|GroupGoal|ImageParticle|ItemParticle|LineShape|MaskShape|Particle|ParticleGroup|ParticlePainter|ParticleSystem|PointDirection|RectangleShape|Shape|SpriteGoal|TargetDirection|TrailEmitter|Turbulence|Wander|Timer)\\b");
         rule.format = qmlFormat;
         highlightingRules.append (rule);
@@ -221,7 +243,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
     {
         QTextCharFormat xmlElementFormat;
         xmlElementFormat.setFontWeight (QFont::Bold);
-        xmlElementFormat.setForeground (QColor (126, 0, 230));
+        xmlElementFormat.setForeground (Violet);
         /* after </ or before /> */
         rule.pattern = QRegExp ("\\s*</?[A-Za-z0-9_\\-:]+|\\s*<!DOCTYPE\\s|\\s*/?>");
         rule.format = xmlElementFormat;
@@ -229,7 +251,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
 
         QTextCharFormat xmlAttributeFormat;
         xmlAttributeFormat.setFontItalic (true);
-        xmlAttributeFormat.setForeground (Qt::blue);
+        xmlAttributeFormat.setForeground (Blue);
         /* before = */
         rule.pattern = QRegExp ("\\b[A-Za-z0-9_\\-:]+(?=\\s*\\=)");
         rule.format = xmlAttributeFormat;
@@ -248,7 +270,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
         highlightingRules.append (rule);
 
         QTextCharFormat asteriskFormat;
-        asteriskFormat.setForeground (Qt::darkMagenta);
+        asteriskFormat.setForeground (DarkMagenta);
         /* the first asterisk */
         rule.pattern = QRegExp ("^\\s+\\*\\s+");
         rule.format = asteriskFormat;
@@ -276,7 +298,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
             rule.format = neutral;
             highlightingRules.append (rule);
 
-            shFormat.setForeground (Qt::blue);
+            shFormat.setForeground (Blue);
             /* words before = */
              if (progLan == "sh")
                  rule.pattern = QRegExp ("\\b[A-Za-z0-9_]+(?=\\=)");
@@ -301,7 +323,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
             highlightingRules.append (rule);
         }
 
-        shFormat.setForeground (Qt::darkMagenta);
+        shFormat.setForeground (DarkMagenta);
         /* operators */
         rule.pattern = QRegExp ("[=\\+\\-*/%<>&`\\|~\\^\\!,]|\\s+-eq\\s+|\\s+-ne\\s+|\\s+-gt\\s+|\\s+-ge\\s+|\\s+-lt\\s+|\\s+-le\\s+|\\s+-z\\s+");
         rule.format = shFormat;
@@ -319,20 +341,20 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
     else if (progLan == "diff")
     {
         QTextCharFormat diffMinusFormat;
-        diffMinusFormat.setForeground (Qt::red);
+        diffMinusFormat.setForeground (Red);
         rule.pattern = QRegExp ("^\\-\\s*.*");
         rule.format = diffMinusFormat;
         highlightingRules.append (rule);
 
         QTextCharFormat diffPlusFormat;
-        diffPlusFormat.setForeground (Qt::blue);
+        diffPlusFormat.setForeground (Blue);
         rule.pattern = QRegExp ("^\\+\\s*.*");
         rule.format = diffPlusFormat;
         highlightingRules.append (rule);
 
         QTextCharFormat diffLinesFormat;
         diffLinesFormat.setFontWeight (QFont::Bold);
-        diffLinesFormat.setForeground (Qt::darkGreen);
+        diffLinesFormat.setForeground (DarkGreen);
         rule.pattern = QRegExp ("^@{2}[0-9,\\-\\+\\s]+@{2}");
         rule.format = diffLinesFormat;
         highlightingRules.append (rule);
@@ -356,28 +378,28 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
 
         QTextCharFormat logDateFormat;
         logDateFormat.setFontWeight (QFont::Bold);
-        logDateFormat.setForeground (Qt::blue);
+        logDateFormat.setForeground (Blue);
         rule.pattern = QRegExp ("^[A-Za-z]{3}\\s+[0-9]{1,2}(?=\\s{1}[0-9]{2}:[0-9]{2}:[0-9]{2})");
         rule.format = logDateFormat;
         highlightingRules.append (rule);
 
         QTextCharFormat logTimeFormat;
         logTimeFormat.setFontWeight (QFont::Bold);
-        logTimeFormat.setForeground (Qt::darkGreen);
+        logTimeFormat.setForeground (DarkGreen);
         rule.pattern = QRegExp ("\\s{1}[0-9]{2}:[0-9]{2}:[0-9]{2}\\b");
         rule.format = logTimeFormat;
         highlightingRules.append (rule);
 
         QTextCharFormat logInOutFormat;
         logInOutFormat.setFontWeight (QFont::Bold);
-        logInOutFormat.setForeground (QColor (160, 80, 0));
+        logInOutFormat.setForeground (Brown);
         rule.pattern = QRegExp ("\\s+IN(?=\\s*\\=)|\\s+OUT(?=\\s*\\=)");
         rule.format = logInOutFormat;
         highlightingRules.append (rule);
 
         QTextCharFormat logRootFormat;
         logRootFormat.setFontWeight (QFont::Bold);
-        logRootFormat.setForeground (Qt::red);
+        logRootFormat.setForeground (Red);
         rule.pattern = QRegExp ("\\broot\\b");
         rule.format = logRootFormat;
         highlightingRules.append (rule);
@@ -388,7 +410,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
         srtFormat.setFontWeight (QFont::Bold);
 
         /* <...> */
-        srtFormat.setForeground (QColor (126, 0, 230));
+        srtFormat.setForeground (Violet);
         rule.pattern = QRegExp ("</?[A-Za-z0-9_#\\s\"\\=]+>");
         rule.format = srtFormat;
         highlightingRules.append (rule);
@@ -401,25 +423,25 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
         highlightingRules.append (rule);
 
         /* subtitle line */
-        srtFormat.setForeground (Qt::red);
+        srtFormat.setForeground (Red);
         rule.pattern = QRegExp ("^[0-9]+$");
         rule.format = srtFormat;
         highlightingRules.append (rule);
 
         /* mm */
-        srtFormat.setForeground (Qt::darkGreen);
+        srtFormat.setForeground (DarkGreen);
         rule.pattern = QRegExp ("[0-9]{2}(?=:[0-9]{2},[0-9]{3}\\s-->\\s[0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3}$)|[0-9]{2}(?=:[0-9]{2},[0-9]{3}$)");
         rule.format = srtFormat;
         highlightingRules.append (rule);
 
         /* hh */
-        srtFormat.setForeground (Qt::blue);
+        srtFormat.setForeground (Blue);
         rule.pattern = QRegExp ("^[0-9]{2}(?=:[0-9]{2}:[0-9]{2},[0-9]{3}\\s-->\\s[0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3}$)|\\s[0-9]{2}(?=:[0-9]{2}:[0-9]{2},[0-9]{3}$)");
         rule.format = srtFormat;
         highlightingRules.append (rule);
 
         /* ss */
-        srtFormat.setForeground (QColor (200, 99, 0));
+        srtFormat.setForeground (Brown);
         rule.pattern = QRegExp ("[0-9]{2}(?=,[0-9]{3}\\s-->\\s[0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3}$)|[0-9]{2}(?=,[0-9]{3}$)");
         rule.format = srtFormat;
         highlightingRules.append (rule);
@@ -427,7 +449,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
     else if (progLan == "desktop" || progLan == "theme")
     {
         QTextCharFormat desktopSignsFormat;
-        desktopSignsFormat.setForeground (Qt::darkMagenta);
+        desktopSignsFormat.setForeground (DarkMagenta);
         rule.pattern = QRegExp ("=|;|/|%|\\+|-");
         rule.format = desktopSignsFormat;
         highlightingRules.append (rule);
@@ -440,13 +462,13 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
         rule.format = desktopFormat;
         highlightingRules.append (rule);
 
-        desktopFormat.setForeground (Qt::darkGreen);
+        desktopFormat.setForeground (DarkGreen);
         /* before = */
         rule.pattern = QRegExp ("^[^\\=]+(?=\\s*\\=)");
         rule.format = desktopFormat;
         highlightingRules.append (rule);
 
-        desktopFormat.setForeground (Qt::blue);
+        desktopFormat.setForeground (Blue);
         /* [...] and before = */
         rule.pattern = QRegExp ("\\[.*\\](?=\\s*\\=)");
         rule.format = desktopFormat;
@@ -475,13 +497,13 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
     {
         /* color value format (#xyz) */
         QTextCharFormat gtkrcFormat;
-        gtkrcFormat.setForeground (Qt::darkGreen);
+        gtkrcFormat.setForeground (DarkGreen);
         gtkrcFormat.setFontWeight (QFont::Bold);
         rule.pattern = QRegExp ("#\\b([A-Za-z0-9]{3}){,4}(?![A-Za-z0-9_]+)");
         rule.format = gtkrcFormat;
         highlightingRules.append (rule);
 
-        gtkrcFormat.setForeground (Qt::blue);
+        gtkrcFormat.setForeground (Blue);
         rule.pattern = QRegExp ("(fg|bg|base|text)(\\[NORMAL\\]|\\[PRELIGHT\\]|\\[ACTIVE\\]|\\[SELECTED\\]|\\[INSENSITIVE\\])");
         rule.format = gtkrcFormat;
         highlightingRules.append (rule);
@@ -491,7 +513,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
      * Quotation Marks *
      *******************/
 
-    quotationFormat.setForeground (Qt::darkGreen);
+    quotationFormat.setForeground (DarkGreen);
     /*quoteStartExpression = QRegExp ("\"([^\"'])");
     quoteEndExpression = QRegExp ("([^\"'])\"");*/
 
@@ -756,7 +778,7 @@ void Highlighter::pythonMLComment (const QString &text, const int indx)
     QTextCharFormat noteFormat;
     noteFormat.setFontWeight (QFont::Bold);
     noteFormat.setFontItalic (true);
-    noteFormat.setForeground (QColor (150, 0, 0));
+    noteFormat.setForeground (DarkRed);
 
     /* we reset tha block state because this method is also called
        during the multiline quotation formatting after clearing formats */
@@ -900,7 +922,7 @@ int Highlighter::cssHighlighter (const QString &text)
     int index = 0;
     QTextCharFormat cssFormat;
     cssFormat.setFontUnderline (true);
-    cssFormat.setForeground (Qt::red);
+    cssFormat.setForeground (Red);
     if (previousBlockState() != cssBlockState
         && previousBlockState() != commentInCssState
         && previousBlockState() != cssValueState)
@@ -950,7 +972,7 @@ int Highlighter::cssHighlighter (const QString &text)
         /* css attribute format (before :...;) */
         QTextCharFormat cssAttFormat;
         cssAttFormat.setFontItalic (true);
-        cssAttFormat.setForeground (Qt::blue);
+        cssAttFormat.setForeground (Blue);
         expression = QRegExp ("[A-Za-z0-9_\\-]+(?=\\s*:.*;*)");
         indxTmp = expression.indexIn (text, index);
         while (isQuoted (text, indxTmp))
@@ -1011,7 +1033,7 @@ int Highlighter::cssHighlighter (const QString &text)
         /* css value format */
         QTextCharFormat cssValueFormat;
         cssValueFormat.setFontItalic (true);
-        cssValueFormat.setForeground (Qt::darkGreen);
+        cssValueFormat.setForeground (DarkGreen);
         setFormat (index, cssLength, cssValueFormat);
 
         QTextCharFormat neutral;
@@ -1034,7 +1056,7 @@ int Highlighter::cssHighlighter (const QString &text)
     /* color value format (#xyz) */
     QTextCharFormat cssColorFormat;
     cssColorFormat.setFontItalic (true);
-    cssColorFormat.setForeground (Qt::darkGreen);
+    cssColorFormat.setForeground (DarkGreen);
     cssColorFormat.setFontWeight (QFont::Bold);
     QRegExp expression = QRegExp ("#\\b([A-Za-z0-9]{3}){,4}(?![A-Za-z0-9_]+)");
     int indxTmp = expression.indexIn (text);
@@ -1060,7 +1082,7 @@ void Highlighter::singleLineComment (const QString &text, int index)
     QTextCharFormat noteFormat;
     noteFormat.setFontWeight (QFont::Bold);
     noteFormat.setFontItalic (true);
-    noteFormat.setForeground (QColor (150, 0, 0));
+    noteFormat.setForeground (DarkRed);
 
     foreach (const HighlightingRule &rule, highlightingRules)
     {
@@ -1112,7 +1134,7 @@ void Highlighter::multiLineComment (const QString &text,
     QTextCharFormat noteFormat;
     noteFormat.setFontWeight (QFont::Bold);
     noteFormat.setFontItalic (true);
-    noteFormat.setForeground (QColor (150, 0, 0));
+    noteFormat.setForeground (DarkRed);
 
     if (previousBlockState() != commState
         && previousBlockState() != commentInCssState)
@@ -1420,7 +1442,7 @@ void Highlighter::multiLineQuote (const QString &text)
 bool Highlighter::isHereDocument (const QString &text)
 {
     QTextCharFormat blockFormat;
-    blockFormat.setForeground (QColor (126, 0, 230));
+    blockFormat.setForeground (Violet);//d556e6
     QTextCharFormat delimFormat = blockFormat;
     delimFormat.setFontWeight (QFont::Bold);
     QString delimStr;

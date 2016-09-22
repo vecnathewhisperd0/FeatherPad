@@ -91,7 +91,7 @@ private slots:
     void hlight() const;
     void hlighting (const QRect&, int dy) const;
     void setSearchFlags();
-    void showHideSearch() const;
+    void showHideSearch();
     void showLN (bool checked);
     void toggleSyntaxHighlighting();
     void formatVisibleText (const QRect &rect, int dy) const;

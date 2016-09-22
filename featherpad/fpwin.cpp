@@ -547,15 +547,37 @@ void FPwin::newTab()
     TextEdit *textEdit = new TextEdit;
     textEdit->setScrollJumpWorkaround (config.getScrollJumpWorkaround());
     QPalette palette = QApplication::palette();
-    QBrush brush = palette.base();
-    if (brush.color().value() <= 120)
+    if (!config.getDarkColScheme())
+    {
+        QBrush brush = palette.base();
+        if (brush.color().value() <= 120)
+        {
+            textEdit->viewport()->setStyleSheet (".QWidget {"
+                                                 "color: black;"
+                                                 "background-color: rgb(236, 236, 236);}");
+            brush = palette.highlight();
+            if (brush.color().value() > 160) // dark themes with very light selection color
+                textEdit->setStyleSheet ("QPlainTextEdit {"
+                                         "selection-background-color: black;"
+                                         "selection-color: white;}");
+        }
+        else
+            textEdit->viewport()->setStyleSheet (".QWidget {"
+                                                 "color: black;"
+                                                 "background-color: rgb(255, 255, 255);}");
+    }
+    else
+    {
+        textEdit->useDarkScheme (true);
         textEdit->viewport()->setStyleSheet (".QWidget {"
-                                             "color: black;"
-                                             "background-color: rgb(236, 236, 236);}");
-    /*else
-        textEdit->viewport()->setStyleSheet (".QWidget {"
-                                             "color: black;"
-                                             "background-color: rgb(255, 255, 255);}");*/
+                                             "color: white;"
+                                             "background-color: rgb(15, 15, 15);}");
+        QBrush brush = palette.highlight();
+        if (brush.color().value() < 120) // themes with very dark selection color
+            textEdit->setStyleSheet ("QPlainTextEdit {"
+                                     "selection-background-color: white;"
+                                     "selection-color: black;}");
+    }
     textEdit->document()->setDefaultFont (config.getFont());
     /* we want consistent tabs */
     QFontMetrics metrics (config.getFont());
@@ -589,7 +611,7 @@ void FPwin::newTab()
     if (!ui->actionWrap->isChecked())
         textEdit->setLineWrapMode (QPlainTextEdit::NoWrap);
     if (!ui->actionIndent->isChecked())
-        textEdit->autoIndentation = false;
+        textEdit->setAutoIndentation (false);
     if (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible())
         textEdit->showLineNumbers (true);
     if (ui->spinBox->isVisible())
@@ -940,9 +962,14 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
     if (alreadyOpen (fileName))
     {
         textEdit->setReadOnly (true);
-        textEdit->viewport()->setStyleSheet (".QWidget {"
-                                             "color: black;"
-                                             "background-color: rgb(236, 236, 208);}");
+        if (!textEdit->hasDarkScheme())
+            textEdit->viewport()->setStyleSheet (".QWidget {"
+                                                 "color: black;"
+                                                 "background-color: rgb(236, 236, 208);}");
+        else
+            textEdit->viewport()->setStyleSheet (".QWidget {"
+                                                 "color: white;"
+                                                 "background-color: rgb(60, 0, 0);}");
         ui->actionEdit->setVisible (true);
         ui->actionCut->setDisabled (true);
         ui->actionPaste->setDisabled (true);
@@ -1345,16 +1372,25 @@ void FPwin::makeEditable()
     bool textIsSelected = textEdit->textCursor().hasSelection();
 
     textEdit->setReadOnly (false);
-    QPalette palette = QApplication::palette();
-    QBrush brush = palette.window();
-    if (brush.color().value() <= 120)
-        textEdit->viewport()->setStyleSheet (".QWidget {"
-                                             "color: black;"
-                                             "background-color: rgb(236, 236, 236);}");
+    if (!textEdit->hasDarkScheme())
+    {
+        QPalette palette = QApplication::palette();
+        QBrush brush = palette.window();
+        if (brush.color().value() <= 120)
+            textEdit->viewport()->setStyleSheet (".QWidget {"
+                                                 "color: black;"
+                                                 "background-color: rgb(236, 236, 236);}");
+        else
+            textEdit->viewport()->setStyleSheet (".QWidget {"
+                                                 "color: black;"
+                                                 "background-color: rgb(255, 255, 255);}");
+    }
     else
+    {
         textEdit->viewport()->setStyleSheet (".QWidget {"
-                                             "color: black;"
-                                             "background-color: rgb(255, 255, 255);}");
+                                             "color: white;"
+                                             "background-color: rgb(15, 15, 15);}");
+    }
     ui->actionEdit->setVisible (false);
 
     ui->actionPaste->setEnabled (true);
@@ -1379,7 +1415,7 @@ void FPwin::undoing()
     {
         QList<QTextEdit::ExtraSelection> extraSelections;
         if (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible())
-            extraSelections.prepend (textEdit->currentLine);
+            extraSelections.prepend (textEdit->currentLineSelection());
         extraSelections.append (tabinfo->redSel);
         textEdit->setExtraSelections (extraSelections);
     }
@@ -1664,13 +1700,13 @@ void FPwin::toggleIndent()
     {
         QHash<TextEdit*,tabInfo*>::iterator it;
         for (it = tabsInfo_.begin(); it != tabsInfo_.end(); ++it)
-            it.key()->autoIndentation = true;
+            it.key()->setAutoIndentation (true);
     }
     else
     {
         QHash<TextEdit*,tabInfo*>::iterator it;
         for (it = tabsInfo_.begin(); it != tabsInfo_.end(); ++it)
-            it.key()->autoIndentation = false;
+            it.key()->setAutoIndentation (false);
     }
 }
 /*************************/
@@ -1989,13 +2025,6 @@ void FPwin::detachAndDropTab (QPoint& dropPos)
         {
             return;
         }
-        /*int curIndex = anotherFP->ui->tabWidget->currentIndex();
-        if (curIndex > -1)
-        {
-            TextEdit *anotherTE = qobject_cast< TextEdit *>(anotherFP->ui->tabWidget->widget (curIndex));
-            if (anotherTE->document()->isEmpty() && !anotherTE->document()->isModified())
-                anotherFP->closeTabAtIndex (curIndex);
-        }*/
         insertIndex = anotherFP->ui->tabWidget->currentIndex() + 1;
     }
 #endif
@@ -2065,6 +2094,7 @@ void FPwin::detachAndDropTab (QPoint& dropPos)
     /* first, set the new info... */
     anotherFP->lastFile_ = tabinfo->fileName;
     tabinfo->greenSel = QList<QTextEdit::ExtraSelection>();
+    tabinfo->redSel = QList<QTextEdit::ExtraSelection>();
     anotherFP->tabsInfo_[textEdit] = tabinfo;
     /* ... then insert the detached widget... */
     anotherFP->ui->tabWidget->insertTab (insertIndex, textEdit, tabText);
@@ -2075,12 +2105,8 @@ void FPwin::detachAndDropTab (QPoint& dropPos)
         || (top > -1 && (ln || spin)
             && (anotherFP->ui->actionLineNumbers->isChecked() || anotherFP->ui->spinBox->isVisible())))
     {
-        extraSelections.prepend (textEdit->currentLine);
+        extraSelections.prepend (textEdit->currentLineSelection());
     }
-    if (top == -1 || anotherFP->ui->actionSyntax->isChecked())
-        extraSelections.append (tabinfo->redSel);
-    else
-        tabinfo->redSel = QList<QTextEdit::ExtraSelection>();
     textEdit->setExtraSelections (extraSelections);
 
     /* at last, set all properties correctly */
@@ -2130,6 +2156,8 @@ void FPwin::detachAndDropTab (QPoint& dropPos)
     /* searching */
     if (!tabinfo->searchEntry.isEmpty())
     {
+        if (!anotherFP->ui->lineEdit->isVisible())
+            anotherFP->showHideSearch();
         connect (textEdit, &QPlainTextEdit::textChanged, anotherFP, &FPwin::hlight);
         connect (textEdit, &TextEdit::updateRect, anotherFP, &FPwin::hlighting);
         /* restore yellow highlights, which will automatically
@@ -2182,15 +2210,15 @@ void FPwin::detachAndDropTab (QPoint& dropPos)
     /* auto indentation */
     if (top == -1)
     {
-        if (textEdit->autoIndentation == false)
+        if (textEdit->getAutoIndentation() == false)
             anotherFP->ui->actionIndent->setChecked (false);
     }
     else
     {
-        if (anotherFP->ui->actionIndent->isChecked() && textEdit->autoIndentation == false)
-            textEdit->autoIndentation = true;
-        else if (!anotherFP->ui->actionIndent->isChecked() && textEdit->autoIndentation == true)
-            textEdit->autoIndentation = false;
+        if (anotherFP->ui->actionIndent->isChecked() && textEdit->getAutoIndentation() == false)
+            textEdit->setAutoIndentation (true);
+        else if (!anotherFP->ui->actionIndent->isChecked() && textEdit->getAutoIndentation() == true)
+            textEdit->setAutoIndentation (false);
     }
     /* the remaining signals */
     connect (textEdit->document(), &QTextDocument::undoAvailable, anotherFP->ui->actionUndo, &QAction::setEnabled);

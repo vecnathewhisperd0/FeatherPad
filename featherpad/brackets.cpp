@@ -231,7 +231,7 @@ void FPwin::createSelection (int pos)
     cursor.movePosition (QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
 
     QTextEdit::ExtraSelection extra;
-    extra.format.setBackground (QColor (255, 150, 150));
+    extra.format.setBackground (textEdit->hasDarkScheme() ? QColor (190, 0, 3) : QColor (255, 150, 150));
     extra.cursor = cursor;
 
     QList<QTextEdit::ExtraSelection> rsel = tabinfo->redSel;

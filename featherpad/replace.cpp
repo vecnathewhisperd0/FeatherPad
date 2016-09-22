@@ -55,7 +55,7 @@ void FPwin::closeReplaceDock (bool visible)
             tabInfo *tabinfo = tabsInfo_[it.key()];
             QList<QTextEdit::ExtraSelection> extraSelections;
             tabinfo->greenSel = extraSelections;
-            extraSelections.prepend (it.key()->currentLine);
+            extraSelections.prepend (it.key()->currentLineSelection());
             extraSelections.append (tabinfo->redSel);
             it.key()->setExtraSelections (extraSelections);
         }
@@ -118,7 +118,7 @@ void FPwin::replace()
                 tabInfo *tabinfoIth = tabsInfo_[it.key()];
                 QList<QTextEdit::ExtraSelection> extraSelectionsIth;
                 tabinfoIth->greenSel = extraSelectionsIth;
-                extraSelectionsIth.prepend (it.key()->currentLine);
+                extraSelectionsIth.prepend (it.key()->currentLineSelection());
                 extraSelectionsIth.append (tabinfoIth->redSel);
                 it.key()->setExtraSelections (extraSelectionsIth);
             }
@@ -157,7 +157,7 @@ void FPwin::replace()
         found = finding (txtFind, start, searchFlags_);
     else// if (QObject::sender() == ui->toolButtonPrv)
         found = finding (txtFind, start, searchFlags_ | QTextDocument::FindBackward);
-    QColor color = QColor (Qt::green);
+    QColor color = QColor (textEdit->hasDarkScheme() ? Qt::darkGreen : Qt::green);
     int pos;
     QList<QTextEdit::ExtraSelection> gsel = tabinfo->greenSel;
     if (!found.isNull())
@@ -179,7 +179,7 @@ void FPwin::replace()
     }
     tabinfo->greenSel = gsel;
     if (lineNumShown)
-        extraSelections.prepend (textEdit->currentLine);
+        extraSelections.prepend (textEdit->currentLineSelection());
     /* append red highlights */
     extraSelections.append (tabinfo->redSel);
     textEdit->setExtraSelections (extraSelections);
@@ -216,7 +216,7 @@ void FPwin::replaceAll()
                 tabInfo *tabinfoIth = tabsInfo_[it.key()];
                 QList<QTextEdit::ExtraSelection> extraSelectionsIth;
                 tabinfoIth->greenSel = extraSelectionsIth;
-                extraSelectionsIth.prepend (it.key()->currentLine);
+                extraSelectionsIth.prepend (it.key()->currentLineSelection());
                 extraSelectionsIth.append (tabinfoIth->redSel);
                 it.key()->setExtraSelections (extraSelectionsIth);
             }
@@ -238,7 +238,7 @@ void FPwin::replaceAll()
 
     QTextCursor orig = textEdit->textCursor();
     QTextCursor start = orig;
-    QColor color = QColor (Qt::green);
+    QColor color = QColor (textEdit->hasDarkScheme() ? Qt::darkGreen : Qt::green);
     int pos; QTextCursor found;
     start.beginEditBlock();
     start.setPosition (0);
@@ -266,7 +266,7 @@ void FPwin::replaceAll()
     tabinfo->greenSel = gsel;
     start.endEditBlock();
     if (lineNumShown)
-        extraSelections.prepend (textEdit->currentLine);
+        extraSelections.prepend (textEdit->currentLineSelection());
     extraSelections.append (tabinfo->redSel);
     textEdit->setExtraSelections (extraSelections);
     hlight();

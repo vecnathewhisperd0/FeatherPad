@@ -33,6 +33,7 @@ Config::Config():
     syntaxByDefault_ (true),
     isMaxed_ (false),
     isFull_ (false),
+    darkColScheme_ (false),
     scrollJumpWorkaround_ (false),
     translucencyWorkaround_ (false),
     maxSHSize_ (1),
@@ -100,6 +101,9 @@ void Config::readConfig()
     if (settings.value ("noSyntaxHighlighting").toBool())
         syntaxByDefault_ = false; // true by default
 
+    if (settings.value ("darkColorScheme").toBool())
+        darkColScheme_ = true; // false by default
+
     if (settings.value ("scrollJumpWorkaround").toBool())
         scrollJumpWorkaround_ = true; // false by default
 
@@ -161,6 +165,7 @@ void Config::writeConfig()
     settings.setValue ("noIndent", !indentByDefault_);
     settings.setValue ("lineNumbers", lineByDefault_);
     settings.setValue ("noSyntaxHighlighting", !syntaxByDefault_);
+    settings.setValue ("darkColorScheme", darkColScheme_);
     settings.setValue ("scrollJumpWorkaround", scrollJumpWorkaround_);
     settings.setValue ("maxSHSize", maxSHSize_);
 

@@ -20,9 +20,12 @@
 
 namespace FeatherPad {
 
-TextEdit::TextEdit (QWidget *parent) : QPlainTextEdit (parent), autoIndentation (true)
+TextEdit::TextEdit (QWidget *parent) : QPlainTextEdit (parent)
 {
+    autoIndentation = true;
+    darkScheme = false;
     scrollJumpWorkaround = false;
+
     resizeTimerId = 0;
     updateTimerId = 0;
     Dy = 0;
@@ -148,7 +151,7 @@ void TextEdit::highlightCurrentLine()
     if (!extraSelections.isEmpty() && !currentLine.cursor.isNull())
         extraSelections.removeFirst(); // line highlight always comes first when it exists
 
-    QColor lineColor = QColor (Qt::gray).lighter (130);
+    QColor lineColor = darkScheme ? QColor (Qt::gray).darker (210) : QColor (Qt::gray).lighter (130);
 
     currentLine.format.setBackground (lineColor);
     currentLine.format.setProperty (QTextFormat::FullWidthSelection, true);
@@ -162,7 +165,7 @@ void TextEdit::highlightCurrentLine()
 void TextEdit::lineNumberAreaPaintEvent (QPaintEvent *event)
 {
     QPainter painter (lineNumberArea);
-    painter.fillRect (event->rect(), Qt::black);
+    painter.fillRect (event->rect(), darkScheme ? Qt::lightGray : Qt::black);
 
 
     QTextBlock block = firstVisibleBlock();
@@ -175,7 +178,7 @@ void TextEdit::lineNumberAreaPaintEvent (QPaintEvent *event)
         if (block.isVisible() && bottom >= event->rect().top())
         {
             QString number = QString::number (blockNumber + 1);
-            painter.setPen (Qt::white);
+            painter.setPen (darkScheme ? Qt::black : Qt::white);
             painter.drawText (0, top, lineNumberArea->width() - 2, fontMetrics().height(),
                               Qt::AlignRight, number);
         }
