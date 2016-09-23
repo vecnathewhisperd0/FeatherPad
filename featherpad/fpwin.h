@@ -140,7 +140,6 @@ private:
     bool closeTabs (int leftIndx, int rightIndx, bool closeall);
     void dragEnterEvent (QDragEnterEvent *event);
     void dropEvent (QDropEvent *event);
-    void resizeEvent (QResizeEvent *event);
     void changeEvent (QEvent *event);
     void setSearchFlagsAndHighlight (bool h);
     void enableWidgets (bool enable) const;
@@ -156,6 +155,7 @@ private:
     bool matchRightBrace (QTextBlock currentBlock, int index, int numLeftBraces);
     void createSelection (int pos);
     void formatTextRect (QRect rect) const;
+    void removeGreenSel();
 
     QActionGroup *aGroup_;
     QString lastFile_; // The last opened file.

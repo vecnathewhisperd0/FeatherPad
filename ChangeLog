@@ -7,6 +7,7 @@ V0.5.8
  * When highlighting the syntax, do the main (single-line) formatting only in the visible part of the text. In this way, syntax highlighting becomes very fast for most languages.
  * A very simple logic for syntax highlighting of here-docs.
  * Remove search (and replacement) highlights on hiding the search bar.
+ * Always show the search bar on showing the replacement dock. Also hide the latter on hiding the former.
  * Added an option for using dark color scheme.
 
 V0.5.7

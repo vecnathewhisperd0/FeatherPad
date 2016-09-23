@@ -1413,11 +1413,11 @@ void FPwin::undoing()
     tabinfo->greenSel = QList<QTextEdit::ExtraSelection>();
     if (tabinfo->searchEntry.isEmpty())
     {
-        QList<QTextEdit::ExtraSelection> extraSelections;
+        QList<QTextEdit::ExtraSelection> es;
         if (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible())
-            extraSelections.prepend (textEdit->currentLineSelection());
-        extraSelections.append (tabinfo->redSel);
-        textEdit->setExtraSelections (extraSelections);
+            es.prepend (textEdit->currentLineSelection());
+        es.append (tabinfo->redSel);
+        textEdit->setExtraSelections (es);
     }
 
     textEdit->undo();
@@ -1451,10 +1451,9 @@ void FPwin::tabSwitch (int index)
     /* also change the search entry */
     QString txt = tabinfo->searchEntry;
     ui->lineEdit->setText (txt);
-    /* the window size or wrapping state may have changed
-       or the replace dock may have been closed or
-       or the replacing text may have changed */
-    if (!txt.isEmpty()) hlight();
+    /* although the window size, wrapping state or replacing text may have changed or
+       the replace dock may have been closed, hlight() will be called automatically */
+    //if (!txt.isEmpty()) hlight();
 
     /* correct the encoding menu */
     encodingToCheck (tabinfo->encoding);
@@ -1550,18 +1549,6 @@ void FPwin::fontDialog()
         formatTextRect (textEdit->rect());
         if (!tabsInfo_[textEdit]->searchEntry.isEmpty())
             hlight();
-    }
-}
-/*************************/
-// Update highlights and get the new window size on resizing.
-void FPwin::resizeEvent (QResizeEvent *event)
-{
-    Q_UNUSED (event);
-    int index = ui->tabWidget->currentIndex();
-    if (index > -1
-        && !tabsInfo_[qobject_cast< TextEdit *>(ui->tabWidget->widget (index))]->searchEntry.isEmpty())
-    {
-        hlight();
     }
 }
 /*************************/
@@ -1688,7 +1675,6 @@ void FPwin::toggleWrapping()
         for (it = tabsInfo_.begin(); it != tabsInfo_.end(); ++it)
             it.key()->setLineWrapMode (QPlainTextEdit::NoWrap);
     }
-    hlight();
 }
 /*************************/
 void FPwin::toggleIndent()
@@ -2100,14 +2086,14 @@ void FPwin::detachAndDropTab (QPoint& dropPos)
     anotherFP->ui->tabWidget->insertTab (insertIndex, textEdit, tabText);
     /* ... and remove all yellow and green highlights
        (the yellow ones will be recreated later if needed) */
-    QList<QTextEdit::ExtraSelection> extraSelections;
+    QList<QTextEdit::ExtraSelection> es;
     if ((top == -1 && (ln || spin))
         || (top > -1 && (ln || spin)
             && (anotherFP->ui->actionLineNumbers->isChecked() || anotherFP->ui->spinBox->isVisible())))
     {
-        extraSelections.prepend (textEdit->currentLineSelection());
+        es.prepend (textEdit->currentLineSelection());
     }
-    textEdit->setExtraSelections (extraSelections);
+    textEdit->setExtraSelections (es);
 
     /* at last, set all properties correctly */
     if (anotherFP->ui->tabWidget->count() == 1)
@@ -2362,9 +2348,6 @@ void FPwin::helpDoc()
     setWindowTitle (tr ("%1[*]").arg ("** Help **"));
     setWindowModified (false);
     ui->tabWidget->setTabToolTip (index, "** Help **");
-
-    if (!tabinfo->searchEntry.isEmpty())
-        hlight();
 }
 
 }

@@ -48,16 +48,15 @@ void FPwin::toggleSyntaxHighlighting()
             disconnect (it.key(), &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
             tabInfo *tabinfo = tabsInfo_[it.key()];
 
-            QList<QTextEdit::ExtraSelection> extraSelections;
-            extraSelections.append (it.key()->extraSelections());
+            QList<QTextEdit::ExtraSelection> es = it.key()->extraSelections();
             int n = tabinfo->redSel.count();
-            while (n > 0)
+            while (n > 0 && !es.isEmpty())
             {
-                extraSelections.removeLast();
+                es.removeLast();
                 --n;
             }
             tabinfo->redSel = QList<QTextEdit::ExtraSelection>();
-            it.key()->setExtraSelections (extraSelections);
+            it.key()->setExtraSelections (es);
 
             highlighter = tabinfo->highlighter;
             tabinfo->highlighter = nullptr;

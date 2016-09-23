@@ -29,16 +29,16 @@ void FPwin::matchBrackets()
     TextBlockData *data = static_cast<TextBlockData *>(textEdit->textCursor().block().userData());
     if (!data) return;
 
-    QList<QTextEdit::ExtraSelection> extraSelections;
-    extraSelections.append (textEdit->extraSelections());
+    QList<QTextEdit::ExtraSelection> es = textEdit->extraSelections();
     int n = tabinfo->redSel.count();
-    while (n > 0)
+    while (n > 0
+           && !es.isEmpty()) // just a precaution against crash
     {
-        extraSelections.removeLast();
+        es.removeLast();
         --n;
     }
     tabinfo->redSel = QList<QTextEdit::ExtraSelection>();
-    textEdit->setExtraSelections (extraSelections);
+    textEdit->setExtraSelections (es);
 
     /* position of block's first character */
     int blockPos = textEdit->textCursor().block().position();
@@ -223,8 +223,7 @@ void FPwin::createSelection (int pos)
     TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
     tabInfo *tabinfo = tabsInfo_[textEdit];
 
-    QList<QTextEdit::ExtraSelection> extraSelections;
-    extraSelections.append (textEdit->extraSelections());
+    QList<QTextEdit::ExtraSelection> es = textEdit->extraSelections();
 
     QTextCursor cursor = textEdit->textCursor();
     cursor.setPosition (pos);
@@ -237,9 +236,9 @@ void FPwin::createSelection (int pos)
     QList<QTextEdit::ExtraSelection> rsel = tabinfo->redSel;
     rsel.append (extra);
     tabinfo->redSel = rsel;
-    extraSelections.append (extra);
+    es.append (extra);
 
-    textEdit->setExtraSelections (extraSelections);
+    textEdit->setExtraSelections (es);
 }
 
 }

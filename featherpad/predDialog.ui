@@ -120,7 +120,7 @@
        <widget class="QCheckBox" name="colBox">
         <property name="text">
          <string>Dark color scheme
-(Needs file reopening or app restart)</string>
+(Needs file reopening)</string>
         </property>
        </widget>
       </item>

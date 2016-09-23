@@ -66,11 +66,10 @@ void TextEdit::showLineNumbers (bool show)
 
         lineNumberArea->hide();
         setViewportMargins (0, 0, 0, 0);
-        QList<QTextEdit::ExtraSelection> extraSelections;
-        extraSelections.append (this->extraSelections());
-        if (!extraSelections.isEmpty() && !currentLine.cursor.isNull())
-            extraSelections.removeFirst();
-        setExtraSelections (extraSelections);
+        QList<QTextEdit::ExtraSelection> es = extraSelections();
+        if (!es.isEmpty() && !currentLine.cursor.isNull())
+            es.removeFirst();
+        setExtraSelections (es);
         currentLine.cursor = QTextCursor(); // nullify currentLine
     }
 }
@@ -143,13 +142,11 @@ void TextEdit::timerEvent (QTimerEvent *e)
 /*************************/
 void TextEdit::highlightCurrentLine()
 {
-    QList<QTextEdit::ExtraSelection> extraSelections;
-
     /* keep yellow and green highlights
        (related to serching and replacing) */
-    extraSelections.append (this->extraSelections());
-    if (!extraSelections.isEmpty() && !currentLine.cursor.isNull())
-        extraSelections.removeFirst(); // line highlight always comes first when it exists
+    QList<QTextEdit::ExtraSelection> es = extraSelections();
+    if (!es.isEmpty() && !currentLine.cursor.isNull())
+        es.removeFirst(); // line highlight always comes first when it exists
 
     QColor lineColor = darkScheme ? QColor (Qt::gray).darker (210) : QColor (Qt::gray).lighter (130);
 
@@ -157,9 +154,9 @@ void TextEdit::highlightCurrentLine()
     currentLine.format.setProperty (QTextFormat::FullWidthSelection, true);
     currentLine.cursor = textCursor();
     currentLine.cursor.clearSelection();
-    extraSelections.prepend (currentLine);
+    es.prepend (currentLine);
 
-    setExtraSelections (extraSelections);
+    setExtraSelections (es);
 }
 /*************************/
 void TextEdit::lineNumberAreaPaintEvent (QPaintEvent *event)

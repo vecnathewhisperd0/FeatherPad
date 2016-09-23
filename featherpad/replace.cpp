@@ -20,10 +20,46 @@
 
 namespace FeatherPad {
 
+void FPwin::removeGreenSel()
+{
+    /* remove green highlights, considering the selection order, namely,
+       current line -> replacement -> found matches -> bracket matches */
+    QHash<TextEdit*,tabInfo*>::iterator it;
+    for (it = tabsInfo_.begin(); it != tabsInfo_.end(); ++it)
+    {
+        tabInfo *tabinfo = tabsInfo_[it.key()];
+        QTextEdit::ExtraSelection curLineSel;
+        QList<QTextEdit::ExtraSelection> es = it.key()->extraSelections();
+        if (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible())
+        {
+            curLineSel = it.key()->currentLineSelection();
+            if (!es.isEmpty())
+                es.removeFirst();
+        }
+        int n = tabinfo->greenSel.count();
+        while (n > 0 && !es.isEmpty())
+        {
+            es.removeFirst();
+            --n;
+        }
+        es.prepend (curLineSel);
+        tabinfo->greenSel = QList<QTextEdit::ExtraSelection>();
+        it.key()->setExtraSelections (es);
+    }
+}
+/*************************/
 void FPwin::replaceDock()
 {
     if (!ui->dockReplace->isVisible())
     {
+        if (!ui->lineEdit->isVisible()) // replace dock needs searchbar
+        {
+            ui->lineEdit->setVisible (true);
+            ui->pushButton_case->setVisible (true);
+            ui->toolButton_nxt->setVisible (true);
+            ui->toolButton_prv->setVisible (true);
+            ui->pushButton_whole->setVisible (true);
+        }
         ui->dockReplace->setWindowTitle (tr ("Replacement"));
         ui->dockReplace->setVisible (true);
         ui->dockReplace->setTabOrder (ui->lineEditFind, ui->lineEditReplace);
@@ -36,43 +72,18 @@ void FPwin::replaceDock()
     }
 
     ui->dockReplace->setVisible (false);
-    closeReplaceDock (false);
+    // closeReplaceDock(false) is automatically called here
 }
 /*************************/
-// When the dock is closed with its titlebar button,
-// clear the replacing text and remove green highlights.
+// When the dock becomes invisible, clear the replacing text and remove only green highlights.
+// Although it doesn't concern us, when docking or undocking, the widget first becomes invisible
+// for a moment and then visible again.
 void FPwin::closeReplaceDock (bool visible)
 {
     if (visible) return;
 
     txtReplace_.clear();
-    /* remove green highlights */
-    if (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible())
-    {
-        QHash<TextEdit*,tabInfo*>::iterator it;
-        for (it = tabsInfo_.begin(); it != tabsInfo_.end(); ++it)
-        {
-            tabInfo *tabinfo = tabsInfo_[it.key()];
-            QList<QTextEdit::ExtraSelection> extraSelections;
-            tabinfo->greenSel = extraSelections;
-            extraSelections.prepend (it.key()->currentLineSelection());
-            extraSelections.append (tabinfo->redSel);
-            it.key()->setExtraSelections (extraSelections);
-        }
-    }
-    else
-    {
-        QHash<TextEdit*,tabInfo*>::iterator it;
-        for (it = tabsInfo_.begin(); it != tabsInfo_.end(); ++it)
-        {
-            tabInfo *tabinfo = tabsInfo_[it.key()];
-            QList<QTextEdit::ExtraSelection> extraSelections;
-            tabinfo->greenSel = extraSelections;
-            extraSelections.append (tabinfo->redSel);
-            it.key()->setExtraSelections (extraSelections);
-        }
-    }
-    hlight();
+    removeGreenSel();
 
     /* return focus to the document */
     if (ui->tabWidget->count() > 0)
@@ -101,54 +112,25 @@ void FPwin::replace()
     QString txtFind = ui->lineEditFind->text();
     if (txtFind.isEmpty()) return;
 
-    bool lineNumShown = false;
-    if (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible())
-        lineNumShown = true;
-
+    /* remove previous green highlights if the replacing text is changed */
     if (txtReplace_ != ui->lineEditReplace->text())
     {
         txtReplace_ = ui->lineEditReplace->text();
-        /* remove previous green highlights
-           if the replacing text is changed */
-        if (lineNumShown)
-        {
-            QHash<TextEdit*,tabInfo*>::iterator it;
-            for (it = tabsInfo_.begin(); it != tabsInfo_.end(); ++it)
-            {
-                tabInfo *tabinfoIth = tabsInfo_[it.key()];
-                QList<QTextEdit::ExtraSelection> extraSelectionsIth;
-                tabinfoIth->greenSel = extraSelectionsIth;
-                extraSelectionsIth.prepend (it.key()->currentLineSelection());
-                extraSelectionsIth.append (tabinfoIth->redSel);
-                it.key()->setExtraSelections (extraSelectionsIth);
-            }
-        }
-        else
-        {
-            QHash<TextEdit*,tabInfo*>::iterator it;
-            for (it = tabsInfo_.begin(); it != tabsInfo_.end(); ++it)
-            {
-                tabInfo *tabinfoIth = tabsInfo_[it.key()];
-                QList<QTextEdit::ExtraSelection> extraSelectionsIth;
-                tabinfoIth->greenSel = extraSelectionsIth;
-                extraSelectionsIth.append (tabinfoIth->redSel);
-                it.key()->setExtraSelections (extraSelectionsIth);
-            }
-        }
-        hlight();
+        removeGreenSel();
     }
 
+    bool lineNumShown (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible());
+
     /* remember all previous (yellow and) green highlights */
-    QList<QTextEdit::ExtraSelection> extraSelections;
-    extraSelections.append (textEdit->extraSelections());
+    QList<QTextEdit::ExtraSelection> es = textEdit->extraSelections();
     int n = tabinfo->redSel.count();
-    while (n > 0)
+    while (n > 0 && !es.isEmpty())
     {
-        extraSelections.removeLast();
+        es.removeLast();
         --n;
     }
-    if (!extraSelections.isEmpty() && lineNumShown)
-        extraSelections.removeFirst();
+    if (!es.isEmpty() && lineNumShown)
+        es.removeFirst();
 
     QTextCursor start = textEdit->textCursor();
     QTextCursor tmp = start;
@@ -174,15 +156,15 @@ void FPwin::replace()
         QTextEdit::ExtraSelection extra;
         extra.format.setBackground (color);
         extra.cursor = tmp;
-        extraSelections.prepend (extra);
+        es.prepend (extra);
         gsel.append (extra);
     }
     tabinfo->greenSel = gsel;
     if (lineNumShown)
-        extraSelections.prepend (textEdit->currentLineSelection());
+        es.prepend (textEdit->currentLineSelection());
     /* append red highlights */
-    extraSelections.append (tabinfo->redSel);
-    textEdit->setExtraSelections (extraSelections);
+    es.append (tabinfo->redSel);
+    textEdit->setExtraSelections (es);
     /* yellow highlights may need correction */
     hlight();
 }
@@ -199,41 +181,11 @@ void FPwin::replaceAll()
     QString txtFind = ui->lineEditFind->text();
     if (txtFind.isEmpty()) return;
 
-    bool lineNumShown = false;
-    if (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible())
-        lineNumShown = true;
-
+    /* remove previous green highlights if the replacing text is changed */
     if (txtReplace_ != ui->lineEditReplace->text())
     {
         txtReplace_ = ui->lineEditReplace->text();
-        /* remove previous green highlights
-           if the replacing text is changed */
-        if (lineNumShown)
-        {
-            QHash<TextEdit*,tabInfo*>::iterator it;
-            for (it = tabsInfo_.begin(); it != tabsInfo_.end(); ++it)
-            {
-                tabInfo *tabinfoIth = tabsInfo_[it.key()];
-                QList<QTextEdit::ExtraSelection> extraSelectionsIth;
-                tabinfoIth->greenSel = extraSelectionsIth;
-                extraSelectionsIth.prepend (it.key()->currentLineSelection());
-                extraSelectionsIth.append (tabinfoIth->redSel);
-                it.key()->setExtraSelections (extraSelectionsIth);
-            }
-        }
-        else
-        {
-            QHash<TextEdit*,tabInfo*>::iterator it;
-            for (it = tabsInfo_.begin(); it != tabsInfo_.end(); ++it)
-            {
-                tabInfo *tabinfoIth = tabsInfo_[it.key()];
-                QList<QTextEdit::ExtraSelection> extraSelectionsIth;
-                tabinfoIth->greenSel = extraSelectionsIth;
-                extraSelectionsIth.append (tabinfoIth->redSel);
-                it.key()->setExtraSelections (extraSelectionsIth);
-            }
-        }
-        hlight();
+        removeGreenSel();
     }
 
     QTextCursor orig = textEdit->textCursor();
@@ -244,7 +196,7 @@ void FPwin::replaceAll()
     start.setPosition (0);
     QTextCursor tmp = start;
     QList<QTextEdit::ExtraSelection> gsel = tabinfo->greenSel;
-    QList<QTextEdit::ExtraSelection> extraSelections;
+    QList<QTextEdit::ExtraSelection> es;
     int count = 0;
     while (!(found = finding (txtFind, start, searchFlags_)).isNull())
     {
@@ -259,16 +211,16 @@ void FPwin::replaceAll()
         QTextEdit::ExtraSelection extra;
         extra.format.setBackground (color);
         extra.cursor = tmp;
-        extraSelections.prepend (extra);
+        es.prepend (extra);
         gsel.append (extra);
         ++count;
     }
     tabinfo->greenSel = gsel;
     start.endEditBlock();
-    if (lineNumShown)
-        extraSelections.prepend (textEdit->currentLineSelection());
-    extraSelections.append (tabinfo->redSel);
-    textEdit->setExtraSelections (extraSelections);
+    if ((ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible()))
+        es.prepend (textEdit->currentLineSelection());
+    es.append (tabinfo->redSel);
+    textEdit->setExtraSelections (es);
     hlight();
     /* restore the original cursor without selection */
     orig.setPosition (orig.anchor());

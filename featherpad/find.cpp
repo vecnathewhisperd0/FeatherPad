@@ -20,6 +20,9 @@
 
 namespace FeatherPad {
 
+/* This order is preserved everywhere for selections:
+   current line -> replacement -> found matches -> bracket matches */
+
 // This method extends the searchable strings to those with line breaks.
 // It also corrects the behavior of Qt's backward search.
 QTextCursor FPwin::finding (const QString str, const QTextCursor& start, QTextDocument::FindFlags flags) const
@@ -216,18 +219,19 @@ void FPwin::find()
         newSrch = true;
     }
 
+    disconnect (textEdit, &TextEdit::resized, this, &FPwin::hlight);
     disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::hlighting);
     disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::hlight);
 
     if (txt.isEmpty())
     {
         /* remove all yellow and green highlights */
-        QList<QTextEdit::ExtraSelection> extraSelections;
-        tabinfo->greenSel = extraSelections; // not needed
+        QList<QTextEdit::ExtraSelection> es;
+        tabinfo->greenSel = es; // not needed
         if (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible())
-            extraSelections.prepend (textEdit->currentLineSelection());
-        extraSelections.append (tabinfo->redSel);
-        textEdit->setExtraSelections (extraSelections);
+            es.prepend (textEdit->currentLineSelection());
+        es.append (tabinfo->redSel);
+        textEdit->setExtraSelections (es);
         return;
     }
 
@@ -261,6 +265,7 @@ void FPwin::find()
     hlight();
     connect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::hlight);
     connect (textEdit, &TextEdit::updateRect, this, &FPwin::hlighting);
+    connect (textEdit, &TextEdit::resized, this, &FPwin::hlight);
 }
 /*************************/
 // Highlight found matches in the visible part of the text.
@@ -275,9 +280,8 @@ void FPwin::hlight() const
     QString txt = tabinfo->searchEntry;
     if (txt.isEmpty()) return;
 
-    QList<QTextEdit::ExtraSelection> extraSelections;
     /* prepend green highlights */
-    extraSelections.append (tabinfo->greenSel);
+    QList<QTextEdit::ExtraSelection> es = tabinfo->greenSel;
     QColor color = QColor (textEdit->hasDarkScheme() ? QColor (115, 115, 0) : Qt::yellow);
     QTextCursor found;
     /* first put a start cursor at the top left edge... */
@@ -310,7 +314,7 @@ void FPwin::hlight() const
         QTextEdit::ExtraSelection extra;
         extra.format.setBackground (color);
         extra.cursor = found;
-        extraSelections.append (extra);
+        es.append (extra);
         start.setPosition (found.position());
         if (textEdit->cursorRect (start).top() >= h) break;
     }
@@ -318,10 +322,10 @@ void FPwin::hlight() const
     /* also prepend the current line highlight,
        so that it always comes first when it exists */
     if (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible())
-        extraSelections.prepend (textEdit->currentLineSelection());
+        es.prepend (textEdit->currentLineSelection());
     /* append red highlights */
-    extraSelections.append (tabinfo->redSel);
-    textEdit->setExtraSelections (extraSelections);
+    es.append (tabinfo->redSel);
+    textEdit->setExtraSelections (es);
 }
 /*************************/
 void FPwin::hlighting (const QRect&, int dy) const
@@ -368,16 +372,11 @@ void FPwin::showHideSearch()
 {
     bool visibility = ui->lineEdit->isVisible();
 
-    ui->lineEdit->setVisible (!visibility);
-    ui->pushButton_case->setVisible (!visibility);
-    ui->toolButton_nxt->setVisible (!visibility);
-    ui->toolButton_prv->setVisible (!visibility);
-    ui->pushButton_whole->setVisible (!visibility);
-
     if (!visibility)
         ui->lineEdit->setFocus();
     else
     {
+        ui->dockReplace->setVisible (false); // searchbar is needed by replace dock
         /* return focus to the document,... */
         qobject_cast< TextEdit *>(ui->tabWidget->currentWidget())->setFocus();
         /* ... empty all search entries,... */
@@ -391,15 +390,21 @@ void FPwin::showHideSearch()
                 TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
                 tabInfo *tabinfo = tabsInfo_[textEdit];
                 tabinfo->searchEntry = QString();
-                QList<QTextEdit::ExtraSelection> extraSelections;
-                tabinfo->greenSel = extraSelections; // not needed
+                QList<QTextEdit::ExtraSelection> es;
+                tabinfo->greenSel = es; // not needed
                 if (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible())
-                    extraSelections.prepend (textEdit->currentLineSelection());
-                extraSelections.append (tabinfo->redSel);
-                textEdit->setExtraSelections (extraSelections);
+                    es.prepend (textEdit->currentLineSelection());
+                es.append (tabinfo->redSel);
+                textEdit->setExtraSelections (es);
             }
         }
     }
+
+    ui->lineEdit->setVisible (!visibility);
+    ui->pushButton_case->setVisible (!visibility);
+    ui->toolButton_nxt->setVisible (!visibility);
+    ui->toolButton_prv->setVisible (!visibility);
+    ui->pushButton_whole->setVisible (!visibility);
 }
 
 }
