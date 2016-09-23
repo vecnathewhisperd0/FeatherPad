@@ -104,7 +104,7 @@ void FPwin::getSyntax (const int index)
             progLan = "qmake";
         else if (fname.endsWith (".tr") || fname.endsWith (".t") || fname.endsWith (".roff"))
             progLan = "troff";
-        else if (fname.endsWith (".xml") || fname.endsWith (".svg") || fname.endsWith (".qrc") || fname.endsWith (".rdf") || fname.endsWith (".docbook"))
+        else if (fname.endsWith (".xml") || fname.endsWith (".svg") || fname.endsWith (".qrc") /*|| fname.endsWith (".ui")*/ || fname.endsWith (".rdf") || fname.endsWith (".docbook"))
             progLan = "xml";
         else if (fname.endsWith (".css") || fname.endsWith (".qss"))
             progLan = "css";
@@ -175,7 +175,7 @@ void FPwin::getSyntax (const int index)
             progLan = "qmake";
         else if (mime == "text/troff")
             progLan = "troff";
-        else if (mime == "application/xml" || mime == "image/svg+xml" || mime == "application/x-designer"|| mime == "text/rdf+xml" || mime == "application/rdf+xml" || mime == "application/x-docbook+xml" || mime == "application/x-xbel")
+        else if (mime == "application/xml" || mime == "image/svg+xml" || mime == "application/x-designer" || mime == "application/x-gtk-builder" || mime == "text/rdf+xml" || mime == "application/rdf+xml" || mime == "application/x-docbook+xml" || mime == "application/x-xbel")
             progLan = "xml";
         else if (mime == "text/css")
             progLan = "css";

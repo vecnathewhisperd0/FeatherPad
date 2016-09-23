@@ -2324,9 +2324,14 @@ void FPwin::helpDoc()
     textEdit->setPlainText (str);
 
     textEdit->setReadOnly (true);
-    textEdit->viewport()->setStyleSheet (".QWidget {"
-                                         "color: black;"
-                                         "background-color: rgb(225, 238, 255);}");
+    if (!textEdit->hasDarkScheme())
+        textEdit->viewport()->setStyleSheet (".QWidget {"
+                                             "color: black;"
+                                             "background-color: rgb(225, 238, 255);}");
+    else
+        textEdit->viewport()->setStyleSheet (".QWidget {"
+                                             "color: white;"
+                                             "background-color: rgb(0, 60, 110);}");
     ui->actionCut->setDisabled (true);
     ui->actionPaste->setDisabled (true);
     ui->actionDelete->setDisabled (true);
