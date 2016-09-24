@@ -210,7 +210,7 @@ void FPwin::closeEvent (QCloseEvent *event)
 /*************************/
 void FPwin::applyConfig()
 {
-    Config config = static_cast<FPsingleton*>(qApp)->getConfig();
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
 
     if (config.getRemSize())
     {
@@ -221,6 +221,22 @@ void FPwin::applyConfig()
             setWindowState (windowState() ^ Qt::WindowFullScreen);
         else if (config.getIsFull())
             setWindowState (Qt::WindowFullScreen);
+    }
+    else
+    {
+        QSize startSize = config.getStartSize();
+        QSize ag = QApplication::desktop()->availableGeometry().size() - QSize (50, 100);
+        if (startSize.width() > ag.width() || startSize.height() > ag.height())
+        {
+            startSize = startSize.boundedTo (ag);
+            config.setStartSize (startSize);
+        }
+        else if (startSize.isEmpty())
+        {
+            startSize = QSize (700, 500);
+            config.setStartSize (startSize);
+        }
+        resize (startSize);
     }
 
     ui->mainToolBar->setVisible (!config.getNoToolbar());
@@ -728,7 +744,7 @@ void FPwin::defaultSize()
     /* instead of hiding, reparent with the dummy
        widget to guarantee resizing under all DEs */
     setParent (dummyWidget, Qt::SubWindow);
-    resize (700, 500);
+    resize (static_cast<FPsingleton*>(qApp)->getConfig().getStartSize());
     if (parent() != nullptr)
         setParent (nullptr, Qt::Window);
     QTimer::singleShot (0, this, SLOT (show()));

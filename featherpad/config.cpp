@@ -38,6 +38,7 @@ Config::Config():
     translucencyWorkaround_ (false),
     maxSHSize_ (1),
     winSize_ (QSize (700, 500)),
+    startSize_ (QSize (700, 500)),
     font_ (QFont ("Monospace", 9)) {}
 /*************************/
 Config::~Config() {}
@@ -60,6 +61,7 @@ void Config::readConfig()
         isMaxed_ = settings.value ("max", false).toBool();
         isFull_ = settings.value ("fullscreen", false).toBool();
     }
+    startSize_ = settings.value ("startSize", QSize(700, 500)).toSize();
 
     if (settings.value ("sysIcon").toBool())
         sysIcon_ = true; // false by default
@@ -112,6 +114,7 @@ void Config::readConfig()
     settings.endGroup();
 }
 /*************************/
+// Prevent redundant writings! (QSettings should have done that.)
 void Config::writeConfig()
 {
     QSettings settings ("featherpad", "fp");
@@ -132,21 +135,30 @@ void Config::writeConfig()
         if (settings.value ("fullscreen").toBool() != isFull_)
             settings.setValue ("fullscreen", isFull_);
     }
-    else
+    else if (settings.value ("size").toString() != "none")
     {
-        if (settings.value("size") != "none")
-        {
-            settings.setValue ("size", "none");
-            settings.remove ("max");
-            settings.remove ("fullscreen");
-        }
+        settings.setValue ("size", "none");
+        settings.remove ("max");
+        settings.remove ("fullscreen");
     }
 
-    settings.setValue ("sysIcon", sysIcon_);
-    settings.setValue ("noToolbar", noToolbar_);
-    settings.setValue ("hideSearchbar", hideSearchbar_);
-    settings.setValue ("showStatusbar", showStatusbar_);
-    settings.setValue ("translucencyWorkaround", translucencyWorkaround_);
+    if (settings.value ("startSize").toSize() != startSize_)
+        settings.setValue ("startSize", startSize_);
+
+    if (settings.value ("sysIcon").toBool() != sysIcon_)
+        settings.setValue ("sysIcon", sysIcon_);
+
+    if (settings.value ("noToolbar").toBool() != noToolbar_)
+        settings.setValue ("noToolbar", noToolbar_);
+
+    if (settings.value ("hideSearchbar").toBool() != hideSearchbar_)
+        settings.setValue ("hideSearchbar", hideSearchbar_);
+
+    if (settings.value ("showStatusbar").toBool() != showStatusbar_)
+        settings.setValue ("showStatusbar", showStatusbar_);
+
+    if (settings.value ("translucencyWorkaround").toBool() != translucencyWorkaround_)
+        settings.setValue ("translucencyWorkaround", translucencyWorkaround_);
 
     settings.endGroup();
 
@@ -157,17 +169,33 @@ void Config::writeConfig()
     settings.beginGroup ("text");
 
     if (remFont_)
-        settings.setValue ("font", font_.toString());
-    else
+    {
+        if (settings.value ("font").toString() != font_.toString())
+            settings.setValue ("font", font_.toString());
+    }
+    else if (settings.value ("font").toString() != "none")
         settings.setValue ("font", "none");
 
-    settings.setValue ("noWrap", !wrapByDefault_);
-    settings.setValue ("noIndent", !indentByDefault_);
-    settings.setValue ("lineNumbers", lineByDefault_);
-    settings.setValue ("noSyntaxHighlighting", !syntaxByDefault_);
-    settings.setValue ("darkColorScheme", darkColScheme_);
-    settings.setValue ("scrollJumpWorkaround", scrollJumpWorkaround_);
-    settings.setValue ("maxSHSize", maxSHSize_);
+    if (settings.value ("noWrap").toBool() != !wrapByDefault_)
+        settings.setValue ("noWrap", !wrapByDefault_);
+
+    if (settings.value ("noIndent").toBool() != !indentByDefault_)
+        settings.setValue ("noIndent", !indentByDefault_);
+
+    if (settings.value ("lineNumbers").toBool() != lineByDefault_)
+        settings.setValue ("lineNumbers", lineByDefault_);
+
+    if (settings.value ("noSyntaxHighlighting").toBool() != !syntaxByDefault_)
+        settings.setValue ("noSyntaxHighlighting", !syntaxByDefault_);
+
+    if (settings.value ("darkColorScheme").toBool() != darkColScheme_)
+        settings.setValue ("darkColorScheme", darkColScheme_);
+
+    if (settings.value ("scrollJumpWorkaround").toBool() != scrollJumpWorkaround_)
+        settings.setValue ("scrollJumpWorkaround", scrollJumpWorkaround_);
+
+    if (settings.value ("maxSHSize").toInt() != maxSHSize_)
+        settings.setValue ("maxSHSize", maxSHSize_);
 
     settings.endGroup();
 }

@@ -56,14 +56,14 @@ public:
     void setAutoIndentation (bool indent) {
         autoIndentation = indent;
     }
-    bool getAutoIndentation() {
+    bool getAutoIndentation() const {
         return autoIndentation;
     }
 
     void useDarkScheme (bool dark) {
         darkScheme = dark;
     }
-    bool hasDarkScheme() {
+    bool hasDarkScheme() const {
         return darkScheme;
     }
 

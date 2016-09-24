@@ -20,15 +20,51 @@
       <string>Window</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="0">
+      <item row="0" column="0" colspan="4">
        <widget class="QCheckBox" name="winSizeBox">
         <property name="text">
-         <string>Remember window &amp;size on closing
-(Uncheck for 700x500)</string>
+         <string>Remember window &amp;size on closing</string>
         </property>
        </widget>
       </item>
       <item row="1" column="0">
+       <widget class="QLabel" name="sizeLable">
+        <property name="toolTip">
+         <string>Window frame is excluded.</string>
+        </property>
+        <property name="text">
+         <string>Start with this size: </string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QSpinBox" name="spinX">
+        <property name="toolTip">
+         <string>Window frame is excluded.</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="mLabel">
+        <property name="toolTip">
+         <string>Window frame is excluded.</string>
+        </property>
+        <property name="text">
+         <string>×</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QSpinBox" name="spinY">
+        <property name="toolTip">
+         <string>Window frame is excluded.</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="4">
        <widget class="QCheckBox" name="iconBox">
         <property name="toolTip">
          <string>Uncheck this if you want FeatherPad to use system icons!</string>
@@ -39,28 +75,28 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
+      <item row="3" column="0" colspan="4">
        <widget class="QCheckBox" name="toolbarBox">
         <property name="text">
          <string>Do not show &amp;toolbar</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="0">
+      <item row="4" column="0" colspan="4">
        <widget class="QCheckBox" name="searchbarBox">
         <property name="text">
          <string>Hide search &amp;bar by default</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
+      <item row="5" column="0" colspan="4">
        <widget class="QCheckBox" name="statusBox">
         <property name="text">
          <string>Always show st&amp;atus bar</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="0">
+      <item row="6" column="0" colspan="4">
        <widget class="QCheckBox" name="transBox">
         <property name="toolTip">
          <string>Check this only if you see weird effects with translucent themes!</string>
@@ -149,6 +185,10 @@
       </item>
       <item row="7" column="0" colspan="2">
        <widget class="QCheckBox" name="scrollBox">
+        <property name="toolTip">
+         <string>This is not a complete fix but
+prevents annoying scroll jumps.</string>
+        </property>
         <property name="text">
          <string>Workaround for &amp;Qt5's scroll jumb bug</string>
         </property>

@@ -137,12 +137,14 @@ void FPwin::getSyntax (const int index)
         else if (baseName.compare ("CMakeLists.txt", Qt::CaseInsensitive) == 0)
             progLan = "cmake";
     }
+    else if (baseName == "PKGBUILD")
+        progLan = "sh";
     /* makefile is an exception */
     else if (baseName.compare ("makefile", Qt::CaseInsensitive) == 0)
         progLan = "makefile";
     else if (baseName.compare ("changelog", Qt::CaseInsensitive) == 0)
         progLan = "changelog";
-    else if (baseName.compare ("gtkrc") == 0)
+    else if (baseName == "gtkrc")
         progLan = "gtkrc";
 
     if (progLan.isEmpty()) // now, check mime types

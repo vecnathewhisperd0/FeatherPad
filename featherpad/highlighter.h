@@ -67,7 +67,7 @@ public:
         endCursor = end;
     }
 
-    QSet<int> getHighlighted() {
+    QSet<int> getHighlighted() const {
         return highlighted;
     }
 

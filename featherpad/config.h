@@ -73,6 +73,13 @@ public:
         winSize_ = s;
     }
 
+    QSize getStartSize() const {
+        return startSize_;
+    }
+    void setStartSize (QSize s) {
+        startSize_ = s;
+    }
+
     bool getNoToolbar() const {
         return noToolbar_;
     }
@@ -164,7 +171,7 @@ private:
          scrollJumpWorkaround_, // Should a workaround for Qt5's "scroll jump" bug be applied?
          translucencyWorkaround_; // Should a workaround for the translucency bug of Qt-5.7 be applied?
     int maxSHSize_;
-    QSize winSize_;
+    QSize winSize_, startSize_;
     QFont font_;
 };
 

@@ -97,7 +97,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
         DarkRed = QColor (150, 0, 0);
         DarkGreen = Qt::darkGreen;
         DarkMagenta = Qt::darkMagenta;
-        Violet = QColor (126, 0, 230);
+        Violet = QColor (126, 0, 230); //d556e6
         Brown = QColor (160, 80, 0);
     }
     else
@@ -145,7 +145,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
     if (progLan == "sh" || progLan == "makefile" || progLan == "cmake")
     {
         keywordFormat.setForeground (Qt::magenta);
-        rule.pattern = QRegExp ("((^\\s*|[\\(\\);&`\\|]+\\s*)((if|then|elif|else|fi|while|do|done|esac)\\s+)*)(adduser|addgroup|apropos|apt-get|aspell|awk|basename|bash|bc|bzip2|cal|cat|cd|cfdisk|chgrp|chmod|chown|chroot|chkconfig|cksum|clear|cmp|comm|cp|cron|crontab|csplit|cut|date|dc|dd|ddrescue|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|dpkg|du|egrep|eject|env|ethtool|expect|expand|expr|fdformat|fdisk|fgrep|file|find|fmt|fold|format|free|fsck|ftp|function|fuser|gawk|grep|groups|gzip|head|hostname|id|ifconfig|ifdown|ifup|import|install|join|kdialog|kill|killall|less|ln|locate|logname|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|make|man|mkdir|mkfifo|mkisofs|mknod|more|mount|mtools|mv|mmv|netstat|nice|nl|nohup|nslookup|open|op|passwd|paste|pathchk|ping|pkill|popd|pr|printcap|printenv|ps|pwd|qarma|quota|quotacheck|quotactl|ram|rcp|readarray|reboot|rename|renice|remsync|rev|rm|rmdir|rsync|screen|scp|sdiff|sed|seq|sftp|shutdown|sleep|slocate|sort|split|ssh|strace|su|sudo|sum|symlink|sync|tail|tar|tee|time|touch|top|traceroute|tr|tsort|tty|type|ulimit|umount|uname|unexpand|uniq|units|unshar|useradd|usermod|users|uuencode|uudecode|vdir|vi|vmstat|watch|wc|whereis|which|who|whoami|Wget|write|xargs|yad|yes|zenity)\\b");
+        rule.pattern = QRegExp ("((^\\s*|[\\(\\);&`\\|]+\\s*)((if|then|elif|else|fi|while|do|done|esac)\\s+)*)(adduser|addgroup|apropos|apt-get|aspell|awk|basename|bash|bc|bzip2|cal|cat|cd|cfdisk|chgrp|chmod|chown|chroot|chkconfig|cksum|clear|cmp|comm|cp|cron|crontab|csplit|cut|date|dc|dd|ddrescue|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|dpkg|du|egrep|eject|env|ethtool|expect|expand|expr|fdformat|fdisk|fgrep|file|find|fmt|fold|format|free|fsck|ftp|function|fuser|gawk|git|grep|groups|gzip|head|hostname|id|ifconfig|ifdown|ifup|import|install|join|kdialog|kill|killall|less|ln|locate|logname|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|make|man|mkdir|mkfifo|mkisofs|mknod|more|mount|mtools|mv|mmv|netstat|nice|nl|nohup|nslookup|open|op|passwd|paste|pathchk|ping|pkill|popd|pr|printcap|printenv|ps|pwd|qarma|qmake(-qt[3-9])*|quota|quotacheck|quotactl|ram|rcp|readarray|reboot|rename|renice|remsync|rev|rm|rmdir|rsync|screen|scp|sdiff|sed|seq|sftp|shutdown|sleep|slocate|sort|split|ssh|strace|su|sudo|sum|symlink|sync|tail|tar|tee|time|touch|top|traceroute|tr|tsort|tty|type|ulimit|umount|uname|unexpand|uniq|units|unshar|useradd|usermod|users|uuencode|uudecode|vdir|vi|vmstat|watch|wc|whereis|which|who|whoami|Wget|write|xargs|yad|yes|zenity)\\b");
         rule.format = keywordFormat;
         highlightingRules.append (rule);
     }
@@ -1442,7 +1442,7 @@ void Highlighter::multiLineQuote (const QString &text)
 bool Highlighter::isHereDocument (const QString &text)
 {
     QTextCharFormat blockFormat;
-    blockFormat.setForeground (Violet);//d556e6
+    blockFormat.setForeground (Violet);
     QTextCharFormat delimFormat = blockFormat;
     delimFormat.setFontWeight (QFont::Bold);
     QString delimStr;

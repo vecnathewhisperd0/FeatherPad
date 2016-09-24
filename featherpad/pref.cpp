@@ -21,6 +21,8 @@
 #include "pref.h"
 #include "ui_predDialog.h"
 
+#include <QDesktopWidget>
+
 namespace FeatherPad {
 
 PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialog)
@@ -46,6 +48,21 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     ui->transBox->setChecked (config.getTranslucencyWorkaround());
     connect (ui->transBox, &QCheckBox::stateChanged, this, &PrefDialog::prefTranslucencyWorkaround);
 
+    if (ui->winSizeBox->isChecked())
+    {
+        ui->spinX->setEnabled (false);
+        ui->spinY->setEnabled (false);
+        ui->mLabel->setEnabled (false);
+        ui->sizeLable->setEnabled (false);
+    }
+    QSize ag = QApplication::desktop()->availableGeometry().size() - QSize (50, 100);
+    ui->spinX->setMaximum (ag.width());
+    ui->spinY->setMaximum (ag.height());
+    ui->spinX->setValue (config.getStartSize().width());
+    ui->spinY->setValue (config.getStartSize().height());
+    connect (ui->spinX, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefStartSize);
+    connect (ui->spinY, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefStartSize);
+
     /************
      *** Text ***
      ************/
@@ -66,7 +83,7 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     connect (ui->scrollBox, &QCheckBox::stateChanged, this, &PrefDialog::prefScrollJumpWorkaround);
 
     ui->spinBox->setValue (config.getMaxSHSize());
-    connect(ui->spinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefMaxSHSize);
+    connect (ui->spinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefMaxSHSize);
 
     QPushButton *closeButton = ui->buttonBox->button (QDialogButtonBox::Close);
     connect (closeButton, &QAbstractButton::clicked, this, &QDialog::reject);
@@ -83,9 +100,21 @@ void PrefDialog::prefSize (int checked)
 {
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
     if (checked == Qt::Checked)
+    {
         config.setRemSize (true);
+        ui->spinX->setEnabled (false);
+        ui->spinY->setEnabled (false);
+        ui->mLabel->setEnabled (false);
+        ui->sizeLable->setEnabled (false);
+    }
     else if (checked == Qt::Unchecked)
+    {
         config.setRemSize (false);
+        ui->spinX->setEnabled (true);
+        ui->spinY->setEnabled (true);
+        ui->mLabel->setEnabled (true);
+        ui->sizeLable->setEnabled (true);
+    }
 }
 /*************************/
 void PrefDialog::prefIcon (int checked)
@@ -313,6 +342,17 @@ void PrefDialog::prefTranslucencyWorkaround (int checked)
 void PrefDialog::prefMaxSHSize (int value)
 {
     static_cast<FPsingleton*>(qApp)->getConfig().setMaxSHSize (value);
+}
+/*************************/
+void PrefDialog::prefStartSize (int value)
+{
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    QSize startSize = config.getStartSize();
+    if (QObject::sender() == ui->spinX)
+        startSize.setWidth (value);
+    else if (QObject::sender() == ui->spinY)
+        startSize.setHeight (value);
+    config.setStartSize (startSize);
 }
 
 }

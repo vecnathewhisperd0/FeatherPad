@@ -9,6 +9,7 @@ V0.5.8
  * Remove search (and replacement) highlights on hiding the search bar.
  * Always show the search bar on showing the replacement dock. Also hide the latter on hiding the former.
  * Added an option for using dark color scheme.
+ * An option to set a fixed start size (700x500 is still the default size).
 
 V0.5.7
 ---------
