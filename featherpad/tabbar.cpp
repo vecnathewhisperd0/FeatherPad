@@ -16,6 +16,7 @@
  */
 
 #include <QtGui>
+#include <QApplication>
 #include <QToolTip>
 #include "tabbar.h"
 
@@ -27,22 +28,56 @@ TabBar::TabBar (QWidget *parent)
     setMouseTracking (true);
 }
 /*************************/
-void TabBar::mouseReleaseEvent (QMouseEvent *event)
+void TabBar::mousePressEvent (QMouseEvent *event)
 {
-    /* first do what a QTabBar does... */
-    QTabBar::mouseReleaseEvent (event);
-    /* ...then emit an extra signal,
-       that will be useful for tab detachment */
-    QPoint dropPos = event->globalPos();
-    emit tabDropped (dropPos);
+    QTabBar::mousePressEvent (event);
+    if (event->button() == Qt::LeftButton)
+        dragStartPosition_ = event->pos();
+    dragStarted_ = false;
 }
 /*************************/
 void TabBar::mouseMoveEvent (QMouseEvent *event)
 {
-    QTabBar::mouseMoveEvent (event);
-    int index = tabAt (event->pos());
-    if (index != -1)
-        QToolTip::showText (event->globalPos(), tabToolTip (index));
+    if (!dragStartPosition_.isNull()
+        && (event->pos() - dragStartPosition_).manhattanLength() < QApplication::startDragDistance())
+    {
+      dragStarted_ = true;
+    }
+
+    if ((event->buttons() & Qt::LeftButton)
+        && dragStarted_
+        && !window()->geometry().contains (event->globalPos()))
+    {
+        int index = currentIndex();
+        if (index == -1) return;
+
+        QDrag *drag = new QDrag (this);
+        QMimeData *mimeData = new QMimeData;
+        QByteArray array;
+        array.append (QString ("%1+%2").arg (window()->winId()).arg (index));
+        mimeData->setData ("application/featherpad-tab", array);
+        drag->setMimeData (mimeData);
+        Qt::DropAction dragged = drag->exec (Qt::MoveAction | Qt::CopyAction);
+        if (dragged == Qt::IgnoreAction) // a tab is dropped outside all windows
+        {
+            if (count() > 1)
+                emit tabDetached();
+            else
+                finishMouseMoveEvent();
+            event->accept ();
+        }
+        else if (dragged == Qt::MoveAction) // a tab is dropped into another window
+            event->accept();
+        delete drag;
+        drag = NULL;
+    }
+    else
+    {
+        QTabBar::mouseMoveEvent(event);
+        int index = tabAt (event->pos());
+        if (index > -1)
+            QToolTip::showText (event->globalPos(), tabToolTip (index));
+    }
 }
 /*************************/
 // Don't show tooltip with setTabToolTip().
@@ -55,6 +90,18 @@ bool TabBar::event (QEvent *event)
        return QTabBar::event (event);
 #endif
     return QTabBar::event (event);
+}
+/*************************/
+void TabBar::finishMouseMoveEvent()
+{
+    QMouseEvent finishingEvent (QEvent::MouseMove, QPoint(), Qt::NoButton, Qt::NoButton, Qt::NoModifier);
+    mouseMoveEvent (&finishingEvent);
+}
+/*************************/
+void TabBar::releaseMouse()
+{
+    QMouseEvent releasingEvent (QEvent::MouseButtonRelease, QPoint(), Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+    mouseReleaseEvent (&releasingEvent);
 }
 
 }

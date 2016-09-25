@@ -116,7 +116,6 @@ private slots:
     void docProp();
     void filePrint();
     void detachTab();
-    void detachAndDropTab (QPoint& dropPos);
     void tabContextMenu (const QPoint& p);
     void prefDialog();
     void aboutDialog();
@@ -140,6 +139,7 @@ private:
     bool closeTabs (int leftIndx, int rightIndx, bool closeall);
     void dragEnterEvent (QDragEnterEvent *event);
     void dropEvent (QDropEvent *event);
+    void dropTab (QString str);
     void changeEvent (QEvent *event);
     void setSearchFlagsAndHighlight (bool h);
     void enableWidgets (bool enable) const;

@@ -125,7 +125,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     connect (ui->actionRedo, &QAction::triggered, this, &FPwin::redoing);
 
     connect (ui->tabWidget, &QTabWidget::currentChanged, this, &FPwin::tabSwitch);
-    connect (static_cast<TabBar*>(ui->tabWidget->tabBar()), &TabBar::tabDropped, this, &FPwin::detachAndDropTab);
+    connect (static_cast<TabBar*>(ui->tabWidget->tabBar()), &TabBar::tabDetached, this, &FPwin::detachTab);
     ui->tabWidget->tabBar()->setContextMenuPolicy (Qt::CustomContextMenu);
     connect (ui->tabWidget->tabBar(), &QWidget::customContextMenuRequested, this, &FPwin::tabContextMenu);
     connect (ui->actionCloseAll, &QAction::triggered, this, &FPwin::closeAllTabs);
@@ -436,14 +436,19 @@ void FPwin::closeOtherTabs()
 /*************************/
 void FPwin::dragEnterEvent (QDragEnterEvent *event)
 {
-    if (event->mimeData()->hasUrls())
+    if (event->mimeData()->hasUrls() || event->mimeData()->hasFormat ("application/featherpad-tab"))
         event->acceptProposedAction();
 }
 /*************************/
 void FPwin::dropEvent (QDropEvent *event)
 {
-    foreach (QUrl url, event->mimeData()->urls())
-        newTabFromName (url.toLocalFile());
+    if (event->mimeData()->hasFormat ("application/featherpad-tab"))
+        dropTab (event->mimeData()->data("application/featherpad-tab"));
+    else
+    {
+        foreach (QUrl url, event->mimeData()->urls())
+            newTabFromName (url.toLocalFile());
+    }
 
     event->acceptProposedAction();
 }
@@ -1946,92 +1951,14 @@ void FPwin::filePrint()
         textEdit->print (&printer);
 }
 /*************************/
-void FPwin::detachAndDropTab (QPoint& dropPos)
+void FPwin::detachTab()
 {
     int index = ui->tabWidget->currentIndex();
-    if (index == -1) return;
-
-    /* do nothing if the tab isn't dropped outside this window */
-    QPoint winPos = pos();
-    if (dropPos.x() >= winPos.x()
-        && dropPos.y() >= winPos.y()
-        && dropPos.x() <= winPos.x() + width()
-        && dropPos.y() <= winPos.y() + height())
+    if (index == -1 || ui->tabWidget->count() == 1)
     {
+        ui->tabWidget->tabBar()->finishMouseMoveEvent();
         return;
     }
-
-    /*****************************************************************
-     ***** See if another FeatherPad window is on this desktop.  *****
-     ***** If there is one, check if the tab is dropped into it. *****
-     *****************************************************************/
-
-    /* get all other FeatherPad windows on this desktop */
-    long d = onWhichDesktop (winId());
-    QList<int> onThisDesktop;
-    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
-    int i;
-    for (i = 0; i < singleton->Wins.count(); ++i)
-    {
-        if (singleton->Wins.at (i) != this
-            && onWhichDesktop (singleton->Wins.at (i)->winId()) == d)
-        {
-            onThisDesktop.append (i);
-        }
-    }
-
-    /* remove from the list those windows
-       that don't include dropPos...  */
-    FPwin *anotherFP = nullptr;
-    int top = -1;
-    int insertIndex = 0;
-    i = 0;
-    while (i < onThisDesktop.count())
-    {
-        winPos = singleton->Wins.at (onThisDesktop.at (i))->pos();
-        if (dropPos.x() < winPos.x()
-            || dropPos.y() < winPos.y()
-            || dropPos.x() > winPos.x() + singleton->Wins.at (onThisDesktop.at (i))->width()
-            || dropPos.y() > winPos.y() + singleton->Wins.at (onThisDesktop.at (i))->height())
-        {
-            onThisDesktop.removeAt (i);
-        }
-        else ++i;
-    }
-#if defined Q_WS_X11 || defined Q_OS_LINUX
-    if (!onThisDesktop.isEmpty())
-    {
-        top = 0;
-        int result = onThisDesktop.at (0);
-        if (onThisDesktop.count() > 1)
-        {
-            /* ... and find the topmost one among the remaining windows */
-            QList<Window> windows = listXWins (QX11Info::appRootWindow());
-            int j;
-            for (i = 0; i < onThisDesktop.count(); i++)
-            {
-                j = windows.indexOf (singleton->Wins.at (onThisDesktop.at (i))->winId());
-                if (j > top)
-                {
-                    top = j;
-                    result = onThisDesktop.at (i);
-                }
-            }
-        }
-
-        anotherFP = singleton->Wins.at (result);
-        /* do nothing if the target has a modal dialog */
-        if (!anotherFP->findChildren<QFileDialog*>().isEmpty()
-            || !anotherFP->findChildren<QDialog*>().isEmpty()
-            || !anotherFP->findChildren<QMessageBox*>().isEmpty())
-        {
-            return;
-        }
-        insertIndex = anotherFP->ui->tabWidget->currentIndex() + 1;
-    }
-#endif
-
-    if (top == -1 && ui->tabWidget->count() == 1) return;
 
     /*****************************************************
      *****          Get all necessary info.          *****
@@ -2075,183 +2002,300 @@ void FPwin::detachAndDropTab (QPoint& dropPos)
     disconnect (textEdit->document(), &QTextDocument::redoAvailable, ui->actionRedo, &QAction::setEnabled);
     disconnect (textEdit->document(), &QTextDocument::modificationChanged, ui->actionSave, &QAction::setEnabled);
 
+    /* for tabbar to be updated peoperly with tab reordering during a
+       fast drag-and-drop, mouse should be released before tab removal */
+    ui->tabWidget->tabBar()->releaseMouse();
+
     tabInfo *tabinfo = tabsInfo_[textEdit];
     tabsInfo_.remove (textEdit);
     ui->tabWidget->removeTab (index);
-    int count = ui->tabWidget->count();
-    if (count == 1)
+    if (ui->tabWidget->count() == 1)
         ui->actionDetach->setDisabled (true);
 
-    /******************************************************************************
-     ***** If the tab is dropped into another window, insert it as a new tab. *****
-     ***** Otherwise, create a new window and replace its tab by this widget. *****
-     ******************************************************************************/
+    /*******************************************************************
+     ***** create a new window and replace its tab by this widget. *****
+     *******************************************************************/
 
-    if (!anotherFP)
-    {
-        anotherFP = singleton->newWin ("");
-        anotherFP->closeTabAtIndex (0);
-    }
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    FPwin * dropTarget = singleton->newWin ("");
+    dropTarget->closeTabAtIndex (0);
 
     /* first, set the new info... */
-    anotherFP->lastFile_ = tabinfo->fileName;
+    dropTarget->lastFile_ = tabinfo->fileName;
     tabinfo->greenSel = QList<QTextEdit::ExtraSelection>();
     tabinfo->redSel = QList<QTextEdit::ExtraSelection>();
-    anotherFP->tabsInfo_[textEdit] = tabinfo;
+    dropTarget->tabsInfo_[textEdit] = tabinfo;
     /* ... then insert the detached widget... */
-    anotherFP->ui->tabWidget->insertTab (insertIndex, textEdit, tabText);
+    dropTarget->ui->tabWidget->insertTab (0, textEdit, tabText);
     /* ... and remove all yellow and green highlights
        (the yellow ones will be recreated later if needed) */
     QList<QTextEdit::ExtraSelection> es;
-    if ((top == -1 && (ln || spin))
-        || (top > -1 && (ln || spin)
-            && (anotherFP->ui->actionLineNumbers->isChecked() || anotherFP->ui->spinBox->isVisible())))
+    if (ln || spin)
+        es.prepend (textEdit->currentLineSelection());
+    textEdit->setExtraSelections (es);
+
+    /* at last, set all properties correctly */
+    dropTarget->enableWidgets (true);
+    dropTarget->setWindowTitle (title);
+    dropTarget->ui->tabWidget->setTabToolTip (0, tooltip);
+    /* reload buttons, syntax highlighting, jump bar, line numbers */
+    dropTarget->encodingToCheck (tabinfo->encoding);
+    if (!tabinfo->fileName.isEmpty())
+        dropTarget->ui->actionReload->setEnabled (true);
+    if (!hl)
+        dropTarget->ui->actionSyntax->setChecked (false);
+    if (spin)
+    {
+        dropTarget->ui->spinBox->setVisible (true);
+        dropTarget->ui->label->setVisible (true);
+        dropTarget->ui->spinBox->setMaximum (textEdit->document()->blockCount());
+        connect (textEdit->document(), &QTextDocument::blockCountChanged, dropTarget, &FPwin::setMax);
+    }
+    if (ln)
+        dropTarget->ui->actionLineNumbers->setChecked (true);
+    /* searching */
+    if (!tabinfo->searchEntry.isEmpty())
+    {
+        if (!dropTarget->ui->lineEdit->isVisible())
+            dropTarget->showHideSearch();
+        connect (textEdit, &QPlainTextEdit::textChanged, dropTarget, &FPwin::hlight);
+        connect (textEdit, &TextEdit::updateRect, dropTarget, &FPwin::hlighting);
+        /* restore yellow highlights, which will automatically
+           set the current line highlight if needed because the
+           spin button and line number menuitem are set above */
+        dropTarget->hlight();
+    }
+    /* status bar */
+    if (status)
+    {
+        dropTarget->ui->statusBar->setVisible (true);
+        dropTarget->statusMsgWithLineCount (textEdit->document()->blockCount());
+        if (tabinfo->wordNumber == -1)
+        {
+            if (QToolButton *wordButton = dropTarget->ui->statusBar->findChild<QToolButton *>())
+                wordButton->setVisible (true);
+        }
+        else
+        {
+            if (QToolButton *wordButton = dropTarget->ui->statusBar->findChild<QToolButton *>())
+                wordButton->setVisible (false);
+            QLabel *statusLabel = dropTarget->ui->statusBar->findChild<QLabel *>();
+            statusLabel->setText (tr ("%1 <i>%2</i>")
+                                  .arg (statusLabel->text())
+                                  .arg (tabinfo->wordNumber));
+            connect (textEdit, &QPlainTextEdit::textChanged, dropTarget, &FPwin::wordButtonStatus);
+        }
+        connect (textEdit, &QPlainTextEdit::blockCountChanged, dropTarget, &FPwin::statusMsgWithLineCount);
+        connect (textEdit, &QPlainTextEdit::selectionChanged, dropTarget, &FPwin::statusMsg);
+    }
+    if (textEdit->lineWrapMode() == QPlainTextEdit::NoWrap)
+        dropTarget->ui->actionWrap->setChecked (false);
+    /* auto indentation */
+    if (textEdit->getAutoIndentation() == false)
+        dropTarget->ui->actionIndent->setChecked (false);
+    /* the remaining signals */
+    connect (textEdit->document(), &QTextDocument::undoAvailable, dropTarget->ui->actionUndo, &QAction::setEnabled);
+    connect (textEdit->document(), &QTextDocument::redoAvailable, dropTarget->ui->actionRedo, &QAction::setEnabled);
+    connect (textEdit->document(), &QTextDocument::modificationChanged, dropTarget->ui->actionSave, &QAction::setEnabled);
+    connect (textEdit->document(), &QTextDocument::modificationChanged, dropTarget, &FPwin::asterisk);
+    connect (textEdit, &QPlainTextEdit::copyAvailable, dropTarget->ui->actionCopy, &QAction::setEnabled);
+    if (!textEdit->isReadOnly())
+    {
+        connect (textEdit, &QPlainTextEdit::copyAvailable, dropTarget->ui->actionCut, &QAction::setEnabled);
+        connect (textEdit, &QPlainTextEdit::copyAvailable, dropTarget->ui->actionDelete, &QAction::setEnabled);
+    }
+    connect (textEdit, &TextEdit::fileDropped, dropTarget, &FPwin::newTabFromName);
+
+    if (tabinfo->highlighter)
+    {
+        dropTarget->matchBrackets();
+        connect (textEdit, &QPlainTextEdit::cursorPositionChanged, dropTarget, &FPwin::matchBrackets);
+        connect (textEdit, &TextEdit::updateRect, dropTarget, &FPwin::formatVisibleText);
+        connect (textEdit, &TextEdit::resized, dropTarget, &FPwin::formatonResizing);
+    }
+
+    textEdit->setFocus();
+
+    dropTarget->activateWindow();
+    dropTarget->raise();
+}
+/*************************/
+void FPwin::dropTab (QString str)
+{
+    QStringList list = str.split ("+");
+    if (list.count() != 2)
+    {
+        ui->tabWidget->tabBar()->finishMouseMoveEvent();
+        return;
+    }
+    int index = list.at (1).toInt();
+    if (index == -1) // impossible
+    {
+        ui->tabWidget->tabBar()->finishMouseMoveEvent();
+        return;
+    }
+
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    FPwin *dragSource = nullptr;
+    for (int i = 0; i < singleton->Wins.count(); ++i)
+    {
+        if (singleton->Wins.at (i)->winId() == (uint) list.at (0).toInt())
+        {
+            dragSource = singleton->Wins.at (i);
+            break;
+        }
+    }
+    if (dragSource == this
+        || dragSource == nullptr) // impossible
+    {
+        ui->tabWidget->tabBar()->finishMouseMoveEvent();
+        return;
+    }
+
+    QString tooltip = dragSource->ui->tabWidget->tabToolTip (index);
+    QString tabText = dragSource->ui->tabWidget->tabText (index);
+    bool spin = false;
+    bool ln = false;
+    if (dragSource->ui->spinBox->isVisible())
+        spin = true;
+    if (dragSource->ui->actionLineNumbers->isChecked())
+        ln = true;
+
+    TextEdit *textEdit = qobject_cast< TextEdit *>(dragSource->ui->tabWidget->widget (index));
+
+    disconnect (textEdit, &TextEdit::updateRect, dragSource ,&FPwin::hlighting);
+    disconnect (textEdit, &QPlainTextEdit::textChanged, dragSource ,&FPwin::hlight);
+    disconnect (textEdit, &QPlainTextEdit::textChanged, dragSource, &FPwin::wordButtonStatus);
+    disconnect (textEdit, &QPlainTextEdit::blockCountChanged, dragSource, &FPwin::statusMsgWithLineCount);
+    disconnect (textEdit, &QPlainTextEdit::selectionChanged, dragSource, &FPwin::statusMsg);
+    disconnect (textEdit, &QPlainTextEdit::copyAvailable, dragSource->ui->actionCut, &QAction::setEnabled);
+    disconnect (textEdit, &QPlainTextEdit::copyAvailable, dragSource->ui->actionDelete, &QAction::setEnabled);
+    disconnect (textEdit, &QPlainTextEdit::copyAvailable, dragSource->ui->actionCopy, &QAction::setEnabled);
+    disconnect (textEdit, &TextEdit::fileDropped, dragSource, &FPwin::newTabFromName);
+    disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, dragSource, &FPwin::matchBrackets);
+    disconnect (textEdit, &TextEdit::updateRect, dragSource, &FPwin::formatVisibleText);
+    disconnect (textEdit, &TextEdit::resized, dragSource, &FPwin::formatonResizing);
+
+    disconnect (textEdit->document(), &QTextDocument::blockCountChanged, dragSource, &FPwin::setMax);
+    disconnect (textEdit->document(), &QTextDocument::modificationChanged, dragSource, &FPwin::asterisk);
+    disconnect (textEdit->document(), &QTextDocument::undoAvailable, dragSource->ui->actionUndo, &QAction::setEnabled);
+    disconnect (textEdit->document(), &QTextDocument::redoAvailable, dragSource->ui->actionRedo, &QAction::setEnabled);
+    disconnect (textEdit->document(), &QTextDocument::modificationChanged, dragSource->ui->actionSave, &QAction::setEnabled);
+
+    /* it's important to release mouse before tab removal because otherwise, the source
+       tabbar might not be updated properly with tab reordering during a fast drag-and-drop */
+    dragSource->ui->tabWidget->tabBar()->releaseMouse();
+
+    tabInfo *tabinfo = dragSource->tabsInfo_[textEdit];
+    dragSource->tabsInfo_.remove (textEdit);
+    dragSource->ui->tabWidget->removeTab (index);
+    int count = dragSource->ui->tabWidget->count();
+    if (count == 1)
+        dragSource->ui->actionDetach->setDisabled (true);
+
+    /***************************************************************************
+     ***** The tab is dropped into this window; so insert it as a new tab. *****
+     ***************************************************************************/
+
+    int insertIndex = ui->tabWidget->currentIndex() + 1;
+
+    /* first, set the new info... */
+    lastFile_ = tabinfo->fileName;
+    tabinfo->greenSel = QList<QTextEdit::ExtraSelection>();
+    tabinfo->redSel = QList<QTextEdit::ExtraSelection>();
+    tabsInfo_[textEdit] = tabinfo;
+    /* ... then insert the detached widget... */
+    ui->tabWidget->insertTab (insertIndex, textEdit, tabText);
+    ui->tabWidget->setCurrentIndex (insertIndex);
+    /* ... and remove all yellow and green highlights
+       (the yellow ones will be recreated later if needed) */
+    QList<QTextEdit::ExtraSelection> es;
+    if ((ln || spin)
+        && (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible()))
     {
         es.prepend (textEdit->currentLineSelection());
     }
     textEdit->setExtraSelections (es);
 
     /* at last, set all properties correctly */
-    if (anotherFP->ui->tabWidget->count() == 1)
-        anotherFP->enableWidgets (true);
-    if (top == -1)
-        anotherFP->setWindowTitle (title);
-    anotherFP->ui->tabWidget->setTabToolTip (insertIndex, tooltip);
+    if (ui->tabWidget->count() == 1)
+        enableWidgets (true);
+    ui->tabWidget->setTabToolTip (insertIndex, tooltip);
     /* detach button */
-    if (top > -1 && anotherFP->ui->tabWidget->count() == 2)
-        anotherFP->ui->actionDetach->setEnabled (true);
+    if (ui->tabWidget->count() == 2)
+        ui->actionDetach->setEnabled (true);
     /* reload buttons, syntax highlighting, jump bar, line numbers */
-    if (top == -1)
+    if (ui->actionSyntax->isChecked() && !tabinfo->highlighter)
+        syntaxHighlighting (insertIndex);
+    else if (!ui->actionSyntax->isChecked() && tabinfo->highlighter)
     {
-        anotherFP->encodingToCheck (tabinfo->encoding);
-        if (!tabinfo->fileName.isEmpty())
-            anotherFP->ui->actionReload->setEnabled (true);
-        if (!hl)
-            anotherFP->ui->actionSyntax->setChecked (false);
-        if (spin)
-        {
-            anotherFP->ui->spinBox->setVisible (true);
-            anotherFP->ui->label->setVisible (true);
-            anotherFP->ui->spinBox->setMaximum (textEdit->document()->blockCount());
-            connect (textEdit->document(), &QTextDocument::blockCountChanged, anotherFP, &FPwin::setMax);
-        }
-        if (ln)
-            anotherFP->ui->actionLineNumbers->setChecked (true);
+        Highlighter *highlighter = tabinfo->highlighter;
+        tabinfo->highlighter = nullptr;
+        delete highlighter; highlighter = nullptr;
     }
+    if (ui->spinBox->isVisible())
+        connect (textEdit->document(), &QTextDocument::blockCountChanged, this, &FPwin::setMax);
+    if (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible())
+        textEdit->showLineNumbers (true);
     else
-    {
-        if (anotherFP->ui->actionSyntax->isChecked() && !tabinfo->highlighter)
-            anotherFP->syntaxHighlighting (insertIndex);
-        else if (!anotherFP->ui->actionSyntax->isChecked() && tabinfo->highlighter)
-        {
-            Highlighter *highlighter = tabinfo->highlighter;
-            tabinfo->highlighter = nullptr;
-            delete highlighter; highlighter = nullptr;
-        }
-        if (anotherFP->ui->spinBox->isVisible())
-            connect (textEdit->document(), &QTextDocument::blockCountChanged, anotherFP, &FPwin::setMax);
-        if (anotherFP->ui->actionLineNumbers->isChecked() || anotherFP->ui->spinBox->isVisible())
-            textEdit->showLineNumbers (true);
-        else
-            textEdit->showLineNumbers (false);
-    }
+        textEdit->showLineNumbers (false);
     /* searching */
     if (!tabinfo->searchEntry.isEmpty())
     {
-        if (!anotherFP->ui->lineEdit->isVisible())
-            anotherFP->showHideSearch();
-        connect (textEdit, &QPlainTextEdit::textChanged, anotherFP, &FPwin::hlight);
-        connect (textEdit, &TextEdit::updateRect, anotherFP, &FPwin::hlighting);
+        if (!ui->lineEdit->isVisible())
+            showHideSearch();
+        connect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::hlight);
+        connect (textEdit, &TextEdit::updateRect, this, &FPwin::hlighting);
         /* restore yellow highlights, which will automatically
            set the current line highlight if needed because the
            spin button and line number menuitem are set above */
-        anotherFP->hlight();
+        hlight();
     }
     /* status bar */
-    if (top == -1)
+    if (ui->statusBar->isVisible())
     {
-        if (status)
-        {
-            anotherFP->ui->statusBar->setVisible (true);
-            anotherFP->statusMsgWithLineCount (textEdit->document()->blockCount());
-            if (tabinfo->wordNumber == -1)
-            {
-                if (QToolButton *wordButton = anotherFP->ui->statusBar->findChild<QToolButton *>())
-                    wordButton->setVisible (true);
-            }
-            else
-            {
-                if (QToolButton *wordButton = anotherFP->ui->statusBar->findChild<QToolButton *>())
-                    wordButton->setVisible (false);
-                QLabel *statusLabel = anotherFP->ui->statusBar->findChild<QLabel *>();
-                statusLabel->setText (tr ("%1 <i>%2</i>")
-                                      .arg (statusLabel->text())
-                                      .arg (tabinfo->wordNumber));
-                connect (textEdit, &QPlainTextEdit::textChanged, anotherFP, &FPwin::wordButtonStatus);
-            }
-            connect (textEdit, &QPlainTextEdit::blockCountChanged, anotherFP, &FPwin::statusMsgWithLineCount);
-            connect (textEdit, &QPlainTextEdit::selectionChanged, anotherFP, &FPwin::statusMsg);
-        }
-        if (textEdit->lineWrapMode() == QPlainTextEdit::NoWrap)
-            anotherFP->ui->actionWrap->setChecked (false);
+        connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::statusMsgWithLineCount);
+        connect (textEdit, &QPlainTextEdit::selectionChanged, this, &FPwin::statusMsg);
+        if (tabinfo->wordNumber != 1)
+            connect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::wordButtonStatus);
     }
-    else
-    {
-        if (anotherFP->ui->statusBar->isVisible())
-        {
-            connect (textEdit, &QPlainTextEdit::blockCountChanged, anotherFP, &FPwin::statusMsgWithLineCount);
-            connect (textEdit, &QPlainTextEdit::selectionChanged, anotherFP, &FPwin::statusMsg);
-            if (tabinfo->wordNumber != 1)
-                connect (textEdit, &QPlainTextEdit::textChanged, anotherFP, &FPwin::wordButtonStatus);
-        }
-        if (anotherFP->ui->actionWrap->isChecked() && textEdit->lineWrapMode() == QPlainTextEdit::NoWrap)
-            textEdit->setLineWrapMode (QPlainTextEdit::WidgetWidth);
-        else if (!anotherFP->ui->actionWrap->isChecked() && textEdit->lineWrapMode() == QPlainTextEdit::WidgetWidth)
-            textEdit->setLineWrapMode (QPlainTextEdit::NoWrap);
-    }
+    if (ui->actionWrap->isChecked() && textEdit->lineWrapMode() == QPlainTextEdit::NoWrap)
+        textEdit->setLineWrapMode (QPlainTextEdit::WidgetWidth);
+    else if (!ui->actionWrap->isChecked() && textEdit->lineWrapMode() == QPlainTextEdit::WidgetWidth)
+        textEdit->setLineWrapMode (QPlainTextEdit::NoWrap);
     /* auto indentation */
-    if (top == -1)
-    {
-        if (textEdit->getAutoIndentation() == false)
-            anotherFP->ui->actionIndent->setChecked (false);
-    }
-    else
-    {
-        if (anotherFP->ui->actionIndent->isChecked() && textEdit->getAutoIndentation() == false)
-            textEdit->setAutoIndentation (true);
-        else if (!anotherFP->ui->actionIndent->isChecked() && textEdit->getAutoIndentation() == true)
-            textEdit->setAutoIndentation (false);
-    }
+    if (ui->actionIndent->isChecked() && textEdit->getAutoIndentation() == false)
+        textEdit->setAutoIndentation (true);
+    else if (!ui->actionIndent->isChecked() && textEdit->getAutoIndentation() == true)
+        textEdit->setAutoIndentation (false);
     /* the remaining signals */
-    connect (textEdit->document(), &QTextDocument::undoAvailable, anotherFP->ui->actionUndo, &QAction::setEnabled);
-    connect (textEdit->document(), &QTextDocument::redoAvailable, anotherFP->ui->actionRedo, &QAction::setEnabled);
-    connect (textEdit->document(), &QTextDocument::modificationChanged, anotherFP->ui->actionSave, &QAction::setEnabled);
-    connect (textEdit->document(), &QTextDocument::modificationChanged, anotherFP, &FPwin::asterisk);
-    connect (textEdit, &QPlainTextEdit::copyAvailable, anotherFP->ui->actionCopy, &QAction::setEnabled);
+    connect (textEdit->document(), &QTextDocument::undoAvailable, ui->actionUndo, &QAction::setEnabled);
+    connect (textEdit->document(), &QTextDocument::redoAvailable, ui->actionRedo, &QAction::setEnabled);
+    connect (textEdit->document(), &QTextDocument::modificationChanged, ui->actionSave, &QAction::setEnabled);
+    connect (textEdit->document(), &QTextDocument::modificationChanged, this, &FPwin::asterisk);
+    connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCopy, &QAction::setEnabled);
     if (!textEdit->isReadOnly())
     {
-        connect (textEdit, &QPlainTextEdit::copyAvailable, anotherFP->ui->actionCut, &QAction::setEnabled);
-        connect (textEdit, &QPlainTextEdit::copyAvailable, anotherFP->ui->actionDelete, &QAction::setEnabled);
+        connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCut, &QAction::setEnabled);
+        connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionDelete, &QAction::setEnabled);
     }
-    connect (textEdit, &TextEdit::fileDropped, anotherFP, &FPwin::newTabFromName);
+    connect (textEdit, &TextEdit::fileDropped, this, &FPwin::newTabFromName);
 
-    if (top > -1)
-        anotherFP->ui->tabWidget->setCurrentIndex (insertIndex);
-
-    if (tabinfo->highlighter) // it's set to NULL above when top > -1 and syntax highlighting is disabled
+    if (tabinfo->highlighter) // it's set to NULL above when syntax highlighting is disabled
     {
-        anotherFP->matchBrackets();
-        connect (textEdit, &QPlainTextEdit::cursorPositionChanged, anotherFP, &FPwin::matchBrackets);
-        connect (textEdit, &TextEdit::updateRect, anotherFP, &FPwin::formatVisibleText);
-        connect (textEdit, &TextEdit::resized, anotherFP, &FPwin::formatonResizing);
+        matchBrackets();
+        connect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
+        connect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
+        connect (textEdit, &TextEdit::resized, this, &FPwin::formatonResizing);
     }
 
     textEdit->setFocus();
 
-    anotherFP->activateWindow();
-    anotherFP->raise();
+    activateWindow();
+    raise();
 
-    if (count == 0) close();
+    if (count == 0)
+        QTimer::singleShot (0, dragSource, SLOT (close()));
 }
 /*************************/
 void FPwin::tabContextMenu (const QPoint& p)
@@ -2273,13 +2317,6 @@ void FPwin::tabContextMenu (const QPoint& p)
         menu.addAction (ui->actionCloseOther);
     menu.addAction (ui->actionCloseAll);
     menu.exec (tbar->mapToGlobal (p));
-}
-/*************************/
-void FPwin::detachTab()
-{
-    QRect screenRect = QApplication::desktop()->screenGeometry();
-    QPoint point = QPoint (2*screenRect.width(), 2*screenRect.height());
-    detachAndDropTab (point);
 }
 /*************************/
 void FPwin::prefDialog()

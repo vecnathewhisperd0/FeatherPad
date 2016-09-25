@@ -31,14 +31,21 @@ class TabBar : public QTabBar
 public:
     TabBar (QWidget *parent = 0);
 
+    void finishMouseMoveEvent();
+    void releaseMouse();
+
 signals:
-    void tabDropped (QPoint&);
+    void tabDetached();
 
 protected:
     /* from qtabbar.cpp */
-    virtual void mouseReleaseEvent (QMouseEvent *event);
+    virtual void mousePressEvent (QMouseEvent *event);
     virtual void mouseMoveEvent (QMouseEvent *event);
     bool event (QEvent *);
+
+private:
+    QPoint dragStartPosition_;
+    bool dragStarted_;
 };
 
 }

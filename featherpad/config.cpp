@@ -16,7 +16,6 @@
  */
 
 #include "config.h"
-#include <QSettings>
 
 namespace FeatherPad {
 
@@ -45,7 +44,7 @@ Config::~Config() {}
 /*************************/
 void Config::readConfig()
 {
-    QSettings settings ("featherpad", "fp");
+    Settings settings ("featherpad", "fp");
 
     /**************
      *** Window ***
@@ -114,10 +113,9 @@ void Config::readConfig()
     settings.endGroup();
 }
 /*************************/
-// Prevent redundant writings! (QSettings should have done that.)
 void Config::writeConfig()
 {
-    QSettings settings ("featherpad", "fp");
+    Settings settings ("featherpad", "fp");
     if (!settings.isWritable()) return;
 
     /**************
@@ -128,37 +126,23 @@ void Config::writeConfig()
 
     if (remSize_)
     {
-        if (settings.value ("size").toSize() != winSize_)
-            settings.setValue ("size", winSize_);
-        if (settings.value ("max").toBool() != isMaxed_)
-            settings.setValue ("max", isMaxed_);
-        if (settings.value ("fullscreen").toBool() != isFull_)
-            settings.setValue ("fullscreen", isFull_);
+        settings.setValue ("size", winSize_);
+        settings.setValue ("max", isMaxed_);
+        settings.setValue ("fullscreen", isFull_);
     }
-    else if (settings.value ("size").toString() != "none")
+    else
     {
         settings.setValue ("size", "none");
         settings.remove ("max");
         settings.remove ("fullscreen");
     }
 
-    if (settings.value ("startSize").toSize() != startSize_)
-        settings.setValue ("startSize", startSize_);
-
-    if (settings.value ("sysIcon").toBool() != sysIcon_)
-        settings.setValue ("sysIcon", sysIcon_);
-
-    if (settings.value ("noToolbar").toBool() != noToolbar_)
-        settings.setValue ("noToolbar", noToolbar_);
-
-    if (settings.value ("hideSearchbar").toBool() != hideSearchbar_)
-        settings.setValue ("hideSearchbar", hideSearchbar_);
-
-    if (settings.value ("showStatusbar").toBool() != showStatusbar_)
-        settings.setValue ("showStatusbar", showStatusbar_);
-
-    if (settings.value ("translucencyWorkaround").toBool() != translucencyWorkaround_)
-        settings.setValue ("translucencyWorkaround", translucencyWorkaround_);
+    settings.setValue ("startSize", startSize_);
+    settings.setValue ("sysIcon", sysIcon_);
+    settings.setValue ("noToolbar", noToolbar_);
+    settings.setValue ("hideSearchbar", hideSearchbar_);
+    settings.setValue ("showStatusbar", showStatusbar_);
+    settings.setValue ("translucencyWorkaround", translucencyWorkaround_);
 
     settings.endGroup();
 
@@ -169,33 +153,17 @@ void Config::writeConfig()
     settings.beginGroup ("text");
 
     if (remFont_)
-    {
-        if (settings.value ("font").toString() != font_.toString())
-            settings.setValue ("font", font_.toString());
-    }
-    else if (settings.value ("font").toString() != "none")
+        settings.setValue ("font", font_.toString());
+    else
         settings.setValue ("font", "none");
 
-    if (settings.value ("noWrap").toBool() != !wrapByDefault_)
-        settings.setValue ("noWrap", !wrapByDefault_);
-
-    if (settings.value ("noIndent").toBool() != !indentByDefault_)
-        settings.setValue ("noIndent", !indentByDefault_);
-
-    if (settings.value ("lineNumbers").toBool() != lineByDefault_)
-        settings.setValue ("lineNumbers", lineByDefault_);
-
-    if (settings.value ("noSyntaxHighlighting").toBool() != !syntaxByDefault_)
-        settings.setValue ("noSyntaxHighlighting", !syntaxByDefault_);
-
-    if (settings.value ("darkColorScheme").toBool() != darkColScheme_)
-        settings.setValue ("darkColorScheme", darkColScheme_);
-
-    if (settings.value ("scrollJumpWorkaround").toBool() != scrollJumpWorkaround_)
-        settings.setValue ("scrollJumpWorkaround", scrollJumpWorkaround_);
-
-    if (settings.value ("maxSHSize").toInt() != maxSHSize_)
-        settings.setValue ("maxSHSize", maxSHSize_);
+    settings.setValue ("noWrap", !wrapByDefault_);
+    settings.setValue ("noIndent", !indentByDefault_);
+    settings.setValue ("lineNumbers", lineByDefault_);
+    settings.setValue ("noSyntaxHighlighting", !syntaxByDefault_);
+    settings.setValue ("darkColorScheme", darkColScheme_);
+    settings.setValue ("scrollJumpWorkaround", scrollJumpWorkaround_);
+    settings.setValue ("maxSHSize", maxSHSize_);
 
     settings.endGroup();
 }

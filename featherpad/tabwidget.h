@@ -38,7 +38,7 @@ public:
     }
     ~TabWidget() {delete tb;}
     /* make it public */
-    QTabBar *tabBar() const {return tb;}
+    TabBar *tabBar() const {return tb;}
 
 private:
     TabBar *tb;

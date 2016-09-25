@@ -22,9 +22,6 @@
 
 #if defined Q_WS_X11 || defined Q_OS_LINUX
 #include <X11/Xlib.h>
-namespace FeatherPad {
-QList<Window> listXWins (Window w);
-}
 #endif
 
 namespace FeatherPad {

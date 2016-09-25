@@ -20,7 +20,9 @@ If there is more that one tab, each tab will have a right-click menu for closing
 
 If there is a FeatherPad window on the current virtual desktop or viewport, so that more than half of its width as well as its height is visible, files will be opened as new tabs in it; otherwise, a new window will be created. Also when the window on the current desktop/viewport has a modal dialog, another window is created.
 
-If a file is opened multiple times, its second (third, ... ) instance will be uneditable by default and will have a light yellow background (or a dark red background when the dark color scheme is used). To make it editable, click on the newly created 'Edit' button on the toolbar or the 'Edit' menu. After that, these two buttons will disappear again.
+In this way, FeatherPad is aware of virtual desktops under most Linux desktop environments. However, there may be exceptions (like Enlightenment). 
+
+If a file is opened multiple times, its second (third, ... ) instance will be uneditable by default and will have a light yellow or dark red background (depending on whether the default or the dark color scheme is used). To make it editable, click on the newly created 'Edit' button on the toolbar or the 'Edit' menu. After that, these two buttons will disappear again.
 
 *******************************************
 *   Encodings and Programming Languages   *
@@ -36,7 +38,7 @@ To remove the yellow highlights after finishing a search, you could
 
 * Click on the 'Clear' icon of the search entry, or
 * Press Ctrl+K while the search entry has focus, or
-* Empty the search entry and press Enter or F3, or
+* Empty the search entry and press Enter or F3 in it, or
 * Hide the search bar.
 
 The 'Replace' docked window respects the settings for 'Match Case' and 'Whole Word' on the search bar. It can be detached from and reattached to the the main window at top or bottom. To remove the green highlights after replacing text, you could either hide/close the 'Replace' docked window or do as in the case of removing yellow search highlights (without closing the dock).

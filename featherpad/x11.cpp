@@ -65,31 +65,6 @@ long fromDesktop()
     return res;
 }
 /*************************/
-// Get the list of all X11 windows in current stacking order (from bottommost to topmost).
-#if defined Q_WS_X11 || defined Q_OS_LINUX
-QList<Window> listXWins (Window w)
-{
-    QList<Window> windows;
-
-    Window root;
-    Window parent;
-    Window *children;
-    unsigned int childrenCount;
-
-    if (XQueryTree (QX11Info::display(), w, &root, &parent, &children, &childrenCount))
-    {
-        for (unsigned int i = 0; i < childrenCount; ++i)
-        {
-            windows << children[i];
-            windows << listXWins (children[i]);
-        }
-        XFree (children);
-    }
-
-    return windows;
-}
-#endif
-/*************************/
 // Get the desktop of a window.
 long onWhichDesktop (Window w)
 {

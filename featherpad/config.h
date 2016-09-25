@@ -18,10 +18,26 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#include <QSettings>
 #include <QSize>
 #include <QFont>
 
 namespace FeatherPad {
+
+// Prevent redundant writings! (Why does QSettings write to the config file when no setting is changed?)
+class Settings : public QSettings
+{
+    Q_OBJECT
+public:
+    Settings (const QString &organization, const QString &application = QString(), QObject *parent = nullptr)
+             : QSettings (organization, application, parent) {}
+
+    void setValue (const QString &key, const QVariant &v) {
+        if (value (key) == v)
+            return;
+        QSettings::setValue (key, v);
+    }
+};
 
 class Config {
 public:
