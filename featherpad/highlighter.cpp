@@ -636,7 +636,7 @@ bool Highlighter::isQuoted (const QString &text, const int index)
     if (progLan == "python" || progLan == "sh"
         || progLan == "makefile" || progLan == "cmake"
         || progLan == "lua" || progLan == "perl"
-        || progLan == "ruby" || progLan == "html")
+        || progLan == "ruby" || progLan == "html" || progLan == "javascript")
     {
         scriptLang = true;
     }
@@ -992,7 +992,7 @@ int Highlighter::cssHighlighter (const QString &text)
      **************************/
 
     cssStartExpression = QRegExp (":");
-    cssEndExpression = QRegExp (";");
+    cssEndExpression = QRegExp (";|\\}");
     index = 0;
     if (previousBlockState() != cssValueState)
     {
@@ -1267,7 +1267,8 @@ void Highlighter::multiLineQuote (const QString &text)
     bool scriptLang = false;
     if (progLan == "python" || progLan == "sh"
         || progLan == "makefile" || progLan == "cmake"
-        || progLan == "lua" || progLan == "perl" || progLan == "ruby")
+        || progLan == "lua" || progLan == "perl"
+        || progLan == "ruby" || progLan == "javascript")
     {
         scriptLang = true;
     }

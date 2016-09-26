@@ -128,6 +128,8 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     connect (static_cast<TabBar*>(ui->tabWidget->tabBar()), &TabBar::tabDetached, this, &FPwin::detachTab);
     ui->tabWidget->tabBar()->setContextMenuPolicy (Qt::CustomContextMenu);
     connect (ui->tabWidget->tabBar(), &QWidget::customContextMenuRequested, this, &FPwin::tabContextMenu);
+    connect (ui->actionCopyName, &QAction::triggered, this, &FPwin::copyTabFileName);
+    connect (ui->actionCopyPath, &QAction::triggered, this, &FPwin::copyTabFilePath);
     connect (ui->actionCloseAll, &QAction::triggered, this, &FPwin::closeAllTabs);
     connect (ui->actionCloseRight, &QAction::triggered, this, &FPwin::closeRightTabs);
     connect (ui->actionCloseLeft, &QAction::triggered, this, &FPwin::closeLeftTabs);
@@ -261,6 +263,9 @@ void FPwin::applyConfig()
     if (!config.getShowStatusbar())
         ui->statusBar->hide();
 
+    if (config.getTabPosition() != 0)
+        ui->tabWidget->setTabPosition ((QTabWidget::TabPosition) config.getTabPosition());
+
     if (config.getSysIcon())
     {
         ui->actionNew->setIcon (QIcon::fromTheme("document-new"));
@@ -288,6 +293,8 @@ void FPwin::applyConfig()
         ui->actionAbout->setIcon (QIcon::fromTheme("help-about"));
         ui->actionJump->setIcon (QIcon::fromTheme("go-jump"));
         ui->actionEdit->setIcon (QIcon::fromTheme("document-edit"));
+        ui->actionCopyName->setIcon (QIcon::fromTheme("edit-copy"));
+        ui->actionCopyPath->setIcon (QIcon::fromTheme("edit-copy"));
         ui->actionCloseRight->setIcon (QIcon::fromTheme("go-next"));
         ui->actionCloseLeft->setIcon (QIcon::fromTheme("go-previous"));
         ui->actionCloseOther->setIcon (QIcon::hasThemeIcon("tab-close-other") ? QIcon::fromTheme("tab-close-other") : QIcon());
@@ -409,6 +416,21 @@ bool FPwin::closeTabs (int leftIndx, int rightIndx, bool closeall)
     }
 
     return keep;
+}
+/*************************/
+void FPwin::copyTabFileName()
+{
+    TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (rightClicked_));
+    QString fname = tabsInfo_[textEdit]->fileName;
+    QApplication::clipboard()->setText (QFileInfo (fname).fileName());
+}
+/*************************/
+void FPwin::copyTabFilePath()
+{
+    TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (rightClicked_));
+    QString str = tabsInfo_[textEdit]->fileName;
+    str.chop (QFileInfo (str).fileName().count());
+    QApplication::clipboard()->setText (str);
 }
 /*************************/
 void FPwin::closeAllTabs()
@@ -821,8 +843,12 @@ void FPwin::setTitle (const QString& fileName)
     else
         shownName = QFileInfo (fileName).fileName();
 
-    ui->tabWidget->setTabText (index, shownName);
     setWindowTitle (shownName);
+
+    QFontMetrics metrics = QFontMetrics (ui->tabWidget->font());
+    int w = 100 * metrics.width (' '); // 100 characters are more than enough
+    QString elidedName = metrics.elidedText (shownName, Qt::ElideMiddle, w);
+    ui->tabWidget->setTabText (index, elidedName);
 }
 /*************************/
 void FPwin::asterisk (bool modified)
@@ -847,8 +873,12 @@ void FPwin::asterisk (bool modified)
             shownName = QFileInfo (fname).fileName();
     }
 
-    ui->tabWidget->setTabText (index, shownName);
     setWindowTitle (shownName);
+
+    QFontMetrics metrics = QFontMetrics (ui->tabWidget->font());
+    int w = 100 * metrics.width (' ');
+    QString elidedName = metrics.elidedText (shownName, Qt::ElideMiddle, w);
+    ui->tabWidget->setTabText (index, elidedName);
 }
 /*************************/
 void FPwin::loadText (const QString& fileName, bool enforceEncod, bool reload)
@@ -1463,11 +1493,27 @@ void FPwin::tabSwitch (int index)
         return;
     }
 
-    QString shownName = ui->tabWidget->tabText (index);
-    setWindowTitle (shownName);
-
     TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
     tabInfo *tabinfo = tabsInfo_[textEdit];
+    QString fname = tabinfo->fileName;
+    bool modified (textEdit->document()->isModified());
+
+    QString shownName;
+    if (modified)
+    {
+        if (fname.isEmpty())
+            shownName = tr ("*Untitled");
+        else
+            shownName = QFileInfo (fname).fileName().prepend("*");
+    }
+    else
+    {
+        if (fname.isEmpty())
+            shownName = tr ("Untitled");
+        else
+            shownName = QFileInfo (fname).fileName();
+    }
+    setWindowTitle (shownName);
 
     /* also change the search entry */
     QString txt = tabinfo->searchEntry;
@@ -1482,15 +1528,14 @@ void FPwin::tabSwitch (int index)
     /* correct the states of some buttons */
     ui->actionUndo->setEnabled (textEdit->document()->isUndoAvailable());
     ui->actionRedo->setEnabled (textEdit->document()->isRedoAvailable());
-    ui->actionSave->setEnabled (textEdit->document()->isModified());
-    QString fileName = tabinfo->fileName;
-    if (fileName.isEmpty())
+    ui->actionSave->setEnabled (modified);
+    if (fname.isEmpty())
         ui->actionReload->setEnabled (false);
     else
         ui->actionReload->setEnabled (true);
     bool readOnly = textEdit->isReadOnly();
-    if (fileName.isEmpty()
-        && !textEdit->document()->isModified()
+    if (fname.isEmpty()
+        && !modified
         && !textEdit->document()->isEmpty()) // 'Help' is the exception
     {
         ui->actionEdit->setVisible (false);
@@ -2301,21 +2346,31 @@ void FPwin::dropTab (QString str)
 void FPwin::tabContextMenu (const QPoint& p)
 {
     int tabNum = ui->tabWidget->count();
-    if (tabNum == 1) return;
-
     QTabBar *tbar = ui->tabWidget->tabBar();
     rightClicked_ = tbar->tabAt (p);
     if (rightClicked_ < 0) return;
 
+    TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (rightClicked_));
+    QString fname = tabsInfo_[textEdit]->fileName;
     QMenu menu;
-    if (rightClicked_ < tabNum - 1)
-        menu.addAction (ui->actionCloseRight);
-    if (rightClicked_ > 0)
-        menu.addAction (ui->actionCloseLeft);
-    menu.addSeparator();
-    if (rightClicked_ < tabNum - 1 && rightClicked_ > 0)
-        menu.addAction (ui->actionCloseOther);
-    menu.addAction (ui->actionCloseAll);
+    if (!fname.isEmpty())
+    {
+        menu.addAction (ui->actionCopyName);
+        menu.addAction (ui->actionCopyPath);
+    }
+    if (tabNum > 1)
+    {
+        if (!fname.isEmpty())
+            menu.addSeparator();
+        if (rightClicked_ < tabNum - 1)
+            menu.addAction (ui->actionCloseRight);
+        if (rightClicked_ > 0)
+            menu.addAction (ui->actionCloseLeft);
+        menu.addSeparator();
+        if (rightClicked_ < tabNum - 1 && rightClicked_ > 0)
+            menu.addAction (ui->actionCloseOther);
+        menu.addAction (ui->actionCloseAll);
+    }
     menu.exec (tbar->mapToGlobal (p));
 }
 /*************************/

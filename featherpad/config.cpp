@@ -35,6 +35,7 @@ Config::Config():
     darkColScheme_ (false),
     scrollJumpWorkaround_ (false),
     translucencyWorkaround_ (false),
+    tabPosition_ (0),
     maxSHSize_ (1),
     winSize_ (QSize (700, 500)),
     startSize_ (QSize (700, 500)),
@@ -73,6 +74,10 @@ void Config::readConfig()
 
     if (settings.value ("showStatusbar").toBool())
         showStatusbar_ = true; // false by default
+
+    int pos = settings.value ("tabPosition").toInt();
+    if (pos > 0 && pos <= 3)
+        tabPosition_ = pos; // 0 by default
 
     if (settings.value ("translucencyWorkaround").toBool())
         translucencyWorkaround_ = true; // false by default
@@ -142,6 +147,7 @@ void Config::writeConfig()
     settings.setValue ("noToolbar", noToolbar_);
     settings.setValue ("hideSearchbar", hideSearchbar_);
     settings.setValue ("showStatusbar", showStatusbar_);
+    settings.setValue ("tabPosition", tabPosition_);
     settings.setValue ("translucencyWorkaround", translucencyWorkaround_);
 
     settings.endGroup();

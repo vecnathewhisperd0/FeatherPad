@@ -96,7 +96,44 @@
         </property>
        </widget>
       </item>
-      <item row="6" column="0" colspan="4">
+      <item row="6" column="0">
+       <widget class="QLabel" name="tabLabel">
+        <property name="toolTip">
+         <string>Will take effect after closing this dialog.</string>
+        </property>
+        <property name="text">
+         <string>Tab position: </string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1" colspan="3">
+       <widget class="QComboBox" name="tabCombo">
+        <property name="toolTip">
+         <string>Will take effect after closing this dialog.</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>North</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>South</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>West</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>East</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="7" column="0" colspan="4">
        <widget class="QCheckBox" name="transBox">
         <property name="toolTip">
          <string>Check this only if you see weird effects with translucent themes!</string>

@@ -36,6 +36,9 @@ private slots:
     void prefMaxSHSize (int value);
 
 private:
+    void closeEvent (QCloseEvent *event);
+    void preftabPosition();
+
     Ui::PrefDialog *ui;
     QWidget * parent_;
 };

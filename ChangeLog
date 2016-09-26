@@ -10,6 +10,9 @@ V0.5.8
  * Always show the search bar on showing the replacement dock. Also hide the latter on hiding the former.
  * Added an option for using dark color scheme.
  * An option to set a fixed start size (700x500 is still the default size).
+ * Added an option for tab position.
+ * Elide long tab text.
+ * Added two items to tab context menu for copying file name and path.
  * Made tab drag-and-drop independent from X11.
 
 V0.5.7

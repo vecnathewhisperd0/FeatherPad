@@ -45,6 +45,8 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     connect (ui->searchbarBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSearchbar);
     ui->statusBox->setChecked (config.getShowStatusbar());
     connect (ui->statusBox, &QCheckBox::stateChanged, this, &PrefDialog::prefStatusbar);
+    // no ccombo onnection because of mouse wheel; config is set at closeEvent() instead
+    ui->tabCombo->setCurrentIndex (config.getTabPosition());
     ui->transBox->setChecked (config.getTranslucencyWorkaround());
     connect (ui->transBox, &QCheckBox::stateChanged, this, &PrefDialog::prefTranslucencyWorkaround);
 
@@ -86,7 +88,7 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     connect (ui->spinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefMaxSHSize);
 
     QPushButton *closeButton = ui->buttonBox->button (QDialogButtonBox::Close);
-    connect (closeButton, &QAbstractButton::clicked, this, &QDialog::reject);
+    connect (closeButton, &QAbstractButton::clicked, this, &QDialog::close);
     setAttribute (Qt::WA_DeleteOnClose);
     resize (minimumSize());
 }
@@ -94,6 +96,12 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
 PrefDialog::~PrefDialog()
 {
     delete ui; ui = nullptr;
+}
+/*************************/
+void PrefDialog::closeEvent (QCloseEvent *event)
+{
+    preftabPosition();
+    event->accept();
 }
 /*************************/
 void PrefDialog::prefSize (int checked)
@@ -209,6 +217,19 @@ void PrefDialog::prefStatusbar (int checked)
             if (win->ui->tabWidget->currentIndex() > -1)
                 win->ui->actionDoc->setVisible (true);
         }
+    }
+}
+/*************************/
+void PrefDialog::preftabPosition()
+{
+    int index = ui->tabCombo->currentIndex();
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    Config& config = singleton->getConfig();
+    config.setTabPosition (index);
+    for (int i = 0; i < singleton->Wins.count(); ++i)
+    {
+        FPwin *win = singleton->Wins.at (i);
+        win->ui->tabWidget->setTabPosition ((QTabWidget::TabPosition) index);
     }
 }
 /*************************/

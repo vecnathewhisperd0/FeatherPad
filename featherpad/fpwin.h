@@ -69,6 +69,8 @@ public slots:
 private slots:
     void closeTab();
     void closeTabAtIndex (int index);
+    void copyTabFileName();
+    void copyTabFilePath();
     void closeAllTabs();
     void closeRightTabs();
     void closeLeftTabs();

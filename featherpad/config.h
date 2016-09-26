@@ -117,6 +117,13 @@ public:
         showStatusbar_ = show;
     }
 
+    int getTabPosition() const {
+        return tabPosition_;
+    }
+    void setTabPosition (int pos) {
+        tabPosition_ = pos;
+    }
+
     QFont getFont() const {
         return font_;
     }
@@ -186,7 +193,7 @@ private:
          indentByDefault_, lineByDefault_, syntaxByDefault_, isMaxed_, isFull_, darkColScheme_,
          scrollJumpWorkaround_, // Should a workaround for Qt5's "scroll jump" bug be applied?
          translucencyWorkaround_; // Should a workaround for the translucency bug of Qt-5.7 be applied?
-    int maxSHSize_;
+    int tabPosition_, maxSHSize_;
     QSize winSize_, startSize_;
     QFont font_;
 };
