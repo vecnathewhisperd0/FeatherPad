@@ -11,7 +11,7 @@ V0.5.8
  * Added an option for using dark color scheme.
  * An option to set a fixed start size (700x500 is still the default size).
  * Added an option for tab position.
- * Elide long tab text.
+ * Elide long tab texts.
  * Added two items to tab context menu for copying file name and path.
  * Made tab drag-and-drop independent from X11.
 

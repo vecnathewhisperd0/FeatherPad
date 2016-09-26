@@ -131,8 +131,16 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     connect (ui->actionCopyName, &QAction::triggered, this, &FPwin::copyTabFileName);
     connect (ui->actionCopyPath, &QAction::triggered, this, &FPwin::copyTabFilePath);
     connect (ui->actionCloseAll, &QAction::triggered, this, &FPwin::closeAllTabs);
-    connect (ui->actionCloseRight, &QAction::triggered, this, &FPwin::closeRightTabs);
-    connect (ui->actionCloseLeft, &QAction::triggered, this, &FPwin::closeLeftTabs);
+    if (QApplication::layoutDirection() == Qt::RightToLeft)
+    {
+        connect (ui->actionCloseRight, &QAction::triggered, this, &FPwin::closePreviousTabs);
+        connect (ui->actionCloseLeft, &QAction::triggered, this, &FPwin::closeNextTabs);
+    }
+    else
+    {
+        connect (ui->actionCloseRight, &QAction::triggered, this, &FPwin::closeNextTabs);
+        connect (ui->actionCloseLeft, &QAction::triggered, this, &FPwin::closePreviousTabs);
+    }
     connect (ui->actionCloseOther, &QAction::triggered, this, &FPwin::closeOtherTabs);
 
     connect (ui->actionFont, &QAction::triggered, this, &FPwin::fontDialog);
@@ -439,12 +447,12 @@ void FPwin::closeAllTabs()
     closeTabs (-1, -1, true);
 }
 /*************************/
-void FPwin::closeRightTabs()
+void FPwin::closeNextTabs()
 {
     closeTabs (rightClicked_, -1, false);
 }
 /*************************/
-void FPwin::closeLeftTabs()
+void FPwin::closePreviousTabs()
 {
     closeTabs (-1, rightClicked_, false);
 }
@@ -2353,23 +2361,33 @@ void FPwin::tabContextMenu (const QPoint& p)
     TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (rightClicked_));
     QString fname = tabsInfo_[textEdit]->fileName;
     QMenu menu;
-    if (!fname.isEmpty())
-    {
-        menu.addAction (ui->actionCopyName);
-        menu.addAction (ui->actionCopyPath);
-    }
     if (tabNum > 1)
     {
-        if (!fname.isEmpty())
-            menu.addSeparator();
-        if (rightClicked_ < tabNum - 1)
-            menu.addAction (ui->actionCloseRight);
-        if (rightClicked_ > 0)
-            menu.addAction (ui->actionCloseLeft);
+        if (QApplication::layoutDirection() == Qt::RightToLeft)
+        {
+            if (rightClicked_ < tabNum - 1)
+                menu.addAction (ui->actionCloseLeft);
+            if (rightClicked_ > 0)
+                menu.addAction (ui->actionCloseRight);
+        }
+        else
+        {
+            if (rightClicked_ < tabNum - 1)
+                menu.addAction (ui->actionCloseRight);
+            if (rightClicked_ > 0)
+                menu.addAction (ui->actionCloseLeft);
+        }
         menu.addSeparator();
         if (rightClicked_ < tabNum - 1 && rightClicked_ > 0)
             menu.addAction (ui->actionCloseOther);
         menu.addAction (ui->actionCloseAll);
+        if (!fname.isEmpty())
+            menu.addSeparator();
+    }
+    if (!fname.isEmpty())
+    {
+        menu.addAction (ui->actionCopyName);
+        menu.addAction (ui->actionCopyPath);
     }
     menu.exec (tbar->mapToGlobal (p));
 }

@@ -72,8 +72,8 @@ private slots:
     void copyTabFileName();
     void copyTabFilePath();
     void closeAllTabs();
-    void closeRightTabs();
-    void closeLeftTabs();
+    void closeNextTabs();
+    void closePreviousTabs();
     void closeOtherTabs();
     void fileOpen();
     void reload();
