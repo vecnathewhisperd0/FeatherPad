@@ -1619,7 +1619,9 @@ void FPwin::fontDialog()
         if (config.getRemFont())
             config.setFont (newFont);
 
-        /* the font can become smaller */
+        /* the font can become larger... */
+        QTimer::singleShot (0, textEdit, SLOT (updateEditorGeometry()));
+        /* ... or smaller */
         formatTextRect (textEdit->rect());
         if (!tabsInfo_[textEdit]->searchEntry.isEmpty())
             hlight();
