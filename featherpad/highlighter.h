@@ -70,6 +70,9 @@ public:
     QSet<int> getHighlighted() const {
         return highlighted;
     }
+    void resetHighlighted() {
+        highlighted.clear();
+    }
 
 protected:
     void highlightBlock (const QString &text);

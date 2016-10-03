@@ -45,6 +45,7 @@ void FPwin::toggleSyntaxHighlighting()
         {
             disconnect (it.key(), &TextEdit::updateRect, this, &FPwin::formatVisibleText);
             disconnect (it.key(), &TextEdit::resized, this, &FPwin::formatonResizing);
+            disconnect (it.key(), &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
             disconnect (it.key(), &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
             tabInfo *tabinfo = tabsInfo_[it.key()];
 
@@ -74,9 +75,7 @@ void FPwin::getSyntax (const int index)
     if (fname.isEmpty()) return;
 
     if (fname.endsWith (".sub"))
-    {
         return;
-    }
 
     QString progLan;
 
@@ -240,8 +239,18 @@ void FPwin::syntaxHighlighting (const int index)
     QCoreApplication::processEvents();
     matchBrackets(); // in case the cursor is beside a bracket when the text is loaded
     connect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
+    connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
     connect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
     connect (textEdit, &TextEdit::resized, this, &FPwin::formatonResizing);
+}
+/*************************/
+void FPwin::formatOnBlockChange (int/* newBlockCount*/) const
+{
+    int index = ui->tabWidget->currentIndex();
+    if (index == -1) return;
+
+    TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
+    formatTextRect (textEdit->rect(), true);
 }
 /*************************/
 void FPwin::formatVisibleText (const QRect &rect, int dy) const
@@ -259,7 +268,7 @@ void FPwin::formatonResizing() const
     formatTextRect (textEdit->rect());
 }
 /*************************/
-void FPwin::formatTextRect (QRect rect) const
+void FPwin::formatTextRect (QRect rect, bool reset) const
 {
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
@@ -277,6 +286,8 @@ void FPwin::formatTextRect (QRect rect) const
     QTextCursor end = textEdit->cursorForPosition (Point);
 
     highlighter->setLimit (start, end);
+    if (reset)
+        highlighter->resetHighlighted();
     QTextBlock block = start.block();
     while (block.isValid() && block.blockNumber() <= end.blockNumber())
     {

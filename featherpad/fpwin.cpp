@@ -332,6 +332,7 @@ void FPwin::deleteTextEdit (int index)
     if (Highlighter *highlighter = tabinfo->highlighter)
     {
         disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
+        disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
         disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
         disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatonResizing);
         delete highlighter; highlighter = nullptr;
@@ -981,6 +982,7 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
         if (Highlighter *highlighter = tabinfo->highlighter)
         {
             disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
+            disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
             disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
             disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatonResizing);
             tabinfo->highlighter = nullptr;
@@ -1470,7 +1472,7 @@ void FPwin::undoing()
 
     /* remove green highlights */
     tabinfo->greenSel = QList<QTextEdit::ExtraSelection>();
-    if (tabinfo->searchEntry.isEmpty())
+    if (tabinfo->searchEntry.isEmpty()) // hlight() won't be called
     {
         QList<QTextEdit::ExtraSelection> es;
         if (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible())
@@ -2048,6 +2050,7 @@ void FPwin::detachTab()
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCopy, &QAction::setEnabled);
     disconnect (textEdit, &TextEdit::fileDropped, this, &FPwin::newTabFromName);
     disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
+    disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
     disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
     disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatonResizing);
 
@@ -2165,6 +2168,7 @@ void FPwin::detachTab()
     {
         dropTarget->matchBrackets();
         connect (textEdit, &QPlainTextEdit::cursorPositionChanged, dropTarget, &FPwin::matchBrackets);
+        connect (textEdit, &QPlainTextEdit::blockCountChanged, dropTarget, &FPwin::formatOnBlockChange);
         connect (textEdit, &TextEdit::updateRect, dropTarget, &FPwin::formatVisibleText);
         connect (textEdit, &TextEdit::resized, dropTarget, &FPwin::formatonResizing);
     }
@@ -2228,6 +2232,7 @@ void FPwin::dropTab (QString str)
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, dragSource->ui->actionCopy, &QAction::setEnabled);
     disconnect (textEdit, &TextEdit::fileDropped, dragSource, &FPwin::newTabFromName);
     disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, dragSource, &FPwin::matchBrackets);
+    disconnect (textEdit, &QPlainTextEdit::blockCountChanged, dragSource, &FPwin::formatOnBlockChange);
     disconnect (textEdit, &TextEdit::updateRect, dragSource, &FPwin::formatVisibleText);
     disconnect (textEdit, &TextEdit::resized, dragSource, &FPwin::formatonResizing);
 
@@ -2340,6 +2345,7 @@ void FPwin::dropTab (QString str)
     {
         matchBrackets();
         connect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
+        connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
         connect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
         connect (textEdit, &TextEdit::resized, this, &FPwin::formatonResizing);
     }
