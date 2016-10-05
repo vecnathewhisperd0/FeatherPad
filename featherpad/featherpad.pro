@@ -2,7 +2,8 @@ QT += core gui \
       widgets \
       printsupport \
       network \
-      x11extras
+      x11extras \
+      svg
 
 TARGET = featherpad
 TEMPLATE = app
