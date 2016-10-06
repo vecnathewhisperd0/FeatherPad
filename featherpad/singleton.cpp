@@ -109,12 +109,13 @@ FPwin* FPsingleton::newWin (const QString& message)
     QStringList sl = message.split ("\n");
     if (!message.isEmpty() && !sl.at (1).isEmpty())
     {
+        bool multiple (sl.count() > 2);
         for (int i = 1; i < sl.count(); ++i)
         {
             QString sli = sl.at (i);
             if (sli.startsWith ("file://"))
                 sli = QUrl (sli).toLocalFile();
-            fp->newTabFromName (sli);
+            fp->newTabFromName (sli, multiple);
         }
     }
 
@@ -166,12 +167,13 @@ void FPsingleton::handleMessage (const QString& message)
                     Wins.at (i)->newTab();
                 else
                 {
+                    bool multiple (sl.count() > 2);
                     for (int j = 1; j < sl.count(); ++j)
                     {
                         QString slj = sl.at (j);
                         if (slj.startsWith ("file://"))
                             slj = QUrl (slj).toLocalFile();
-                        Wins.at (i)->newTabFromName (slj);
+                        Wins.at (i)->newTabFromName (slj, multiple);
                     }
                 }
                 found = true;

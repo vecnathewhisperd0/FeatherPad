@@ -36,7 +36,7 @@ void FPwin::toggleSyntaxHighlighting()
     if (ui->actionSyntax->isChecked())
     {
         for (int i = 0; i < count; ++i)
-            syntaxHighlighting (i);
+            syntaxHighlighting (tabsInfo_[qobject_cast< TextEdit *>(ui->tabWidget->widget (i))]);
     }
     else
     {
@@ -66,11 +66,10 @@ void FPwin::toggleSyntaxHighlighting()
     }
 }
 /*************************/
-void FPwin::getSyntax (const int index)
+void FPwin::setProgLang (tabInfo *tabinfo)
 {
-    if (index == -1) return;
+    if (tabinfo == nullptr) return;
 
-    tabInfo *tabinfo = tabsInfo_[qobject_cast< TextEdit *>(ui->tabWidget->widget (index))];
     QString fname = tabinfo->fileName;
     if (fname.isEmpty()) return;
 
@@ -216,17 +215,17 @@ void FPwin::getSyntax (const int index)
         tabinfo->prog = progLan;
 }
 /*************************/
-void FPwin::syntaxHighlighting (const int index)
+void FPwin::syntaxHighlighting (tabInfo *tabinfo)
 {
-    if (index == -1) return;
+    if (tabinfo == nullptr) return;
 
-    TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
-    tabInfo *tabinfo = tabsInfo_[textEdit];
     QString progLan = tabinfo->prog;
     if (progLan.isEmpty()) return;
 
     if (tabinfo->size > static_cast<FPsingleton*>(qApp)->getConfig().getMaxSHSize()*1024*1024)
         return;
+
+    TextEdit *textEdit = tabsInfo_.key (tabinfo);
 
     QPoint Point (0, 0);
     QTextCursor start = textEdit->cursorForPosition (Point);
@@ -236,7 +235,7 @@ void FPwin::syntaxHighlighting (const int index)
     Highlighter *highlighter = new Highlighter (textEdit->document(), progLan, start, end, textEdit->hasDarkScheme());
     tabinfo->highlighter = highlighter;
 
-    QCoreApplication::processEvents();
+    QCoreApplication::processEvents(); // it's necessary to wait until the text is completely loaded
     matchBrackets(); // in case the cursor is beside a bracket when the text is loaded
     connect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
     connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);

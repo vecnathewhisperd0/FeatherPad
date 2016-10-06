@@ -60,7 +60,7 @@ public:
     ~FPwin();
 
 public slots:
-    void newTabFromName (const QString& fileName);
+    void newTabFromName (const QString& fileName, bool multiple = false);
     void newTab();
     void statusMsg();
     void statusMsgWithLineCount (const int lines);
@@ -125,7 +125,8 @@ private slots:
     void helpDoc();
     void matchBrackets();
     void addText (const QString text, const QString fileName, const QString charset,
-                  bool enforceEncod, bool reload);
+                  bool enforceEncod, bool reload,
+                  bool multiple); // Multiple files are being loaded?
 
 public:
     QWidget *dummyWidget; // Bypasses KDE's demand for a new window.
@@ -133,10 +134,11 @@ public:
     QHash<TextEdit*,tabInfo*> tabsInfo_; // Needed info on each tab.
 
 private:
+    TextEdit *createEmptyTab(bool setCurrent);
     void deleteTextEdit (int index);
-    void loadText (const QString& fileName, bool enforceEncod, bool reload);
-    bool alreadyOpen (const QString& fileName) const;
-    void setTitle (const QString& fileName);
+    void loadText (const QString fileName, bool enforceEncod, bool reload, bool multiple = false);
+    bool alreadyOpen (const QString& fileName, tabInfo *tabinfo = nullptr) const;
+    void setTitle (const QString& fileName, int indx = -1);
     int unSaved (int index, bool noToAll);
     void closeEvent (QCloseEvent *event);
     bool closeTabs (int leftIndx, int rightIndx, bool closeall);
@@ -147,8 +149,8 @@ private:
     void setSearchFlagsAndHighlight (bool h);
     void enableWidgets (bool enable) const;
     QTextCursor finding (const QString str, const QTextCursor& start, QTextDocument::FindFlags flags = 0) const;
-    void getSyntax (const int index);
-    void syntaxHighlighting (const int index);
+    void setProgLang (tabInfo *tabinfo);
+    void syntaxHighlighting (tabInfo *tabinfo);
     void encodingToCheck (const QString& encoding);
     const QString checkToEncoding() const;
     void applyConfig();

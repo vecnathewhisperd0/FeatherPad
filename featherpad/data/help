@@ -24,6 +24,8 @@ If there is a FeatherPad window on the current virtual desktop or viewport, so t
 
 In this way, FeatherPad is aware of virtual desktops under most Linux desktop environments. However, there may be exceptions (like Enlightenment). 
 
+Files are always opened after the active tab unless it is empty, in which case the first file will be opened in it. If a single file is opened, its tab will be activated but in the case of multiple files, the active tab will not change.
+
 If a file is opened multiple times, its second (third, ... ) instance will be uneditable by default and will have a light yellow or dark red background, depending on whether the default or the dark color scheme is used. To make it editable, click on the newly created 'Edit' button on the toolbar or the 'Edit' menu. After that, these two buttons will disappear again.
 
 *******************************************

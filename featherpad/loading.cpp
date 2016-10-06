@@ -22,11 +22,12 @@
 
 namespace FeatherPad {
 
-Loading::Loading (QString fname, QString charset, bool enforceEncod, bool reload) :
+Loading::Loading (QString fname, QString charset, bool enforceEncod, bool reload, bool multiple) :
     fname_ (fname),
     charset_ (charset),
     enforceEncod_ (enforceEncod),
-    reload_ (reload)
+    reload_ (reload),
+    multiple_ (multiple)
 {}
 /*************************/
 Loading::~Loading() {}
@@ -64,7 +65,7 @@ void Loading::run()
 
     QString text;
     text = codec->toUnicode (data);
-    emit completed (text, fname_, charset_, enforceEncod_, reload_);
+    emit completed (text, fname_, charset_, enforceEncod_, reload_, multiple_);
 }
 
 }

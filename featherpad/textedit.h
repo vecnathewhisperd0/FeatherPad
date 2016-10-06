@@ -73,7 +73,8 @@ public:
 
 signals:
     /* inform the main widget */
-    void fileDropped (const QString&);
+    void fileDropped (const QString& localFile,
+                      bool multiple); // Multiple files are dropped?
     void resized(); // needed by syntax highlighting
     void updateRect (const QRect &rect, int dy);
 
@@ -160,8 +161,9 @@ protected:
     {
         if (source->hasUrls())
         {
+            bool multiple (source->urls().count() > 1);
             foreach (QUrl url, source->urls())
-                emit fileDropped (url.toLocalFile());
+                emit fileDropped (url.toLocalFile(), multiple);
         }
         else
             QPlainTextEdit::insertFromMimeData (source);
