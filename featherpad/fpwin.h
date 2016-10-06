@@ -168,6 +168,7 @@ private:
     QString txtReplace_; // The replacing text.
     int rightClicked_; // The index of the right-clicked tab.
     bool closeAll_; // Should all tabs be closed? (Needed only in closeOtherTabs().)
+    int loadingProcesses_; // The number of loading processes (used to prevent early closing).
 };
 
 }

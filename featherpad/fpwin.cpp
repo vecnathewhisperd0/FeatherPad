@@ -42,6 +42,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
 {
     ui->setupUi (this);
 
+    loadingProcesses_ = 0;
     rightClicked_ = -1;
     closeAll_ = false;
 
@@ -348,6 +349,8 @@ void FPwin::deleteTextEdit (int index)
 // If they're both equal to -1, all tabs will be closed.
 bool FPwin::closeTabs (int leftIndx, int rightIndx, bool closeall)
 {
+    if (loadingProcesses_ > 0) return true;
+
     bool keep = false;
     int index, count;
     int unsaved = 0;
@@ -922,6 +925,7 @@ void FPwin::asterisk (bool modified)
 /*************************/
 void FPwin::loadText (const QString fileName, bool enforceEncod, bool reload, bool multiple)
 {
+    ++ loadingProcesses_;
     QString charset = "";
     if (enforceEncod)
         charset = checkToEncoding();
@@ -1087,6 +1091,9 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
         ui->actionReload->setEnabled (true);
         textEdit->setFocus(); // the text may have been opened in this (empty) tab
     }
+
+    /* a file is completely loaded */
+    -- loadingProcesses_;
 }
 
 /*************************/
