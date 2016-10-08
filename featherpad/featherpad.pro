@@ -13,6 +13,7 @@ SOURCES += main.cpp\
            singleton.cpp \
            fpwin.cpp \
            encoding.cpp \
+           tabwidget.cpp \
            lineedit.cpp \
            textedit.cpp \
            tabbar.cpp \

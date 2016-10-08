@@ -19,29 +19,37 @@
 #define TABWIDGET_H
 
 #include <QTabWidget>
+#include <QTimerEvent>
 #include "tabbar.h"
 
 namespace FeatherPad {
 
-/* At first, I did this subclassing just because QTabBar was
-   a protected member of QTabWidget but afterward, I needed
-   a signal for tab dropping, which I put in a TabBar subclass. */
+/* At first, I subclassed QTabWidget just because QTabBar was
+   a protected member of it but afterward, I implemented tab DND
+   in TabBar and also provided currentChanged() with a 50-ms buffer. */
 class TabWidget : public QTabWidget
 {
     Q_OBJECT
 
 public:
-    TabWidget (QWidget *parent = 0) : QTabWidget (parent)
-    {
-        tb = new TabBar;
-        setTabBar (tb);
-    }
-    ~TabWidget() {delete tb;}
+    TabWidget (QWidget *parent = 0);
+    ~TabWidget();
     /* make it public */
     TabBar *tabBar() const {return tb;}
 
+signals:
+    void currentTabChanged (int curIndx);
+
+protected:
+    void timerEvent (QTimerEvent *event);
+
+private slots:
+    void tabSwitch (int index);
+
 private:
     TabBar *tb;
+    int timerId;
+    int curIndx;
 };
 
 }

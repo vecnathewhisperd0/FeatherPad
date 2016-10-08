@@ -16,6 +16,7 @@ V0.5.8
  * Made tab drag-and-drop independent from X11.
  * Fixed an old bug in opening multiple files (it was created after using threads).
  * Support selection of multiple files in the open file dialog.
+ * Added a time buffer for the currentChanged() signal of QTabWidget.
 
 V0.5.7
 ---------

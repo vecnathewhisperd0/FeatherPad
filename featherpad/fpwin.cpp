@@ -125,7 +125,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     connect (ui->actionUndo, &QAction::triggered, this, &FPwin::undoing);
     connect (ui->actionRedo, &QAction::triggered, this, &FPwin::redoing);
 
-    connect (ui->tabWidget, &QTabWidget::currentChanged, this, &FPwin::tabSwitch);
+    connect (ui->tabWidget, &TabWidget::currentTabChanged, this, &FPwin::tabSwitch);
     connect (static_cast<TabBar*>(ui->tabWidget->tabBar()), &TabBar::tabDetached, this, &FPwin::detachTab);
     ui->tabWidget->tabBar()->setContextMenuPolicy (Qt::CustomContextMenu);
     connect (ui->tabWidget->tabBar(), &QWidget::customContextMenuRequested, this, &FPwin::tabContextMenu);
