@@ -159,7 +159,7 @@ private:
     bool matchLeftBrace (QTextBlock currentBlock, int index, int numRightBraces);
     bool matchRightBrace (QTextBlock currentBlock, int index, int numLeftBraces);
     void createSelection (int pos);
-    void formatTextRect (QRect rect, bool reset = false) const;
+    void formatTextRect (QRect rect) const;
     void removeGreenSel();
 
     QActionGroup *aGroup_;

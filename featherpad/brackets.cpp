@@ -97,6 +97,7 @@ void FPwin::matchBrackets()
 bool FPwin::matchLeftParenthesis (QTextBlock currentBlock, int i, int numLeftParentheses)
 {
     TextBlockData *data = static_cast<TextBlockData *>(currentBlock.userData());
+    if (!data) return false;
     QVector<ParenthesisInfo *> infos = data->parentheses();
 
     int docPos = currentBlock.position();
@@ -128,6 +129,7 @@ bool FPwin::matchLeftParenthesis (QTextBlock currentBlock, int i, int numLeftPar
 bool FPwin::matchRightParenthesis (QTextBlock currentBlock, int i, int numRightParentheses)
 {
     TextBlockData *data = static_cast<TextBlockData *>(currentBlock.userData());
+    if (!data) return false;
     QVector<ParenthesisInfo *> infos = data->parentheses();
 
     int docPos = currentBlock.position();
@@ -158,6 +160,7 @@ bool FPwin::matchRightParenthesis (QTextBlock currentBlock, int i, int numRightP
 bool FPwin::matchLeftBrace (QTextBlock currentBlock, int i, int numRightBraces)
 {
     TextBlockData *data = static_cast<TextBlockData *>(currentBlock.userData());
+    if (!data) return false;
     QVector<BraceInfo *> infos = data->braces();
 
     int docPos = currentBlock.position();
@@ -189,6 +192,7 @@ bool FPwin::matchLeftBrace (QTextBlock currentBlock, int i, int numRightBraces)
 bool FPwin::matchRightBrace (QTextBlock currentBlock, int i, int numLeftBraces)
 {
     TextBlockData *data = static_cast<TextBlockData *>(currentBlock.userData());
+    if (!data) return false;
     QVector<BraceInfo *> infos = data->braces();
 
     int docPos = currentBlock.position();

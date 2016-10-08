@@ -238,6 +238,7 @@ void FPwin::syntaxHighlighting (tabInfo *tabinfo)
     QCoreApplication::processEvents(); // it's necessary to wait until the text is completely loaded
     matchBrackets(); // in case the cursor is beside a bracket when the text is loaded
     connect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
+    /* visible text may change on block removal */
     connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
     connect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
     connect (textEdit, &TextEdit::resized, this, &FPwin::formatonResizing);
@@ -245,11 +246,7 @@ void FPwin::syntaxHighlighting (tabInfo *tabinfo)
 /*************************/
 void FPwin::formatOnBlockChange (int/* newBlockCount*/) const
 {
-    int index = ui->tabWidget->currentIndex();
-    if (index == -1) return;
-
-    TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
-    formatTextRect (textEdit->rect(), true);
+    formatonResizing();
 }
 /*************************/
 void FPwin::formatVisibleText (const QRect &rect, int dy) const
@@ -267,7 +264,7 @@ void FPwin::formatonResizing() const
     formatTextRect (textEdit->rect());
 }
 /*************************/
-void FPwin::formatTextRect (QRect rect, bool reset) const
+void FPwin::formatTextRect (QRect rect) const
 {
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
@@ -285,13 +282,14 @@ void FPwin::formatTextRect (QRect rect, bool reset) const
     QTextCursor end = textEdit->cursorForPosition (Point);
 
     highlighter->setLimit (start, end);
-    if (reset)
-        highlighter->resetHighlighted();
     QTextBlock block = start.block();
     while (block.isValid() && block.blockNumber() <= end.blockNumber())
     {
-        if (!highlighter->getHighlighted().contains (block.blockNumber()))
-            highlighter->rehighlightBlock (block);
+        if (TextBlockData *data = static_cast<TextBlockData *>(block.userData()))
+        {
+            if (!data->isHighlighted()) // isn't highlighted (completely)
+                highlighter->rehighlightBlock (block);
+        }
         block = block.next();
     }
 }

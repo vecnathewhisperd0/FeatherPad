@@ -24,7 +24,7 @@ TextBlockData::~TextBlockData()
     while (!allParentheses.isEmpty())
     {
         ParenthesisInfo *info = allParentheses.at (0);
-        allParentheses.remove(0);
+        allParentheses.remove (0);
         delete info;
     }
     while (!allBraces.isEmpty())
@@ -48,6 +48,11 @@ QVector<BraceInfo *> TextBlockData::braces()
 QString TextBlockData::delimiter()
 {
     return Delimiter;
+}
+/*************************/
+bool TextBlockData::isHighlighted()
+{
+    return Highlighted;
 }
 /*************************/
 void TextBlockData::insertInfo (ParenthesisInfo *info)
@@ -77,6 +82,11 @@ void TextBlockData::insertInfo (BraceInfo *info)
 void TextBlockData::insertInfo (QString str)
 {
     Delimiter = str;
+}
+/*************************/
+void TextBlockData::insertInfo (bool highlighted)
+{
+    Highlighted = highlighted;
 }
 /*************************/
 // Here, the order of formatting is important because of overrides.
@@ -1483,6 +1493,7 @@ bool Highlighter::isHereDocument (const QString &text)
                        delimFormat);
 
             TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData());
+            if (!data) return false;
             data->insertInfo (delimStr);
             setCurrentBlockUserData (data);
 
@@ -1494,6 +1505,7 @@ bool Highlighter::isHereDocument (const QString &text)
     {
         QTextBlock block = currentBlock().previous();
         TextBlockData *data = static_cast<TextBlockData *>(block.userData());
+        if (!data) return false;
         delimStr = data->delimiter();
         if (text == delimStr
             || (text.startsWith (delimStr)
@@ -1509,6 +1521,7 @@ bool Highlighter::isHereDocument (const QString &text)
         {
             /* format the contents */
             TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData());
+            if (!data) return false;
             data->insertInfo (delimStr);
             setCurrentBlockUserData (data);
             if (previousBlockState() % 2 == 0)
@@ -1530,6 +1543,7 @@ void Highlighter::highlightBlock (const QString &text)
 
     int index;
     TextBlockData *data = new TextBlockData;
+    data->insertInfo (false); // not highlighted yet
     setCurrentBlockUserData (data); // to be fed in later
     setCurrentBlockState (0);
 
@@ -1541,7 +1555,10 @@ void Highlighter::highlightBlock (const QString &text)
         || progLan == "perl" || progLan == "ruby")
     {
         if (isHereDocument (text))
+        {
+            data->insertInfo (true); // completely highlighted
             return;
+        }
     }
 
     /************************
@@ -1586,28 +1603,24 @@ void Highlighter::highlightBlock (const QString &text)
      * HTML Only *
      *************/
 
+    int bn = currentBlock().blockNumber();
     if (progLan == "html")
     {
         htmlBrackets (text);
         htmlStyleHighlighter (text);
         htmlJavascript (text);
         /* go to braces matching */
+        data->insertInfo (true); // completely highlighted
     }
 
     /*******************
      * Main Formatting *
      *******************/
 
-    int bn = currentBlock().blockNumber();
-    /* we don't know whether this block is highlighted because of a change in it
-       or just because it has become visible, so we remove it from the list here
-       but, later, it'll be added to the list again if it's visible */
-    highlighted.remove (bn);
-    if (progLan != "html" // we format html embedded javascript in htmlJavascript()
-        && bn >= startCursor.blockNumber()
-        && bn <= endCursor.blockNumber())
+    // we format html embedded javascript in htmlJavascript()
+    else if (bn >= startCursor.blockNumber() && bn <= endCursor.blockNumber())
     {
-        highlighted.insert (bn);
+        data->insertInfo (true); // completely highlighted
         foreach (const HighlightingRule &rule, highlightingRules)
         {
             /* single-line comments are already formatted */

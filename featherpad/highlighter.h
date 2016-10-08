@@ -39,19 +39,22 @@ struct BraceInfo
 class TextBlockData : public QTextBlockUserData
 {
 public:
-    TextBlockData() {}
+    TextBlockData() { Highlighted = false; }
     ~TextBlockData();
     QVector<ParenthesisInfo *> parentheses();
     QVector<BraceInfo *> braces();
     QString delimiter();
+    bool isHighlighted();
     void insertInfo (ParenthesisInfo *info);
     void insertInfo (BraceInfo *info);
     void insertInfo (QString str);
+    void insertInfo (bool highlighted);
 
 private:
     QVector<ParenthesisInfo *> allParentheses;
     QVector<BraceInfo *> allBraces;
     QString Delimiter; // The delimiter string of a here-doc.
+    bool Highlighted; // Is this block completely highlighted?
 };
 /*************************/
 /* This is a tricky but effective way for syntax highlighting. */
@@ -65,13 +68,6 @@ public:
     void setLimit (QTextCursor start, QTextCursor end) {
         startCursor = start;
         endCursor = end;
-    }
-
-    QSet<int> getHighlighted() const {
-        return highlighted;
-    }
-    void resetHighlighted() {
-        highlighted.clear();
     }
 
 protected:
@@ -119,8 +115,6 @@ private:
 
     /* The start and end cursors of the visible text: */
     QTextCursor startCursor, endCursor;
-    /* List of all blocks, for which the main formatting is already done: */
-    QSet<int> highlighted;
 
     /* Block states: */
     enum
@@ -152,6 +146,7 @@ private:
         cssBlockState,
         commentInCssState,
         cssValueState,
+
         endState // 18
 
         /* For here-docs, state >= endState or state < -1. */
