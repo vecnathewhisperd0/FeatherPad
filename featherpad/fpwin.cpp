@@ -978,6 +978,12 @@ void FPwin::loadText (const QString fileName, bool enforceEncod, bool reload, bo
 void FPwin::addText (const QString text, const QString fileName, const QString charset,
                      bool enforceEncod, bool reload, bool multiple)
 {
+    if (fileName.isEmpty())
+    {
+        -- loadingProcesses_;
+        return;
+    }
+
     if (enforceEncod || reload)
         multiple = false; // respect the logic
 

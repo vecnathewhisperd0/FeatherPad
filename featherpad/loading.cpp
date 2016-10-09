@@ -34,10 +34,18 @@ Loading::~Loading() {}
 /*************************/
 void Loading::run()
 {
-    if (!QFile::exists (fname_)) return;
+    if (!QFile::exists (fname_))
+    {
+        emit completed (QString(), QString(), QString(), false, false, false);
+        return;
+    }
 
     QFile file (fname_);
-    if (!file.open (QFile::ReadOnly)) return;
+    if (!file.open (QFile::ReadOnly))
+    {
+        emit completed (QString(), QString(), QString(), false, false, false);
+        return;
+    }
 
     /* read the file character by character
        in order to determine if it's in UTF-16 */
