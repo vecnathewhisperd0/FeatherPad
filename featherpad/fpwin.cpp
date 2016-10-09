@@ -194,6 +194,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     dummyWidget = new QWidget();
     setAcceptDrops (true);
     setAttribute (Qt::WA_AlwaysShowToolTips);
+    setAttribute(Qt::WA_DeleteOnClose, false); // we delete windows in singleton
 }
 /*************************/
 FPwin::~FPwin()
@@ -277,47 +278,80 @@ void FPwin::applyConfig()
 
     if (config.getSysIcon())
     {
-        ui->actionNew->setIcon (QIcon::fromTheme("document-new"));
-        ui->actionOpen->setIcon (QIcon::fromTheme("document-open"));
-        ui->actionSave->setIcon (QIcon::fromTheme("document-save"));
-        ui->actionSaveAs->setIcon (QIcon::fromTheme("document-save-as"));
-        ui->actionSaveCodec->setIcon (QIcon::fromTheme("document-save-as"));
-        ui->actionPrint->setIcon (QIcon::fromTheme("document-print"));
-        ui->actionDoc->setIcon (QIcon::fromTheme("document-properties"));
-        ui->actionUndo->setIcon (QIcon::fromTheme("edit-undo"));
-        ui->actionRedo->setIcon (QIcon::fromTheme("edit-redo"));
-        ui->actionCut->setIcon (QIcon::fromTheme("edit-cut"));
-        ui->actionCopy->setIcon (QIcon::fromTheme("edit-copy"));
-        ui->actionPaste->setIcon (QIcon::fromTheme("edit-paste"));
-        ui->actionDelete->setIcon (QIcon::fromTheme("edit-delete"));
-        ui->actionSelectAll->setIcon (QIcon::fromTheme("edit-select-all"));
-        ui->actionReload->setIcon (QIcon::fromTheme("view-refresh"));
-        ui->actionFind->setIcon (QIcon::fromTheme("edit-find"));
-        ui->actionReplace->setIcon (QIcon::fromTheme("edit-find-replace"));
-        ui->actionClose->setIcon (QIcon::fromTheme("window-close"));
-        ui->actionQuit->setIcon (QIcon::fromTheme("application-exit"));
-        ui->actionFont->setIcon (QIcon::fromTheme("preferences-desktop-font"));
-        ui->actionPreferences->setIcon (QIcon::fromTheme("preferences-system"));
-        ui->actionHelp->setIcon (QIcon::fromTheme("help-contents"));
-        ui->actionAbout->setIcon (QIcon::fromTheme("help-about"));
-        ui->actionJump->setIcon (QIcon::fromTheme("go-jump"));
-        ui->actionEdit->setIcon (QIcon::fromTheme("document-edit"));
-        ui->actionCopyName->setIcon (QIcon::fromTheme("edit-copy"));
-        ui->actionCopyPath->setIcon (QIcon::fromTheme("edit-copy"));
-        ui->actionCloseRight->setIcon (QIcon::fromTheme("go-next"));
-        ui->actionCloseLeft->setIcon (QIcon::fromTheme("go-previous"));
-        ui->actionCloseOther->setIcon (QIcon::hasThemeIcon("tab-close-other") ? QIcon::fromTheme("tab-close-other") : QIcon());
-        ui->toolButton_nxt->setIcon (QIcon::fromTheme("go-down"));
-        ui->toolButton_prv->setIcon (QIcon::fromTheme("go-up"));
-        ui->toolButtonNext->setIcon (QIcon::fromTheme("go-down"));
-        ui->toolButtonPrv->setIcon (QIcon::fromTheme("go-up"));
-        ui->toolButtonAll->setIcon (QIcon::hasThemeIcon("arrow-down-double") ? QIcon::fromTheme("arrow-down-double") : QIcon());
+        ui->actionNew->setIcon (QIcon::fromTheme ("document-new"));
+        ui->actionOpen->setIcon (QIcon::fromTheme ("document-open"));
+        ui->actionSave->setIcon (QIcon::fromTheme ("document-save"));
+        ui->actionSaveAs->setIcon (QIcon::fromTheme ("document-save-as"));
+        ui->actionSaveCodec->setIcon (QIcon::fromTheme ("document-save-as"));
+        ui->actionPrint->setIcon (QIcon::fromTheme ("document-print"));
+        ui->actionDoc->setIcon (QIcon::fromTheme ("document-properties"));
+        ui->actionUndo->setIcon (QIcon::fromTheme ("edit-undo"));
+        ui->actionRedo->setIcon (QIcon::fromTheme ("edit-redo"));
+        ui->actionCut->setIcon (QIcon::fromTheme ("edit-cut"));
+        ui->actionCopy->setIcon (QIcon::fromTheme ("edit-copy"));
+        ui->actionPaste->setIcon (QIcon::fromTheme ("edit-paste"));
+        ui->actionDelete->setIcon (QIcon::fromTheme ("edit-delete"));
+        ui->actionSelectAll->setIcon (QIcon::fromTheme ("edit-select-all"));
+        ui->actionReload->setIcon (QIcon::fromTheme ("view-refresh"));
+        ui->actionFind->setIcon (QIcon::fromTheme ("edit-find"));
+        ui->actionReplace->setIcon (QIcon::fromTheme ("edit-find-replace"));
+        ui->actionClose->setIcon (QIcon::fromTheme ("window-close"));
+        ui->actionQuit->setIcon (QIcon::fromTheme ("application-exit"));
+        ui->actionFont->setIcon (QIcon::fromTheme ("preferences-desktop-font"));
+        ui->actionPreferences->setIcon (QIcon::fromTheme ("preferences-system"));
+        ui->actionHelp->setIcon (QIcon::fromTheme ("help-contents"));
+        ui->actionAbout->setIcon (QIcon::fromTheme ("help-about"));
+        ui->actionJump->setIcon (QIcon::fromTheme ("go-jump"));
+        ui->actionEdit->setIcon (QIcon::fromTheme ("document-edit"));
+        ui->actionCopyName->setIcon (QIcon::fromTheme ("edit-copy"));
+        ui->actionCopyPath->setIcon (QIcon::fromTheme ("edit-copy"));
+        ui->actionCloseRight->setIcon (QIcon::fromTheme ("go-next"));
+        ui->actionCloseLeft->setIcon (QIcon::fromTheme ("go-previous"));
+        ui->actionCloseOther->setIcon (QIcon::hasThemeIcon("tab-close-other") ? QIcon::fromTheme ("tab-close-other") : QIcon());
+        ui->toolButton_nxt->setIcon (QIcon::fromTheme ("go-down"));
+        ui->toolButton_prv->setIcon (QIcon::fromTheme ("go-up"));
+        ui->toolButtonNext->setIcon (QIcon::fromTheme ("go-down"));
+        ui->toolButtonPrv->setIcon (QIcon::fromTheme ("go-up"));
+        ui->toolButtonAll->setIcon (QIcon::hasThemeIcon("arrow-down-double") ? QIcon::fromTheme ("arrow-down-double") : QIcon());
 
         setWindowIcon (QIcon::fromTheme ("featherpad"));
 
         if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>())
-            wordButton->setIcon (QIcon::fromTheme("view-refresh"));
+            wordButton->setIcon (QIcon::fromTheme ("view-refresh"));
     }
+}
+/*************************/
+// We want all dialogs to be window-modal as far as possible. However there is a problem:
+// If a dialog is opened in a FeatherPad window and is closed after another dialog is
+// opened in another window, the second dialog will be seen as a child of the first window.
+// This could cause a crash if the dialog is closed after closing the first window.
+// As a workaround, we keep window-modality but don't let the user open two window-modal dialogs.
+bool FPwin::hasAnotherDialog()
+{
+    bool res = false;
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    for (int i = 0; i < singleton->Wins.count(); ++i)
+    {
+        FPwin *win = singleton->Wins.at (i);
+        if (win->findChildren<QDialog *>().count() > 0)
+        {
+            res = true;
+            break;
+        }
+    }
+    if (res)
+    {
+        QMessageBox msgBox (this);
+        msgBox.setIcon (QMessageBox::Warning);
+        msgBox.setText (tr ("<center><b><big>Another FeatherPad window has a dialog! </big></b></center>"));
+        msgBox.setInformativeText (tr ("<center><i>Please close this dialog first and then </i></center>"\
+                                       "<center><i>attend to that window or just close its dialog! </i></center><p></p>"));
+        msgBox.setStandardButtons (QMessageBox::Close);
+        msgBox.setWindowModality (Qt::ApplicationModal);
+        msgBox.setWindowFlags (Qt::Dialog);
+        msgBox.exec();
+    }
+    return res;
 }
 /*************************/
 void FPwin::deleteTextEdit (int index)
@@ -470,8 +504,12 @@ void FPwin::closeOtherTabs()
 /*************************/
 void FPwin::dragEnterEvent (QDragEnterEvent *event)
 {
-    if (event->mimeData()->hasUrls() || event->mimeData()->hasFormat ("application/featherpad-tab"))
+    if (findChildren<QDialog *>().count() == 0
+        && (event->mimeData()->hasUrls()
+            || event->mimeData()->hasFormat ("application/featherpad-tab")))
+    {
         event->acceptProposedAction();
+    }
 }
 /*************************/
 void FPwin::dropEvent (QDropEvent *event)
@@ -498,6 +536,7 @@ int FPwin::unSaved (int index, bool noToAll)
     if (textEdit->document()->isModified()
         || (!fname.isEmpty() && !QFile::exists (fname)))
     {
+        if (hasAnotherDialog()) return 1; // cancel
         QMessageBox msgBox (this);
         msgBox.setIcon (QMessageBox::Warning);
         msgBox.setText (tr ("<center><b><big>Save changes?</big></b></center>"));
@@ -1143,6 +1182,7 @@ void FPwin::fileOpen()
         }
     }
 
+    if (hasAnotherDialog()) return;
     FileDialog dialog (this);
     dialog.setAcceptMode (QFileDialog::AcceptOpen);
     dialog.setWindowTitle (tr ("Open file..."));
@@ -1293,6 +1333,7 @@ bool FPwin::fileSave()
             && QObject::sender() != ui->actionSaveAs
             && QObject::sender() != ui->actionSaveCodec)
         {
+            if (hasAnotherDialog()) return false;
             FileDialog dialog (this);
             dialog.setAcceptMode (QFileDialog::AcceptSave);
             dialog.setWindowTitle (tr ("Save as..."));
@@ -1313,6 +1354,7 @@ bool FPwin::fileSave()
 
     if (QObject::sender() == ui->actionSaveAs)
     {
+        if (hasAnotherDialog()) return false;
         FileDialog dialog (this);
         dialog.setAcceptMode (QFileDialog::AcceptSave);
         dialog.setWindowTitle (tr ("Save as..."));
@@ -1331,6 +1373,7 @@ bool FPwin::fileSave()
     }
     else if (QObject::sender() == ui->actionSaveCodec)
     {
+        if (hasAnotherDialog()) return false;
         FileDialog dialog (this);
         dialog.setAcceptMode (QFileDialog::AcceptSave);
         dialog.setWindowTitle (tr ("Keep encoding and save as..."));
@@ -1355,6 +1398,7 @@ bool FPwin::fileSave()
     {
         QString encoding  = checkToEncoding();
 
+        if (hasAnotherDialog()) return false;
         QMessageBox msgBox (this);
         msgBox.setIcon (QMessageBox::Question);
         msgBox.addButton (QMessageBox::Yes);
@@ -1431,7 +1475,8 @@ bool FPwin::fileSave()
     }
     else
     {
-        QString str = writer.device()->errorString ();
+        if (hasAnotherDialog()) return success;
+        QString str = writer.device()->errorString();
         QMessageBox msgBox (QMessageBox::Warning,
                             tr ("FeatherPad"),
                             tr ("<center><b><big>Cannot be saved!</big></b></center>"),
@@ -1651,6 +1696,8 @@ void FPwin::fontDialog()
 {
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
+
+    if (hasAnotherDialog()) return;
 
     TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
 
@@ -2050,6 +2097,8 @@ void FPwin::filePrint()
 {
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
+
+    if (hasAnotherDialog()) return;
 
     TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
     QPrinter printer (QPrinter::HighResolution);
@@ -2469,20 +2518,34 @@ void FPwin::tabContextMenu (const QPoint& p)
 /*************************/
 void FPwin::prefDialog()
 {
-    PrefDialog *dlg = new PrefDialog (this);
-    /*dlg->show();
-    move (x() + width()/2 - dlg->width()/2,
-          y() + height()/2 - dlg->height()/ 2);*/
-    dlg->exec();
+    if (hasAnotherDialog()) return;
+    PrefDialog dlg (this);
+    /*dlg.show();
+    move (x() + width()/2 - dlg.width()/2,
+          y() + height()/2 - dlg.height()/ 2);*/
+    dlg.exec();
 }
 /*************************/
 void FPwin::aboutDialog()
 {
-    QMessageBox::about (this, "About FeatherPad",
-                        tr ("<center><b><big>FeatherPad 0.5.8</big></b></center><br>"\
-                            "<center> A lightweight, tabbed, plain-text editor </center>\n"\
-                            "<center> based on Qt5 </center><br>"\
-                            "<center> Author: <a href='mailto:tsujan2000@gmail.com?Subject=My%20Subject'>Pedram Pourang (aka. Tsu Jan)</a> </center><p></p>"));
+    if (hasAnotherDialog()) return;
+    QMessageBox msgBox (this);
+    msgBox.setText (tr ("<center><b><big>FeatherPad 0.5.8</big></b></center><br>"));
+    msgBox.setInformativeText (tr ("<center> A lightweight, tabbed, plain-text editor </center>\n"\
+                                   "<center> based on Qt5 </center><br>"\
+                                   "<center> Author: <a href='mailto:tsujan2000@gmail.com?Subject=My%20Subject'>Pedram Pourang (aka. Tsu Jan)</a> </center><p></p>"));
+    msgBox.setStandardButtons (QMessageBox::Ok);
+    msgBox.setWindowModality (Qt::WindowModal);
+    msgBox.setWindowFlags (Qt::Dialog);
+    Config config = static_cast<FPsingleton*>(qApp)->getConfig();
+    QIcon FPIcon;
+    if (config.getSysIcon())
+        FPIcon = QIcon::fromTheme ("featherpad");
+    else
+        FPIcon = QIcon (":icons/featherpad.svg");
+    msgBox.setIconPixmap (FPIcon.pixmap(64, 64));
+    msgBox.setWindowTitle (tr ("About FeatherPad"));
+    msgBox.exec();
 }
 /*************************/
 void FPwin::helpDoc()

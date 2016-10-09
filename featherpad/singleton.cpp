@@ -144,9 +144,7 @@ void FPsingleton::handleMessage (const QString& message)
            and doesn't have a modal dialog... */
         if (onWhichDesktop (id) == d
             && (!Wins.at (i)->isMinimized() || isWindowShaded (id))
-            && Wins.at (i)->findChildren<QFileDialog*>().isEmpty()
-            && Wins.at (i)->findChildren<QDialog*>().isEmpty()
-            && Wins.at (i)->findChildren<QMessageBox*>().isEmpty())
+            && Wins.at (i)->findChildren<QDialog*>().isEmpty())
         {
             /* consider viewports too, so that if more than half of the width as well as the height
                of the window is inside the current viewport (of the current desktop), open a new tab */

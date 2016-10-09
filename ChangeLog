@@ -17,6 +17,7 @@ V0.5.8
  * Fixed an old bug in opening multiple files (it was created after using threads).
  * Support selection of multiple files in the open file dialog.
  * Added a time buffer for the currentChanged() signal of QTabWidget.
+ * Made all dialogs window-modal without letting two dialogs at the same time (as a workaround for a Qt issue).
 
 V0.5.7
 ---------

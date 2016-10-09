@@ -29,6 +29,8 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
 {
     ui->setupUi (this);
     parent_ = parent;
+    setWindowModality (Qt::WindowModal);
+
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
 
     /**************
@@ -89,7 +91,6 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
 
     QPushButton *closeButton = ui->buttonBox->button (QDialogButtonBox::Close);
     connect (closeButton, &QAbstractButton::clicked, this, &QDialog::close);
-    setAttribute (Qt::WA_DeleteOnClose);
     resize (minimumSize());
 }
 /*************************/

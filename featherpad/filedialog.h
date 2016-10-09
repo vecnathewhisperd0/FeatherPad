@@ -55,7 +55,7 @@ private slots:
         {
             QModelIndexList iList = tView->selectionModel()->selectedIndexes();
             if (!iList.isEmpty())
-                tView->scrollTo(iList.at (0), QAbstractItemView::PositionAtCenter);
+                tView->scrollTo (iList.at (0), QAbstractItemView::PositionAtCenter);
         }
     }
     void center() {

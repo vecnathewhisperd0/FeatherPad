@@ -135,6 +135,7 @@ public:
 
 private:
     TextEdit *createEmptyTab(bool setCurrent);
+    bool hasAnotherDialog();
     void deleteTextEdit (int index);
     void loadText (const QString fileName, bool enforceEncod, bool reload, bool multiple = false);
     bool alreadyOpen (const QString& fileName, tabInfo *tabinfo = nullptr) const;
