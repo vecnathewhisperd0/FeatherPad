@@ -313,7 +313,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
              if (progLan == "sh")
                  rule.pattern = QRegExp ("\\b[A-Za-z0-9_]+(?=\\=)");
              else
-                 rule.pattern = QRegExp ("\\b[A-Za-z0-9_\\s]+(?=\\+{,1}\\=)");
+                 rule.pattern = QRegExp ("\\b[A-Za-z0-9_]+\\s*(?=\\+{,1}\\=)");
             rule.format = shFormat;
             highlightingRules.append (rule);
 
