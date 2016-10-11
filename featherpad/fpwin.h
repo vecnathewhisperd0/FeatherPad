@@ -50,6 +50,28 @@ struct tabInfo
     QList<QTextEdit::ExtraSelection> redSel; // For bracket matches.
 };
 
+
+class BusyMaker : public QObject {
+    Q_OBJECT
+
+public:
+    BusyMaker(){}
+    ~BusyMaker(){}
+
+public slots:
+    void waiting();
+
+private slots :
+    void makeBusy();
+
+signals:
+    void finished();
+
+private:
+    static const int timeout = 1000;
+};
+
+
 // A FeatherPad window.
 class FPwin : public QMainWindow
 {
@@ -58,6 +80,10 @@ class FPwin : public QMainWindow
 public:
     explicit FPwin (QWidget *parent = 0);
     ~FPwin();
+
+    bool isLoading() {
+        return (loadingProcesses_ > 0);
+    }
 
 public slots:
     void newTabFromName (const QString& fileName, bool multiple = false);
@@ -149,6 +175,7 @@ private:
     void changeEvent (QEvent *event);
     void setSearchFlagsAndHighlight (bool h);
     void enableWidgets (bool enable) const;
+    void disableShortcuts (bool disable) const;
     QTextCursor finding (const QString str, const QTextCursor& start, QTextDocument::FindFlags flags = 0) const;
     void setProgLang (tabInfo *tabinfo);
     void syntaxHighlighting (tabInfo *tabinfo);
@@ -162,6 +189,8 @@ private:
     void createSelection (int pos);
     void formatTextRect (QRect rect) const;
     void removeGreenSel();
+    void waitToMakeBusy();
+    void unbusy();
 
     QActionGroup *aGroup_;
     QString lastFile_; // The last opened file.

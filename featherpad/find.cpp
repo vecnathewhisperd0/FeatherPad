@@ -206,6 +206,8 @@ QTextCursor FPwin::finding (const QString str, const QTextCursor& start, QTextDo
 /*************************/
 void FPwin::find()
 {
+    if (isLoading()) return;
+
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
 
@@ -365,11 +367,15 @@ void FPwin::setSearchFlagsAndHighlight (bool h)
 /*************************/
 void FPwin::setSearchFlags()
 {
+    if (isLoading()) return;
+
     setSearchFlagsAndHighlight (true);
 }
 /*************************/
 void FPwin::showHideSearch()
 {
+    if (isLoading()) return;
+
     bool visibility = ui->lineEdit->isVisible();
 
     if (!visibility)

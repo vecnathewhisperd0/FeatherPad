@@ -27,6 +27,7 @@ namespace FeatherPad {
 FPsingleton::FPsingleton (int &argc, char *argv[], const QString uniqueKey)
              : QApplication (argc, argv), _uniqueKey (uniqueKey)
 {
+    busy_ = false;
     config_.readConfig();
     if (config_.getTranslucencyWorkaround())
     {
@@ -109,7 +110,7 @@ FPwin* FPsingleton::newWin (const QString& message)
     QStringList sl = message.split ("\n");
     if (!message.isEmpty() && !sl.at (1).isEmpty())
     {
-        bool multiple (sl.count() > 2);
+        bool multiple (sl.count() > 2 || fp->isLoading());
         for (int i = 1; i < sl.count(); ++i)
         {
             QString sli = sl.at (i);
@@ -165,7 +166,7 @@ void FPsingleton::handleMessage (const QString& message)
                     Wins.at (i)->newTab();
                 else
                 {
-                    bool multiple (sl.count() > 2);
+                    bool multiple (sl.count() > 2 || Wins.at (i)->isLoading());
                     for (int j = 1; j < sl.count(); ++j)
                     {
                         QString slj = sl.at (j);

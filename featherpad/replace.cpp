@@ -50,6 +50,8 @@ void FPwin::removeGreenSel()
 /*************************/
 void FPwin::replaceDock()
 {
+    if (isLoading()) return;
+
     if (!ui->dockReplace->isVisible())
     {
         if (!ui->lineEdit->isVisible()) // replace dock needs searchbar
@@ -100,6 +102,8 @@ void FPwin::resizeDock (bool topLevel)
 /*************************/
 void FPwin::replace()
 {
+    if (isLoading()) return;
+
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
 
@@ -171,6 +175,8 @@ void FPwin::replace()
 /*************************/
 void FPwin::replaceAll()
 {
+    if (isLoading()) return;
+
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
 

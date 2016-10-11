@@ -18,6 +18,9 @@ V0.5.8
  * Support selection of multiple files in the open file dialog.
  * Added a time buffer for the currentChanged() signal of QTabWidget.
  * Made all dialogs window-modal without letting two dialogs at the same time (as a workaround for a Qt issue).
+ * Set the cursor to busy after one second of unfinished activity.
+ * Explicitly disable all window shortcuts when a dialog is shown (Qt should disable all shortcuts of the main window when a modal dialog is shown. This is a Qt bug).
+ * While files are being loaded, disable dangerous shortcuts and don't let any dialog be shown.
 
 V0.5.7
 ---------

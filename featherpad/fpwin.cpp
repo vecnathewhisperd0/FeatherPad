@@ -38,6 +38,21 @@
 
 namespace FeatherPad {
 
+void BusyMaker::waiting() {
+    QTimer::singleShot (timeout, this, SLOT (makeBusy()));
+}
+
+void BusyMaker::makeBusy() {
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    if (singleton->isBusy() && QGuiApplication::overrideCursor() == nullptr)
+    {
+        QGuiApplication::setOverrideCursor (Qt::WaitCursor);
+        singleton->setBusy (false);
+    }
+    emit finished();
+}
+
+
 FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (new Ui::FPwin)
 {
     ui->setupUi (this);
@@ -348,7 +363,6 @@ bool FPwin::hasAnotherDialog()
                                        "<center><i>attend to that window or just close its dialog! </i></center><p></p>"));
         msgBox.setStandardButtons (QMessageBox::Close);
         msgBox.setWindowModality (Qt::ApplicationModal);
-        msgBox.setWindowFlags (Qt::Dialog);
         msgBox.exec();
     }
     return res;
@@ -383,13 +397,20 @@ void FPwin::deleteTextEdit (int index)
 // If they're both equal to -1, all tabs will be closed.
 bool FPwin::closeTabs (int leftIndx, int rightIndx, bool closeall)
 {
-    if (loadingProcesses_ > 0) return true;
+    if (isLoading()) return true;
 
     bool keep = false;
     int index, count;
     int unsaved = 0;
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
     while (unsaved == 0 && ui->tabWidget->count() > 0)
     {
+        if (!singleton->isBusy())
+        {
+            singleton->setBusy (true);
+            waitToMakeBusy();
+        }
+
         if (rightIndx == 0) break; // no tab on the left
         if (rightIndx > -1)
             index = rightIndx - 1;
@@ -461,6 +482,7 @@ bool FPwin::closeTabs (int leftIndx, int rightIndx, bool closeall)
         }
     }
 
+    unbusy();
     return keep;
 }
 /*************************/
@@ -519,7 +541,7 @@ void FPwin::dropEvent (QDropEvent *event)
     else
     {
         QList<QUrl> urlList = event->mimeData()->urls();
-        bool multiple (urlList.count() > 1);
+        bool multiple (urlList.count() > 1 || isLoading());
         foreach (QUrl url, urlList)
             newTabFromName (url.toLocalFile(), multiple);
     }
@@ -537,6 +559,10 @@ int FPwin::unSaved (int index, bool noToAll)
         || (!fname.isEmpty() && !QFile::exists (fname)))
     {
         if (hasAnotherDialog()) return 1; // cancel
+        disableShortcuts (true);
+       /* made busy at closeTabs() */
+        unbusy();
+
         QMessageBox msgBox (this);
         msgBox.setIcon (QMessageBox::Warning);
         msgBox.setText (tr ("<center><b><big>Save changes?</big></b></center>"));
@@ -558,7 +584,6 @@ int FPwin::unSaved (int index, bool noToAll)
             msgBox.setButtonText (QMessageBox::NoToAll, tr ("No to all"));
         msgBox.setDefaultButton (QMessageBox::Save);
         msgBox.setWindowModality (Qt::WindowModal);
-        msgBox.setWindowFlags (Qt::Dialog);
         /* enforce a central position (QtCurve bug?) */
         /*msgBox.show();
         msgBox.move (x() + width()/2 - msgBox.width()/2,
@@ -580,6 +605,7 @@ int FPwin::unSaved (int index, bool noToAll)
             unsaved = 1;
             break;
         }
+        disableShortcuts (false);
     }
     return unsaved;
 }
@@ -637,9 +663,92 @@ void FPwin::enableWidgets (bool enable) const
     }
 }
 /*************************/
+// When a window-modal dialog is shown, Qt doesn't disable the main window shortcuts.
+// This is definitely a bug in Qt. As a workaround, we use this function to disable
+// all shortcuts on showing a dialog and to enable them on hiding it.
+void FPwin::disableShortcuts (bool disable) const
+{
+    if (disable)
+    {
+        ui->actionLineNumbers->setShortcut (QKeySequence());
+        ui->actionWrap->setShortcut (QKeySequence());
+        ui->actionIndent->setShortcut (QKeySequence());
+        ui->actionSyntax->setShortcut (QKeySequence());
+
+        ui->actionNew->setShortcut (QKeySequence());
+        ui->actionOpen->setShortcut (QKeySequence());
+        ui->actionSave->setShortcut (QKeySequence());
+        ui->actionFind->setShortcut (QKeySequence());
+        ui->actionReplace->setShortcut (QKeySequence());
+        ui->actionSaveAs->setShortcut (QKeySequence());
+        ui->actionPrint->setShortcut (QKeySequence());
+        ui->actionDoc->setShortcut (QKeySequence());
+        ui->actionClose->setShortcut (QKeySequence());
+        ui->actionQuit->setShortcut (QKeySequence());
+        ui->actionPreferences->setShortcut (QKeySequence());
+        ui->actionHelp->setShortcut (QKeySequence());
+        ui->actionEdit->setShortcut (QKeySequence());
+        ui->actionDetach->setShortcut (QKeySequence());
+        ui->actionReload->setShortcut (QKeySequence());
+
+        ui->actionUndo->setShortcut (QKeySequence());
+        ui->actionRedo->setShortcut (QKeySequence());
+        ui->actionCut->setShortcut (QKeySequence());
+        ui->actionCopy->setShortcut (QKeySequence());
+        ui->actionPaste->setShortcut (QKeySequence());
+        ui->actionSelectAll->setShortcut (QKeySequence());
+
+        ui->toolButton_nxt->setShortcut (QKeySequence());
+        ui->toolButton_prv->setShortcut (QKeySequence());
+        ui->pushButton_case->setShortcut (QKeySequence());
+        ui->pushButton_whole->setShortcut (QKeySequence());
+        ui->toolButtonNext->setShortcut (QKeySequence());
+        ui->toolButtonPrv->setShortcut (QKeySequence());
+        ui->toolButtonAll->setShortcut (QKeySequence());
+    }
+    else
+    {
+        ui->actionLineNumbers->setShortcut (QKeySequence (tr ("Ctrl+L")));
+        ui->actionWrap->setShortcut (QKeySequence (tr ("Ctrl+W")));
+        ui->actionIndent->setShortcut (QKeySequence (tr ("Ctrl+I")));
+        ui->actionSyntax->setShortcut (QKeySequence (tr ("Ctrl+Shift+H")));
+
+        ui->actionNew->setShortcut (QKeySequence (tr ("Ctrl+N")));
+        ui->actionOpen->setShortcut (QKeySequence (tr ("Ctrl+O")));
+        ui->actionSave->setShortcut (QKeySequence (tr ("Ctrl+S")));
+        ui->actionFind->setShortcut (QKeySequence (tr ("Ctrl+F")));
+        ui->actionReplace->setShortcut (QKeySequence (tr ("Ctrl+R")));
+        ui->actionSaveAs->setShortcut (QKeySequence (tr ("Ctrl+Shift+S")));
+        ui->actionPrint->setShortcut (QKeySequence (tr ("Ctrl+P")));
+        ui->actionDoc->setShortcut (QKeySequence (tr ("Ctrl+Shift+D")));
+        ui->actionClose->setShortcut (QKeySequence (tr ("Ctrl+Shift+Q")));
+        ui->actionQuit->setShortcut (QKeySequence (tr ("Ctrl+Q")));
+        ui->actionPreferences->setShortcut (QKeySequence (tr ("Ctrl+Shift+P")));
+        ui->actionHelp->setShortcut (QKeySequence (tr ("Ctrl+H")));
+        ui->actionEdit->setShortcut (QKeySequence (tr ("Ctrl+E")));
+        ui->actionDetach->setShortcut (QKeySequence (tr ("Ctrl+T")));
+        ui->actionReload->setShortcut (QKeySequence (tr ("Ctrl+Shift+R")));
+
+        ui->actionUndo->setShortcut (QKeySequence (tr ("Ctrl+Z")));
+        ui->actionRedo->setShortcut (QKeySequence (tr ("Ctrl+Shift+Z")));
+        ui->actionCut->setShortcut (QKeySequence (tr ("Ctrl+X")));
+        ui->actionCopy->setShortcut (QKeySequence (tr ("Ctrl+C")));
+        ui->actionPaste->setShortcut (QKeySequence (tr ("Ctrl+V")));
+        ui->actionSelectAll->setShortcut (QKeySequence (tr ("Ctrl+A")));
+
+        ui->toolButton_nxt->setShortcut (QKeySequence (tr ("F3")));
+        ui->toolButton_prv->setShortcut (QKeySequence (tr ("F4")));
+        ui->pushButton_case->setShortcut (QKeySequence (tr ("F5")));
+        ui->pushButton_whole->setShortcut (QKeySequence (tr ("F6")));
+        ui->toolButtonNext->setShortcut (QKeySequence (tr ("F7")));
+        ui->toolButtonPrv->setShortcut (QKeySequence (tr ("F8")));
+        ui->toolButtonAll->setShortcut (QKeySequence (tr ("F9")));
+    }
+}
+/*************************/
 void FPwin::newTab()
 {
-    createEmptyTab (true);
+    createEmptyTab (!isLoading());
 }
 /*************************/
 TextEdit* FPwin::createEmptyTab (bool setCurrent)
@@ -864,6 +973,8 @@ void FPwin::align()
 /*************************/
 void FPwin::closeTab()
 {
+    if (isLoading()) return;
+
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return; // not needed
 
@@ -962,6 +1073,25 @@ void FPwin::asterisk (bool modified)
     ui->tabWidget->setTabText (index, elidedName);
 }
 /*************************/
+void FPwin::waitToMakeBusy()
+{
+    QThread *busyThread = new QThread;
+    BusyMaker *makeBusy = new BusyMaker();
+    makeBusy->moveToThread(busyThread);
+    connect (busyThread, &QThread::started, makeBusy, &BusyMaker::waiting);
+    connect (busyThread, &QThread::finished, busyThread, &QObject::deleteLater);
+    connect (makeBusy, &BusyMaker::finished, busyThread, &QThread::quit);
+    connect (makeBusy, &BusyMaker::finished, makeBusy, &QObject::deleteLater);
+    busyThread->start();
+}
+/*************************/
+void FPwin::unbusy()
+{
+    static_cast<FPsingleton*>(qApp)->setBusy (false);
+    if (QGuiApplication::overrideCursor() != nullptr)
+        QGuiApplication::restoreOverrideCursor();
+}
+/*************************/
 void FPwin::loadText (const QString fileName, bool enforceEncod, bool reload, bool multiple)
 {
     ++ loadingProcesses_;
@@ -972,6 +1102,13 @@ void FPwin::loadText (const QString fileName, bool enforceEncod, bool reload, bo
     connect (thread, &Loading::completed, this, &FPwin::addText);
     connect (thread, &Loading::finished, thread, &QObject::deleteLater);
     thread->start();
+
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    if (!singleton->isBusy())
+    {
+        singleton->setBusy (true);
+        waitToMakeBusy();
+    }
 }
 /*************************/
 // When multiple files are being loaded, we don't change the current tab.
@@ -981,6 +1118,7 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
     if (fileName.isEmpty())
     {
         -- loadingProcesses_;
+        if (!isLoading()) unbusy();
         return;
     }
 
@@ -1139,6 +1277,7 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
 
     /* a file is completely loaded */
     -- loadingProcesses_;
+    if (!isLoading()) unbusy();
 }
 
 /*************************/
@@ -1150,6 +1289,8 @@ void FPwin::newTabFromName (const QString& fileName, bool multiple)
 /*************************/
 void FPwin::fileOpen()
 {
+    if (isLoading()) return;
+
     /* find a suitable directory */
     int index = ui->tabWidget->currentIndex();
     QString fname;
@@ -1189,6 +1330,7 @@ void FPwin::fileOpen()
     }
 
     if (hasAnotherDialog()) return;
+    disableShortcuts (true);
     FileDialog dialog (this);
     dialog.setAcceptMode (QFileDialog::AcceptOpen);
     dialog.setWindowTitle (tr ("Open file..."));
@@ -1203,10 +1345,11 @@ void FPwin::fileOpen()
     if (dialog.exec())
     {
         QStringList files = dialog.selectedFiles();
-        bool multiple (files.count() > 1);
+        bool multiple (files.count() > 1 || isLoading());
         foreach (fname, files)
             newTabFromName (fname, multiple);
     }
+    disableShortcuts (false);
 }
 /*************************/
 // Check if the file is already opened for editing somewhere else.
@@ -1274,6 +1417,8 @@ void FPwin::enforceEncoding (QAction*)
 /*************************/
 void FPwin::reload()
 {
+    if (isLoading()) return;
+
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
 
@@ -1287,6 +1432,8 @@ void FPwin::reload()
 // This is for both "Save" and "Save As"
 bool FPwin::fileSave()
 {
+    if (isLoading()) return false;
+
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return false;
 
@@ -1340,6 +1487,7 @@ bool FPwin::fileSave()
             && QObject::sender() != ui->actionSaveCodec)
         {
             if (hasAnotherDialog()) return false;
+            disableShortcuts (true);
             FileDialog dialog (this);
             dialog.setAcceptMode (QFileDialog::AcceptSave);
             dialog.setWindowTitle (tr ("Save as..."));
@@ -1351,16 +1499,24 @@ bool FPwin::fileSave()
             {
                 fname = dialog.selectedFiles().at (0);
                 if (fname.isEmpty() || QFileInfo (fname).isDir())
+                {
+                    disableShortcuts (false);
                     return false;
+                }
             }
             else
+            {
+                disableShortcuts (false);
                 return false;
+            }
+            disableShortcuts (false);
         }
     }
 
     if (QObject::sender() == ui->actionSaveAs)
     {
         if (hasAnotherDialog()) return false;
+        disableShortcuts (true);
         FileDialog dialog (this);
         dialog.setAcceptMode (QFileDialog::AcceptSave);
         dialog.setWindowTitle (tr ("Save as..."));
@@ -1372,14 +1528,22 @@ bool FPwin::fileSave()
         {
             fname = dialog.selectedFiles().at (0);
             if (fname.isEmpty() || QFileInfo (fname).isDir())
+            {
+                disableShortcuts (false);
                 return false;
+            }
         }
         else
+        {
+            disableShortcuts (false);
             return false;
+        }
+        disableShortcuts (false);
     }
     else if (QObject::sender() == ui->actionSaveCodec)
     {
         if (hasAnotherDialog()) return false;
+        disableShortcuts (true);
         FileDialog dialog (this);
         dialog.setAcceptMode (QFileDialog::AcceptSave);
         dialog.setWindowTitle (tr ("Keep encoding and save as..."));
@@ -1391,10 +1555,17 @@ bool FPwin::fileSave()
         {
             fname = dialog.selectedFiles().at (0);
             if (fname.isEmpty() || QFileInfo (fname).isDir())
+            {
+                disableShortcuts (false);
                 return false;
+            }
         }
         else
+        {
+            disableShortcuts (false);
             return false;
+        }
+        disableShortcuts (false);
     }
 
     /* try to write */
@@ -1405,6 +1576,7 @@ bool FPwin::fileSave()
         QString encoding  = checkToEncoding();
 
         if (hasAnotherDialog()) return false;
+        disableShortcuts (true);
         QMessageBox msgBox (this);
         msgBox.setIcon (QMessageBox::Question);
         msgBox.addButton (QMessageBox::Yes);
@@ -1413,7 +1585,6 @@ bool FPwin::fileSave()
         msgBox.setText (tr ("<center>Do you want to use <b>MS Windows</b> end-of-lines?</center>"));
         msgBox.setInformativeText (tr ("<center><i>This may be good for readability under MS Windows.</i></center>"));
         msgBox.setWindowModality (Qt::WindowModal);
-        msgBox.setWindowFlags (Qt::Dialog);
         QString contents;
         int ln;
         QTextCodec *codec;
@@ -1455,9 +1626,11 @@ bool FPwin::fileSave()
             writer.setCodec (QTextCodec::codecForName (encoding.toUtf8()));
             break;
         default:
+            disableShortcuts (false);
             return false;
             break;
         }
+        disableShortcuts (false);
     }
     if (!success)
         success = writer.write (textEdit->document());
@@ -1482,6 +1655,7 @@ bool FPwin::fileSave()
     else
     {
         if (hasAnotherDialog()) return success;
+        disableShortcuts (true);
         QString str = writer.device()->errorString();
         QMessageBox msgBox (QMessageBox::Warning,
                             tr ("FeatherPad"),
@@ -1490,8 +1664,8 @@ bool FPwin::fileSave()
                             this);
         msgBox.setInformativeText (tr ("<center><i>%1.</i></center>").arg (str));
         msgBox.setWindowModality (Qt::WindowModal);
-        msgBox.setWindowFlags (Qt::Dialog);
         msgBox.exec();
+        disableShortcuts (false);
     }
     return success;
 }
@@ -1537,6 +1711,8 @@ void FPwin::selectAllText()
 /*************************/
 void FPwin::makeEditable()
 {
+    if (isLoading()) return;
+
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
 
@@ -1700,10 +1876,13 @@ void FPwin::tabSwitch (int index)
 /*************************/
 void FPwin::fontDialog()
 {
+    if (isLoading()) return;
+
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
 
     if (hasAnotherDialog()) return;
+    disableShortcuts (true);
 
     TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
 
@@ -1740,6 +1919,7 @@ void FPwin::fontDialog()
         if (!tabsInfo_[textEdit]->searchEntry.isEmpty())
             hlight();
     }
+    disableShortcuts (false);
 }
 /*************************/
 void FPwin::changeEvent (QEvent *event)
@@ -1771,6 +1951,8 @@ void FPwin::changeEvent (QEvent *event)
 /*************************/
 void FPwin::jumpTo()
 {
+    if (isLoading()) return;
+
     bool visibility = ui->spinBox->isVisible();
 
     QHash<TextEdit*,tabInfo*>::iterator it;
@@ -2101,10 +2283,13 @@ void FPwin::wordButtonStatus()
 /*************************/
 void FPwin::filePrint()
 {
+    if (isLoading()) return;
+
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
 
     if (hasAnotherDialog()) return;
+    disableShortcuts (true);
 
     TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
     QPrinter printer (QPrinter::HighResolution);
@@ -2128,10 +2313,14 @@ void FPwin::filePrint()
     dlg.setWindowTitle (tr ("Print Document"));
     if (dlg.exec() == QDialog::Accepted)
         textEdit->print (&printer);
+
+    disableShortcuts (false);
 }
 /*************************/
 void FPwin::detachTab()
 {
+    if (isLoading()) return;
+
     int index = ui->tabWidget->currentIndex();
     if (index == -1 || ui->tabWidget->count() == 1)
     {
@@ -2524,17 +2713,24 @@ void FPwin::tabContextMenu (const QPoint& p)
 /*************************/
 void FPwin::prefDialog()
 {
+    if (isLoading()) return;
+
     if (hasAnotherDialog()) return;
+    disableShortcuts (true);
     PrefDialog dlg (this);
     /*dlg.show();
     move (x() + width()/2 - dlg.width()/2,
           y() + height()/2 - dlg.height()/ 2);*/
     dlg.exec();
+    disableShortcuts (false);
 }
 /*************************/
 void FPwin::aboutDialog()
 {
+    if (isLoading()) return;
+
     if (hasAnotherDialog()) return;
+    disableShortcuts (true);
     QMessageBox msgBox (this);
     msgBox.setText (tr ("<center><b><big>FeatherPad 0.5.8</big></b></center><br>"));
     msgBox.setInformativeText (tr ("<center> A lightweight, tabbed, plain-text editor </center>\n"\
@@ -2542,7 +2738,6 @@ void FPwin::aboutDialog()
                                    "<center> Author: <a href='mailto:tsujan2000@gmail.com?Subject=My%20Subject'>Pedram Pourang (aka. Tsu Jan)</a> </center><p></p>"));
     msgBox.setStandardButtons (QMessageBox::Ok);
     msgBox.setWindowModality (Qt::WindowModal);
-    msgBox.setWindowFlags (Qt::Dialog);
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
     QIcon FPIcon;
     if (config.getSysIcon())
@@ -2552,6 +2747,7 @@ void FPwin::aboutDialog()
     msgBox.setIconPixmap (FPIcon.pixmap(64, 64));
     msgBox.setWindowTitle (tr ("About FeatherPad"));
     msgBox.exec();
+    disableShortcuts (false);
 }
 /*************************/
 void FPwin::helpDoc()
