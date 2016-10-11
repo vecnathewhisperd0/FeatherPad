@@ -21,6 +21,7 @@ V0.5.8
  * Set the cursor to busy after one second of unfinished activity.
  * Explicitly disable all window shortcuts when a dialog is shown (Qt should disable all shortcuts of the main window when a modal dialog is shown. This is a Qt bug).
  * While files are being loaded, disable dangerous shortcuts and don't let any dialog be shown.
+ * Added tab switch menu-items (and shortcuts).
 
 V0.5.7
 ---------

@@ -118,8 +118,22 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     ui->actionUTF_8->setChecked (true);
     ui->actionOther->setDisabled (true);
 
+    bool rtl (QApplication::layoutDirection() == Qt::RightToLeft);
+
     connect (ui->actionNew, &QAction::triggered, this, &FPwin::newTab);
     connect (ui->actionDetach, &QAction::triggered, this, &FPwin::detachTab);
+    if (rtl)
+    {
+        connect (ui->actionRightTab, &QAction::triggered, this, &FPwin::previousTab);
+        connect (ui->actionLeftTab, &QAction::triggered, this, &FPwin::nextTab);
+    }
+    else
+    {
+        connect (ui->actionRightTab, &QAction::triggered, this, &FPwin::nextTab);
+        connect (ui->actionLeftTab, &QAction::triggered, this, &FPwin::previousTab);
+    }
+    connect (ui->actionLastTab, &QAction::triggered, this, &FPwin::lastTab);
+    connect (ui->actionFirstTab, &QAction::triggered, this, &FPwin::firstTab);
     connect (ui->actionClose, &QAction::triggered, this, &FPwin::closeTab);
     connect (ui->tabWidget, &QTabWidget::tabCloseRequested, this, &FPwin::closeTabAtIndex);
     connect (ui->actionOpen, &QAction::triggered, this, &FPwin::fileOpen);
@@ -147,7 +161,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     connect (ui->actionCopyName, &QAction::triggered, this, &FPwin::copyTabFileName);
     connect (ui->actionCopyPath, &QAction::triggered, this, &FPwin::copyTabFilePath);
     connect (ui->actionCloseAll, &QAction::triggered, this, &FPwin::closeAllTabs);
-    if (QApplication::layoutDirection() == Qt::RightToLeft)
+    if (rtl)
     {
         connect (ui->actionCloseRight, &QAction::triggered, this, &FPwin::closePreviousTabs);
         connect (ui->actionCloseLeft, &QAction::triggered, this, &FPwin::closeNextTabs);
@@ -328,6 +342,8 @@ void FPwin::applyConfig()
         ui->toolButtonNext->setIcon (QIcon::fromTheme ("go-down"));
         ui->toolButtonPrv->setIcon (QIcon::fromTheme ("go-up"));
         ui->toolButtonAll->setIcon (QIcon::hasThemeIcon("arrow-down-double") ? QIcon::fromTheme ("arrow-down-double") : QIcon());
+        ui->actionRightTab->setIcon (QIcon::fromTheme ("go-next"));
+        ui->actionLeftTab->setIcon (QIcon::fromTheme ("go-previous"));
 
         setWindowIcon (QIcon::fromTheme ("featherpad"));
 
@@ -649,6 +665,11 @@ void FPwin::enableWidgets (bool enable) const
         ui->actionDoc->setEnabled (enable);
     ui->actionPrint->setEnabled (enable);
 
+    ui->actionRightTab->setEnabled (enable);
+    ui->actionLeftTab->setEnabled (enable);
+    ui->actionLastTab->setEnabled (enable);
+    ui->actionFirstTab->setEnabled (enable);
+
     if (!enable)
     {
         ui->actionUndo->setEnabled (false);
@@ -705,6 +726,11 @@ void FPwin::disableShortcuts (bool disable) const
         ui->toolButtonNext->setShortcut (QKeySequence());
         ui->toolButtonPrv->setShortcut (QKeySequence());
         ui->toolButtonAll->setShortcut (QKeySequence());
+
+        ui->actionRightTab->setShortcut (QKeySequence());
+        ui->actionLeftTab->setShortcut (QKeySequence());
+        ui->actionLastTab->setShortcut (QKeySequence());
+        ui->actionFirstTab->setShortcut (QKeySequence());
     }
     else
     {
@@ -743,6 +769,11 @@ void FPwin::disableShortcuts (bool disable) const
         ui->toolButtonNext->setShortcut (QKeySequence (tr ("F7")));
         ui->toolButtonPrv->setShortcut (QKeySequence (tr ("F8")));
         ui->toolButtonAll->setShortcut (QKeySequence (tr ("F9")));
+
+        ui->actionRightTab->setShortcut (QKeySequence (tr ("Alt+Right")));
+        ui->actionLeftTab->setShortcut (QKeySequence (tr ("Alt+Left")));
+        ui->actionLastTab->setShortcut (QKeySequence (tr ("Alt+Up")));
+        ui->actionFirstTab->setShortcut (QKeySequence (tr ("Alt+Down")));
     }
 }
 /*************************/
@@ -837,7 +868,6 @@ TextEdit* FPwin::createEmptyTab (bool setCurrent)
                                       "&nbsp;&nbsp;&nbsp;&nbsp;<b>Sel. Chars.:</b> <i>0</i>"
                                       "&nbsp;&nbsp;&nbsp;&nbsp;<b>Words:</b> <i>0</i>"));
         }
-        connect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::wordButtonStatus);
         connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::statusMsgWithLineCount);
         connect (textEdit, &QPlainTextEdit::selectionChanged, this, &FPwin::statusMsg);
     }
@@ -2315,6 +2345,45 @@ void FPwin::filePrint()
         textEdit->print (&printer);
 
     disableShortcuts (false);
+}
+/*************************/
+void FPwin::nextTab()
+{
+    if (isLoading()) return;
+
+    int index = ui->tabWidget->currentIndex();
+    if (index == -1) return;
+
+    if (QWidget *widget = ui->tabWidget->widget (index + 1))
+        ui->tabWidget->setCurrentWidget (widget);
+}
+/*************************/
+void FPwin::previousTab()
+{
+    if (isLoading()) return;
+
+    int index = ui->tabWidget->currentIndex();
+    if (index == -1) return;
+
+    if (QWidget *widget = ui->tabWidget->widget (index - 1))
+        ui->tabWidget->setCurrentWidget (widget);
+}
+/*************************/
+void FPwin::lastTab()
+{
+    if (isLoading()) return;
+
+    int count = ui->tabWidget->count();
+    if (count > 0)
+        ui->tabWidget->setCurrentIndex (count - 1);
+}
+/*************************/
+void FPwin::firstTab()
+{
+    if (isLoading()) return;
+
+    if ( ui->tabWidget->count() > 0)
+        ui->tabWidget->setCurrentIndex (0);
 }
 /*************************/
 void FPwin::detachTab()

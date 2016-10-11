@@ -224,8 +224,13 @@
      <string>&amp;File</string>
     </property>
     <addaction name="actionNew"/>
-    <addaction name="actionDetach"/>
     <addaction name="actionOpen"/>
+    <addaction name="separator"/>
+    <addaction name="actionDetach"/>
+    <addaction name="actionRightTab"/>
+    <addaction name="actionLeftTab"/>
+    <addaction name="actionLastTab"/>
+    <addaction name="actionFirstTab"/>
     <addaction name="separator"/>
     <addaction name="actionReload"/>
     <addaction name="separator"/>
@@ -1167,7 +1172,7 @@
     </iconset>
    </property>
    <property name="text">
-    <string>&amp;Detach</string>
+    <string>&amp;Detach Tab</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+T</string>
@@ -1221,9 +1226,6 @@
    <property name="text">
     <string>&amp;Copy File Name</string>
    </property>
-   <property name="toolTip">
-    <string>Copy File Name</string>
-   </property>
   </action>
   <action name="actionCopyPath">
    <property name="icon">
@@ -1233,8 +1235,45 @@
    <property name="text">
     <string>Copy File &amp;Path</string>
    </property>
-   <property name="toolTip">
-    <string>Copy File Path</string>
+  </action>
+  <action name="actionRightTab">
+   <property name="icon">
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/go-next.svg</normaloff>:/icons/go-next.svg</iconset>
+   </property>
+   <property name="text">
+    <string>R&amp;ight Tab</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+Right</string>
+   </property>
+  </action>
+  <action name="actionLeftTab">
+   <property name="icon">
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/go-previous.svg</normaloff>:/icons/go-previous.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Left Ta&amp;b</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+Left</string>
+   </property>
+  </action>
+  <action name="actionFirstTab">
+   <property name="text">
+    <string>&amp;First Tab</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+Down</string>
+   </property>
+  </action>
+  <action name="actionLastTab">
+   <property name="text">
+    <string>&amp;Last Tab</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+Up</string>
    </property>
   </action>
  </widget>

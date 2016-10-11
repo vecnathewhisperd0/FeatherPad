@@ -91,6 +91,10 @@ Preferences:                Ctrl+Shift+P
 Document statistics:        Ctrl+Shift+D
 Close tab:                  Ctrl+Shift+Q
 Detach tab:                 Ctrl+T
+Right tab:                  Alt+Right
+Left tab:                   Alt+Left
+Last tab:                   Alt+Up
+First tab:                  Alt+Down
 Print:                      Ctrl+P
 Edit uneditable texts:      Ctrl+E
 

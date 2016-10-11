@@ -145,6 +145,10 @@ private slots:
     void docProp();
     void filePrint();
     void detachTab();
+    void nextTab();
+    void previousTab();
+    void lastTab();
+    void firstTab();
     void tabContextMenu (const QPoint& p);
     void prefDialog();
     void aboutDialog();
