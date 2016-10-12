@@ -9,7 +9,7 @@ TARGET = featherpad
 TEMPLATE = app
 CONFIG += c++11
 
-SOURCES += main.cpp\
+SOURCES += main.cpp \
            singleton.cpp \
            fpwin.cpp \
            encoding.cpp \

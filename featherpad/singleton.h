@@ -44,14 +44,6 @@ public:
         return config_;
     }
 
-    bool isBusy () {
-        return busy_;
-    }
-    void setBusy (bool b) {
-        busy_ = b;
-    }
-
-
 public slots:
     void receiveMessage();
     void handleMessage (const QString& message);
@@ -67,7 +59,6 @@ private:
     QLocalServer *localServer;
     static const int timeout = 1000;
     Config config_;
-    bool busy_; // Used to show a busy cursor.
 };
 
 }

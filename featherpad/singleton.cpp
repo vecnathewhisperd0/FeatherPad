@@ -27,7 +27,6 @@ namespace FeatherPad {
 FPsingleton::FPsingleton (int &argc, char *argv[], const QString uniqueKey)
              : QApplication (argc, argv), _uniqueKey (uniqueKey)
 {
-    busy_ = false;
     config_.readConfig();
     if (config_.getTranslucencyWorkaround())
     {

@@ -226,7 +226,7 @@
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
     <addaction name="separator"/>
-    <addaction name="actionDetach"/>
+    <addaction name="actionDetachTab"/>
     <addaction name="actionRightTab"/>
     <addaction name="actionLeftTab"/>
     <addaction name="actionLastTab"/>
@@ -1162,7 +1162,7 @@
     <string>Ctrl+E</string>
    </property>
   </action>
-  <action name="actionDetach">
+  <action name="actionDetachTab">
    <property name="enabled">
     <bool>false</bool>
    </property>
@@ -1237,6 +1237,9 @@
    </property>
   </action>
   <action name="actionRightTab">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="data/fp.qrc">
      <normaloff>:/icons/go-next.svg</normaloff>:/icons/go-next.svg</iconset>
@@ -1249,6 +1252,9 @@
    </property>
   </action>
   <action name="actionLeftTab">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="data/fp.qrc">
      <normaloff>:/icons/go-previous.svg</normaloff>:/icons/go-previous.svg</iconset>
@@ -1261,6 +1267,9 @@
    </property>
   </action>
   <action name="actionFirstTab">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>&amp;First Tab</string>
    </property>
@@ -1269,6 +1278,9 @@
    </property>
   </action>
   <action name="actionLastTab">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>&amp;Last Tab</string>
    </property>

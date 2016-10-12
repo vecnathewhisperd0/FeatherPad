@@ -43,12 +43,8 @@ void BusyMaker::waiting() {
 }
 
 void BusyMaker::makeBusy() {
-    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
-    if (singleton->isBusy() && QGuiApplication::overrideCursor() == nullptr)
-    {
+    if (QGuiApplication::overrideCursor() == nullptr)
         QGuiApplication::setOverrideCursor (Qt::WaitCursor);
-        singleton->setBusy (false);
-    }
     emit finished();
 }
 
@@ -60,6 +56,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     loadingProcesses_ = 0;
     rightClicked_ = -1;
     closeAll_ = false;
+    busyThread_ = nullptr;
 
     /* JumpTo bar*/
     ui->spinBox->hide();
@@ -121,7 +118,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     bool rtl (QApplication::layoutDirection() == Qt::RightToLeft);
 
     connect (ui->actionNew, &QAction::triggered, this, &FPwin::newTab);
-    connect (ui->actionDetach, &QAction::triggered, this, &FPwin::detachTab);
+    connect (ui->actionDetachTab, &QAction::triggered, this, &FPwin::detachTab);
     if (rtl)
     {
         connect (ui->actionRightTab, &QAction::triggered, this, &FPwin::previousTab);
@@ -364,7 +361,7 @@ bool FPwin::hasAnotherDialog()
     for (int i = 0; i < singleton->Wins.count(); ++i)
     {
         FPwin *win = singleton->Wins.at (i);
-        if (win->findChildren<QDialog *>().count() > 0)
+        if (win != this && win->findChildren<QDialog *>().count() > 0)
         {
             res = true;
             break;
@@ -418,14 +415,10 @@ bool FPwin::closeTabs (int leftIndx, int rightIndx, bool closeall)
     bool keep = false;
     int index, count;
     int unsaved = 0;
-    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
     while (unsaved == 0 && ui->tabWidget->count() > 0)
     {
-        if (!singleton->isBusy())
-        {
-            singleton->setBusy (true);
+        if (QGuiApplication::overrideCursor() == nullptr)
             waitToMakeBusy();
-        }
 
         if (rightIndx == 0) break; // no tab on the left
         if (rightIndx > -1)
@@ -459,7 +452,13 @@ bool FPwin::closeTabs (int leftIndx, int rightIndx, bool closeall)
                 enableWidgets (false);
             }
             if (count == 1)
-                ui->actionDetach->setDisabled (true);
+            {
+                ui->actionDetachTab->setDisabled (true);
+                ui->actionRightTab->setDisabled (true);
+                ui->actionLeftTab->setDisabled (true);
+                ui->actionLastTab->setDisabled (true);
+                ui->actionFirstTab->setDisabled (true);
+            }
             break;
         case 1: // stop quitting
             keep = true;
@@ -490,7 +489,13 @@ bool FPwin::closeTabs (int leftIndx, int rightIndx, bool closeall)
                     enableWidgets (false);
                 }
                 if (count == 1)
-                    ui->actionDetach->setDisabled (true);
+                {
+                    ui->actionDetachTab->setDisabled (true);
+                    ui->actionRightTab->setDisabled (true);
+                    ui->actionLeftTab->setDisabled (true);
+                    ui->actionLastTab->setDisabled (true);
+                    ui->actionFirstTab->setDisabled (true);
+                }
             }
             break;
         default:
@@ -665,11 +670,6 @@ void FPwin::enableWidgets (bool enable) const
         ui->actionDoc->setEnabled (enable);
     ui->actionPrint->setEnabled (enable);
 
-    ui->actionRightTab->setEnabled (enable);
-    ui->actionLeftTab->setEnabled (enable);
-    ui->actionLastTab->setEnabled (enable);
-    ui->actionFirstTab->setEnabled (enable);
-
     if (!enable)
     {
         ui->actionUndo->setEnabled (false);
@@ -709,7 +709,7 @@ void FPwin::disableShortcuts (bool disable) const
         ui->actionPreferences->setShortcut (QKeySequence());
         ui->actionHelp->setShortcut (QKeySequence());
         ui->actionEdit->setShortcut (QKeySequence());
-        ui->actionDetach->setShortcut (QKeySequence());
+        ui->actionDetachTab->setShortcut (QKeySequence());
         ui->actionReload->setShortcut (QKeySequence());
 
         ui->actionUndo->setShortcut (QKeySequence());
@@ -752,7 +752,7 @@ void FPwin::disableShortcuts (bool disable) const
         ui->actionPreferences->setShortcut (QKeySequence (tr ("Ctrl+Shift+P")));
         ui->actionHelp->setShortcut (QKeySequence (tr ("Ctrl+H")));
         ui->actionEdit->setShortcut (QKeySequence (tr ("Ctrl+E")));
-        ui->actionDetach->setShortcut (QKeySequence (tr ("Ctrl+T")));
+        ui->actionDetachTab->setShortcut (QKeySequence (tr ("Ctrl+T")));
         ui->actionReload->setShortcut (QKeySequence (tr ("Ctrl+Shift+R")));
 
         ui->actionUndo->setShortcut (QKeySequence (tr ("Ctrl+Z")));
@@ -845,7 +845,13 @@ TextEdit* FPwin::createEmptyTab (bool setCurrent)
 
     /* set all preliminary properties */
     if (index >= 0)
-        ui->actionDetach->setEnabled (true);
+    {
+        ui->actionDetachTab->setEnabled (true);
+        ui->actionRightTab->setEnabled (true);
+        ui->actionLeftTab->setEnabled (true);
+        ui->actionLastTab->setEnabled (true);
+        ui->actionFirstTab->setEnabled (true);
+    }
     ui->tabWidget->setTabToolTip (index + 1, "Unsaved");
     if (!ui->actionWrap->isChecked())
         textEdit->setLineWrapMode (QPlainTextEdit::NoWrap);
@@ -1021,7 +1027,13 @@ void FPwin::closeTab()
     else // set focus to text-edit
     {
         if (count == 1)
-            ui->actionDetach->setDisabled (true);
+        {
+            ui->actionDetachTab->setDisabled (true);
+            ui->actionRightTab->setDisabled (true);
+            ui->actionLeftTab->setDisabled (true);
+            ui->actionLastTab->setDisabled (true);
+            ui->actionFirstTab->setDisabled (true);
+        }
         if (TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->currentWidget()))
             textEdit->setFocus();
     }
@@ -1042,7 +1054,13 @@ void FPwin::closeTabAtIndex (int index)
     else
     {
         if (count == 1)
-            ui->actionDetach->setDisabled (true);
+        {
+            ui->actionDetachTab->setDisabled (true);
+            ui->actionRightTab->setDisabled (true);
+            ui->actionLeftTab->setDisabled (true);
+            ui->actionLastTab->setDisabled (true);
+            ui->actionFirstTab->setDisabled (true);
+        }
         if (TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->currentWidget()))
             textEdit->setFocus();
     }
@@ -1105,19 +1123,25 @@ void FPwin::asterisk (bool modified)
 /*************************/
 void FPwin::waitToMakeBusy()
 {
-    QThread *busyThread = new QThread;
+    if (busyThread_ != nullptr) return;
+
+    busyThread_ = new QThread;
     BusyMaker *makeBusy = new BusyMaker();
-    makeBusy->moveToThread(busyThread);
-    connect (busyThread, &QThread::started, makeBusy, &BusyMaker::waiting);
-    connect (busyThread, &QThread::finished, busyThread, &QObject::deleteLater);
-    connect (makeBusy, &BusyMaker::finished, busyThread, &QThread::quit);
+    makeBusy->moveToThread(busyThread_);
+    connect (busyThread_, &QThread::started, makeBusy, &BusyMaker::waiting);
+    connect (busyThread_, &QThread::finished, busyThread_, &QObject::deleteLater);
+    connect (makeBusy, &BusyMaker::finished, busyThread_, &QThread::quit);
     connect (makeBusy, &BusyMaker::finished, makeBusy, &QObject::deleteLater);
-    busyThread->start();
+    busyThread_->start();
 }
 /*************************/
 void FPwin::unbusy()
 {
-    static_cast<FPsingleton*>(qApp)->setBusy (false);
+    if (busyThread_ && !busyThread_->isFinished())
+    {
+        busyThread_->quit();
+        busyThread_->wait();
+    }
     if (QGuiApplication::overrideCursor() != nullptr)
         QGuiApplication::restoreOverrideCursor();
 }
@@ -1133,12 +1157,8 @@ void FPwin::loadText (const QString fileName, bool enforceEncod, bool reload, bo
     connect (thread, &Loading::finished, thread, &QObject::deleteLater);
     thread->start();
 
-    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
-    if (!singleton->isBusy())
-    {
-        singleton->setBusy (true);
+    if (QGuiApplication::overrideCursor() == nullptr)
         waitToMakeBusy();
-    }
 }
 /*************************/
 // When multiple files are being loaded, we don't change the current tab.
@@ -2448,7 +2468,13 @@ void FPwin::detachTab()
     tabsInfo_.remove (textEdit);
     ui->tabWidget->removeTab (index);
     if (ui->tabWidget->count() == 1)
-        ui->actionDetach->setDisabled (true);
+    {
+        ui->actionDetachTab->setDisabled (true);
+        ui->actionRightTab->setDisabled (true);
+        ui->actionLeftTab->setDisabled (true);
+        ui->actionLastTab->setDisabled (true);
+        ui->actionFirstTab->setDisabled (true);
+    }
 
     /*******************************************************************
      ***** create a new window and replace its tab by this widget. *****
@@ -2631,7 +2657,13 @@ void FPwin::dropTab (QString str)
     dragSource->ui->tabWidget->removeTab (index);
     int count = dragSource->ui->tabWidget->count();
     if (count == 1)
-        dragSource->ui->actionDetach->setDisabled (true);
+    {
+        dragSource->ui->actionDetachTab->setDisabled (true);
+        dragSource->ui->actionRightTab->setDisabled (true);
+        dragSource->ui->actionLeftTab->setDisabled (true);
+        dragSource->ui->actionLastTab->setDisabled (true);
+        dragSource->ui->actionFirstTab->setDisabled (true);
+    }
 
     /***************************************************************************
      ***** The tab is dropped into this window; so insert it as a new tab. *****
@@ -2663,7 +2695,13 @@ void FPwin::dropTab (QString str)
     ui->tabWidget->setTabToolTip (insertIndex, tooltip);
     /* detach button */
     if (ui->tabWidget->count() == 2)
-        ui->actionDetach->setEnabled (true);
+    {
+        ui->actionDetachTab->setEnabled (true);
+        ui->actionRightTab->setEnabled (true);
+        ui->actionLeftTab->setEnabled (true);
+        ui->actionLastTab->setEnabled (true);
+        ui->actionFirstTab->setEnabled (true);
+    }
     /* reload buttons, syntax highlighting, jump bar, line numbers */
     if (ui->actionSyntax->isChecked() && !tabinfo->highlighter)
         syntaxHighlighting (tabinfo);
