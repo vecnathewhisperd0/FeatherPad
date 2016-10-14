@@ -376,7 +376,7 @@ bool FPwin::hasAnotherDialog()
                                        "<center><i>attend to that window or just close its dialog! </i></center><p></p>"));
         msgBox.setStandardButtons (QMessageBox::Close);
         msgBox.setWindowModality (Qt::ApplicationModal);
-        msgBox.exec();
+        msgBox.exec(); // shortcuts are disabled because this is an app-modal dialog
     }
     return res;
 }
@@ -579,10 +579,9 @@ int FPwin::unSaved (int index, bool noToAll)
     if (textEdit->document()->isModified()
         || (!fname.isEmpty() && !QFile::exists (fname)))
     {
+        unbusy(); // made busy at closeTabs()
         if (hasAnotherDialog()) return 1; // cancel
         disableShortcuts (true);
-       /* made busy at closeTabs() */
-        unbusy();
 
         QMessageBox msgBox (this);
         msgBox.setIcon (QMessageBox::Warning);
