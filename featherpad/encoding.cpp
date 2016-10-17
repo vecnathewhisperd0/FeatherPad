@@ -9,6 +9,7 @@
 #include <stdlib.h> // getenv
 #include <langinfo.h> // CODESET, nl_langinfo
 #include <stdint.h> // uint8_t, uint32_t
+#include <locale.h> // needed by FreeBSD
 #include <QTextCodec>
 #include "encoding.h"
 

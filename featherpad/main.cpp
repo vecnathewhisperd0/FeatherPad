@@ -33,9 +33,7 @@ void handleQuitSignals (const std::vector<int>& quitSignals)
 
 int main (int argc, char *argv[])
 {
-    /* QString(getenv("USER")) could also be used */
-    QProcessEnvironment pe = QProcessEnvironment::systemEnvironment();
-    FeatherPad::FPsingleton singleton (argc, argv, pe.value ("LOGNAME") + "-featherpad");
+    FeatherPad::FPsingleton singleton (argc, argv, QString (qgetenv ("USER")) + "-featherpad");
 
     handleQuitSignals ({SIGQUIT, SIGINT, SIGTERM, SIGHUP}); // -> https://en.wikipedia.org/wiki/Unix_signal
 

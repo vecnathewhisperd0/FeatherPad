@@ -1,3 +1,7 @@
+V0.5.9
+---------
+ * Added support for FreeBSD.
+
 V0.5.8
 ---------
  * The here-doc delimiter shouldn't be commented out.

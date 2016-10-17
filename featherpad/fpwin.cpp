@@ -30,10 +30,6 @@
 #include <fstream> // std::ofstream
 #include <QPrinter>
 
-#if defined Q_WS_X11 || defined Q_OS_LINUX
-#include <QX11Info>
-#endif
-
 #include "x11.h"
 
 namespace FeatherPad {
@@ -2204,7 +2200,7 @@ const QString FPwin::checkToEncoding() const
     else if (ui->actionJapanese_EUC_JP->isChecked())
         encoding = "EUC-JP";
     else if (ui->actionKorean_CP949->isChecked())
-        encoding == "CP949";
+        encoding = "CP949";
     else if (ui->actionKorean_CP1361->isChecked())
         encoding = "CP1361";
     else if (ui->actionKorean_EUC_KR->isChecked())
@@ -2838,7 +2834,7 @@ void FPwin::aboutDialog()
     if (hasAnotherDialog()) return;
     disableShortcuts (true);
     QMessageBox msgBox (this);
-    msgBox.setText (tr ("<center><b><big>FeatherPad 0.5.8</big></b></center><br>"));
+    msgBox.setText (tr ("<center><b><big>FeatherPad 0.5.9</big></b></center><br>"));
     msgBox.setInformativeText (tr ("<center> A lightweight, tabbed, plain-text editor </center>\n"\
                                    "<center> based on Qt5 </center><br>"\
                                    "<center> Author: <a href='mailto:tsujan2000@gmail.com?Subject=My%20Subject'>Pedram Pourang (aka. Tsu Jan)</a> </center><p></p>"));
