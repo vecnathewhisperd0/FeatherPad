@@ -941,6 +941,8 @@ void FPwin::zoomZero()
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
     TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
     textEdit->setFont (config.getFont());
+    QFontMetrics metrics (config.getFont());
+    textEdit->setTabStopWidth (4 * metrics.width (' '));
 
     //QTimer::singleShot (0, textEdit, SLOT (updateEditorGeometry()));
 

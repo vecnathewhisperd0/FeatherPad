@@ -213,7 +213,9 @@ void TextEdit::zooming (float range)
     const float newSize = f.pointSizeF() + range;
     if (newSize <= 0) return;
     f.setPointSizeF (newSize);
-    setFont(f);
+    setFont (f);
+    QFontMetrics metrics (f);
+    setTabStopWidth (4 * metrics.width (' '));
 
     /* if this is a zoom-out, the text will need
        to be formatted and/or highlighted again */
