@@ -71,12 +71,15 @@ public:
         scrollJumpWorkaround = apply;
     }
 
+    void zooming (float range);
+
 signals:
     /* inform the main widget */
     void fileDropped (const QString& localFile,
                       bool multiple); // Multiple files are dropped?
     void resized(); // needed by syntax highlighting
     void updateRect (const QRect &rect, int dy);
+    void zoomedOut (TextEdit *textEdit); // needed for reformatting text
 
 protected:
     virtual void keyPressEvent (QKeyEvent *event)
@@ -145,7 +148,17 @@ protected:
         if (scrollJumpWorkaround && event->angleDelta().manhattanLength() > 240)
             event->ignore();
         else
-            QPlainTextEdit::wheelEvent (event);
+        {
+            if (event->modifiers() & Qt::ControlModifier)
+            {
+                float delta = event->angleDelta().y() / 120.f;
+                zooming (delta);
+                return;
+            }
+            /* as in QPlainTextEdit::wheelEvent() */
+            QAbstractScrollArea::wheelEvent (event);
+            updateMicroFocus();
+        }
     }
 
     void resizeEvent (QResizeEvent *event);

@@ -102,8 +102,8 @@ Extra Shortcuts:
 =================
 (Un-)Fullscreen:               F11
 Resize window to fixed size:   Ctrl+Shift+W (700x500 by default but can be set in Preferences)
-Zoom in:                       Ctrl+=
-Zoom out:                      Ctrl+-
+Zoom in:                       Ctrl+= (or Ctrl + mouse wheel)
+Zoom out:                      Ctrl+- (or Ctrl + mouse wheel)
 Reset zooming:                 Ctrl+0
 Change text alignment:         Ctrl+Shift+A (for RTL languages)
 

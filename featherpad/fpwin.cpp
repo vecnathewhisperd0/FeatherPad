@@ -880,6 +880,7 @@ TextEdit* FPwin::createEmptyTab (bool setCurrent)
     connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionDelete, &QAction::setEnabled);
     connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCopy, &QAction::setEnabled);
     connect (textEdit, &TextEdit::fileDropped, this, &FPwin::newTabFromName);
+    connect (textEdit, &TextEdit::zoomedOut, this, &FPwin::reformat);
 
     /* I don't know why, under KDE, when text is selected
        for the first time, it isn't copied to the selection
@@ -904,60 +905,47 @@ TextEdit* FPwin::createEmptyTab (bool setCurrent)
     return textEdit;
 }
 /*************************/
+void FPwin::reformat (TextEdit *textEdit)
+{
+    formatTextRect (textEdit->rect()); // in "syntax.cpp"
+    if (!tabsInfo_[textEdit]->searchEntry.isEmpty())
+        hlight(); // in "find.cpp"
+}
+/*************************/
 void FPwin::zoomIn()
 {
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
-
     TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
-    QFont currentFont = textEdit->document()->defaultFont();
-    int size = currentFont.pointSize();
-    currentFont.setPointSize (size + 1);
-    textEdit->document()->setDefaultFont (currentFont);
-    QFontMetrics metrics (currentFont);
-    textEdit->setTabStopWidth (4 * metrics.width (' '));
+    textEdit->zooming (1.f);
 
     /* this is sometimes needed for the
        scrollbar range(s) to be updated (a Qt bug?) */
-    QTimer::singleShot (0, textEdit, SLOT (updateEditorGeometry()));
+    //QTimer::singleShot (0, textEdit, SLOT (updateEditorGeometry()));
 }
 /*************************/
 void FPwin::zoomOut()
 {
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
-
     TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
-    QFont currentFont = textEdit->document()->defaultFont();
-    int size = currentFont.pointSize();
-    if (size <= 3) return;
-    currentFont.setPointSize (size - 1);
-    textEdit->document()->setDefaultFont (currentFont);
-    QFontMetrics metrics (currentFont);
-    textEdit->setTabStopWidth (4 * metrics.width (' '));
+    textEdit->zooming (-1.f);
 
-    formatTextRect (textEdit->rect());
-    if (!tabsInfo_[textEdit]->searchEntry.isEmpty())
-        hlight();
+    reformat (textEdit);
 }
 /*************************/
 void FPwin::zoomZero()
 {
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
-
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
     TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
-    textEdit->document()->setDefaultFont (config.getFont());
-    QFontMetrics metrics (config.getFont());
-    textEdit->setTabStopWidth (4 * metrics.width (' '));
+    textEdit->setFont (config.getFont());
 
-    QTimer::singleShot (0, textEdit, SLOT (updateEditorGeometry()));
+    //QTimer::singleShot (0, textEdit, SLOT (updateEditorGeometry()));
 
     /* this may be a zoom-out */
-    formatTextRect (textEdit->rect());
-    if (!tabsInfo_[textEdit]->searchEntry.isEmpty())
-        hlight();
+    reformat (textEdit);
 }
 /*************************/
 void FPwin::fullScreening()
@@ -1960,9 +1948,7 @@ void FPwin::fontDialog()
         /* the font can become larger... */
         QTimer::singleShot (0, textEdit, SLOT (updateEditorGeometry()));
         /* ... or smaller */
-        formatTextRect (textEdit->rect());
-        if (!tabsInfo_[textEdit]->searchEntry.isEmpty())
-            hlight();
+        reformat (textEdit);
     }
     disableShortcuts (false);
 }
@@ -2443,6 +2429,7 @@ void FPwin::detachTab()
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCut, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionDelete, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCopy, &QAction::setEnabled);
+    disconnect (textEdit, &TextEdit::zoomedOut, this, &FPwin::reformat);
     disconnect (textEdit, &TextEdit::fileDropped, this, &FPwin::newTabFromName);
     disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
     disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
@@ -2564,6 +2551,7 @@ void FPwin::detachTab()
         connect (textEdit, &QPlainTextEdit::copyAvailable, dropTarget->ui->actionDelete, &QAction::setEnabled);
     }
     connect (textEdit, &TextEdit::fileDropped, dropTarget, &FPwin::newTabFromName);
+    connect (textEdit, &TextEdit::zoomedOut, dropTarget, &FPwin::reformat);
 
     if (tabinfo->highlighter)
     {
@@ -2631,6 +2619,7 @@ void FPwin::dropTab (QString str)
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, dragSource->ui->actionCut, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, dragSource->ui->actionDelete, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, dragSource->ui->actionCopy, &QAction::setEnabled);
+    disconnect (textEdit, &TextEdit::zoomedOut, dragSource, &FPwin::reformat);
     disconnect (textEdit, &TextEdit::fileDropped, dragSource, &FPwin::newTabFromName);
     disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, dragSource, &FPwin::matchBrackets);
     disconnect (textEdit, &QPlainTextEdit::blockCountChanged, dragSource, &FPwin::formatOnBlockChange);
@@ -2753,6 +2742,7 @@ void FPwin::dropTab (QString str)
         connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionDelete, &QAction::setEnabled);
     }
     connect (textEdit, &TextEdit::fileDropped, this, &FPwin::newTabFromName);
+    connect (textEdit, &TextEdit::zoomedOut, this, &FPwin::reformat);
 
     if (tabinfo->highlighter) // it's set to NULL above when syntax highlighting is disabled
     {

@@ -136,6 +136,7 @@ private slots:
     void setMax (const int max);
     void goTo();
     void asterisk (bool modified);
+    void reformat (TextEdit *textEdit);
     void zoomIn();
     void zoomOut();
     void zoomZero();

@@ -205,5 +205,19 @@ void TextEdit::onUpdateRequesting (const QRect& /*rect*/, int dy)
 
     updateTimerId = startTimer (50);
 }
+/*************************/
+void TextEdit::zooming (float range)
+{
+    if (range == 0.f) return;
+    QFont f = document()->defaultFont();
+    const float newSize = f.pointSizeF() + range;
+    if (newSize <= 0) return;
+    f.setPointSizeF (newSize);
+    setFont(f);
+
+    /* if this is a zoom-out, the text will need
+       to be formatted and/or highlighted again */
+    if (range < 0) emit zoomedOut (this);
+}
 
 }

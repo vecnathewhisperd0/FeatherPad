@@ -1,6 +1,7 @@
 V0.5.9
 ---------
  * Added support for FreeBSD.
+ * Added support for text zooming with Ctrl+wheel.
 
 V0.5.8
 ---------
