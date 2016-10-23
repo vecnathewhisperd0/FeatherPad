@@ -58,10 +58,14 @@ void Config::readConfig()
     else
     {
         winSize_ = settings.value ("size", QSize(700, 500)).toSize();
+        if (!winSize_.isValid() || winSize_.isNull())
+            winSize_ = QSize (700, 500);
         isMaxed_ = settings.value ("max", false).toBool();
         isFull_ = settings.value ("fullscreen", false).toBool();
     }
     startSize_ = settings.value ("startSize", QSize(700, 500)).toSize();
+    if (!startSize_.isValid() || startSize_.isNull())
+        startSize_ = QSize (700, 500);
 
     if (settings.value ("sysIcon").toBool())
         sysIcon_ = true; // false by default
