@@ -227,7 +227,7 @@
 prevents annoying scroll jumps.</string>
         </property>
         <property name="text">
-         <string>Workaround for &amp;Qt5's scroll jumb bug</string>
+         <string>Workaround for &amp;Qt5's scroll jump bug</string>
         </property>
        </widget>
       </item>

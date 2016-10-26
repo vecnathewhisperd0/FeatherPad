@@ -329,8 +329,8 @@ void PrefDialog::prefScrollJumpWorkaround (int checked)
             int count = singleton->Wins.at (i)->ui->tabWidget->count();
             if (count > 0)
             {
-                for (int i = 0; i < count; ++i)
-                    qobject_cast< TextEdit *>(singleton->Wins.at (i)->ui->tabWidget->widget (i))
+                for (int j = 0; j < count; ++j)
+                    qobject_cast< TextEdit *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
                                              ->setScrollJumpWorkaround (true);
             }
         }
@@ -343,8 +343,8 @@ void PrefDialog::prefScrollJumpWorkaround (int checked)
             int count = singleton->Wins.at (i)->ui->tabWidget->count();
             if (count > 0)
             {
-                for (int i = 0; i < count; ++i)
-                    qobject_cast< TextEdit *>(singleton->Wins.at (i)->ui->tabWidget->widget (i))
+                for (int j = 0; j < count; ++j)
+                    qobject_cast< TextEdit *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
                                              ->setScrollJumpWorkaround (false);
             }
         }
