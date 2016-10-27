@@ -49,6 +49,8 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     connect (ui->statusBox, &QCheckBox::stateChanged, this, &PrefDialog::prefStatusbar);
     // no ccombo onnection because of mouse wheel; config is set at closeEvent() instead
     ui->tabCombo->setCurrentIndex (config.getTabPosition());
+    ui->tabBox->setChecked (config.getTabWrapAround());
+    connect (ui->tabBox, &QCheckBox::stateChanged, this, &PrefDialog::prefTabWrapAround);
     ui->transBox->setChecked (config.getTranslucencyWorkaround());
     connect (ui->transBox, &QCheckBox::stateChanged, this, &PrefDialog::prefTranslucencyWorkaround);
 
@@ -349,6 +351,16 @@ void PrefDialog::prefScrollJumpWorkaround (int checked)
             }
         }
     }
+}
+/*************************/
+void PrefDialog::prefTabWrapAround (int checked)
+{
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    Config& config = singleton->getConfig();
+    if (checked == Qt::Checked)
+        config.setTabWrapAround (true);
+    else if (checked == Qt::Unchecked)
+        config.setTabWrapAround (false);
 }
 /*************************/
 void PrefDialog::prefTranslucencyWorkaround (int checked)

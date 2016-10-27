@@ -82,6 +82,13 @@ public:
         darkColScheme_ = dark;
     }
 
+    bool getTabWrapAround() const {
+        return tabWrapAround_;
+    }
+    void setTabWrapAround (bool wrap) {
+        tabWrapAround_ = wrap;
+    }
+
     QSize getWinSize() const {
         return winSize_;
     }
@@ -190,7 +197,7 @@ public:
 
 private:
     bool remSize_, sysIcon_, noToolbar_, hideSearchbar_, showStatusbar_, remFont_, wrapByDefault_,
-         indentByDefault_, lineByDefault_, syntaxByDefault_, isMaxed_, isFull_, darkColScheme_,
+         indentByDefault_, lineByDefault_, syntaxByDefault_, isMaxed_, isFull_, darkColScheme_, tabWrapAround_,
          scrollJumpWorkaround_, // Should a workaround for Qt5's "scroll jump" bug be applied?
          translucencyWorkaround_; // Should a workaround for the translucency bug of Qt-5.7 be applied?
     int tabPosition_, maxSHSize_;

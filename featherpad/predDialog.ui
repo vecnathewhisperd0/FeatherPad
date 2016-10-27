@@ -134,6 +134,19 @@
        </widget>
       </item>
       <item row="7" column="0" colspan="4">
+       <widget class="QCheckBox" name="tabBox">
+        <property name="toolTip">
+         <string>This means that, for LTR, Alt+Right goes to the first tab
+after the last tab is activated, and the same for Alt+Left.
+
+Tab navigation with mouse wheel is not affected.</string>
+        </property>
+        <property name="text">
+         <string>Tab navigation wraps around</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0" colspan="4">
        <widget class="QCheckBox" name="transBox">
         <property name="toolTip">
          <string>Check this only if you see weird effects with translucent themes!</string>

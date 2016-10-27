@@ -33,6 +33,7 @@ Config::Config():
     isMaxed_ (false),
     isFull_ (false),
     darkColScheme_ (false),
+    tabWrapAround_ (false),
     scrollJumpWorkaround_ (false),
     translucencyWorkaround_ (false),
     tabPosition_ (0),
@@ -114,6 +115,9 @@ void Config::readConfig()
     if (settings.value ("darkColorScheme").toBool())
         darkColScheme_ = true; // false by default
 
+    if (settings.value ("tabWrapAround").toBool())
+        tabWrapAround_ = true; // false by default
+
     if (settings.value ("scrollJumpWorkaround").toBool())
         scrollJumpWorkaround_ = true; // false by default
 
@@ -172,6 +176,7 @@ void Config::writeConfig()
     settings.setValue ("lineNumbers", lineByDefault_);
     settings.setValue ("noSyntaxHighlighting", !syntaxByDefault_);
     settings.setValue ("darkColorScheme", darkColScheme_);
+    settings.setValue ("tabWrapAround", tabWrapAround_);
     settings.setValue ("scrollJumpWorkaround", scrollJumpWorkaround_);
     settings.setValue ("maxSHSize", maxSHSize_);
 

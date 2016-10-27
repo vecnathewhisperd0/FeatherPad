@@ -32,6 +32,7 @@ private slots:
     void prefSyntax (int checked);
     void prefDarkColScheme (int checked);
     void prefScrollJumpWorkaround (int checked);
+    void prefTabWrapAround (int checked);
     void prefTranslucencyWorkaround (int checked);
     void prefMaxSHSize (int value);
 
