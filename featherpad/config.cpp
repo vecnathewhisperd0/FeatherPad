@@ -84,6 +84,9 @@ void Config::readConfig()
     if (pos > 0 && pos <= 3)
         tabPosition_ = pos; // 0 by default
 
+    if (settings.value ("tabWrapAround").toBool())
+        tabWrapAround_ = true; // false by default
+
     if (settings.value ("translucencyWorkaround").toBool())
         translucencyWorkaround_ = true; // false by default
 
@@ -114,9 +117,6 @@ void Config::readConfig()
 
     if (settings.value ("darkColorScheme").toBool())
         darkColScheme_ = true; // false by default
-
-    if (settings.value ("tabWrapAround").toBool())
-        tabWrapAround_ = true; // false by default
 
     if (settings.value ("scrollJumpWorkaround").toBool())
         scrollJumpWorkaround_ = true; // false by default
@@ -156,6 +156,7 @@ void Config::writeConfig()
     settings.setValue ("hideSearchbar", hideSearchbar_);
     settings.setValue ("showStatusbar", showStatusbar_);
     settings.setValue ("tabPosition", tabPosition_);
+    settings.setValue ("tabWrapAround", tabWrapAround_);
     settings.setValue ("translucencyWorkaround", translucencyWorkaround_);
 
     settings.endGroup();
@@ -176,7 +177,6 @@ void Config::writeConfig()
     settings.setValue ("lineNumbers", lineByDefault_);
     settings.setValue ("noSyntaxHighlighting", !syntaxByDefault_);
     settings.setValue ("darkColorScheme", darkColScheme_);
-    settings.setValue ("tabWrapAround", tabWrapAround_);
     settings.setValue ("scrollJumpWorkaround", scrollJumpWorkaround_);
     settings.setValue ("maxSHSize", maxSHSize_);
 
