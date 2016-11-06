@@ -489,7 +489,7 @@
     <message>
         <location filename="../../fp.ui" line="882"/>
         <source>&amp;Syntax Highlighting</source>
-        <translation>Elstarigi &amp;Sintakson</translation>
+        <translation>Marki &amp;Sintakson</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="885"/>
@@ -622,7 +622,7 @@
     <message>
         <location filename="../../fp.ui" line="1132"/>
         <source>Save with &amp;Encoding</source>
-        <translation>Konsevi kodigant&amp;e</translation>
+        <translation>Konsevi Kodigant&amp;e</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1141"/>
@@ -1088,7 +1088,7 @@ La foliumado per musrado ne estas influita.</translation>
         <location filename="../../predDialog.ui" line="155"/>
         <source>Workaround for Qt5&apos;s translucency bug
 (Needs app restart)</source>
-        <translation>Proviza solvo por la diafaneca cimo de Qt5
+        <translation>Proviza korekto por la diafaneca cimo de Qt5
 (Restartigo de la aplikaĵo necesas) </translation>
     </message>
     <message>
@@ -1121,7 +1121,7 @@ La foliumado per musrado ne estas influita.</translation>
     <message>
         <location filename="../../predDialog.ui" line="201"/>
         <source>Highlight s&amp;yntax by default</source>
-        <translation>Elstarigu la sin&amp;takson defaŭlte</translation>
+        <translation>Marku la sin&amp;takson defaŭlte</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="208"/>
@@ -1132,7 +1132,7 @@ La foliumado per musrado ne estas influita.</translation>
     <message>
         <location filename="../../predDialog.ui" line="216"/>
         <source>Never highlight syntax for files &gt;</source>
-        <translation>Neniam elstarigu la sintakson por dosieroj &gt;</translation>
+        <translation>Neniam marku la sintakson por dosieroj &gt;</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="226"/>
@@ -1149,7 +1149,7 @@ detenas ĝenantajn saltojn dum glitigado.</translation>
     <message>
         <location filename="../../predDialog.ui" line="243"/>
         <source>Workaround for &amp;Qt5&apos;s scroll jump bug</source>
-        <translation>Proviza solvo por la salto dum glitigado ĉe &amp;Qt5</translation>
+        <translation>Proviza korekto por la salto dum glitigado ĉe &amp;Qt5</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="95"/>
