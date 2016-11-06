@@ -1143,13 +1143,13 @@ La foliumado per musrado ne estas influita.</translation>
         <location filename="../../predDialog.ui" line="239"/>
         <source>This is not a complete fix but
 prevents annoying scroll jumps.</source>
-        <translation>Ĉi tio ne estas kompleta solvo sed
-detenas ĝenantajn saltojn dum glitigado.</translation>
+        <translation>Ĉi tio ne estas kompleta solvo sed detenas
+ĝenantajn saltojn komence de rulumado.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="243"/>
         <source>Workaround for &amp;Qt5&apos;s scroll jump bug</source>
-        <translation>Proviza korekto por la salto dum glitigado ĉe &amp;Qt5</translation>
+        <translation>Proviza korekto por la ruluma salto ĉe &amp;Qt5</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="95"/>
