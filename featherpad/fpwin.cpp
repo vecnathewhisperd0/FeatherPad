@@ -367,7 +367,7 @@ bool FPwin::hasAnotherDialog()
     {
         MessageBox msgBox (this);
         msgBox.setIcon (QMessageBox::Warning);
-        msgBox.setText (tr ("<center><b><big>Another FeatherPad window has a dialog!</big></b></center>"));
+        msgBox.setText ("<center><b><big>" + tr ("Another FeatherPad window has a dialog!") + "</big></b></center>");
         msgBox.setInformativeText (tr ("<center><i>Please close this dialog first and then</i></center>\n"\
                                        "<center><i>attend to that window or just close its dialog!</i></center><p></p>"));
         msgBox.setStandardButtons (QMessageBox::Close);
@@ -582,11 +582,11 @@ int FPwin::unSaved (int index, bool noToAll)
 
         MessageBox msgBox (this);
         msgBox.setIcon (QMessageBox::Warning);
-        msgBox.setText (tr ("<center><b><big>Save changes?</big></b></center>"));
+        msgBox.setText ("<center><b><big>" + tr ("Save changes?") + "</big></b></center>");
         if (textEdit->document()->isModified())
-            msgBox.setInformativeText (tr ("<center><i>The document has been modified.</i></center>"));
+            msgBox.setInformativeText ("<center><i>" + tr ("The document has been modified.") + "</i></center>");
         else
-            msgBox.setInformativeText (tr ("<center><i>The file has been removed.</i></center>"));
+            msgBox.setInformativeText ("<center><i>" + tr ("The file has been removed.") + "</i></center>");
         if (noToAll && ui->tabWidget->count() > 1)
             msgBox.setStandardButtons (QMessageBox::Save
                                        | QMessageBox::Discard
@@ -1631,8 +1631,8 @@ bool FPwin::fileSave()
         msgBox.changeButtonText (QMessageBox::Yes, tr ("Yes"));
         msgBox.changeButtonText (QMessageBox::No, tr ("No"));
         msgBox.changeButtonText (QMessageBox::Cancel, tr ("Cancel"));
-        msgBox.setText (tr ("<center>Do you want to use <b>MS Windows</b> end-of-lines?</center>"));
-        msgBox.setInformativeText (tr ("<center><i>This may be good for readability under MS Windows.</i></center>"));
+        msgBox.setText ("<center>" + tr ("Do you want to use <b>MS Windows</b> end-of-lines?") + "</center>");
+        msgBox.setInformativeText ("<center><i>" + tr ("This may be good for readability under MS Windows.") + "</i></center>");
         msgBox.setWindowModality (Qt::WindowModal);
         QString contents;
         int ln;
@@ -1708,11 +1708,11 @@ bool FPwin::fileSave()
         QString str = writer.device()->errorString();
         MessageBox msgBox (QMessageBox::Warning,
                            "FeatherPad",
-                           tr ("<center><b><big>Cannot be saved!</big></b></center>"),
+                           "<center><b><big>" + tr ("Cannot be saved!") + "</big></b></center>",
                            QMessageBox::Close,
                            this);
         msgBox.changeButtonText (QMessageBox::Close, tr ("Close"));
-        msgBox.setInformativeText (tr ("<center><i>%1.</i></center>").arg (str));
+        msgBox.setInformativeText (QString ("<center><i>%1.</i></center>").arg (str));
         msgBox.setWindowModality (Qt::WindowModal);
         msgBox.exec();
         disableShortcuts (false);
@@ -2859,9 +2859,10 @@ void FPwin::aboutDialog()
     disableShortcuts (true);
     MessageBox msgBox (this);
     msgBox.setText ("<center><b><big>FeatherPad 0.5.9</big></b></center><br>");
-    msgBox.setInformativeText (tr ("<center> A lightweight, tabbed, plain-text editor </center>\n"\
-                                   "<center> based on Qt5 </center><br>"\
-                                   "<center> Author: <a href='mailto:tsujan2000@gmail.com?Subject=My%20Subject'>Pedram Pourang (aka. Tsu Jan)</a> </center><p></p>"));
+    msgBox.setInformativeText ("<center> " + tr ("A lightweight, tabbed, plain-text editor") + " </center>\n<center> "
+                               + tr ("based on Qt5") + " </center><br><center> "
+                               + tr ("Author")+": <a href='mailto:tsujan2000@gmail.com?Subject=My%20Subject'>Pedram Pourang ("
+                               + tr ("aka.") + " Tsu Jan)</a> </center><p></p>");
     msgBox.setStandardButtons (QMessageBox::Ok);
     msgBox.changeButtonText (QMessageBox::Ok, tr ("Ok"));
     msgBox.setWindowModality (Qt::WindowModal);

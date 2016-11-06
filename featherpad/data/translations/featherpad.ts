@@ -783,7 +783,7 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="370"/>
-        <source>&lt;center&gt;&lt;b&gt;&lt;big&gt;Another FeatherPad window has a dialog!&lt;/big&gt;&lt;/b&gt;&lt;/center&gt;</source>
+        <source>Another FeatherPad window has a dialog!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -800,17 +800,17 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="585"/>
-        <source>&lt;center&gt;&lt;b&gt;&lt;big&gt;Save changes?&lt;/big&gt;&lt;/b&gt;&lt;/center&gt;</source>
+        <source>Save changes?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="587"/>
-        <source>&lt;center&gt;&lt;i&gt;The document has been modified.&lt;/i&gt;&lt;/center&gt;</source>
+        <source>The document has been modified.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="589"/>
-        <source>&lt;center&gt;&lt;i&gt;The file has been removed.&lt;/i&gt;&lt;/center&gt;</source>
+        <source>The file has been removed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -893,27 +893,22 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1634"/>
-        <source>&lt;center&gt;Do you want to use &lt;b&gt;MS Windows&lt;/b&gt; end-of-lines?&lt;/center&gt;</source>
+        <source>Do you want to use &lt;b&gt;MS Windows&lt;/b&gt; end-of-lines?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1635"/>
-        <source>&lt;center&gt;&lt;i&gt;This may be good for readability under MS Windows.&lt;/i&gt;&lt;/center&gt;</source>
+        <source>This may be good for readability under MS Windows.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1711"/>
-        <source>&lt;center&gt;&lt;b&gt;&lt;big&gt;Cannot be saved!&lt;/big&gt;&lt;/b&gt;&lt;/center&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../fpwin.cpp" line="1715"/>
-        <source>&lt;center&gt;&lt;i&gt;%1.&lt;/i&gt;&lt;/center&gt;</source>
+        <source>Cannot be saved!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1864"/>
-        <location filename="../../fpwin.cpp" line="2946"/>
+        <location filename="../../fpwin.cpp" line="2947"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
@@ -929,17 +924,31 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2862"/>
-        <source>&lt;center&gt; A lightweight, tabbed, plain-text editor &lt;/center&gt;
-&lt;center&gt; based on Qt5 &lt;/center&gt;&lt;br&gt;&lt;center&gt; Author: &lt;a href=&apos;mailto:tsujan2000@gmail.com?Subject=My%20Subject&apos;&gt;Pedram Pourang (aka. Tsu Jan)&lt;/a&gt; &lt;/center&gt;&lt;p&gt;&lt;/p&gt;</source>
+        <source>A lightweight, tabbed, plain-text editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2866"/>
+        <location filename="../../fpwin.cpp" line="2863"/>
+        <source>based on Qt5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="2864"/>
+        <source>Author</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="2865"/>
+        <source>aka.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="2867"/>
         <source>Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2875"/>
+        <location filename="../../fpwin.cpp" line="2876"/>
         <source>About FeatherPad</source>
         <translation type="unfinished"></translation>
     </message>

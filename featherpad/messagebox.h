@@ -25,7 +25,7 @@
 namespace FeatherPad {
 
 /* QMessageBox::setButtonText() is obsolete while we want custom texts, especially
-   for translation. We also want to set the width according to the imformative text. */
+   for translation. We also want to set the width according to the informative text. */
 class MessageBox : public QMessageBox {
     Q_OBJECT
 public:
