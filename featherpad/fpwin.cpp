@@ -19,10 +19,10 @@
 #include "ui_fp.h"
 #include "encoding.h"
 #include "filedialog.h"
+#include "messagebox.h"
 #include "pref.h"
 #include "loading.h"
 
-#include <QMessageBox>
 #include <QFontDialog>
 #include <QPrintDialog>
 #include <QToolTip>
@@ -365,12 +365,13 @@ bool FPwin::hasAnotherDialog()
     }
     if (res)
     {
-        QMessageBox msgBox (this);
+        MessageBox msgBox (this);
         msgBox.setIcon (QMessageBox::Warning);
         msgBox.setText (tr ("<center><b><big>Another FeatherPad window has a dialog! </big></b></center>"));
         msgBox.setInformativeText (tr ("<center><i>Please close this dialog first and then </i></center>"\
                                        "<center><i>attend to that window or just close its dialog! </i></center><p></p>"));
         msgBox.setStandardButtons (QMessageBox::Close);
+        msgBox.changeButtonText (QMessageBox::Close, tr ("Close"));
         msgBox.setWindowModality (Qt::ApplicationModal);
         msgBox.exec(); // shortcuts are disabled because this is an app-modal dialog
     }
@@ -579,7 +580,7 @@ int FPwin::unSaved (int index, bool noToAll)
         if (hasAnotherDialog()) return 1; // cancel
         disableShortcuts (true);
 
-        QMessageBox msgBox (this);
+        MessageBox msgBox (this);
         msgBox.setIcon (QMessageBox::Warning);
         msgBox.setText (tr ("<center><b><big>Save changes?</big></b></center>"));
         if (textEdit->document()->isModified())
@@ -595,9 +596,11 @@ int FPwin::unSaved (int index, bool noToAll)
             msgBox.setStandardButtons (QMessageBox::Save
                                        | QMessageBox::Discard
                                        | QMessageBox::Cancel);
-        msgBox.setButtonText (QMessageBox::Discard, tr ("Discard changes"));
+        msgBox.changeButtonText (QMessageBox::Save, tr ("Save"));
+        msgBox.changeButtonText (QMessageBox::Discard, tr ("Discard changes"));
+        msgBox.changeButtonText (QMessageBox::Cancel, tr ("Cancel"));
         if (noToAll)
-            msgBox.setButtonText (QMessageBox::NoToAll, tr ("No to all"));
+            msgBox.changeButtonText (QMessageBox::NoToAll, tr ("No to all"));
         msgBox.setDefaultButton (QMessageBox::Save);
         msgBox.setWindowModality (Qt::WindowModal);
         /* enforce a central position (QtCurve bug?) */
@@ -836,7 +839,7 @@ TextEdit* FPwin::createEmptyTab (bool setCurrent)
     tabinfo->redSel = QList<QTextEdit::ExtraSelection>();
     tabsInfo_[textEdit] = tabinfo;
 
-    ui->tabWidget->insertTab (index + 1, textEdit, "Untitled");
+    ui->tabWidget->insertTab (index + 1, textEdit, tr ("Untitled"));
 
     /* set all preliminary properties */
     if (index >= 0)
@@ -864,10 +867,10 @@ TextEdit* FPwin::createEmptyTab (bool setCurrent)
             if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>())
                 wordButton->setVisible (false);
             QLabel *statusLabel = ui->statusBar->findChild<QLabel *>();
-            statusLabel->setText (tr ("<b>Encoding:</b> <i>UTF-8</i>"
-                                      "&nbsp;&nbsp;&nbsp;&nbsp;<b>Lines:</b> <i>1</i>"
-                                      "&nbsp;&nbsp;&nbsp;&nbsp;<b>Sel. Chars.:</b> <i>0</i>"
-                                      "&nbsp;&nbsp;&nbsp;&nbsp;<b>Words:</b> <i>0</i>"));
+            statusLabel->setText ("<b>" + tr ("Encoding") + ":</b> <i>UTF-8</i>&nbsp;&nbsp;&nbsp;&nbsp;<b>"
+                                        + tr ("Lines") + ":</b> <i>1</i>&nbsp;&nbsp;&nbsp;&nbsp;<b>"
+                                        + tr ("Sel. Chars") + ":</b> <i>0</i>&nbsp;&nbsp;&nbsp;&nbsp;<b>"
+                                        + tr ("Words") + ":</b> <i>0</i>");
         }
         connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::statusMsgWithLineCount);
         connect (textEdit, &QPlainTextEdit::selectionChanged, this, &FPwin::statusMsg);
@@ -1370,6 +1373,8 @@ void FPwin::fileOpen()
     dialog.setAcceptMode (QFileDialog::AcceptOpen);
     dialog.setWindowTitle (tr ("Open file..."));
     dialog.setFileMode (QFileDialog::ExistingFiles);
+    /*dialog.setLabelText (QFileDialog::Accept, tr ("Open"));
+    dialog.setLabelText (QFileDialog::Reject, tr ("Cancel"));*/
     if (QFileInfo (path).isDir())
         dialog.setDirectory (path);
     else
@@ -1492,7 +1497,7 @@ bool FPwin::fileSave()
         if (fname.isEmpty())
         {
             QDir dir = QDir::home();
-            fname = dir.filePath ("Untitled");
+            fname = dir.filePath (tr ("Untitled"));
         }
         else if (!QFile::exists (fname))
         {
@@ -1511,10 +1516,10 @@ bool FPwin::fileSave()
             if (restorable)
                 fname = dir.filePath (QFileInfo (fname).fileName());
             else
-                fname = dir.filePath ("Untitled");
+                fname = dir.filePath (tr ("Untitled"));
         }
         else
-            fname = QFileInfo (fname).absoluteDir().filePath ("Untitled");
+            fname = QFileInfo (fname).absoluteDir().filePath (tr ("Untitled"));
 
         /* use Save-As for Save or saving */
         if (!restorable
@@ -1530,6 +1535,8 @@ bool FPwin::fileSave()
             dialog.setNameFilter (filter);
             dialog.selectFile (fname);
             dialog.autoScroll();
+            /*dialog.setLabelText (QFileDialog::Accept, tr ("Save"));
+            dialog.setLabelText (QFileDialog::Reject, tr ("Cancel"));*/
             if (dialog.exec())
             {
                 fname = dialog.selectedFiles().at (0);
@@ -1559,6 +1566,8 @@ bool FPwin::fileSave()
         dialog.setNameFilter (filter);
         dialog.selectFile (fname);
         dialog.autoScroll();
+        /*dialog.setLabelText (QFileDialog::Accept, tr ("Save"));
+        dialog.setLabelText (QFileDialog::Reject, tr ("Cancel"));*/
         if (dialog.exec())
         {
             fname = dialog.selectedFiles().at (0);
@@ -1586,6 +1595,8 @@ bool FPwin::fileSave()
         dialog.setNameFilter (filter);
         dialog.selectFile (fname);
         dialog.autoScroll();
+        /*dialog.setLabelText (QFileDialog::Accept, tr ("Save"));
+        dialog.setLabelText (QFileDialog::Reject, tr ("Cancel"));*/
         if (dialog.exec())
         {
             fname = dialog.selectedFiles().at (0);
@@ -1612,11 +1623,14 @@ bool FPwin::fileSave()
 
         if (hasAnotherDialog()) return false;
         disableShortcuts (true);
-        QMessageBox msgBox (this);
+        MessageBox msgBox (this);
         msgBox.setIcon (QMessageBox::Question);
         msgBox.addButton (QMessageBox::Yes);
         msgBox.addButton (QMessageBox::No);
         msgBox.addButton (QMessageBox::Cancel);
+        msgBox.changeButtonText (QMessageBox::Yes, tr ("Yes"));
+        msgBox.changeButtonText (QMessageBox::No, tr ("No"));
+        msgBox.changeButtonText (QMessageBox::Cancel, tr ("Cancel"));
         msgBox.setText (tr ("<center>Do you want to use <b>MS Windows</b> end-of-lines?</center>"));
         msgBox.setInformativeText (tr ("<center><i>This may be good for readability under MS Windows.</i></center>"));
         msgBox.setWindowModality (Qt::WindowModal);
@@ -1692,16 +1706,21 @@ bool FPwin::fileSave()
         if (hasAnotherDialog()) return success;
         disableShortcuts (true);
         QString str = writer.device()->errorString();
-        QMessageBox msgBox (QMessageBox::Warning,
-                            tr ("FeatherPad"),
-                            tr ("<center><b><big>Cannot be saved!</big></b></center>"),
-                            QMessageBox::Close,
-                            this);
+        MessageBox msgBox (QMessageBox::Warning,
+                           "FeatherPad",
+                           tr ("<center><b><big>Cannot be saved!</big></b></center>"),
+                           QMessageBox::Close,
+                           this);
+        msgBox.changeButtonText (QMessageBox::Close, tr ("Close"));
         msgBox.setInformativeText (tr ("<center><i>%1.</i></center>").arg (str));
         msgBox.setWindowModality (Qt::WindowModal);
         msgBox.exec();
         disableShortcuts (false);
     }
+
+    if (success && tabinfo->prog == "help")
+         QTimer::singleShot (0, this, SLOT (makeEditable()));
+
     return success;
 }
 /*************************/
@@ -1819,7 +1838,7 @@ void FPwin::tabSwitch (int index)
 {
     if (index == -1)
     {
-        setWindowTitle (tr("%1[*]").arg ("FeatherPad"));
+        setWindowTitle ("FeatherPad[*]");
         setWindowModified (false);
         return;
     }
@@ -1840,7 +1859,12 @@ void FPwin::tabSwitch (int index)
     else
     {
         if (fname.isEmpty())
-            shownName = tr ("Untitled");
+        {
+            if (tabinfo->prog == "help")
+                shownName = "** " + tr ("Help") + " **";
+            else
+                shownName = tr ("Untitled");
+        }
         else
             shownName = QFileInfo (fname).fileName();
     }
@@ -1902,7 +1926,7 @@ void FPwin::tabSwitch (int index)
             if (wordButton)
                 wordButton->setVisible (false);
             QLabel *statusLabel = ui->statusBar->findChild<QLabel *>();
-            statusLabel->setText (tr ("%1 <i>%2</i>")
+            statusLabel->setText (QString ("%1 <i>%2</i>")
                                   .arg (statusLabel->text())
                                   .arg (tabinfo->wordNumber));
         }
@@ -2242,37 +2266,37 @@ void FPwin::statusMsgWithLineCount (const int lines)
     tabInfo *tabinfo = tabsInfo_[textEdit];
     QLabel *statusLabel = ui->statusBar->findChild<QLabel *>();
 
+    QString startStr = "<b>" + tr ("Encoding") + QString (":</b> <i>%1</i>").arg (tabinfo->encoding);
+    QString lineStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines") + QString (":</b> <i>%1</i>").arg (lines);
+    QString selStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Sel. Chars")
+                     + QString (":</b> <i>%1</i>").arg (textEdit->textCursor().selectedText().size());
+    QString wordStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Words") + ":</b>";
+    QString middleStr;
     if (!tabinfo->prog.isEmpty())
-        statusLabel->setText (tr ("<b>Encoding:</b> <i>%1</i>"
-                                  "&nbsp;&nbsp;&nbsp;&nbsp;<b>Syntax:</b> <i>%2</i>"
-                                  "&nbsp;&nbsp;&nbsp;&nbsp;<b>Lines:</b> <i>%3</i>"
-                                  "&nbsp;&nbsp;&nbsp;&nbsp;<b>Sel. Chars.:</b> <i>%4</i>"
-                                  "&nbsp;&nbsp;&nbsp;&nbsp;<b>Words:</b>")
-                              .arg (tabinfo->encoding)
-                              .arg (tabinfo->prog)
-                              .arg (QString::number (lines))
-                              .arg (textEdit->textCursor().selectedText().size()));
-    else
-        statusLabel->setText (tr ("<b>Encoding:</b> <i>%1</i>"
-                                  "&nbsp;&nbsp;&nbsp;&nbsp;<b>Lines:</b> <i>%2</i>"
-                                  "&nbsp;&nbsp;&nbsp;&nbsp;<b>Sel. Chars.:</b> <i>%3</i>"
-                                  "&nbsp;&nbsp;&nbsp;&nbsp;<b>Words:</b>")
-                              .arg (tabinfo->encoding)
-                              .arg (QString::number (lines))
-                              .arg (textEdit->textCursor().selectedText().size()));
+        middleStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Syntax") + QString (":</b> <i>%1</i>").arg (tabinfo->prog);
+
+    statusLabel->setText (startStr + middleStr + lineStr + selStr + wordStr);
 }
 /*************************/
 // Change the status bar text when the selection changes.
 void FPwin::statusMsg()
 {
     QLabel *statusLabel = ui->statusBar->findChild<QLabel *>();
-    QString charN;
-    charN.setNum (qobject_cast< TextEdit *>(ui->tabWidget->currentWidget())
-                  ->textCursor().selectedText().size());
+    int sel = qobject_cast< TextEdit *>(ui->tabWidget->currentWidget())
+              ->textCursor().selectedText().size();
     QString str = statusLabel->text();
-    int i = str.indexOf ("Sel.");
-    int j = str.indexOf ("</i>&nbsp;&nbsp;&nbsp;&nbsp;<b>Words");
-    str.replace (i + 20, j - i - 20, charN);
+    QString selStr = tr ("Sel. Chars");
+    QString wordStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Words");
+    int i = str.indexOf (selStr) + selStr.count();
+    int j = str.indexOf (wordStr);
+    if (sel == 0)
+    {
+        QString prevSel = str.mid (i + 9, j - i - 13); // j - i - 13 --> j - (i + 9[":</b> <i>]") - 4["</i>"]
+        if (prevSel.toInt() == 0) return;
+    }
+    QString charN;
+    charN.setNum (sel);
+    str.replace (i + 9, j - i - 13, charN);
     statusLabel->setText (str);
 }
 /*************************/
@@ -2300,7 +2324,7 @@ void FPwin::wordButtonStatus()
         }
 
         wordButton->setVisible (false);
-        statusLabel->setText (tr ("%1 <i>%2</i>")
+        statusLabel->setText (QString ("%1 <i>%2</i>")
                               .arg (statusLabel->text())
                               .arg (words));
         connect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::wordButtonStatus);
@@ -2332,7 +2356,7 @@ void FPwin::filePrint()
     if (fileName.isEmpty())
     {
         QDir dir = QDir::home();
-        fileName= dir.filePath ("Untitled");
+        fileName= dir.filePath (tr ("Untitled"));
     }
     if (printer.outputFormat() == QPrinter::PdfFormat)
         printer.setOutputFileName (fileName.append (".pdf"));
@@ -2536,7 +2560,7 @@ void FPwin::detachTab()
             if (QToolButton *wordButton = dropTarget->ui->statusBar->findChild<QToolButton *>())
                 wordButton->setVisible (false);
             QLabel *statusLabel = dropTarget->ui->statusBar->findChild<QLabel *>();
-            statusLabel->setText (tr ("%1 <i>%2</i>")
+            statusLabel->setText (QString ("%1 <i>%2</i>")
                                   .arg (statusLabel->text())
                                   .arg (tabinfo->wordNumber));
             connect (textEdit, &QPlainTextEdit::textChanged, dropTarget, &FPwin::wordButtonStatus);
@@ -2833,12 +2857,13 @@ void FPwin::aboutDialog()
 
     if (hasAnotherDialog()) return;
     disableShortcuts (true);
-    QMessageBox msgBox (this);
-    msgBox.setText (tr ("<center><b><big>FeatherPad 0.5.9</big></b></center><br>"));
+    MessageBox msgBox (this);
+    msgBox.setText ("<center><b><big>FeatherPad 0.5.9</big></b></center><br>");
     msgBox.setInformativeText (tr ("<center> A lightweight, tabbed, plain-text editor </center>\n"\
                                    "<center> based on Qt5 </center><br>"\
                                    "<center> Author: <a href='mailto:tsujan2000@gmail.com?Subject=My%20Subject'>Pedram Pourang (aka. Tsu Jan)</a> </center><p></p>"));
     msgBox.setStandardButtons (QMessageBox::Ok);
+    msgBox.changeButtonText (QMessageBox::Ok, tr ("Ok"));
     msgBox.setWindowModality (Qt::WindowModal);
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
     QIcon FPIcon;
@@ -2910,6 +2935,7 @@ void FPwin::helpDoc()
     tabInfo *tabinfo = tabsInfo_[textEdit];
     tabinfo->encoding = "UTF-8";
     tabinfo->wordNumber = -1;
+    tabinfo->prog = "help"; // just for marking
     if (ui->statusBar->isVisible())
     {
         statusMsgWithLineCount (textEdit->document()->blockCount());
@@ -2917,10 +2943,11 @@ void FPwin::helpDoc()
             wordButton->setVisible (true);
     }
     encodingToCheck ("UTF-8");
-    ui->tabWidget->setTabText (index, tr ("%1").arg ("** Help **"));
-    setWindowTitle (tr ("%1[*]").arg ("** Help **"));
+    QString title = "** " + tr ("Help") + " **";
+    ui->tabWidget->setTabText (index, title);
+    setWindowTitle (title + "[*]");
     setWindowModified (false);
-    ui->tabWidget->setTabToolTip (index, "** Help **");
+    ui->tabWidget->setTabToolTip (index, title);
 }
 
 }

@@ -43,7 +43,8 @@ HEADERS += singleton.h \
            filedialog.h \
            config.h \
            pref.h \
-           loading.h
+           loading.h \
+           messagebox.h
 
 FORMS += fp.ui \
          predDialog.ui
@@ -53,6 +54,14 @@ RESOURCES += data/fp.qrc
 unix:!macx: LIBS += -lX11
 
 unix {
+  #TRANSLATIONS
+  TRANSLATIONS = $$system("find data/translations/ -name 'featherpad_*.ts'")
+  updateqm.input = TRANSLATIONS
+  updateqm.output = data/translations/translations/${QMAKE_FILE_BASE}.qm
+  updateqm.commands = lrelease ${QMAKE_FILE_IN} -qm data/translations/translations/${QMAKE_FILE_BASE}.qm
+  updateqm.CONFIG += no_link target_predeps
+  QMAKE_EXTRA_COMPILERS += updateqm
+
   #VARIABLES
   isEmpty(PREFIX) {
     PREFIX = /usr
@@ -64,7 +73,7 @@ unix {
 
   #MAKE INSTALL
 
-  INSTALLS += target desktop iconsvg help
+  INSTALLS += target desktop iconsvg help trans
 
   target.path =$$BINDIR
 
@@ -76,4 +85,7 @@ unix {
 
   help.path = $$DATADIR/featherpad
   help.files += ./data/help
+
+  trans.path = $$DATADIR/featherpad
+  trans.files += data/translations/translations
 }

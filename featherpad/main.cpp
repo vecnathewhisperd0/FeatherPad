@@ -41,6 +41,19 @@ int main (int argc, char *argv[])
     singleton.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
 #endif
 
+    QStringList langs (QLocale::system().uiLanguages());
+    QString lang; // bcp47Name() doesn't work under vbox
+    if (!langs.isEmpty())
+        lang = langs.first().split('-').first();
+
+    QTranslator qtTranslator;
+    qtTranslator.load ("qt_" + lang, QLibraryInfo::location (QLibraryInfo::TranslationsPath));
+    singleton.installTranslator (&qtTranslator);
+
+    QTranslator FPTranslator;
+    FPTranslator.load ("featherpad_" + lang, DATADIR "/featherpad/translations");
+    singleton.installTranslator (&FPTranslator);
+
     QString info;
     int d = FeatherPad::fromDesktop();
     info.setNum (d);

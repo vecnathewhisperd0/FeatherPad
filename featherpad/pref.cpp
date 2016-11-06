@@ -92,6 +92,7 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     connect (ui->spinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefMaxSHSize);
 
     QPushButton *closeButton = ui->buttonBox->button (QDialogButtonBox::Close);
+    closeButton->setText (tr ("Close"));
     connect (closeButton, &QAbstractButton::clicked, this, &QDialog::close);
     resize (minimumSize());
 }

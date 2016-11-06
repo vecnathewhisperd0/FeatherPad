@@ -3,6 +3,7 @@ V0.5.9
  * Added support for FreeBSD.
  * Added support for text zooming with Ctrl+wheel.
  * Added an option for the tab navigation with keyboard to wrap around.
+ * Translation support (also added an Esperanto translation).
 
 V0.5.8
 ---------

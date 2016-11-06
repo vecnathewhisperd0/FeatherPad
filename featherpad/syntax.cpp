@@ -98,12 +98,13 @@ void FPwin::setProgLang (tabInfo *tabinfo)
             progLan = "python";
         else if (fname.endsWith (".pl"))
             progLan = "perl";
-        else if (fname.endsWith (".pro"))
+        else if (fname.endsWith (".pro") || fname.endsWith (".pri"))
             progLan = "qmake";
         else if (fname.endsWith (".tr") || fname.endsWith (".t") || fname.endsWith (".roff"))
             progLan = "troff";
         else if (fname.endsWith (".xml") || fname.endsWith (".svg") || fname.endsWith (".qrc")
-                 /*|| fname.endsWith (".ui")*/ || fname.endsWith (".rdf") || fname.endsWith (".docbook") || fname.endsWith (".fnx"))
+                 /*|| fname.endsWith (".ui")*/ || fname.endsWith (".rdf") || fname.endsWith (".docbook") || fname.endsWith (".fnx")
+                 || fname.endsWith (".ts"))
             progLan = "xml";
         else if (fname.endsWith (".css") || fname.endsWith (".qss"))
             progLan = "css";
@@ -178,7 +179,8 @@ void FPwin::setProgLang (tabInfo *tabinfo)
             progLan = "troff";
         else if (mime == "application/xml" || mime == "image/svg+xml" || mime == "application/x-designer"
                  || mime == "application/x-gtk-builder" || mime == "text/rdf+xml" || mime == "application/rdf+xml"
-                 || mime == "application/x-docbook+xml" || mime == "application/x-xbel" || mime == "text/feathernotes-fnx")
+                 || mime == "application/x-docbook+xml" || mime == "application/x-xbel" || mime == "text/feathernotes-fnx"
+                 || mime == "text/vnd.trolltech.linguist")
             progLan = "xml";
         else if (mime == "text/css")
             progLan = "css";
