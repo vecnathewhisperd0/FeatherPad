@@ -1,10 +1,8 @@
 [Desktop Entry]
-Version=1.0
 Name=FeatherPad
 GenericName=Text Editor
-Comment=Lightweight Qt5 text editor
-Name[eo]=FeatherPad
 GenericName[eo]=Tekst-Redaktilo
+Comment=Lightweight Qt5 text editor
 Comment[eo]=Malpeza tekst-redaktilo bazita sur Qt5
 Exec=featherpad %F
 Icon=featherpad

@@ -1127,12 +1127,13 @@ La foliumado per musrado ne estas influita.</translation>
         <location filename="../../predDialog.ui" line="208"/>
         <source>Dark color scheme
 (Needs file reopening)</source>
-        <translation>Malluma kolorskemo (remalfermado de la dosiero necesas)</translation>
+        <translation>Malluma kolorskemo
+(remalfermado de la dosiero necesas)</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="216"/>
         <source>Never highlight syntax for files &gt;</source>
-        <translation>Neniam marku la sintakson por dosieroj &gt;</translation>
+        <translation>Ne marku la sintakson por la dosieroj &gt;</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="226"/>
