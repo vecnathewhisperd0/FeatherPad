@@ -1132,7 +1132,7 @@ La foliumado per musrado ne estas influita.</translation>
     <message>
         <location filename="../../predDialog.ui" line="216"/>
         <source>Never highlight syntax for files &gt;</source>
-        <translation>Neniam elstarigu la sintakson por dosierojn &gt;</translation>
+        <translation>Neniam elstarigu la sintakson por dosieroj &gt;</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="226"/>
