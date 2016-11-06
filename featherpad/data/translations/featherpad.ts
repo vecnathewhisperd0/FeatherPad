@@ -783,12 +783,13 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="370"/>
-        <source>&lt;center&gt;&lt;b&gt;&lt;big&gt;Another FeatherPad window has a dialog! &lt;/big&gt;&lt;/b&gt;&lt;/center&gt;</source>
+        <source>&lt;center&gt;&lt;b&gt;&lt;big&gt;Another FeatherPad window has a dialog!&lt;/big&gt;&lt;/b&gt;&lt;/center&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="371"/>
-        <source>&lt;center&gt;&lt;i&gt;Please close this dialog first and then &lt;/i&gt;&lt;/center&gt;&lt;center&gt;&lt;i&gt;attend to that window or just close its dialog! &lt;/i&gt;&lt;/center&gt;&lt;p&gt;&lt;/p&gt;</source>
+        <source>&lt;center&gt;&lt;i&gt;Please close this dialog first and then&lt;/i&gt;&lt;/center&gt;
+&lt;center&gt;&lt;i&gt;attend to that window or just close its dialog!&lt;/i&gt;&lt;/center&gt;&lt;p&gt;&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

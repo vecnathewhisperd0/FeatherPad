@@ -784,16 +784,6 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="370"/>
-        <source>&lt;center&gt;&lt;b&gt;&lt;big&gt;Another FeatherPad window has a dialog! &lt;/big&gt;&lt;/b&gt;&lt;/center&gt;</source>
-        <translation>&lt;center&gt;&lt;b&gt;&lt;big&gt;Alia fenestro havas dialogon! &lt;/big&gt;&lt;/b&gt;&lt;/center&gt;</translation>
-    </message>
-    <message>
-        <location filename="../../fpwin.cpp" line="371"/>
-        <source>&lt;center&gt;&lt;i&gt;Please close this dialog first and then &lt;/i&gt;&lt;/center&gt;&lt;center&gt;&lt;i&gt;attend to that window or just close its dialog! &lt;/i&gt;&lt;/center&gt;&lt;p&gt;&lt;/p&gt;</source>
-        <translation>&lt;center&gt;&lt;i&gt;Bonvole fermu ĉi tiun dialogon kaj tiam &lt;/i&gt;&lt;/center&gt;&lt;center&gt;&lt;i&gt;prizorgu tiun fenestron aŭ nur fermu ĝian dialogon! &lt;/i&gt;&lt;/center&gt;&lt;p&gt;&lt;/p&gt;</translation>
-    </message>
-    <message>
         <location filename="../../fpwin.cpp" line="374"/>
         <location filename="../../fpwin.cpp" line="1714"/>
         <source>Close</source>
@@ -910,6 +900,18 @@
         <location filename="../../fpwin.cpp" line="2270"/>
         <source>Lines</source>
         <translation>Linioj</translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="370"/>
+        <source>&lt;center&gt;&lt;b&gt;&lt;big&gt;Another FeatherPad window has a dialog!&lt;/big&gt;&lt;/b&gt;&lt;/center&gt;</source>
+        <translation>&lt;center&gt;&lt;b&gt;&lt;big&gt;Alia fenestro havas dialogon!&lt;/big&gt;&lt;/b&gt;&lt;/center&gt;</translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="371"/>
+        <source>&lt;center&gt;&lt;i&gt;Please close this dialog first and then&lt;/i&gt;&lt;/center&gt;
+&lt;center&gt;&lt;i&gt;attend to that window or just close its dialog!&lt;/i&gt;&lt;/center&gt;&lt;p&gt;&lt;/p&gt;</source>
+        <translation>&lt;center&gt;&lt;i&gt;Bonvole fermu ĉi tiun dialogon kaj tiam&lt;/i&gt;&lt;/center&gt;
+&lt;center&gt;&lt;i&gt;prizorgu tiun fenestron aŭ nur fermu ĝian dialogon!&lt;/i&gt;&lt;/center&gt;&lt;p&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="873"/>

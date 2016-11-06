@@ -367,9 +367,9 @@ bool FPwin::hasAnotherDialog()
     {
         MessageBox msgBox (this);
         msgBox.setIcon (QMessageBox::Warning);
-        msgBox.setText (tr ("<center><b><big>Another FeatherPad window has a dialog! </big></b></center>"));
-        msgBox.setInformativeText (tr ("<center><i>Please close this dialog first and then </i></center>"\
-                                       "<center><i>attend to that window or just close its dialog! </i></center><p></p>"));
+        msgBox.setText (tr ("<center><b><big>Another FeatherPad window has a dialog!</big></b></center>"));
+        msgBox.setInformativeText (tr ("<center><i>Please close this dialog first and then</i></center>\n"\
+                                       "<center><i>attend to that window or just close its dialog!</i></center><p></p>"));
         msgBox.setStandardButtons (QMessageBox::Close);
         msgBox.changeButtonText (QMessageBox::Close, tr ("Close"));
         msgBox.setWindowModality (Qt::ApplicationModal);

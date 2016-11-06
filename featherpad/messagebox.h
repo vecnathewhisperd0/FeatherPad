@@ -20,11 +20,12 @@
 
 #include <QMessageBox>
 #include <QAbstractButton>
+#include <QGridLayout>
 
 namespace FeatherPad {
 
-/* QMessageBox::setButtonText() is obsolete while
-   we want custom texts, especially for translation. */
+/* QMessageBox::setButtonText() is obsolete while we want custom texts, especially
+   for translation. We also want to set the width according to the imformative text. */
 class MessageBox : public QMessageBox {
     Q_OBJECT
 public:
@@ -33,11 +34,32 @@ public:
                 const QString &text,
                 StandardButtons buttons = NoButton,
                 QWidget *parent = Q_NULLPTR,
-                Qt::WindowFlags f = Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint) : QMessageBox (icon, title, text, buttons, parent, f) {}
+                Qt::WindowFlags f = Qt::Dialog/* | Qt::MSWindowsFixedSizeDialogHint*/) : QMessageBox (icon, title, text, buttons, parent, f) {}
 
     void changeButtonText (QMessageBox::StandardButton btn, const QString &text) {
         if (QAbstractButton *abtn = button (btn))
             abtn->setText (text);
+    }
+
+    void setInformativeText (const QString &text) {
+        QMessageBox::setInformativeText (text);
+
+        if (!text.isEmpty()) // set an appropriate width
+        {
+            if (QGridLayout *lo = qobject_cast< QGridLayout *>(layout()))
+            {
+                int tw = 0;
+                QString t (text);
+                /* we suppose that <p> isn't used inside the text */
+                t.remove (QRegExp ("</{,1}center>|</{,1}b>|</{,1}i>|</{,1}p>|</a>|<a\\s+href\\s*=\\s*[A-Za-z0-9_%@:'\\.\\?\\=]+>"));
+                t.replace ("<br>", "\n");
+                QStringList l = t.split ('\n'); // deal with newlines
+                for (int i = 0; i < l.size(); i++)
+                    tw = qMax (tw, QFontMetrics (font()).width (l[i]));
+
+                lo->setColumnMinimumWidth (lo->columnCount() - 1, tw + 10);
+            }
+        }
     }
 };
 
