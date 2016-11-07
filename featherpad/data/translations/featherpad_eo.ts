@@ -816,6 +816,11 @@
         <translation>Ne al ĉio</translation>
     </message>
     <message>
+        <location filename="../../fpwin.cpp" line="853"/>
+        <source>Unsaved</source>
+        <translation>Nekonservita</translation>
+    </message>
+    <message>
         <location filename="../../fpwin.cpp" line="872"/>
         <location filename="../../fpwin.cpp" line="2271"/>
         <location filename="../../fpwin.cpp" line="2288"/>

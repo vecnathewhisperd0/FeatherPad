@@ -850,7 +850,7 @@ TextEdit* FPwin::createEmptyTab (bool setCurrent)
         ui->actionLastTab->setEnabled (true);
         ui->actionFirstTab->setEnabled (true);
     }
-    ui->tabWidget->setTabToolTip (index + 1, "Unsaved");
+    ui->tabWidget->setTabToolTip (index + 1, tr ("Unsaved"));
     if (!ui->actionWrap->isChecked())
         textEdit->setLineWrapMode (QPlainTextEdit::NoWrap);
     if (!ui->actionIndent->isChecked())

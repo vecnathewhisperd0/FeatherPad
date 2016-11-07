@@ -835,6 +835,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../fpwin.cpp" line="853"/>
+        <source>Unsaved</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../fpwin.cpp" line="871"/>
         <location filename="../../fpwin.cpp" line="2270"/>
         <source>Lines</source>
