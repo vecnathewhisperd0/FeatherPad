@@ -689,12 +689,12 @@
     <message>
         <location filename="../../fp.ui" line="1227"/>
         <source>&amp;Copy File Name</source>
-        <translation>&amp;Kopiu Dosiernomon</translation>
+        <translation>&amp;Kopiu la Dosiernomon</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1236"/>
         <source>Copy File &amp;Path</source>
-        <translation>Kopiu Dosier&amp;padon</translation>
+        <translation>Kopiu la Dosier&amp;padon</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1248"/>
@@ -973,6 +973,11 @@
 </context>
 <context>
     <name>FeatherPad::LineEdit</name>
+    <message>
+        <location filename="../../lineedit.cpp" line="36"/>
+        <source>Clear text (Ctrl+K)</source>
+        <translation>Viŝu la tekston (Ctrl+K)</translation>
+    </message>
     <message>
         <location filename="../../lineedit.cpp" line="82"/>
         <source>Ctrl+K</source>
