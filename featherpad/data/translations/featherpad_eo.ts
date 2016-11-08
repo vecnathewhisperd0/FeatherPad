@@ -911,7 +911,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="587"/>
         <source>The document has been modified.</source>
-        <translation>La dokumento estas modifiita.</translation>
+        <translation>La dokumento estas modifita.</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="589"/>

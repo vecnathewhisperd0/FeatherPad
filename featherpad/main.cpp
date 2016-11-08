@@ -57,12 +57,12 @@ int main (int argc, char *argv[])
     QString info;
     int d = FeatherPad::fromDesktop();
     info.setNum (d);
-    info += "\n";
+    info += "\n\r"; // a string that can't be used in file names
     for (int i = 1; i < argc; ++i)
     {
         info += QString::fromUtf8 (argv[i]);
         if (i < argc - 1)
-            info += "\n";
+            info += "\n\r";
     }
 
     // the slot is executed in the receiver's thread

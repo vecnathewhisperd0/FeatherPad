@@ -4,6 +4,7 @@ V0.5.9
  * Added support for text zooming with Ctrl+wheel.
  * Added an option for the tab navigation with keyboard to wrap around.
  * Translation support (also added an Esperanto translation).
+ * Support for opening files with newline in their names.
 
 V0.5.8
 ---------

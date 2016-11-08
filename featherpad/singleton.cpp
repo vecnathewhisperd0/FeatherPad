@@ -105,8 +105,8 @@ FPwin* FPsingleton::newWin (const QString& message)
     fp->show();
     Wins.append (fp);
 
-    /* open all files in new tabs */
-    QStringList sl = message.split ("\n");
+    /* open all files in new tabs ("\n\r" was used as the splitter) */
+    QStringList sl = message.split ("\n\r");
     if (!message.isEmpty() && !sl.at (1).isEmpty())
     {
         bool multiple (sl.count() > 2 || fp->isLoading());
@@ -131,7 +131,7 @@ void FPsingleton::removeWin (FPwin *win)
 void FPsingleton::handleMessage (const QString& message)
 {
     /* get all parts of the message */
-    QStringList sl = message.split ("\n");
+    QStringList sl = message.split ("\n\r");
     /* get the desktop the command is issued from */
     long d = sl.at (0).toInt();
     bool found = false;
