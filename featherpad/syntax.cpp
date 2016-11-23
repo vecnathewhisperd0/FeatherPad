@@ -104,7 +104,7 @@ void FPwin::setProgLang (tabInfo *tabinfo)
             progLan = "troff";
         else if (fname.endsWith (".xml") || fname.endsWith (".svg") || fname.endsWith (".qrc")
                  /*|| fname.endsWith (".ui")*/ || fname.endsWith (".rdf") || fname.endsWith (".docbook") || fname.endsWith (".fnx")
-                 || fname.endsWith (".ts"))
+                 || fname.endsWith (".ts") || fname.endsWith (".menu"))
             progLan = "xml";
         else if (fname.endsWith (".css") || fname.endsWith (".qss"))
             progLan = "css";
