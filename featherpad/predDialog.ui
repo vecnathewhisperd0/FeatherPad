@@ -70,7 +70,7 @@
          <string>Uncheck this if you want FeatherPad to use system icons!</string>
         </property>
         <property name="text">
-         <string>Use own icons
+         <string>&amp;Use own icons
 (Needs app restart)</string>
         </property>
        </widget>
@@ -83,20 +83,31 @@
        </widget>
       </item>
       <item row="4" column="0" colspan="4">
+       <widget class="QCheckBox" name="menubarBox">
+        <property name="toolTip">
+         <string>If the menubar is hidden,
+a menu button appears on the toolbar.</string>
+        </property>
+        <property name="text">
+         <string>Do not show &amp;menubar</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0" colspan="4">
        <widget class="QCheckBox" name="searchbarBox">
         <property name="text">
          <string>Hide search &amp;bar by default</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="0" colspan="4">
+      <item row="6" column="0" colspan="4">
        <widget class="QCheckBox" name="statusBox">
         <property name="text">
          <string>Always show st&amp;atus bar</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="0">
+      <item row="7" column="0">
        <widget class="QLabel" name="tabLabel">
         <property name="toolTip">
          <string>Will take effect after closing this dialog.</string>
@@ -106,7 +117,7 @@
         </property>
        </widget>
       </item>
-      <item row="6" column="1" colspan="3">
+      <item row="7" column="1" colspan="3">
        <widget class="QComboBox" name="tabCombo">
         <property name="toolTip">
          <string>Will take effect after closing this dialog.</string>
@@ -133,7 +144,7 @@
         </item>
        </widget>
       </item>
-      <item row="7" column="0" colspan="4">
+      <item row="8" column="0" colspan="4">
        <widget class="QCheckBox" name="tabBox">
         <property name="toolTip">
          <string>This means that, for LTR, Alt+Right goes to the first tab
@@ -142,17 +153,17 @@ after the last tab is activated, and the same for Alt+Left.
 Tab navigation with mouse wheel is not affected.</string>
         </property>
         <property name="text">
-         <string>Tab navigation wraps around</string>
+         <string>Tab navigation wraps &amp;around</string>
         </property>
        </widget>
       </item>
-      <item row="8" column="0" colspan="4">
+      <item row="9" column="0" colspan="4">
        <widget class="QCheckBox" name="transBox">
         <property name="toolTip">
          <string>Check this only if you see weird effects with translucent themes!</string>
         </property>
         <property name="text">
-         <string>Workaround for Qt5's translucency bug
+         <string>Workaround for Qt5's translucency bu&amp;g
 (Needs app restart)</string>
         </property>
        </widget>
@@ -205,7 +216,7 @@ Tab navigation with mouse wheel is not affected.</string>
       <item row="5" column="0" colspan="2">
        <widget class="QCheckBox" name="colBox">
         <property name="text">
-         <string>Dark color scheme
+         <string>Dark c&amp;olor scheme
 (Needs file reopening)</string>
         </property>
        </widget>

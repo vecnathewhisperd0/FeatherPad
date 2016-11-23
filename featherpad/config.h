@@ -110,6 +110,13 @@ public:
         noToolbar_ = noTB;
     }
 
+    bool getNoMenubar() const {
+        return noMenubar_;
+    }
+    void setNoMenubar (bool noMB) {
+        noMenubar_ = noMB;
+    }
+
     bool getHideSearchbar() const {
         return hideSearchbar_;
     }
@@ -196,7 +203,7 @@ public:
     }
 
 private:
-    bool remSize_, sysIcon_, noToolbar_, hideSearchbar_, showStatusbar_, remFont_, wrapByDefault_,
+    bool remSize_, sysIcon_, noToolbar_, noMenubar_, hideSearchbar_, showStatusbar_, remFont_, wrapByDefault_,
          indentByDefault_, lineByDefault_, syntaxByDefault_, isMaxed_, isFull_, darkColScheme_, tabWrapAround_,
          scrollJumpWorkaround_, // Should a workaround for Qt5's "scroll jump" bug be applied?
          translucencyWorkaround_; // Should a workaround for the translucency bug of Qt-5.7 be applied?

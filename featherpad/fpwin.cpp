@@ -84,6 +84,20 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
 
     applyConfig();
 
+    QWidget* spacer = new QWidget();
+    spacer->setSizePolicy (QSizePolicy::Expanding, QSizePolicy::Preferred);
+    ui->mainToolBar->insertWidget (ui->actionMenu, spacer);
+    QMenu *menu = new QMenu (ui->mainToolBar);
+    menu->addMenu (ui->menuFile);
+    menu->addMenu (ui->menuEdit);
+    menu->addMenu (ui->menuOptions);
+    menu->addMenu (ui->menuSearch);
+    menu->addMenu (ui->menuHelp);
+    ui->actionMenu->setMenu(menu);
+    QList<QToolButton*> tbList = ui->mainToolBar->findChildren<QToolButton*>();
+    if (!tbList.isEmpty())
+        tbList.at (tbList.count() - 1)->setPopupMode (QToolButton::InstantPopup);
+
     newTab();
 
     aGroup_ = new QActionGroup (this);
@@ -111,20 +125,10 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     ui->actionUTF_8->setChecked (true);
     ui->actionOther->setDisabled (true);
 
-    bool rtl (QApplication::layoutDirection() == Qt::RightToLeft);
-
     connect (ui->actionNew, &QAction::triggered, this, &FPwin::newTab);
     connect (ui->actionDetachTab, &QAction::triggered, this, &FPwin::detachTab);
-    if (rtl)
-    {
-        connect (ui->actionRightTab, &QAction::triggered, this, &FPwin::previousTab);
-        connect (ui->actionLeftTab, &QAction::triggered, this, &FPwin::nextTab);
-    }
-    else
-    {
-        connect (ui->actionRightTab, &QAction::triggered, this, &FPwin::nextTab);
-        connect (ui->actionLeftTab, &QAction::triggered, this, &FPwin::previousTab);
-    }
+    connect (ui->actionRightTab, &QAction::triggered, this, &FPwin::nextTab);
+    connect (ui->actionLeftTab, &QAction::triggered, this, &FPwin::previousTab);
     connect (ui->actionLastTab, &QAction::triggered, this, &FPwin::lastTab);
     connect (ui->actionFirstTab, &QAction::triggered, this, &FPwin::firstTab);
     connect (ui->actionClose, &QAction::triggered, this, &FPwin::closeTab);
@@ -154,16 +158,8 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     connect (ui->actionCopyName, &QAction::triggered, this, &FPwin::copyTabFileName);
     connect (ui->actionCopyPath, &QAction::triggered, this, &FPwin::copyTabFilePath);
     connect (ui->actionCloseAll, &QAction::triggered, this, &FPwin::closeAllTabs);
-    if (rtl)
-    {
-        connect (ui->actionCloseRight, &QAction::triggered, this, &FPwin::closePreviousTabs);
-        connect (ui->actionCloseLeft, &QAction::triggered, this, &FPwin::closeNextTabs);
-    }
-    else
-    {
-        connect (ui->actionCloseRight, &QAction::triggered, this, &FPwin::closeNextTabs);
-        connect (ui->actionCloseLeft, &QAction::triggered, this, &FPwin::closePreviousTabs);
-    }
+    connect (ui->actionCloseRight, &QAction::triggered, this, &FPwin::closeNextTabs);
+    connect (ui->actionCloseLeft, &QAction::triggered, this, &FPwin::closePreviousTabs);
     connect (ui->actionCloseOther, &QAction::triggered, this, &FPwin::closeOtherTabs);
 
     connect (ui->actionFont, &QAction::triggered, this, &FPwin::fontDialog);
@@ -274,6 +270,8 @@ void FPwin::applyConfig()
     }
 
     ui->mainToolBar->setVisible (!config.getNoToolbar());
+    ui->menuBar->setVisible (!config.getNoMenubar());
+    ui->actionMenu->setVisible (config.getNoMenubar());
 
     ui->lineEdit->setVisible (!config.getHideSearchbar());
     ui->pushButton_case->setVisible (!config.getHideSearchbar());
@@ -298,6 +296,7 @@ void FPwin::applyConfig()
     if (config.getTabPosition() != 0)
         ui->tabWidget->setTabPosition ((QTabWidget::TabPosition) config.getTabPosition());
 
+    bool rtl (QApplication::layoutDirection() == Qt::RightToLeft);
     if (config.getSysIcon())
     {
         ui->actionNew->setIcon (QIcon::fromTheme ("document-new"));
@@ -327,21 +326,47 @@ void FPwin::applyConfig()
         ui->actionEdit->setIcon (QIcon::fromTheme ("document-edit"));
         ui->actionCopyName->setIcon (QIcon::fromTheme ("edit-copy"));
         ui->actionCopyPath->setIcon (QIcon::fromTheme ("edit-copy"));
-        ui->actionCloseRight->setIcon (QIcon::fromTheme ("go-next"));
-        ui->actionCloseLeft->setIcon (QIcon::fromTheme ("go-previous"));
         ui->actionCloseOther->setIcon (QIcon::hasThemeIcon("tab-close-other") ? QIcon::fromTheme ("tab-close-other") : QIcon());
         ui->toolButton_nxt->setIcon (QIcon::fromTheme ("go-down"));
         ui->toolButton_prv->setIcon (QIcon::fromTheme ("go-up"));
         ui->toolButtonNext->setIcon (QIcon::fromTheme ("go-down"));
         ui->toolButtonPrv->setIcon (QIcon::fromTheme ("go-up"));
         ui->toolButtonAll->setIcon (QIcon::hasThemeIcon("arrow-down-double") ? QIcon::fromTheme ("arrow-down-double") : QIcon());
-        ui->actionRightTab->setIcon (QIcon::fromTheme ("go-next"));
-        ui->actionLeftTab->setIcon (QIcon::fromTheme ("go-previous"));
+        ui->actionMenu->setIcon (QIcon::fromTheme ("application-menu"));
+
+        if (rtl)
+        {
+            ui->actionCloseRight->setIcon (QIcon::fromTheme ("go-previous"));
+            ui->actionCloseLeft->setIcon (QIcon::fromTheme ("go-next"));
+            ui->actionRightTab->setIcon (QIcon::fromTheme ("go-previous"));
+            ui->actionLeftTab->setIcon (QIcon::fromTheme ("go-next"));
+
+            /* shortcuts should be reversed for rtl */
+            ui->actionRightTab->setShortcut (QKeySequence (tr ("Alt+Left")));
+            ui->actionLeftTab->setShortcut (QKeySequence (tr ("Alt+Right")));
+        }
+        else
+        {
+            ui->actionCloseRight->setIcon (QIcon::fromTheme ("go-next"));
+            ui->actionCloseLeft->setIcon (QIcon::fromTheme ("go-previous"));
+            ui->actionRightTab->setIcon (QIcon::fromTheme ("go-next"));
+            ui->actionLeftTab->setIcon (QIcon::fromTheme ("go-previous"));
+        }
 
         setWindowIcon (QIcon::fromTheme ("featherpad"));
 
         if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>())
             wordButton->setIcon (QIcon::fromTheme ("view-refresh"));
+    }
+    else if (rtl)
+    {
+        ui->actionCloseRight->setIcon (QIcon (":icons/go-previous.svg"));
+        ui->actionCloseLeft->setIcon (QIcon (":icons/go-next.svg"));
+        ui->actionRightTab->setIcon (QIcon (":icons/go-previous.svg"));
+        ui->actionLeftTab->setIcon (QIcon (":icons/go-next.svg"));
+
+        ui->actionRightTab->setShortcut (QKeySequence (tr ("Alt+Left")));
+        ui->actionLeftTab->setShortcut (QKeySequence (tr ("Alt+Right")));
     }
 }
 /*************************/
@@ -768,8 +793,16 @@ void FPwin::disableShortcuts (bool disable) const
         ui->toolButtonPrv->setShortcut (QKeySequence (tr ("F8")));
         ui->toolButtonAll->setShortcut (QKeySequence (tr ("F9")));
 
-        ui->actionRightTab->setShortcut (QKeySequence (tr ("Alt+Right")));
-        ui->actionLeftTab->setShortcut (QKeySequence (tr ("Alt+Left")));
+        if (QApplication::layoutDirection() == Qt::RightToLeft)
+        {
+            ui->actionRightTab->setShortcut (QKeySequence (tr ("Alt+Left")));
+            ui->actionLeftTab->setShortcut (QKeySequence (tr ("Alt+Right")));
+        }
+        else
+        {
+            ui->actionRightTab->setShortcut (QKeySequence (tr ("Alt+Right")));
+            ui->actionLeftTab->setShortcut (QKeySequence (tr ("Alt+Left")));
+        }
         ui->actionLastTab->setShortcut (QKeySequence (tr ("Alt+Up")));
         ui->actionFirstTab->setShortcut (QKeySequence (tr ("Alt+Down")));
     }
@@ -2604,14 +2637,14 @@ void FPwin::detachTab()
 /*************************/
 void FPwin::dropTab (QString str)
 {
-    QStringList list = str.split ("+");
+    QStringList list = str.split ("+", QString::SkipEmptyParts);
     if (list.count() != 2)
     {
         ui->tabWidget->tabBar()->finishMouseMoveEvent();
         return;
     }
     int index = list.at (1).toInt();
-    if (index == -1) // impossible
+    if (index <= -1) // impossible
     {
         ui->tabWidget->tabBar()->finishMouseMoveEvent();
         return;
@@ -2808,20 +2841,10 @@ void FPwin::tabContextMenu (const QPoint& p)
     QMenu menu;
     if (tabNum > 1)
     {
-        if (QApplication::layoutDirection() == Qt::RightToLeft)
-        {
-            if (rightClicked_ < tabNum - 1)
-                menu.addAction (ui->actionCloseLeft);
-            if (rightClicked_ > 0)
-                menu.addAction (ui->actionCloseRight);
-        }
-        else
-        {
-            if (rightClicked_ < tabNum - 1)
-                menu.addAction (ui->actionCloseRight);
-            if (rightClicked_ > 0)
-                menu.addAction (ui->actionCloseLeft);
-        }
+        if (rightClicked_ < tabNum - 1)
+            menu.addAction (ui->actionCloseRight);
+        if (rightClicked_ > 0)
+            menu.addAction (ui->actionCloseLeft);
         menu.addSeparator();
         if (rightClicked_ < tabNum - 1 && rightClicked_ > 0)
             menu.addAction (ui->actionCloseOther);

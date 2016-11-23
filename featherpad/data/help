@@ -91,8 +91,8 @@ Preferences:                Ctrl+Shift+P
 Document statistics:        Ctrl+Shift+D
 Close tab:                  Ctrl+Shift+Q
 Detach tab:                 Ctrl+T
-Right tab:                  Alt+Right
-Left tab:                   Alt+Left
+Next tab:                   Alt+Right (Alt+Left for RTL)
+Previous tab:               Alt+Left (Alt+Right for RTL)
 Last tab:                   Alt+Up
 First tab:                  Alt+Down
 Print:                      Ctrl+P

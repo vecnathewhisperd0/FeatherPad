@@ -5,6 +5,7 @@ V0.5.9
  * Added an option for the tab navigation with keyboard to wrap around.
  * Translation support (also added an Esperanto translation).
  * Support for opening files with newline in their names.
+ * Support for hiding menubar.
 
 V0.5.8
 ---------

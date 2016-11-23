@@ -23,6 +23,7 @@ private slots:
     void prefStartSize (int checked);
     void prefIcon (int checked);
     void prefToolbar (int checked);
+    void prefMenubar (int checked);
     void prefSearchbar (int checked);
     void prefStatusbar (int checked);
     void prefFont (int checked);

@@ -375,6 +375,7 @@
    <addaction name="actionJump"/>
    <addaction name="separator"/>
    <addaction name="actionEdit"/>
+   <addaction name="actionMenu"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="dockReplace">
@@ -1192,7 +1193,7 @@
      <normaloff>:/icons/go-next.svg</normaloff>:/icons/go-next.svg</iconset>
    </property>
    <property name="text">
-    <string>Close &amp;Right Tabs</string>
+    <string>Close Ne&amp;xt Tabs</string>
    </property>
   </action>
   <action name="actionCloseLeft">
@@ -1201,7 +1202,7 @@
      <normaloff>:/icons/go-previous.svg</normaloff>:/icons/go-previous.svg</iconset>
    </property>
    <property name="text">
-    <string>Close &amp;Left Tabs</string>
+    <string>Close &amp;Previous Tabs</string>
    </property>
   </action>
   <action name="actionCloseAll">
@@ -1245,7 +1246,7 @@
      <normaloff>:/icons/go-next.svg</normaloff>:/icons/go-next.svg</iconset>
    </property>
    <property name="text">
-    <string>R&amp;ight Tab</string>
+    <string>Ne&amp;xt Tab</string>
    </property>
    <property name="shortcut">
     <string>Alt+Right</string>
@@ -1260,7 +1261,7 @@
      <normaloff>:/icons/go-previous.svg</normaloff>:/icons/go-previous.svg</iconset>
    </property>
    <property name="text">
-    <string>Left Ta&amp;b</string>
+    <string>Previous Ta&amp;b</string>
    </property>
    <property name="shortcut">
     <string>Alt+Left</string>
@@ -1286,6 +1287,15 @@
    </property>
    <property name="shortcut">
     <string>Alt+Up</string>
+   </property>
+  </action>
+  <action name="actionMenu">
+   <property name="icon">
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/application-menu.svg</normaloff>:/icons/application-menu.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Menu</string>
    </property>
   </action>
  </widget>

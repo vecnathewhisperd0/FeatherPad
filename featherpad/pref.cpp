@@ -43,6 +43,8 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     connect (ui->iconBox, &QCheckBox::stateChanged, this, &PrefDialog::prefIcon);
     ui->toolbarBox->setChecked (config.getNoToolbar());
     connect (ui->toolbarBox, &QCheckBox::stateChanged, this, &PrefDialog::prefToolbar);
+    ui->menubarBox->setChecked (config.getNoMenubar());
+    connect (ui->menubarBox, &QCheckBox::stateChanged, this, &PrefDialog::prefMenubar);
     ui->searchbarBox->setChecked (config.getHideSearchbar());
     connect (ui->searchbarBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSearchbar);
     ui->statusBox->setChecked (config.getShowStatusbar());
@@ -144,6 +146,8 @@ void PrefDialog::prefToolbar (int checked)
     Config& config = singleton->getConfig();
     if (checked == Qt::Checked)
     {
+        if (ui->menubarBox->checkState() == Qt::Checked)
+            ui->menubarBox->setCheckState (Qt::Unchecked);
         config.setNoToolbar (true);
         for (int i = 0; i < singleton->Wins.count(); ++i)
             singleton->Wins.at (i)->ui->mainToolBar->setVisible (false);
@@ -153,6 +157,32 @@ void PrefDialog::prefToolbar (int checked)
         config.setNoToolbar (false);
         for (int i = 0; i < singleton->Wins.count(); ++i)
             singleton->Wins.at (i)->ui->mainToolBar->setVisible (true);
+    }
+}
+/*************************/
+void PrefDialog::prefMenubar (int checked)
+{
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    Config& config = singleton->getConfig();
+    if (checked == Qt::Checked)
+    {
+        if (ui->toolbarBox->checkState() == Qt::Checked)
+            ui->toolbarBox->setCheckState (Qt::Unchecked);
+        config.setNoMenubar (true);
+        for (int i = 0; i < singleton->Wins.count(); ++i)
+        {
+            singleton->Wins.at (i)->ui->menuBar->setVisible (false);
+            singleton->Wins.at (i)->ui->actionMenu->setVisible (true);
+        }
+    }
+    else if (checked == Qt::Unchecked)
+    {
+        config.setNoMenubar (false);
+        for (int i = 0; i < singleton->Wins.count(); ++i)
+        {
+            singleton->Wins.at (i)->ui->menuBar->setVisible (true);
+            singleton->Wins.at (i)->ui->actionMenu->setVisible (false);
+        }
     }
 }
 /*************************/

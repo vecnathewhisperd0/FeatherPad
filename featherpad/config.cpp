@@ -23,6 +23,7 @@ Config::Config():
     remSize_ (true),
     sysIcon_ (false),
     noToolbar_ (false),
+    noMenubar_ (false),
     hideSearchbar_ (false),
     showStatusbar_ (false),
     remFont_ (true),
@@ -73,6 +74,15 @@ void Config::readConfig()
 
     if (settings.value ("noToolbar").toBool())
         noToolbar_ = true; // false by default
+
+    if (settings.value ("noMenubar").toBool())
+        noMenubar_ = true; // false by default
+
+    if (noToolbar_ && noMenubar_)
+    { // we don't want to hide all actions
+        noToolbar_ = false;
+        noMenubar_ = true;
+    }
 
     if (settings.value ("hideSearchbar").toBool())
         hideSearchbar_ = true; // false by default
@@ -153,6 +163,7 @@ void Config::writeConfig()
     settings.setValue ("startSize", startSize_);
     settings.setValue ("sysIcon", sysIcon_);
     settings.setValue ("noToolbar", noToolbar_);
+    settings.setValue ("noMenubar", noMenubar_);
     settings.setValue ("hideSearchbar", hideSearchbar_);
     settings.setValue ("showStatusbar", showStatusbar_);
     settings.setValue ("tabPosition", tabPosition_);
