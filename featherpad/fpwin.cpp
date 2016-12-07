@@ -1514,7 +1514,7 @@ bool FPwin::fileSave()
     tabInfo *tabinfo = tabsInfo_[textEdit];
     QString fname = tabinfo->fileName;
     if (fname.isEmpty()) fname = lastFile_;
-    QString filter;
+    QString filter = tr ("All Files(*)");
     if (!fname.isEmpty()
         && QFileInfo (fname).fileName().contains ('.'))
     {
@@ -1539,14 +1539,15 @@ bool FPwin::fileSave()
             {
                 dir = QDir::home();
                 if (tabinfo->fileName.isEmpty())
-                    filter = QString();
+                    filter = tr ("All Files(*)");
             }
             /* if the removed file is opened in this tab and its
                containing folder still exists, it's restorable */
             else if (!tabinfo->fileName.isEmpty())
                 restorable = true;
+
             /* add the file name */
-            if (restorable)
+            if (!tabinfo->fileName.isEmpty())
                 fname = dir.filePath (QFileInfo (fname).fileName());
             else
                 fname = dir.filePath (tr ("Untitled"));
