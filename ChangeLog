@@ -6,6 +6,7 @@ V0.5.9
  * Translation support (also added an Esperanto translation).
  * Support for opening files with newline in their names.
  * Support for hiding menubar.
+ * Added a lot of CMake keywords to syntax highlighting.
 
 V0.5.8
 ---------

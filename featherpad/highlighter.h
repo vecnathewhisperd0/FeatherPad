@@ -111,7 +111,7 @@ private:
     /* Programming language: */
     QString progLan;
 
-    QColor Blue, DarkBlue, Red, DarkRed, DarkGreen, DarkMagenta, Violet, Brown;
+    QColor Blue, DarkBlue, Red, DarkRed, DarkGreen, DarkMagenta, Violet, Brown, DarkYellow;
 
     /* The start and end cursors of the visible text: */
     QTextCursor startCursor, endCursor;
