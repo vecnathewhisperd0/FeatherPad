@@ -31,8 +31,11 @@ TabBar::TabBar (QWidget *parent)
 void TabBar::mousePressEvent (QMouseEvent *event)
 {
     QTabBar::mousePressEvent (event);
-    if (event->button() == Qt::LeftButton)
+    if (event->button() == Qt::LeftButton
+        && tabAt(event->pos()) > -1)
+    {
         dragStartPosition_ = event->pos();
+    }
     dragStarted_ = false;
 }
 /*************************/
