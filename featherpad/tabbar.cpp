@@ -60,6 +60,9 @@ void TabBar::mouseMoveEvent (QMouseEvent *event)
         array.append (QString ("%1+%2").arg (window()->winId()).arg (index));
         mimeData->setData ("application/featherpad-tab", array);
         drag->setMimeData (mimeData);
+        QPixmap px = QIcon (":icons/tab.svg").pixmap (22, 22);
+        drag->setPixmap (px);
+        drag->setHotSpot (QPoint (px.width()/2, px.height()));
         Qt::DropAction dragged = drag->exec (Qt::MoveAction | Qt::CopyAction);
         if (dragged == Qt::IgnoreAction) // a tab is dropped outside all windows
         {
@@ -71,8 +74,7 @@ void TabBar::mouseMoveEvent (QMouseEvent *event)
         }
         else if (dragged == Qt::MoveAction) // a tab is dropped into another window
             event->accept();
-        delete drag;
-        drag = NULL;
+        drag->deleteLater();
     }
     else
     {
