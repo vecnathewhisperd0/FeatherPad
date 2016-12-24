@@ -41,7 +41,7 @@ protected:
     /* from qtabbar.cpp */
     virtual void mousePressEvent (QMouseEvent *event);
     virtual void mouseMoveEvent (QMouseEvent *event);
-    bool event (QEvent *);
+    virtual bool event (QEvent *event);
 
 private:
     QPoint dragStartPosition_;

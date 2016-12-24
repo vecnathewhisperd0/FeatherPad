@@ -15,7 +15,11 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QtGui>
+#include <QPointer>
+#include <QMouseEvent>
+#include <QDrag>
+#include <QMimeData>
+#include <QIcon>
 #include <QApplication>
 #include <QToolTip>
 #include "tabbar.h"
@@ -54,7 +58,7 @@ void TabBar::mouseMoveEvent (QMouseEvent *event)
         int index = currentIndex();
         if (index == -1) return;
 
-        QDrag *drag = new QDrag (this);
+        QPointer<QDrag> drag = new QDrag (this);
         QMimeData *mimeData = new QMimeData;
         QByteArray array;
         array.append (QString ("%1+%2").arg (window()->winId()).arg (index));

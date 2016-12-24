@@ -599,7 +599,7 @@ int FPwin::unSaved (int index, bool noToAll)
     TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
     QString fname = tabsInfo_[textEdit]->fileName;
     if (textEdit->document()->isModified()
-        || (!fname.isEmpty() && !QFile::exists (fname)))
+        || (!fname.isEmpty() && (!QFile::exists (fname) || !QFileInfo (fname).isFile())))
     {
         unbusy(); // made busy at closeTabs()
         if (hasAnotherDialog()) return 1; // cancel
