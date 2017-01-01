@@ -7,6 +7,7 @@ V0.5.9
  * Support for opening files with newline in their names.
  * Support for hiding menubar.
  * Added a lot of CMake keywords to syntax highlighting.
+ * A workaround for Qt's backward search bug.
 
 V0.5.8
 ---------

@@ -23,6 +23,68 @@ namespace FeatherPad {
 /* This order is preserved everywhere for selections:
    current line -> replacement -> found matches -> bracket matches */
 
+/************************************************************************
+ ***** Qt's backward search has some bugs. Therefore, we do our own *****
+ ***** backward search by using the following two static functions. *****
+ ************************************************************************/
+static bool findBackwardInBlock (const QTextBlock &block, const QString &str, int offset,
+                                 QTextCursor &cursor, QTextDocument::FindFlags flags)
+{
+    Qt::CaseSensitivity cs = !(flags & QTextDocument::FindCaseSensitively)
+                             ? Qt::CaseInsensitive : Qt::CaseSensitive;
+
+    QString text = block.text();
+    text.replace (QChar::Nbsp, QLatin1Char (' '));
+
+    int idx = -1;
+    while (offset >= 0 && offset <= text.length())
+    {
+        idx = text.lastIndexOf (str, offset, cs);
+        if (idx == -1)
+            return false;
+        if (flags & QTextDocument::FindWholeWords)
+        {
+            const int start = idx;
+            const int end = start + str.length();
+            if ((start != 0 && text.at (start - 1).isLetterOrNumber())
+                || (end != text.length() && text.at (end).isLetterOrNumber()))
+            { // if this is not a whole word, continue the backward search
+                offset = idx - 1;
+                idx = -1;
+                continue;
+            }
+        }
+        cursor.setPosition (block.position() + idx);
+        cursor.setPosition (cursor.position() + str.length(), QTextCursor::KeepAnchor);
+        return true;
+    }
+    return false;
+}
+
+static bool findBackward (const QTextDocument *txtdoc, const QString str,
+                          QTextCursor &cursor, QTextDocument::FindFlags flags)
+{
+    if (!str.isEmpty() && !cursor.isNull())
+    {
+        int pos = cursor.anchor()
+                  - str.size(); // we don't want a match with the cursor inside it
+        if (pos >= 0)
+        {
+            QTextBlock block = txtdoc->findBlock (pos);
+            int blockOffset = pos - block.position();
+            while (block.isValid())
+            {
+                if (findBackwardInBlock (block, str, blockOffset, cursor, flags))
+                    return true;
+                block = block.previous();
+                blockOffset = block.length() - 2; // newline is included in length()
+            }
+        }
+    }
+    cursor = QTextCursor();
+    return false;
+}
+/*************************/
 // This method extends the searchable strings to those with line breaks.
 // It also corrects the behavior of Qt's backward search.
 QTextCursor FPwin::finding (const QString str, const QTextCursor& start, QTextDocument::FindFlags flags) const
@@ -33,39 +95,49 @@ QTextCursor FPwin::finding (const QString str, const QTextCursor& start, QTextDo
 
     TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->currentWidget());
     QTextDocument *txtdoc = textEdit->document();
-    QTextCursor cursor = QTextCursor (start);
-    QTextCursor res = QTextCursor (start);
+    QTextCursor res = start;
     if (str.contains ('\n'))
     {
+        QTextCursor cursor = start;
         QTextCursor found;
         QStringList sl = str.split ("\n");
         int i = 0;
+        Qt::CaseSensitivity cs = !(flags & QTextDocument::FindCaseSensitively)
+                                 ? Qt::CaseInsensitive : Qt::CaseSensitive;
+        QString subStr;
         if (!(flags & QTextDocument::FindBackward))
         {
             /* this loop searches for the consecutive
                occurrences of newline separated strings */
             while (i < sl.count())
             {
-                if (i == 0)
+                if (i == 0) // the first string
                 {
-                    /* when the first substring is empty... */
-                    if (sl.at (0).isEmpty())
+                    subStr = sl.at (0);
+                    /* when the first string is empty... */
+                    if (subStr.isEmpty())
                     {
-                        /* ... continue the search from the next block */
+                        /* ... search anew from the next block */
                         cursor.movePosition (QTextCursor::EndOfBlock);
                         res.setPosition (cursor.position());
                         if (!cursor.movePosition (QTextCursor::NextBlock))
                             return QTextCursor();
                         ++i;
                     }
-                    else if (!(found = txtdoc->find (sl.at (0), cursor, flags)).isNull())
+                    else
                     {
+                        if ((found = txtdoc->find (subStr, cursor, flags)).isNull())
+                            return QTextCursor();
                         cursor.setPosition (found.position());
-                        if (!cursor.atBlockEnd())
+                        /* if the match doesn't end the block... */
+                        while (!cursor.atBlockEnd())
                         {
+                            /* ... move the cursor to right and search until a match is found */
                             cursor.movePosition (QTextCursor::EndOfBlock);
-                            cursor.setPosition (cursor.position() - sl.at (0).length());
-                            continue;
+                            cursor.setPosition (cursor.position() - subStr.length());
+                            if ((found = txtdoc->find (subStr, cursor, flags)).isNull())
+                                return QTextCursor();
+                            cursor.setPosition (found.position());
                         }
 
                         res.setPosition (found.anchor());
@@ -73,13 +145,11 @@ QTextCursor FPwin::finding (const QString str, const QTextCursor& start, QTextDo
                             return QTextCursor();
                         ++i;
                     }
-                    else
-                        return QTextCursor();
                 }
-                else if (i != sl.count() - 1)
+                else if (i != sl.count() - 1) // middle strings
                 {
-                    /* when the next block's test isn't the next substring... */
-                    if (cursor.block().text() != sl.at (i))
+                    /* when the next block's test isn't the next string... */
+                    if (QString::compare (cursor.block().text(), sl.at (i), cs) != 0)
                     {
                         /* ... reset the loop cautiously */
                         cursor.setPosition (res.position());
@@ -93,67 +163,85 @@ QTextCursor FPwin::finding (const QString str, const QTextCursor& start, QTextDo
                         return QTextCursor();
                     ++i;
                 }
-                else// if (i == sl.count() - 1)
+                else // the last string (i == sl.count() - 1)
                 {
-                    if (sl.at (i).isEmpty()) break;
-                    /* when the last substring doesn't start the next block... */
-                    if (!cursor.block().text().startsWith (sl.at (i))
-                        || (found = txtdoc->find (sl.at (i), cursor, flags)).isNull()
-                        || found.anchor() != cursor.position())
+                    subStr = sl.at (i);
+                    if (subStr.isEmpty()) break;
+                    if (!(flags & QTextDocument::FindWholeWords))
                     {
-                        /* ... reset the loop cautiously */
-                        cursor.setPosition (res.position());
-                        if (!cursor.movePosition (QTextCursor::NextBlock))
-                            return QTextCursor();
-                        i = 0;
-                        continue;
+                        /* when the last string doesn't start the next block... */
+                        if (!cursor.block().text().startsWith (subStr, cs))
+                        {
+                            /* ... reset the loop cautiously */
+                            cursor.setPosition (res.position());
+                            if (!cursor.movePosition (QTextCursor::NextBlock))
+                                return QTextCursor();
+                            i = 0;
+                            continue;
+                        }
+                        cursor.setPosition (cursor.anchor() + subStr.count());
+                        break;
                     }
-                    cursor.setPosition (found.position());
-                    ++i;
+                    else
+                    {
+                        if ((found = txtdoc->find (subStr, cursor, flags)).isNull()
+                            || found.anchor() != cursor.position())
+                        {
+                            cursor.setPosition (res.position());
+                            if (!cursor.movePosition (QTextCursor::NextBlock))
+                                return QTextCursor();
+                            i = 0;
+                            continue;
+                        }
+                        cursor.setPosition (found.position());
+                        break;
+                    }
                 }
             }
             res.setPosition (cursor.position(), QTextCursor::KeepAnchor);
         }
         else // backward search
         {
-            /* we'll keep "anchor" before "position"
-               because Qt does so in backward search */
+            cursor.setPosition (cursor.anchor());
             int endPos = cursor.position();
             while (i < sl.count())
             {
-                if (i == 0)
+                if (i == 0) // the last string
                 {
-                    if (sl.at (sl.count() - 1).isEmpty())
+                    subStr = sl.at (sl.count() - 1);
+                    if (subStr.isEmpty())
                     {
                         cursor.movePosition (QTextCursor::StartOfBlock);
                         endPos = cursor.position();
-                        if (!cursor.movePosition (QTextCursor::PreviousBlock))
-                            return QTextCursor();
-                        ++i;
-                    }
-                    else if (!(found = txtdoc->find (sl.at (sl.count() - 1), cursor, flags)).isNull())
-                    {
-                        cursor.setPosition (found.anchor());
-                        if (!cursor.atBlockStart())
-                        {
-                            /* Qt's backward search finds a string
-                               even when the cursor is inside it */
-                            continue;
-                        }
-
-                        endPos = found.position();
                         if (!cursor.movePosition (QTextCursor::PreviousBlock))
                             return QTextCursor();
                         cursor.movePosition (QTextCursor::EndOfBlock);
                         ++i;
                     }
                     else
-                        return QTextCursor();
-                }
-                else if (i != sl.count() - 1)
-                {
-                    if (cursor.block().text() != sl.at (sl.count() - i - 1))
                     {
+                        if (!findBackward (txtdoc, subStr, cursor, flags))
+                            return QTextCursor();
+                        /* if the match doesn't start the block... */
+                        while (cursor.anchor() > cursor.block().position())
+                        {
+                            /* ... move the cursor to left and search backward until a match is found */
+                            cursor.setPosition (cursor.block().position() + subStr.count());
+                            if (!findBackward (txtdoc, subStr, cursor, flags))
+                                return QTextCursor();
+                        }
+
+                        endPos = cursor.position();
+                        if (!cursor.movePosition (QTextCursor::PreviousBlock))
+                            return QTextCursor();
+                        cursor.movePosition (QTextCursor::EndOfBlock);
+                        ++i;
+                    }
+                }
+                else if (i != sl.count() - 1) // the middle strings
+                {
+                    if (QString::compare (cursor.block().text(), sl.at (sl.count() - i - 1), cs) != 0)
+                    { // reset the loop if the block text doesn't match
                         cursor.setPosition (endPos);
                         if (!cursor.movePosition (QTextCursor::PreviousBlock))
                             return QTextCursor();
@@ -167,22 +255,42 @@ QTextCursor FPwin::finding (const QString str, const QTextCursor& start, QTextDo
                     cursor.movePosition (QTextCursor::EndOfBlock);
                     ++i;
                 }
-                else
+                else // the first string
                 {
-                    if (sl.at (0).isEmpty()) break;
-                    if (!cursor.block().text().endsWith (sl.at (0))
-                        || (found = txtdoc->find (sl.at (0), cursor, flags)).isNull()
-                        || found.position() != cursor.position())
+                    subStr = sl.at (0);
+                    if (subStr.isEmpty()) break;
+                    if (!(flags & QTextDocument::FindWholeWords))
                     {
-                        cursor.setPosition (endPos);
-                        if (!cursor.movePosition (QTextCursor::PreviousBlock))
-                            return QTextCursor();
-                        cursor.movePosition (QTextCursor::EndOfBlock);
-                        i = 0;
-                        continue;
+                        /* when the first string doesn't end the previous block... */
+                        if (!cursor.block().text().endsWith (subStr, cs))
+                        {
+                            /* ... reset the loop */
+                            cursor.setPosition (endPos);
+                            if (!cursor.movePosition (QTextCursor::PreviousBlock))
+                                return QTextCursor();
+                            cursor.movePosition (QTextCursor::EndOfBlock);
+                            i = 0;
+                            continue;
+                        }
+                        cursor.setPosition (cursor.anchor() - subStr.count());
+                        break;
                     }
-                    cursor.setPosition (found.anchor());
-                    ++i;
+                    else
+                    {
+                        found = cursor; // block end
+                        if (!findBackward (txtdoc, subStr, found, flags)
+                            || found.position() != cursor.position())
+                        {
+                            cursor.setPosition (endPos);
+                            if (!cursor.movePosition (QTextCursor::PreviousBlock))
+                                return QTextCursor();
+                            cursor.movePosition (QTextCursor::EndOfBlock);
+                            i = 0;
+                            continue;
+                        }
+                        cursor.setPosition (found.anchor());
+                        break;
+                    }
                 }
             }
             res.setPosition (cursor.anchor());
@@ -191,14 +299,10 @@ QTextCursor FPwin::finding (const QString str, const QTextCursor& start, QTextDo
     }
     else // there's no line break
     {
-        res = txtdoc->find (str, start, flags);
-        /* when the cursor is inside the backward searched string */
-        if ((flags & QTextDocument::FindBackward)
-            && start.position() - res.anchor() < str.length())
-        {
-            res.setPosition (res.anchor());
-            res = txtdoc->find (str, res, flags);
-        }
+        if (!(flags & QTextDocument::FindBackward))
+            res = txtdoc->find (str, start, flags);
+        else
+            findBackward (txtdoc, str, res, flags);
     }
 
     return res;
@@ -310,7 +414,7 @@ void FPwin::hlight() const
     QString str = visCur.selection().toPlainText(); // '\n' is included in this way
     Qt::CaseSensitivity cs = Qt::CaseInsensitive;
     if (ui->pushButton_case->isChecked()) cs = Qt::CaseSensitive;
-    while (str.contains (txt, cs) // don't waste time if the seach text isn't visible
+    while (str.contains (txt, cs) // don't waste time if the searched text isn't visible
            && !(found = finding (txt, start, searchFlags_)).isNull())
     {
         QTextEdit::ExtraSelection extra;

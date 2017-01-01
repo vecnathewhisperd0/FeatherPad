@@ -2840,8 +2840,10 @@ void FPwin::tabContextMenu (const QPoint& p)
     TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (rightClicked_));
     QString fname = tabsInfo_[textEdit]->fileName;
     QMenu menu;
+    bool showMenu = false;
     if (tabNum > 1)
     {
+        showMenu = true;
         if (rightClicked_ < tabNum - 1)
             menu.addAction (ui->actionCloseRight);
         if (rightClicked_ > 0)
@@ -2855,10 +2857,12 @@ void FPwin::tabContextMenu (const QPoint& p)
     }
     if (!fname.isEmpty())
     {
+        showMenu = true;
         menu.addAction (ui->actionCopyName);
         menu.addAction (ui->actionCopyPath);
     }
-    menu.exec (tbar->mapToGlobal (p));
+    if (showMenu) // we don't want an empty menu
+        menu.exec (tbar->mapToGlobal (p));
 }
 /*************************/
 void FPwin::prefDialog()
