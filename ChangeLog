@@ -8,6 +8,7 @@ V0.5.9
  * Support for hiding menubar.
  * Added a lot of CMake keywords to syntax highlighting.
  * A workaround for Qt's backward search bug.
+ * Removed the translucency workaround because Qt-5.7 translucency problems are fixed in Kvantum (QtCurve should do the same thing).
 
 V0.5.8
 ---------

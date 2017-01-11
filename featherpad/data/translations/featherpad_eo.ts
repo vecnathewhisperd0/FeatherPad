@@ -882,28 +882,28 @@
         <translation>Ne</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2886"/>
+        <location filename="../../fpwin.cpp" line="2890"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translation>Malpeza, foliigita tekst-redaktilo</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2887"/>
+        <location filename="../../fpwin.cpp" line="2891"/>
         <source>based on Qt5</source>
         <translation>bazita sur Qt5</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2888"/>
+        <location filename="../../fpwin.cpp" line="2892"/>
         <source>Author</source>
         <translation>Verkinto</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2889"/>
+        <location filename="../../fpwin.cpp" line="2893"/>
         <source>aka.</source>
         <translation>akk.</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1898"/>
-        <location filename="../../fpwin.cpp" line="2971"/>
+        <location filename="../../fpwin.cpp" line="2975"/>
         <source>Help</source>
         <translation>Helpo</translation>
     </message>
@@ -968,12 +968,12 @@
         <translation>Presi Dokumenton</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2891"/>
+        <location filename="../../fpwin.cpp" line="2895"/>
         <source>Ok</source>
         <translation>Bone</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2900"/>
+        <location filename="../../fpwin.cpp" line="2904"/>
         <source>About FeatherPad</source>
         <translation>Pri FeatherPad</translation>
     </message>
@@ -1129,80 +1129,68 @@ La foliumado per musrado ne estas influita.</translation>
         <translation>Ĉirkaŭfermu la f&amp;oliumadon</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="166"/>
-        <source>Workaround for Qt5&apos;s translucency bu&amp;g
-(Needs app restart)</source>
-        <translation>Proviza korekto por la diafaneca &amp;cimo de Qt
-(Restartigo de la aplikaĵo necesas)</translation>
-    </message>
-    <message>
-        <location filename="../../predDialog.ui" line="219"/>
+        <location filename="../../predDialog.ui" line="208"/>
         <source>Dark c&amp;olor scheme
 (Needs file reopening)</source>
         <translation>Malluma kolo&amp;rskemo
 (remalfermado de la dosiero necesas)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="163"/>
-        <source>Check this only if you see weird effects with translucent themes!</source>
-        <translation>Kontraŭmarku nur se vi observas bizarajn efektojn kun diafaneco!</translation>
-    </message>
-    <message>
-        <location filename="../../predDialog.ui" line="177"/>
+        <location filename="../../predDialog.ui" line="166"/>
         <source>Text</source>
         <translation>Teksto</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="183"/>
+        <location filename="../../predDialog.ui" line="172"/>
         <source>Remember &amp;font
 (Uncheck for Monospace 9)</source>
         <translation>Memoru la ti&amp;paron
 (Malmarku por Monospace 9)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="191"/>
+        <location filename="../../predDialog.ui" line="180"/>
         <source>&amp;Wrap lines by default</source>
         <translation>Ĉir&amp;kaŭfermu la liniojn defaŭlte</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="198"/>
+        <location filename="../../predDialog.ui" line="187"/>
         <source>Auto-&amp;indent by default</source>
         <translation>Mem-al&amp;ineu defaŭlte</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="205"/>
+        <location filename="../../predDialog.ui" line="194"/>
         <source>Always show line &amp;numbers</source>
         <translation>Ĉiam vidigu la lini-numero&amp;jn</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="212"/>
+        <location filename="../../predDialog.ui" line="201"/>
         <source>Highlight s&amp;yntax by default</source>
         <translation>Marku la sin&amp;takson defaŭlte</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="227"/>
+        <location filename="../../predDialog.ui" line="216"/>
         <source>Never highlight syntax for files &gt;</source>
         <translation>Ne marku la sintakson por la dosieroj &gt;</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="237"/>
+        <location filename="../../predDialog.ui" line="226"/>
         <source> MiB</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="250"/>
+        <location filename="../../predDialog.ui" line="239"/>
         <source>This is not a complete fix but
 prevents annoying scroll jumps.</source>
         <translation>Ĉi tio ne estas kompleta solvo sed detenas
 ĝenantajn saltojn komence de rulumado.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="254"/>
+        <location filename="../../predDialog.ui" line="243"/>
         <source>Workaround for &amp;Qt5&apos;s scroll jump bug</source>
         <translation>Proviza korekto por la ruluma salto ĉe &amp;Qt5</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="97"/>
+        <location filename="../../pref.cpp" line="95"/>
         <source>Close</source>
         <translation>Fermi</translation>
     </message>

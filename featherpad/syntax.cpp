@@ -88,7 +88,7 @@ void FPwin::setProgLang (tabInfo *tabinfo)
             progLan = "cpp";
         else if (fname.endsWith (".c"))
             progLan = "c";
-        else if (fname.endsWith (".sh"))
+        else if (fname.endsWith (".sh") || baseName == ".bashrc" || baseName == ".xprofile")
             progLan = "sh";
         else if (fname.endsWith (".rb"))
             progLan = "ruby";

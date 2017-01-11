@@ -34,7 +34,6 @@ private slots:
     void prefDarkColScheme (int checked);
     void prefScrollJumpWorkaround (int checked);
     void prefTabWrapAround (int checked);
-    void prefTranslucencyWorkaround (int checked);
     void prefMaxSHSize (int value);
 
 private:

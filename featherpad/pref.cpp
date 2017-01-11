@@ -53,8 +53,6 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     ui->tabCombo->setCurrentIndex (config.getTabPosition());
     ui->tabBox->setChecked (config.getTabWrapAround());
     connect (ui->tabBox, &QCheckBox::stateChanged, this, &PrefDialog::prefTabWrapAround);
-    ui->transBox->setChecked (config.getTranslucencyWorkaround());
-    connect (ui->transBox, &QCheckBox::stateChanged, this, &PrefDialog::prefTranslucencyWorkaround);
 
     if (ui->winSizeBox->isChecked())
     {
@@ -392,16 +390,6 @@ void PrefDialog::prefTabWrapAround (int checked)
         config.setTabWrapAround (true);
     else if (checked == Qt::Unchecked)
         config.setTabWrapAround (false);
-}
-/*************************/
-void PrefDialog::prefTranslucencyWorkaround (int checked)
-{
-    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
-    Config& config = singleton->getConfig();
-    if (checked == Qt::Checked)
-        config.setTranslucencyWorkaround (true);
-    else if (checked == Qt::Unchecked)
-        config.setTranslucencyWorkaround (false);
 }
 /*************************/
 void PrefDialog::prefMaxSHSize (int value)

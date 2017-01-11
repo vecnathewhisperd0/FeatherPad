@@ -36,7 +36,6 @@ Config::Config():
     darkColScheme_ (false),
     tabWrapAround_ (false),
     scrollJumpWorkaround_ (false),
-    translucencyWorkaround_ (false),
     tabPosition_ (0),
     maxSHSize_ (1),
     winSize_ (QSize (700, 500)),
@@ -96,9 +95,6 @@ void Config::readConfig()
 
     if (settings.value ("tabWrapAround").toBool())
         tabWrapAround_ = true; // false by default
-
-    if (settings.value ("translucencyWorkaround").toBool())
-        translucencyWorkaround_ = true; // false by default
 
     settings.endGroup();
 
@@ -168,7 +164,6 @@ void Config::writeConfig()
     settings.setValue ("showStatusbar", showStatusbar_);
     settings.setValue ("tabPosition", tabPosition_);
     settings.setValue ("tabWrapAround", tabWrapAround_);
-    settings.setValue ("translucencyWorkaround", translucencyWorkaround_);
 
     settings.endGroup();
 
