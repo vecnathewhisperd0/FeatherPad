@@ -155,7 +155,7 @@ void FPwin::setProgLang (tabInfo *tabinfo)
         else
             mime = getMimeType (QFileInfo (fname).symLinkTarget());
 
-        if (mime == "text/x-c++" || mime == "text/x-c++" || mime == "text/x-c++hdr" || mime == "text/x-chdr")
+        if (mime == "text/x-c++" || mime == "text/x-c++src" || mime == "text/x-c++hdr" || mime == "text/x-chdr")
             progLan = "cpp";
         else if (mime == "text/x-c" || mime == "text/x-csrc")
             progLan = "c";

@@ -37,7 +37,7 @@ Config::Config():
     tabWrapAround_ (false),
     scrollJumpWorkaround_ (false),
     tabPosition_ (0),
-    maxSHSize_ (1),
+    maxSHSize_ (2),
     winSize_ (QSize (700, 500)),
     startSize_ (QSize (700, 500)),
     font_ (QFont ("Monospace", 9)) {}
@@ -127,7 +127,7 @@ void Config::readConfig()
     if (settings.value ("scrollJumpWorkaround").toBool())
         scrollJumpWorkaround_ = true; // false by default
 
-    maxSHSize_ = qBound(1, settings.value ("maxSHSize", 1).toInt(), 10);
+    maxSHSize_ = qBound (1, settings.value ("maxSHSize", 2).toInt(), 10);
 
     settings.endGroup();
 }
