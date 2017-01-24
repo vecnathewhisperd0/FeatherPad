@@ -1607,6 +1607,7 @@ void Highlighter::highlightBlock (const QString &text)
      **************************/
 
     if (progLan != "diff" && progLan != "log"
+        && progLan != "desktop" && progLan != "theme"
         && progLan != "changelog" && progLan != "url"
         && progLan != "srt" && progLan != "html")
     {
