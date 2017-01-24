@@ -1402,10 +1402,18 @@ void FPwin::fileOpen()
 
     if (hasAnotherDialog()) return;
     disableShortcuts (true);
+    QString filter = tr ("All Files (*)");
+    if (!fname.isEmpty()
+        && QFileInfo (fname).fileName().contains ('.'))
+    {
+        /* if relevant, do filtering to make opening of similar files easier */
+        filter = tr ("All Files (*);;.%1 Files (*.%1)").arg (fname.section ('.', -1, -1));
+    }
     FileDialog dialog (this);
     dialog.setAcceptMode (QFileDialog::AcceptOpen);
     dialog.setWindowTitle (tr ("Open file..."));
     dialog.setFileMode (QFileDialog::ExistingFiles);
+    dialog.setNameFilter (filter);
     /*dialog.setLabelText (QFileDialog::Accept, tr ("Open"));
     dialog.setLabelText (QFileDialog::Reject, tr ("Cancel"));*/
     if (QFileInfo (path).isDir())
@@ -1514,12 +1522,12 @@ bool FPwin::fileSave()
     tabInfo *tabinfo = tabsInfo_[textEdit];
     QString fname = tabinfo->fileName;
     if (fname.isEmpty()) fname = lastFile_;
-    QString filter = tr ("All Files(*)");
+    QString filter = tr ("All Files (*)");
     if (!fname.isEmpty()
         && QFileInfo (fname).fileName().contains ('.'))
     {
         /* if relevant, do filtering to prevent disastrous overwritings */
-        filter = tr (".%1 Files(*.%1);;All Files(*)").arg (fname.section ('.', -1, -1));
+        filter = tr (".%1 Files (*.%1);;All Files (*)").arg (fname.section ('.', -1, -1));
     }
 
     if (fname.isEmpty()
@@ -1539,7 +1547,7 @@ bool FPwin::fileSave()
             {
                 dir = QDir::home();
                 if (tabinfo->fileName.isEmpty())
-                    filter = tr ("All Files(*)");
+                    filter = tr ("All Files (*)");
             }
             /* if the removed file is opened in this tab and its
                containing folder still exists, it's restorable */
