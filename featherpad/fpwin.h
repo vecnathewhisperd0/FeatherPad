@@ -181,7 +181,8 @@ private:
     void setSearchFlagsAndHighlight (bool h);
     void enableWidgets (bool enable) const;
     void disableShortcuts (bool disable) const;
-    QTextCursor finding (const QString str, const QTextCursor& start, QTextDocument::FindFlags flags = 0) const;
+    QTextCursor finding (const QString str, const QTextCursor& start, QTextDocument::FindFlags flags = 0,
+                         const int end = 0) const;
     void setProgLang (tabInfo *tabinfo);
     void syntaxHighlighting (tabInfo *tabinfo);
     void encodingToCheck (const QString& encoding);

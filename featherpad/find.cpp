@@ -86,8 +86,10 @@ static bool findBackward (const QTextDocument *txtdoc, const QString str,
 }
 /*************************/
 // This method extends the searchable strings to those with line breaks.
-// It also corrects the behavior of Qt's backward search.
-QTextCursor FPwin::finding (const QString str, const QTextCursor& start, QTextDocument::FindFlags flags) const
+// It also corrects the behavior of Qt's backward search and can set an
+// end limit to the forward search.
+QTextCursor FPwin::finding (const QString str, const QTextCursor& start, QTextDocument::FindFlags flags,
+                            const int end) const
 {
     /* let's be consistent first */
     if (ui->tabWidget->currentIndex() == -1 || str.isEmpty())
@@ -119,6 +121,8 @@ QTextCursor FPwin::finding (const QString str, const QTextCursor& start, QTextDo
                     {
                         /* ... search anew from the next block */
                         cursor.movePosition (QTextCursor::EndOfBlock);
+                        if (end > 0 && cursor.anchor() > end)
+                            return QTextCursor();
                         res.setPosition (cursor.position());
                         if (!cursor.movePosition (QTextCursor::NextBlock))
                             return QTextCursor();
@@ -128,6 +132,8 @@ QTextCursor FPwin::finding (const QString str, const QTextCursor& start, QTextDo
                     {
                         if ((found = txtdoc->find (subStr, cursor, flags)).isNull())
                             return QTextCursor();
+                        if (end > 0 && found.anchor() > end)
+                            return QTextCursor();
                         cursor.setPosition (found.position());
                         /* if the match doesn't end the block... */
                         while (!cursor.atBlockEnd())
@@ -136,6 +142,8 @@ QTextCursor FPwin::finding (const QString str, const QTextCursor& start, QTextDo
                             cursor.movePosition (QTextCursor::EndOfBlock);
                             cursor.setPosition (cursor.position() - subStr.length());
                             if ((found = txtdoc->find (subStr, cursor, flags)).isNull())
+                                return QTextCursor();
+                            if (end > 0 && found.anchor() > end)
                                 return QTextCursor();
                             cursor.setPosition (found.position());
                         }
@@ -300,7 +308,11 @@ QTextCursor FPwin::finding (const QString str, const QTextCursor& start, QTextDo
     else // there's no line break
     {
         if (!(flags & QTextDocument::FindBackward))
+        {
             res = txtdoc->find (str, start, flags);
+            if (end > 0 && res.anchor() > end)
+                return QTextCursor();
+        }
         else
             findBackward (txtdoc, str, res, flags);
     }
@@ -405,6 +417,7 @@ void FPwin::hlight() const
        the search string is inside it */
     Point = QPoint (h, w);
     QTextCursor end = textEdit->cursorForPosition (Point);
+    int endLimit = end.anchor();
     int endPos = end.position() + txt.length();
     end.movePosition (QTextCursor::End);
     if (endPos <= end.position())
@@ -415,14 +428,13 @@ void FPwin::hlight() const
     Qt::CaseSensitivity cs = Qt::CaseInsensitive;
     if (ui->pushButton_case->isChecked()) cs = Qt::CaseSensitive;
     while (str.contains (txt, cs) // don't waste time if the searched text isn't visible
-           && !(found = finding (txt, start, searchFlags_)).isNull())
+           && !(found = finding (txt, start, searchFlags_, endLimit)).isNull())
     {
         QTextEdit::ExtraSelection extra;
         extra.format.setBackground (color);
         extra.cursor = found;
         es.append (extra);
         start.setPosition (found.position());
-        if (textEdit->cursorRect (start).top() >= h) break;
     }
 
     /* also prepend the current line highlight,
