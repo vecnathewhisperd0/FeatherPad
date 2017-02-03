@@ -27,13 +27,16 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
+      <item row="1" column="0" alignment="Qt::AlignRight">
        <widget class="QLabel" name="sizeLable">
         <property name="toolTip">
          <string>Window frame is excluded.</string>
         </property>
         <property name="text">
          <string>Start with this size: </string>
+        </property>
+        <property name="indent">
+         <number>5</number>
         </property>
        </widget>
       </item>
@@ -210,10 +213,16 @@ Tab navigation with mouse wheel is not affected.</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="0">
-       <widget class="QLabel" name="label">
+      <item row="6" column="0" alignment="Qt::AlignRight">
+       <widget class="QLabel" name="darknessLabel">
+        <property name="toolTip">
+         <string>The color value of the dark background.
+0 menas totally black and the maximum is 50.
+
+The default value is 15.</string>
+        </property>
         <property name="text">
-         <string>Never highlight syntax for files &gt;</string>
+         <string>Color value: </string>
         </property>
         <property name="indent">
          <number>5</number>
@@ -221,6 +230,26 @@ Tab navigation with mouse wheel is not affected.</string>
        </widget>
       </item>
       <item row="6" column="1" alignment="Qt::AlignLeft">
+       <widget class="QSpinBox" name="darknessSpin">
+        <property name="toolTip">
+         <string>The color value of the dark background.
+0 menas totally black and the maximum is 50.
+
+The default value is 15.</string>
+        </property>
+        <property name="maximum">
+         <number>50</number>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Never highlight syntax for files &gt; </string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1" alignment="Qt::AlignLeft">
        <widget class="QSpinBox" name="spinBox">
         <property name="suffix">
          <string> MiB</string>
@@ -233,7 +262,7 @@ Tab navigation with mouse wheel is not affected.</string>
         </property>
        </widget>
       </item>
-      <item row="7" column="0" colspan="2">
+      <item row="8" column="0" colspan="2">
        <widget class="QCheckBox" name="scrollBox">
         <property name="toolTip">
          <string>This is not a complete fix but

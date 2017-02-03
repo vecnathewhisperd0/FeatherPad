@@ -20,7 +20,7 @@ public:
 
 private slots:
     void prefSize (int checked);
-    void prefStartSize (int checked);
+    void prefStartSize (int value);
     void prefIcon (int checked);
     void prefToolbar (int checked);
     void prefMenubar (int checked);
@@ -32,6 +32,7 @@ private slots:
     void prefLine (int checked);
     void prefSyntax (int checked);
     void prefDarkColScheme (int checked);
+    void prefDarknessValue (int value);
     void prefScrollJumpWorkaround (int checked);
     void prefTabWrapAround (int checked);
     void prefMaxSHSize (int value);

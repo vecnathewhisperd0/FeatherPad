@@ -841,9 +841,10 @@ TextEdit* FPwin::createEmptyTab (bool setCurrent)
     else
     {
         textEdit->useDarkScheme (true);
-        textEdit->viewport()->setStyleSheet (".QWidget {"
-                                             "color: white;"
-                                             "background-color: rgb(15, 15, 15);}");
+        textEdit->viewport()->setStyleSheet (QString (".QWidget {"
+                                                      "color: white;"
+                                                      "background-color: rgb(%1, %1, %1);}")
+                                             .arg (config.getDarkBgColorValue()));
         QBrush brush = palette.highlight();
         if (brush.color().value() < 120) // themes with very dark selection color
             textEdit->setStyleSheet ("QPlainTextEdit {"
@@ -1831,9 +1832,11 @@ void FPwin::makeEditable()
     }
     else
     {
-        textEdit->viewport()->setStyleSheet (".QWidget {"
-                                             "color: white;"
-                                             "background-color: rgb(15, 15, 15);}");
+        Config config = static_cast<FPsingleton*>(qApp)->getConfig();
+        textEdit->viewport()->setStyleSheet (QString (".QWidget {"
+                                                      "color: white;"
+                                                      "background-color: rgb(%1, %1, %1);}")
+                                             .arg (config.getDarkBgColorValue()));
     }
     ui->actionEdit->setVisible (false);
 

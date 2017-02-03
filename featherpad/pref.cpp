@@ -39,21 +39,6 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
 
     ui->winSizeBox->setChecked (config.getRemSize());
     connect (ui->winSizeBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSize);
-    ui->iconBox->setChecked (!config.getSysIcon());
-    connect (ui->iconBox, &QCheckBox::stateChanged, this, &PrefDialog::prefIcon);
-    ui->toolbarBox->setChecked (config.getNoToolbar());
-    connect (ui->toolbarBox, &QCheckBox::stateChanged, this, &PrefDialog::prefToolbar);
-    ui->menubarBox->setChecked (config.getNoMenubar());
-    connect (ui->menubarBox, &QCheckBox::stateChanged, this, &PrefDialog::prefMenubar);
-    ui->searchbarBox->setChecked (config.getHideSearchbar());
-    connect (ui->searchbarBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSearchbar);
-    ui->statusBox->setChecked (config.getShowStatusbar());
-    connect (ui->statusBox, &QCheckBox::stateChanged, this, &PrefDialog::prefStatusbar);
-    // no ccombo onnection because of mouse wheel; config is set at closeEvent() instead
-    ui->tabCombo->setCurrentIndex (config.getTabPosition());
-    ui->tabBox->setChecked (config.getTabWrapAround());
-    connect (ui->tabBox, &QCheckBox::stateChanged, this, &PrefDialog::prefTabWrapAround);
-
     if (ui->winSizeBox->isChecked())
     {
         ui->spinX->setEnabled (false);
@@ -68,6 +53,21 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     ui->spinY->setValue (config.getStartSize().height());
     connect (ui->spinX, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefStartSize);
     connect (ui->spinY, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefStartSize);
+
+    ui->iconBox->setChecked (!config.getSysIcon());
+    connect (ui->iconBox, &QCheckBox::stateChanged, this, &PrefDialog::prefIcon);
+    ui->toolbarBox->setChecked (config.getNoToolbar());
+    connect (ui->toolbarBox, &QCheckBox::stateChanged, this, &PrefDialog::prefToolbar);
+    ui->menubarBox->setChecked (config.getNoMenubar());
+    connect (ui->menubarBox, &QCheckBox::stateChanged, this, &PrefDialog::prefMenubar);
+    ui->searchbarBox->setChecked (config.getHideSearchbar());
+    connect (ui->searchbarBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSearchbar);
+    ui->statusBox->setChecked (config.getShowStatusbar());
+    connect (ui->statusBox, &QCheckBox::stateChanged, this, &PrefDialog::prefStatusbar);
+    // no ccombo onnection because of mouse wheel; config is set at closeEvent() instead
+    ui->tabCombo->setCurrentIndex (config.getTabPosition());
+    ui->tabBox->setChecked (config.getTabWrapAround());
+    connect (ui->tabBox, &QCheckBox::stateChanged, this, &PrefDialog::prefTabWrapAround);
 
     /************
      *** Text ***
@@ -84,7 +84,16 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     ui->syntaxBox->setChecked (config.getSyntaxByDefault());
     connect (ui->syntaxBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSyntax);
     ui->colBox->setChecked (config.getDarkColScheme());
+
     connect (ui->colBox, &QCheckBox::stateChanged, this, &PrefDialog::prefDarkColScheme);
+    if (!ui->colBox->isChecked())
+    {
+        ui->darknessSpin->setEnabled (false);
+        ui->darknessLabel->setEnabled (false);
+    }
+    ui->darknessSpin->setValue (config.getDarkBgColorValue());
+    connect (ui->darknessSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefDarknessValue);
+
     ui->scrollBox->setChecked (config.getScrollJumpWorkaround());
     connect (ui->scrollBox, &QCheckBox::stateChanged, this, &PrefDialog::prefScrollJumpWorkaround);
 
@@ -343,9 +352,23 @@ void PrefDialog::prefDarkColScheme (int checked)
 {
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
     if (checked == Qt::Checked)
+    {
         config.setDarkColScheme (true);
+        ui->darknessSpin->setEnabled (true);
+        ui->darknessLabel->setEnabled (true);
+    }
     else if (checked == Qt::Unchecked)
-        config.setDarkColScheme (false); 
+    {
+        config.setDarkColScheme (false);
+        ui->darknessSpin->setEnabled (false);
+        ui->darknessLabel->setEnabled (false);
+    }
+}
+/*************************/
+void PrefDialog::prefDarknessValue (int value)
+{
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    config.setDarkBgColorValue (value);
 }
 /*************************/
 void PrefDialog::prefScrollJumpWorkaround (int checked)

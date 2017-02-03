@@ -38,6 +38,7 @@ Config::Config():
     scrollJumpWorkaround_ (false),
     tabPosition_ (0),
     maxSHSize_ (2),
+    darkBgColorValue_ (15),
     winSize_ (QSize (700, 500)),
     startSize_ (QSize (700, 500)),
     font_ (QFont ("Monospace", 9)) {}
@@ -129,6 +130,9 @@ void Config::readConfig()
 
     maxSHSize_ = qBound (1, settings.value ("maxSHSize", 2).toInt(), 10);
 
+    /* don't let the dark bg be lighter that #323232 */
+    darkBgColorValue_ = qBound (0, settings.value ("darkBgColorValue", 15).toInt(), 50);
+
     settings.endGroup();
 }
 /*************************/
@@ -185,6 +189,7 @@ void Config::writeConfig()
     settings.setValue ("darkColorScheme", darkColScheme_);
     settings.setValue ("scrollJumpWorkaround", scrollJumpWorkaround_);
     settings.setValue ("maxSHSize", maxSHSize_);
+    settings.setValue ("darkBgColorValue", darkBgColorValue_);
 
     settings.endGroup();
 }

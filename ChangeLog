@@ -10,6 +10,7 @@ V0.5.9
  * A workaround for Qt's backward search bug.
  * Removed the translucency workaround because Qt-5.7 translucency problems are fixed in Kvantum (QtCurve should do the same thing).
  * Set an optional end limit to the forward search (for faster highlighting of found matches, especially on scrolling a large text with sytax highlighting).
+ * An option to set the color value of the dark color scheme background.
 
 V0.5.8
 ---------
