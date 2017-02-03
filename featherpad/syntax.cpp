@@ -88,7 +88,12 @@ void FPwin::setProgLang (tabInfo *tabinfo)
             progLan = "cpp";
         else if (fname.endsWith (".c"))
             progLan = "c";
-        else if (fname.endsWith (".sh") || baseName == ".bashrc" || baseName == ".xprofile")
+        else if (fname.endsWith (".sh")
+                 || baseName == ".bashrc" || baseName == ".bash_profile"
+                 || baseName == ".xprofile" || baseName == ".profile"
+                 || baseName == ".mkshrc"
+                 || baseName == ".zprofile" || baseName == ".zlogin"
+                 || baseName == ".zshrc" || baseName == ".zshenv")
             progLan = "sh";
         else if (fname.endsWith (".rb"))
             progLan = "ruby";

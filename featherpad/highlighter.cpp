@@ -158,7 +158,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
         if (progLan == "cmake")
         {
             keywordFormat.setForeground (Brown);
-            rule.pattern = QRegExp ("\\$\\{.*\\}");
+            rule.pattern = QRegExp ("\\$\\{\\s*[A-Za-z0-9_.+/\\?#\\-:]*\\s*\\}");
             rule.format = keywordFormat;
             highlightingRules.append (rule);
 
@@ -371,7 +371,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
         {
             shFormat.setFontWeight (QFont::Bold);
             /* brackets */
-            rule.pattern = QRegExp ("\\s+\\[\\s+|^\\[\\s+|\\s+\\]\\s+|\\s+\\]$|\\s+\\]\\s*(?=;)");
+            rule.pattern = QRegExp ("\\s+\\[{1,2}\\s+|^\\[{1,2}\\s+|\\s+\\]{1,2}\\s+|\\s+\\]{1,2}$|\\s+\\]{1,2}\\s*(?=;)");
             rule.format = shFormat;
             highlightingRules.append (rule);
         }
