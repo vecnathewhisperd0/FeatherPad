@@ -1046,75 +1046,75 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="73"/>
+        <location filename="../../predDialog.ui" line="86"/>
         <source>Uncheck this if you want FeatherPad to use system icons!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="76"/>
+        <location filename="../../predDialog.ui" line="89"/>
         <source>&amp;Use own icons
 (Needs app restart)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="84"/>
+        <location filename="../../predDialog.ui" line="97"/>
         <source>Do not show &amp;toolbar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="91"/>
+        <location filename="../../predDialog.ui" line="104"/>
         <source>If the menubar is hidden,
 a menu button appears on the toolbar.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="95"/>
+        <location filename="../../predDialog.ui" line="108"/>
         <source>Do not show &amp;menubar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="102"/>
+        <location filename="../../predDialog.ui" line="115"/>
         <source>Hide search &amp;bar by default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="109"/>
+        <location filename="../../predDialog.ui" line="122"/>
         <source>Always show st&amp;atus bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="116"/>
-        <location filename="../../predDialog.ui" line="126"/>
+        <location filename="../../predDialog.ui" line="129"/>
+        <location filename="../../predDialog.ui" line="139"/>
         <source>Will take effect after closing this dialog.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="119"/>
+        <location filename="../../predDialog.ui" line="132"/>
         <source>Tab position: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="130"/>
+        <location filename="../../predDialog.ui" line="143"/>
         <source>North</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="135"/>
+        <location filename="../../predDialog.ui" line="148"/>
         <source>South</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="140"/>
+        <location filename="../../predDialog.ui" line="153"/>
         <source>West</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="145"/>
+        <location filename="../../predDialog.ui" line="158"/>
         <source>East</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="153"/>
+        <location filename="../../predDialog.ui" line="166"/>
         <source>This means that, for LTR, Alt+Right goes to the first tab
 after the last tab is activated, and the same for Alt+Left.
 
@@ -1122,19 +1122,19 @@ Tab navigation with mouse wheel is not affected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="159"/>
+        <location filename="../../predDialog.ui" line="172"/>
         <source>Tab navigation wraps &amp;around</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="211"/>
+        <location filename="../../predDialog.ui" line="224"/>
         <source>Dark c&amp;olor scheme
 (Needs file reopening)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="219"/>
-        <location filename="../../predDialog.ui" line="235"/>
+        <location filename="../../predDialog.ui" line="232"/>
+        <location filename="../../predDialog.ui" line="248"/>
         <source>The color value of the dark background.
 0 menas totally black and the maximum is 50.
 
@@ -1142,59 +1142,59 @@ The default value is 15.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="225"/>
-        <source>Color value: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../predDialog.ui" line="248"/>
+        <location filename="../../predDialog.ui" line="261"/>
         <source>Never highlight syntax for files &gt; </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="169"/>
+        <location filename="../../predDialog.ui" line="182"/>
         <source>Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="175"/>
+        <location filename="../../predDialog.ui" line="188"/>
         <source>Remember &amp;font
 (Uncheck for Monospace 9)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="183"/>
+        <location filename="../../predDialog.ui" line="196"/>
         <source>&amp;Wrap lines by default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="190"/>
+        <location filename="../../predDialog.ui" line="203"/>
         <source>Auto-&amp;indent by default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="197"/>
+        <location filename="../../predDialog.ui" line="210"/>
         <source>Always show line &amp;numbers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="204"/>
+        <location filename="../../predDialog.ui" line="217"/>
         <source>Highlight s&amp;yntax by default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="255"/>
-        <source> MiB</source>
+        <location filename="../../predDialog.ui" line="238"/>
+        <source>Background color value: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="268"/>
+        <source> MiB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="294"/>
         <source>This is not a complete fix but
 prevents annoying scroll jumps.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="272"/>
+        <location filename="../../predDialog.ui" line="298"/>
         <source>Workaround for &amp;Qt5&apos;s scroll jump bug</source>
         <translation type="unfinished"></translation>
     </message>

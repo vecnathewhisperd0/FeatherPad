@@ -67,6 +67,19 @@
         </property>
        </widget>
       </item>
+      <item row="1" column="4">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>5</width>
+          <height>5</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
       <item row="2" column="0" colspan="4">
        <widget class="QCheckBox" name="iconBox">
         <property name="toolTip">
@@ -169,7 +182,7 @@ Tab navigation with mouse wheel is not affected.</string>
       <string>Text</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
-      <item row="0" column="0">
+      <item row="0" column="0" colspan="2">
        <widget class="QCheckBox" name="fontBox">
         <property name="text">
          <string>Remember &amp;font
@@ -222,14 +235,14 @@ Tab navigation with mouse wheel is not affected.</string>
 The default value is 15.</string>
         </property>
         <property name="text">
-         <string>Color value: </string>
+         <string>Background color value: </string>
         </property>
         <property name="indent">
          <number>5</number>
         </property>
        </widget>
       </item>
-      <item row="6" column="1" alignment="Qt::AlignLeft">
+      <item row="6" column="1">
        <widget class="QSpinBox" name="darknessSpin">
         <property name="toolTip">
          <string>The color value of the dark background.
@@ -249,7 +262,7 @@ The default value is 15.</string>
         </property>
        </widget>
       </item>
-      <item row="7" column="1" alignment="Qt::AlignLeft">
+      <item row="7" column="1">
        <widget class="QSpinBox" name="spinBox">
         <property name="suffix">
          <string> MiB</string>
@@ -261,6 +274,19 @@ The default value is 15.</string>
          <number>10</number>
         </property>
        </widget>
+      </item>
+      <item row="7" column="2">
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>5</width>
+          <height>5</height>
+         </size>
+        </property>
+       </spacer>
       </item>
       <item row="8" column="0" colspan="2">
        <widget class="QCheckBox" name="scrollBox">
