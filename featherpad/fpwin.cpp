@@ -255,7 +255,7 @@ void FPwin::applyConfig()
     else
     {
         QSize startSize = config.getStartSize();
-        QSize ag = QApplication::desktop()->availableGeometry().size() - QSize (50, 100);
+        QSize ag = QApplication::desktop()->availableGeometry().size();
         if (startSize.width() > ag.width() || startSize.height() > ag.height())
         {
             startSize = startSize.boundedTo (ag);

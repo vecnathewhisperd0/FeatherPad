@@ -46,7 +46,7 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
         ui->mLabel->setEnabled (false);
         ui->sizeLable->setEnabled (false);
     }
-    QSize ag = QApplication::desktop()->availableGeometry().size() - QSize (50, 100);
+    QSize ag = QApplication::desktop()->availableGeometry().size();
     ui->spinX->setMaximum (ag.width());
     ui->spinY->setMaximum (ag.height());
     ui->spinX->setValue (config.getStartSize().width());
