@@ -239,7 +239,7 @@ void FPwin::syntaxHighlighting (tabInfo *tabinfo)
 
     QPoint Point (0, 0);
     QTextCursor start = textEdit->cursorForPosition (Point);
-    Point = QPoint (textEdit->geometry().height(), textEdit->geometry().width());
+    Point = QPoint (textEdit->geometry().width(), textEdit->geometry().height());
     QTextCursor end = textEdit->cursorForPosition (Point);
 
     Highlighter *highlighter = new Highlighter (textEdit->document(), progLan, start, end, textEdit->hasDarkScheme());
@@ -288,7 +288,7 @@ void FPwin::formatTextRect (QRect rect) const
 
     QPoint Point (0, 0);
     QTextCursor start = textEdit->cursorForPosition (Point);
-    Point = QPoint (rect.height(), rect.width());
+    Point = QPoint (rect.width(), rect.height());
     QTextCursor end = textEdit->cursorForPosition (Point);
 
     highlighter->setLimit (start, end);
