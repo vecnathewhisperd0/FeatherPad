@@ -152,7 +152,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     connect (ui->actionRedo, &QAction::triggered, this, &FPwin::redoing);
 
     connect (ui->tabWidget, &TabWidget::currentTabChanged, this, &FPwin::tabSwitch);
-    connect (static_cast<TabBar*>(ui->tabWidget->tabBar()), &TabBar::tabDetached, this, &FPwin::detachTab);
+    connect (ui->tabWidget->tabBar(), &TabBar::tabDetached, this, &FPwin::detachTab);
     ui->tabWidget->tabBar()->setContextMenuPolicy (Qt::CustomContextMenu);
     connect (ui->tabWidget->tabBar(), &QWidget::customContextMenuRequested, this, &FPwin::tabContextMenu);
     connect (ui->actionCopyName, &QAction::triggered, this, &FPwin::copyTabFileName);
@@ -295,6 +295,8 @@ void FPwin::applyConfig()
 
     if (config.getTabPosition() != 0)
         ui->tabWidget->setTabPosition ((QTabWidget::TabPosition) config.getTabPosition());
+
+    ui->tabWidget->tabBar()->hideSingle (config.getHideSingleTab());
 
     bool rtl (QApplication::layoutDirection() == Qt::RightToLeft);
     if (config.getSysIcon())

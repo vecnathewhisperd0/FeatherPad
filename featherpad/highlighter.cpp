@@ -144,6 +144,15 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
         rule.pattern = QRegExp ("\\b[A-Za-z0-9_]+(?=\\s*\\()");
         rule.format = functionFormat;
         highlightingRules.append (rule);
+
+        if (progLan == "c" || progLan == "cpp")
+        { // make exception for what comes after "#define"
+            QTextCharFormat neutral;
+            neutral.setForeground (QBrush());
+            rule.pattern = QRegExp ("^\\s*#\\s*define\\s+.*(?=\\s*\\()");
+            rule.format = neutral;
+            highlightingRules.append (rule);
+        }
     }
 
     /**********************
@@ -1669,12 +1678,11 @@ void Highlighter::highlightBlock (const QString &text)
             while (index >= 0)
             {
                 int length = expression.matchedLength();
-                /*if (format (index + length) != quotationFormat
-                    && format (index + length) != commentFormat)
-                {
-                    setFormat (index, length, rule.format);
-                }*/
-                setFormat (index, length, rule.format);
+                int l = length;
+                /* in c/c++, the neutral pattern after "#define" may contain
+                   a slash but it's harmless to do this always: */
+                while (format (index + l) == commentFormat) --l;
+                setFormat (index, l, rule.format);
                 index = expression.indexIn (text, index + length);
 
                 while ((format (index) == quotationFormat && progLan != "gtkrc")

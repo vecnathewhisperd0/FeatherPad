@@ -173,6 +173,19 @@ Tab navigation with mouse wheel is not affected.</string>
         </property>
        </widget>
       </item>
+      <item row="9" column="0" colspan="4">
+       <widget class="QCheckBox" name="singleTabBox">
+        <property name="toolTip">
+         <string>If this is checked, you not only will not see
+the informative tab tooltip of a single tabbed
+window but you could not merge it into another
+window by tab drag-and-drop either.</string>
+        </property>
+        <property name="text">
+         <string>Do not show a single tab</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>

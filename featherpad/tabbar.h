@@ -34,6 +34,10 @@ public:
     void finishMouseMoveEvent();
     void releaseMouse();
 
+    void hideSingle (bool hide) {
+        hideSingle_ = hide;
+    }
+
 signals:
     void tabDetached();
 
@@ -42,10 +46,13 @@ protected:
     virtual void mousePressEvent (QMouseEvent *event);
     virtual void mouseMoveEvent (QMouseEvent *event);
     virtual bool event (QEvent *event);
+    void tabRemoved (int);
+    void tabInserted (int);
 
 private:
     QPoint dragStartPosition_;
     bool dragStarted_;
+    bool hideSingle_;
 };
 
 }

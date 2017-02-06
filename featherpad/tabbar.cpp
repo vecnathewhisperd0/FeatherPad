@@ -30,6 +30,7 @@ TabBar::TabBar (QWidget *parent)
     : QTabBar (parent)
 {
     setMouseTracking (true);
+    hideSingle_ = false;
 }
 /*************************/
 void TabBar::mousePressEvent (QMouseEvent *event)
@@ -99,6 +100,23 @@ bool TabBar::event (QEvent *event)
        return QTabBar::event (event);
 #endif
     return QTabBar::event (event);
+}
+/*************************/
+void TabBar::tabRemoved (int/* index*/)
+{
+    if (hideSingle_ && count() == 1)
+        hide();
+}
+/*************************/
+void TabBar::tabInserted (int/* index*/)
+{
+    if (hideSingle_)
+    {
+        if (count() == 1)
+            hide();
+        else if (count() == 2)
+            show();
+    }
 }
 /*************************/
 void TabBar::finishMouseMoveEvent()

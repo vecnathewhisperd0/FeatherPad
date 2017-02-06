@@ -35,6 +35,7 @@ private slots:
     void prefDarknessValue (int value);
     void prefScrollJumpWorkaround (int checked);
     void prefTabWrapAround (int checked);
+    void prefHideSingleTab (int checked);
     void prefMaxSHSize (int value);
 
 private:

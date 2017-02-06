@@ -96,6 +96,13 @@ public:
         tabWrapAround_ = wrap;
     }
 
+    bool getHideSingleTab() const {
+        return hideSingleTab_;
+    }
+    void setHideSingleTab (bool hide) {
+        hideSingleTab_ = hide;
+    }
+
     QSize getWinSize() const {
         return winSize_;
     }
@@ -203,7 +210,8 @@ public:
 
 private:
     bool remSize_, sysIcon_, noToolbar_, noMenubar_, hideSearchbar_, showStatusbar_, remFont_, wrapByDefault_,
-         indentByDefault_, lineByDefault_, syntaxByDefault_, isMaxed_, isFull_, darkColScheme_, tabWrapAround_,
+         indentByDefault_, lineByDefault_, syntaxByDefault_, isMaxed_, isFull_, darkColScheme_,
+         tabWrapAround_, hideSingleTab_,
          scrollJumpWorkaround_; // Should a workaround for Qt5's "scroll jump" bug be applied?
     int tabPosition_, maxSHSize_, darkBgColorValue_;
     QSize winSize_, startSize_;
