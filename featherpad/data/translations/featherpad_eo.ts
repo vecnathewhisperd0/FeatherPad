@@ -1135,16 +1135,6 @@ La foliumado per musrado ne estas influita.</translation>
         <translation>Ĉirkaŭfermu la f&amp;oliumadon</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="179"/>
-        <source>If this is checked, you not only will not see
-the informative tab tooltip of a single tabbed
-window but you could not merge it into another
-window by tab drag-and-drop either.</source>
-        <translation>Se ĉi tio estus markita, vi ne povus vidi
-la sciigan foli-informon aŭ kunigi unufolian
-fenestron al alia per ŝovmetado.</translation>
-    </message>
-    <message>
         <location filename="../../predDialog.ui" line="185"/>
         <source>Do not show a single tab</source>
         <translation>Ne montru la unusolan folion</translation>
@@ -1177,6 +1167,17 @@ La defaŭlto estas 15.</translation>
         <location filename="../../predDialog.ui" line="195"/>
         <source>Text</source>
         <translation>Teksto</translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="179"/>
+        <source>If this is checked, not only you will lose the informative
+tooltip and context menu of a single tab but you could not
+merge a single tabbed window into another one by tab drag-
+and-drop either.</source>
+        <translation>Se ĉi tio estus markita, vi perdus la sciigajn
+ŝveb-informon kaj kuntekstan menuon de la
+unuobla folio kaj ne povus kunigi unufolian
+fenestron al alia per ŝovmetado.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="201"/>

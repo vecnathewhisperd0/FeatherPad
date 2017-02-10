@@ -212,13 +212,18 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
         highlightingRules.append (rule);
     }
 
-    /* qmake paths */
     if (progLan == "qmake")
     {
-        QTextCharFormat qmpathFormat;
-        qmpathFormat.setForeground (Blue);
+        QTextCharFormat qmakeFormat;
+        /* qmake test functions */
+        qmakeFormat.setForeground (DarkMagenta);
+        rule.pattern = QRegExp ("\\b(cache|CONFIG|contains|count|debug|defined|equals|error|eval|exists|export|files|for|greaterThan|if|include|infile|isActiveConfig|isEmpty|isEqual|lessThan|load|log|message|mkpath|packagesExist|prepareRecursiveTarget|qtCompileTest|qtHaveModule|requires|system|touch|unset|warning|write_file)(?=\\s*\\()");
+        rule.format = qmakeFormat;
+        highlightingRules.append (rule);
+        /* qmake paths */
+        qmakeFormat.setForeground (Blue);
         rule.pattern = QRegExp ("\\${1,2}([A-Za-z0-9_]+|\\[[A-Za-z0-9_]+\\]|\\([A-Za-z0-9_]+\\))");
-        rule.format = qmpathFormat;
+        rule.format = qmakeFormat;
         highlightingRules.append (rule);
     }
 
