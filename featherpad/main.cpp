@@ -33,7 +33,18 @@ void handleQuitSignals (const std::vector<int>& quitSignals)
 
 int main (int argc, char *argv[])
 {
-    FeatherPad::FPsingleton singleton (argc, argv, QString (qgetenv ("USER")) + "-featherpad");
+    QString homeStr = QString (qgetenv ("HOME"));
+    if (!homeStr.isEmpty())
+    {
+        QStringList homeParts = homeStr.split (QLatin1Char ('/'), QString::SkipEmptyParts);
+        if (homeParts.isEmpty())
+            homeStr = QString();
+        else
+            homeStr = QLatin1Char ('-') + homeParts.first();
+    }
+    FeatherPad::FPsingleton singleton (argc, argv, QString (qgetenv ("USER"))
+                                                   + homeStr
+                                                   + "-featherpad");
 
     handleQuitSignals ({SIGQUIT, SIGINT, SIGTERM, SIGHUP}); // -> https://en.wikipedia.org/wiki/Unix_signal
 
@@ -44,7 +55,7 @@ int main (int argc, char *argv[])
     QStringList langs (QLocale::system().uiLanguages());
     QString lang; // bcp47Name() doesn't work under vbox
     if (!langs.isEmpty())
-        lang = langs.first().split('-').first();
+        lang = langs.first().split (QLatin1Char ('-')).first();
 
     QTranslator qtTranslator;
     qtTranslator.load ("qt_" + lang, QLibraryInfo::location (QLibraryInfo::TranslationsPath));
