@@ -265,7 +265,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
         if (progLan == "cpp")
         {
             cFormat.setFontItalic (true);
-            rule.pattern = QRegExp ("\\bq(App|Abs|Bound|Critical|Debug|Fatal|FuzzyCompare|InstallMsgHandler|MacVersion|Max|Min|Round64|Round|Version|Warning|getenv|putenv|rand|srand|tTrId|_check_ptr|t_set_sequence_auto_mnemonic|t_symbian_exception2Error|t_symbian_exception2LeaveL|t_symbian_throwIfError)(?!(\\.|-|@|#|\\$))\\b");
+            rule.pattern = QRegExp ("\\bq(App)(?!(\\@|#|\\$))\\b|\\bq(Abs|Bound|Critical|Debug|Fatal|FuzzyCompare|InstallMsgHandler|MacVersion|Max|Min|Round64|Round|Version|Warning|getenv|putenv|rand|srand|tTrId|_check_ptr|t_set_sequence_auto_mnemonic|t_symbian_exception2Error|t_symbian_exception2LeaveL|t_symbian_throwIfError)(?!(\\.|-|@|#|\\$))\\b");
             rule.format = cFormat;
             highlightingRules.append (rule);
             cFormat.setFontItalic (false);
@@ -661,10 +661,11 @@ bool Highlighter::escapedQuote (const QString &text, const int pos, bool canEsca
        means that the quote is escaped */
     if (
         i % 2 != 0
-            /* for these languages, only double quote can be escaped */
-        && (((progLan == "cpp" || progLan == "c" || progLan == "perl")
+            /* for perl, only double quote can be escaped */
+        && ((progLan == "perl"
              && pos == QRegExp ("\"").indexIn (text, pos))
-            /* but for these, single quote can be escaped too */
+            /* but for these languages, single quote can be escaped too */
+            || progLan == "cpp" || progLan == "c"
             || progLan == "python"
             /* however, in Bash, single quote can be escaped only at start */
             || ((progLan == "sh" || progLan == "makefile" || progLan == "cmake") && (canEscapeStart || pos == QRegExp ("\"").indexIn (text, pos))))
@@ -684,16 +685,17 @@ bool Highlighter::isQuoted (const QString &text, const int index)
     bool res = false;
     int pos = -1;
     int N;
-    bool scriptLang = false;
-    if (progLan == "python" || progLan == "sh"
+    bool mixedQuotes = false;
+    if (progLan == "c" || progLan == "cpp"
+        || progLan == "python" || progLan == "sh"
         || progLan == "makefile" || progLan == "cmake"
         || progLan == "lua" || progLan == "perl"
         || progLan == "ruby" || progLan == "html" || progLan == "javascript")
     {
-        scriptLang = true;
+        mixedQuotes = true;
     }
     QRegExp quoteExpression;
-    if (scriptLang)
+    if (mixedQuotes)
         quoteExpression = QRegExp ("\"|\'");
     else
         quoteExpression = QRegExp ("\"");
@@ -708,7 +710,7 @@ bool Highlighter::isQuoted (const QString &text, const int index)
     {
         N = 1;
         res = true;
-        if (scriptLang)
+        if (mixedQuotes)
         {
             if (previousBlockState() == doubleQuoteState
                 || previousBlockState() == htmlStyleDoubleQuoteState)
@@ -742,7 +744,7 @@ bool Highlighter::isQuoted (const QString &text, const int index)
         if (N % 2 == 0) res = false;
         else res = true;
 
-        if (scriptLang)
+        if (mixedQuotes)
         {
             if (N % 2 != 0)
             {
@@ -972,6 +974,9 @@ int Highlighter::cssHighlighter (const QString &text)
     QRegExp cssStartExpression = QRegExp ("\\{");
     QRegExp cssEndExpression = QRegExp ("\\}");
     int index = 0;
+    QTextCharFormat cssValueFormat;
+    cssValueFormat.setFontItalic (true);
+    cssValueFormat.setForeground (DarkGreen);
     QTextCharFormat cssFormat;
     cssFormat.setFontUnderline (true);
     cssFormat.setForeground (Red);
@@ -1083,9 +1088,6 @@ int Highlighter::cssHighlighter (const QString &text)
             cssLength = endIndex - index
                         + cssEndExpression.matchedLength();
         /* css value format */
-        QTextCharFormat cssValueFormat;
-        cssValueFormat.setFontItalic (true);
-        cssValueFormat.setForeground (DarkGreen);
         setFormat (index, cssLength, cssValueFormat);
 
         QTextCharFormat neutral;
@@ -1117,9 +1119,11 @@ int Highlighter::cssHighlighter (const QString &text)
     while (indxTmp >= 0)
     {
         int length = expression.matchedLength();
-        /* now cssFormat is really the error format */
-        if (format (indxTmp) != cssFormat)
+        if (format (indxTmp) == cssValueFormat // should be a value
+            && format (indxTmp) != cssFormat) // not an error
+        {
             setFormat (indxTmp, length, cssColorFormat);
+        }
         indxTmp = expression.indexIn (text, indxTmp + length);
     }
 
@@ -1313,19 +1317,34 @@ void Highlighter::multiLineComment (const QString &text,
     }
 }
 /*************************/
+// Handles escaped backslashes too.
+bool Highlighter::textEndsWithBackSlash (const QString &text)
+{
+    QString str = text;
+    int n = 0;
+    while (!str.isEmpty() && str.endsWith ("\\"))
+    {
+        str.truncate(str.size() - 1);
+        ++n;
+    }
+    return (n % 2 != 0);
+}
+/*************************/
+// This covers single-line quotes too.
 void Highlighter::multiLineQuote (const QString &text)
 {
     int index = 0;
-    bool scriptLang = false;
-    if (progLan == "python" || progLan == "sh"
+    bool mixedQuotes = false;
+    if (progLan == "c" || progLan == "cpp"
+        || progLan == "python" || progLan == "sh"
         || progLan == "makefile" || progLan == "cmake"
         || progLan == "lua" || progLan == "perl"
         || progLan == "ruby" || progLan == "javascript")
     {
-        scriptLang = true;
+        mixedQuotes = true;
     }
     QRegExp quoteExpression;
-    if (scriptLang)
+    if (mixedQuotes)
         quoteExpression = QRegExp ("\"|\'");
     else
         quoteExpression = QRegExp ("\"");
@@ -1348,7 +1367,7 @@ void Highlighter::multiLineQuote (const QString &text)
         /* if the start quote is found... */
         if (index >= 0)
         {
-            if (scriptLang)
+            if (mixedQuotes)
             {
                 /* ... distinguish between double and single quotes */
                 if (index == QRegExp ("\"").indexIn (text, index))
@@ -1368,7 +1387,7 @@ void Highlighter::multiLineQuote (const QString &text)
     {
         /* ... distinguish between the two quote kinds
            by checking the previous line */
-        if (scriptLang)
+        if (mixedQuotes)
         {
             quote = previousBlockState();
             if (quote == doubleQuoteState)
@@ -1414,9 +1433,14 @@ void Highlighter::multiLineQuote (const QString &text)
         while (escapedQuote (text, endIndex, false))
             endIndex = quoteExpression.indexIn (text, endIndex + 1);
 
-        /* in c and cpp, multiline quotes need backslash */
-        if (endIndex == -1 && (progLan == "c" || progLan == "cpp") && !text.endsWith("\\"))
+        /* in c and cpp, multiline double quotes need backslash
+           anf there's no multiline single quote */
+        if (endIndex == -1 && (progLan == "c" || progLan == "cpp")
+            && (quoteExpression == QRegExp ("\'")
+                || (quoteExpression == QRegExp ("\"") && !textEndsWithBackSlash (text))))
+        {
             endIndex = text.size() + 1; // quoteExpression.matchedLength() is -1 here
+        }
 
         /* if there's an end quote ... */
         if (endIndex >= 0)
@@ -1447,7 +1471,7 @@ void Highlighter::multiLineQuote (const QString &text)
         setFormat (index, quoteLength, quotationFormat);
 
         /* the next quote may be different */
-        if (scriptLang)
+        if (mixedQuotes)
             quoteExpression = QRegExp ("\"|\'");
         index = quoteExpression.indexIn (text, index + quoteLength);
 

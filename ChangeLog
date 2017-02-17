@@ -13,6 +13,7 @@ V0.5.9
  * An option to set the color value of the dark color scheme background.
  * An option to hide a single tab.
  * Add the home folder name to the singleton string because the user may not change as root.
+ * Single-line single quote for c and c++.
 
 V0.5.8
 ---------

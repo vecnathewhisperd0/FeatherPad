@@ -91,6 +91,7 @@ private:
                            int index, int cssIndx,
                            QRegExp commentStartExp, QRegExp commentEndExp,
                            int commState);
+    bool textEndsWithBackSlash (const QString &text);
     void multiLineQuote (const QString &text);
 
     struct HighlightingRule
