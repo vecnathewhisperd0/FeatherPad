@@ -194,9 +194,11 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     connect (ui->actionHelp, &QAction::triggered, this, &FPwin::helpDoc);
 
     QShortcut *zoomin = new QShortcut (QKeySequence (tr ("Ctrl+=", "Zoom in")), this);
+    QShortcut *zoominPlus = new QShortcut (QKeySequence (tr ("Ctrl++", "Zoom in")), this);
     QShortcut *zoomout = new QShortcut (QKeySequence (tr ("Ctrl+-", "Zoom out")), this);
     QShortcut *zoomzero = new QShortcut (QKeySequence (tr ("Ctrl+0", "Zoom default")), this);
     connect (zoomin, &QShortcut::activated, this, &FPwin::zoomIn);
+    connect (zoominPlus, &QShortcut::activated, this, &FPwin::zoomIn);
     connect (zoomout, &QShortcut::activated, this, &FPwin::zoomOut);
     connect (zoomzero, &QShortcut::activated, this, &FPwin::zoomZero);
 
