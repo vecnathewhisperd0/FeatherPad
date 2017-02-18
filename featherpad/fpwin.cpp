@@ -823,22 +823,10 @@ TextEdit* FPwin::createEmptyTab (bool setCurrent)
     QPalette palette = QApplication::palette();
     if (!config.getDarkColScheme())
     {
-        QBrush brush = palette.base();
-        if (brush.color().value() <= 120)
-        {
-            textEdit->viewport()->setStyleSheet (".QWidget {"
-                                                 "color: black;"
-                                                 "background-color: rgb(236, 236, 236);}");
-            brush = palette.highlight();
-            if (brush.color().value() > 160) // dark themes with very light selection color
-                textEdit->setStyleSheet ("QPlainTextEdit {"
-                                         "selection-background-color: black;"
-                                         "selection-color: white;}");
-        }
-        else
-            textEdit->viewport()->setStyleSheet (".QWidget {"
-                                                 "color: black;"
-                                                 "background-color: rgb(255, 255, 255);}");
+        textEdit->viewport()->setStyleSheet (QString (".QWidget {"
+                                                      "color: black;"
+                                                      "background-color: rgb(%1, %1, %1);}")
+                                             .arg (config.getLightBgColorValue()));
     }
     else
     {
@@ -1819,22 +1807,16 @@ void FPwin::makeEditable()
     bool textIsSelected = textEdit->textCursor().hasSelection();
 
     textEdit->setReadOnly (false);
+    Config config = static_cast<FPsingleton*>(qApp)->getConfig();
     if (!textEdit->hasDarkScheme())
     {
-        QPalette palette = QApplication::palette();
-        QBrush brush = palette.window();
-        if (brush.color().value() <= 120)
-            textEdit->viewport()->setStyleSheet (".QWidget {"
-                                                 "color: black;"
-                                                 "background-color: rgb(236, 236, 236);}");
-        else
-            textEdit->viewport()->setStyleSheet (".QWidget {"
-                                                 "color: black;"
-                                                 "background-color: rgb(255, 255, 255);}");
+        textEdit->viewport()->setStyleSheet (QString (".QWidget {"
+                                                      "color: black;"
+                                                      "background-color: rgb(%1, %1, %1);}")
+                                             .arg (config.getLightBgColorValue()));
     }
     else
     {
-        Config config = static_cast<FPsingleton*>(qApp)->getConfig();
         textEdit->viewport()->setStyleSheet (QString (".QWidget {"
                                                       "color: white;"
                                                       "background-color: rgb(%1, %1, %1);}")

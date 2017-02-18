@@ -82,6 +82,13 @@ public:
         darkColScheme_ = dark;
     }
 
+    int getLightBgColorValue() const {
+        return lightBgColorValue_;
+    }
+    void setLightBgColorValue (int lightness) {
+        lightBgColorValue_ = lightness;
+    }
+
     int getDarkBgColorValue() const {
         return darkBgColorValue_;
     }
@@ -213,7 +220,7 @@ private:
          indentByDefault_, lineByDefault_, syntaxByDefault_, isMaxed_, isFull_, darkColScheme_,
          tabWrapAround_, hideSingleTab_,
          scrollJumpWorkaround_; // Should a workaround for Qt5's "scroll jump" bug be applied?
-    int tabPosition_, maxSHSize_, darkBgColorValue_;
+    int tabPosition_, maxSHSize_, lightBgColorValue_, darkBgColorValue_;
     QSize winSize_, startSize_;
     QFont font_;
 };

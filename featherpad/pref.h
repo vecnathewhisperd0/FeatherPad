@@ -32,7 +32,7 @@ private slots:
     void prefLine (int checked);
     void prefSyntax (int checked);
     void prefDarkColScheme (int checked);
-    void prefDarknessValue (int value);
+    void prefColValue (int value);
     void prefScrollJumpWorkaround (int checked);
     void prefTabWrapAround (int checked);
     void prefHideSingleTab (int checked);

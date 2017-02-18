@@ -1434,7 +1434,7 @@ void Highlighter::multiLineQuote (const QString &text)
             endIndex = quoteExpression.indexIn (text, endIndex + 1);
 
         /* in c and cpp, multiline double quotes need backslash
-           anf there's no multiline single quote */
+           and there's no multiline single quote */
         if (endIndex == -1 && (progLan == "c" || progLan == "cpp")
             && (quoteExpression == QRegExp ("\'")
                 || (quoteExpression == QRegExp ("\"") && !textEndsWithBackSlash (text))))

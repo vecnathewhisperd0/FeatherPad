@@ -90,11 +90,17 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     connect (ui->colBox, &QCheckBox::stateChanged, this, &PrefDialog::prefDarkColScheme);
     if (!ui->colBox->isChecked())
     {
-        ui->darknessSpin->setEnabled (false);
-        ui->darknessLabel->setEnabled (false);
+        ui->colorValueSpin->setMinimum (230);
+        ui->colorValueSpin->setMaximum (255);
+        ui->colorValueSpin->setValue (config.getLightBgColorValue());
     }
-    ui->darknessSpin->setValue (config.getDarkBgColorValue());
-    connect (ui->darknessSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefDarknessValue);
+    else
+    {
+        ui->colorValueSpin->setMinimum (0);
+        ui->colorValueSpin->setMaximum (50);
+        ui->colorValueSpin->setValue (config.getDarkBgColorValue());
+    }
+    connect (ui->colorValueSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefColValue);
 
     ui->scrollBox->setChecked (config.getScrollJumpWorkaround());
     connect (ui->scrollBox, &QCheckBox::stateChanged, this, &PrefDialog::prefScrollJumpWorkaround);
@@ -353,24 +359,31 @@ void PrefDialog::prefSyntax (int checked)
 void PrefDialog::prefDarkColScheme (int checked)
 {
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    disconnect (ui->colorValueSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefColValue);
     if (checked == Qt::Checked)
     {
         config.setDarkColScheme (true);
-        ui->darknessSpin->setEnabled (true);
-        ui->darknessLabel->setEnabled (true);
+        ui->colorValueSpin->setMinimum (0);
+        ui->colorValueSpin->setMaximum (50);
+        ui->colorValueSpin->setValue (config.getDarkBgColorValue());
     }
     else if (checked == Qt::Unchecked)
     {
         config.setDarkColScheme (false);
-        ui->darknessSpin->setEnabled (false);
-        ui->darknessLabel->setEnabled (false);
+        ui->colorValueSpin->setMinimum (230);
+        ui->colorValueSpin->setMaximum (255);
+        ui->colorValueSpin->setValue (config.getLightBgColorValue());
     }
+    connect (ui->colorValueSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefColValue);
 }
 /*************************/
-void PrefDialog::prefDarknessValue (int value)
+void PrefDialog::prefColValue (int value)
 {
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
-    config.setDarkBgColorValue (value);
+    if (!ui->colBox->isChecked())
+        config.setLightBgColorValue (value);
+    else
+        config.setDarkBgColorValue (value);
 }
 /*************************/
 void PrefDialog::prefScrollJumpWorkaround (int checked)
