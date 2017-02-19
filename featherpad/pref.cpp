@@ -261,11 +261,7 @@ void PrefDialog::prefStatusbar (int checked)
     {
         config.setShowStatusbar (false);
         for (int i = 0; i < singleton->Wins.count(); ++i)
-        {
-            FPwin *win = singleton->Wins.at (i);
-            if (win->ui->tabWidget->currentIndex() > -1)
-                win->ui->actionDoc->setVisible (true);
-        }
+            singleton->Wins.at (i)->ui->actionDoc->setVisible (true);
     }
 }
 /*************************/
@@ -278,10 +274,7 @@ void PrefDialog::preftabPosition()
     if (singleton->Wins.at (0)->ui->tabWidget->tabPosition() != (QTabWidget::TabPosition) index)
     {
         for (int i = 0; i < singleton->Wins.count(); ++i)
-        {
-            FPwin *win = singleton->Wins.at (i);
-            win->ui->tabWidget->setTabPosition ((QTabWidget::TabPosition) index);
-        }
+            singleton->Wins.at (i)->ui->tabWidget->setTabPosition ((QTabWidget::TabPosition) index);
     }
 }
 /*************************/

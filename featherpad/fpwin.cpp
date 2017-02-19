@@ -693,8 +693,7 @@ void FPwin::enableWidgets (bool enable) const
     ui->menuEncoding->setEnabled (enable);
     ui->actionSaveCodec->setEnabled (enable);
     ui->actionFont->setEnabled (enable);
-    if (!config.getShowStatusbar())
-        ui->actionDoc->setEnabled (enable);
+    ui->actionDoc->setEnabled (enable);
     ui->actionPrint->setEnabled (enable);
 
     if (!enable)
