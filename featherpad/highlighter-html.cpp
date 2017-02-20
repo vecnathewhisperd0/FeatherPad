@@ -281,6 +281,9 @@ void Highlighter::htmlStyleHighlighter (const QString &text)
         QTextCharFormat htmlBraFormat;
         htmlBraFormat.setFontWeight (QFont::Bold);
         htmlBraFormat.setForeground (Violet);
+        QTextCharFormat htmlValueFormat;
+        htmlValueFormat.setFontItalic (true);
+        htmlValueFormat.setForeground (Qt::magenta);
         if ((previousBlockState() != htmlStyleBracketState
              && previousBlockState() != htmlStyleSingleQuoteState
              && previousBlockState() != htmlStyleDoubleQuoteState)
@@ -575,10 +578,7 @@ void Highlighter::htmlStyleHighlighter (const QString &text)
                 else
                     htmlLength = endIndex - index
                                  + htmlEndExp.matchedLength();
-                /* HTML value format */
-                QTextCharFormat htmlValueFormat;
-                htmlValueFormat.setFontItalic (true);
-                htmlValueFormat.setForeground (Qt::magenta);
+
                 setFormat (index, htmlLength, htmlValueFormat);
 
                 QTextCharFormat neutral;
@@ -611,8 +611,11 @@ void Highlighter::htmlStyleHighlighter (const QString &text)
             {
                 int length = expression.matchedLength();
                 /* now htmlFormat is really the error format */
-                if (format (indxTmp) != htmlFormat)
+                if (format (indxTmp) != htmlFormat
+                    && format (indxTmp) == htmlValueFormat) // should be a value
+                {
                     setFormat (indxTmp, length, htmlColorFormat);
+                }
                 indxTmp = expression.indexIn (text, indxTmp + length);
             }
         }

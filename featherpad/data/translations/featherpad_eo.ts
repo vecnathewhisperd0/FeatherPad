@@ -1055,77 +1055,65 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="86"/>
-        <source>Uncheck this if you want FeatherPad to use system icons!</source>
-        <translation>Malmarku se vi volas ke FeatherPad uzu sistemajn ikonojn!</translation>
-    </message>
-    <message>
-        <location filename="../../predDialog.ui" line="89"/>
-        <source>&amp;Use own icons
-(Needs app restart)</source>
-        <translation>&amp;Uzu la proprajn ikonoj
-(Restartigo de la aplikaĵo necesas)</translation>
-    </message>
-    <message>
-        <location filename="../../predDialog.ui" line="97"/>
+        <location filename="../../predDialog.ui" line="99"/>
         <source>Do not show &amp;toolbar</source>
         <translation>Kaŝu la ilbre&amp;ton</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="104"/>
+        <location filename="../../predDialog.ui" line="106"/>
         <source>If the menubar is hidden,
 a menu button appears on the toolbar.</source>
         <translation>Se la menubreto estus kaŝita,
 menubutono aperus sur la ilbreto.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="108"/>
+        <location filename="../../predDialog.ui" line="110"/>
         <source>Do not show &amp;menubar</source>
         <translation>Kaŝu la &amp;menubreton</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="115"/>
+        <location filename="../../predDialog.ui" line="117"/>
         <source>Hide search &amp;bar by default</source>
         <translation>Kaŝu la serĉ&amp;breton defaŭlte</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="122"/>
+        <location filename="../../predDialog.ui" line="124"/>
         <source>Always show st&amp;atus bar</source>
         <translation>Ĉiam vidigu la st&amp;atusbreton</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="129"/>
-        <location filename="../../predDialog.ui" line="139"/>
+        <location filename="../../predDialog.ui" line="131"/>
+        <location filename="../../predDialog.ui" line="141"/>
         <source>Will take effect after closing this dialog.</source>
         <translation>Efektiviĝos post ĉi tiu dialogo estas fermita.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="132"/>
+        <location filename="../../predDialog.ui" line="134"/>
         <source>Tab position: </source>
         <translation>La pozicio de la foliaro: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="143"/>
+        <location filename="../../predDialog.ui" line="145"/>
         <source>North</source>
         <translation>Nordo</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="148"/>
+        <location filename="../../predDialog.ui" line="150"/>
         <source>South</source>
         <translation>Sudo</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="153"/>
+        <location filename="../../predDialog.ui" line="155"/>
         <source>West</source>
         <translation>Okcidento</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="158"/>
+        <location filename="../../predDialog.ui" line="160"/>
         <source>East</source>
         <translation>Oriento</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="166"/>
+        <location filename="../../predDialog.ui" line="168"/>
         <source>This means that, for LTR, Alt+Right goes to the first tab
 after the last tab is activated, and the same for Alt+Left.
 
@@ -1136,61 +1124,91 @@ post la lasta folio, kaj simile por Alt+Maldekstren.
 La foliumado per musrado ne estas influita.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="172"/>
+        <location filename="../../predDialog.ui" line="174"/>
         <source>Tab navigation wraps &amp;around</source>
         <translation>Ĉirkaŭfermu la f&amp;oliumadon</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="185"/>
+        <location filename="../../predDialog.ui" line="187"/>
         <source>Do not show a single tab</source>
         <translation>Ne montru la unusolan folion</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="237"/>
-        <source>Dark c&amp;olor scheme
-(Needs file reopening)</source>
-        <translation>Malluma kolo&amp;rskemo
-(remalfermado de la dosiero necesas)</translation>
+        <location filename="../../predDialog.ui" line="203"/>
+        <source>Uncheck for Monospace 9.</source>
+        <translation>Malmarku por Monospace 9.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="245"/>
-        <location filename="../../predDialog.ui" line="263"/>
+        <location filename="../../predDialog.ui" line="206"/>
+        <source>Remember &amp;font</source>
+        <translation>Memoru la ti&amp;paron</translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="251"/>
         <source>The color value of the background.
-255 means white and 0 means black.
+255 means white while 0 means black.
 
-For the light background, the default
-is 255 and the minimum is 230.
+For the light background, it can be
+between 230 and 255; for the dark
+background, between 0 and 50.
 
-For the dark background, the default
-is 15 and the maximum is 50.</source>
+Needs file reopening to take effect.</source>
         <translation>La kolorvaloro de la fono.
 255 signifas la blankon kaj 0 la nigron.
 
-Por la luma fono, la defaŭlto estas
-255 kaj la minimumo estas 230.
+Por la luma fono, ĝi estas inter 230 kaj 255;
+por la malluma fono, inter 0 and 50.
 
-Por la malluma fono, la defaŭlto estas
-15 kaj la maksimumo estas 50.</translation>
+Remalfermado de la dosiero necesas por ke
+ĉi tio efektivĝu.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="255"/>
-        <source>Background color value: 
-(Needs file reopening) </source>
-        <translation>La kolorvaloro de la fono: 
-(remalfermado de la dosiero necesas) </translation>
+        <location filename="../../predDialog.ui" line="268"/>
+        <source>The color value of the background.
+255 means white and 0 means black.
+
+For the light background, it can be
+between 230 and 255, and for the dark
+background, between 0 and 50.
+
+Needs file reopening to take effect.</source>
+        <translation>La kolorvaloro de la fono.
+255 signifas la blankon kaj 0 la nigron.
+
+Por la luma fono, ĝi estas inter 230 kaj 255;
+por la malluma fono, inter 0 and 50.
+
+Remalfermado de la dosiero necesas por ke
+ĉi tio efektivĝu.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="277"/>
+        <location filename="../../predDialog.ui" line="282"/>
         <source>Never highlight syntax for files &gt; </source>
         <translation>Ne marku la sintakson por la dosieroj &gt; </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="195"/>
+        <location filename="../../predDialog.ui" line="197"/>
         <source>Text</source>
         <translation>Teksto</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="179"/>
+        <location filename="../../predDialog.ui" line="86"/>
+        <source>Uncheck this if you want FeatherPad to
+use system icons!
+
+Needs application restart to take effect.</source>
+        <translation>Malmarku se vi volas ke FeatherPad
+uzu sistemajn ikonojn!
+
+Restartigo de la aplikaĵo necesas.</translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="92"/>
+        <source>&amp;Use own icons</source>
+        <translation>&amp;Uzu la proprajn ikonojn</translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="181"/>
         <source>If this is checked, not only you will lose the informative
 tooltip and context menu of a single tab but you could not
 merge a single tabbed window into another one by tab drag-
@@ -1201,46 +1219,54 @@ unuobla folio kaj ne povus kunigi unufolian
 fenestron al alia per ŝovmetado.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="201"/>
-        <source>Remember &amp;font
-(Uncheck for Monospace 9)</source>
-        <translation>Memoru la ti&amp;paron
-(Malmarku por Monospace 9)</translation>
-    </message>
-    <message>
-        <location filename="../../predDialog.ui" line="209"/>
+        <location filename="../../predDialog.ui" line="213"/>
         <source>&amp;Wrap lines by default</source>
         <translation>Ĉir&amp;kaŭfermu la liniojn defaŭlte</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="216"/>
+        <location filename="../../predDialog.ui" line="220"/>
         <source>Auto-&amp;indent by default</source>
         <translation>Mem-al&amp;ineu defaŭlte</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="223"/>
+        <location filename="../../predDialog.ui" line="227"/>
         <source>Always show line &amp;numbers</source>
         <translation>Ĉiam vidigu la lini-numero&amp;jn</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="230"/>
+        <location filename="../../predDialog.ui" line="234"/>
         <source>Highlight s&amp;yntax by default</source>
         <translation>Marku la sin&amp;takson defaŭlte</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="284"/>
+        <location filename="../../predDialog.ui" line="241"/>
+        <source>Needs file reopening to take effect.</source>
+        <translation>Remalfermado de la dosiero necesas.</translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="244"/>
+        <source>Dark c&amp;olor scheme</source>
+        <translation>Malluma kolo&amp;rskemo</translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="261"/>
+        <source>Background color value: </source>
+        <translation>La kolorvaloro de la fono: </translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="289"/>
         <source> MiB</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="310"/>
+        <location filename="../../predDialog.ui" line="315"/>
         <source>This is not a complete fix but
 prevents annoying scroll jumps.</source>
         <translation>Ĉi tio ne estas kompleta solvo sed detenas
 ĝenantajn saltojn komence de rulumado.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="314"/>
+        <location filename="../../predDialog.ui" line="319"/>
         <source>Workaround for &amp;Qt5&apos;s scroll jump bug</source>
         <translation>Proviza korekto por la ruluma salto ĉe &amp;Qt5</translation>
     </message>

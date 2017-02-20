@@ -6,7 +6,7 @@ V0.5.9
  * Translation support (also added an Esperanto translation).
  * Support for opening files with newline in their names.
  * Support for hiding menubar.
- * Added a lot of CMake keywords to syntax highlighting.
+ * Added a lot of CMake and Python keywords to syntax highlighting.
  * A workaround for Qt's backward search bug.
  * Removed the translucency workaround because Qt-5.7 translucency problems are fixed in Kvantum (QtCurve should do the same thing).
  * Set an optional end limit to the forward search (for faster highlighting of found matches, especially on scrolling a large text with sytax highlighting).

@@ -83,11 +83,13 @@
       <item row="2" column="0" colspan="4">
        <widget class="QCheckBox" name="iconBox">
         <property name="toolTip">
-         <string>Uncheck this if you want FeatherPad to use system icons!</string>
+         <string>Uncheck this if you want FeatherPad to
+use system icons!
+
+Needs application restart to take effect.</string>
         </property>
         <property name="text">
-         <string>&amp;Use own icons
-(Needs app restart)</string>
+         <string>&amp;Use own icons</string>
         </property>
        </widget>
       </item>
@@ -197,9 +199,11 @@ and-drop either.</string>
      <layout class="QGridLayout" name="gridLayout_3">
       <item row="0" column="0" colspan="2">
        <widget class="QCheckBox" name="fontBox">
+        <property name="toolTip">
+         <string>Uncheck for Monospace 9.</string>
+        </property>
         <property name="text">
-         <string>Remember &amp;font
-(Uncheck for Monospace 9)</string>
+         <string>Remember &amp;font</string>
         </property>
        </widget>
       </item>
@@ -233,9 +237,11 @@ and-drop either.</string>
       </item>
       <item row="5" column="0" colspan="2">
        <widget class="QCheckBox" name="colBox">
+        <property name="toolTip">
+         <string>Needs file reopening to take effect.</string>
+        </property>
         <property name="text">
-         <string>Dark c&amp;olor scheme
-(Needs file reopening)</string>
+         <string>Dark c&amp;olor scheme</string>
         </property>
        </widget>
       </item>
@@ -243,17 +249,16 @@ and-drop either.</string>
        <widget class="QLabel" name="colorValueLabel">
         <property name="toolTip">
          <string>The color value of the background.
-255 means white and 0 means black.
+255 means white while 0 means black.
 
-For the light background, the default
-is 255 and the minimum is 230.
+For the light background, it can be
+between 230 and 255; for the dark
+background, between 0 and 50.
 
-For the dark background, the default
-is 15 and the maximum is 50.</string>
+Needs file reopening to take effect.</string>
         </property>
         <property name="text">
-         <string>Background color value: 
-(Needs file reopening) </string>
+         <string>Background color value: </string>
         </property>
        </widget>
       </item>
@@ -263,11 +268,11 @@ is 15 and the maximum is 50.</string>
          <string>The color value of the background.
 255 means white and 0 means black.
 
-For the light background, the default
-is 255 and the minimum is 230.
+For the light background, it can be
+between 230 and 255, and for the dark
+background, between 0 and 50.
 
-For the dark background, the default
-is 15 and the maximum is 50.</string>
+Needs file reopening to take effect.</string>
         </property>
        </widget>
       </item>

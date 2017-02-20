@@ -153,6 +153,14 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
             rule.format = neutral;
             highlightingRules.append (rule);
         }
+        else if (progLan == "python")
+        { // built-in functions
+            functionFormat.setFontWeight (QFont::Bold);
+            functionFormat.setForeground (Qt::magenta);
+            rule.pattern = QRegExp ("\\b(abs|add|all|append|any|as_integer_ratio|ascii|basestring|bin|bit_length|bool|bytearray|bytes|callable|c\\.conjugate|capitalize|center|chr|classmethod|clear|cmp|compile|complex|count|critical|debug|decode|delattr|dict|difference_update|dir|discard|divmod|encode|endswith|enumerate|error|eval|expandtabs|exception|exec|execfile|extend|file|filter|find|float|format|fromhex|fromkeys|frozenset|get|getattr|globals|hasattr|hash|has_key|help|hex|id|index|info|input|insert|int|intersection_update|isalnum|isalpha|isdecimal|isdigit|isinstance|islower|isnumeric|isspace|issubclass|istitle|items|iter|iteritems|iterkeys|itervalues|isupper|is_integer|join|keys|len|list|ljust|locals|log|long|lower|lstrip|map|max|memoryview|min|next|object|oct|open|ord|partition|pop|popitem|pow|print|property|range|raw_input|read|reduce|reload|remove|replace|repr|reverse|reversed|rfind|rindex|rjust|rpartition|round|rsplit|rstrip|run|seek|set|setattr|slice|sort|sorted|split|splitlines|staticmethod|startswith|str|strip|sum|super|symmetric_difference_update|swapcase|title|translate|tuple|type|unichr|unicode|update|upper|values|vars|viewitems|viewkeys|viewvalues|warning|write|xrange|zip|zfill|(__(abs|add|and|cmp|coerce|complex|contains|delattr|delete|delitem|delslice|div|divmod|enter|eq|exit|float|floordiv|ge|get|getattr|getattribute|getitem|getslice|gt|hex|iadd|iand|idiv|ifloordiv|ilshift|invert|imod|import|imul|init|instancecheck|index|int|ior|ipow|irshift|isub|iter|itruediv|ixor|le|len|long|lshift|lt|missing|mod|mul|neg|nonzero|oct|or|pos|pow|radd|rand|rdiv|rdivmod|reversed|rfloordiv|rlshift|rmod|rmul|ror|rpow|rshift|rsub|rrshift|rtruediv|rxor|set|setattr|setitem|setslice|sub|subclasses|subclasscheck|truediv|unicode|xor)__))(?=\\s*\\()");
+            rule.format = functionFormat;
+            highlightingRules.append (rule);
+        }
     }
 
     /**********************
@@ -280,6 +288,15 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
         cFormat.setForeground (Blue);
         rule.pattern = QRegExp ("^\\s*#\\s*include\\s|^\\s*#\\s*ifdef\\s|^\\s*#\\s*elif\\s|^\\s*#\\s*ifndef\\s|^\\s*#\\s*endif\\b|^\\s*#\\s*define\\s|^\\s*#\\s*undef\\s|^\\s*#\\s*error\\s|^\\s*#\\s*if\\s|^\\s*#\\s*else(?!(\\.|-|@|#|\\$))\\b");
         rule.format = cFormat;
+        highlightingRules.append (rule);
+    }
+    else if (progLan == "python")
+    {
+        QTextCharFormat pFormat;
+        pFormat.setFontWeight (QFont::Bold);
+        pFormat.setForeground (DarkMagenta);
+        rule.pattern = QRegExp ("\\bself(?!(@|\\$))\\b");
+        rule.format = pFormat;
         highlightingRules.append (rule);
     }
     else if (progLan == "qml")
@@ -1525,12 +1542,15 @@ bool Highlighter::isHereDocument (const QString &text)
     QString delimStr;
     /* Kate uses something like "<<(?:\\s*)([\\\\]{,1}[^\\s]+)" */
     QRegExp delim = QRegExp ("<<(?:\\s*)([\\\\]{,1}[A-Za-z0-9_]+)|<<(?:\\s*)(\'[A-Za-z0-9_]+\')|<<(?:\\s*)(\"[A-Za-z0-9_]+\")");
-    int insideCommentPos = QRegExp ("\\s+#").indexIn (text);
+    QRegExp comment = (progLan == "sh" || progLan == "makefile" || progLan == "cmake")
+                        ? QRegExp ("\\s+#")
+                        : QRegExp ("\\s*#");
+    int insideCommentPos = comment.indexIn (text);
     int pos = 0;
 
     /* format the start delimiter */
     if (previousBlockState() >= 0 && previousBlockState() < endState
-        && QRegExp ("\\s*#").indexIn (text) != 0 // the whole line isn't commented out
+        && comment.indexIn (text) != 0 // the whole line isn't commented out
         && (pos = delim.indexIn (text)) >= 0
         && !isQuoted (text, pos)
         && (insideCommentPos == -1 || pos < insideCommentPos))
