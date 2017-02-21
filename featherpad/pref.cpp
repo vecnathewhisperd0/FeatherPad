@@ -22,6 +22,7 @@
 #include "ui_predDialog.h"
 
 #include <QDesktopWidget>
+#include <QWhatsThis>
 
 namespace FeatherPad {
 
@@ -108,9 +109,17 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     ui->spinBox->setValue (config.getMaxSHSize());
     connect (ui->spinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefMaxSHSize);
 
-    QPushButton *closeButton = ui->buttonBox->button (QDialogButtonBox::Close);
-    closeButton->setText (tr ("Close"));
-    connect (closeButton, &QAbstractButton::clicked, this, &QDialog::close);
+    connect (ui->closeButton, &QAbstractButton::clicked, this, &QDialog::close);
+    connect (ui->helpButton, &QAbstractButton::clicked, this, &PrefDialog::showWhatsThis);
+
+    /* set tooltip as "whatsthis" */
+    QList<QWidget*> widgets = findChildren<QWidget*>();
+    for (int i = 0; i < widgets.count(); ++i)
+    {
+        QWidget *w = widgets.at (i);
+        w->setWhatsThis (w->toolTip().replace ('\n', ' ').replace ("  ", "\n\n"));
+    }
+
     resize (minimumSize());
 }
 /*************************/
@@ -123,6 +132,11 @@ void PrefDialog::closeEvent (QCloseEvent *event)
 {
     preftabPosition();
     event->accept();
+}
+/*************************/
+void PrefDialog::showWhatsThis()
+{
+    QWhatsThis::enterWhatsThisMode();
 }
 /*************************/
 void PrefDialog::prefSize (int checked)

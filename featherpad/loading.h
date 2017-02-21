@@ -26,7 +26,7 @@ class Loading : public QThread {
     Q_OBJECT
 
 public:
-    explicit Loading (QString fname, QString charset, bool enforceEncod, bool reload, bool multiple);
+    explicit Loading (QString fname, QString charset, bool reload, bool multiple);
     ~Loading();
 
 signals:
@@ -38,7 +38,6 @@ private:
 
     QString fname_;
     QString charset_;
-    bool enforceEncod_;
     bool reload_; // Is this a reloading?
     bool multiple_; // Are there multiple files to load?
 };

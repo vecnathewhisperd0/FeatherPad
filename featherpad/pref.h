@@ -37,6 +37,7 @@ private slots:
     void prefTabWrapAround (int checked);
     void prefHideSingleTab (int checked);
     void prefMaxSHSize (int value);
+    void showWhatsThis();
 
 private:
     void closeEvent (QCloseEvent *event);

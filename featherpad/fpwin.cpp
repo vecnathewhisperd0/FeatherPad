@@ -632,7 +632,7 @@ int FPwin::unSaved (int index, bool noToAll)
             msgBox.changeButtonText (QMessageBox::NoToAll, tr ("No to all"));
         msgBox.setDefaultButton (QMessageBox::Save);
         msgBox.setWindowModality (Qt::WindowModal);
-        /* enforce a central position (QtCurve bug?) */
+        /* enforce a central position */
         /*msgBox.show();
         msgBox.move (x() + width()/2 - msgBox.width()/2,
                      y() + height()/2 - msgBox.height()/ 2);*/
@@ -1162,10 +1162,10 @@ void FPwin::unbusy()
 void FPwin::loadText (const QString fileName, bool enforceEncod, bool reload, bool multiple)
 {
     ++ loadingProcesses_;
-    QString charset = "";
+    QString charset;
     if (enforceEncod)
         charset = checkToEncoding();
-    Loading *thread = new Loading (fileName, charset, enforceEncod, reload, multiple);
+    Loading *thread = new Loading (fileName, charset, reload, multiple);
     connect (thread, &Loading::completed, this, &FPwin::addText);
     connect (thread, &Loading::finished, thread, &QObject::deleteLater);
     thread->start();
@@ -1346,8 +1346,13 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
 /*************************/
 void FPwin::newTabFromName (const QString& fileName, bool multiple)
 {
-    if (!fileName.isEmpty())
+    if (!fileName.isEmpty()
+        /* although loadText() takes care of folders, we don't want to open
+           (a symlink to) /dev/null and then, get a prompt dialog on closing */
+        && QFileInfo (fileName).isFile())
+    {
         loadText (fileName, false, false, multiple);
+    }
 }
 /*************************/
 void FPwin::fileOpen()

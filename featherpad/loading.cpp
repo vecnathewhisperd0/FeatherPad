@@ -22,10 +22,9 @@
 
 namespace FeatherPad {
 
-Loading::Loading (QString fname, QString charset, bool enforceEncod, bool reload, bool multiple) :
+Loading::Loading (QString fname, QString charset, bool reload, bool multiple) :
     fname_ (fname),
     charset_ (charset),
-    enforceEncod_ (enforceEncod),
     reload_ (reload),
     multiple_ (multiple)
 {}
@@ -49,19 +48,22 @@ void Loading::run()
 
     /* read the file character by character
        in order to determine if it's in UTF-16 */
-
-    QByteArray data ("");
+    QByteArray data;
     char c;
-    qint64 rchar;
-    while ((rchar = file.read (&c, sizeof (char))) > 0)
+    qint64 charSize = sizeof (char);
+    bool enforced = !charset_.isEmpty();
+    bool isUTF16 = enforced;
+    while (file.read (&c, charSize) > 0)
     {
         data.append (c);
-        if (!enforceEncod_ /*&& charset_.isEmpty()*/ && c == '\0')
-            charset_ = "UTF-16";
+        if (!isUTF16 && c == '\0')
+            isUTF16 = true;
     }
     file.close();
 
-    if (charset_.isEmpty())
+    if (!enforced && isUTF16)
+        charset_ = "UTF-16";
+    else if (charset_.isEmpty())
         charset_ = detectCharset (data);
 
     QTextCodec *codec = QTextCodec::codecForName (charset_.toUtf8()); // or charset.toStdString().c_str()
@@ -71,9 +73,8 @@ void Loading::run()
         codec = QTextCodec::codecForName ("UTF-8");
     }
 
-    QString text;
-    text = codec->toUnicode (data);
-    emit completed (text, fname_, charset_, enforceEncod_, reload_, multiple_);
+    QString text = codec->toUnicode (data);
+    emit completed (text, fname_, charset_, enforced, reload_, multiple_);
 }
 
 }
