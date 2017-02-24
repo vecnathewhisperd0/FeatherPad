@@ -19,6 +19,9 @@
 #include <QLocalSocket>
 #include <QFileDialog>
 #include <QMessageBox>
+#if defined Q_WS_X11 || defined Q_OS_LINUX || defined Q_OS_FREEBSD
+#include <QX11Info>
+#endif
 #include "singleton.h"
 #include "x11.h"
 
@@ -27,6 +30,17 @@ namespace FeatherPad {
 FPsingleton::FPsingleton (int &argc, char *argv[], const QString uniqueKey)
              : QApplication (argc, argv), _uniqueKey (uniqueKey)
 {
+  // For now, the lack of x11 is seen as wayland.
+#if defined Q_WS_X11 || defined Q_OS_LINUX || defined Q_OS_FREEBSD
+#if QT_VERSION < 0x050200
+    isX11_ = true;
+#else
+    isX11_ = QX11Info::isPlatformX11();
+#endif
+#else
+    isX11_ = false;
+#endif
+
     config_.readConfig();
 
     sharedMemory.setKey (_uniqueKey);
@@ -137,9 +151,10 @@ void FPsingleton::handleMessage (const QString& message)
         /* if the command is issued from where a FeatherPad
            window exists and if that window isn't minimized
            and doesn't have a modal dialog... */
-        if (onWhichDesktop (id) == d
-            && (!Wins.at (i)->isMinimized() || isWindowShaded (id))
-            && Wins.at (i)->findChildren<QDialog*>().isEmpty())
+        if (!isX11_ // always open a new tab on wayland
+            || (onWhichDesktop (id) == d
+                && (!Wins.at (i)->isMinimized() || isWindowShaded (id))
+                && Wins.at (i)->findChildren<QDialog*>().isEmpty()))
         {
             /* consider viewports too, so that if more than half of the width as well as the height
                of the window is inside the current viewport (of the current desktop), open a new tab */

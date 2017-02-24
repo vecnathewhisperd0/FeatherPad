@@ -43,6 +43,9 @@ public:
     Config& getConfig() {
         return config_;
     }
+    bool isX11() {
+      return isX11_;
+    }
 
 public slots:
     void receiveMessage();
@@ -59,6 +62,7 @@ private:
     QLocalServer *localServer;
     static const int timeout = 1000;
     Config config_;
+    bool isX11_;
 };
 
 }

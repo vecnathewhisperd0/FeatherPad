@@ -925,7 +925,7 @@ TextEdit* FPwin::createEmptyTab (bool setCurrent)
     /* this isn't enough for unshading under all WMs */
     /*if (isMinimized())
         setWindowState (windowState() & (~Qt::WindowMinimized | Qt::WindowActive));*/
-    if (isWindowShaded (winId()))
+    if (static_cast<FPsingleton*>(qApp)->isX11() && isWindowShaded (winId()))
         unshadeWindow (winId());
     activateWindow();
     raise();
@@ -1208,7 +1208,7 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
     {
         /*if (isMinimized())
             setWindowState (windowState() & (~Qt::WindowMinimized | Qt::WindowActive));*/
-        if (isWindowShaded (winId()))
+        if (static_cast<FPsingleton*>(qApp)->isX11() && isWindowShaded (winId()))
             unshadeWindow (winId());
         activateWindow();
         raise();

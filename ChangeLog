@@ -14,6 +14,7 @@ V0.5.9
  * An option to hide a single tab.
  * Add the home folder name to the singleton string because the user may not change as root.
  * Single-line single quote for c and c++.
+ * Preliminary Wayland support.
 
 V0.5.8
 ---------
