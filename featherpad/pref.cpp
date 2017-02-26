@@ -489,12 +489,26 @@ void PrefDialog::prefExecute (int checked)
         config.setExecuteScripts (true);
         ui->commandEdit->setEnabled (true);
         ui->commandLabel->setEnabled (true);
+        for (int i = 0; i < singleton->Wins.count(); ++i)
+        {
+            FPwin *win = singleton->Wins.at (i);
+            int index = win->ui->tabWidget->currentIndex();
+            if (index > -1)
+            {
+                TextEdit *textEdit = qobject_cast< TextEdit *>(win->ui->tabWidget->widget (index));
+                tabInfo *tabinfo = win->tabsInfo_[textEdit];
+                if (win->isScriptLang (tabinfo->prog) && QFileInfo (tabinfo->fileName).isExecutable())
+                    win->ui->actionRun->setVisible (true);
+            }
+        }
     }
     else if (checked == Qt::Unchecked)
     {
         config.setExecuteScripts (false);
         ui->commandEdit->setEnabled (false);
         ui->commandLabel->setEnabled (false);
+        for (int i = 0; i < singleton->Wins.count(); ++i)
+            singleton->Wins.at (i)->ui->actionRun->setVisible (false);
     }
 }
 /*************************/

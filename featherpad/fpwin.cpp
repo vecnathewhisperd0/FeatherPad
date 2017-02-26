@@ -78,6 +78,8 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     /* text unlocking */
     ui->actionEdit->setVisible (false);
 
+    ui->actionRun->setVisible (false);
+
     /* replace dock */
     ui->dockReplace->setVisible (false);
 
@@ -149,6 +151,8 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
 
     connect (ui->actionEdit, &QAction::triggered, this, &FPwin::makeEditable);
 
+    connect (ui->actionRun, &QAction::triggered, this, &FPwin::executeProcess);
+
     connect (ui->actionUndo, &QAction::triggered, this, &FPwin::undoing);
     connect (ui->actionRedo, &QAction::triggered, this, &FPwin::redoing);
 
@@ -212,9 +216,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     QShortcut *align = new QShortcut (QKeySequence (tr ("Ctrl+Shift+A", "Alignment")), this);
     connect (align, &QShortcut::activated, this, &FPwin::align);
 
-    /* executing and exiting a process */
-    QShortcut *execute = new QShortcut (QKeySequence (tr ("Ctrl+E", "Execute process")), this);
-    connect (execute, &QShortcut::activated, this, &FPwin::executeProcess);
+    /* exiting a process */
     QShortcut *kill = new QShortcut (QKeySequence (tr ("Ctrl+Alt+E", "Kill process")), this);
     connect (kill, &QShortcut::activated, this, &FPwin::exitProcess);
 
@@ -335,6 +337,7 @@ void FPwin::applyConfig()
         ui->actionAbout->setIcon (QIcon::fromTheme ("help-about"));
         ui->actionJump->setIcon (QIcon::fromTheme ("go-jump"));
         ui->actionEdit->setIcon (QIcon::fromTheme ("document-edit"));
+        ui->actionRun->setIcon (QIcon::fromTheme ("system-run"));
         ui->actionCopyName->setIcon (QIcon::fromTheme ("edit-copy"));
         ui->actionCopyPath->setIcon (QIcon::fromTheme ("edit-copy"));
         ui->actionCloseOther->setIcon (QIcon::hasThemeIcon("tab-close-other") ? QIcon::fromTheme ("tab-close-other") : QIcon());
@@ -709,6 +712,7 @@ void FPwin::enableWidgets (bool enable) const
         ui->actionRedo->setEnabled (false);
 
         ui->actionEdit->setVisible (false);
+        ui->actionRun->setVisible (false);
 
         ui->actionCut->setEnabled (false);
         ui->actionCopy->setEnabled (false);
@@ -1039,7 +1043,7 @@ void FPwin::executeProcess()
     TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
     tabInfo *tabinfo = tabsInfo_[textEdit];
     QString fName = tabinfo->fileName;
-    if (fName.isEmpty() || !(tabinfo->prog == "sh" || tabinfo->prog == "python") || !QFileInfo (fName).isExecutable())
+    if (!isScriptLang (tabinfo->prog)  || !QFileInfo (fName).isExecutable())
         return;
 
     execute_ = new QProcess (this);
@@ -1051,6 +1055,13 @@ void FPwin::executeProcess()
     execute_->start (command + "\"" + fName + "\"");
     connect(execute_, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
             [=](int /*exitCode*/, QProcess::ExitStatus /*exitStatus*/){ execute_->deleteLater(); });
+}
+/*************************/
+bool FPwin::isScriptLang (QString lang)
+{
+    return (lang == "sh" || lang == "python"
+            || lang == "ruby" || lang == "lua"
+            || lang == "perl");
 }
 /*************************/
 void FPwin::exitProcess()
@@ -1066,6 +1077,8 @@ void FPwin::displayErrorMsg()
     if (msg.isEmpty()) return;
 
     if (hasAnotherDialog()) return;
+    /* we don't want two dialogs for the same window */
+    if (findChildren<QDialog *>().count() > 0) return;
     disableShortcuts (true);
     MessageBox msgBox (QMessageBox::Warning,
                        "FeatherPad",
@@ -1337,6 +1350,7 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
     }
 
     QFileInfo fInfo = (fileName);
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
 
     tabinfo->fileName = fileName;
     tabinfo->size = fInfo.size();
@@ -1345,7 +1359,7 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
     tabinfo->wordNumber = -1;
     setProgLang (tabinfo);
     if (ui->actionSyntax->isChecked()
-        && tabinfo->size <= static_cast<FPsingleton*>(qApp)->getConfig().getMaxSHSize()*1024*1024)
+        && tabinfo->size <= config.getMaxSHSize()*1024*1024)
     {
         syntaxHighlighting (tabinfo);
     }
@@ -1395,6 +1409,14 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
         encodingToCheck (charset);
         ui->actionReload->setEnabled (true);
         textEdit->setFocus(); // the text may have been opened in this (empty) tab
+
+        if (openInCurrentTab)
+        {
+            if (isScriptLang (tabinfo->prog) && fInfo.isExecutable())
+                ui->actionRun->setVisible (config.getExecuteScripts());
+            else
+                ui->actionRun->setVisible (false);
+        }
     }
 
     /* a file is completely loaded */
@@ -1998,6 +2020,14 @@ void FPwin::tabSwitch (int index)
     ui->actionCopy->setEnabled (textIsSelected);
     ui->actionCut->setEnabled (!readOnly & textIsSelected);
     ui->actionDelete->setEnabled (!readOnly & textIsSelected);
+
+    if (isScriptLang (tabinfo->prog) && QFileInfo (fname).isExecutable())
+    {
+        Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+        ui->actionRun->setVisible (config.getExecuteScripts());
+    }
+    else
+        ui->actionRun->setVisible (false);
 
     /* handle the spinbox */
     if (ui->spinBox->isVisible())
