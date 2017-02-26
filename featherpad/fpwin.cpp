@@ -1048,7 +1048,7 @@ void FPwin::executeProcess()
         command +=  " ";
     else
         connect(execute_, &QProcess::readyReadStandardError,this, &FPwin::displayErrorMsg);
-    execute_->start (command + fName);
+    execute_->start (command + "\"" + fName + "\"");
     connect(execute_, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
             [=](int /*exitCode*/, QProcess::ExitStatus /*exitStatus*/){ execute_->deleteLater(); });
 }
