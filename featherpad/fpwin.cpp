@@ -1039,7 +1039,7 @@ void FPwin::executeProcess()
     TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
     tabInfo *tabinfo = tabsInfo_[textEdit];
     QString fName = tabinfo->fileName;
-    if (fName.isEmpty() || tabinfo->prog != "sh" || tabinfo->prog != "python" || !QFileInfo (fName).isExecutable())
+    if (fName.isEmpty() || !(tabinfo->prog == "sh" || tabinfo->prog == "python") || !QFileInfo (fName).isExecutable())
         return;
 
     execute_ = new QProcess (this);
