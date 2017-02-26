@@ -53,6 +53,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     rightClicked_ = -1;
     closeAll_ = false;
     busyThread_ = nullptr;
+    execute_ = nullptr;
 
     /* JumpTo bar*/
     ui->spinBox->hide();
@@ -210,6 +211,12 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     /* this is a workaround for the RTL bug in QPlainTextEdit */
     QShortcut *align = new QShortcut (QKeySequence (tr ("Ctrl+Shift+A", "Alignment")), this);
     connect (align, &QShortcut::activated, this, &FPwin::align);
+
+    /* executing and exiting a process */
+    QShortcut *execute = new QShortcut (QKeySequence (tr ("Ctrl+E", "Execute process")), this);
+    connect (execute, &QShortcut::activated, this, &FPwin::executeProcess);
+    QShortcut *kill = new QShortcut (QKeySequence (tr ("Ctrl+Alt+E", "Kill process")), this);
+    connect (kill, &QShortcut::activated, this, &FPwin::exitProcess);
 
     dummyWidget = new QWidget();
     setAcceptDrops (true);
@@ -1018,6 +1025,58 @@ void FPwin::align()
         opt.setTextDirection (Qt::LayoutDirectionAuto);
         textEdit->document()->setDefaultTextOption (opt);
     }
+}
+/*************************/
+void FPwin::executeProcess()
+{
+    if (execute_) return;
+
+    Config config = static_cast<FPsingleton*>(qApp)->getConfig();
+    if (!config.getExecuteScripts()) return;
+
+    int index = ui->tabWidget->currentIndex();
+    if (index == -1) return;
+    TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
+    tabInfo *tabinfo = tabsInfo_[textEdit];
+    QString fName = tabinfo->fileName;
+    if (fName.isEmpty() || tabinfo->prog != "sh" || !QFileInfo (fName).isExecutable())
+        return;
+
+    execute_ = new QProcess (this);
+    QString command = config.getExecuteCommand();
+    if (!command.isEmpty())
+        command +=  " ";
+    else
+        connect(execute_, &QProcess::readyReadStandardError,this, &FPwin::displayErrorMsg);
+    execute_->start (command + fName);
+    connect(execute_, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+            [=](int /*exitCode*/, QProcess::ExitStatus /*exitStatus*/){ execute_->deleteLater(); });
+}
+/*************************/
+void FPwin::exitProcess()
+{
+    if (!execute_) return;
+    execute_->kill();
+}
+/*************************/
+void FPwin::displayErrorMsg()
+{
+    execute_->setReadChannel(QProcess::StandardError);
+    QByteArray msg = execute_->read(1000);
+    if (msg.isEmpty()) return;
+
+    if (hasAnotherDialog()) return;
+    disableShortcuts (true);
+    MessageBox msgBox (QMessageBox::Warning,
+                       "FeatherPad",
+                       "<center><b><big>" + tr ("Error!") + "</big></b></center>",
+                       QMessageBox::Close,
+                       this);
+    msgBox.changeButtonText (QMessageBox::Close, tr ("Close"));
+    msgBox.setInformativeText (QString ("<center><i>%1.</i></center>").arg (msg.constData()));
+    msgBox.setWindowModality (Qt::WindowModal);
+    msgBox.exec();
+    disableShortcuts (false);
 }
 /*************************/
 void FPwin::closeTab()

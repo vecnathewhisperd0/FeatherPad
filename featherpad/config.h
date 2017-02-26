@@ -215,14 +215,28 @@ public:
         scrollJumpWorkaround_ = workaround;
     }
 
+    bool getExecuteScripts() const {
+        return executeScripts_;
+    }
+    void setExecuteScripts (bool excute) {
+        executeScripts_ = excute;
+    }
+    QString getExecuteCommand() const {
+        return executeCommand_;
+    }
+    void setExecuteCommand (QString commnad) {
+        executeCommand_ = commnad;
+    }
+
 private:
     bool remSize_, sysIcon_, noToolbar_, noMenubar_, hideSearchbar_, showStatusbar_, remFont_, wrapByDefault_,
          indentByDefault_, lineByDefault_, syntaxByDefault_, isMaxed_, isFull_, darkColScheme_,
-         tabWrapAround_, hideSingleTab_,
+         tabWrapAround_, hideSingleTab_, executeScripts_,
          scrollJumpWorkaround_; // Should a workaround for Qt5's "scroll jump" bug be applied?
     int tabPosition_, maxSHSize_, lightBgColorValue_, darkBgColorValue_;
     QSize winSize_, startSize_;
     QFont font_;
+    QString executeCommand_;
 };
 
 }

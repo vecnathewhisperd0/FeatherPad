@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>650</width>
+    <height>350</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -245,7 +245,7 @@ and-drop either.</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="0">
+      <item row="6" column="0" alignment="Qt::AlignRight">
        <widget class="QLabel" name="colorValueLabel">
         <property name="toolTip">
          <string>The color value of the background.
@@ -309,7 +309,7 @@ Needs file reopening to take effect.</string>
         </property>
        </spacer>
       </item>
-      <item row="8" column="0" colspan="2">
+      <item row="10" column="0" colspan="2">
        <widget class="QCheckBox" name="scrollBox">
         <property name="toolTip">
          <string>This is not a complete fix but
@@ -317,6 +317,54 @@ prevents annoying scroll jumps.</string>
         </property>
         <property name="text">
          <string>Workaround for &amp;Qt5's scroll jump bug</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0" colspan="2">
+       <widget class="QCheckBox" name="exeBox">
+        <property name="toolTip">
+         <string>This only includes executable files written
+in script languages like Shell and Python.
+
+If it is checked and the opened file is
+executable, it will be executed by using
+the shortcut Ctrl+E. Then, the process
+could be killed with Ctrl+Alt+E.</string>
+        </property>
+        <property name="text">
+         <string>Run executable scripts with Ctrl+E</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="0" alignment="Qt::AlignRight">
+       <widget class="QLabel" name="commandLabel">
+        <property name="toolTip">
+         <string>This can be any starting command with
+arguments, for example &quot;xterm -hold&quot;
+for running the process in XTerm.
+
+If the command is left empty, the file
+will be executed directly and any error
+will be shown on a message box.</string>
+        </property>
+        <property name="text">
+         <string>Start with this command: </string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="1">
+       <widget class="QLineEdit" name="commandEdit">
+        <property name="toolTip">
+         <string>This can be any starting command with
+arguments, for example &quot;xterm -hold&quot;
+for running the process in XTerm.
+
+If the command is left empty, the file
+will be executed directly and any error
+will be shown on a message box.</string>
+        </property>
+        <property name="placeholderText">
+         <string>Command + Arguments</string>
         </property>
        </widget>
       </item>

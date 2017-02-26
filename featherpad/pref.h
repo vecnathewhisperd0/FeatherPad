@@ -37,6 +37,8 @@ private slots:
     void prefTabWrapAround (int checked);
     void prefHideSingleTab (int checked);
     void prefMaxSHSize (int value);
+    void prefExecute (int checked);
+    void prefCommand (QString command);
     void showWhatsThis();
 
 private:

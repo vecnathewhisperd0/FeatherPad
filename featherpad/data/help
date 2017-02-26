@@ -106,5 +106,7 @@ Zoom in:                       Ctrl+= (or Ctrl++ or Ctrl + mouse wheel)
 Zoom out:                      Ctrl+- (or Ctrl + mouse wheel)
 Reset zooming:                 Ctrl+0
 Change text alignment:         Ctrl+Shift+A (for RTL languages)
+Execute this file:             Ctrl+E (only if this is enabled in Preferences)
+Exit (kill) process:           Ctrl+Alt+E (exits the above process immediately)
 
 The remaining shortcuts are standard. All shortcuts, except for the extra ones above, can be found on menus or as tooltips.

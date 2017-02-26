@@ -109,6 +109,13 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     ui->spinBox->setValue (config.getMaxSHSize());
     connect (ui->spinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefMaxSHSize);
 
+    ui->exeBox->setChecked (config.getExecuteScripts());
+    connect (ui->exeBox, &QCheckBox::stateChanged, this, &PrefDialog::prefExecute);
+    ui->commandEdit->setText (config.getExecuteCommand());
+    ui->commandEdit->setEnabled (config.getExecuteScripts());
+    ui->commandLabel->setEnabled (config.getExecuteScripts());
+    connect (ui->commandEdit, &QLineEdit::textEdited, this, &PrefDialog::prefCommand);
+
     connect (ui->closeButton, &QAbstractButton::clicked, this, &QDialog::close);
     connect (ui->helpButton, &QAbstractButton::clicked, this, &PrefDialog::showWhatsThis);
 
@@ -471,6 +478,29 @@ void PrefDialog::prefHideSingleTab (int checked)
 void PrefDialog::prefMaxSHSize (int value)
 {
     static_cast<FPsingleton*>(qApp)->getConfig().setMaxSHSize (value);
+}
+/*************************/
+void PrefDialog::prefExecute (int checked)
+{
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    Config& config = singleton->getConfig();
+    if (checked == Qt::Checked)
+    {
+        config.setExecuteScripts (true);
+        ui->commandEdit->setEnabled (true);
+        ui->commandLabel->setEnabled (true);
+    }
+    else if (checked == Qt::Unchecked)
+    {
+        config.setExecuteScripts (false);
+        ui->commandEdit->setEnabled (false);
+        ui->commandLabel->setEnabled (false);
+    }
+}
+/*************************/
+void PrefDialog::prefCommand (QString command)
+{
+    static_cast<FPsingleton*>(qApp)->getConfig().setExecuteCommand (command);
 }
 /*************************/
 void PrefDialog::prefStartSize (int value)

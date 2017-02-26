@@ -15,6 +15,7 @@ V0.5.9
  * Add the home folder name to the singleton string because the user may not change as root.
  * Single-line single quote for c and c++.
  * Preliminary Wayland support.
+ * Added an option for running executable script files.
 
 V0.5.8
 ---------

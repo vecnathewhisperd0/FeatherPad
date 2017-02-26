@@ -36,6 +36,7 @@ Config::Config():
     darkColScheme_ (false),
     tabWrapAround_ (false),
     hideSingleTab_ (false),
+    executeScripts_ (false),
     scrollJumpWorkaround_ (false),
     tabPosition_ (0),
     maxSHSize_ (2),
@@ -141,6 +142,10 @@ void Config::readConfig()
     /* don't let the dark bg be lighter than #323232 */
     darkBgColorValue_ = qBound (0, settings.value ("darkBgColorValue", 15).toInt(), 50);
 
+    if (settings.value ("executeScripts").toBool())
+        executeScripts_ = true; // false by default
+    executeCommand_ = settings.value ("executeCommand").toString();
+
     settings.endGroup();
 }
 /*************************/
@@ -200,6 +205,8 @@ void Config::writeConfig()
     settings.setValue ("maxSHSize", maxSHSize_);
     settings.setValue ("lightBgColorValue", lightBgColorValue_);
     settings.setValue ("darkBgColorValue", darkBgColorValue_);
+    settings.setValue ("executeScripts", executeScripts_);
+    settings.setValue ("executeCommand", executeCommand_);
 
     settings.endGroup();
 }
