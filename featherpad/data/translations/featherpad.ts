@@ -1189,18 +1189,6 @@ Needs file reopening to take effect.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="326"/>
-        <source>This only includes executable files written
-in script languages like Shell and Python.
-
-If it is checked and the opened file is
-executable, the file will be executed by clicking
-the Run button, that appears on the toolbar/filemenu
-when needed, or by its shortcut Ctrl+E. Then, the
-process could be killed with Ctrl+Alt+E.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../predDialog.ui" line="352"/>
         <source>Start with this command: </source>
         <translation type="unfinished"></translation>
@@ -1302,6 +1290,18 @@ prevents annoying scroll jumps.</source>
     <message>
         <location filename="../../predDialog.ui" line="319"/>
         <source>Workaround for &amp;Qt5&apos;s scroll jump bug</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="326"/>
+        <source>This only includes executable files written
+in script languages like Shell and Python.
+
+If it is checked and the opened file is
+executable, the file will be executed by clicking
+the Run button, that appears on the toolbar/filemenu
+when needed, or by its shortcut Ctrl+E. Then, the
+process could be killed by Ctrl+Alt+E.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

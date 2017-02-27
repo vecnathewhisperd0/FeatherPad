@@ -1210,25 +1210,6 @@ Remalfermado de la dosiero necesas por ke
         <translation>Ne marku la sintakson por la dosieroj &gt; </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="326"/>
-        <source>This only includes executable files written
-in script languages like Shell and Python.
-
-If it is checked and the opened file is
-executable, the file will be executed by clicking
-the Run button, that appears on the toolbar/filemenu
-when needed, or by its shortcut Ctrl+E. Then, the
-process could be killed with Ctrl+Alt+E.</source>
-        <translation>Tio inkludas nur ekzekveblajn dosierojn
-scribitajn en scrib-lingvoj kiel Shell kaj Python.
-
-Se ĝi estus markita kaj la malfermita dosiero estus
-ekzekvebla, la dosiero estus plenumita per kliko al la
-butono &quot;Ekzekvi&quot;, kiu aperus taŭge sur la ilbreto/dosiermenuo,
-aŭ per ĝia fulmoklavo Ctrl+E. Tiam, la procezo povus esti
-ĉesigita per la fulmoklavo Ctrl+Alt+E.</translation>
-    </message>
-    <message>
         <location filename="../../predDialog.ui" line="352"/>
         <source>Start with this command: </source>
         <translation>Startigu kun ĉi tiu komando: </translation>
@@ -1344,6 +1325,25 @@ prevents annoying scroll jumps.</source>
         <location filename="../../predDialog.ui" line="319"/>
         <source>Workaround for &amp;Qt5&apos;s scroll jump bug</source>
         <translation>Proviza korekto por la ruluma salto ĉe &amp;Qt5</translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="326"/>
+        <source>This only includes executable files written
+in script languages like Shell and Python.
+
+If it is checked and the opened file is
+executable, the file will be executed by clicking
+the Run button, that appears on the toolbar/filemenu
+when needed, or by its shortcut Ctrl+E. Then, the
+process could be killed by Ctrl+Alt+E.</source>
+        <translation>Tio inkludas nur ekzekveblajn dosierojn
+scribitajn en scrib-lingvoj kiel Shell kaj Python.
+
+Se ĝi estus markita kaj la malfermita dosiero estus
+ekzekvebla, la dosiero estus plenumita per kliko al la
+butono &quot;Ekzekvi&quot;, kiu aperus taŭge sur la ilbreto/dosiermenuo,
+aŭ per ĝia fulmoklavo Ctrl+E. Tiam, la procezo povus esti
+ĉesigita per la fulmoklavo Ctrl+Alt+E.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="336"/>

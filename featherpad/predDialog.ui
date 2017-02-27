@@ -330,7 +330,7 @@ If it is checked and the opened file is
 executable, the file will be executed by clicking
 the Run button, that appears on the toolbar/filemenu
 when needed, or by its shortcut Ctrl+E. Then, the
-process could be killed with Ctrl+Alt+E.</string>
+process could be killed by Ctrl+Alt+E.</string>
         </property>
         <property name="text">
          <string>Run executable scripts</string>

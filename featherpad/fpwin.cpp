@@ -1047,11 +1047,11 @@ void FPwin::executeProcess()
         return;
 
     execute_ = new QProcess (this);
+    connect(execute_, &QProcess::readyReadStandardError,this, &FPwin::displayErrorMsg);
     QString command = config.getExecuteCommand();
     if (!command.isEmpty())
         command +=  " ";
-    else
-        connect(execute_, &QProcess::readyReadStandardError,this, &FPwin::displayErrorMsg);
+    fName.replace ("\"", "\"\"\""); // literal quotes in the command are shown by triple quotes
     execute_->start (command + "\"" + fName + "\"");
     connect(execute_, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
             [=](int /*exitCode*/, QProcess::ExitStatus /*exitStatus*/){ execute_->deleteLater(); });
