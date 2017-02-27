@@ -645,6 +645,10 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="1168"/>
+        <source>Ctrl+Shift+E</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../fp.ui" line="1318"/>
         <location filename="../../fpwin.cpp" line="791"/>
         <source>Ctrl+E</source>
