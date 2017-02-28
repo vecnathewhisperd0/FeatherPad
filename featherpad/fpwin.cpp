@@ -53,7 +53,6 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     rightClicked_ = -1;
     closeAll_ = false;
     busyThread_ = nullptr;
-    execute_ = nullptr;
 
     /* JumpTo bar*/
     ui->spinBox->hide();
@@ -1033,28 +1032,45 @@ void FPwin::align()
 /*************************/
 void FPwin::executeProcess()
 {
-    if (execute_) return;
-
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
     if (!config.getExecuteScripts()) return;
 
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
     TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
+
+    if (textEdit->findChild<QProcess *>(QString(), Qt::FindDirectChildrenOnly))
+    {
+        if (hasAnotherDialog()) return;
+        if (findChildren<QDialog *>().count() > 0) return;
+        disableShortcuts (true);
+        MessageBox msgBox (QMessageBox::Warning,
+                           "FeatherPad",
+                           "<center><b><big>" + tr ("Another process is running in this tab!") + "</big></b></center>",
+                           QMessageBox::Close,
+                           this);
+        msgBox.changeButtonText (QMessageBox::Close, tr ("Close"));
+        msgBox.setInformativeText (tr ("<center><i>Only one process is allowed per tab.</i></center>"));
+        msgBox.setWindowModality (Qt::WindowModal);
+        msgBox.exec();
+        disableShortcuts (false);
+        return;
+    }
+
     tabInfo *tabinfo = tabsInfo_[textEdit];
     QString fName = tabinfo->fileName;
     if (!isScriptLang (tabinfo->prog)  || !QFileInfo (fName).isExecutable())
         return;
 
-    execute_ = new QProcess (this);
-    connect(execute_, &QProcess::readyReadStandardError,this, &FPwin::displayErrorMsg);
+    QProcess *process = new QProcess (textEdit);
+    connect(process, &QProcess::readyReadStandardError,this, &FPwin::displayErrorMsg);
     QString command = config.getExecuteCommand();
     if (!command.isEmpty())
         command +=  " ";
     fName.replace ("\"", "\"\"\""); // literal quotes in the command are shown by triple quotes
-    execute_->start (command + "\"" + fName + "\"");
-    connect(execute_, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
-            [=](int /*exitCode*/, QProcess::ExitStatus /*exitStatus*/){ execute_->deleteLater(); });
+    process->start (command + "\"" + fName + "\"");
+    connect(process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+            [=](int /*exitCode*/, QProcess::ExitStatus /*exitStatus*/){ process->deleteLater(); });
 }
 /*************************/
 bool FPwin::isScriptLang (QString lang)
@@ -1066,14 +1082,23 @@ bool FPwin::isScriptLang (QString lang)
 /*************************/
 void FPwin::exitProcess()
 {
-    if (!execute_) return;
-    execute_->kill();
+    int index = ui->tabWidget->currentIndex();
+    if (index == -1) return;
+    TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
+    if (QProcess *process = textEdit->findChild<QProcess *>(QString(), Qt::FindDirectChildrenOnly))
+        process->kill();
 }
 /*************************/
 void FPwin::displayErrorMsg()
 {
-    execute_->setReadChannel(QProcess::StandardError);
-    QByteArray msg = execute_->read(1000);
+    int index = ui->tabWidget->currentIndex();
+    if (index == -1) return;
+    TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
+    QProcess *process = textEdit->findChild<QProcess *>(QString(), Qt::FindDirectChildrenOnly);
+    if (!process) return;
+
+    process->setReadChannel(QProcess::StandardError);
+    QByteArray msg = process->read(1000);
     if (msg.isEmpty()) return;
 
     if (hasAnotherDialog()) return;
@@ -1244,6 +1269,8 @@ void FPwin::loadText (const QString fileName, bool enforceEncod, bool reload, bo
 
     if (QGuiApplication::overrideCursor() == nullptr)
         waitToMakeBusy();
+    ui->tabWidget->tabBar()->lockTabs (true);
+    disableShortcuts (true);
 }
 /*************************/
 // When multiple files are being loaded, we don't change the current tab.
@@ -1253,7 +1280,12 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
     if (fileName.isEmpty())
     {
         -- loadingProcesses_;
-        if (!isLoading()) unbusy();
+        if (!isLoading())
+        {
+            unbusy();
+            ui->tabWidget->tabBar()->lockTabs (false);
+            disableShortcuts (false);
+        }
         return;
     }
 
@@ -1421,7 +1453,12 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
 
     /* a file is completely loaded */
     -- loadingProcesses_;
-    if (!isLoading()) unbusy();
+    if (!isLoading())
+    {
+        unbusy();
+        ui->tabWidget->tabBar()->lockTabs (false);
+        disableShortcuts (false);
+    }
 }
 
 /*************************/

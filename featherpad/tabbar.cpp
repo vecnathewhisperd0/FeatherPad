@@ -31,10 +31,16 @@ TabBar::TabBar (QWidget *parent)
 {
     setMouseTracking (true);
     hideSingle_ = false;
+    lock_ = false;
 }
 /*************************/
 void TabBar::mousePressEvent (QMouseEvent *event)
 {
+    if (lock_)
+    {
+        event->ignore();
+        return;
+    }
     QTabBar::mousePressEvent (event);
     if (event->button() == Qt::LeftButton
         && tabAt(event->pos()) > -1)
@@ -100,6 +106,14 @@ bool TabBar::event (QEvent *event)
        return QTabBar::event (event);
 #endif
     return QTabBar::event (event);
+}
+/*************************/
+void TabBar::wheelEvent (QWheelEvent *event)
+{
+    if (!lock_)
+        QTabBar::wheelEvent (event);
+    else
+        event->ignore();
 }
 /*************************/
 void TabBar::tabRemoved (int/* index*/)

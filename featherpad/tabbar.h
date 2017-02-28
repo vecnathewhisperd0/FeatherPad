@@ -38,6 +38,10 @@ public:
         hideSingle_ = hide;
     }
 
+    void lockTabs (bool lock) {
+        lock_ = lock;
+    }
+
 signals:
     void tabDetached();
 
@@ -46,6 +50,7 @@ protected:
     virtual void mousePressEvent (QMouseEvent *event);
     virtual void mouseMoveEvent (QMouseEvent *event);
     virtual bool event (QEvent *event);
+    virtual void wheelEvent (QWheelEvent *event);
     void tabRemoved (int);
     void tabInserted (int);
 
@@ -53,6 +58,7 @@ private:
     QPoint dragStartPosition_;
     bool dragStarted_;
     bool hideSingle_;
+    bool lock_;
 };
 
 }

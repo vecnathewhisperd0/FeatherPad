@@ -211,7 +211,6 @@ private:
     bool closeAll_; // Should all tabs be closed? (Needed only in closeOtherTabs().)
     int loadingProcesses_; // The number of loading processes (used to prevent early closing).
     QPointer<QThread> busyThread_; // Used to wait one second for making the cursor busy.
-    QPointer<QProcess> execute_;
 };
 
 }
