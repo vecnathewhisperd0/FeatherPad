@@ -125,16 +125,6 @@ a menu button appears on the toolbar.</string>
         </property>
        </widget>
       </item>
-      <item row="7" column="0">
-       <widget class="QLabel" name="tabLabel">
-        <property name="toolTip">
-         <string>Will take effect after closing this dialog.</string>
-        </property>
-        <property name="text">
-         <string>Tab position: </string>
-        </property>
-       </widget>
-      </item>
       <item row="7" column="1" colspan="3">
        <widget class="QComboBox" name="tabCombo">
         <property name="toolTip">
@@ -160,6 +150,16 @@ a menu button appears on the toolbar.</string>
           <string>East</string>
          </property>
         </item>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="tabLabel">
+        <property name="toolTip">
+         <string>Will take effect after closing this dialog.</string>
+        </property>
+        <property name="text">
+         <string>Tab position: </string>
+        </property>
        </widget>
       </item>
       <item row="8" column="0" colspan="4">
@@ -197,7 +197,7 @@ and-drop either.</string>
       <string>Text</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
-      <item row="0" column="0" colspan="2">
+      <item row="0" column="0" colspan="3">
        <widget class="QCheckBox" name="fontBox">
         <property name="toolTip">
          <string>Uncheck for Monospace 9.</string>
@@ -207,35 +207,84 @@ and-drop either.</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="0" colspan="2">
+      <item row="1" column="0" colspan="3">
        <widget class="QCheckBox" name="wrapBox">
         <property name="text">
          <string>&amp;Wrap lines by default</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="0" colspan="2">
+      <item row="2" column="0" colspan="3">
        <widget class="QCheckBox" name="indentBox">
         <property name="text">
          <string>Auto-&amp;indent by default</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="0" colspan="2">
+      <item row="3" column="0" colspan="3">
        <widget class="QCheckBox" name="lineBox">
         <property name="text">
          <string>Always show line &amp;numbers</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="0" colspan="2">
+      <item row="4" column="0" colspan="3">
        <widget class="QCheckBox" name="syntaxBox">
         <property name="text">
          <string>Highlight s&amp;yntax by default</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="0" colspan="2">
+      <item row="5" column="0">
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>32</width>
+          <height>5</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Never highlight syntax for files &gt; </string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2">
+       <widget class="QSpinBox" name="spinBox">
+        <property name="suffix">
+         <string> MiB</string>
+        </property>
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>10</number>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="3">
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>5</width>
+          <height>5</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="6" column="0" colspan="3">
        <widget class="QCheckBox" name="colBox">
         <property name="toolTip">
          <string>Needs file reopening to take effect.</string>
@@ -245,7 +294,7 @@ and-drop either.</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="0" alignment="Qt::AlignRight">
+      <item row="7" column="1">
        <widget class="QLabel" name="colorValueLabel">
         <property name="toolTip">
          <string>The color value of the background.
@@ -262,7 +311,7 @@ Needs file reopening to take effect.</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="1">
+      <item row="7" column="2">
        <widget class="QSpinBox" name="colorValueSpin">
         <property name="toolTip">
          <string>The color value of the background.
@@ -276,51 +325,7 @@ Needs file reopening to take effect.</string>
         </property>
        </widget>
       </item>
-      <item row="7" column="0">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Never highlight syntax for files &gt; </string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="1">
-       <widget class="QSpinBox" name="spinBox">
-        <property name="suffix">
-         <string> MiB</string>
-        </property>
-        <property name="minimum">
-         <number>1</number>
-        </property>
-        <property name="maximum">
-         <number>10</number>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="2">
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>5</width>
-          <height>5</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="10" column="0" colspan="2">
-       <widget class="QCheckBox" name="scrollBox">
-        <property name="toolTip">
-         <string>This is not a complete fix but
-prevents annoying scroll jumps.</string>
-        </property>
-        <property name="text">
-         <string>Workaround for &amp;Qt5's scroll jump bug</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="0" colspan="2">
+      <item row="8" column="0" colspan="3">
        <widget class="QCheckBox" name="exeBox">
         <property name="toolTip">
          <string>This only includes executable files written
@@ -337,7 +342,7 @@ process could be killed by Ctrl+Alt+E.</string>
         </property>
        </widget>
       </item>
-      <item row="9" column="0" alignment="Qt::AlignRight">
+      <item row="9" column="1">
        <widget class="QLabel" name="commandLabel">
         <property name="toolTip">
          <string>This can be any starting command with
@@ -353,7 +358,7 @@ will be shown on a message box.</string>
         </property>
        </widget>
       </item>
-      <item row="9" column="1">
+      <item row="9" column="2">
        <widget class="QLineEdit" name="commandEdit">
         <property name="toolTip">
          <string>This can be any starting command with
@@ -369,17 +374,18 @@ will be shown on a message box.</string>
         </property>
        </widget>
       </item>
+      <item row="10" column="0" colspan="3">
+       <widget class="QCheckBox" name="scrollBox">
+        <property name="toolTip">
+         <string>This is not a complete fix but
+prevents annoying scroll jumps.</string>
+        </property>
+        <property name="text">
+         <string>Workaround for &amp;Qt5's scroll jump bug</string>
+        </property>
+       </widget>
+      </item>
      </layout>
-    </widget>
-   </item>
-   <item row="1" column="1" alignment="Qt::AlignRight">
-    <widget class="QPushButton" name="closeButton">
-     <property name="text">
-      <string>Close</string>
-     </property>
-     <property name="icon">
-      <iconset theme="edit-delete"/>
-     </property>
     </widget>
    </item>
    <item row="1" column="0" alignment="Qt::AlignLeft">
@@ -389,6 +395,16 @@ will be shown on a message box.</string>
      </property>
      <property name="icon">
       <iconset theme="help-contextual"/>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1" alignment="Qt::AlignRight">
+    <widget class="QPushButton" name="closeButton">
+     <property name="text">
+      <string>Close</string>
+     </property>
+     <property name="icon">
+      <iconset theme="edit-delete"/>
      </property>
     </widget>
    </item>

@@ -17,8 +17,7 @@
 
 #include <QDesktopWidget>
 #include <QLocalSocket>
-#include <QFileDialog>
-#include <QMessageBox>
+#include <QDialog>
 #if defined Q_WS_X11 || defined Q_OS_LINUX || defined Q_OS_FREEBSD
 #include <QX11Info>
 #endif

@@ -1091,29 +1091,40 @@ void FPwin::exitProcess()
 /*************************/
 void FPwin::displayErrorMsg()
 {
-    int index = ui->tabWidget->currentIndex();
-    if (index == -1) return;
-    TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
-    QProcess *process = textEdit->findChild<QProcess *>(QString(), Qt::FindDirectChildrenOnly);
-    if (!process) return;
-
+    QProcess *process = static_cast<QProcess*>(QObject::sender());
+    if (!process) return; // impossible
     process->setReadChannel(QProcess::StandardError);
-    QByteArray msg = process->read(1000);
-    if (msg.isEmpty()) return;
+    QByteArray origMsg = process->readAllStandardError();
+    if (origMsg.isEmpty()) return;
 
     if (hasAnotherDialog()) return;
     /* we don't want two dialogs for the same window */
     if (findChildren<QDialog *>().count() > 0) return;
+
+    QByteArray msg = origMsg;
+    if (msg.size() > 1000)
+    {
+        msg.resize (1000);
+        msg.append ("...");
+    }
     disableShortcuts (true);
     MessageBox msgBox (QMessageBox::Warning,
                        "FeatherPad",
                        "<center><b><big>" + tr ("Error!") + "</big></b></center>",
-                       QMessageBox::Close,
-                       this);
+                       QMessageBox::Close | QMessageBox::Save,
+                       this, false);
     msgBox.changeButtonText (QMessageBox::Close, tr ("Close"));
+    msgBox.changeButtonText (QMessageBox::Save, tr ("Copy"));
+    msgBox.setDefaultButton (QMessageBox::Close);
     msgBox.setInformativeText (QString ("<center><i>%1.</i></center>").arg (msg.constData()));
     msgBox.setWindowModality (Qt::WindowModal);
-    msgBox.exec();
+    switch (msgBox.exec()) {
+    case QMessageBox::Save:
+        QApplication::clipboard()->setText (QString (origMsg));
+        break;
+    default:
+        break;
+    }
     disableShortcuts (false);
 }
 /*************************/
