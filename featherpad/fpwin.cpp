@@ -619,7 +619,7 @@ int FPwin::unSaved (int index, bool noToAll)
         disableShortcuts (true);
 
         MessageBox msgBox (this);
-        msgBox.setIcon (QMessageBox::Warning);
+        msgBox.setIcon (QMessageBox::Question);
         msgBox.setText ("<center><b><big>" + tr ("Save changes?") + "</big></b></center>");
         if (textEdit->document()->isModified())
             msgBox.setInformativeText ("<center><i>" + tr ("The document has been modified.") + "</i></center>");
@@ -1032,6 +1032,9 @@ void FPwin::align()
 /*************************/
 void FPwin::executeProcess()
 {
+    if (findChild<QDialog*>())
+        return; // only one dialog per window (shortcut may work)
+
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
     if (!config.getExecuteScripts()) return;
 
@@ -1042,7 +1045,7 @@ void FPwin::executeProcess()
     if (textEdit->findChild<QProcess *>(QString(), Qt::FindDirectChildrenOnly))
     {
         if (hasAnotherDialog()) return;
-        if (findChildren<QDialog *>().count() > 0) return;
+
         disableShortcuts (true);
         MessageBox msgBox (QMessageBox::Warning,
                            "FeatherPad",
@@ -1091,6 +1094,9 @@ void FPwin::exitProcess()
 /*************************/
 void FPwin::displayErrorMsg()
 {
+    if (findChild<QDialog*>())
+        return; // only one dialog per window
+
     QProcess *process = static_cast<QProcess*>(QObject::sender());
     if (!process) return; // impossible
     process->setReadChannel(QProcess::StandardError);
@@ -1098,8 +1104,6 @@ void FPwin::displayErrorMsg()
     if (origMsg.isEmpty()) return;
 
     if (hasAnotherDialog()) return;
-    /* we don't want two dialogs for the same window */
-    if (findChildren<QDialog *>().count() > 0) return;
 
     QByteArray msg = origMsg;
     if (msg.size() > 1000)
@@ -1107,16 +1111,17 @@ void FPwin::displayErrorMsg()
         msg.resize (1000);
         msg.append ("...");
     }
+
     disableShortcuts (true);
-    MessageBox msgBox (QMessageBox::Warning,
+    MessageBox msgBox (QMessageBox::Information,
                        "FeatherPad",
-                       "<center><b><big>" + tr ("Error!") + "</big></b></center>",
+                       "<center><b><big>" + tr ("Script Error!") + "</big></b></center>",
                        QMessageBox::Close | QMessageBox::Save,
                        this, false);
     msgBox.changeButtonText (QMessageBox::Close, tr ("Close"));
     msgBox.changeButtonText (QMessageBox::Save, tr ("Copy"));
     msgBox.setDefaultButton (QMessageBox::Close);
-    msgBox.setInformativeText (QString ("<center><i>%1.</i></center>").arg (msg.constData()));
+    msgBox.setInformativeText (QString ("<center><i>%1</i></center>").arg (msg.constData()));
     msgBox.setWindowModality (Qt::WindowModal);
     switch (msgBox.exec()) {
     case QMessageBox::Save:
