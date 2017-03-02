@@ -395,17 +395,25 @@ bool FPwin::hasAnotherDialog()
     for (int i = 0; i < singleton->Wins.count(); ++i)
     {
         FPwin *win = singleton->Wins.at (i);
-        if (win != this && win->findChildren<QDialog *>().count() > 0)
+        if (win != this)
         {
-            res = true;
-            break;
+            QList<QDialog*> dialogs = win->findChildren<QDialog*>();
+            for (int j = 0; j < dialogs.count(); ++j)
+            {
+                if (dialogs.at (j)->objectName() !=  "processDialog")
+                {
+                    res = true;
+                    break;
+                }
+            }
+            if (res) break;
         }
     }
     if (res)
     {
         MessageBox msgBox (this);
         msgBox.setIcon (QMessageBox::Warning);
-        msgBox.setText ("<center><b><big>" + tr ("Another FeatherPad window has a dialog!") + "</big></b></center>");
+        msgBox.setText ("<center><b><big>" + tr ("Another FeatherPad window has a modal dialog!") + "</big></b></center>");
         msgBox.setInformativeText (tr ("<center><i>Please close this dialog first and then</i></center>\n"\
                                        "<center><i>attend to that window or just close its dialog!</i></center><p></p>"));
         msgBox.setStandardButtons (QMessageBox::Close);
@@ -1032,8 +1040,12 @@ void FPwin::align()
 /*************************/
 void FPwin::executeProcess()
 {
-    if (findChild<QDialog*>())
-        return; // only one dialog per window (shortcut may work)
+    QList<QDialog*> dialogs = findChildren<QDialog*>();
+    for (int i = 0; i < dialogs.count(); ++i)
+    {
+        if (dialogs.at (i)->objectName() != "processDialog")
+            return; // shortcut may work when there's a modal dialog
+    }
 
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
     if (!config.getExecuteScripts()) return;
@@ -1066,7 +1078,9 @@ void FPwin::executeProcess()
         return;
 
     QProcess *process = new QProcess (textEdit);
-    connect(process, &QProcess::readyReadStandardError,this, &FPwin::displayErrorMsg);
+    process->setObjectName (fName); // to put it into the message dialog
+    connect(process, &QProcess::readyReadStandardOutput,this, &FPwin::displayOutput);
+    connect(process, &QProcess::readyReadStandardError,this, &FPwin::displayError);
     QString command = config.getExecuteCommand();
     if (!command.isEmpty())
         command +=  " ";
@@ -1092,45 +1106,74 @@ void FPwin::exitProcess()
         process->kill();
 }
 /*************************/
-void FPwin::displayErrorMsg()
+void FPwin::displayMessage (bool error)
 {
-    if (findChild<QDialog*>())
-        return; // only one dialog per window
-
     QProcess *process = static_cast<QProcess*>(QObject::sender());
     if (!process) return; // impossible
-    process->setReadChannel(QProcess::StandardError);
-    QByteArray origMsg = process->readAllStandardError();
-    if (origMsg.isEmpty()) return;
-
-    if (hasAnotherDialog()) return;
-
-    QByteArray msg = origMsg;
-    if (msg.size() > 1000)
+    QByteArray msg;
+    if (error)
     {
-        msg.resize (1000);
-        msg.append ("...");
+        process->setReadChannel(QProcess::StandardError);
+        msg = process->readAllStandardError();
     }
+    else
+    {
+        process->setReadChannel(QProcess::StandardOutput);
+        msg = process->readAllStandardOutput();
+    }
+    if (msg.isEmpty()) return;
 
-    disableShortcuts (true);
-    MessageBox msgBox (QMessageBox::Information,
-                       "FeatherPad",
-                       "<center><b><big>" + tr ("Script Error!") + "</big></b></center>",
-                       QMessageBox::Close | QMessageBox::Save,
-                       this, false);
-    msgBox.changeButtonText (QMessageBox::Close, tr ("Close"));
-    msgBox.changeButtonText (QMessageBox::Save, tr ("Copy"));
-    msgBox.setDefaultButton (QMessageBox::Close);
-    msgBox.setInformativeText (QString ("<center><i>%1</i></center>").arg (msg.constData()));
-    msgBox.setWindowModality (Qt::WindowModal);
-    switch (msgBox.exec()) {
-    case QMessageBox::Save:
-        QApplication::clipboard()->setText (QString (origMsg));
-        break;
-    default:
-        break;
+    QPointer<QDialog> msgDlg = nullptr;
+    QList<QDialog*> dialogs = findChildren<QDialog*>();
+    for (int i = 0; i < dialogs.count(); ++i)
+    {
+        if (dialogs.at (i)->parent() == process->parent())
+        {
+            msgDlg = dialogs.at (i);
+            break;
+        }
     }
-    disableShortcuts (false);
+    if (msgDlg)
+    { // append to the existing message
+        if (QPlainTextEdit *tEdit = msgDlg->findChild<QPlainTextEdit*>())
+            tEdit->setPlainText (tEdit->toPlainText() + "\n" + msg.constData());
+    }
+    else
+    {
+        msgDlg = nullptr;
+        msgDlg = new QDialog (qobject_cast<QWidget*>(process->parent()));
+        msgDlg->setObjectName ("processDialog");
+        msgDlg->setWindowTitle (tr ("Script Output"));
+        QGridLayout *grid = new QGridLayout;
+        QLabel *label = new QLabel (msgDlg);
+        label->setText ("<center><b>" + tr ("Script File") + ": </b></center><i>" + process->objectName() + "</i>");
+        label->setTextInteractionFlags (Qt::TextSelectableByMouse);
+        label->setWordWrap (true);
+        label->setMargin (5);
+        grid->addWidget (label, 0, 0);
+        QPlainTextEdit *tEdit = new QPlainTextEdit (msgDlg);
+        tEdit->setTextInteractionFlags (Qt::TextSelectableByMouse);
+        grid->addWidget (tEdit, 1, 0);
+        QPushButton *closeButton = new QPushButton (QIcon::fromTheme ("edit-delete"), tr ("Close"));
+        connect (closeButton, &QAbstractButton::clicked, msgDlg, &QDialog::reject);
+        grid->addWidget (closeButton, 2, 0, Qt::AlignRight);
+        msgDlg->setLayout (grid);
+        tEdit->setPlainText (msg.constData());
+        msgDlg->setAttribute (Qt::WA_DeleteOnClose);
+        msgDlg->show();
+        msgDlg->raise();
+        msgDlg->activateWindow();
+    }
+}
+/*************************/
+void FPwin::displayOutput()
+{
+    displayMessage (false);
+}
+/*************************/
+void FPwin::displayError()
+{
+    displayMessage (true);
 }
 /*************************/
 void FPwin::closeTab()

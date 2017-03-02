@@ -147,7 +147,8 @@ private slots:
     void align();
     void executeProcess();
     void exitProcess();
-    void displayErrorMsg();
+    void displayError();
+    void displayOutput();
     void docProp();
     void filePrint();
     void detachTab();
@@ -202,6 +203,7 @@ private:
     void removeGreenSel();
     void waitToMakeBusy();
     void unbusy();
+    void displayMessage (bool error);
 
     QActionGroup *aGroup_;
     QString lastFile_; // The last opened file.
