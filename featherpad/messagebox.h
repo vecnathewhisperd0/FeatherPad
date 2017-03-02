@@ -29,18 +29,12 @@ namespace FeatherPad {
 class MessageBox : public QMessageBox {
     Q_OBJECT
 public:
-    MessageBox (QWidget *parent = Q_NULLPTR,
-                bool fitToText = true) : QMessageBox (parent) {
-        fitToText_ = fitToText;
-    }
+    MessageBox (QWidget *parent = Q_NULLPTR) : QMessageBox (parent) {}
     MessageBox (Icon icon, const QString &title,
                 const QString &text,
                 StandardButtons buttons = NoButton,
                 QWidget *parent = Q_NULLPTR,
-                bool fitToText = true,
-                Qt::WindowFlags f = Qt::Dialog/* | Qt::MSWindowsFixedSizeDialogHint*/): QMessageBox (icon, title, text, buttons, parent, f) {
-        fitToText_ = fitToText;
-    }
+                Qt::WindowFlags f = Qt::Dialog/* | Qt::MSWindowsFixedSizeDialogHint*/) : QMessageBox (icon, title, text, buttons, parent, f) {}
 
     void changeButtonText (QMessageBox::StandardButton btn, const QString &text) {
         if (QAbstractButton *abtn = button (btn))
@@ -50,7 +44,7 @@ public:
     void setInformativeText (const QString &text) {
         QMessageBox::setInformativeText (text);
 
-        if (fitToText_ && !text.isEmpty()) // set an appropriate width
+        if (!text.isEmpty()) // set an appropriate width
         {
             if (QGridLayout *lo = qobject_cast< QGridLayout *>(layout()))
             {
@@ -67,9 +61,6 @@ public:
             }
         }
     }
-
-private:
-    bool fitToText_;
 };
 
 }
