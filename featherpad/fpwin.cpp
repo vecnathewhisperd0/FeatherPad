@@ -1136,7 +1136,12 @@ void FPwin::displayMessage (bool error)
     if (msgDlg)
     { // append to the existing message
         if (QPlainTextEdit *tEdit = msgDlg->findChild<QPlainTextEdit*>())
+        {
             tEdit->setPlainText (tEdit->toPlainText() + "\n" + msg.constData());
+            QTextCursor cur = tEdit->textCursor();
+            cur.movePosition (QTextCursor::End);
+            tEdit->setTextCursor (cur);
+        }
     }
     else
     {
@@ -1153,12 +1158,16 @@ void FPwin::displayMessage (bool error)
         grid->addWidget (label, 0, 0);
         QPlainTextEdit *tEdit = new QPlainTextEdit (msgDlg);
         tEdit->setTextInteractionFlags (Qt::TextSelectableByMouse);
+        tEdit->ensureCursorVisible();
         grid->addWidget (tEdit, 1, 0);
         QPushButton *closeButton = new QPushButton (QIcon::fromTheme ("edit-delete"), tr ("Close"));
         connect (closeButton, &QAbstractButton::clicked, msgDlg, &QDialog::reject);
         grid->addWidget (closeButton, 2, 0, Qt::AlignRight);
         msgDlg->setLayout (grid);
         tEdit->setPlainText (msg.constData());
+        QTextCursor cur = tEdit->textCursor();
+        cur.movePosition (QTextCursor::End);
+        tEdit->setTextCursor (cur);
         msgDlg->setAttribute (Qt::WA_DeleteOnClose);
         msgDlg->show();
         msgDlg->raise();
