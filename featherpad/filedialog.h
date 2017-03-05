@@ -21,10 +21,14 @@
 #include <QFileDialog>
 #include <QTreeView>
 #include <QTimer>
+#include <QShortcut>
 
 namespace FeatherPad {
 
-/* We want auto-scrolling to selected file. */
+static bool showHidden = false; // remember
+
+/* We want to auto-scroll to selected file and
+   remember whether hidden files should be shown. */
 class FileDialog : public QFileDialog {
     Q_OBJECT
 public:
@@ -34,6 +38,16 @@ public:
         setWindowModality (Qt::WindowModal);
         setViewMode (QFileDialog::Detail);
         setOption (QFileDialog::DontUseNativeDialog);
+        if (showHidden)
+            setFilter (filter() | QDir::Hidden);
+        QShortcut *toggleHidden0 = new QShortcut (QKeySequence (tr ("Ctrl+H", "Toggle showing hidden files")), this);
+        QShortcut *toggleHidden1 = new QShortcut (QKeySequence (tr ("Alt+.", "Toggle showing hidden files")), this);
+        connect (toggleHidden0, &QShortcut::activated, this, &FileDialog::toggleHidden);
+        connect (toggleHidden1, &QShortcut::activated, this, &FileDialog::toggleHidden);
+    }
+
+    ~FileDialog() {
+        showHidden = (filter() & QDir::Hidden);
     }
 
     void autoScroll() {
@@ -58,9 +72,18 @@ private slots:
                 tView->scrollTo (iList.at (0), QAbstractItemView::PositionAtCenter);
         }
     }
+
     void center() {
         move (p->x() + p->width()/2 - width()/2,
               p->y() + p->height()/2 - height()/ 2);
+    }
+
+    void toggleHidden() {
+        showHidden = !(filter() & QDir::Hidden);
+        if (showHidden)
+            setFilter (filter() | QDir::Hidden);
+        else
+            setFilter (filter() & ~QDir::Hidden);
     }
 
 private:

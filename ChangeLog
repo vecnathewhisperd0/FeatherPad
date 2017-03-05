@@ -16,6 +16,7 @@ V0.5.9
  * Single-line single quote for c and c++.
  * Preliminary Wayland support.
  * Added an option for running executable script files.
+ * Remember whether hidden files are shown in file dialogs.
 
 V0.5.8
 ---------
