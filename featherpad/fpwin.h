@@ -207,7 +207,7 @@ private:
     void displayMessage (bool error);
 
     QActionGroup *aGroup_;
-    QString lastFile_; // The last opened file.
+    QString lastFile_; // The last opened or saved file.
     QTextDocument::FindFlags searchFlags_; // Whole word and case sensitivity flags (for all tabs).
     QString txtReplace_; // The replacing text.
     int rightClicked_; // The index of the right-clicked tab.

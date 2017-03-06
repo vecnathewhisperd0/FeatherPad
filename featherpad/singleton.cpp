@@ -140,6 +140,11 @@ void FPsingleton::handleMessage (const QString& message)
 {
     /* get all parts of the message */
     QStringList sl = message.split ("\n\r");
+    if (sl.at (1) == "--win" || sl.at (1) == "-w")
+    {
+        newWin (message);
+        return;
+    }
     /* get the desktop the command is issued from */
     long d = sl.at (0).toInt();
     bool found = false;

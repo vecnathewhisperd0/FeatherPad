@@ -33,6 +33,18 @@ void handleQuitSignals (const std::vector<int>& quitSignals)
 
 int main (int argc, char *argv[])
 {
+    QString option = QString::fromUtf8 (argv[1]);
+    if (option == "--help" || option == "-h")
+    {
+        QTextStream out (stdout);
+        out << "FeatherPad - Lightweight Qt5 text editor\n"\
+               "Usage:\n	featherpad [option] [file(s)]\n\n"\
+               "Options:\n\n"\
+               "--help or -h    Show this help and exit.\n"\
+               "--win or -w     Open the file(s) in a new window."<<  endl;
+        return 0;
+    }
+
     QString homeStr = QString (qgetenv ("HOME"));
     if (!homeStr.isEmpty())
     {
