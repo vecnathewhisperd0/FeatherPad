@@ -106,7 +106,7 @@ private slots:
     void fileOpen();
     void reload();
     void enforceEncoding (QAction*);
-    bool fileSave();
+    void fileSave();
     void cutText();
     void copyText();
     void pasteText();
@@ -177,7 +177,8 @@ private:
     void loadText (const QString fileName, bool enforceEncod, bool reload, bool multiple = false);
     bool alreadyOpen (const QString& fileName, tabInfo *tabinfo = nullptr) const;
     void setTitle (const QString& fileName, int indx = -1);
-    int unSaved (int index, bool noToAll);
+    int unSaved (int index, bool noToAll, bool close = true);
+    bool saveFile (bool close);
     void closeEvent (QCloseEvent *event);
     bool closeTabs (int leftIndx, int rightIndx, bool closeall);
     void dragEnterEvent (QDragEnterEvent *event);
