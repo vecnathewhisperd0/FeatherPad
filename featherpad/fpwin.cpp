@@ -614,7 +614,7 @@ void FPwin::dropEvent (QDropEvent *event)
 }
 /*************************/
 // This method checks if there's any text that isn't saved yet.
-int FPwin::unSaved (int index, bool noToAll, bool close)
+int FPwin::unSaved (int index, bool noToAll)
 {
     int unsaved = 0;
     TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
@@ -655,7 +655,7 @@ int FPwin::unSaved (int index, bool noToAll, bool close)
                      y() + height()/2 - msgBox.height()/ 2);*/
         switch (msgBox.exec()) {
         case QMessageBox::Save:
-            if (!saveFile (close))
+            if (!saveFile (true))
                 unsaved = 1;
             break;
         case QMessageBox::Discard:
@@ -1439,22 +1439,32 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
 
     tabInfo *tabinfo = tabsInfo_[textEdit];
     if (enforceEncod || reload)
-    {
-        tabinfo->greenSel = QList<QTextEdit::ExtraSelection>();
-
+    { // uninstall the syntax highlgihter to reinstall it below
+        tabinfo->greenSel = QList<QTextEdit::ExtraSelection>(); // they'll have no meaning later
         if (Highlighter *highlighter = tabinfo->highlighter)
         {
             disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
             disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
             disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
             disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatonResizing);
+
+            /* remove bracket highlights to recreate them only if needed */
+            QList<QTextEdit::ExtraSelection> es = textEdit->extraSelections();
+            int n = tabinfo->redSel.count();
+            while (n > 0 && !es.isEmpty())
+            {
+                es.removeLast();
+                --n;
+            }
+            tabinfo->redSel = QList<QTextEdit::ExtraSelection>();
+            textEdit->setExtraSelections (es);
+
             tabinfo->highlighter = nullptr;
             delete highlighter; highlighter = nullptr;
         }
     }
 
     QFileInfo fInfo = (fileName);
-    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
 
     tabinfo->fileName = fileName;
     tabinfo->size = fInfo.size();
@@ -1462,11 +1472,8 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
     tabinfo->encoding = charset;
     tabinfo->wordNumber = -1;
     setProgLang (tabinfo);
-    if (ui->actionSyntax->isChecked()
-        && tabinfo->size <= config.getMaxSHSize()*1024*1024)
-    {
+    if (ui->actionSyntax->isChecked())
         syntaxHighlighting (tabinfo);
-    }
     setTitle (fileName, (multiple && !openInCurrentTab) ?
                         /* the index may have changed because syntaxHighlighting() waits for
                            all events to be processed (but it won't change from here on) */
@@ -1517,7 +1524,8 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
         if (openInCurrentTab)
         {
             if (isScriptLang (tabinfo->prog) && fInfo.isExecutable())
-                ui->actionRun->setVisible (config.getExecuteScripts());
+                ui->actionRun->setVisible (static_cast<FPsingleton*>(qApp)->getConfig()
+                                           .getExecuteScripts());
             else
                 ui->actionRun->setVisible (false);
         }
@@ -1652,6 +1660,9 @@ bool FPwin::alreadyOpen (const QString& fileName, tabInfo *tabinfo) const
 /*************************/
 void FPwin::enforceEncoding (QAction*)
 {
+    /* here, we don't need to check if some files are loading
+       because encoding has no keyboard shortcut or tool button */
+
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
 
@@ -1660,9 +1671,8 @@ void FPwin::enforceEncoding (QAction*)
     QString fname = tabinfo->fileName;
     if (!fname.isEmpty())
     {
-        if (unSaved (index, false, false))
-        {
-            /* back to the previous encoding */
+        if (unSaved (index, false))
+        { // back to the previous encoding
             encodingToCheck (tabinfo->encoding);
             return;
         }
@@ -1670,12 +1680,15 @@ void FPwin::enforceEncoding (QAction*)
     }
     else
     {
+        /* just change the statusbar text; the doc
+           might be saved later with the new encoding */
         tabinfo->encoding = checkToEncoding();
         if (ui->statusBar->isVisible())
         {
             QLabel *statusLabel = ui->statusBar->findChild<QLabel *>();
             QString str = statusLabel->text();
             QString encodStr = tr ("Encoding");
+            // the next info is about lines; there's no syntax info
             QString lineStr = "</i>&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
             int i = str.indexOf (encodStr);
             int j = str.indexOf (lineStr);
@@ -1693,7 +1706,7 @@ void FPwin::reload()
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
 
-    if (unSaved (index, false, false)) return;
+    if (unSaved (index, false)) return;
 
     QString fname = tabsInfo_[qobject_cast< TextEdit *>(ui->tabWidget->widget (index))]
                     ->fileName;
@@ -1701,7 +1714,7 @@ void FPwin::reload()
 }
 /*************************/
 // This is for both "Save" and "Save As"
-bool FPwin::saveFile (bool close)
+bool FPwin::saveFile (bool keepSyntax)
 {
     if (isLoading()) return false;
 
@@ -1932,45 +1945,76 @@ bool FPwin::saveFile (bool close)
         QString elidedTip = metrics.elidedText (tip, Qt::ElideMiddle, w);
         ui->tabWidget->setTabToolTip (index, elidedTip);
         lastFile_ = fname;
-        if (!close)
-        { // rehighlight the syntax if the programming language is changed
+        if (!keepSyntax)
+        { // uninstall and reinstall the syntax highlgihter if the programming language is changed
             QString prevLan = tabinfo->prog;
             setProgLang (tabinfo);
             if (prevLan != tabinfo->prog)
             {
-                bool disconnected (false);
-                tabinfo->greenSel = QList<QTextEdit::ExtraSelection>();
+                if (ui->statusBar->isVisible()
+                    && tabinfo->wordNumber != -1)
+                { // we want to change the statusbar text below
+                    disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::wordButtonStatus);
+                }
+
                 if (Highlighter *highlighter = tabinfo->highlighter)
                 {
-                    disconnected = true;
-                    /* signals should be disconnected before deleting the highlighter as in deleteTextEdit() */
-                    disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::wordButtonStatus);
-                    disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::hlight);
-
                     disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
                     disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
                     disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
                     disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatonResizing);
+
+                    /* remove bracket highlights */
+                    QList<QTextEdit::ExtraSelection> es = textEdit->extraSelections();
+                    int n = tabinfo->redSel.count();
+                    while (n > 0 && !es.isEmpty())
+                    {
+                        es.removeLast();
+                        --n;
+                    }
+                    tabinfo->redSel = QList<QTextEdit::ExtraSelection>();
+                    textEdit->setExtraSelections (es);
+
                     tabinfo->highlighter = nullptr;
                     delete highlighter; highlighter = nullptr;
                 }
-                if (ui->actionSyntax->isChecked()
-                    && tabinfo->size <= static_cast<FPsingleton*>(qApp)->getConfig()
-                                        .getMaxSHSize()*1024*1024)
-                {
-                    syntaxHighlighting (tabinfo); // doesn't reconnect textChanged()
-                }
-                if (disconnected && !tabinfo->searchEntry.isEmpty())
-                    connect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::hlight);
-                /* correct the statusbar text */
+                if (ui->actionSyntax->isChecked()) // not needed really
+                    syntaxHighlighting (tabinfo);
                 if (ui->statusBar->isVisible())
-                {
-                    if (tabinfo->wordNumber == -1)
-                    { // hide the word button to show it again without word count calculation
-                        if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>())
-                            wordButton->setVisible (false);
+                { // correct the statusbar text just by replacing the old syntax info
+                    QLabel *statusLabel = ui->statusBar->findChild<QLabel *>();
+                    QString str = statusLabel->text();
+                    QString syntaxStr = tr ("Syntax");
+                    int i = str.indexOf (syntaxStr);
+                    if (i == -1) // there was no language before saving (prevLan.isEmpty())
+                    {
+                        QString lineStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
+                        int j = str.indexOf (lineStr);
+                        syntaxStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Syntax") + QString (":</b> <i>%1</i>")
+                                                                                    .arg (tabinfo->prog);
+                        str.insert (j, syntaxStr);
                     }
-                    wordButtonStatus();
+                    else
+                    {
+                        if (tabinfo->prog.isEmpty()) // there's no language after saving
+                        {
+                            syntaxStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Syntax");
+                            QString lineStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
+                            int j = str.indexOf (syntaxStr);
+                            int k = str.indexOf (lineStr);
+                            str.remove (j, k - j);
+                        }
+                        else // the language is changed by saving
+                        {
+                            QString lineStr = "</i>&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
+                            int j = str.indexOf (lineStr);
+                            int offset = syntaxStr.count() + 9; // size of ":</b> <i>"
+                            str.replace (i + offset, j - i - offset, tabinfo->prog);
+                        }
+                    }
+                    statusLabel->setText (str);
+                    if (tabinfo->wordNumber != -1)
+                        connect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::wordButtonStatus);
                 }
             }
         }
@@ -2549,16 +2593,17 @@ void FPwin::statusMsgWithLineCount (const int lines)
     tabInfo *tabinfo = tabsInfo_[textEdit];
     QLabel *statusLabel = ui->statusBar->findChild<QLabel *>();
 
-    QString startStr = "<b>" + tr ("Encoding") + QString (":</b> <i>%1</i>").arg (tabinfo->encoding);
+    /* the order: Encoding -> Syntax -> Lines -> Sel. Chars -> Words */
+    QString encodStr = "<b>" + tr ("Encoding") + QString (":</b> <i>%1</i>").arg (tabinfo->encoding);
+    QString syntaxStr;
+    if (!tabinfo->prog.isEmpty())
+        syntaxStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Syntax") + QString (":</b> <i>%1</i>").arg (tabinfo->prog);
     QString lineStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines") + QString (":</b> <i>%1</i>").arg (lines);
     QString selStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Sel. Chars")
                      + QString (":</b> <i>%1</i>").arg (textEdit->textCursor().selectedText().size());
     QString wordStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Words") + ":</b>";
-    QString syntaxStr;
-    if (!tabinfo->prog.isEmpty())
-        syntaxStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Syntax") + QString (":</b> <i>%1</i>").arg (tabinfo->prog);
 
-    statusLabel->setText (startStr + syntaxStr + lineStr + selStr + wordStr);
+    statusLabel->setText (encodStr + syntaxStr + lineStr + selStr + wordStr);
 }
 /*************************/
 // Change the status bar text when the selection changes.
