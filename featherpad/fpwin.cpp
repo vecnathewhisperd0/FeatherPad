@@ -1965,17 +1965,12 @@ bool FPwin::saveFile (bool close)
                 /* correct the statusbar text */
                 if (ui->statusBar->isVisible())
                 {
-                    if (disconnected && tabinfo->wordNumber != -1)
-                        connect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::wordButtonStatus);
-                    QLabel *statusLabel = ui->statusBar->findChild<QLabel *>();
-                    QString str = statusLabel->text();
-                    QString sytaxStr = tr ("Syntax");
-                    QString lineStr = "</i>&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
-                    int i = str.indexOf (sytaxStr);
-                    int j = str.indexOf (lineStr);
-                    int offset = sytaxStr.count() + 9; // size of ":</b> <i>"
-                    str.replace (i + offset, j - i - offset, tabinfo->prog);
-                    statusLabel->setText (str);
+                    if (tabinfo->wordNumber == -1)
+                    { // hide the word button to show it again without word count calculation
+                        if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>())
+                            wordButton->setVisible (false);
+                    }
+                    wordButtonStatus();
                 }
             }
         }

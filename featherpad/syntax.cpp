@@ -221,8 +221,7 @@ void FPwin::setProgLang (tabInfo *tabinfo)
         }*/
     }
 
-    if (!progLan.isEmpty())
-        tabinfo->prog = progLan;
+    tabinfo->prog = progLan;
 }
 /*************************/
 void FPwin::syntaxHighlighting (tabInfo *tabinfo)
