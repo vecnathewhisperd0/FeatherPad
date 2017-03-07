@@ -86,8 +86,8 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     connect (ui->lineBox, &QCheckBox::stateChanged, this, &PrefDialog::prefLine);
     ui->syntaxBox->setChecked (config.getSyntaxByDefault());
     connect (ui->syntaxBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSyntax);
-    ui->colBox->setChecked (config.getDarkColScheme());
 
+    ui->colBox->setChecked (config.getDarkColScheme());
     connect (ui->colBox, &QCheckBox::stateChanged, this, &PrefDialog::prefDarkColScheme);
     if (!ui->colBox->isChecked())
     {
@@ -115,6 +115,9 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     ui->commandEdit->setEnabled (config.getExecuteScripts());
     ui->commandLabel->setEnabled (config.getExecuteScripts());
     connect (ui->commandEdit, &QLineEdit::textEdited, this, &PrefDialog::prefCommand);
+
+    ui->lastFileBox->setChecked (config.getRememberLastSavedFile());
+    connect (ui->lastFileBox, &QCheckBox::stateChanged, this, &PrefDialog::prefLasFile);
 
     connect (ui->closeButton, &QAbstractButton::clicked, this, &QDialog::close);
     connect (ui->helpButton, &QAbstractButton::clicked, this, &PrefDialog::showWhatsThis);
@@ -515,6 +518,16 @@ void PrefDialog::prefExecute (int checked)
 void PrefDialog::prefCommand (QString command)
 {
     static_cast<FPsingleton*>(qApp)->getConfig().setExecuteCommand (command);
+}
+/*************************/
+void PrefDialog::prefLasFile (int checked)
+{
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    Config& config = singleton->getConfig();
+    if (checked == Qt::Checked)
+        config.setRememberLastSavedFile (true);
+    else if (checked == Qt::Unchecked)
+        config.setRememberLastSavedFile (false);
 }
 /*************************/
 void PrefDialog::prefStartSize (int value)

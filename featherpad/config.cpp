@@ -16,6 +16,7 @@
  */
 
 #include "config.h"
+#include <QFileInfo>
 
 namespace FeatherPad {
 
@@ -37,6 +38,7 @@ Config::Config():
     tabWrapAround_ (false),
     hideSingleTab_ (false),
     executeScripts_ (false),
+    rememberLastSavedFile_ (false),
     scrollJumpWorkaround_ (false),
     tabPosition_ (0),
     maxSHSize_ (2),
@@ -146,6 +148,28 @@ void Config::readConfig()
         executeScripts_ = true; // false by default
     executeCommand_ = settings.value ("executeCommand").toString();
 
+    if (settings.value ("rememberLastSavedFile").toBool())
+        rememberLastSavedFile_ = true; // false by default
+    lastSavedFile_ = settings.value ("lastSavedFile").toString();
+    /* always set an empty value if the last saved file isn't good... */
+    if (!lastSavedFile_.isEmpty())
+    {
+        if (!QFile::exists (lastSavedFile_))
+            lastSavedFile_ = QString();
+        else
+        {
+            QFileInfo info = QFileInfo (lastSavedFile_);
+            if (!info.isFile() || !info.isReadable())
+                lastSavedFile_ = QString();
+        }
+        /* set an empty value if the last saved file isn't good */
+        if (lastSavedFile_.isEmpty())
+            settings.setValue ("lastSavedFile", lastSavedFile_);
+        /* ... but use an empty string if the last saved file shouldn't be remembered */
+        else if (!rememberLastSavedFile_)
+            lastSavedFile_ = QString();
+    }
+
     settings.endGroup();
 }
 /*************************/
@@ -207,6 +231,9 @@ void Config::writeConfig()
     settings.setValue ("darkBgColorValue", darkBgColorValue_);
     settings.setValue ("executeScripts", executeScripts_);
     settings.setValue ("executeCommand", executeCommand_);
+    settings.setValue ("rememberLastSavedFile", rememberLastSavedFile_);
+    if (rememberLastSavedFile_ && !lastSavedFile_.isEmpty()) // don't save unneeded info
+        settings.setValue ("lastSavedFile", lastSavedFile_);
 
     settings.endGroup();
 }

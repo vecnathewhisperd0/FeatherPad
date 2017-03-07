@@ -21,6 +21,7 @@
 #include <QSettings>
 #include <QSize>
 #include <QFont>
+#include <QTime>
 
 namespace FeatherPad {
 
@@ -228,15 +229,37 @@ public:
         executeCommand_ = commnad;
     }
 
+    bool getRememberLastSavedFile() const {
+        return rememberLastSavedFile_;
+    }
+    void setRememberLastSavedFile (bool remember) {
+        rememberLastSavedFile_ = remember;
+    }
+    QString getLastSavedFile() const {
+        return lastSavedFile_;
+    }
+    void setLastSavedFile (QString file) {
+        lastSavedFile_ = file;
+    }
+
+    QTime getLastSaveTime() {
+        return lastSaveTime_;
+    }
+    void setLastSaveTime (QTime time) {
+        lastSaveTime_ = time;
+    }
+
 private:
     bool remSize_, sysIcon_, noToolbar_, noMenubar_, hideSearchbar_, showStatusbar_, remFont_, wrapByDefault_,
          indentByDefault_, lineByDefault_, syntaxByDefault_, isMaxed_, isFull_, darkColScheme_,
-         tabWrapAround_, hideSingleTab_, executeScripts_,
+         tabWrapAround_, hideSingleTab_, executeScripts_, rememberLastSavedFile_,
          scrollJumpWorkaround_; // Should a workaround for Qt5's "scroll jump" bug be applied?
     int tabPosition_, maxSHSize_, lightBgColorValue_, darkBgColorValue_;
     QSize winSize_, startSize_;
     QFont font_;
-    QString executeCommand_;
+    QString executeCommand_, lastSavedFile_;
+    QPair<QString, QTime> pair;
+    QTime lastSaveTime_; // used internally
 };
 
 }

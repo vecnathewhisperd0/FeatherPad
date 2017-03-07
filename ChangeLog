@@ -18,6 +18,7 @@ V0.5.9
  * Added an option for running executable script files.
  * Remember whether hidden files are shown in file dialogs.
  * Rehighlight the syntax on saving if the programming language is changed.
+ * An option to remember the last saved file on an empty startup.
 
 V0.5.8
 ---------

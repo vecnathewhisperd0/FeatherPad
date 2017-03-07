@@ -62,6 +62,7 @@ private:
     QLocalServer *localServer;
     static const int timeout = 1000;
     Config config_;
+    QString firstFile_;
     bool isX11_;
 };
 

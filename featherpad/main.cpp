@@ -41,7 +41,7 @@ int main (int argc, char *argv[])
                "Usage:\n	featherpad [option] [file(s)]\n\n"\
                "Options:\n\n"\
                "--help or -h    Show this help and exit.\n"\
-               "--win or -w     Open the file(s) in a new window."<<  endl;
+               "--win or -w     Open the file(s) in a new window." <<  endl;
         return 0;
     }
 

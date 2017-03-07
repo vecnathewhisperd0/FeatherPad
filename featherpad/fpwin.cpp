@@ -82,8 +82,6 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     /* replace dock */
     ui->dockReplace->setVisible (false);
 
-    lastFile_ = "";
-
     applyConfig();
 
     QWidget* spacer = new QWidget();
@@ -243,6 +241,14 @@ void FPwin::closeEvent (QCloseEvent *event)
         Config& config = singleton->getConfig();
         if (config.getRemSize() && windowState() == Qt::WindowNoState)
             config.setWinSize (size());
+        if (config.getRememberLastSavedFile()
+            && !lastSavedFile_.isEmpty() // so, lastSaveTime_ isn't null
+            && (config.getLastSaveTime().isNull()
+                || lastSaveTime_ > config.getLastSaveTime()))
+        {
+            config.setLastSavedFile (lastSavedFile_);
+            config.setLastSaveTime (lastSaveTime_);
+        }
         singleton->removeWin (this);
         event->accept();
     }
@@ -1944,7 +1950,8 @@ bool FPwin::saveFile (bool keepSyntax)
         if (w > 200 * metrics.width (' ')) w = 200 * metrics.width (' ');
         QString elidedTip = metrics.elidedText (tip, Qt::ElideMiddle, w);
         ui->tabWidget->setTabToolTip (index, elidedTip);
-        lastFile_ = fname;
+        lastFile_ = lastSavedFile_ = fname;
+        lastSaveTime_ = QTime::currentTime();
         if (!keepSyntax)
         { // uninstall and reinstall the syntax highlgihter if the programming language is changed
             QString prevLan = tabinfo->prog;

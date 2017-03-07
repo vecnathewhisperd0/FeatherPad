@@ -381,6 +381,22 @@ will be shown by a popup dialog.</string>
        </widget>
       </item>
       <item row="10" column="0" colspan="3">
+       <widget class="QCheckBox" name="lastFileBox">
+        <property name="toolTip">
+         <string>If this is checked, FeatherPad will remember
+the last file saved in a session and will open
+it with an empty startup in the next session,
+provided that the file exists and is readable.
+
+Remembering of the last modified file starts
+once this option is enabled.</string>
+        </property>
+        <property name="text">
+         <string>Start with the last modified file</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="0" colspan="3">
        <widget class="QCheckBox" name="scrollBox">
         <property name="toolTip">
          <string>This is not a complete fix but

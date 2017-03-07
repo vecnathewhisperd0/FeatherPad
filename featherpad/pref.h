@@ -39,6 +39,7 @@ private slots:
     void prefMaxSHSize (int value);
     void prefExecute (int checked);
     void prefCommand (QString command);
+    void prefLasFile (int value);
     void showWhatsThis();
 
 private:
