@@ -226,8 +226,19 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
+    <widget class="QMenu" name="menuOpenRecently">
+     <property name="title">
+      <string>Recently &amp;Modified</string>
+     </property>
+     <property name="icon">
+      <iconset resource="data/fp.qrc">
+       <normaloff>:/icons/document-open-recent.svg</normaloff>:/icons/document-open-recent.svg</iconset>
+     </property>
+     <addaction name="actionClearRecent"/>
+    </widget>
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
+    <addaction name="menuOpenRecently"/>
     <addaction name="actionRun"/>
     <addaction name="separator"/>
     <addaction name="actionDetachTab"/>
@@ -1316,6 +1327,18 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+E</string>
+   </property>
+  </action>
+  <action name="actionClearRecent">
+   <property name="icon">
+    <iconset resource="data/fp.qrc">
+     <normaloff>:/icons/edit-clear.svg</normaloff>:/icons/edit-clear.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Clear</string>
+   </property>
+   <property name="toolTip">
+    <string>Clear the list of recently modified files</string>
    </property>
   </action>
  </widget>

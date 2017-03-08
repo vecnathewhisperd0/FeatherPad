@@ -95,6 +95,9 @@ public slots:
     void wordButtonStatus();
 
 private slots:
+    void newTabFromRecent();
+    void clearRecentMenu();
+    void updateRecenMenu();
     void closeTab();
     void closeTabAtIndex (int index);
     void copyTabFileName();
@@ -208,8 +211,6 @@ private:
 
     QActionGroup *aGroup_;
     QString lastFile_; // The last opened or saved file (for file dialogs).
-    QString lastSavedFile_; // The last saved file (to be remembered in the config).
-    QTime lastSaveTime_; // The last time a file is saved.
     QTextDocument::FindFlags searchFlags_; // Whole word and case sensitivity flags (for all tabs).
     QString txtReplace_; // The replacing text.
     int rightClicked_; // The index of the right-clicked tab.

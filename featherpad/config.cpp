@@ -38,7 +38,6 @@ Config::Config():
     tabWrapAround_ (false),
     hideSingleTab_ (false),
     executeScripts_ (false),
-    rememberLastSavedFile_ (false),
     scrollJumpWorkaround_ (false),
     tabPosition_ (0),
     maxSHSize_ (2),
@@ -46,7 +45,8 @@ Config::Config():
     darkBgColorValue_ (15),
     winSize_ (QSize (700, 500)),
     startSize_ (QSize (700, 500)),
-    font_ (QFont ("Monospace", 9)) {}
+    font_ (QFont ("Monospace", 9)),
+    openRecentFiles_ (0){}
 /*************************/
 Config::~Config() {}
 /*************************/
@@ -148,27 +148,13 @@ void Config::readConfig()
         executeScripts_ = true; // false by default
     executeCommand_ = settings.value ("executeCommand").toString();
 
-    if (settings.value ("rememberLastSavedFile").toBool())
-        rememberLastSavedFile_ = true; // false by default
-    lastSavedFile_ = settings.value ("lastSavedFile").toString();
-    /* always set an empty value if the last saved file isn't good... */
-    if (!lastSavedFile_.isEmpty())
-    {
-        if (!QFile::exists (lastSavedFile_))
-            lastSavedFile_ = QString();
-        else
-        {
-            QFileInfo info = QFileInfo (lastSavedFile_);
-            if (!info.isFile() || !info.isReadable())
-                lastSavedFile_ = QString();
-        }
-        /* set an empty value if the last saved file isn't good */
-        if (lastSavedFile_.isEmpty())
-            settings.setValue ("lastSavedFile", lastSavedFile_);
-        /* ... but use an empty string if the last saved file shouldn't be remembered */
-        else if (!rememberLastSavedFile_)
-            lastSavedFile_ = QString();
-    }
+    recentFiles_ = settings.value ("recentFiles").toStringList();
+    recentFiles_.removeAll ("");
+    recentFiles_.removeDuplicates();
+    while (recentFiles_.count() > 10)
+        recentFiles_.removeLast();
+
+    openRecentFiles_ = qBound (0, settings.value ("openRecentFiles", 0).toInt(), 10);
 
     settings.endGroup();
 }
@@ -231,11 +217,27 @@ void Config::writeConfig()
     settings.setValue ("darkBgColorValue", darkBgColorValue_);
     settings.setValue ("executeScripts", executeScripts_);
     settings.setValue ("executeCommand", executeCommand_);
-    settings.setValue ("rememberLastSavedFile", rememberLastSavedFile_);
-    if (rememberLastSavedFile_ && !lastSavedFile_.isEmpty()) // don't save unneeded info
-        settings.setValue ("lastSavedFile", lastSavedFile_);
+    settings.setValue ("recentFiles", recentFiles_);
+    settings.setValue ("openRecentFiles", openRecentFiles_);
 
     settings.endGroup();
+}
+/*************************/
+void Config::addRecentFile (QString file)
+{
+    recentFiles_.removeAll (file);
+    recentFiles_.prepend (file);
+    while (recentFiles_.count() > 10)
+        recentFiles_.removeLast();
+}
+/*************************/
+QStringList Config::getLastSavedFiles() const
+{
+    QStringList res;
+    int n = qMin (openRecentFiles_, recentFiles_.count());
+    for (int i = 0; i < n; ++i)
+        res << recentFiles_.at (i);
+    return res;
 }
 
 }

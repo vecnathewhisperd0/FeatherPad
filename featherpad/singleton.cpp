@@ -41,7 +41,7 @@ FPsingleton::FPsingleton (int &argc, char *argv[], const QString uniqueKey)
 #endif
 
     config_.readConfig();
-    firstFile_ = config_.getLastSavedFile();
+    lastSavedFiles_ = config_.getLastSavedFiles();
 
     sharedMemory.setKey (_uniqueKey);
     if (sharedMemory.attach())
@@ -127,10 +127,14 @@ FPwin* FPsingleton::newWin (const QString& message)
             fp->newTabFromName (sli, multiple);
         }
     }
-    else if (!firstFile_.isEmpty())
-        fp->newTabFromName (firstFile_, false);
+    else if (!lastSavedFiles_.isEmpty())
+    {
+        bool multiple (lastSavedFiles_.count() > 1 || fp->isLoading());
+        for (int i = 0; i < lastSavedFiles_.count(); ++i)
+            fp->newTabFromName (lastSavedFiles_.at (i), multiple);
+    }
 
-    firstFile_ = QString();
+    lastSavedFiles_ = QStringList();
     return fp;
 }
 /*************************/

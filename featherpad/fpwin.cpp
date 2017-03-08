@@ -32,6 +32,8 @@
 
 #include "x11.h"
 
+#define RECENT_NUMBER 10
+
 namespace FeatherPad {
 
 void BusyMaker::waiting() {
@@ -99,6 +101,18 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
         tbList.at (tbList.count() - 1)->setPopupMode (QToolButton::InstantPopup);
 
     newTab();
+
+    QAction* recentAction = nullptr;
+    for (int i = 0; i < RECENT_NUMBER; ++i)
+    {
+        recentAction = new QAction (this);
+        recentAction->setVisible (false);
+        connect (recentAction, &QAction::triggered, this, &FPwin::newTabFromRecent);
+        ui->menuOpenRecently->addAction (recentAction);
+    }
+    ui->menuOpenRecently->addAction (ui->actionClearRecent);
+    connect (ui->menuOpenRecently, &QMenu::aboutToShow, this, &FPwin::updateRecenMenu);
+    connect (ui->actionClearRecent, &QAction::triggered, this, &FPwin::clearRecentMenu);
 
     aGroup_ = new QActionGroup (this);
     ui->actionUTF_8->setActionGroup (aGroup_);
@@ -241,14 +255,6 @@ void FPwin::closeEvent (QCloseEvent *event)
         Config& config = singleton->getConfig();
         if (config.getRemSize() && windowState() == Qt::WindowNoState)
             config.setWinSize (size());
-        if (config.getRememberLastSavedFile()
-            && !lastSavedFile_.isEmpty() // so, lastSaveTime_ isn't null
-            && (config.getLastSaveTime().isNull()
-                || lastSaveTime_ > config.getLastSaveTime()))
-        {
-            config.setLastSavedFile (lastSavedFile_);
-            config.setLastSaveTime (lastSaveTime_);
-        }
         singleton->removeWin (this);
         event->accept();
     }
@@ -319,6 +325,8 @@ void FPwin::applyConfig()
     {
         ui->actionNew->setIcon (QIcon::fromTheme ("document-new"));
         ui->actionOpen->setIcon (QIcon::fromTheme ("document-open"));
+        ui->menuOpenRecently->setIcon (QIcon::fromTheme ("document-open-recent"));
+        ui->actionClearRecent->setIcon (QIcon::fromTheme ("edit-clear"));
         ui->actionSave->setIcon (QIcon::fromTheme ("document-save"));
         ui->actionSaveAs->setIcon (QIcon::fromTheme ("document-save-as"));
         ui->actionSaveCodec->setIcon (QIcon::fromTheme ("document-save-as"));
@@ -957,6 +965,39 @@ TextEdit* FPwin::createEmptyTab (bool setCurrent)
     return textEdit;
 }
 /*************************/
+void FPwin::updateRecenMenu()
+{
+    QStringList savedFiles = static_cast<FPsingleton*>(qApp)->getConfig()
+                             .getRecentFiles();
+    QList<QAction *> actions = ui->menuOpenRecently->actions();
+    int recentSize = savedFiles.count();
+    QFontMetrics metrics (ui->menuOpenRecently->font());
+    int w = 150 * metrics.width (' ');
+    for (int i = 0; i < RECENT_NUMBER; ++i)
+    {
+        if (i < recentSize)
+        {
+            actions.at (i)->setText (metrics.elidedText (savedFiles.at (i), Qt::ElideMiddle, w));
+            actions.at (i)->setData (savedFiles.at (i));
+            actions.at (i)->setVisible (true);
+        }
+        else
+        {
+            actions.at (i)->setText (QString());
+            actions.at (i)->setData (QVariant());
+            actions.at (i)->setVisible (false);
+        }
+    }
+    ui->actionClearRecent->setEnabled (recentSize != 0);
+}
+/*************************/
+void FPwin::clearRecentMenu()
+{
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    config.clearRecentFiles();
+    updateRecenMenu();
+}
+/*************************/
 void FPwin::reformat (TextEdit *textEdit)
 {
     formatTextRect (textEdit->rect()); // in "syntax.cpp"
@@ -1559,6 +1600,13 @@ void FPwin::newTabFromName (const QString& fileName, bool multiple)
     }
 }
 /*************************/
+void FPwin::newTabFromRecent()
+{
+    QAction *action = qobject_cast<QAction*>(QObject::sender());
+    if (!action) return;
+    loadText (action->data().toString(), false, false, false);
+}
+/*************************/
 void FPwin::fileOpen()
 {
     if (isLoading()) return;
@@ -1950,8 +1998,9 @@ bool FPwin::saveFile (bool keepSyntax)
         if (w > 200 * metrics.width (' ')) w = 200 * metrics.width (' ');
         QString elidedTip = metrics.elidedText (tip, Qt::ElideMiddle, w);
         ui->tabWidget->setTabToolTip (index, elidedTip);
-        lastFile_ = lastSavedFile_ = fname;
-        lastSaveTime_ = QTime::currentTime();
+        lastFile_ = fname;
+        Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+        config.addRecentFile (lastFile_);
         if (!keepSyntax)
         { // uninstall and reinstall the syntax highlgihter if the programming language is changed
             QString prevLan = tabinfo->prog;

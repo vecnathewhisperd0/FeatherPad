@@ -116,8 +116,8 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     ui->commandLabel->setEnabled (config.getExecuteScripts());
     connect (ui->commandEdit, &QLineEdit::textEdited, this, &PrefDialog::prefCommand);
 
-    ui->lastFileBox->setChecked (config.getRememberLastSavedFile());
-    connect (ui->lastFileBox, &QCheckBox::stateChanged, this, &PrefDialog::prefLasFile);
+    ui->recentSpin->setValue (config.getOpenRecentFiles_());
+    connect (ui->recentSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefOpenRecentFile);
 
     connect (ui->closeButton, &QAbstractButton::clicked, this, &QDialog::close);
     connect (ui->helpButton, &QAbstractButton::clicked, this, &PrefDialog::showWhatsThis);
@@ -480,7 +480,8 @@ void PrefDialog::prefHideSingleTab (int checked)
 /*************************/
 void PrefDialog::prefMaxSHSize (int value)
 {
-    static_cast<FPsingleton*>(qApp)->getConfig().setMaxSHSize (value);
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    config.setMaxSHSize (value);
 }
 /*************************/
 void PrefDialog::prefExecute (int checked)
@@ -517,17 +518,14 @@ void PrefDialog::prefExecute (int checked)
 /*************************/
 void PrefDialog::prefCommand (QString command)
 {
-    static_cast<FPsingleton*>(qApp)->getConfig().setExecuteCommand (command);
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    config.setExecuteCommand (command);
 }
 /*************************/
-void PrefDialog::prefLasFile (int checked)
+void PrefDialog::prefOpenRecentFile (int value)
 {
-    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
-    Config& config = singleton->getConfig();
-    if (checked == Qt::Checked)
-        config.setRememberLastSavedFile (true);
-    else if (checked == Qt::Unchecked)
-        config.setRememberLastSavedFile (false);
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    config.setOpenRecentFiles_ (value);
 }
 /*************************/
 void PrefDialog::prefStartSize (int value)

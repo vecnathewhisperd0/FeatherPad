@@ -194,7 +194,7 @@ and-drop either.</string>
    <item row="0" column="1">
     <widget class="QGroupBox" name="textGoupBox">
      <property name="title">
-      <string>Text</string>
+      <string>Text &amp;&amp; File</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
       <item row="0" column="0" colspan="3">
@@ -380,19 +380,34 @@ will be shown by a popup dialog.</string>
         </property>
        </widget>
       </item>
-      <item row="10" column="0" colspan="3">
-       <widget class="QCheckBox" name="lastFileBox">
+      <item row="10" column="0" colspan="2">
+       <widget class="QLabel" name="recentLabel">
         <property name="toolTip">
-         <string>If this is checked, FeatherPad will remember
-the last file saved in a session and will open
-it with an empty startup in the next session,
-provided that the file exists and is readable.
+         <string>The maximum number of recently modified files
+FeatherPad should open with an empty startup
+of a session.
 
-Remembering of the last modified file starts
-once this option is enabled.</string>
+Zero (the default) means starting with no file.</string>
         </property>
         <property name="text">
-         <string>Start with the last modified file</string>
+         <string>Start with recently modified files: </string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="2">
+       <widget class="QSpinBox" name="recentSpin">
+        <property name="toolTip">
+         <string>The maximum number of recently modified files
+FeatherPad should open with an empty startup
+of a session.
+
+Zero (the default) means starting with no file.</string>
+        </property>
+        <property name="suffix">
+         <string> file(s)</string>
+        </property>
+        <property name="maximum">
+         <number>10</number>
         </property>
        </widget>
       </item>
