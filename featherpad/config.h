@@ -96,6 +96,16 @@ public:
         darkBgColorValue_ = darkness;
     }
 
+    int getRecentFilesNumber() const {
+        return recentFilesNumber_;
+    }
+    void setRecentFilesNumber (int number) {
+        recentFilesNumber_ = number;
+    }
+    int getCurRecentFilesNumber() const {
+        return curRecentFilesNumber_;
+    }
+
     bool getTabWrapAround() const {
         return tabWrapAround_;
     }
@@ -232,7 +242,7 @@ public:
         return openRecentFiles_;
     }
     void setOpenRecentFiles_ (int number) {
-        openRecentFiles_ = qBound (0, number, 10);
+        openRecentFiles_ = qBound (0, number, 20);
     }
 
     QStringList getLastSavedFiles() const;
@@ -250,7 +260,8 @@ private:
          indentByDefault_, lineByDefault_, syntaxByDefault_, isMaxed_, isFull_, darkColScheme_,
          tabWrapAround_, hideSingleTab_, executeScripts_,
          scrollJumpWorkaround_; // Should a workaround for Qt5's "scroll jump" bug be applied?
-    int tabPosition_, maxSHSize_, lightBgColorValue_, darkBgColorValue_;
+    int tabPosition_, maxSHSize_, lightBgColorValue_, darkBgColorValue_, recentFilesNumber_;
+    int curRecentFilesNumber_; // the start value of recentFilesNumber_ -- fixed during a session
     QSize winSize_, startSize_;
     QFont font_;
     QString executeCommand_;

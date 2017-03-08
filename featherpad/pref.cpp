@@ -116,8 +116,12 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     ui->commandLabel->setEnabled (config.getExecuteScripts());
     connect (ui->commandEdit, &QLineEdit::textEdited, this, &PrefDialog::prefCommand);
 
-    ui->recentSpin->setValue (config.getOpenRecentFiles_());
-    connect (ui->recentSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefOpenRecentFile);
+    ui->recentSpin->setValue (config.getRecentFilesNumber());
+    connect (ui->recentSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefRecentFilesNumber);
+
+    ui->openRecentSpin->setValue (config.getOpenRecentFiles_());
+    ui->openRecentSpin->setMaximum (config.getRecentFilesNumber());
+    connect (ui->openRecentSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefOpenRecentFile);
 
     connect (ui->closeButton, &QAbstractButton::clicked, this, &QDialog::close);
     connect (ui->helpButton, &QAbstractButton::clicked, this, &PrefDialog::showWhatsThis);
@@ -520,6 +524,12 @@ void PrefDialog::prefCommand (QString command)
 {
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
     config.setExecuteCommand (command);
+}
+/*************************/
+void PrefDialog::prefRecentFilesNumber (int value)
+{
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    config.setRecentFilesNumber (value); // doesn't take effect until the next session
 }
 /*************************/
 void PrefDialog::prefOpenRecentFile (int value)

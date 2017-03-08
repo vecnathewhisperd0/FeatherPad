@@ -43,6 +43,7 @@ Config::Config():
     maxSHSize_ (2),
     lightBgColorValue_ (255),
     darkBgColorValue_ (15),
+    recentFilesNumber_ (10),
     winSize_ (QSize (700, 500)),
     startSize_ (QSize (700, 500)),
     font_ (QFont ("Monospace", 9)),
@@ -148,13 +149,14 @@ void Config::readConfig()
         executeScripts_ = true; // false by default
     executeCommand_ = settings.value ("executeCommand").toString();
 
+    recentFilesNumber_ = qBound (1, settings.value ("recentFilesNumber", 10).toInt(), 20);
+    curRecentFilesNumber_ = recentFilesNumber_; // fixed
     recentFiles_ = settings.value ("recentFiles").toStringList();
     recentFiles_.removeAll ("");
     recentFiles_.removeDuplicates();
-    while (recentFiles_.count() > 10)
+    while (recentFiles_.count() > recentFilesNumber_)
         recentFiles_.removeLast();
-
-    openRecentFiles_ = qBound (0, settings.value ("openRecentFiles", 0).toInt(), 10);
+    openRecentFiles_ = qBound (0, settings.value ("openRecentFiles", 0).toInt(), recentFilesNumber_);
 
     settings.endGroup();
 }
@@ -213,10 +215,15 @@ void Config::writeConfig()
     settings.setValue ("darkColorScheme", darkColScheme_);
     settings.setValue ("scrollJumpWorkaround", scrollJumpWorkaround_);
     settings.setValue ("maxSHSize", maxSHSize_);
+
     settings.setValue ("lightBgColorValue", lightBgColorValue_);
     settings.setValue ("darkBgColorValue", darkBgColorValue_);
     settings.setValue ("executeScripts", executeScripts_);
+
+    settings.setValue ("recentFilesNumber", recentFilesNumber_);
     settings.setValue ("executeCommand", executeCommand_);
+    while (recentFiles_.count() > recentFilesNumber_) // recentFilesNumber_ may have decreased
+        recentFiles_.removeLast();
     settings.setValue ("recentFiles", recentFiles_);
     settings.setValue ("openRecentFiles", openRecentFiles_);
 
@@ -227,10 +234,11 @@ void Config::addRecentFile (QString file)
 {
     recentFiles_.removeAll (file);
     recentFiles_.prepend (file);
-    while (recentFiles_.count() > 10)
+    while (recentFiles_.count() > curRecentFilesNumber_)
         recentFiles_.removeLast();
 }
 /*************************/
+// Used only at the session start
 QStringList Config::getLastSavedFiles() const
 {
     QStringList res;

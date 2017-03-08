@@ -32,8 +32,6 @@
 
 #include "x11.h"
 
-#define RECENT_NUMBER 10
-
 namespace FeatherPad {
 
 void BusyMaker::waiting() {
@@ -101,18 +99,6 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
         tbList.at (tbList.count() - 1)->setPopupMode (QToolButton::InstantPopup);
 
     newTab();
-
-    QAction* recentAction = nullptr;
-    for (int i = 0; i < RECENT_NUMBER; ++i)
-    {
-        recentAction = new QAction (this);
-        recentAction->setVisible (false);
-        connect (recentAction, &QAction::triggered, this, &FPwin::newTabFromRecent);
-        ui->menuOpenRecently->addAction (recentAction);
-    }
-    ui->menuOpenRecently->addAction (ui->actionClearRecent);
-    connect (ui->menuOpenRecently, &QMenu::aboutToShow, this, &FPwin::updateRecenMenu);
-    connect (ui->actionClearRecent, &QAction::triggered, this, &FPwin::clearRecentMenu);
 
     aGroup_ = new QActionGroup (this);
     ui->actionUTF_8->setActionGroup (aGroup_);
@@ -319,6 +305,23 @@ void FPwin::applyConfig()
         ui->tabWidget->setTabPosition ((QTabWidget::TabPosition) config.getTabPosition());
 
     ui->tabWidget->tabBar()->hideSingle (config.getHideSingleTab());
+
+
+    int recentNumber = config.getCurRecentFilesNumber();
+    QAction* recentAction = nullptr;
+    for (int i = 0; i < recentNumber; ++i)
+    {
+        recentAction = new QAction (this);
+        recentAction->setVisible (false);
+        connect (recentAction, &QAction::triggered, this, &FPwin::newTabFromRecent);
+        ui->menuOpenRecently->addAction (recentAction);
+    }
+    ui->menuOpenRecently->addAction (ui->actionClearRecent);
+    connect (ui->menuOpenRecently, &QMenu::aboutToShow, this, &FPwin::updateRecenMenu);
+    connect (ui->actionClearRecent, &QAction::triggered, this, &FPwin::clearRecentMenu);
+
+
+
 
     bool rtl (QApplication::layoutDirection() == Qt::RightToLeft);
     if (config.getSysIcon())
@@ -967,13 +970,15 @@ TextEdit* FPwin::createEmptyTab (bool setCurrent)
 /*************************/
 void FPwin::updateRecenMenu()
 {
-    QStringList savedFiles = static_cast<FPsingleton*>(qApp)->getConfig()
-                             .getRecentFiles();
+    Config config = static_cast<FPsingleton*>(qApp)->getConfig();
+    QStringList savedFiles = config.getRecentFiles();
+    int recentNumber = config.getCurRecentFilesNumber();
+
     QList<QAction *> actions = ui->menuOpenRecently->actions();
     int recentSize = savedFiles.count();
     QFontMetrics metrics (ui->menuOpenRecently->font());
     int w = 150 * metrics.width (' ');
-    for (int i = 0; i < RECENT_NUMBER; ++i)
+    for (int i = 0; i < recentNumber; ++i)
     {
         if (i < recentSize)
         {
@@ -3236,7 +3241,7 @@ void FPwin::aboutDialog()
     if (hasAnotherDialog()) return;
     disableShortcuts (true);
     MessageBox msgBox (this);
-    msgBox.setText ("<center><b><big>FeatherPad 0.5.9</big></b></center><br>");
+    msgBox.setText (QString ("<center><b><big>%1 %2</big></b></center><br>").arg (qApp->applicationName()).arg (qApp->applicationVersion()));
     msgBox.setInformativeText ("<center> " + tr ("A lightweight, tabbed, plain-text editor") + " </center>\n<center> "
                                + tr ("based on Qt5") + " </center><br><center> "
                                + tr ("Author")+": <a href='mailto:tsujan2000@gmail.com?Subject=My%20Subject'>Pedram Pourang ("

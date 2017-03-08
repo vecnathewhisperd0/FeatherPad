@@ -33,15 +33,24 @@ void handleQuitSignals (const std::vector<int>& quitSignals)
 
 int main (int argc, char *argv[])
 {
+    QString name = "FeatherPad";
+    QString version = "0.6";
     QString option = QString::fromUtf8 (argv[1]);
     if (option == "--help" || option == "-h")
     {
         QTextStream out (stdout);
         out << "FeatherPad - Lightweight Qt5 text editor\n"\
-               "Usage:\n	featherpad [option] [file(s)]\n\n"\
+               "Usage:\n	featherpad [option] [file1 file2 ....]\n\n"\
                "Options:\n\n"\
-               "--help or -h    Show this help and exit.\n"\
-               "--win or -w     Open the file(s) in a new window." <<  endl;
+               "--help or -h     Show this help and exit.\n"\
+               "--version or -v  Show the version information and exit.\n"\
+               "--win or -w      Open the file(s) in a new window." <<  endl;
+        return 0;
+    }
+    else if (option == "--version" || option == "-v")
+    {
+        QTextStream out (stdout);
+        out << name << " " << version <<  endl;
         return 0;
     }
 
@@ -57,6 +66,8 @@ int main (int argc, char *argv[])
     FeatherPad::FPsingleton singleton (argc, argv, QString (qgetenv ("USER"))
                                                    + homeStr
                                                    + "-featherpad");
+    singleton.setApplicationName (name);
+    singleton.setApplicationVersion (version);
 
     handleQuitSignals ({SIGQUIT, SIGINT, SIGTERM, SIGHUP}); // -> https://en.wikipedia.org/wiki/Unix_signal
 

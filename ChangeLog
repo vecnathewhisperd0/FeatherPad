@@ -1,3 +1,8 @@
+V0.6.0
+---------
+ * FeatherPad deserves a new version.
+ * Made the number of the "Recently Modified" menu items optional.
+
 V0.5.9
 ---------
  * Added support for FreeBSD.

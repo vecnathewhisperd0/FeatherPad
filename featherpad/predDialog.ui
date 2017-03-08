@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>650</width>
-    <height>350</height>
+    <height>360</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -384,6 +384,38 @@ will be shown by a popup dialog.</string>
        <widget class="QLabel" name="recentLabel">
         <property name="toolTip">
          <string>The maximum number of recently modified files
+FeatherPad shows. The default is 10.
+
+Needs application restart to take effect.</string>
+        </property>
+        <property name="text">
+         <string>Number of recently modified files: </string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="2">
+       <widget class="QSpinBox" name="recentSpin">
+        <property name="toolTip">
+         <string>The maximum number of recently modified files
+FeatherPad shows. The default is 10.
+
+Needs application restart to take effect.</string>
+        </property>
+        <property name="suffix">
+         <string> file(s)</string>
+        </property>
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>20</number>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="0" colspan="2">
+       <widget class="QLabel" name="openRecentLabel">
+        <property name="toolTip">
+         <string>The maximum number of recently modified files
 FeatherPad should open with an empty startup
 of a session.
 
@@ -394,8 +426,8 @@ Zero (the default) means starting with no file.</string>
         </property>
        </widget>
       </item>
-      <item row="10" column="2">
-       <widget class="QSpinBox" name="recentSpin">
+      <item row="11" column="2">
+       <widget class="QSpinBox" name="openRecentSpin">
         <property name="toolTip">
          <string>The maximum number of recently modified files
 FeatherPad should open with an empty startup
@@ -411,7 +443,7 @@ Zero (the default) means starting with no file.</string>
         </property>
        </widget>
       </item>
-      <item row="11" column="0" colspan="3">
+      <item row="12" column="0" colspan="3">
        <widget class="QCheckBox" name="scrollBox">
         <property name="toolTip">
          <string>This is not a complete fix but
