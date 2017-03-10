@@ -32,7 +32,7 @@ bool VScrollBar::event (QEvent *event)
     if (event->type() == QEvent::Enter)
         QApplication::setWheelScrollLines (102);
     else if (event->type() == QEvent::QEvent::Leave)
-       QApplication::setWheelScrollLines (defaultWheelSpeed);
+        QApplication::setWheelScrollLines (defaultWheelSpeed);
 
     return QScrollBar::event (event);
 }

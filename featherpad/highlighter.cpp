@@ -1730,7 +1730,8 @@ void Highlighter::highlightBlock (const QString &text)
                 int l = length;
                 /* in c/c++, the neutral pattern after "#define" may contain
                    a slash but it's harmless to do this always: */
-                while (format (index + l) == commentFormat) --l;
+                while (format (index + l - 1) == commentFormat)
+                    --l;
                 setFormat (index, l, rule.format);
                 index = expression.indexIn (text, index + length);
 
