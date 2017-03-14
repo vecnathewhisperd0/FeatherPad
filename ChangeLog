@@ -2,6 +2,10 @@ V0.6.0
 ---------
  * FeatherPad deserves a new version.
  * Made the number of the "Recently Modified" menu items optional.
+ * Give each tab a separate search bar to preserve search undo/redo history on switching tabs and also to have completely independent searches.
+ * Removed the remainder of the old C structure of the code.
+ * Change the title of the Replacement dock appropriately on tab switching.
+ * Workarounds for some KDE bugs (automatic mnemonics and double slashes).
 
 V0.5.9
 ---------

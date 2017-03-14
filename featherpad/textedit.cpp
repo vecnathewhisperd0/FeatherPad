@@ -29,6 +29,10 @@ TextEdit::TextEdit (QWidget *parent) : QPlainTextEdit (parent)
     resizeTimerId = 0;
     updateTimerId = 0;
     Dy = 0;
+    size_ = 0;
+    wordNumber_ = -1; // not calculated yet
+    encoding_= "UTF-8";
+    highlighter_ = nullptr;
     setFrameShape (QFrame::NoFrame);
     /* first we replace the widget's vertical scrollbar with ours because
        we want faster wheel scrolling when the mouse cursor is on the scrollbar */

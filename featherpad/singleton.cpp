@@ -124,7 +124,9 @@ FPwin* FPsingleton::newWin (const QString& message)
             QString sli = sl.at (i);
             if (sli.startsWith ("file://"))
                 sli = QUrl (sli).toLocalFile();
-            fp->newTabFromName (sli, multiple);
+            /* always an absolute path (works around KDE double slash bug too) */
+            QFileInfo fInfo (sli);
+            fp->newTabFromName (fInfo.absoluteFilePath(), multiple);
         }
     }
     else if (!lastSavedFiles_.isEmpty())
@@ -165,9 +167,19 @@ void FPsingleton::handleMessage (const QString& message)
            and doesn't have a modal dialog... */
         if (!isX11_ // always open a new tab on wayland
             || (onWhichDesktop (id) == d
-                && (!Wins.at (i)->isMinimized() || isWindowShaded (id))
-                && Wins.at (i)->findChildren<QDialog*>().isEmpty()))
+                && (!Wins.at (i)->isMinimized() || isWindowShaded (id))))
         {
+            bool hasDialog = false;
+            QList<QDialog*> dialogs = Wins.at (i)->findChildren<QDialog*>();
+            for (int j = 0; j < dialogs.count(); ++j)
+            {
+                if (dialogs.at (j)->objectName() !=  "processDialog")
+                {
+                    hasDialog = true;
+                    break;
+                }
+            }
+            if (hasDialog) break;
             /* consider viewports too, so that if more than half of the width as well as the height
                of the window is inside the current viewport (of the current desktop), open a new tab */
             QRect g = Wins.at (i)->geometry();
@@ -193,7 +205,8 @@ void FPsingleton::handleMessage (const QString& message)
                         QString slj = sl.at (j);
                         if (slj.startsWith ("file://"))
                             slj = QUrl (slj).toLocalFile();
-                        Wins.at (i)->newTabFromName (slj, multiple);
+                        QFileInfo fInfo (slj);
+                        Wins.at (i)->newTabFromName (fInfo.absoluteFilePath(), multiple);
                     }
                 }
                 found = true;

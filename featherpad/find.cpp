@@ -95,8 +95,8 @@ QTextCursor FPwin::finding (const QString str, const QTextCursor& start, QTextDo
     if (ui->tabWidget->currentIndex() == -1 || str.isEmpty())
         return QTextCursor(); // null cursor
 
-    TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->currentWidget());
-    QTextDocument *txtdoc = textEdit->document();
+    QTextDocument *txtdoc = qobject_cast< TabPage *>(ui->tabWidget->currentWidget())
+                            ->textEdit()->document();
     QTextCursor res = start;
     if (str.contains ('\n'))
     {
@@ -320,20 +320,20 @@ QTextCursor FPwin::finding (const QString str, const QTextCursor& start, QTextDo
     return res;
 }
 /*************************/
-void FPwin::find()
+void FPwin::find(bool forward)
 {
     if (isLoading()) return;
 
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
 
-    TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
-    tabInfo *tabinfo = tabsInfo_[textEdit];
-    QString txt = ui->lineEdit->text();
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
+    TextEdit *textEdit = tabPage->textEdit();
+    QString txt = tabPage->searchEntry();
     bool newSrch = false;
-    if (tabinfo->searchEntry != txt)
+    if (textEdit->getSearchedText() != txt)
     {
-        tabinfo->searchEntry = txt;
+        textEdit->setSearchedText (txt);
         newSrch = true;
     }
 
@@ -345,25 +345,24 @@ void FPwin::find()
     {
         /* remove all yellow and green highlights */
         QList<QTextEdit::ExtraSelection> es;
-        tabinfo->greenSel = es; // not needed
+        textEdit->setGreenSel (es); // not needed
         if (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible())
             es.prepend (textEdit->currentLineSelection());
-        es.append (tabinfo->redSel);
+        es.append (textEdit->getRedSel());
         textEdit->setExtraSelections (es);
         return;
     }
 
-    setSearchFlagsAndHighlight (false);
-    QTextDocument::FindFlags newFlags = searchFlags_;
-    if (QObject::sender() == ui->toolButton_prv)
-        newFlags = searchFlags_ | QTextDocument::FindBackward;
-
+    QTextDocument::FindFlags searchFlags = getSearchFlags();
+    QTextDocument::FindFlags newFlags = searchFlags;
+    if (!forward)
+        newFlags = searchFlags | QTextDocument::FindBackward;
     QTextCursor start = textEdit->textCursor();
     QTextCursor found = finding (txt, start, newFlags);
 
     if (found.isNull())
     {
-        if (QObject::sender() == ui->toolButton_prv)
+        if (!forward)
             start.movePosition (QTextCursor::End, QTextCursor::MoveAnchor);
         else
             start.movePosition (QTextCursor::Start, QTextCursor::MoveAnchor);
@@ -392,14 +391,16 @@ void FPwin::hlight() const
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
 
-    TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
-    tabInfo *tabinfo = tabsInfo_[textEdit];
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
+    TextEdit *textEdit = tabPage->textEdit();
 
-    QString txt = tabinfo->searchEntry;
+    QString txt = textEdit->getSearchedText();
     if (txt.isEmpty()) return;
 
+    QTextDocument::FindFlags searchFlags = getSearchFlags();
+
     /* prepend green highlights */
-    QList<QTextEdit::ExtraSelection> es = tabinfo->greenSel;
+    QList<QTextEdit::ExtraSelection> es = textEdit->getGreenSel();
     QColor color = QColor (textEdit->hasDarkScheme() ? QColor (115, 115, 0) : Qt::yellow);
     QTextCursor found;
     /* first put a start cursor at the top left edge... */
@@ -426,9 +427,9 @@ void FPwin::hlight() const
     visCur.setPosition (end.position(), QTextCursor::KeepAnchor);
     QString str = visCur.selection().toPlainText(); // '\n' is included in this way
     Qt::CaseSensitivity cs = Qt::CaseInsensitive;
-    if (ui->pushButton_case->isChecked()) cs = Qt::CaseSensitive;
+    if (tabPage->matchCase()) cs = Qt::CaseSensitive;
     while (str.contains (txt, cs) // don't waste time if the searched text isn't visible
-           && !(found = finding (txt, start, searchFlags_, endLimit)).isNull())
+           && !(found = finding (txt, start, searchFlags, endLimit)).isNull())
     {
         QTextEdit::ExtraSelection extra;
         extra.format.setBackground (color);
@@ -442,7 +443,7 @@ void FPwin::hlight() const
     if (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible())
         es.prepend (textEdit->currentLineSelection());
     /* append red highlights */
-    es.append (tabinfo->redSel);
+    es.append (textEdit->getRedSel());
     textEdit->setExtraSelections (es);
 }
 /*************************/
@@ -451,82 +452,34 @@ void FPwin::hlighting (const QRect&, int dy) const
     if (dy) hlight();
 }
 /*************************/
-void FPwin::setSearchFlagsAndHighlight (bool h)
+void FPwin::searchFlagChanged()
 {
-    if (ui->pushButton_whole->isChecked() && ui->pushButton_case->isChecked())
-        searchFlags_ = QTextDocument::FindWholeWords | QTextDocument::FindCaseSensitively;
-    else if (ui->pushButton_whole->isChecked() && !ui->pushButton_case->isChecked())
-        searchFlags_ = QTextDocument::FindWholeWords;
-    else if (!ui->pushButton_whole->isChecked() && ui->pushButton_case->isChecked())
-        searchFlags_ = QTextDocument::FindCaseSensitively;
-    else
-        searchFlags_ = 0;
+    if (isLoading()) return;
+
+    int index = ui->tabWidget->currentIndex();
+    if (index == -1) return;
 
     /* deselect text for consistency */
-    if (QObject::sender() == ui->pushButton_case || (QObject::sender() == ui->pushButton_whole))
+    TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
+    QTextCursor start = textEdit->textCursor();
+    if (start.hasSelection())
     {
-        QHash<TextEdit*,tabInfo*>::iterator it;
-        for (it = tabsInfo_.begin(); it != tabsInfo_.end(); ++it)
-        {
-            QTextCursor start = it.key()->textCursor();
-            if (start.hasSelection())
-            {
-                start.setPosition (start.anchor());
-                it.key()->setTextCursor (start);
-            }
-        }
-
+        start.setPosition (start.anchor());
+        textEdit->setTextCursor (start);
     }
 
-    if (h) hlight();
+    hlight();
 }
 /*************************/
-void FPwin::setSearchFlags()
+QTextDocument::FindFlags FPwin::getSearchFlags() const
 {
-    if (isLoading()) return;
-
-    setSearchFlagsAndHighlight (true);
-}
-/*************************/
-void FPwin::showHideSearch()
-{
-    if (isLoading()) return;
-
-    bool visibility = ui->lineEdit->isVisible();
-
-    if (!visibility)
-        ui->lineEdit->setFocus();
-    else
-    {
-        ui->dockReplace->setVisible (false); // searchbar is needed by replace dock
-        /* return focus to the document,... */
-        qobject_cast< TextEdit *>(ui->tabWidget->currentWidget())->setFocus();
-        /* ... empty all search entries,... */
-        ui->lineEdit->clear();
-        /* ... and remove all yellow and green highlights */
-        int count = ui->tabWidget->count();
-        if (count > 0)
-        {
-            for (int index = 0; index < count; ++index)
-            {
-                TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
-                tabInfo *tabinfo = tabsInfo_[textEdit];
-                tabinfo->searchEntry = QString();
-                QList<QTextEdit::ExtraSelection> es;
-                tabinfo->greenSel = es; // not needed
-                if (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible())
-                    es.prepend (textEdit->currentLineSelection());
-                es.append (tabinfo->redSel);
-                textEdit->setExtraSelections (es);
-            }
-        }
-    }
-
-    ui->lineEdit->setVisible (!visibility);
-    ui->pushButton_case->setVisible (!visibility);
-    ui->toolButton_nxt->setVisible (!visibility);
-    ui->toolButton_prv->setVisible (!visibility);
-    ui->pushButton_whole->setVisible (!visibility);
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
+    QTextDocument::FindFlags searchFlags = 0;
+    if (tabPage->matchWhole())
+        searchFlags = QTextDocument::FindWholeWords;
+    if (tabPage->matchCase())
+        searchFlags |= QTextDocument::FindCaseSensitively;
+    return searchFlags;
 }
 
 }

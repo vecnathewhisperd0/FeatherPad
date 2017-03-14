@@ -36,41 +36,40 @@ void FPwin::toggleSyntaxHighlighting()
     if (ui->actionSyntax->isChecked())
     {
         for (int i = 0; i < count; ++i)
-            syntaxHighlighting (tabsInfo_[qobject_cast< TextEdit *>(ui->tabWidget->widget (i))]);
+            syntaxHighlighting (qobject_cast< TabPage *>(ui->tabWidget->widget (i))->textEdit());
     }
     else
     {
-        QHash<TextEdit*,tabInfo*>::iterator it;
-        for (it = tabsInfo_.begin(); it != tabsInfo_.end(); ++it)
+        for (int i = 0; i < count; ++i)
         {
-            disconnect (it.key(), &TextEdit::updateRect, this, &FPwin::formatVisibleText);
-            disconnect (it.key(), &TextEdit::resized, this, &FPwin::formatonResizing);
-            disconnect (it.key(), &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
-            disconnect (it.key(), &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
-            tabInfo *tabinfo = tabsInfo_[it.key()];
+            TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (i))->textEdit();
+            disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
+            disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatonResizing);
+            disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
+            disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
 
-            QList<QTextEdit::ExtraSelection> es = it.key()->extraSelections();
-            int n = tabinfo->redSel.count();
+            QList<QTextEdit::ExtraSelection> es = textEdit->extraSelections();
+            int n = textEdit->getRedSel().count();
             while (n > 0 && !es.isEmpty())
             {
                 es.removeLast();
                 --n;
             }
-            tabinfo->redSel = QList<QTextEdit::ExtraSelection>();
-            it.key()->setExtraSelections (es);
+            textEdit->setRedSel (QList<QTextEdit::ExtraSelection>());
+            textEdit->setExtraSelections (es);
 
-            highlighter = tabinfo->highlighter;
-            tabinfo->highlighter = nullptr;
+            highlighter = qobject_cast< Highlighter *>(textEdit->getHighlighter());
+            textEdit->setHighlighter (nullptr);
             delete highlighter; highlighter = nullptr;
         }
     }
 }
 /*************************/
-void FPwin::setProgLang (tabInfo *tabinfo)
+void FPwin::setProgLang (TextEdit *textEdit)
 {
-    if (tabinfo == nullptr) return;
+    if (textEdit == nullptr) return;
 
-    QString fname = tabinfo->fileName;
+    QString fname = textEdit->getFileName();
     if (fname.isEmpty()) return;
 
     if (fname.endsWith (".sub"))
@@ -221,20 +220,22 @@ void FPwin::setProgLang (tabInfo *tabinfo)
         }*/
     }
 
-    tabinfo->prog = progLan;
+    textEdit->setProg (progLan);
 }
 /*************************/
-void FPwin::syntaxHighlighting (tabInfo *tabinfo)
+void FPwin::syntaxHighlighting (TextEdit *textEdit)
 {
-    if (tabinfo == nullptr) return;
+    if (textEdit == nullptr) return;
 
-    QString progLan = tabinfo->prog;
-    if (progLan.isEmpty()) return;
-
-    if (tabinfo->size > static_cast<FPsingleton*>(qApp)->getConfig().getMaxSHSize()*1024*1024)
+    QString progLan = textEdit->getProg();
+    if (progLan.isEmpty()
+        || progLan == "help") // used for marking the help doc
+    {
         return;
+    }
 
-    TextEdit *textEdit = tabsInfo_.key (tabinfo);
+    if (textEdit->getSize() > static_cast<FPsingleton*>(qApp)->getConfig().getMaxSHSize()*1024*1024)
+        return;
 
     QPoint Point (0, 0);
     QTextCursor start = textEdit->cursorForPosition (Point);
@@ -242,7 +243,7 @@ void FPwin::syntaxHighlighting (tabInfo *tabinfo)
     QTextCursor end = textEdit->cursorForPosition (Point);
 
     Highlighter *highlighter = new Highlighter (textEdit->document(), progLan, start, end, textEdit->hasDarkScheme());
-    tabinfo->highlighter = highlighter;
+    textEdit->setHighlighter (highlighter);
 
     QCoreApplication::processEvents(); // it's necessary to wait until the text is completely loaded
     matchBrackets(); // in case the cursor is beside a bracket when the text is loaded
@@ -269,7 +270,7 @@ void FPwin::formatonResizing() const
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
 
-    TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
+    TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
     formatTextRect (textEdit->rect());
 }
 /*************************/
@@ -278,11 +279,10 @@ void FPwin::formatTextRect (QRect rect) const
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
 
-    TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
-    tabInfo *tabinfo = tabsInfo_[textEdit];
-    Highlighter *highlighter = tabinfo->highlighter;
+    TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
+    Highlighter *highlighter = qobject_cast< Highlighter *>(textEdit->getHighlighter());
     if (highlighter == nullptr) return;
-    QString progLan = tabinfo->prog;
+    QString progLan = textEdit->getProg();
     if (progLan.isEmpty()) return;
 
     QPoint Point (0, 0);

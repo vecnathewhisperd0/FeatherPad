@@ -24,20 +24,19 @@ void FPwin::matchBrackets()
 {
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
-    TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
-    tabInfo *tabinfo = tabsInfo_[textEdit];
+    TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
     TextBlockData *data = static_cast<TextBlockData *>(textEdit->textCursor().block().userData());
     if (!data) return;
 
     QList<QTextEdit::ExtraSelection> es = textEdit->extraSelections();
-    int n = tabinfo->redSel.count();
+    int n = textEdit->getRedSel().count();
     while (n > 0
            && !es.isEmpty()) // just a precaution against crash
     {
         es.removeLast();
         --n;
     }
-    tabinfo->redSel = QList<QTextEdit::ExtraSelection>();
+    textEdit->setRedSel (QList<QTextEdit::ExtraSelection>());
     textEdit->setExtraSelections (es);
 
     /* position of block's first character */
@@ -224,8 +223,7 @@ void FPwin::createSelection (int pos)
 {
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
-    TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
-    tabInfo *tabinfo = tabsInfo_[textEdit];
+    TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
 
     QList<QTextEdit::ExtraSelection> es = textEdit->extraSelections();
 
@@ -237,9 +235,9 @@ void FPwin::createSelection (int pos)
     extra.format.setBackground (textEdit->hasDarkScheme() ? QColor (190, 0, 3) : QColor (255, 150, 150));
     extra.cursor = cursor;
 
-    QList<QTextEdit::ExtraSelection> rsel = tabinfo->redSel;
+    QList<QTextEdit::ExtraSelection> rsel = textEdit->getRedSel();
     rsel.append (extra);
-    tabinfo->redSel = rsel;
+    textEdit->setRedSel (rsel);
     es.append (extra);
 
     textEdit->setExtraSelections (es);

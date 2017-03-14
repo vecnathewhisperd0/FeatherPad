@@ -449,7 +449,8 @@ static const std::string detectCharsetKorean (const char *text)
 // ("UTF-8" for me)
 static const std::string getDefaultCharset()
 {
-    setlocale (LC_ALL, "");
+    if (setlocale (LC_ALL, "") == NULL)
+        return "UTF-8"; // something's wrong; fall back to UTF-8
     const std::string charset = nl_langinfo (CODESET);
     return charset;
 }

@@ -45,6 +45,9 @@
         <property name="toolTip">
          <string>Window frame is excluded.</string>
         </property>
+        <property name="suffix">
+         <string> px</string>
+        </property>
        </widget>
       </item>
       <item row="1" column="2">
@@ -64,6 +67,9 @@
        <widget class="QSpinBox" name="spinY">
         <property name="toolTip">
          <string>Window frame is excluded.</string>
+        </property>
+        <property name="suffix">
+         <string> px</string>
         </property>
        </widget>
       </item>
@@ -401,9 +407,6 @@ FeatherPad shows. The default is 10.
 
 Needs application restart to take effect.</string>
         </property>
-        <property name="suffix">
-         <string> file(s)</string>
-        </property>
         <property name="minimum">
          <number>1</number>
         </property>
@@ -417,9 +420,7 @@ Needs application restart to take effect.</string>
         <property name="toolTip">
          <string>The maximum number of recently modified files
 FeatherPad should open with an empty startup
-of a session.
-
-Zero (the default) means starting with no file.</string>
+of a session.</string>
         </property>
         <property name="text">
          <string>Start with recently modified files: </string>
@@ -431,12 +432,7 @@ Zero (the default) means starting with no file.</string>
         <property name="toolTip">
          <string>The maximum number of recently modified files
 FeatherPad should open with an empty startup
-of a session.
-
-Zero (the default) means starting with no file.</string>
-        </property>
-        <property name="suffix">
-         <string> file(s)</string>
+of a session.</string>
         </property>
         <property name="maximum">
          <number>10</number>

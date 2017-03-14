@@ -8,6 +8,7 @@ First install build dependencies. In Debian-based systems, they are:
 * libx11-dev and libxext-dev (for X11)
 * qtbase5-dev and libqt5x11extras5-dev (for Qt5)
 * libqt5svg5 (for showing own icons)
+* qttools5-dev-tools (for localization)
 
 In Arch-based systems, the required package are:
 
@@ -15,6 +16,7 @@ In Arch-based systems, the required package are:
  * libx11 and libxext (for X11)
  * qt5-base and qt5-x11extras (for Qt5)
  * qt5-svg (for showing own icons)
+ * qt5-tools (for localization)
 
 Then open a terminal inside this folder and issue the following commands:
 
@@ -27,9 +29,9 @@ Afterward, you could use this command for cleaning the source directory:
 
 	make distclean
 
-*******************
-*   Translation   *
-*******************
+**********************************
+*   Translation (Localization)   *
+**********************************
 
 The file 'featherpad/data/translations/featherpad.ts' can serve as the basis for translation. The translated file should be saved in the same directory as "featherpad_LN.ts", where "LN" is the abbreviation for the target language, like "de", "fr", etc.
 

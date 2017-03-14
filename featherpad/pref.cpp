@@ -117,10 +117,13 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     connect (ui->commandEdit, &QLineEdit::textEdited, this, &PrefDialog::prefCommand);
 
     ui->recentSpin->setValue (config.getRecentFilesNumber());
+    ui->recentSpin->setSuffix(" " + (ui->recentSpin->value() > 1 ? tr ("files") : tr ("file")));
     connect (ui->recentSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefRecentFilesNumber);
 
     ui->openRecentSpin->setValue (config.getOpenRecentFiles_());
     ui->openRecentSpin->setMaximum (config.getRecentFilesNumber());
+    ui->openRecentSpin->setSuffix(" " + (ui->openRecentSpin->value() > 1 ? tr ("files") : tr ("file")));
+    ui->openRecentSpin->setSpecialValueText (tr ("No file"));
     connect (ui->openRecentSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefOpenRecentFile);
 
     connect (ui->closeButton, &QAbstractButton::clicked, this, &QDialog::close);
@@ -256,21 +259,18 @@ void PrefDialog::prefStatusbar (int checked)
                 int index = win->ui->tabWidget->currentIndex();
                 if (index > -1)
                 {
-                    win->statusMsgWithLineCount (qobject_cast< TextEdit *>(win->ui->tabWidget->widget (index))
-                                    ->document()->blockCount());
-                    TextEdit *textEdit = nullptr;
-                    QHash<TextEdit*,tabInfo*>::iterator it;
-                    for (it = win->tabsInfo_.begin(); it != win->tabsInfo_.end(); ++it)
+                    TextEdit *textEdit = qobject_cast< TabPage *>(win->ui->tabWidget->widget (index))->textEdit();
+                    win->statusMsgWithLineCount (textEdit->document()->blockCount());
+                    for (int j = 0; j < win->ui->tabWidget->count(); ++j)
                     {
-                        connect (it.key(), &QPlainTextEdit::blockCountChanged, win, &FPwin::statusMsgWithLineCount);
-                        connect (it.key(), &QPlainTextEdit::selectionChanged, win, &FPwin::statusMsg);
+                        TextEdit *thisTextEdit = qobject_cast< TabPage *>(win->ui->tabWidget->widget (j))->textEdit();
+                        connect (thisTextEdit, &QPlainTextEdit::blockCountChanged, win, &FPwin::statusMsgWithLineCount);
+                        connect (thisTextEdit, &QPlainTextEdit::selectionChanged, win, &FPwin::statusMsg);
                     }
-                    textEdit = qobject_cast< TextEdit *>(win->ui->tabWidget->widget (index));
-                    tabInfo *tabinfo = win->tabsInfo_[textEdit];
                     win->ui->statusBar->setVisible (true);
                     if (QToolButton *wordButton = win->ui->statusBar->findChild<QToolButton *>())
                     {
-                        if (tabinfo->wordNumber == -1 // when words aren't counted yet
+                        if (textEdit->getWordNumber() == -1 // when words aren't counted yet
                             && (!textEdit->document()->isEmpty() || textEdit->document()->isModified()))
                         {
                             wordButton->setVisible (false); // becomes "true" below
@@ -318,8 +318,8 @@ void PrefDialog::prefFont (int checked)
             int index = win->ui->tabWidget->currentIndex();
             if (index > -1)
             {
-                config.setFont (qobject_cast< TextEdit *>(win->ui->tabWidget->widget (index))
-                                ->document()->defaultFont());
+                config.setFont (qobject_cast< TabPage *>(win->ui->tabWidget->widget (index))
+                                ->textEdit()->document()->defaultFont());
             }
         }
     }
@@ -423,8 +423,8 @@ void PrefDialog::prefScrollJumpWorkaround (int checked)
             if (count > 0)
             {
                 for (int j = 0; j < count; ++j)
-                    qobject_cast< TextEdit *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
-                                             ->setScrollJumpWorkaround (true);
+                    qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
+                                             ->textEdit()->setScrollJumpWorkaround (true);
             }
         }
     }
@@ -437,8 +437,8 @@ void PrefDialog::prefScrollJumpWorkaround (int checked)
             if (count > 0)
             {
                 for (int j = 0; j < count; ++j)
-                    qobject_cast< TextEdit *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
-                                             ->setScrollJumpWorkaround (false);
+                    qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
+                                             ->textEdit()->setScrollJumpWorkaround (false);
             }
         }
     }
@@ -503,9 +503,8 @@ void PrefDialog::prefExecute (int checked)
             int index = win->ui->tabWidget->currentIndex();
             if (index > -1)
             {
-                TextEdit *textEdit = qobject_cast< TextEdit *>(win->ui->tabWidget->widget (index));
-                tabInfo *tabinfo = win->tabsInfo_[textEdit];
-                if (win->isScriptLang (tabinfo->prog) && QFileInfo (tabinfo->fileName).isExecutable())
+                TextEdit *textEdit = qobject_cast< TabPage *>(win->ui->tabWidget->widget (index))->textEdit();
+                if (win->isScriptLang (textEdit->getProg()) && QFileInfo (textEdit->getFileName()).isExecutable())
                     win->ui->actionRun->setVisible (true);
             }
         }
@@ -530,12 +529,14 @@ void PrefDialog::prefRecentFilesNumber (int value)
 {
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
     config.setRecentFilesNumber (value); // doesn't take effect until the next session
+    ui->recentSpin->setSuffix(" " + (value > 1 ? tr ("files") : tr ("file")));
 }
 /*************************/
 void PrefDialog::prefOpenRecentFile (int value)
 {
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
     config.setOpenRecentFiles_ (value);
+    ui->openRecentSpin->setSuffix(" " + (value > 1 ? tr ("files") : tr ("file")));
 }
 /*************************/
 void PrefDialog::prefStartSize (int value)

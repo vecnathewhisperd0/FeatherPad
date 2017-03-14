@@ -24,27 +24,27 @@ void FPwin::removeGreenSel()
 {
     /* remove green highlights, considering the selection order, namely,
        current line -> replacement -> found matches -> bracket matches */
-    QHash<TextEdit*,tabInfo*>::iterator it;
-    for (it = tabsInfo_.begin(); it != tabsInfo_.end(); ++it)
+    int count = ui->tabWidget->count();
+    for (int i = 0; i < count; ++i)
     {
-        tabInfo *tabinfo = tabsInfo_[it.key()];
+        TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (i))->textEdit();
         QTextEdit::ExtraSelection curLineSel;
-        QList<QTextEdit::ExtraSelection> es = it.key()->extraSelections();
+        QList<QTextEdit::ExtraSelection> es = textEdit->extraSelections();
         if (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible())
         {
-            curLineSel = it.key()->currentLineSelection();
+            curLineSel = textEdit->currentLineSelection();
             if (!es.isEmpty())
                 es.removeFirst();
         }
-        int n = tabinfo->greenSel.count();
+        int n = textEdit->getGreenSel().count();
         while (n > 0 && !es.isEmpty())
         {
             es.removeFirst();
             --n;
         }
         es.prepend (curLineSel);
-        tabinfo->greenSel = QList<QTextEdit::ExtraSelection>();
-        it.key()->setExtraSelections (es);
+        textEdit->setGreenSel (QList<QTextEdit::ExtraSelection>());
+        textEdit->setExtraSelections (es);
     }
 }
 /*************************/
@@ -54,18 +54,11 @@ void FPwin::replaceDock()
 
     if (!ui->dockReplace->isVisible())
     {
-        if (!ui->lineEdit->isVisible()) // replace dock needs searchbar
-        {
-            ui->lineEdit->setVisible (true);
-            ui->pushButton_case->setVisible (true);
-            ui->toolButton_nxt->setVisible (true);
-            ui->toolButton_prv->setVisible (true);
-            ui->pushButton_whole->setVisible (true);
-        }
-        ui->dockReplace->setWindowTitle (tr ("Replacement"));
+        int count = ui->tabWidget->count();
+        for (int i = 0; i < count; ++i) // replace dock needs searchbar
+            qobject_cast< TabPage *>(ui->tabWidget->widget (i))->setSearchBarVisible (true);
+        ui->dockReplace->setWindowTitle (tr ("Rep&lacement"));
         ui->dockReplace->setVisible (true);
-        ui->dockReplace->setTabOrder (ui->lineEditFind, ui->lineEditReplace);
-        ui->dockReplace->setTabOrder (ui->lineEditReplace, ui->toolButtonNext);
         ui->dockReplace->activateWindow();
         ui->dockReplace->raise();
         if (!ui->lineEditFind->hasFocus())
@@ -87,9 +80,14 @@ void FPwin::closeReplaceDock (bool visible)
     txtReplace_.clear();
     removeGreenSel();
 
-    /* return focus to the document */
+    /* return focus to the document and remove the title
+       (other titles will be removed by tabSwitch()) */
     if (ui->tabWidget->count() > 0)
-        qobject_cast< TextEdit *>(ui->tabWidget->currentWidget())->setFocus();
+    {
+        TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->currentWidget())->textEdit();
+        textEdit->setFocus();
+        textEdit->setReplaceTitle (QString());
+    }
 }
 /*************************/
 // Resize the floating dock widget to its minimum size.
@@ -107,11 +105,11 @@ void FPwin::replace()
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
 
-    TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
+    TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
     if (textEdit->isReadOnly()) return;
-    tabInfo *tabinfo = tabsInfo_[textEdit];
 
-    ui->dockReplace->setWindowTitle (tr ("Replacement"));
+    textEdit->setReplaceTitle (QString());
+    ui->dockReplace->setWindowTitle (tr ("Rep&lacement"));
 
     QString txtFind = ui->lineEditFind->text();
     if (txtFind.isEmpty()) return;
@@ -127,7 +125,7 @@ void FPwin::replace()
 
     /* remember all previous (yellow and) green highlights */
     QList<QTextEdit::ExtraSelection> es = textEdit->extraSelections();
-    int n = tabinfo->redSel.count();
+    int n = textEdit->getRedSel().count();
     while (n > 0 && !es.isEmpty())
     {
         es.removeLast();
@@ -136,16 +134,17 @@ void FPwin::replace()
     if (!es.isEmpty() && lineNumShown)
         es.removeFirst();
 
+    QTextDocument::FindFlags searchFlags = getSearchFlags();
     QTextCursor start = textEdit->textCursor();
     QTextCursor tmp = start;
     QTextCursor found;
     if (QObject::sender() == ui->toolButtonNext)
-        found = finding (txtFind, start, searchFlags_);
+        found = finding (txtFind, start, searchFlags);
     else// if (QObject::sender() == ui->toolButtonPrv)
-        found = finding (txtFind, start, searchFlags_ | QTextDocument::FindBackward);
+        found = finding (txtFind, start, searchFlags | QTextDocument::FindBackward);
     QColor color = QColor (textEdit->hasDarkScheme() ? Qt::darkGreen : Qt::green);
     int pos;
-    QList<QTextEdit::ExtraSelection> gsel = tabinfo->greenSel;
+    QList<QTextEdit::ExtraSelection> gsel = textEdit->getGreenSel();
     if (!found.isNull())
     {
         start.setPosition (found.anchor());
@@ -163,11 +162,11 @@ void FPwin::replace()
         es.prepend (extra);
         gsel.append (extra);
     }
-    tabinfo->greenSel = gsel;
+    textEdit->setGreenSel (gsel);
     if (lineNumShown)
         es.prepend (textEdit->currentLineSelection());
     /* append red highlights */
-    es.append (tabinfo->redSel);
+    es.append (textEdit->getRedSel());
     textEdit->setExtraSelections (es);
     /* yellow highlights may need correction */
     hlight();
@@ -180,9 +179,8 @@ void FPwin::replaceAll()
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
 
-    TextEdit *textEdit = qobject_cast< TextEdit *>(ui->tabWidget->widget (index));
+    TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
     if (textEdit->isReadOnly()) return;
-    tabInfo *tabinfo = tabsInfo_[textEdit];
 
     QString txtFind = ui->lineEditFind->text();
     if (txtFind.isEmpty()) return;
@@ -194,6 +192,8 @@ void FPwin::replaceAll()
         removeGreenSel();
     }
 
+    QTextDocument::FindFlags searchFlags = getSearchFlags();
+
     QTextCursor orig = textEdit->textCursor();
     QTextCursor start = orig;
     QColor color = QColor (textEdit->hasDarkScheme() ? Qt::darkGreen : Qt::green);
@@ -201,10 +201,10 @@ void FPwin::replaceAll()
     start.beginEditBlock();
     start.setPosition (0);
     QTextCursor tmp = start;
-    QList<QTextEdit::ExtraSelection> gsel = tabinfo->greenSel;
+    QList<QTextEdit::ExtraSelection> gsel = textEdit->getGreenSel();
     QList<QTextEdit::ExtraSelection> es;
     int count = 0;
-    while (!(found = finding (txtFind, start, searchFlags_)).isNull())
+    while (!(found = finding (txtFind, start, searchFlags)).isNull())
     {
         start.setPosition (found.anchor());
         pos = found.anchor();
@@ -221,23 +221,26 @@ void FPwin::replaceAll()
         gsel.append (extra);
         ++count;
     }
-    tabinfo->greenSel = gsel;
+    textEdit->setGreenSel (gsel);
     start.endEditBlock();
     if ((ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible()))
         es.prepend (textEdit->currentLineSelection());
-    es.append (tabinfo->redSel);
+    es.append (textEdit->getRedSel());
     textEdit->setExtraSelections (es);
     hlight();
     /* restore the original cursor without selection */
     orig.setPosition (orig.anchor());
     textEdit->setTextCursor (orig);
 
+    QString title;
     if (count == 0)
-        ui->dockReplace->setWindowTitle (tr ("No Replacement"));
+        title = tr ("No Replacement");
     else if (count == 1)
-        ui->dockReplace->setWindowTitle (tr ("One Replacement"));
+        title =  tr ("One Replacement");
     else
-        ui->dockReplace->setWindowTitle (tr ("%1 Replacements").arg (count));
+        title = QString ("%1 ").arg (count) + tr ("Replacements");
+    ui->dockReplace->setWindowTitle (title);
+    textEdit->setReplaceTitle (title);
 }
 
 }

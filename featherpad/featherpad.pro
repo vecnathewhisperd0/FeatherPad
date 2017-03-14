@@ -28,7 +28,9 @@ SOURCES += main.cpp \
            highlighter-html.cpp \
            highlighter-patterns.cpp \
            vscrollbar.cpp \
-           loading.cpp
+           loading.cpp \
+           tabpage.cpp \
+           searchbar.cpp
 
 HEADERS += singleton.h \
            fpwin.h \
@@ -44,7 +46,9 @@ HEADERS += singleton.h \
            config.h \
            pref.h \
            loading.h \
-           messagebox.h
+           messagebox.h \
+           tabpage.h \
+           searchbar.h
 
 FORMS += fp.ui \
          predDialog.ui

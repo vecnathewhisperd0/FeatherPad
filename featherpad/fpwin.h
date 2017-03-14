@@ -22,6 +22,7 @@
 #include <QActionGroup>
 #include "highlighter.h"
 #include "textedit.h"
+#include "tabpage.h"
 #include "config.h"
 
 namespace FeatherPad {
@@ -29,27 +30,6 @@ namespace FeatherPad {
 namespace Ui {
 class FPwin;
 }
-
-// All needed information on a tab.
-struct tabInfo
-{
-    QString fileName; // Opened file.
-    qint64 size; // File size for limiting syntax highlighting (the file may be removed).
-    QString searchEntry; // Search entry.
-    QString encoding; // Text encoding.
-    QString prog; // Language for syntax highlighting.
-    int wordNumber;
-    Highlighter *highlighter; // Syntax highlighter.
-    /*
-       Highlighting order: (1) current line;
-                           (2) replacing;
-                           (3) found matches;
-                           (4) bracket matches.
-    */
-    QList<QTextEdit::ExtraSelection> greenSel; // For replaced matches.
-    QList<QTextEdit::ExtraSelection> redSel; // For bracket matches.
-};
-
 
 class BusyMaker : public QObject {
     Q_OBJECT
@@ -120,10 +100,10 @@ private slots:
     void redoing();
     void tabSwitch (int index);
     void fontDialog();
-    void find();
+    void find (bool forward);
     void hlight() const;
     void hlighting (const QRect&, int dy) const;
-    void setSearchFlags();
+    void searchFlagChanged();
     void showHideSearch();
     void showLN (bool checked);
     void toggleSyntaxHighlighting();
@@ -171,30 +151,29 @@ private slots:
 public:
     QWidget *dummyWidget; // Bypasses KDE's demand for a new window.
     Ui::FPwin *ui;
-    QHash<TextEdit*,tabInfo*> tabsInfo_; // Needed info on each tab.
 
 private:
-    TextEdit *createEmptyTab(bool setCurrent);
+    TabPage *createEmptyTab(bool setCurrent);
     bool hasAnotherDialog();
-    void deleteTextEdit (int index);
+    void deleteTabPage (int index);
     void loadText (const QString fileName, bool enforceEncod, bool reload, bool multiple = false);
-    bool alreadyOpen (const QString& fileName, tabInfo *tabinfo = nullptr) const;
+    bool alreadyOpen (TabPage *tabPage) const;
     void setTitle (const QString& fileName, int indx = -1);
     int unSaved (int index, bool noToAll);
     bool saveFile (bool keepSyntax);
     void closeEvent (QCloseEvent *event);
-    bool closeTabs (int leftIndx, int rightIndx, bool closeall);
+    bool closeTabs (int leftIndx, int rightIndx);
     void dragEnterEvent (QDragEnterEvent *event);
     void dropEvent (QDropEvent *event);
     void dropTab (QString str);
     void changeEvent (QEvent *event);
-    void setSearchFlagsAndHighlight (bool h);
+    QTextDocument::FindFlags getSearchFlags() const;
     void enableWidgets (bool enable) const;
-    void disableShortcuts (bool disable) const;
+    void disableShortcuts (bool disable, bool page = true);
     QTextCursor finding (const QString str, const QTextCursor& start, QTextDocument::FindFlags flags = 0,
                          const int end = 0) const;
-    void setProgLang (tabInfo *tabinfo);
-    void syntaxHighlighting (tabInfo *tabinfo);
+    void setProgLang (TextEdit *textEdit);
+    void syntaxHighlighting (TextEdit *textEdit);
     void encodingToCheck (const QString& encoding);
     const QString checkToEncoding() const;
     void applyConfig();
@@ -211,10 +190,8 @@ private:
 
     QActionGroup *aGroup_;
     QString lastFile_; // The last opened or saved file (for file dialogs).
-    QTextDocument::FindFlags searchFlags_; // Whole word and case sensitivity flags (for all tabs).
     QString txtReplace_; // The replacing text.
     int rightClicked_; // The index of the right-clicked tab.
-    bool closeAll_; // Should all tabs be closed? (Needed only in closeOtherTabs().)
     int loadingProcesses_; // The number of loading processes (used to prevent early closing).
     QPointer<QThread> busyThread_; // Used to wait one second for making the cursor busy.
 };

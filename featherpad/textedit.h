@@ -23,13 +23,8 @@
 
 namespace FeatherPad {
 
-/* First, I subclassed QTextEdit just to gain control
-   over pressing Enter and have auto-indentation.
-   Afterward, I changed it to QPlainTextEdit and
-   added codes for showing line numbers, adapted
-   from "Qt4 Documentation/widgets-codeeditor.html".
-   Then, I also changed the default DnD.
-   At last, I replaced the vertical scrollbar. */
+/* This is for auto-indentation, line numbers, DnD, zooming, customized
+   vertical scrollbar, appropriate signals, and saving/getting useful info. */
 class TextEdit : public QPlainTextEdit
 {
     Q_OBJECT
@@ -72,6 +67,75 @@ public:
     }
 
     void zooming (float range);
+
+    qint64 getSize() const {
+        return size_;
+    }
+    void setSize (qint64 size) {
+        size_ = size;
+    }
+
+    int getWordNumber() const {
+        return wordNumber_;
+    }
+    void setWordNumber (int n) {
+        wordNumber_ = n;
+    }
+
+    QString getSearchedText() const {
+        return searchedText_;
+    }
+    void setSearchedText (QString text) {
+        searchedText_ = text;
+    }
+
+    QString getReplaceTitle() const {
+        return replaceTitle_;
+    }
+    void setReplaceTitle (QString title) {
+        replaceTitle_ = title;
+    }
+
+    QString getFileName() const {
+        return fileName_;
+    }
+    void setFileName (QString name) {
+        fileName_ = name;
+    }
+
+    QString getProg() const {
+        return prog_;
+    }
+    void setProg (QString prog) {
+        prog_ = prog;
+    }
+
+    QString getEncoding() const {
+        return encoding_;
+    }
+    void setEncoding (QString encoding) {
+        encoding_ = encoding;
+    }
+
+    QList<QTextEdit::ExtraSelection> getGreenSel() const {
+        return greenSel_;
+    }
+    void setGreenSel (QList<QTextEdit::ExtraSelection> sel) {
+        greenSel_ = sel;
+    }
+    QList<QTextEdit::ExtraSelection> getRedSel() const {
+        return redSel_;
+    }
+    void setRedSel (QList<QTextEdit::ExtraSelection> sel) {
+        redSel_ = sel;
+    }
+
+    QSyntaxHighlighter *getHighlighter() const {
+        return highlighter_;
+    }
+    void setHighlighter (QSyntaxHighlighter *h) {
+        highlighter_ = h;
+    }
 
 signals:
     /* inform the main widget */
@@ -176,7 +240,9 @@ protected:
         {
             bool multiple (source->urls().count() > 1);
             foreach (QUrl url, source->urls())
-                emit fileDropped (url.toLocalFile(), multiple);
+                emit fileDropped (url.adjusted (QUrl::NormalizePathSegments) // KDE may give a double slash
+                                     .toLocalFile(),
+                                  multiple);
         }
         else
             QPlainTextEdit::insertFromMimeData (source);
@@ -235,24 +301,40 @@ private:
     bool scrollJumpWorkaround; // for working around Qt5's scroll jump bug
     int resizeTimerId, updateTimerId; // for not wasting CPU's time
     int Dy;
+    /********************************************
+     ***** All needed information on a page *****
+     ********************************************/
+    qint64 size_; // file size for limiting syntax highlighting (the file may be removed)
+    int wordNumber_; // the calculated number of words (-1 if not counted yet)
+    QString searchedText_; // the text that is being searched in the documnet
+    QString replaceTitle_; // the title of the Replacement dock (can change)
+    QString fileName_; // opened file
+    QString prog_; // programming language (for syntax highlighting)
+    QString encoding_; // text encoding (UTF-8 by default)
+    /*
+       Highlighting order: (1) current line;
+                           (2) replacing;
+                           (3) found matches;
+                           (4) bracket matches.
+    */
+    QList<QTextEdit::ExtraSelection> greenSel_; // for replaced matches
+    QList<QTextEdit::ExtraSelection> redSel_; // for bracket matches
+    QSyntaxHighlighter *highlighter_; // // syntax highlighter
 };
 /*************************/
 class LineNumberArea : public QWidget
 {
 public:
-    LineNumberArea (TextEdit *Editor) : QWidget (Editor)
-    {
+    LineNumberArea (TextEdit *Editor) : QWidget (Editor) {
         editor = Editor;
     }
 
-    QSize sizeHint() const
-    {
+    QSize sizeHint() const {
         return QSize (editor->lineNumberAreaWidth(), 0);
     }
 
 protected:
-    void paintEvent(QPaintEvent *event)
-    {
+    void paintEvent(QPaintEvent *event) {
         editor->lineNumberAreaPaintEvent (event);
     }
 
