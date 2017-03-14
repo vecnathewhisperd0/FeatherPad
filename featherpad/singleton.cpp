@@ -191,7 +191,8 @@ void FPsingleton::handleMessage (const QString& message)
                     /* first, pretend to KDE that a new window is created
                        (without this, the next new window would open on a wrong desktop) */
                     Wins.at (i)->dummyWidget->showMinimized();
-                    QTimer::singleShot (0, Wins.at (i)->dummyWidget, SLOT (close()));
+                    QCoreApplication::processEvents();
+                    Wins.at (i)->dummyWidget->close();
                 }
 
                 /* and then, open tab(s) in the current FeatherPad window... */
