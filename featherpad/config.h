@@ -238,14 +238,21 @@ public:
         executeCommand_ = commnad;
     }
 
-    int getOpenRecentFiles_() const {
+    int getOpenRecentFiles() const {
         return openRecentFiles_;
     }
-    void setOpenRecentFiles_ (int number) {
+    void setOpenRecentFiles (int number) {
         openRecentFiles_ = qBound (0, number, 20);
     }
 
-    QStringList getLastSavedFiles() const;
+    bool getRecentOpened() const {
+        return recentOpened_;
+    }
+    void setRecentOpened (bool opened) {
+        recentOpened_ = opened;
+    }
+
+    QStringList getLastFiles() const;
 
     QStringList getRecentFiles() const {
         return recentFiles_;
@@ -266,6 +273,7 @@ private:
     QFont font_;
     QString executeCommand_;
     int openRecentFiles_;
+    bool recentOpened_;
     QStringList recentFiles_;
 };
 

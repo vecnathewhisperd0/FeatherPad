@@ -312,6 +312,8 @@ void FPwin::applyConfig()
     ui->tabWidget->tabBar()->hideSingle (config.getHideSingleTab());
 
 
+    if (config.getRecentOpened())
+        ui->menuOpenRecently->setTitle (tr ("&Recently Opened"));
     int recentNumber = config.getCurRecentFilesNumber();
     QAction* recentAction = nullptr;
     for (int i = 0; i < recentNumber; ++i)
@@ -324,9 +326,6 @@ void FPwin::applyConfig()
     ui->menuOpenRecently->addAction (ui->actionClearRecent);
     connect (ui->menuOpenRecently, &QMenu::aboutToShow, this, &FPwin::updateRecenMenu);
     connect (ui->actionClearRecent, &QAction::triggered, this, &FPwin::clearRecentMenu);
-
-
-
 
     bool rtl (QApplication::layoutDirection() == Qt::RightToLeft);
     if (config.getSysIcon())
@@ -978,19 +977,19 @@ TabPage* FPwin::createEmptyTab (bool setCurrent)
 void FPwin::updateRecenMenu()
 {
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
-    QStringList savedFiles = config.getRecentFiles();
+    QStringList recentFiles = config.getRecentFiles();
     int recentNumber = config.getCurRecentFilesNumber();
 
     QList<QAction *> actions = ui->menuOpenRecently->actions();
-    int recentSize = savedFiles.count();
+    int recentSize = recentFiles.count();
     QFontMetrics metrics (ui->menuOpenRecently->font());
     int w = 150 * metrics.width (' ');
     for (int i = 0; i < recentNumber; ++i)
     {
         if (i < recentSize)
         {
-            actions.at (i)->setText (metrics.elidedText (savedFiles.at (i), Qt::ElideMiddle, w));
-            actions.at (i)->setData (savedFiles.at (i));
+            actions.at (i)->setText (metrics.elidedText (recentFiles.at (i), Qt::ElideMiddle, w));
+            actions.at (i)->setData (recentFiles.at (i));
             actions.at (i)->setVisible (true);
         }
         else
@@ -1524,10 +1523,13 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
     }
 
     QFileInfo fInfo (fileName);
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
 
     textEdit->setFileName (fileName);
     textEdit->setSize (fInfo.size());
     lastFile_ = fileName;
+    if (config.getRecentOpened())
+        config.addRecentFile (lastFile_);
     textEdit->setEncoding (charset);
     textEdit->setWordNumber (-1);
     setProgLang (textEdit);
@@ -1583,8 +1585,7 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
         if (openInCurrentTab)
         {
             if (isScriptLang (textEdit->getProg()) && fInfo.isExecutable())
-                ui->actionRun->setVisible (static_cast<FPsingleton*>(qApp)->getConfig()
-                                           .getExecuteScripts());
+                ui->actionRun->setVisible (config.getExecuteScripts());
             else
                 ui->actionRun->setVisible (false);
         }

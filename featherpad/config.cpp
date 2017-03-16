@@ -47,7 +47,8 @@ Config::Config():
     winSize_ (QSize (700, 500)),
     startSize_ (QSize (700, 500)),
     font_ (QFont ("Monospace", 9)),
-    openRecentFiles_ (0){}
+    openRecentFiles_ (0),
+    recentOpened_ (false){}
 /*************************/
 Config::~Config() {}
 /*************************/
@@ -157,6 +158,8 @@ void Config::readConfig()
     while (recentFiles_.count() > recentFilesNumber_)
         recentFiles_.removeLast();
     openRecentFiles_ = qBound (0, settings.value ("openRecentFiles", 0).toInt(), recentFilesNumber_);
+    if (settings.value ("recentOpened").toBool())
+        recentOpened_ = true; // false by default
 
     settings.endGroup();
 }
@@ -226,6 +229,7 @@ void Config::writeConfig()
         recentFiles_.removeLast();
     settings.setValue ("recentFiles", recentFiles_);
     settings.setValue ("openRecentFiles", openRecentFiles_);
+    settings.setValue ("recentOpened", recentOpened_);
 
     settings.endGroup();
 }
@@ -239,7 +243,7 @@ void Config::addRecentFile (QString file)
 }
 /*************************/
 // Used only at the session start
-QStringList Config::getLastSavedFiles() const
+QStringList Config::getLastFiles() const
 {
     QStringList res;
     int n = qMin (openRecentFiles_, recentFiles_.count());

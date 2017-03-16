@@ -45,7 +45,8 @@ private slots:
 
 private:
     void closeEvent (QCloseEvent *event);
-    void preftabPosition();
+    void prefTabPosition();
+    void prefRecentFilesKind();
 
     Ui::PrefDialog *ui;
     QWidget * parent_;

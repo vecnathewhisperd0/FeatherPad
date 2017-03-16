@@ -52,8 +52,10 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     ui->spinY->setMaximum (ag.height());
     ui->spinX->setValue (config.getStartSize().width());
     ui->spinY->setValue (config.getStartSize().height());
-    connect (ui->spinX, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefStartSize);
-    connect (ui->spinY, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefStartSize);
+    connect (ui->spinX, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+             this, &PrefDialog::prefStartSize);
+    connect (ui->spinY, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+             this, &PrefDialog::prefStartSize);
 
     ui->iconBox->setChecked (!config.getSysIcon());
     connect (ui->iconBox, &QCheckBox::stateChanged, this, &PrefDialog::prefIcon);
@@ -101,13 +103,15 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
         ui->colorValueSpin->setMaximum (50);
         ui->colorValueSpin->setValue (config.getDarkBgColorValue());
     }
-    connect (ui->colorValueSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefColValue);
+    connect (ui->colorValueSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+             this, &PrefDialog::prefColValue);
 
     ui->scrollBox->setChecked (config.getScrollJumpWorkaround());
     connect (ui->scrollBox, &QCheckBox::stateChanged, this, &PrefDialog::prefScrollJumpWorkaround);
 
     ui->spinBox->setValue (config.getMaxSHSize());
-    connect (ui->spinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefMaxSHSize);
+    connect (ui->spinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+             this, &PrefDialog::prefMaxSHSize);
 
     ui->exeBox->setChecked (config.getExecuteScripts());
     connect (ui->exeBox, &QCheckBox::stateChanged, this, &PrefDialog::prefExecute);
@@ -118,13 +122,18 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
 
     ui->recentSpin->setValue (config.getRecentFilesNumber());
     ui->recentSpin->setSuffix(" " + (ui->recentSpin->value() > 1 ? tr ("files") : tr ("file")));
-    connect (ui->recentSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefRecentFilesNumber);
+    connect (ui->recentSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+             this, &PrefDialog::prefRecentFilesNumber);
 
-    ui->openRecentSpin->setValue (config.getOpenRecentFiles_());
+    ui->openRecentSpin->setValue (config.getOpenRecentFiles());
     ui->openRecentSpin->setMaximum (config.getRecentFilesNumber());
     ui->openRecentSpin->setSuffix(" " + (ui->openRecentSpin->value() > 1 ? tr ("files") : tr ("file")));
     ui->openRecentSpin->setSpecialValueText (tr ("No file"));
-    connect (ui->openRecentSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefOpenRecentFile);
+    connect (ui->openRecentSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+             this, &PrefDialog::prefOpenRecentFile);
+
+    ui->openedButton->setChecked (config.getRecentOpened());
+    // no QButtonGroup connection because we want to see if we should clear the recent list at the end
 
     connect (ui->closeButton, &QAbstractButton::clicked, this, &QDialog::close);
     connect (ui->helpButton, &QAbstractButton::clicked, this, &PrefDialog::showWhatsThis);
@@ -147,8 +156,9 @@ PrefDialog::~PrefDialog()
 /*************************/
 void PrefDialog::closeEvent (QCloseEvent *event)
 {
-    preftabPosition();
+    prefTabPosition();
     event->accept();
+    prefRecentFilesKind();
 }
 /*************************/
 void PrefDialog::showWhatsThis()
@@ -293,7 +303,7 @@ void PrefDialog::prefStatusbar (int checked)
     }
 }
 /*************************/
-void PrefDialog::preftabPosition()
+void PrefDialog::prefTabPosition()
 {
     int index = ui->tabCombo->currentIndex();
     FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
@@ -383,7 +393,8 @@ void PrefDialog::prefSyntax (int checked)
 void PrefDialog::prefDarkColScheme (int checked)
 {
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
-    disconnect (ui->colorValueSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefColValue);
+    disconnect (ui->colorValueSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+                this, &PrefDialog::prefColValue);
     if (checked == Qt::Checked)
     {
         config.setDarkColScheme (true);
@@ -398,7 +409,8 @@ void PrefDialog::prefDarkColScheme (int checked)
         ui->colorValueSpin->setMaximum (255);
         ui->colorValueSpin->setValue (config.getLightBgColorValue());
     }
-    connect (ui->colorValueSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PrefDialog::prefColValue);
+    connect (ui->colorValueSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+             this, &PrefDialog::prefColValue);
 }
 /*************************/
 void PrefDialog::prefColValue (int value)
@@ -530,13 +542,36 @@ void PrefDialog::prefRecentFilesNumber (int value)
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
     config.setRecentFilesNumber (value); // doesn't take effect until the next session
     ui->recentSpin->setSuffix(" " + (value > 1 ? tr ("files") : tr ("file")));
+
+    /* also correct the maximum value of openRecentSpin
+       (its value will be corrected automatically if needed) */
+    ui->openRecentSpin->setMaximum (value);
+    ui->openRecentSpin->setSuffix(" " + (ui->openRecentSpin->value() > 1 ? tr ("files") : tr ("file")));
 }
 /*************************/
 void PrefDialog::prefOpenRecentFile (int value)
 {
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
-    config.setOpenRecentFiles_ (value);
+    config.setOpenRecentFiles (value);
     ui->openRecentSpin->setSuffix(" " + (value > 1 ? tr ("files") : tr ("file")));
+}
+/*************************/
+void PrefDialog::prefRecentFilesKind()
+{
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    Config& config = singleton->getConfig();
+    bool openedKind = ui->openedButton->isChecked();
+    if (config.getRecentOpened() != openedKind)
+    {
+        config.setRecentOpened (openedKind);
+        config.clearRecentFiles();
+        for (int i = 0; i < singleton->Wins.count(); ++i)
+        {
+            singleton->Wins.at (i)->ui->menuOpenRecently->setTitle (openedKind
+                                                                    ? tr ("&Recently Opened")
+                                                                    : tr ("Recently &Modified"));
+        }
+    }
 }
 /*************************/
 void PrefDialog::prefStartSize (int value)

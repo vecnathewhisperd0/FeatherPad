@@ -6,6 +6,7 @@ V0.6.0
  * Removed the remainder of the old C structure of the code.
  * Change the title of the Replacement dock appropriately on tab switching.
  * Workarounds for some KDE bugs (automatic mnemonics and double slashes).
+ * An option to show the recently opened files instead of the recently modified ones.
 
 V0.5.9
 ---------
