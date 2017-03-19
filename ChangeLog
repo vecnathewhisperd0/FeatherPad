@@ -8,6 +8,7 @@ V0.6.0
  * Workarounds for some KDE bugs (automatic mnemonics and double slashes).
  * An option to show the recently opened files instead of the recently modified ones.
  * Added a prompt label to the Preferences dialog.
+ * Support Perls's POD (in syntax highlighting).
 
 V0.5.9
 ---------

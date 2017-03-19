@@ -635,6 +635,11 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
         commentStartExpression = QRegExp ("<!--");
         commentEndExpression = QRegExp ("-->");
     }
+    else if (progLan == "perl")
+    {
+        commentStartExpression = QRegExp ("^=[A-Za-z0-9_]+($|\\s+)");
+        commentEndExpression = QRegExp ("^=cut.*");
+    }
 }
 /*************************/
 // Check if a start or end quotation mark is escaped at some position.
@@ -1230,7 +1235,7 @@ void Highlighter::multiLineComment (const QString &text,
     {
         int badIndex = -1;
         int endIndex;
-        /* when the comment start is in the prvious line
+        /* when the comment starts is in the prvious line
            and the search for the comment end has just begun... */
         if ((previousBlockState() == commState
              || previousBlockState() == commentInCssState)
