@@ -6,335 +6,476 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>650</width>
+    <width>500</width>
     <height>450</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Preferences</string>
   </property>
+  <property name="sizeGripEnabled">
+   <bool>true</bool>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QGroupBox" name="windowGoupBox">
-     <property name="title">
-      <string>Window</string>
+   <item row="0" column="0" colspan="2">
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
      </property>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="0" colspan="4">
-       <widget class="QCheckBox" name="winSizeBox">
-        <property name="text">
-         <string>Remember window &amp;size on closing</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0" alignment="Qt::AlignRight">
-       <widget class="QLabel" name="sizeLable">
-        <property name="toolTip">
-         <string>Window frame is excluded.</string>
-        </property>
-        <property name="text">
-         <string>Start with this size: </string>
-        </property>
-        <property name="indent">
-         <number>5</number>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QSpinBox" name="spinX">
-        <property name="toolTip">
-         <string>Window frame is excluded.</string>
-        </property>
-        <property name="suffix">
-         <string> px</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QLabel" name="mLabel">
-        <property name="toolTip">
-         <string>Window frame is excluded.</string>
-        </property>
-        <property name="text">
-         <string>×</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3">
-       <widget class="QSpinBox" name="spinY">
-        <property name="toolTip">
-         <string>Window frame is excluded.</string>
-        </property>
-        <property name="suffix">
-         <string> px</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="4">
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>5</width>
-          <height>5</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="2" column="0" colspan="4">
-       <widget class="QCheckBox" name="iconBox">
-        <property name="toolTip">
-         <string>Uncheck this if you want FeatherPad to
+     <property name="documentMode">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>Window</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="0" column="0">
+        <widget class="QGroupBox" name="windowGoupBox">
+         <property name="title">
+          <string>Window Settings</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="0" column="0" colspan="4">
+           <widget class="QCheckBox" name="winSizeBox">
+            <property name="text">
+             <string>Remember window &amp;size on closing</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" alignment="Qt::AlignRight">
+           <widget class="QLabel" name="sizeLable">
+            <property name="toolTip">
+             <string>Window frame is excluded.</string>
+            </property>
+            <property name="text">
+             <string>Start with this size: </string>
+            </property>
+            <property name="indent">
+             <number>5</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QSpinBox" name="spinX">
+            <property name="toolTip">
+             <string>Window frame is excluded.</string>
+            </property>
+            <property name="suffix">
+             <string> px</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QLabel" name="mLabel">
+            <property name="toolTip">
+             <string>Window frame is excluded.</string>
+            </property>
+            <property name="text">
+             <string>×</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QSpinBox" name="spinY">
+            <property name="toolTip">
+             <string>Window frame is excluded.</string>
+            </property>
+            <property name="suffix">
+             <string> px</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="4">
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::MinimumExpanding</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>100</width>
+              <height>5</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="2" column="0" colspan="4">
+           <widget class="QCheckBox" name="iconBox">
+            <property name="toolTip">
+             <string>Uncheck this if you want FeatherPad to
 use system icons!
 
 Needs application restart to take effect.</string>
-        </property>
-        <property name="text">
-         <string>&amp;Use own icons</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0" colspan="4">
-       <widget class="QCheckBox" name="toolbarBox">
-        <property name="text">
-         <string>Do not show &amp;toolbar</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0" colspan="4">
-       <widget class="QCheckBox" name="menubarBox">
-        <property name="toolTip">
-         <string>If the menubar is hidden,
+            </property>
+            <property name="text">
+             <string>&amp;Use own icons</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" colspan="4">
+           <widget class="QCheckBox" name="toolbarBox">
+            <property name="text">
+             <string>Do not show &amp;toolbar</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0" colspan="4">
+           <widget class="QCheckBox" name="menubarBox">
+            <property name="toolTip">
+             <string>If the menubar is hidden,
 a menu button appears on the toolbar.</string>
-        </property>
-        <property name="text">
-         <string>Do not show &amp;menubar</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0" colspan="4">
-       <widget class="QCheckBox" name="searchbarBox">
-        <property name="text">
-         <string>Hide search &amp;bar by default</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0" colspan="4">
-       <widget class="QCheckBox" name="statusBox">
-        <property name="text">
-         <string>Always show st&amp;atus bar</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="1" colspan="3">
-       <widget class="QComboBox" name="tabCombo">
-        <property name="toolTip">
-         <string>Will take effect after closing this dialog.</string>
-        </property>
-        <item>
-         <property name="text">
-          <string>North</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>South</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>West</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>East</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item row="7" column="0">
-       <widget class="QLabel" name="tabLabel">
-        <property name="toolTip">
-         <string>Will take effect after closing this dialog.</string>
-        </property>
-        <property name="text">
-         <string>Tab position: </string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="0" colspan="4">
-       <widget class="QCheckBox" name="tabBox">
-        <property name="toolTip">
-         <string>This means that, for LTR, Alt+Right goes to the first tab
+            </property>
+            <property name="text">
+             <string>Do not show &amp;menubar</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0" colspan="4">
+           <widget class="QCheckBox" name="searchbarBox">
+            <property name="text">
+             <string>Hide search &amp;bar by default</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0" colspan="4">
+           <widget class="QCheckBox" name="statusBox">
+            <property name="text">
+             <string>Always show st&amp;atus bar</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <widget class="QLabel" name="tabLabel">
+            <property name="toolTip">
+             <string>Will take effect after closing this dialog.</string>
+            </property>
+            <property name="text">
+             <string>Tab position: </string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1" colspan="3">
+           <widget class="QComboBox" name="tabCombo">
+            <property name="toolTip">
+             <string>Will take effect after closing this dialog.</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>North</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>South</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>West</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>East</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="8" column="0" colspan="4">
+           <widget class="QCheckBox" name="tabBox">
+            <property name="toolTip">
+             <string>This means that, for LTR, Alt+Right goes to the first tab
 after the last tab is activated, and the same for Alt+Left.
 
 Tab navigation with mouse wheel is not affected.</string>
-        </property>
-        <property name="text">
-         <string>Tab navigation wraps &amp;around</string>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="0" colspan="4">
-       <widget class="QCheckBox" name="singleTabBox">
-        <property name="toolTip">
-         <string>If this is checked, not only you will lose the informative
+            </property>
+            <property name="text">
+             <string>Tab navigation wraps &amp;around</string>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="0" colspan="4">
+           <widget class="QCheckBox" name="singleTabBox">
+            <property name="toolTip">
+             <string>If this is checked, not only you will lose the informative
 tooltip and context menu of a single tab but you could not
 merge a single tabbed window into another one by tab drag-
 and-drop either.</string>
-        </property>
-        <property name="text">
-         <string>Do not show a single tab</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="QGroupBox" name="textGoupBox">
-     <property name="title">
-      <string>Text &amp;&amp; File</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_3">
-      <item row="0" column="0" colspan="3">
-       <widget class="QCheckBox" name="fontBox">
-        <property name="toolTip">
-         <string>Uncheck for Monospace 9.</string>
-        </property>
-        <property name="text">
-         <string>Remember &amp;font</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0" colspan="3">
-       <widget class="QCheckBox" name="wrapBox">
-        <property name="text">
-         <string>&amp;Wrap lines by default</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0" colspan="3">
-       <widget class="QCheckBox" name="indentBox">
-        <property name="text">
-         <string>Auto-&amp;indent by default</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0" colspan="3">
-       <widget class="QCheckBox" name="lineBox">
-        <property name="text">
-         <string>Always show line &amp;numbers</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0" colspan="3">
-       <widget class="QCheckBox" name="syntaxBox">
-        <property name="text">
-         <string>Highlight s&amp;yntax by default</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <spacer name="horizontalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>32</width>
-          <height>5</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="5" column="1">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Never highlight syntax for files &gt; </string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="2">
-       <widget class="QSpinBox" name="spinBox">
-        <property name="suffix">
-         <string> MiB</string>
-        </property>
-        <property name="minimum">
-         <number>1</number>
-        </property>
-        <property name="maximum">
-         <number>10</number>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="3">
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>5</width>
-          <height>5</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="6" column="0" colspan="3">
-       <widget class="QCheckBox" name="colBox">
-        <property name="toolTip">
-         <string>Needs file reopening to take effect.</string>
-        </property>
-        <property name="text">
-         <string>Dark c&amp;olor scheme</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="1">
-       <widget class="QLabel" name="colorValueLabel">
-        <property name="toolTip">
-         <string>The color value of the background.
+            </property>
+            <property name="text">
+             <string>Do not show a single tab</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_2">
+      <attribute name="title">
+       <string>Text</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="0" column="0">
+        <widget class="QGroupBox" name="textGoupBox">
+         <property name="title">
+          <string>Text Editor</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_3">
+          <item row="0" column="0" colspan="3">
+           <widget class="QCheckBox" name="fontBox">
+            <property name="toolTip">
+             <string>Uncheck for Monospace 9.</string>
+            </property>
+            <property name="text">
+             <string>Remember &amp;font</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" colspan="3">
+           <widget class="QCheckBox" name="wrapBox">
+            <property name="text">
+             <string>&amp;Wrap lines by default</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="3">
+           <widget class="QCheckBox" name="indentBox">
+            <property name="text">
+             <string>Auto-&amp;indent by default</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" colspan="3">
+           <widget class="QCheckBox" name="lineBox">
+            <property name="text">
+             <string>Always show line &amp;numbers</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0" colspan="3">
+           <widget class="QCheckBox" name="syntaxBox">
+            <property name="text">
+             <string>Highlight s&amp;yntax by default</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>32</width>
+              <height>5</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="5" column="1">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Never highlight syntax for files &gt; </string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="2">
+           <widget class="QSpinBox" name="spinBox">
+            <property name="suffix">
+             <string> MiB</string>
+            </property>
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>10</number>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="3">
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::MinimumExpanding</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>100</width>
+              <height>5</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="6" column="0" colspan="3">
+           <widget class="QCheckBox" name="colBox">
+            <property name="toolTip">
+             <string>Needs window reopening to take effect.</string>
+            </property>
+            <property name="text">
+             <string>Dark c&amp;olor scheme</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="2">
+           <widget class="QSpinBox" name="colorValueSpin">
+            <property name="toolTip">
+             <string>The color value of the background.
 255 means white while 0 means black.
 
 For the light background, it can be
 between 230 and 255; for the dark
 background, between 0 and 50.
 
-Needs file reopening to take effect.</string>
-        </property>
-        <property name="text">
-         <string>Background color value: </string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="2">
-       <widget class="QSpinBox" name="colorValueSpin">
-        <property name="toolTip">
-         <string>The color value of the background.
+Needs window reopening to take effect.</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="QLabel" name="colorValueLabel">
+            <property name="toolTip">
+             <string>The color value of the background.
 255 means white while 0 means black.
 
 For the light background, it can be
 between 230 and 255; for the dark
 background, between 0 and 50.
 
-Needs file reopening to take effect.</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="0" colspan="3">
-       <widget class="QCheckBox" name="exeBox">
-        <property name="toolTip">
-         <string>This only includes executable files written
+Needs window reopening to take effect.</string>
+            </property>
+            <property name="text">
+             <string>Background color value: </string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="0" colspan="3">
+           <widget class="QCheckBox" name="scrollBox">
+            <property name="toolTip">
+             <string>This is not a complete fix but
+prevents annoying scroll jumps.</string>
+            </property>
+            <property name="text">
+             <string>Workaround for &amp;Qt5's scroll jump bug</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_3">
+      <attribute name="title">
+       <string>Files</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_6">
+       <item row="0" column="0">
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
+          <string>File Management</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_7">
+          <item row="0" column="0" colspan="2">
+           <widget class="QLabel" name="recentLabel">
+            <property name="toolTip">
+             <string>The maximum number of recently modified or
+opened files FeatherPad shows. The default
+is 10.
+
+Needs application restart to take effect.</string>
+            </property>
+            <property name="text">
+             <string>Number of recent files: </string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QSpinBox" name="recentSpin">
+            <property name="toolTip">
+             <string>The maximum number of recently modified or
+opened files FeatherPad shows. The default
+is 10.
+
+Needs application restart to take effect.</string>
+            </property>
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>20</number>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <spacer name="horizontalSpacer_6">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>5</width>
+              <height>5</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="1" colspan="2">
+           <widget class="QRadioButton" name="modifiedButton">
+            <property name="text">
+             <string>Show recentl&amp;y modified files</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1" colspan="2">
+           <widget class="QRadioButton" name="openedButton">
+            <property name="text">
+             <string>Show recentl&amp;y opened files</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" colspan="2">
+           <widget class="QLabel" name="openRecentLabel">
+            <property name="toolTip">
+             <string>The maximum number of recently modified or
+opened files FeatherPad should open with an
+empty startup of a session.</string>
+            </property>
+            <property name="text">
+             <string>Start with recent files: </string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2">
+           <widget class="QSpinBox" name="openRecentSpin">
+            <property name="toolTip">
+             <string>The maximum number of recently modified or
+opened files FeatherPad should open with an
+empty startup of a session.</string>
+            </property>
+            <property name="maximum">
+             <number>10</number>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0" colspan="3">
+           <widget class="QCheckBox" name="exeBox">
+            <property name="toolTip">
+             <string>This only includes executable files written
 in script languages like Shell and Python.
 
 If it is checked and the opened file is
@@ -342,16 +483,32 @@ executable, the file will be executed by clicking
 the Run button, that appears on the toolbar/filemenu
 when needed, or by its shortcut Ctrl+E. Then, the
 process could be killed by Ctrl+Alt+E.</string>
-        </property>
-        <property name="text">
-         <string>Run executable scripts</string>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="1">
-       <widget class="QLabel" name="commandLabel">
-        <property name="toolTip">
-         <string>This can be any starting command with
+            </property>
+            <property name="text">
+             <string>Run executable scripts</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <spacer name="horizontalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>32</width>
+              <height>5</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="5" column="1">
+           <widget class="QLabel" name="commandLabel">
+            <property name="toolTip">
+             <string>This can be any starting command with
 arguments, for example, &quot;xterm -hold&quot;
 for running the process in XTerm.
 
@@ -361,16 +518,16 @@ will be executed directly.
 If the script is not run in a terminal
 emulator, the output and error messages
 will be shown by a popup dialog.</string>
-        </property>
-        <property name="text">
-         <string>Start with this command: </string>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="2">
-       <widget class="QLineEdit" name="commandEdit">
-        <property name="toolTip">
-         <string>This can be any starting command with
+            </property>
+            <property name="text">
+             <string>Start with this command: </string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="2" colspan="2">
+           <widget class="QLineEdit" name="commandEdit">
+            <property name="toolTip">
+             <string>This can be any starting command with
 arguments, for example, &quot;xterm -hold&quot;
 for running the process in XTerm.
 
@@ -380,121 +537,64 @@ will be executed directly.
 If the script is not run in a terminal
 emulator, the output and error messages
 will be shown by a popup dialog.</string>
-        </property>
-        <property name="placeholderText">
-         <string>Command + Arguments</string>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="0" colspan="2">
-       <widget class="QLabel" name="recentLabel">
-        <property name="toolTip">
-         <string>The maximum number of recently modified or
-opened files FeatherPad shows. The default
-is 10.
-
-Needs application restart to take effect.</string>
-        </property>
-        <property name="text">
-         <string>Number of recent files: </string>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="2">
-       <widget class="QSpinBox" name="recentSpin">
-        <property name="toolTip">
-         <string>The maximum number of recently modified or
-opened files FeatherPad shows. The default
-is 10.
-
-Needs application restart to take effect.</string>
-        </property>
-        <property name="minimum">
-         <number>1</number>
-        </property>
-        <property name="maximum">
-         <number>20</number>
-        </property>
-       </widget>
-      </item>
-      <item row="11" column="1" colspan="2">
-       <widget class="QRadioButton" name="modifiedButton">
-        <property name="text">
-         <string>Show recent&amp;ly modified files</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-        <attribute name="buttonGroup">
-         <string notr="true">buttonGroup</string>
-        </attribute>
-       </widget>
-      </item>
-      <item row="12" column="1" colspan="2">
-       <widget class="QRadioButton" name="openedButton">
-        <property name="text">
-         <string>Show recen&amp;tly opened files</string>
-        </property>
-        <attribute name="buttonGroup">
-         <string notr="true">buttonGroup</string>
-        </attribute>
-       </widget>
-      </item>
-      <item row="13" column="0" colspan="2">
-       <widget class="QLabel" name="openRecentLabel">
-        <property name="toolTip">
-         <string>The maximum number of recently modified or
-opened files FeatherPad should open with an
-empty startup of a session.</string>
-        </property>
-        <property name="text">
-         <string>Start with recent files: </string>
-        </property>
-       </widget>
-      </item>
-      <item row="13" column="2">
-       <widget class="QSpinBox" name="openRecentSpin">
-        <property name="toolTip">
-         <string>The maximum number of recently modified or
-opened files FeatherPad should open with an
-empty startup of a session.</string>
-        </property>
-        <property name="maximum">
-         <number>10</number>
-        </property>
-       </widget>
-      </item>
-      <item row="14" column="0" colspan="3">
-       <widget class="QCheckBox" name="scrollBox">
-        <property name="toolTip">
-         <string>This is not a complete fix but
-prevents annoying scroll jumps.</string>
-        </property>
-        <property name="text">
-         <string>Workaround for &amp;Qt5's scroll jump bug</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+            </property>
+            <property name="placeholderText">
+             <string>Command + Arguments</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="4">
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::MinimumExpanding</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>100</width>
+              <height>5</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
-   <item row="1" column="0" alignment="Qt::AlignLeft">
+   <item row="1" column="0" colspan="2">
+    <widget class="QLabel" name="promptLabel">
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::NoTextInteraction</set>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" alignment="Qt::AlignLeft">
     <widget class="QPushButton" name="helpButton">
      <property name="text">
       <string>Help</string>
      </property>
      <property name="icon">
-      <iconset theme="help-contextual"/>
+      <iconset theme="help-contextual">
+       <normaloff>.</normaloff>.</iconset>
      </property>
     </widget>
    </item>
-   <item row="1" column="1" alignment="Qt::AlignRight">
+   <item row="2" column="1" alignment="Qt::AlignRight">
     <widget class="QPushButton" name="closeButton">
      <property name="text">
       <string>Close</string>
      </property>
      <property name="icon">
-      <iconset theme="edit-delete"/>
+      <iconset theme="edit-delete">
+       <normaloff>.</normaloff>.</iconset>
      </property>
     </widget>
    </item>
@@ -502,7 +602,4 @@ prevents annoying scroll jumps.</string>
  </widget>
  <resources/>
  <connections/>
- <buttongroups>
-  <buttongroup name="buttonGroup"/>
- </buttongroups>
 </ui>

@@ -31,8 +31,14 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     ui->setupUi (this);
     parent_ = parent;
     setWindowModality (Qt::WindowModal);
+    ui->promptLabel->hide();
 
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
+    sysIcons_ = config.getSysIcon();
+    darkBg_ = config.getDarkColScheme();
+    darkColValue_ = config.getDarkBgColorValue();
+    lightColValue_ = config.getLightBgColorValue();
+    recentNumber_ = config.getRecentFilesNumber();
 
     /**************
      *** Window ***
@@ -161,6 +167,30 @@ void PrefDialog::closeEvent (QCloseEvent *event)
     prefRecentFilesKind();
 }
 /*************************/
+void PrefDialog::showPrompt()
+{
+    QString style ("QLabel {background-color: #7d0000; color : white; border-radius: 3px; margin: 2px; padding: 5px;}");
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    if (sysIcons_ != config.getSysIcon() || recentNumber_ != config.getRecentFilesNumber())
+    {
+        ui->promptLabel->setText ("<b>" + tr ("Application restart is needed for changes to take effect.") + "</b>");
+        ui->promptLabel->setStyleSheet (style);
+    }
+    else if (darkBg_ != config.getDarkColScheme()
+             || (darkBg_ && darkColValue_ != config.getDarkBgColorValue())
+             || (!darkBg_ && lightColValue_ != config.getLightBgColorValue()))
+    {
+        ui->promptLabel->setText ("<b>" + tr ("Window reopening is needed for changes to take effect.") + "</b>");
+        ui->promptLabel->setStyleSheet (style);
+    }
+    else
+    {
+        ui->promptLabel->clear();
+        ui->promptLabel->setStyleSheet ("QLabel {margin: 2px; padding: 5px;}");
+    }
+    ui->promptLabel->show();
+}
+/*************************/
 void PrefDialog::showWhatsThis()
 {
     QWhatsThis::enterWhatsThisMode();
@@ -194,6 +224,8 @@ void PrefDialog::prefIcon (int checked)
         config.setSysIcon (false);
     else if (checked == Qt::Unchecked)
         config.setSysIcon (true);
+
+    showPrompt();
 }
 /*************************/
 void PrefDialog::prefToolbar (int checked)
@@ -411,6 +443,8 @@ void PrefDialog::prefDarkColScheme (int checked)
     }
     connect (ui->colorValueSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
              this, &PrefDialog::prefColValue);
+
+    showPrompt();
 }
 /*************************/
 void PrefDialog::prefColValue (int value)
@@ -420,6 +454,8 @@ void PrefDialog::prefColValue (int value)
         config.setLightBgColorValue (value);
     else
         config.setDarkBgColorValue (value);
+
+    showPrompt();
 }
 /*************************/
 void PrefDialog::prefScrollJumpWorkaround (int checked)
@@ -547,6 +583,8 @@ void PrefDialog::prefRecentFilesNumber (int value)
        (its value will be corrected automatically if needed) */
     ui->openRecentSpin->setMaximum (value);
     ui->openRecentSpin->setSuffix(" " + (ui->openRecentSpin->value() > 1 ? tr ("files") : tr ("file")));
+
+    showPrompt();
 }
 /*************************/
 void PrefDialog::prefOpenRecentFile (int value)

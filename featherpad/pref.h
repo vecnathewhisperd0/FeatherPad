@@ -47,9 +47,15 @@ private:
     void closeEvent (QCloseEvent *event);
     void prefTabPosition();
     void prefRecentFilesKind();
+    void showPrompt();
 
     Ui::PrefDialog *ui;
     QWidget * parent_;
+    bool darkBg_;
+    bool sysIcons_;
+    int darkColValue_;
+    int lightColValue_;
+    int recentNumber_;
 };
 
 }

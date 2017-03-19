@@ -7,6 +7,7 @@ V0.6.0
  * Change the title of the Replacement dock appropriately on tab switching.
  * Workarounds for some KDE bugs (automatic mnemonics and double slashes).
  * An option to show the recently opened files instead of the recently modified ones.
+ * Added a prompt label to the Preferences dialog.
 
 V0.5.9
 ---------
