@@ -179,7 +179,7 @@ void FPsingleton::handleMessage (const QString& message)
                     break;
                 }
             }
-            if (hasDialog) break;
+            if (hasDialog) continue;
             /* consider viewports too, so that if more than half of the width as well as the height
                of the window is inside the current viewport (of the current desktop), open a new tab */
             QRect g = Wins.at (i)->geometry();
