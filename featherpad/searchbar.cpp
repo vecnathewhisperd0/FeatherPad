@@ -79,6 +79,7 @@ SearchBar::SearchBar(QWidget *parent, Qt::WindowFlags f) : QFrame (parent, f)
 void SearchBar::focusLineEdit()
 {
     lineEdit_->setFocus();
+    lineEdit_->selectAll();
 }
 /*************************/
 bool SearchBar::lineEditHasFocus()
