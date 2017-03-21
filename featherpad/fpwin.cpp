@@ -1602,6 +1602,7 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
         unbusy();
         ui->tabWidget->tabBar()->lockTabs (false);
         disableShortcuts (false, false);
+        emit finishedLoading();
     }
 }
 

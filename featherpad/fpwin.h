@@ -67,6 +67,9 @@ public:
         return (loadingProcesses_ > 0);
     }
 
+signals:
+    void finishedLoading();
+
 public slots:
     void newTabFromName (const QString& fileName, bool multiple = false);
     void newTab();

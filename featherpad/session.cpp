@@ -61,7 +61,7 @@ SessionDialog::SessionDialog (QWidget *parent):QDialog (parent), ui (new Ui::Ses
     /* we don't want to open a session by pressing Enter inside the line-edit */
     connect (ui->lineEdit, &LineEdit::receivedFocus, [=](void){ui->openBtn->setDefault (false);});
     connect (ui->lineEdit, &QLineEdit::textEdited, [=](const QString &text){ui->saveBtn->setEnabled (!text.isEmpty());});
-    connect (ui->openBtn, &QAbstractButton::clicked, this, &SessionDialog::openSession);
+    connect (ui->openBtn, &QAbstractButton::clicked, this, &SessionDialog::openSessions);
     connect (ui->clearBtn, &QAbstractButton::clicked, this, &SessionDialog::openPromptContainer);
     connect (ui->removeBtn, &QAbstractButton::clicked, this, &SessionDialog::openPromptContainer);
 
@@ -109,8 +109,6 @@ void SessionDialog::saveSession()
 /*************************/
 void SessionDialog::reallySaveSession()
 {
-    disconnect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::reallySaveSession);
-
     QList<QListWidgetItem*> sameItems = ui->listWidget->findItems (ui->lineEdit->text(), Qt::MatchExactly);
     for (int i = 0; i < sameItems.count(); ++i)
         delete ui->listWidget->takeItem (ui->listWidget->row (sameItems.at (i)));
@@ -136,25 +134,12 @@ void SessionDialog::reallySaveSession()
     settings.endGroup();
 }
 /*************************/
-void SessionDialog::restoreSession (QListWidgetItem *item)
+void SessionDialog::restoreSession (QListWidgetItem* /*item*/)
 {
-    QSettings settings ("featherpad", "fp");
-    settings.beginGroup ("sessions");
-    QStringList files = settings.value (item->text()).toStringList();
-    settings.endGroup();
-
-    if (!files.isEmpty())
-    {
-        if (FPwin *win = static_cast<FPwin *>(parent_))
-        {
-            bool multiple (files.count() > 1 || win->isLoading());
-            for (int i = 0; i < files.count(); ++i)
-                win->newTabFromName (files.at (i), multiple);
-        }
-    }
+    openSessions();
 }
 /*************************/
-void SessionDialog::openSession()
+void SessionDialog::openSessions()
 {
     QList<QListWidgetItem*> items = ui->listWidget->selectedItems();
     int count = items.count();
@@ -174,8 +159,16 @@ void SessionDialog::openSession()
             bool multiple (files.count() > 1 || win->isLoading());
             for (int i = 0; i < files.count(); ++i)
                 win->newTabFromName (files.at (i), multiple);
+            /* return the focus to the dialog */
+            connect (win, &FPwin::finishedLoading, this, &SessionDialog::activate);
         }
     }
+}
+/*************************/
+void SessionDialog::activate()
+{
+    activateWindow();
+    raise();
 }
 /*************************/
 void SessionDialog::openPromptContainer()
@@ -185,6 +178,10 @@ void SessionDialog::openPromptContainer()
 /*************************/
 void SessionDialog::showPromptContainer (QString message)
 {
+    disconnect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::removeAll);
+    disconnect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::removeSelected);
+    disconnect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::reallySaveSession);
+
     /* give time to processes, especially to the returnPressed signal of the line-edit */
     QTimer::singleShot (0, ui->mainContainer, SLOT (hide()));
     ui->promptContainer->show();
@@ -217,15 +214,19 @@ void SessionDialog::showPromptContainer (QString message)
 void SessionDialog::closePromptContainer()
 {
     ui->promptLabel->clear();
-
     ui->promptContainer->hide();
-    QTimer::singleShot (0, ui->mainContainer, SLOT (show()));
+    QTimer::singleShot (0, this, SLOT (showMainContainer()));
+}
+/*************************/
+void SessionDialog::showMainContainer()
+{
+    /* give the focus to the line-edit after showing the main container */
+    ui->mainContainer->show();
+    QTimer::singleShot (0, ui->lineEdit, SLOT (setFocus()));
 }
 /*************************/
 void SessionDialog::removeSelected()
 {
-    disconnect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::removeSelected);
-
     QList<QListWidgetItem*> items = ui->listWidget->selectedItems();
     int count = items.count();
     if (count == 0) return;
@@ -245,8 +246,6 @@ void SessionDialog::removeSelected()
 /*************************/
 void SessionDialog::removeAll()
 {
-    disconnect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::removeAll);
-
     ui->listWidget->clear();
     ui->clearBtn->setEnabled (false);
     QSettings settings ("featherpad", "fp");

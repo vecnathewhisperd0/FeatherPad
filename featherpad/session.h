@@ -39,12 +39,14 @@ private slots:
     void saveSession();
     void reallySaveSession();
     void selectionChanged();
-    void restoreSession (QListWidgetItem *item);
-    void openSession();
+    void restoreSession (QListWidgetItem*);
+    void openSessions();
     void openPromptContainer();
     void closePromptContainer();
+    void showMainContainer();
     void removeSelected();
     void removeAll();
+    void activate();
 
 private:
     void showPromptContainer (QString message = QString());
