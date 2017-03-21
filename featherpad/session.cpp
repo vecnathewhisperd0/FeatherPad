@@ -144,14 +144,12 @@ void SessionDialog::openSessions()
     QList<QListWidgetItem*> items = ui->listWidget->selectedItems();
     int count = items.count();
     if (count == 0) return;
-
     QSettings settings ("featherpad", "fp");
     settings.beginGroup ("sessions");
     QStringList files;
     for (int i = 0; i < count; ++i)
         files += settings.value (items.at (i)->text()).toStringList();
     settings.endGroup();
-
     if (!files.isEmpty())
     {
         if (FPwin *win = static_cast<FPwin *>(parent_))
@@ -167,6 +165,8 @@ void SessionDialog::openSessions()
 /*************************/
 void SessionDialog::activate()
 {
+    if (FPwin *win = static_cast<FPwin *>(parent_))
+        disconnect (win, &FPwin::finishedLoading, this, &SessionDialog::activate);
     activateWindow();
     raise();
 }
