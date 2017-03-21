@@ -26,7 +26,6 @@ LineEdit::LineEdit (QWidget *parent)
     : QLineEdit (parent)
 {
     klear = nullptr;
-    returnOnClear = true;
     setClearButtonEnabled (true);
     QList<QToolButton*> list = findChildren<QToolButton*>();
     if (list.isEmpty()) return;
@@ -58,8 +57,7 @@ void LineEdit::Klear()
         clear();
     /* we'll need this for clearing found matches highlighting
        because the compiler won't know that clearButton is a QObject */
-    if (returnOnClear)
-        returnPressed();
+    returnPressed();
 }
 /*************************/
 void LineEdit::unfocused()

@@ -169,7 +169,7 @@ void PrefDialog::closeEvent (QCloseEvent *event)
 /*************************/
 void PrefDialog::showPrompt()
 {
-    QString style ("QLabel {background-color: #7d0000; color : white; border-radius: 3px; margin: 2px; padding: 5px;}");
+    QString style ("QLabel {background-color: #7d0000; color: white; border-radius: 3px; margin: 2px; padding: 5px;}");
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
     if (sysIcons_ != config.getSysIcon() || recentNumber_ != config.getRecentFilesNumber())
     {

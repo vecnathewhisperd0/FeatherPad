@@ -37,6 +37,7 @@ public:
     void setSearchBarVisible (bool visible);
     bool isSearchBarVisible() const;
     void focusSearchBar();
+    bool searchBarHasFocus();
 
     QString searchEntry() const;
     void clearSearchEntry();

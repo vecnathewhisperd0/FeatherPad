@@ -30,7 +30,8 @@ SOURCES += main.cpp \
            vscrollbar.cpp \
            loading.cpp \
            tabpage.cpp \
-           searchbar.cpp
+           searchbar.cpp \
+           session.cpp
 
 HEADERS += singleton.h \
            fpwin.h \
@@ -48,10 +49,12 @@ HEADERS += singleton.h \
            loading.h \
            messagebox.h \
            tabpage.h \
-           searchbar.h
+           searchbar.h \
+           session.h
 
 FORMS += fp.ui \
-         predDialog.ui
+         predDialog.ui \
+         sessionDialog.ui
 
 RESOURCES += data/fp.qrc
 

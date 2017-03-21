@@ -31,6 +31,7 @@ public:
     explicit SearchBar (QWidget *parent = 0, Qt::WindowFlags f = Qt::WindowFlags());
 
     void focusLineEdit();
+    bool lineEditHasFocus();
     QString searchEntry() const;
     void clearSearchEntry();
 

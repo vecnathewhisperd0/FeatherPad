@@ -63,6 +63,11 @@ void TabPage::focusSearchBar()
     searchBar_->focusLineEdit();
 }
 /*************************/
+bool TabPage::searchBarHasFocus()
+{
+    return searchBar_->lineEditHasFocus();
+}
+/*************************/
 QString TabPage::searchEntry() const
 {
     return searchBar_->searchEntry();

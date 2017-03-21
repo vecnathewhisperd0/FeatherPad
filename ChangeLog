@@ -9,6 +9,7 @@ V0.6.0
  * An option to show the recently opened files instead of the recently modified ones.
  * Added a prompt label to the Preferences dialog.
  * Support Perls's POD (in syntax highlighting).
+ * Session management.
 
 V0.5.9
 ---------

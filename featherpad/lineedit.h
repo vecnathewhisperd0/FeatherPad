@@ -31,8 +31,6 @@ public:
     LineEdit (QWidget *parent = 0);
     ~LineEdit();
 
-    bool returnOnClear;
-
 signals:
     void receivedFocus();
 

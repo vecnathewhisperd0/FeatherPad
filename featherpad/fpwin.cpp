@@ -21,6 +21,7 @@
 #include "filedialog.h"
 #include "messagebox.h"
 #include "pref.h"
+#include "session.h"
 #include "loading.h"
 
 #include <QFontDialog>
@@ -153,6 +154,8 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     connect (ui->actionSelectAll, &QAction::triggered, this, &FPwin::selectAllText);
 
     connect (ui->actionEdit, &QAction::triggered, this, &FPwin::makeEditable);
+
+    connect (ui->actionSession, &QAction::triggered, this, &FPwin::manageSessions);
 
     connect (ui->actionRun, &QAction::triggered, this, &FPwin::executeProcess);
 
@@ -437,7 +440,8 @@ bool FPwin::hasAnotherDialog()
             QList<QDialog*> dialogs = win->findChildren<QDialog*>();
             for (int j = 0; j < dialogs.count(); ++j)
             {
-                if (dialogs.at (j)->objectName() !=  "processDialog")
+                if (dialogs.at (j)->objectName() !=  "processDialog"
+                    && dialogs.at (j)->objectName() !=  "sessionDialog")
                 {
                     res = true;
                     break;
@@ -2415,9 +2419,9 @@ void FPwin::showHideSearch()
     if (index == -1) return;
 
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
-    bool visibility = tabPage->isSearchBarVisible();
+    bool isFocused = tabPage->isSearchBarVisible() && tabPage->searchBarHasFocus();
 
-    if (!visibility)
+    if (!isFocused)
         tabPage->focusSearchBar();
     else
     {
@@ -2430,7 +2434,7 @@ void FPwin::showHideSearch()
     for (int indx = 0; indx < count; ++indx)
     {
         TabPage *page = qobject_cast< TabPage *>(ui->tabWidget->widget (indx));
-        if (visibility)
+        if (isFocused)
         {
             /* ... remove all yellow and green highlights... */
             TextEdit *textEdit = page->textEdit();
@@ -2444,7 +2448,7 @@ void FPwin::showHideSearch()
             /* ... and empty all search entries */
             page->clearSearchEntry();
         }
-        page->setSearchBarVisible (!visibility);
+        page->setSearchBarVisible (!isFocused);
     }
 }
 /*************************/
@@ -3151,7 +3155,8 @@ void FPwin::dropTab (QString str)
         if (insertIndex == 0 // the window has no tab yet
             || !qobject_cast< TabPage *>(ui->tabWidget->widget (insertIndex - 1))->isSearchBarVisible())
         {
-            showHideSearch();
+            for (int i = 0; i < ui->tabWidget->count(); ++i)
+                qobject_cast< TabPage *>(ui->tabWidget->widget (i))->setSearchBarVisible (true);
         }
     }
     else if (insertIndex > 0)
@@ -3309,6 +3314,35 @@ void FPwin::prefDialog()
           y() + height()/2 - dlg.height()/ 2);*/
     dlg.exec();
     disableShortcuts (false);
+}
+/*************************/
+void FPwin::manageSessions()
+{
+    if (isLoading()) return;
+
+    /* first see whether the Sessions dialog is already open... */
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    for (int i = 0; i < singleton->Wins.count(); ++i)
+    {
+        QList<QDialog*> dialogs  = singleton->Wins.at (i)->findChildren<QDialog*>();
+        for (int j = 0; j < dialogs.count(); ++j)
+        {
+            if (dialogs.at (j)->objectName() ==  "sessionDialog")
+            {
+                dialogs.at (j)->raise();
+                dialogs.at (j)->activateWindow();
+                return;
+            }
+        }
+    }
+    /* ... and if not, create a non-modal Sessions dialog */
+    SessionDialog *dlg = new SessionDialog (this);
+    dlg->setAttribute (Qt::WA_DeleteOnClose);
+    dlg->show();
+    /*move (x() + width()/2 - dlg.width()/2,
+          y() + height()/2 - dlg.height()/ 2);*/
+    dlg->raise();
+    dlg->activateWindow();
 }
 /*************************/
 void FPwin::aboutDialog()

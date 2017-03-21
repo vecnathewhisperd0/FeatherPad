@@ -81,6 +81,11 @@ void SearchBar::focusLineEdit()
     lineEdit_->setFocus();
 }
 /*************************/
+bool SearchBar::lineEditHasFocus()
+{
+    return lineEdit_->hasFocus();
+}
+/*************************/
 QString SearchBar::searchEntry() const
 {
     return lineEdit_->text();

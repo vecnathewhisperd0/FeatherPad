@@ -173,7 +173,8 @@ void FPsingleton::handleMessage (const QString& message)
             QList<QDialog*> dialogs = Wins.at (i)->findChildren<QDialog*>();
             for (int j = 0; j < dialogs.count(); ++j)
             {
-                if (dialogs.at (j)->objectName() !=  "processDialog")
+                if (dialogs.at (j)->objectName() !=  "processDialog"
+                    && dialogs.at (j)->objectName() !=  "sessionDialog")
                 {
                     hasDialog = true;
                     break;

@@ -128,6 +128,7 @@ private slots:
     void fullScreening();
     void defaultSize();
     void align();
+    void manageSessions();
     void executeProcess();
     void exitProcess();
     void displayError();

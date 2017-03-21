@@ -16,9 +16,9 @@ If there is more that one tab, each one will have a right-click menu for closing
 
 If a file is opened in a tab, the right-click menu of that tab will also contain two items for copying the name and path of the file.
 
-********************
-*   File Opening   *
-********************
+***********************
+*   File Management   *
+***********************
 
 If there is a FeatherPad window on the current virtual desktop or viewport, so that more than half of its width as well as its height is visible, files will be opened as new tabs in it; otherwise, a new window will be created. Also when the window on the current desktop/viewport has a modal dialog, another window is created.
 
@@ -27,6 +27,10 @@ In this way, FeatherPad is aware of virtual desktops under most Linux desktop en
 Files are always opened after the active tab unless it is empty, in which case the first file will be opened in it. If a single file is opened, its tab will be activated but in the case of multiple files, the active tab will not change.
 
 If a file is opened multiple times, its second (third, ... ) instance will be uneditable by default and will have a light yellow or dark red background, depending on whether the default or the dark color scheme is used. To make it editable, click on the newly created 'Edit' button on the toolbar or the 'Edit' menu. After that, these two buttons will disappear again.
+
+Executable script files could be run from inside FeatherPad if the corresponding option is enabled in the Preferences dialog. Then also a Run button will appear on the tool bar and the File menu whenever needed. If no terminal command is used to run them, their output and error messages will be shown by a popup dialog.
+
+FeatherPad remembers recently modified or opened files, depending on which option is enabled in the Preferences dialog. It can also open them on a session startup. However, it has a more advanced session manager, which provides the user with options for saving a session and restoring or removing saved sessions at any time and without limit.
 
 *******************************************
 *   Encodings and Programming Languages   *
@@ -43,7 +47,7 @@ To remove the yellow highlights after finishing a search, you could
 * Click on the 'Clear' icon of the search entry, or
 * Press Ctrl+K while the search entry has focus, or
 * Empty the search entry and press Enter or F3 in it, or
-* Hide the search bar.
+* Hide the search bar by focusing it and then, pressing Ctrl+F.
 
 The 'Replace' docked window respects the settings for 'Match Case' and 'Whole Word' on the search bar. It can be detached from and reattached to the the main window at top or bottom. To remove the green highlights after replacing text, you could either hide/close the 'Replace' docked window or do as in the case of removing yellow search highlights (without closing the dock).
 
@@ -77,7 +81,7 @@ Toggle syntax highlighting: Ctrl+Shift+H
 Refresh (reload file):      Ctrl+Shift+R
 Jump to line:               Ctrl+J
 Select text to line:        Ctrl+Shift+J (The Jump bar should be visible)
-Show/hide search bar:       Ctrl+F
+Focus/hide search bar:      Ctrl+F (It hides only a focused search bar)
 Forward search:             F3 (or press Enter in the search entry)
 Backward search:            F4
 Match case:                 F5

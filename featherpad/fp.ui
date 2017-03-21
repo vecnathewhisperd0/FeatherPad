@@ -154,6 +154,8 @@
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
     <addaction name="menuOpenRecently"/>
+    <addaction name="actionSession"/>
+    <addaction name="separator"/>
     <addaction name="actionRun"/>
     <addaction name="separator"/>
     <addaction name="actionDetachTab"/>
@@ -590,7 +592,7 @@
     <string>&amp;Find</string>
    </property>
    <property name="toolTip">
-    <string>Show/hide search bar</string>
+    <string>Focus/hide search bar</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+F</string>
@@ -1235,6 +1237,17 @@
    </property>
    <property name="toolTip">
     <string>Clear the list of recently modified files</string>
+   </property>
+  </action>
+  <action name="actionSession">
+   <property name="text">
+    <string>Save/Restore Session</string>
+   </property>
+   <property name="toolTip">
+    <string>Sa&amp;ve/Restore Session</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+M</string>
    </property>
   </action>
  </widget>
