@@ -1411,12 +1411,13 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
 {
     if (fileName.isEmpty())
     {
-        -- loadingProcesses_;
+        -- loadingProcesses_; // can never become negative
         if (!isLoading())
         {
             unbusy();
             ui->tabWidget->tabBar()->lockTabs (false);
             disableShortcuts (false, false);
+            emit finishedLoading();
         }
         return;
     }

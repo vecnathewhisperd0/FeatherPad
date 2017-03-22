@@ -144,21 +144,38 @@ void SessionDialog::openSessions()
     QList<QListWidgetItem*> items = ui->listWidget->selectedItems();
     int count = items.count();
     if (count == 0) return;
+
     QSettings settings ("featherpad", "fp");
     settings.beginGroup ("sessions");
     QStringList files;
     for (int i = 0; i < count; ++i)
         files += settings.value (items.at (i)->text()).toStringList();
     settings.endGroup();
+
     if (!files.isEmpty())
     {
         if (FPwin *win = static_cast<FPwin *>(parent_))
         {
+            int broken = 0;
             bool multiple (files.count() > 1 || win->isLoading());
             for (int i = 0; i < files.count(); ++i)
+            {
+                if (!QFileInfo (files.at (i)).isFile())
+                {
+                    ++broken;
+                    continue;
+                }
                 win->newTabFromName (files.at (i), multiple);
-            /* return the focus to the dialog */
-            connect (win, &FPwin::finishedLoading, this, &SessionDialog::activate);
+            }
+            if (broken == files.count())
+                showPromptContainer (tr ("No file exists or can be opened."));
+            else
+            {
+                /* return the focus to the dialog */
+                connect (win, &FPwin::finishedLoading, this, &SessionDialog::activate);
+                if (broken > 0)
+                    showPromptContainer (tr ("Not all files exist or can be opened."));
+            }
         }
     }
 }
@@ -184,31 +201,39 @@ void SessionDialog::showPromptContainer (QString message)
 
     /* give time to processes, especially to the returnPressed signal of the line-edit */
     QTimer::singleShot (0, ui->mainContainer, SLOT (hide()));
-    ui->promptContainer->show();
 
-    ui->cancelBtn->setVisible (message.isEmpty());
-    QTimer::singleShot (0, ui->confirmBtn, SLOT (setFocus()));
-
-    if (!message.isEmpty())
+    if (!message.isEmpty()) // just show a message
+    {
+        ui->confirmBtn->setText (tr ("&OK"));
+        ui->cancelBtn->setVisible (false);
         ui->promptLabel->setText ("<b>" + message + "</b>");
-    else if (QObject::sender() == ui->clearBtn)
-    {
-        ui->promptLabel->setText ("<b>" + tr ("Do you really want to remove all saved sessions?") + "</b>");
-        connect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::removeAll);
     }
-    else if (QObject::sender() == ui->removeBtn)
+    else
     {
-        if (ui->listWidget->selectedItems().count() > 1)
-            ui->promptLabel->setText ("<b>" + tr ("Do you really want to remove the selected sessions?") + "</b>");
-        else
-            ui->promptLabel->setText ("<b>" + tr ("Do you really want to remove the selected session?") + "</b>");
-        connect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::removeSelected);
+        ui->confirmBtn->setText (tr ("&Yes"));
+        ui->cancelBtn->setVisible (true);
+
+        if (QObject::sender() == ui->clearBtn)
+        {
+            ui->promptLabel->setText ("<b>" + tr ("Do you really want to remove all saved sessions?") + "</b>");
+            connect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::removeAll);
+        }
+        else if (QObject::sender() == ui->removeBtn)
+        {
+            if (ui->listWidget->selectedItems().count() > 1)
+                ui->promptLabel->setText ("<b>" + tr ("Do you really want to remove the selected sessions?") + "</b>");
+            else
+                ui->promptLabel->setText ("<b>" + tr ("Do you really want to remove the selected session?") + "</b>");
+            connect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::removeSelected);
+        }
+        else // same name prompt
+        {
+            ui->promptLabel->setText ("<b>" + tr ("A session with the same name exists.<br>Do you want to overwrite it?") + "</b>");
+            connect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::reallySaveSession);
+        }
     }
-    else // same name prompt
-    {
-        ui->promptLabel->setText ("<b>" + tr ("A session with the same name exists.<br>Do you want to overwrite it?") + "</b>");
-        connect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::reallySaveSession);
-    }
+    ui->promptContainer->show();
+    QTimer::singleShot (0, ui->confirmBtn, SLOT (setFocus()));
 }
 /*************************/
 void SessionDialog::closePromptContainer()

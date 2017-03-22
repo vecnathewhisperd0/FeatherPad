@@ -84,7 +84,7 @@
          <bool>false</bool>
         </property>
         <property name="toolTip">
-         <string>Remove the selected session(s).</string>
+         <string>Del</string>
         </property>
         <property name="text">
          <string>&amp;Remove</string>
@@ -92,15 +92,24 @@
         <property name="icon">
          <iconset theme="edit-clear"/>
         </property>
+        <property name="shortcut">
+         <string>Del</string>
+        </property>
        </widget>
       </item>
       <item row="2" column="3">
        <widget class="QPushButton" name="clearBtn">
+        <property name="toolTip">
+         <string>Ctrl+Del</string>
+        </property>
         <property name="text">
          <string>Remove &amp;All</string>
         </property>
         <property name="icon">
          <iconset theme="edit-delete"/>
+        </property>
+        <property name="shortcut">
+         <string>Ctrl+Del</string>
         </property>
        </widget>
       </item>
@@ -165,14 +174,14 @@
       <item row="2" column="0" alignment="Qt::AlignLeft">
        <widget class="QPushButton" name="confirmBtn">
         <property name="text">
-         <string>O&amp;K</string>
+         <string>&amp;Yes</string>
         </property>
        </widget>
       </item>
       <item row="2" column="1" alignment="Qt::AlignRight">
        <widget class="QPushButton" name="cancelBtn">
         <property name="text">
-         <string>Canc&amp;el</string>
+         <string>&amp;No</string>
         </property>
        </widget>
       </item>

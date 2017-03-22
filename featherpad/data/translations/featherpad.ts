@@ -8,11 +8,11 @@
         <location filename="../../fpwin.cpp" line="909"/>
         <location filename="../../fpwin.cpp" line="1319"/>
         <location filename="../../fpwin.cpp" line="1351"/>
-        <location filename="../../fpwin.cpp" line="1811"/>
-        <location filename="../../fpwin.cpp" line="1831"/>
-        <location filename="../../fpwin.cpp" line="1834"/>
-        <location filename="../../fpwin.cpp" line="2255"/>
-        <location filename="../../fpwin.cpp" line="2810"/>
+        <location filename="../../fpwin.cpp" line="1812"/>
+        <location filename="../../fpwin.cpp" line="1832"/>
+        <location filename="../../fpwin.cpp" line="1835"/>
+        <location filename="../../fpwin.cpp" line="2256"/>
+        <location filename="../../fpwin.cpp" line="2811"/>
         <source>Untitled</source>
         <translation type="unfinished"></translation>
     </message>
@@ -55,8 +55,8 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="937"/>
-        <location filename="../../fpwin.cpp" line="1758"/>
-        <location filename="../../fpwin.cpp" line="2720"/>
+        <location filename="../../fpwin.cpp" line="1759"/>
+        <location filename="../../fpwin.cpp" line="2721"/>
         <source>Encoding</source>
         <translation type="unfinished"></translation>
     </message>
@@ -550,7 +550,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="322"/>
-        <location filename="../../fpwin.cpp" line="2336"/>
+        <location filename="../../fpwin.cpp" line="2337"/>
         <location filename="../../replace.cpp" line="60"/>
         <location filename="../../replace.cpp" line="112"/>
         <source>Rep&amp;lacement</source>
@@ -805,7 +805,7 @@
         <location filename="../../fpwin.cpp" line="461"/>
         <location filename="../../fpwin.cpp" line="1129"/>
         <location filename="../../fpwin.cpp" line="1224"/>
-        <location filename="../../fpwin.cpp" line="2101"/>
+        <location filename="../../fpwin.cpp" line="2102"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
@@ -836,7 +836,7 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="686"/>
-        <location filename="../../fpwin.cpp" line="1945"/>
+        <location filename="../../fpwin.cpp" line="1946"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -852,25 +852,25 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="938"/>
-        <location filename="../../fpwin.cpp" line="1760"/>
-        <location filename="../../fpwin.cpp" line="2060"/>
-        <location filename="../../fpwin.cpp" line="2071"/>
-        <location filename="../../fpwin.cpp" line="2078"/>
-        <location filename="../../fpwin.cpp" line="2724"/>
+        <location filename="../../fpwin.cpp" line="1761"/>
+        <location filename="../../fpwin.cpp" line="2061"/>
+        <location filename="../../fpwin.cpp" line="2072"/>
+        <location filename="../../fpwin.cpp" line="2079"/>
+        <location filename="../../fpwin.cpp" line="2725"/>
         <source>Lines</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="939"/>
-        <location filename="../../fpwin.cpp" line="2725"/>
-        <location filename="../../fpwin.cpp" line="2739"/>
+        <location filename="../../fpwin.cpp" line="2726"/>
+        <location filename="../../fpwin.cpp" line="2740"/>
         <source>Sel. Chars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="940"/>
-        <location filename="../../fpwin.cpp" line="2727"/>
-        <location filename="../../fpwin.cpp" line="2740"/>
+        <location filename="../../fpwin.cpp" line="2728"/>
+        <location filename="../../fpwin.cpp" line="2741"/>
         <source>Words</source>
         <translation type="unfinished"></translation>
     </message>
@@ -906,114 +906,114 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1344"/>
-        <location filename="../../fpwin.cpp" line="2244"/>
+        <location filename="../../fpwin.cpp" line="2245"/>
         <source>*Untitled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1672"/>
-        <location filename="../../fpwin.cpp" line="1795"/>
-        <location filename="../../fpwin.cpp" line="1820"/>
+        <location filename="../../fpwin.cpp" line="1673"/>
+        <location filename="../../fpwin.cpp" line="1796"/>
+        <location filename="../../fpwin.cpp" line="1821"/>
         <source>All Files (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1677"/>
+        <location filename="../../fpwin.cpp" line="1678"/>
         <source>All Files (*);;.%1 Files (*.%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1681"/>
+        <location filename="../../fpwin.cpp" line="1682"/>
         <source>Open file...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1800"/>
+        <location filename="../../fpwin.cpp" line="1801"/>
         <source>.%1 Files (*.%1);;All Files (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1845"/>
-        <location filename="../../fpwin.cpp" line="1876"/>
+        <location filename="../../fpwin.cpp" line="1846"/>
+        <location filename="../../fpwin.cpp" line="1877"/>
         <source>Save as...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1905"/>
+        <location filename="../../fpwin.cpp" line="1906"/>
         <source>Keep encoding and save as...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1943"/>
+        <location filename="../../fpwin.cpp" line="1944"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1944"/>
+        <location filename="../../fpwin.cpp" line="1945"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1946"/>
+        <location filename="../../fpwin.cpp" line="1947"/>
         <source>Do you want to use &lt;b&gt;MS Windows&lt;/b&gt; end-of-lines?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1947"/>
+        <location filename="../../fpwin.cpp" line="1948"/>
         <source>This may be good for readability under MS Windows.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2098"/>
+        <location filename="../../fpwin.cpp" line="2099"/>
         <source>Cannot be saved!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2253"/>
-        <location filename="../../fpwin.cpp" line="3446"/>
+        <location filename="../../fpwin.cpp" line="2254"/>
+        <location filename="../../fpwin.cpp" line="3447"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2056"/>
-        <location filename="../../fpwin.cpp" line="2062"/>
-        <location filename="../../fpwin.cpp" line="2070"/>
-        <location filename="../../fpwin.cpp" line="2723"/>
+        <location filename="../../fpwin.cpp" line="2057"/>
+        <location filename="../../fpwin.cpp" line="2063"/>
+        <location filename="../../fpwin.cpp" line="2071"/>
+        <location filename="../../fpwin.cpp" line="2724"/>
         <source>Syntax</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2821"/>
+        <location filename="../../fpwin.cpp" line="2822"/>
         <source>Print Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3357"/>
+        <location filename="../../fpwin.cpp" line="3358"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3358"/>
+        <location filename="../../fpwin.cpp" line="3359"/>
         <source>based on Qt5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3359"/>
+        <location filename="../../fpwin.cpp" line="3360"/>
         <source>Author</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3360"/>
+        <location filename="../../fpwin.cpp" line="3361"/>
         <source>aka.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3362"/>
+        <location filename="../../fpwin.cpp" line="3363"/>
         <source>Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3375"/>
+        <location filename="../../fpwin.cpp" line="3376"/>
         <source>About FeatherPad</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1457,7 +1457,7 @@ empty startup of a session.</source>
     <message>
         <location filename="../../searchbar.cpp" line="36"/>
         <location filename="../../searchbar.cpp" line="37"/>
-        <location filename="../../searchbar.cpp" line="131"/>
+        <location filename="../../searchbar.cpp" line="132"/>
         <source>F3</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1469,7 +1469,7 @@ empty startup of a session.</source>
     <message>
         <location filename="../../searchbar.cpp" line="42"/>
         <location filename="../../searchbar.cpp" line="43"/>
-        <location filename="../../searchbar.cpp" line="132"/>
+        <location filename="../../searchbar.cpp" line="133"/>
         <source>F4</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1481,14 +1481,14 @@ empty startup of a session.</source>
     <message>
         <location filename="../../searchbar.cpp" line="47"/>
         <location filename="../../searchbar.cpp" line="48"/>
-        <location filename="../../searchbar.cpp" line="133"/>
+        <location filename="../../searchbar.cpp" line="134"/>
         <source>F5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../searchbar.cpp" line="54"/>
         <location filename="../../searchbar.cpp" line="55"/>
-        <location filename="../../searchbar.cpp" line="134"/>
+        <location filename="../../searchbar.cpp" line="135"/>
         <source>F6</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1498,11 +1498,6 @@ empty startup of a session.</source>
     <message>
         <location filename="../../sessionDialog.ui" line="14"/>
         <source>Session Manager</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../sessionDialog.ui" line="87"/>
-        <source>Remove the selected session(s).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1526,42 +1521,55 @@ empty startup of a session.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="145"/>
+        <location filename="../../sessionDialog.ui" line="87"/>
+        <location filename="../../sessionDialog.ui" line="96"/>
+        <source>Del</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../sessionDialog.ui" line="103"/>
+        <location filename="../../sessionDialog.ui" line="112"/>
+        <source>Ctrl+Del</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../sessionDialog.ui" line="154"/>
         <source>&lt;b&gt;Warning&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="100"/>
+        <location filename="../../sessionDialog.ui" line="177"/>
+        <location filename="../../session.cpp" line="213"/>
+        <source>&amp;Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../sessionDialog.ui" line="184"/>
+        <source>&amp;No</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../sessionDialog.ui" line="106"/>
         <source>Remove &amp;All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="168"/>
-        <source>O&amp;K</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../sessionDialog.ui" line="175"/>
-        <source>Canc&amp;el</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../sessionDialog.ui" line="201"/>
+        <location filename="../../sessionDialog.ui" line="210"/>
         <source>&amp;Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="113"/>
+        <location filename="../../sessionDialog.ui" line="122"/>
         <source>Save the curent session under the given title.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="116"/>
+        <location filename="../../sessionDialog.ui" line="125"/>
         <source>&amp;Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="126"/>
+        <location filename="../../sessionDialog.ui" line="135"/>
         <source>Type a name to save session</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1571,22 +1579,37 @@ empty startup of a session.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="196"/>
+        <location filename="../../session.cpp" line="171"/>
+        <source>No file exists or can be opened.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../session.cpp" line="177"/>
+        <source>Not all files exist or can be opened.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../session.cpp" line="207"/>
+        <source>&amp;OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../session.cpp" line="218"/>
         <source>Do you really want to remove all saved sessions?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="202"/>
+        <location filename="../../session.cpp" line="224"/>
         <source>Do you really want to remove the selected sessions?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="204"/>
+        <location filename="../../session.cpp" line="226"/>
         <source>Do you really want to remove the selected session?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="209"/>
+        <location filename="../../session.cpp" line="231"/>
         <source>A session with the same name exists.&lt;br&gt;Do you want to overwrite it?</source>
         <translation type="unfinished"></translation>
     </message>
