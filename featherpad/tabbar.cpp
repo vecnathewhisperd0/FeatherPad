@@ -30,6 +30,7 @@ TabBar::TabBar (QWidget *parent)
     : QTabBar (parent)
 {
     setMouseTracking (true);
+    setElideMode (Qt::ElideMiddle); // works with minimumTabSizeHint()
     hideSingle_ = false;
     lock_ = false;
 }
@@ -143,6 +144,30 @@ void TabBar::releaseMouse()
 {
     QMouseEvent releasingEvent (QEvent::MouseButtonRelease, QPoint(), Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
     mouseReleaseEvent (&releasingEvent);
+}
+/*************************/
+QSize TabBar::tabSizeHint(int index) const
+{
+    switch (shape()) {
+    case QTabBar::RoundedWest:
+    case QTabBar::TriangularWest:
+    case QTabBar::RoundedEast:
+    case QTabBar::TriangularEast:
+        return QSize (QTabBar::tabSizeHint (index).width(),
+                      qMin (height()/2, QTabBar::tabSizeHint (index).height()));
+        break;
+    default:
+        return QSize (qMin (width()/2, QTabBar::tabSizeHint (index).width()),
+                      QTabBar::tabSizeHint (index).height());
+        break;
+    }
+}
+/*************************/
+// Set minimumTabSizeHint to tabSizeHint
+// to keep tabs from shrinking with eliding.
+QSize TabBar::minimumTabSizeHint(int index) const
+{
+    return tabSizeHint (index);
 }
 
 }

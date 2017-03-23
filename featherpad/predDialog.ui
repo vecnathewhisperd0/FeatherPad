@@ -209,7 +209,7 @@ merge a single tabbed window into another one by tab drag-
 and-drop either.</string>
             </property>
             <property name="text">
-             <string>Do not show a single tab</string>
+             <string>&amp;Do not show a single tab</string>
             </property>
            </widget>
           </item>

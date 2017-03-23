@@ -10,6 +10,7 @@ V0.6.0
  * Added a prompt label to the Preferences dialog.
  * Support Perls's POD (in syntax highlighting).
  * Session management.
+ * Set the maximum tab length to half the tabbar size and elide tab text dynamically.
 
 V0.5.9
 ---------

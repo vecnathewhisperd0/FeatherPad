@@ -7,12 +7,12 @@
         <location filename="../../fp.ui" line="14"/>
         <location filename="../../fpwin.cpp" line="909"/>
         <location filename="../../fpwin.cpp" line="1319"/>
-        <location filename="../../fpwin.cpp" line="1351"/>
-        <location filename="../../fpwin.cpp" line="1812"/>
-        <location filename="../../fpwin.cpp" line="1832"/>
-        <location filename="../../fpwin.cpp" line="1835"/>
-        <location filename="../../fpwin.cpp" line="2256"/>
-        <location filename="../../fpwin.cpp" line="2811"/>
+        <location filename="../../fpwin.cpp" line="1347"/>
+        <location filename="../../fpwin.cpp" line="1804"/>
+        <location filename="../../fpwin.cpp" line="1824"/>
+        <location filename="../../fpwin.cpp" line="1827"/>
+        <location filename="../../fpwin.cpp" line="2248"/>
+        <location filename="../../fpwin.cpp" line="2803"/>
         <source>Untitled</source>
         <translation type="unfinished"></translation>
     </message>
@@ -55,8 +55,8 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="937"/>
-        <location filename="../../fpwin.cpp" line="1759"/>
-        <location filename="../../fpwin.cpp" line="2721"/>
+        <location filename="../../fpwin.cpp" line="1751"/>
+        <location filename="../../fpwin.cpp" line="2713"/>
         <source>Encoding</source>
         <translation type="unfinished"></translation>
     </message>
@@ -550,7 +550,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="322"/>
-        <location filename="../../fpwin.cpp" line="2337"/>
+        <location filename="../../fpwin.cpp" line="2329"/>
         <location filename="../../replace.cpp" line="60"/>
         <location filename="../../replace.cpp" line="112"/>
         <source>Rep&amp;lacement</source>
@@ -805,7 +805,7 @@
         <location filename="../../fpwin.cpp" line="461"/>
         <location filename="../../fpwin.cpp" line="1129"/>
         <location filename="../../fpwin.cpp" line="1224"/>
-        <location filename="../../fpwin.cpp" line="2102"/>
+        <location filename="../../fpwin.cpp" line="2094"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
@@ -836,7 +836,7 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="686"/>
-        <location filename="../../fpwin.cpp" line="1946"/>
+        <location filename="../../fpwin.cpp" line="1938"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -852,25 +852,25 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="938"/>
-        <location filename="../../fpwin.cpp" line="1761"/>
-        <location filename="../../fpwin.cpp" line="2061"/>
-        <location filename="../../fpwin.cpp" line="2072"/>
-        <location filename="../../fpwin.cpp" line="2079"/>
-        <location filename="../../fpwin.cpp" line="2725"/>
+        <location filename="../../fpwin.cpp" line="1753"/>
+        <location filename="../../fpwin.cpp" line="2053"/>
+        <location filename="../../fpwin.cpp" line="2064"/>
+        <location filename="../../fpwin.cpp" line="2071"/>
+        <location filename="../../fpwin.cpp" line="2717"/>
         <source>Lines</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="939"/>
-        <location filename="../../fpwin.cpp" line="2726"/>
-        <location filename="../../fpwin.cpp" line="2740"/>
+        <location filename="../../fpwin.cpp" line="2718"/>
+        <location filename="../../fpwin.cpp" line="2732"/>
         <source>Sel. Chars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="940"/>
-        <location filename="../../fpwin.cpp" line="2728"/>
-        <location filename="../../fpwin.cpp" line="2741"/>
+        <location filename="../../fpwin.cpp" line="2720"/>
+        <location filename="../../fpwin.cpp" line="2733"/>
         <source>Words</source>
         <translation type="unfinished"></translation>
     </message>
@@ -905,115 +905,115 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1344"/>
-        <location filename="../../fpwin.cpp" line="2245"/>
+        <location filename="../../fpwin.cpp" line="1340"/>
+        <location filename="../../fpwin.cpp" line="2237"/>
         <source>*Untitled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1673"/>
-        <location filename="../../fpwin.cpp" line="1796"/>
-        <location filename="../../fpwin.cpp" line="1821"/>
+        <location filename="../../fpwin.cpp" line="1665"/>
+        <location filename="../../fpwin.cpp" line="1788"/>
+        <location filename="../../fpwin.cpp" line="1813"/>
         <source>All Files (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1678"/>
+        <location filename="../../fpwin.cpp" line="1670"/>
         <source>All Files (*);;.%1 Files (*.%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1682"/>
+        <location filename="../../fpwin.cpp" line="1674"/>
         <source>Open file...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1801"/>
+        <location filename="../../fpwin.cpp" line="1793"/>
         <source>.%1 Files (*.%1);;All Files (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1846"/>
-        <location filename="../../fpwin.cpp" line="1877"/>
+        <location filename="../../fpwin.cpp" line="1838"/>
+        <location filename="../../fpwin.cpp" line="1869"/>
         <source>Save as...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1906"/>
+        <location filename="../../fpwin.cpp" line="1898"/>
         <source>Keep encoding and save as...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1944"/>
+        <location filename="../../fpwin.cpp" line="1936"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1945"/>
+        <location filename="../../fpwin.cpp" line="1937"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1947"/>
+        <location filename="../../fpwin.cpp" line="1939"/>
         <source>Do you want to use &lt;b&gt;MS Windows&lt;/b&gt; end-of-lines?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1948"/>
+        <location filename="../../fpwin.cpp" line="1940"/>
         <source>This may be good for readability under MS Windows.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2099"/>
+        <location filename="../../fpwin.cpp" line="2091"/>
         <source>Cannot be saved!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2254"/>
-        <location filename="../../fpwin.cpp" line="3447"/>
+        <location filename="../../fpwin.cpp" line="2246"/>
+        <location filename="../../fpwin.cpp" line="3439"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2057"/>
+        <location filename="../../fpwin.cpp" line="2049"/>
+        <location filename="../../fpwin.cpp" line="2055"/>
         <location filename="../../fpwin.cpp" line="2063"/>
-        <location filename="../../fpwin.cpp" line="2071"/>
-        <location filename="../../fpwin.cpp" line="2724"/>
+        <location filename="../../fpwin.cpp" line="2716"/>
         <source>Syntax</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2822"/>
+        <location filename="../../fpwin.cpp" line="2814"/>
         <source>Print Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3358"/>
+        <location filename="../../fpwin.cpp" line="3350"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3359"/>
+        <location filename="../../fpwin.cpp" line="3351"/>
         <source>based on Qt5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3360"/>
+        <location filename="../../fpwin.cpp" line="3352"/>
         <source>Author</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3361"/>
+        <location filename="../../fpwin.cpp" line="3353"/>
         <source>aka.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3363"/>
+        <location filename="../../fpwin.cpp" line="3355"/>
         <source>Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3376"/>
+        <location filename="../../fpwin.cpp" line="3368"/>
         <source>About FeatherPad</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1179,11 +1179,6 @@ Tab navigation with mouse wheel is not affected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="212"/>
-        <source>Do not show a single tab</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../predDialog.ui" line="235"/>
         <source>Uncheck for Monospace 9.</source>
         <translation type="unfinished"></translation>
@@ -1267,6 +1262,11 @@ Needs application restart to take effect.</source>
 tooltip and context menu of a single tab but you could not
 merge a single tabbed window into another one by tab drag-
 and-drop either.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="212"/>
+        <source>&amp;Do not show a single tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -51,6 +51,8 @@ protected:
     virtual void mouseMoveEvent (QMouseEvent *event);
     virtual bool event (QEvent *event);
     virtual void wheelEvent (QWheelEvent *event);
+    virtual QSize tabSizeHint(int index) const;
+    virtual QSize minimumTabSizeHint (int index) const;
     void tabRemoved (int);
     void tabInserted (int);
 

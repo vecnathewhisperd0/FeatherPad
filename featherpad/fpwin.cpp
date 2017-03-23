@@ -1324,11 +1324,7 @@ void FPwin::setTitle (const QString& fileName, int indx)
         setWindowTitle (shownName);
 
     shownName.replace ("&", "&&"); // single ampersand is for mnemonic
-
-    QFontMetrics metrics = QFontMetrics (ui->tabWidget->font());
-    int w = 100 * metrics.width (' '); // 100 characters are more than enough
-    QString elidedName = metrics.elidedText (shownName, Qt::ElideMiddle, w);
-    ui->tabWidget->setTabText (index, elidedName);
+    ui->tabWidget->setTabText (index, shownName);
 }
 /*************************/
 void FPwin::asterisk (bool modified)
@@ -1356,11 +1352,7 @@ void FPwin::asterisk (bool modified)
     setWindowTitle (shownName);
 
     shownName.replace ("&", "&&");
-
-    QFontMetrics metrics = QFontMetrics (ui->tabWidget->font());
-    int w = 100 * metrics.width (' ');
-    QString elidedName = metrics.elidedText (shownName, Qt::ElideMiddle, w);
-    ui->tabWidget->setTabText (index, elidedName);
+    ui->tabWidget->setTabText (index, shownName);
 }
 /*************************/
 void FPwin::waitToMakeBusy()
