@@ -19,7 +19,6 @@
 #define SESSION_H
 
 #include <QDialog>
-#include <QListWidgetItem>
 
 namespace FeatherPad {
 
@@ -39,17 +38,22 @@ private slots:
     void saveSession();
     void reallySaveSession();
     void selectionChanged();
-    void restoreSession (QListWidgetItem*);
     void openSessions();
-    void openPromptContainer();
-    void closePromptContainer();
-    void showMainContainer();
+    void closePrompt();
     void removeSelected();
     void removeAll();
     void activate();
+    void showMainPage();
+    void showPromptPage();
 
 private:
-    void showPromptContainer (QString message = QString());
+    enum PROMPT {
+      NAME,
+      REMOVE,
+      CLEAR
+    };
+    void showPrompt (PROMPT prompt);
+    void showPrompt (QString message);
 
     Ui::SessionDialog *ui;
     QWidget * parent_;

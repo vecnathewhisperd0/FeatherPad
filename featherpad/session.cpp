@@ -30,15 +30,11 @@ SessionDialog::SessionDialog (QWidget *parent):QDialog (parent), ui (new Ui::Ses
     ui->setupUi (this);
     parent_ = parent;
     setObjectName ("sessionDialog");
-    ui->promptContainer->hide();
     ui->promptLabel->setStyleSheet ("QLabel {background-color: #7d0000; color: white; border-radius: 3px; margin: 2px; padding: 5px;}");
-    ui->listWidget->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+    ui->listWidget->setSizeAdjustPolicy (QAbstractScrollArea::AdjustToContents);
 
-    connect (ui->listWidget, &QListWidget::itemDoubleClicked, this, &SessionDialog::restoreSession);
+    connect (ui->listWidget, &QListWidget::itemDoubleClicked, [=]{openSessions();});
     connect (ui->listWidget, &QListWidget::itemSelectionChanged, this, &SessionDialog::selectionChanged);
-    /* we want to open sessions by pressing Enter inside the list widget but the line-edit
-       removes the default property from the Open button when it gets the focus (see below) */
-    connect (ui->listWidget, &QListWidget::itemClicked, [=]{ui->openBtn->setDefault (true);});
 
     QSettings settings ("featherpad", "fp");
     settings.beginGroup ("sessions");
@@ -59,14 +55,14 @@ SessionDialog::SessionDialog (QWidget *parent):QDialog (parent), ui (new Ui::Ses
     connect (ui->saveBtn, &QAbstractButton::clicked, this, &SessionDialog::saveSession);
     connect (ui->lineEdit, &QLineEdit::returnPressed, this, &SessionDialog::saveSession);
     /* we don't want to open a session by pressing Enter inside the line-edit */
-    connect (ui->lineEdit, &LineEdit::receivedFocus, [=](void){ui->openBtn->setDefault (false);});
+    connect (ui->lineEdit, &LineEdit::receivedFocus, [=]{ui->openBtn->setDefault (false);});
     connect (ui->lineEdit, &QLineEdit::textEdited, [=](const QString &text){ui->saveBtn->setEnabled (!text.isEmpty());});
     connect (ui->openBtn, &QAbstractButton::clicked, this, &SessionDialog::openSessions);
-    connect (ui->clearBtn, &QAbstractButton::clicked, this, &SessionDialog::openPromptContainer);
-    connect (ui->removeBtn, &QAbstractButton::clicked, this, &SessionDialog::openPromptContainer);
+    connect (ui->clearBtn, &QAbstractButton::clicked, [=]{showPrompt (CLEAR);});
+    connect (ui->removeBtn, &QAbstractButton::clicked, [=]{showPrompt (REMOVE);});
 
-    connect (ui->cancelBtn, &QAbstractButton::clicked, this, &SessionDialog::closePromptContainer);
-    connect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::closePromptContainer);
+    connect (ui->cancelBtn, &QAbstractButton::clicked, this, &SessionDialog::closePrompt);
+    connect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::closePrompt);
 
     connect (ui->closeButton, &QAbstractButton::clicked, this, &QDialog::close);
 
@@ -100,9 +96,9 @@ void SessionDialog::saveSession()
     }
 
     if (!hasFile)
-        showPromptContainer (tr ("Nothing saved.<br>No file was opened."));
+        showPrompt (tr ("Nothing saved.<br>No file was opened."));
     else if (!ui->listWidget->findItems (ui->lineEdit->text(), Qt::MatchExactly).isEmpty())
-        showPromptContainer();
+        showPrompt(NAME);
     else
         reallySaveSession();
 }
@@ -134,11 +130,6 @@ void SessionDialog::reallySaveSession()
     settings.endGroup();
 }
 /*************************/
-void SessionDialog::restoreSession (QListWidgetItem* /*item*/)
-{
-    openSessions();
-}
-/*************************/
 void SessionDialog::openSessions()
 {
     QList<QListWidgetItem*> items = ui->listWidget->selectedItems();
@@ -168,13 +159,13 @@ void SessionDialog::openSessions()
                 win->newTabFromName (files.at (i), multiple);
             }
             if (broken == files.count())
-                showPromptContainer (tr ("No file exists or can be opened."));
+                showPrompt (tr ("No file exists or can be opened."));
             else
             {
                 /* return the focus to the dialog */
                 connect (win, &FPwin::finishedLoading, this, &SessionDialog::activate);
                 if (broken > 0)
-                    showPromptContainer (tr ("Not all files exist or can be opened."));
+                    showPrompt (tr ("Not all files exist or can be opened."));
             }
         }
     }
@@ -188,66 +179,68 @@ void SessionDialog::activate()
     raise();
 }
 /*************************/
-void SessionDialog::openPromptContainer()
+// These slots are called for processes to have time to be completed,
+// especially for the returnPressed signal of the line-edit to be emiited.
+void SessionDialog::showMainPage()
 {
-    showPromptContainer();
+    ui->stackedWidget->setCurrentIndex (0);
+}
+void SessionDialog::showPromptPage()
+{
+    ui->stackedWidget->setCurrentIndex (1);
+    QTimer::singleShot (0, ui->confirmBtn, SLOT (setFocus()));
 }
 /*************************/
-void SessionDialog::showPromptContainer (QString message)
+void SessionDialog::showPrompt (QString message)
 {
     disconnect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::removeAll);
     disconnect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::removeSelected);
     disconnect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::reallySaveSession);
 
-    /* give time to processes, especially to the returnPressed signal of the line-edit */
-    QTimer::singleShot (0, ui->mainContainer, SLOT (hide()));
+    if (message.isEmpty()) return;
 
-    if (!message.isEmpty()) // just show a message
-    {
-        ui->confirmBtn->setText (tr ("&OK"));
-        ui->cancelBtn->setVisible (false);
-        ui->promptLabel->setText ("<b>" + message + "</b>");
-    }
-    else
-    {
-        ui->confirmBtn->setText (tr ("&Yes"));
-        ui->cancelBtn->setVisible (true);
+    QTimer::singleShot (0, this, SLOT (showPromptPage()));
 
-        if (QObject::sender() == ui->clearBtn)
-        {
-            ui->promptLabel->setText ("<b>" + tr ("Do you really want to remove all saved sessions?") + "</b>");
-            connect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::removeAll);
-        }
-        else if (QObject::sender() == ui->removeBtn)
-        {
-            if (ui->listWidget->selectedItems().count() > 1)
-                ui->promptLabel->setText ("<b>" + tr ("Do you really want to remove the selected sessions?") + "</b>");
-            else
-                ui->promptLabel->setText ("<b>" + tr ("Do you really want to remove the selected session?") + "</b>");
-            connect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::removeSelected);
-        }
-        else // same name prompt
-        {
-            ui->promptLabel->setText ("<b>" + tr ("A session with the same name exists.<br>Do you want to overwrite it?") + "</b>");
-            connect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::reallySaveSession);
-        }
-    }
-    ui->promptContainer->show();
-    QTimer::singleShot (0, ui->confirmBtn, SLOT (setFocus()));
+    ui->confirmBtn->setText (tr ("&OK"));
+    ui->cancelBtn->setVisible (false);
+    ui->promptLabel->setText ("<b>" + message + "</b>");
 }
 /*************************/
-void SessionDialog::closePromptContainer()
+void SessionDialog::showPrompt (PROMPT prompt)
+{
+    disconnect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::removeAll);
+    disconnect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::removeSelected);
+    disconnect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::reallySaveSession);
+
+    QTimer::singleShot (0, this, SLOT (showPromptPage()));
+
+    ui->confirmBtn->setText (tr ("&Yes"));
+    ui->cancelBtn->setVisible (true);
+
+    if (prompt == CLEAR)
+    {
+        ui->promptLabel->setText ("<b>" + tr ("Do you really want to remove all saved sessions?") + "</b>");
+        connect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::removeAll);
+    }
+    else if (prompt == REMOVE)
+    {
+        if (ui->listWidget->selectedItems().count() > 1)
+            ui->promptLabel->setText ("<b>" + tr ("Do you really want to remove the selected sessions?") + "</b>");
+        else
+            ui->promptLabel->setText ("<b>" + tr ("Do you really want to remove the selected session?") + "</b>");
+        connect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::removeSelected);
+    }
+    else// if (prompt = NAME)
+    {
+        ui->promptLabel->setText ("<b>" + tr ("A session with the same name exists.<br>Do you want to overwrite it?") + "</b>");
+        connect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::reallySaveSession);
+    }
+}
+/*************************/
+void SessionDialog::closePrompt()
 {
     ui->promptLabel->clear();
-    ui->promptContainer->hide();
-    QTimer::singleShot (0, this, SLOT (showMainContainer()));
-}
-/*************************/
-void SessionDialog::showMainContainer()
-{
-    /* give the focus to the line-edit after showing the main container */
-    ui->mainContainer->show();
-    QTimer::singleShot (0, ui->lineEdit, SLOT (setFocus()));
+    QTimer::singleShot (0, this, SLOT (showMainPage()));
 }
 /*************************/
 void SessionDialog::removeSelected()
@@ -284,7 +277,8 @@ void SessionDialog::selectionChanged()
     bool noSel = ui->listWidget->selectedItems().isEmpty();
     ui->openBtn->setEnabled (!noSel);
     ui->removeBtn->setEnabled (!noSel);
-    /* we want to open sessions by pressing Enter inside the list widget */
+    /* we want to open sessions by pressing Enter inside the list widget
+       without connecting to QAbstractItemView::activated() */
     ui->openBtn->setDefault (true);
 }
 
