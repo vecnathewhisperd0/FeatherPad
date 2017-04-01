@@ -1317,9 +1317,10 @@ void FPwin::setTitle (const QString& fileName, int indx)
     if (fileName.isEmpty())
         shownName = tr ("Untitled");
     else
+    {
         shownName = QFileInfo (fileName).fileName();
-
-    shownName.replace ("\n", " "); // no multi-line tab text
+        shownName.replace ("\n", " "); // no multi-line tab text
+    }
 
     if (indx < 0)
         setWindowTitle (shownName);
@@ -1349,8 +1350,7 @@ void FPwin::asterisk (bool modified)
         else
             shownName = QFileInfo (fname).fileName();
     }
-
-    shownName.replace ("\n", " "); // no multi-line tab text
+    shownName.replace ("\n", " ");
 
     setWindowTitle (shownName);
 
@@ -2253,6 +2253,7 @@ void FPwin::tabSwitch (int index)
         else
             shownName = QFileInfo (fname).fileName();
     }
+    shownName.replace ("\n", " ");
     setWindowTitle (shownName);
 
     /* although the window size, wrapping state or replacing text may have changed or
