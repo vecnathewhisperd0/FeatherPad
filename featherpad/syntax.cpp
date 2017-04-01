@@ -44,7 +44,7 @@ void FPwin::toggleSyntaxHighlighting()
         {
             TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (i))->textEdit();
             disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
-            disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatonResizing);
+            disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
             disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
             disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
 
@@ -251,12 +251,12 @@ void FPwin::syntaxHighlighting (TextEdit *textEdit)
     /* visible text may change on block removal */
     connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
     connect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
-    connect (textEdit, &TextEdit::resized, this, &FPwin::formatonResizing);
+    connect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
 }
 /*************************/
 void FPwin::formatOnBlockChange (int/* newBlockCount*/) const
 {
-    formatonResizing();
+    formatOnResizing();
 }
 /*************************/
 void FPwin::formatVisibleText (const QRect &rect, int dy) const
@@ -265,7 +265,7 @@ void FPwin::formatVisibleText (const QRect &rect, int dy) const
     formatTextRect (rect);
 }
 /*************************/
-void FPwin::formatonResizing() const
+void FPwin::formatOnResizing() const
 {
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;

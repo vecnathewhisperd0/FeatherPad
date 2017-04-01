@@ -112,7 +112,7 @@ private slots:
     void toggleSyntaxHighlighting();
     void formatOnBlockChange (int) const;
     void formatVisibleText (const QRect &rect, int dy) const;
-    void formatonResizing() const;
+    void formatOnResizing() const;
     void toggleWrapping();
     void toggleIndent();
     void replace();
