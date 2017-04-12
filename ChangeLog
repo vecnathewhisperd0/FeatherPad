@@ -11,6 +11,7 @@ V0.6.0
  * Support Perls's POD (in syntax highlighting).
  * Session management.
  * Set the maximum tab length to half the tabbar size and elide tab text dynamically.
+ * Always ensure enough contrast between the active/inactive text selection color and the line highlight color.
 
 V0.5.9
 ---------

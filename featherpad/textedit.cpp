@@ -20,11 +20,58 @@
 
 namespace FeatherPad {
 
-TextEdit::TextEdit (QWidget *parent) : QPlainTextEdit (parent)
+TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
 {
     autoIndentation = true;
-    darkScheme = false;
     scrollJumpWorkaround = false;
+
+    /* set the backgound color and ensure enough contrast
+       between the selection and line highlight colors */
+    QPalette p = palette();
+    if (bgColorValue < 230 && bgColorValue > 50) // not good for a text editor
+        bgColorValue = 230;
+    if (bgColorValue < 230)
+    {
+        darkScheme = true;
+        lineHColor = QColor (Qt::gray).darker (210); // a value of 78
+        viewport()->setStyleSheet (QString (".QWidget {"
+                                            "color: white;"
+                                            "background-color: rgb(%1, %1, %1);}")
+                                   .arg (bgColorValue));
+        int lineHGray = qGray (lineHColor.rgb());
+        if (qGray (p.highlight().color().rgb()) - lineHGray < 30)
+        {
+            setStyleSheet ("QPlainTextEdit {"
+                           "selection-background-color: rgb(180, 180, 180);"
+                           "selection-color: black;}");
+        }
+        else if (qGray (p.color (QPalette::Inactive, QPalette::Highlight).rgb()) - lineHGray < 30)
+        { // also check the inactive highlight color
+            p.setColor (QPalette::Inactive, QPalette::Highlight, p.highlight().color());
+            setPalette (p);
+        }
+    }
+    else
+    {
+        darkScheme = false;
+        lineHColor = QColor (Qt::gray).lighter (130); // a value of 213
+        viewport()->setStyleSheet (QString (".QWidget {"
+                                            "color: black;"
+                                            "background-color: rgb(%1, %1, %1);}")
+                                   .arg (bgColorValue));
+        int lineHGray = qGray (lineHColor.rgb());
+        if (lineHGray - qGray (p.highlight().color().rgb()) < 30)
+        {
+            setStyleSheet ("QPlainTextEdit {"
+                           "selection-background-color: rgb(100, 100, 100);"
+                           "selection-color: white;}");
+        }
+        else if (lineHGray - qGray (p.color (QPalette::Inactive, QPalette::Highlight).rgb()) < 30)
+        {
+            p.setColor (QPalette::Inactive, QPalette::Highlight, p.highlight().color());
+            setPalette (p);
+        }
+    }
 
     resizeTimerId = 0;
     updateTimerId = 0;
@@ -152,9 +199,7 @@ void TextEdit::highlightCurrentLine()
     if (!es.isEmpty() && !currentLine.cursor.isNull())
         es.removeFirst(); // line highlight always comes first when it exists
 
-    QColor lineColor = darkScheme ? QColor (Qt::gray).darker (210) : QColor (Qt::gray).lighter (130);
-
-    currentLine.format.setBackground (lineColor);
+    currentLine.format.setBackground (lineHColor);
     currentLine.format.setProperty (QTextFormat::FullWidthSelection, true);
     currentLine.cursor = textCursor();
     currentLine.cursor.clearSelection();

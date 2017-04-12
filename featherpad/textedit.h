@@ -30,7 +30,7 @@ class TextEdit : public QPlainTextEdit
     Q_OBJECT
 
 public:
-    TextEdit (QWidget *parent = 0);
+    TextEdit (QWidget *parent = 0, int bgColorValue = 255);
     ~TextEdit();
 
     void setTextCursor (const QTextCursor &cursor)
@@ -55,9 +55,6 @@ public:
         return autoIndentation;
     }
 
-    void useDarkScheme (bool dark) {
-        darkScheme = dark;
-    }
     bool hasDarkScheme() const {
         return darkScheme;
     }
@@ -297,8 +294,9 @@ private:
     QWidget *lineNumberArea;
     QTextEdit::ExtraSelection currentLine;
     bool autoIndentation;
-    bool darkScheme;
     bool scrollJumpWorkaround; // for working around Qt5's scroll jump bug
+    bool darkScheme;
+    QColor lineHColor;
     int resizeTimerId, updateTimerId; // for not wasting CPU's time
     int Dy;
     /********************************************

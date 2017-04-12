@@ -866,30 +866,12 @@ void FPwin::newTab()
 TabPage* FPwin::createEmptyTab (bool setCurrent)
 {
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
-    TabPage *tabPage = new TabPage (nullptr, config.getSysIcon());
+    TabPage *tabPage = new TabPage (nullptr,
+                                    config.getSysIcon(),
+                                    config.getDarkColScheme() ? config.getDarkBgColorValue()
+                                                              : config.getLightBgColorValue());
     TextEdit *textEdit = tabPage->textEdit();
     textEdit->setScrollJumpWorkaround (config.getScrollJumpWorkaround());
-    QPalette palette = QApplication::palette();
-    if (!config.getDarkColScheme())
-    {
-        textEdit->viewport()->setStyleSheet (QString (".QWidget {"
-                                                      "color: black;"
-                                                      "background-color: rgb(%1, %1, %1);}")
-                                             .arg (config.getLightBgColorValue()));
-    }
-    else
-    {
-        textEdit->useDarkScheme (true);
-        textEdit->viewport()->setStyleSheet (QString (".QWidget {"
-                                                      "color: white;"
-                                                      "background-color: rgb(%1, %1, %1);}")
-                                             .arg (config.getDarkBgColorValue()));
-        QBrush brush = palette.highlight();
-        if (brush.color().value() < 120) // themes with very dark selection color
-            textEdit->setStyleSheet ("QPlainTextEdit {"
-                                     "selection-background-color: white;"
-                                     "selection-color: black;}");
-    }
     textEdit->document()->setDefaultFont (config.getFont());
     /* we want consistent tabs */
     QFontMetrics metrics (config.getFont());
@@ -1568,7 +1550,7 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
         disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionDelete, &QAction::setEnabled);
     }
     else if (textEdit->isReadOnly())
-        makeEditable();
+        QTimer::singleShot (0, this, SLOT (makeEditable()));
 
     if (!multiple || openInCurrentTab)
     {

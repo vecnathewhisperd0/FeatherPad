@@ -28,7 +28,7 @@ class TabPage : public QWidget
 {
     Q_OBJECT
 public:
-    explicit TabPage (QWidget *parent = 0, bool sysIcons = false);
+    explicit TabPage (QWidget *parent = 0, bool sysIcons = false, int bgColorValue = 255);
 
     QPointer<TextEdit> textEdit() const {
         return textEdit_;

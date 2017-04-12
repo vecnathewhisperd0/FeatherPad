@@ -20,9 +20,9 @@
 
 namespace FeatherPad {
 
-TabPage::TabPage (QWidget *parent, bool sysIcons) : QWidget (parent)
+TabPage::TabPage (QWidget *parent, bool sysIcons, int bgColorValue) : QWidget (parent)
 {
-    textEdit_ = new TextEdit (this);
+    textEdit_ = new TextEdit (this, bgColorValue);
     searchBar_ = new SearchBar (this);
     if (sysIcons)
     { // since there's no text, we don't want null icons
