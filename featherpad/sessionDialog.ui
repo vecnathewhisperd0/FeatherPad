@@ -238,6 +238,27 @@
     </widget>
    </item>
   </layout>
+  <action name="actionRemove">
+   <property name="icon">
+    <iconset theme="edit-clear"/>
+   </property>
+   <property name="text">
+    <string>&amp;Remove</string>
+   </property>
+  </action>
+  <action name="actionOpen">
+   <property name="text">
+    <string>&amp;Open</string>
+   </property>
+  </action>
+  <action name="actionRename">
+   <property name="icon">
+    <iconset theme="edit-rename"/>
+   </property>
+   <property name="text">
+    <string>Re&amp;name</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

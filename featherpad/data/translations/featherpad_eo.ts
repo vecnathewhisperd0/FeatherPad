@@ -1545,6 +1545,7 @@ okaze de senenhava startigo de sesio.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="91"/>
+        <location filename="../../sessionDialog.ui" line="246"/>
         <source>&amp;Remove</source>
         <translation>Fo&amp;rviŝi</translation>
     </message>
@@ -1560,6 +1561,7 @@ okaze de senenhava startigo de sesio.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="62"/>
+        <location filename="../../sessionDialog.ui" line="251"/>
         <source>&amp;Open</source>
         <translation>&amp;Malfermi</translation>
     </message>
@@ -1582,7 +1584,7 @@ okaze de senenhava startigo de sesio.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="202"/>
-        <location filename="../../session.cpp" line="217"/>
+        <location filename="../../session.cpp" line="246"/>
         <source>&amp;Yes</source>
         <translation>&amp;Jes</translation>
     </message>
@@ -1590,6 +1592,11 @@ okaze de senenhava startigo de sesio.</translation>
         <location filename="../../sessionDialog.ui" line="209"/>
         <source>&amp;No</source>
         <translation>&amp;Ne</translation>
+    </message>
+    <message>
+        <location filename="../../sessionDialog.ui" line="259"/>
+        <source>Re&amp;name</source>
+        <translation>Re&amp;nomi</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="108"/>
@@ -1617,42 +1624,42 @@ okaze de senenhava startigo de sesio.</translation>
         <translation>Tajpu nomon por konservi sesion</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="99"/>
+        <location filename="../../session.cpp" line="120"/>
         <source>Nothing saved.&lt;br&gt;No file was opened.</source>
         <translation>Nenio estas konservita.&lt;br&gt;Neniu dosiero estis malfermita.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="162"/>
+        <location filename="../../session.cpp" line="183"/>
         <source>No file exists or can be opened.</source>
         <translation>Neniu dosiero ekzistas aŭ poveas esti malfermita.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="168"/>
+        <location filename="../../session.cpp" line="189"/>
         <source>Not all files exist or can be opened.</source>
         <translation>Ne ĉiuj dosieroj ekzistas aŭ povas esti malfermitaj.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="204"/>
+        <location filename="../../session.cpp" line="232"/>
         <source>&amp;OK</source>
         <translation>&amp;Bone</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="222"/>
+        <location filename="../../session.cpp" line="251"/>
         <source>Do you really want to remove all saved sessions?</source>
         <translation>Ĉu vi vere volas forviŝi ĉiujn konservitajn sesiojn?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="228"/>
+        <location filename="../../session.cpp" line="257"/>
         <source>Do you really want to remove the selected sessions?</source>
         <translation>Ĉu vi vere volas forviŝi la elektitajn sesiojn?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="230"/>
+        <location filename="../../session.cpp" line="259"/>
         <source>Do you really want to remove the selected session?</source>
         <translation>Ĉu vi vere volas forviŝi la elektitan sesion?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="235"/>
+        <location filename="../../session.cpp" line="264"/>
         <source>A session with the same name exists.&lt;br&gt;Do you want to overwrite it?</source>
         <translation>Samnama sesio ĉeestas.&lt;br&gt;Ĉu vi volas anstataŭigi ĝin?</translation>
     </message>

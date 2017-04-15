@@ -32,9 +32,12 @@ SessionDialog::SessionDialog (QWidget *parent):QDialog (parent), ui (new Ui::Ses
     setObjectName ("sessionDialog");
     ui->promptLabel->setStyleSheet ("QLabel {background-color: #7d0000; color: white; border-radius: 3px; margin: 2px; padding: 5px;}");
     ui->listWidget->setSizeAdjustPolicy (QAbstractScrollArea::AdjustToContents);
+    ui->listWidget->setContextMenuPolicy (Qt::CustomContextMenu);
 
     connect (ui->listWidget, &QListWidget::itemDoubleClicked, [=]{openSessions();});
     connect (ui->listWidget, &QListWidget::itemSelectionChanged, this, &SessionDialog::selectionChanged);
+    connect (ui->listWidget, &QWidget::customContextMenuRequested, this, &SessionDialog::showContextMenu);
+    connect (ui->listWidget->itemDelegate(), &QAbstractItemDelegate::commitData, this, &SessionDialog::OnCommittingName);
 
     QSettings settings ("featherpad", "fp");
     settings.beginGroup ("sessions");
@@ -58,8 +61,12 @@ SessionDialog::SessionDialog (QWidget *parent):QDialog (parent), ui (new Ui::Ses
     connect (ui->lineEdit, &LineEdit::receivedFocus, [=]{ui->openBtn->setDefault (false);});
     connect (ui->lineEdit, &QLineEdit::textEdited, [=](const QString &text){ui->saveBtn->setEnabled (!text.isEmpty());});
     connect (ui->openBtn, &QAbstractButton::clicked, this, &SessionDialog::openSessions);
+    connect (ui->actionOpen, &QAction::triggered, this, &SessionDialog::openSessions);
     connect (ui->clearBtn, &QAbstractButton::clicked, [=]{showPrompt (CLEAR);});
     connect (ui->removeBtn, &QAbstractButton::clicked, [=]{showPrompt (REMOVE);});
+    connect (ui->actionRemove, &QAction::triggered, [=]{showPrompt (REMOVE);});
+
+    connect (ui->actionRename, &QAction::triggered, this, &SessionDialog::renameSession);
 
     connect (ui->cancelBtn, &QAbstractButton::clicked, this, &SessionDialog::closePrompt);
     connect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::closePrompt);
@@ -72,6 +79,20 @@ SessionDialog::SessionDialog (QWidget *parent):QDialog (parent), ui (new Ui::Ses
 SessionDialog::~SessionDialog()
 {
     delete ui; ui = nullptr;
+}
+/*************************/
+void SessionDialog::showContextMenu (const QPoint &p)
+{
+    QModelIndex index = ui->listWidget->indexAt (p);
+    if (!index.isValid()) return;
+    ui->listWidget->selectionModel()->select (index, QItemSelectionModel::ClearAndSelect);
+
+    QMenu menu;
+    menu.addAction (ui->actionOpen);
+    menu.addAction (ui->actionRemove);
+    menu.addSeparator();
+    menu.addAction (ui->actionRename);
+    menu.exec (ui->listWidget->mapToGlobal (p));
 }
 /*************************/
 void SessionDialog::saveSession()
@@ -98,7 +119,7 @@ void SessionDialog::saveSession()
     if (!hasFile)
         showPrompt (tr ("Nothing saved.<br>No file was opened."));
     else if (!ui->listWidget->findItems (ui->lineEdit->text(), Qt::MatchExactly).isEmpty())
-        showPrompt(NAME);
+        showPrompt (NAME);
     else
         reallySaveSession();
 }
@@ -183,6 +204,12 @@ void SessionDialog::activate()
 // especially for the returnPressed signal of the line-edit to be emiited.
 void SessionDialog::showMainPage()
 {
+    if (!rename_.newName.isEmpty() && !rename_.oldName.isEmpty()) // renaming cancelled
+    {
+        if (QListWidgetItem* cur = ui->listWidget->currentItem())
+            cur->setText (rename_.oldName);
+        rename_.newName = rename_.oldName = QString();
+    }
     ui->stackedWidget->setCurrentIndex (0);
 }
 void SessionDialog::showPromptPage()
@@ -196,6 +223,7 @@ void SessionDialog::showPrompt (QString message)
     disconnect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::removeAll);
     disconnect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::removeSelected);
     disconnect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::reallySaveSession);
+    disconnect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::reallyRenameSession);
 
     if (message.isEmpty()) return;
 
@@ -211,6 +239,7 @@ void SessionDialog::showPrompt (PROMPT prompt)
     disconnect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::removeAll);
     disconnect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::removeSelected);
     disconnect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::reallySaveSession);
+    disconnect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::reallyRenameSession);
 
     QTimer::singleShot (0, this, SLOT (showPromptPage()));
 
@@ -230,10 +259,13 @@ void SessionDialog::showPrompt (PROMPT prompt)
             ui->promptLabel->setText ("<b>" + tr ("Do you really want to remove the selected session?") + "</b>");
         connect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::removeSelected);
     }
-    else// if (prompt = NAME)
+    else// if (prompt == NAME || prompt == RENAME)
     {
         ui->promptLabel->setText ("<b>" + tr ("A session with the same name exists.<br>Do you want to overwrite it?") + "</b>");
-        connect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::reallySaveSession);
+        if (prompt == NAME)
+            connect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::reallySaveSession);
+        else
+            connect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::reallyRenameSession);
     }
 }
 /*************************/
@@ -280,6 +312,65 @@ void SessionDialog::selectionChanged()
     /* we want to open sessions by pressing Enter inside the list widget
        without connecting to QAbstractItemView::activated() */
     ui->openBtn->setDefault (true);
+}
+/*************************/
+void SessionDialog::renameSession()
+{
+    if (QListWidgetItem* cur = ui->listWidget->currentItem())
+    {
+        rename_.oldName = cur->text();
+        cur->setFlags (cur->flags() | Qt::ItemIsEditable);
+        ui->listWidget->editItem (cur);
+    }
+}
+/*************************/
+void SessionDialog::OnCommittingName (QWidget* editor)
+{
+    if (QListWidgetItem* cur = ui->listWidget->currentItem())
+        cur->setFlags (cur->flags() & ~Qt::ItemIsEditable);
+
+    rename_.newName = reinterpret_cast<QLineEdit*>(editor)->text();
+    if (rename_.newName.isEmpty()
+        || rename_.newName == rename_.oldName)
+    {
+        rename_.newName = rename_.oldName = QString(); // reset
+        return;
+    }
+
+    if (ui->listWidget->findItems (rename_.newName, Qt::MatchExactly).count() > 1)
+        showPrompt (RENAME);
+    else
+        reallyRenameSession();
+}
+/*************************/
+void SessionDialog::reallyRenameSession()
+{
+    if (rename_.newName.isEmpty() || rename_.oldName.isEmpty()) // impossible
+    {
+        rename_.newName = rename_.oldName = QString();
+        return;
+    }
+
+    QSettings settings ("featherpad", "fp");
+    settings.beginGroup ("sessions");
+    QStringList files = settings.value (rename_.oldName).toStringList();
+    settings.remove (rename_.oldName);
+    settings.setValue (rename_.newName, files);
+    settings.endGroup();
+
+    if (QListWidgetItem* cur = ui->listWidget->currentItem())
+    {
+        /* if there's another item with the new name, remove it */
+        QList<QListWidgetItem*> sameItems = ui->listWidget->findItems (rename_.newName, Qt::MatchExactly);
+        for (int i = 0; i < sameItems.count(); ++i)
+        {
+            if (sameItems.at (i) != cur)
+                delete ui->listWidget->takeItem (ui->listWidget->row (sameItems.at (i)));
+        }
+        ui->listWidget->scrollToItem (cur);
+    }
+
+    rename_.newName = rename_.oldName = QString(); // reset
 }
 
 }

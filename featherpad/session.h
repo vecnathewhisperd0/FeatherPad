@@ -35,6 +35,7 @@ public:
     ~SessionDialog();
 
 private slots:
+    void showContextMenu (const QPoint &p);
     void saveSession();
     void reallySaveSession();
     void selectionChanged();
@@ -45,18 +46,29 @@ private slots:
     void activate();
     void showMainPage();
     void showPromptPage();
+    void renameSession();
+    void reallyRenameSession();
+    void OnCommittingName (QWidget* editor);
 
 private:
     enum PROMPT {
       NAME,
+      RENAME,
       REMOVE,
       CLEAR
     };
+
+    struct Rename {
+      QString oldName;
+      QString newName;
+    };
+
     void showPrompt (PROMPT prompt);
     void showPrompt (QString message);
 
     Ui::SessionDialog *ui;
     QWidget * parent_;
+    Rename rename_;
 };
 
 }
