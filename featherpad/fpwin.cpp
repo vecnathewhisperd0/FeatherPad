@@ -1908,7 +1908,11 @@ bool FPwin::saveFile (bool keepSyntax)
     if (config.getAppendEmptyLine()
         && !textEdit->document()->lastBlock().text().isEmpty())
     {
-        textEdit->appendPlainText (QString());
+        QTextCursor tmpCur = textEdit->textCursor();
+        tmpCur.beginEditBlock();
+        tmpCur.movePosition(QTextCursor::End);
+        tmpCur.insertBlock();
+        tmpCur.endEditBlock();
     }
 
     /* now, try to write */
