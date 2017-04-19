@@ -1904,7 +1904,14 @@ bool FPwin::saveFile (bool keepSyntax)
         disableShortcuts (false);
     }
 
-    /* try to write */
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    if (config.getAppendEmptyLine()
+        && !textEdit->document()->lastBlock().text().isEmpty())
+    {
+        textEdit->appendPlainText (QString());
+    }
+
+    /* now, try to write */
     QTextDocumentWriter writer (fname, "plaintext");
     bool success = false;
     if (QObject::sender() == ui->actionSaveCodec)
@@ -1990,7 +1997,6 @@ bool FPwin::saveFile (bool keepSyntax)
         QString elidedTip = metrics.elidedText (tip, Qt::ElideMiddle, w);
         ui->tabWidget->setTabToolTip (index, elidedTip);
         lastFile_ = fname;
-        Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
         config.addRecentFile (lastFile_);
         if (!keepSyntax)
         { // uninstall and reinstall the syntax highlgihter if the programming language is changed

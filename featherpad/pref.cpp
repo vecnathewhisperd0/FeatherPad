@@ -112,6 +112,9 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     connect (ui->colorValueSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
              this, &PrefDialog::prefColValue);
 
+    ui->lastLineBox->setChecked (config.getAppendEmptyLine());
+    connect (ui->lastLineBox, &QCheckBox::stateChanged, this, &PrefDialog::prefAppendEmptyLine);
+
     ui->scrollBox->setChecked (config.getScrollJumpWorkaround());
     connect (ui->scrollBox, &QCheckBox::stateChanged, this, &PrefDialog::prefScrollJumpWorkaround);
 
@@ -456,6 +459,16 @@ void PrefDialog::prefColValue (int value)
         config.setDarkBgColorValue (value);
 
     showPrompt();
+}
+/*************************/
+void PrefDialog::prefAppendEmptyLine (int checked)
+{
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    Config& config = singleton->getConfig();
+    if (checked == Qt::Checked)
+        config.setAppendEmptyLine (true);
+    else if (checked == Qt::Unchecked)
+        config.setAppendEmptyLine (false);
 }
 /*************************/
 void PrefDialog::prefScrollJumpWorkaround (int checked)

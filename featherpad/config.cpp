@@ -38,6 +38,7 @@ Config::Config():
     tabWrapAround_ (false),
     hideSingleTab_ (false),
     executeScripts_ (false),
+    appendEmptyLine_(true),
     scrollJumpWorkaround_ (false),
     tabPosition_ (0),
     maxSHSize_ (2),
@@ -150,6 +151,10 @@ void Config::readConfig()
         executeScripts_ = true; // false by default
     executeCommand_ = settings.value ("executeCommand").toString();
 
+    QVariant v = settings.value("appendEmptyLine");
+    if (v.isValid()) // true by default
+        appendEmptyLine_ = v.toBool();
+
     recentFilesNumber_ = qBound (1, settings.value ("recentFilesNumber", 10).toInt(), 20);
     curRecentFilesNumber_ = recentFilesNumber_; // fixed
     recentFiles_ = settings.value ("recentFiles").toStringList();
@@ -222,6 +227,7 @@ void Config::writeConfig()
     settings.setValue ("lightBgColorValue", lightBgColorValue_);
     settings.setValue ("darkBgColorValue", darkBgColorValue_);
     settings.setValue ("executeScripts", executeScripts_);
+    settings.setValue ("appendEmptyLine", appendEmptyLine_);
 
     settings.setValue ("recentFilesNumber", recentFilesNumber_);
     settings.setValue ("executeCommand", executeCommand_);

@@ -238,6 +238,14 @@ public:
         executeCommand_ = commnad;
     }
 
+    bool getAppendEmptyLine() const {
+        return appendEmptyLine_;
+    }
+    void setAppendEmptyLine (bool append) {
+        appendEmptyLine_ = append;
+    }
+
+
     int getOpenRecentFiles() const {
         return openRecentFiles_;
     }
@@ -265,7 +273,7 @@ public:
 private:
     bool remSize_, sysIcon_, noToolbar_, noMenubar_, hideSearchbar_, showStatusbar_, remFont_, wrapByDefault_,
          indentByDefault_, lineByDefault_, syntaxByDefault_, isMaxed_, isFull_, darkColScheme_,
-         tabWrapAround_, hideSingleTab_, executeScripts_,
+         tabWrapAround_, hideSingleTab_, executeScripts_, appendEmptyLine_,
          scrollJumpWorkaround_; // Should a workaround for Qt5's "scroll jump" bug be applied?
     int tabPosition_, maxSHSize_, lightBgColorValue_, darkBgColorValue_, recentFilesNumber_;
     int curRecentFilesNumber_; // the start value of recentFilesNumber_ -- fixed during a session

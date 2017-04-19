@@ -11,8 +11,8 @@
         <location filename="../../fpwin.cpp" line="1789"/>
         <location filename="../../fpwin.cpp" line="1809"/>
         <location filename="../../fpwin.cpp" line="1812"/>
-        <location filename="../../fpwin.cpp" line="2233"/>
-        <location filename="../../fpwin.cpp" line="2789"/>
+        <location filename="../../fpwin.cpp" line="2239"/>
+        <location filename="../../fpwin.cpp" line="2795"/>
         <source>Untitled</source>
         <translation>Sentitola</translation>
     </message>
@@ -57,7 +57,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="918"/>
         <location filename="../../fpwin.cpp" line="1736"/>
-        <location filename="../../fpwin.cpp" line="2699"/>
+        <location filename="../../fpwin.cpp" line="2705"/>
         <source>Encoding</source>
         <translation>Kodiĝo</translation>
     </message>
@@ -551,7 +551,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="322"/>
-        <location filename="../../fpwin.cpp" line="2315"/>
+        <location filename="../../fpwin.cpp" line="2321"/>
         <location filename="../../replace.cpp" line="60"/>
         <location filename="../../replace.cpp" line="112"/>
         <source>Rep&amp;lacement</source>
@@ -801,7 +801,7 @@
         <location filename="../../fpwin.cpp" line="460"/>
         <location filename="../../fpwin.cpp" line="1110"/>
         <location filename="../../fpwin.cpp" line="1205"/>
-        <location filename="../../fpwin.cpp" line="2079"/>
+        <location filename="../../fpwin.cpp" line="2085"/>
         <source>Close</source>
         <translation>Fermi</translation>
     </message>
@@ -817,7 +817,7 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="685"/>
-        <location filename="../../fpwin.cpp" line="1923"/>
+        <location filename="../../fpwin.cpp" line="1930"/>
         <source>Cancel</source>
         <translation>Rezigni</translation>
     </message>
@@ -833,8 +833,8 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="920"/>
-        <location filename="../../fpwin.cpp" line="2704"/>
-        <location filename="../../fpwin.cpp" line="2718"/>
+        <location filename="../../fpwin.cpp" line="2710"/>
+        <location filename="../../fpwin.cpp" line="2724"/>
         <source>Sel. Chars</source>
         <translation>Sel. Signoj</translation>
     </message>
@@ -855,7 +855,7 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1324"/>
-        <location filename="../../fpwin.cpp" line="2222"/>
+        <location filename="../../fpwin.cpp" line="2228"/>
         <source>*Untitled</source>
         <translation>*Sentitola</translation>
     </message>
@@ -888,48 +888,48 @@
         <translation>Teni la kodiĝon kaj konservi kiel...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1921"/>
+        <location filename="../../fpwin.cpp" line="1928"/>
         <source>Yes</source>
         <translation>Jes</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1922"/>
+        <location filename="../../fpwin.cpp" line="1929"/>
         <source>No</source>
         <translation>Ne</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3336"/>
+        <location filename="../../fpwin.cpp" line="3342"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translation>Malpeza, foliigita tekst-redaktilo</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3337"/>
+        <location filename="../../fpwin.cpp" line="3343"/>
         <source>based on Qt5</source>
         <translation>bazita sur Qt5</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3338"/>
+        <location filename="../../fpwin.cpp" line="3344"/>
         <source>Author</source>
         <translation>Verkinto</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3339"/>
+        <location filename="../../fpwin.cpp" line="3345"/>
         <source>aka.</source>
         <translation>akk.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2231"/>
-        <location filename="../../fpwin.cpp" line="3425"/>
+        <location filename="../../fpwin.cpp" line="2237"/>
+        <location filename="../../fpwin.cpp" line="3431"/>
         <source>Help</source>
         <translation>Helpo</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="919"/>
         <location filename="../../fpwin.cpp" line="1738"/>
-        <location filename="../../fpwin.cpp" line="2038"/>
-        <location filename="../../fpwin.cpp" line="2049"/>
-        <location filename="../../fpwin.cpp" line="2056"/>
-        <location filename="../../fpwin.cpp" line="2703"/>
+        <location filename="../../fpwin.cpp" line="2044"/>
+        <location filename="../../fpwin.cpp" line="2055"/>
+        <location filename="../../fpwin.cpp" line="2062"/>
+        <location filename="../../fpwin.cpp" line="2709"/>
         <source>Lines</source>
         <translation>Linioj</translation>
     </message>
@@ -962,8 +962,8 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="921"/>
-        <location filename="../../fpwin.cpp" line="2706"/>
-        <location filename="../../fpwin.cpp" line="2719"/>
+        <location filename="../../fpwin.cpp" line="2712"/>
+        <location filename="../../fpwin.cpp" line="2725"/>
         <source>Words</source>
         <translation>Vortoj</translation>
     </message>
@@ -983,40 +983,40 @@
         <translation>.%1-Dosieroj (*.%1);;Ĉiuj Dosieroj (*)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1924"/>
+        <location filename="../../fpwin.cpp" line="1931"/>
         <source>Do you want to use &lt;b&gt;MS Windows&lt;/b&gt; end-of-lines?</source>
         <translation>Ĉu vi volas uzi &lt;b&gt;MS Vindozajn&lt;/b&gt; lini-finaĵojn?</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1925"/>
+        <location filename="../../fpwin.cpp" line="1932"/>
         <source>This may be good for readability under MS Windows.</source>
         <translation>Povas esti bone por legindeco ĉe MS-Vindozo.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2076"/>
+        <location filename="../../fpwin.cpp" line="2082"/>
         <source>Cannot be saved!</source>
         <translation>Ne eblas konservi!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2034"/>
         <location filename="../../fpwin.cpp" line="2040"/>
-        <location filename="../../fpwin.cpp" line="2048"/>
-        <location filename="../../fpwin.cpp" line="2702"/>
+        <location filename="../../fpwin.cpp" line="2046"/>
+        <location filename="../../fpwin.cpp" line="2054"/>
+        <location filename="../../fpwin.cpp" line="2708"/>
         <source>Syntax</source>
         <translation>Sintakso</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2800"/>
+        <location filename="../../fpwin.cpp" line="2806"/>
         <source>Print Document</source>
         <translation>Presi Dokumenton</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3341"/>
+        <location filename="../../fpwin.cpp" line="3347"/>
         <source>Ok</source>
         <translation>Bone</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3354"/>
+        <location filename="../../fpwin.cpp" line="3360"/>
         <source>About FeatherPad</source>
         <translation>Pri FeatherPad</translation>
     </message>
@@ -1201,18 +1201,30 @@ La foliumado per musrado ne estas influita.</translation>
         <translation>Ne marku la sintakson por la dosieroj &gt; </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="381"/>
+        <location filename="../../predDialog.ui" line="366"/>
+        <source>Some text editors cannot open a document
+whose last line is not empty.</source>
+        <translation>Iuj tekst-redaktiloj ne povas malfermi
+dokumenton, kies fina linio ne estas malplena.</translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="370"/>
+        <source>Ensure an empty last line on saving</source>
+        <translation>Garantiu finan linion malplenan konservante</translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="392"/>
         <source>Files</source>
         <translation>Dosieroj</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="387"/>
+        <location filename="../../predDialog.ui" line="398"/>
         <source>File Management</source>
         <translation>Dosieradministrado</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="511"/>
-        <location filename="../../predDialog.ui" line="530"/>
+        <location filename="../../predDialog.ui" line="522"/>
+        <location filename="../../predDialog.ui" line="541"/>
         <source>This can be any starting command with
 arguments, for example, &quot;xterm -hold&quot;
 for running the process in XTerm.
@@ -1235,27 +1247,27 @@ emulatoro, dialogo ekaperus montranta la
 eligajn kaj erarajn mesaĝojn.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="523"/>
+        <location filename="../../predDialog.ui" line="534"/>
         <source>Start with this command: </source>
         <translation>Startigu kun ĉi tiu komando: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="542"/>
+        <location filename="../../predDialog.ui" line="553"/>
         <source>Command + Arguments</source>
         <translation>Komando + Operando</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="437"/>
+        <location filename="../../predDialog.ui" line="448"/>
         <source>Show recentl&amp;y modified files</source>
         <translation>Montru la lastatempe mo&amp;difitajn dosierojn</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="447"/>
+        <location filename="../../predDialog.ui" line="458"/>
         <source>Show recentl&amp;y opened files</source>
         <translation>Montru la lastatempe mal&amp;fermitajn dosierojn</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="582"/>
+        <location filename="../../predDialog.ui" line="593"/>
         <source>Help</source>
         <translation>Helpo</translation>
     </message>
@@ -1337,19 +1349,19 @@ fenestron al alia per ŝovmetado.</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="366"/>
+        <location filename="../../predDialog.ui" line="377"/>
         <source>This is not a complete fix but
 prevents annoying scroll jumps.</source>
         <translation>Ĉi tio ne estas kompleta solvo sed detenas
 ĝenantajn saltojn komence de rulumado.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="370"/>
+        <location filename="../../predDialog.ui" line="381"/>
         <source>Workaround for &amp;Qt5&apos;s scroll jump bug</source>
         <translation>Proviza korekto por la ruluma salto ĉe &amp;Qt5</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="478"/>
+        <location filename="../../predDialog.ui" line="489"/>
         <source>This only includes executable files written
 in script languages like Shell and Python.
 
@@ -1393,13 +1405,13 @@ Remalfermado de la fenestro necesas por
 ke ĉi tio efektivĝu.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="488"/>
+        <location filename="../../predDialog.ui" line="499"/>
         <source>Run executable scripts</source>
         <translation>Plenumu ekzekveblajn skriptojn</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="393"/>
-        <location filename="../../predDialog.ui" line="407"/>
+        <location filename="../../predDialog.ui" line="404"/>
+        <location filename="../../predDialog.ui" line="418"/>
         <source>The maximum number of recently modified or
 opened files FeatherPad shows. The default
 is 10.
@@ -1412,13 +1424,13 @@ La defaŭlto estas 10.
 Restartigo de la aplikaĵo necesas.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="400"/>
+        <location filename="../../predDialog.ui" line="411"/>
         <source>Number of recent files: </source>
         <translation>Nombro de la lastatempaj dosieroj: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="454"/>
-        <location filename="../../predDialog.ui" line="466"/>
+        <location filename="../../predDialog.ui" line="465"/>
+        <location filename="../../predDialog.ui" line="477"/>
         <source>The maximum number of recently modified or
 opened files FeatherPad should open with an
 empty startup of a session.</source>
@@ -1427,55 +1439,55 @@ aŭ malfermitaj dosieroj, kiujn FeatherPad malfermu
 okaze de senenhava startigo de sesio.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="459"/>
+        <location filename="../../predDialog.ui" line="470"/>
         <source>Start with recent files: </source>
         <translation>Startu kun lastatempaj dosieroj: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="593"/>
+        <location filename="../../predDialog.ui" line="604"/>
         <source>Close</source>
         <translation>Fermi</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="130"/>
-        <location filename="../../pref.cpp" line="136"/>
-        <location filename="../../pref.cpp" line="580"/>
-        <location filename="../../pref.cpp" line="585"/>
-        <location filename="../../pref.cpp" line="594"/>
+        <location filename="../../pref.cpp" line="133"/>
+        <location filename="../../pref.cpp" line="139"/>
+        <location filename="../../pref.cpp" line="593"/>
+        <location filename="../../pref.cpp" line="598"/>
+        <location filename="../../pref.cpp" line="607"/>
         <source>files</source>
         <translation>dosieroj</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="130"/>
-        <location filename="../../pref.cpp" line="136"/>
-        <location filename="../../pref.cpp" line="580"/>
-        <location filename="../../pref.cpp" line="585"/>
-        <location filename="../../pref.cpp" line="594"/>
+        <location filename="../../pref.cpp" line="133"/>
+        <location filename="../../pref.cpp" line="139"/>
+        <location filename="../../pref.cpp" line="593"/>
+        <location filename="../../pref.cpp" line="598"/>
+        <location filename="../../pref.cpp" line="607"/>
         <source>file</source>
         <translation>dosiero</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="137"/>
+        <location filename="../../pref.cpp" line="140"/>
         <source>No file</source>
         <translation>Neniu dosiero</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="176"/>
+        <location filename="../../pref.cpp" line="179"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Restartigo de la aplikaĵo necesas por ke la ŝanĝoj efektiviĝu.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="183"/>
+        <location filename="../../pref.cpp" line="186"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Remalfermado de la fenestro necesas por ke la ŝanĝoj efektiviĝu.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="609"/>
+        <location filename="../../pref.cpp" line="622"/>
         <source>&amp;Recently Opened</source>
         <translation>Lastatempe Malfermita&amp;j</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="610"/>
+        <location filename="../../pref.cpp" line="623"/>
         <source>Recently &amp;Modified</source>
         <translation>Lastatempe Mod&amp;ifitaj</translation>
     </message>

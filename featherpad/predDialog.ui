@@ -361,6 +361,17 @@ Needs window reopening to take effect.</string>
            </widget>
           </item>
           <item row="8" column="0" colspan="3">
+           <widget class="QCheckBox" name="lastLineBox">
+            <property name="toolTip">
+             <string>Some text editors cannot open a document
+whose last line is not empty.</string>
+            </property>
+            <property name="text">
+             <string>Ensure an empty last line on saving</string>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="0" colspan="3">
            <widget class="QCheckBox" name="scrollBox">
             <property name="toolTip">
              <string>This is not a complete fix but
