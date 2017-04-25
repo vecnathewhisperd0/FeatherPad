@@ -20,22 +20,29 @@
 
 namespace FeatherPad {
 
-TabPage::TabPage (QWidget *parent, bool sysIcons, int bgColorValue) : QWidget (parent)
+TabPage::TabPage (QWidget *parent, ICONMODE iconMode, int bgColorValue) : QWidget (parent)
 {
     textEdit_ = new TextEdit (this, bgColorValue);
-    searchBar_ = new SearchBar (this);
-    if (sysIcons)
-    { // since there's no text, we don't want null icons
-        QIcon icnNext = QIcon::fromTheme ("go-down");
+    searchBar_ = new SearchBar (this, iconMode == NONE);
+
+    QIcon icnNext, icnPrev;
+    switch (iconMode) {
+    case OWN:
+        searchBar_->setSearchIcons (QIcon (":icons/go-down.svg"), QIcon (":icons/go-up.svg"));
+        break;
+    case SYSTEM:
+        icnNext = QIcon::fromTheme ("go-down");
         if (icnNext.isNull())
             icnNext = QIcon (":icons/go-down.svg");
-        QIcon icnPrev = QIcon::fromTheme ("go-up");
+        icnPrev = QIcon::fromTheme ("go-up");
         if (icnPrev.isNull())
             icnPrev = QIcon (":icons/go-up.svg");
         searchBar_->setSearchIcons (icnNext, icnPrev);
+        break;
+    case NONE:
+    default:
+        break;
     }
-    else
-        searchBar_->setSearchIcons (QIcon (":icons/go-down.svg"), QIcon (":icons/go-up.svg"));
 
     QGridLayout *mainGrid = new QGridLayout (this);
     mainGrid->setVerticalSpacing (4);

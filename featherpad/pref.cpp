@@ -35,6 +35,7 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
 
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
     sysIcons_ = config.getSysIcon();
+    iconless_ = config.getIconless();
     darkBg_ = config.getDarkColScheme();
     darkColValue_ = config.getDarkBgColorValue();
     lightColValue_ = config.getLightBgColorValue();
@@ -64,19 +65,28 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
              this, &PrefDialog::prefStartSize);
 
     ui->iconBox->setChecked (!config.getSysIcon());
+    ui->iconBox->setEnabled (!config.getIconless());
     connect (ui->iconBox, &QCheckBox::stateChanged, this, &PrefDialog::prefIcon);
+    ui->iconlessBox->setChecked (config.getIconless());
+    connect (ui->iconlessBox, &QCheckBox::stateChanged, this, &PrefDialog::prefIconless);
+
     ui->toolbarBox->setChecked (config.getNoToolbar());
     connect (ui->toolbarBox, &QCheckBox::stateChanged, this, &PrefDialog::prefToolbar);
     ui->menubarBox->setChecked (config.getNoMenubar());
     connect (ui->menubarBox, &QCheckBox::stateChanged, this, &PrefDialog::prefMenubar);
+
     ui->searchbarBox->setChecked (config.getHideSearchbar());
     connect (ui->searchbarBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSearchbar);
+
     ui->statusBox->setChecked (config.getShowStatusbar());
     connect (ui->statusBox, &QCheckBox::stateChanged, this, &PrefDialog::prefStatusbar);
+
     // no ccombo onnection because of mouse wheel; config is set at closeEvent() instead
     ui->tabCombo->setCurrentIndex (config.getTabPosition());
+
     ui->tabBox->setChecked (config.getTabWrapAround());
     connect (ui->tabBox, &QCheckBox::stateChanged, this, &PrefDialog::prefTabWrapAround);
+
     ui->singleTabBox->setChecked (config.getHideSingleTab());
     connect (ui->singleTabBox, &QCheckBox::stateChanged, this, &PrefDialog::prefHideSingleTab);
 
@@ -174,7 +184,9 @@ void PrefDialog::showPrompt()
 {
     QString style ("QLabel {background-color: #7d0000; color: white; border-radius: 3px; margin: 2px; padding: 5px;}");
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
-    if (sysIcons_ != config.getSysIcon() || recentNumber_ != config.getRecentFilesNumber())
+    if (sysIcons_ != config.getSysIcon()
+        || iconless_ != config.getIconless()
+        || recentNumber_ != config.getRecentFilesNumber())
     {
         ui->promptLabel->setText ("<b>" + tr ("Application restart is needed for changes to take effect.") + "</b>");
         ui->promptLabel->setStyleSheet (style);
@@ -227,6 +239,25 @@ void PrefDialog::prefIcon (int checked)
         config.setSysIcon (false);
     else if (checked == Qt::Unchecked)
         config.setSysIcon (true);
+
+    showPrompt();
+}
+/*************************/
+void PrefDialog::prefIconless (int checked)
+{
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    if (checked == Qt::Checked)
+    {
+        qApp->setAttribute (Qt::AA_DontShowIconsInMenus, true);
+        config.setIconless (true);
+        ui->iconBox->setEnabled (false);
+    }
+    else if (checked == Qt::Unchecked)
+    {
+        qApp->setAttribute (Qt::AA_DontShowIconsInMenus, false);
+        config.setIconless (false);
+        ui->iconBox->setEnabled (true);
+    }
 
     showPrompt();
 }

@@ -54,6 +54,13 @@ public:
         remSize_ = rem;
     }
 
+    bool getIconless() const {
+        return iconless_;
+    }
+    void setIconless (bool iconless) {
+        iconless_ = iconless;
+    }
+
     bool getSysIcon() const {
         return sysIcon_;
     }
@@ -245,7 +252,6 @@ public:
         appendEmptyLine_ = append;
     }
 
-
     int getOpenRecentFiles() const {
         return openRecentFiles_;
     }
@@ -271,7 +277,7 @@ public:
     void addRecentFile (QString file);
 
 private:
-    bool remSize_, sysIcon_, noToolbar_, noMenubar_, hideSearchbar_, showStatusbar_, remFont_, wrapByDefault_,
+    bool remSize_, iconless_, sysIcon_, noToolbar_, noMenubar_, hideSearchbar_, showStatusbar_, remFont_, wrapByDefault_,
          indentByDefault_, lineByDefault_, syntaxByDefault_, isMaxed_, isFull_, darkColScheme_,
          tabWrapAround_, hideSingleTab_, executeScripts_, appendEmptyLine_,
          scrollJumpWorkaround_; // Should a workaround for Qt5's "scroll jump" bug be applied?

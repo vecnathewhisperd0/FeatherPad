@@ -39,6 +39,7 @@ private slots:
     void prefSize (int checked);
     void prefStartSize (int value);
     void prefIcon (int checked);
+    void prefIconless (int checked);
     void prefToolbar (int checked);
     void prefMenubar (int checked);
     void prefSearchbar (int checked);
@@ -69,11 +70,8 @@ private:
 
     Ui::PrefDialog *ui;
     QWidget * parent_;
-    bool darkBg_;
-    bool sysIcons_;
-    int darkColValue_;
-    int lightColValue_;
-    int recentNumber_;
+    bool darkBg_, sysIcons_, iconless_;
+    int darkColValue_, lightColValue_, recentNumber_;
 };
 
 }

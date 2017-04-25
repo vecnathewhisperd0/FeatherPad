@@ -28,7 +28,13 @@ class TabPage : public QWidget
 {
     Q_OBJECT
 public:
-    explicit TabPage (QWidget *parent = 0, bool sysIcons = false, int bgColorValue = 255);
+    enum ICONMODE {
+      OWN,
+      SYSTEM,
+      NONE
+    };
+
+    explicit TabPage (QWidget *parent = 0, ICONMODE iconMode = OWN, int bgColorValue = 255);
 
     QPointer<TextEdit> textEdit() const {
         return textEdit_;

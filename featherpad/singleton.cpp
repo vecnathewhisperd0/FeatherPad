@@ -42,6 +42,8 @@ FPsingleton::FPsingleton (int &argc, char *argv[], const QString uniqueKey)
 
     config_.readConfig();
     lastFiles_ = config_.getLastFiles();
+    if (config_.getIconless())
+        setAttribute (Qt::AA_DontShowIconsInMenus);
 
     sharedMemory.setKey (_uniqueKey);
     if (sharedMemory.attach())

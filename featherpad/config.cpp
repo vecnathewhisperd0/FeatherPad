@@ -22,6 +22,7 @@ namespace FeatherPad {
 
 Config::Config():
     remSize_ (true),
+    iconless_ (false),
     sysIcon_ (false),
     noToolbar_ (false),
     noMenubar_ (false),
@@ -49,7 +50,7 @@ Config::Config():
     startSize_ (QSize (700, 500)),
     font_ (QFont ("Monospace", 9)),
     openRecentFiles_ (0),
-    recentOpened_ (false){}
+    recentOpened_ (false) {}
 /*************************/
 Config::~Config() {}
 /*************************/
@@ -76,6 +77,9 @@ void Config::readConfig()
     startSize_ = settings.value ("startSize", QSize(700, 500)).toSize();
     if (!startSize_.isValid() || startSize_.isNull())
         startSize_ = QSize (700, 500);
+
+    if (settings.value ("iconless").toBool())
+        iconless_ = true; // false by default
 
     if (settings.value ("sysIcon").toBool())
         sysIcon_ = true; // false by default
@@ -194,6 +198,7 @@ void Config::writeConfig()
     }
 
     settings.setValue ("startSize", startSize_);
+    settings.setValue ("iconless", iconless_);
     settings.setValue ("sysIcon", sysIcon_);
     settings.setValue ("noToolbar", noToolbar_);
     settings.setValue ("noMenubar", noMenubar_);

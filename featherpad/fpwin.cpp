@@ -208,6 +208,9 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
      *****     for tool buttons on the search bar and replacement dock.    *****
      ***** The toolbar buttons and menu items aren't affected by this bug. *****
      ***************************************************************************/
+    ui->toolButtonNext->setShortcut (QKeySequence (tr ("F7")));
+    ui->toolButtonPrv->setShortcut (QKeySequence (tr ("F8")));
+    ui->toolButtonAll->setShortcut (QKeySequence (tr ("F9")));
 
     QShortcut *zoomin = new QShortcut (QKeySequence (tr ("Ctrl+=", "Zoom in")), this);
     QShortcut *zoominPlus = new QShortcut (QKeySequence (tr ("Ctrl++", "Zoom in")), this);
@@ -329,96 +332,161 @@ void FPwin::applyConfig()
     connect (ui->menuOpenRecently, &QMenu::aboutToShow, this, &FPwin::updateRecenMenu);
     connect (ui->actionClearRecent, &QAction::triggered, this, &FPwin::clearRecentMenu);
 
-    bool rtl (QApplication::layoutDirection() == Qt::RightToLeft);
-    if (config.getSysIcon())
+    if (config.getIconless())
     {
-        ui->actionNew->setIcon (QIcon::fromTheme ("document-new"));
-        ui->actionOpen->setIcon (QIcon::fromTheme ("document-open"));
-        ui->menuOpenRecently->setIcon (QIcon::fromTheme ("document-open-recent"));
-        ui->actionClearRecent->setIcon (QIcon::fromTheme ("edit-clear"));
-        ui->actionSave->setIcon (QIcon::fromTheme ("document-save"));
-        ui->actionSaveAs->setIcon (QIcon::fromTheme ("document-save-as"));
-        ui->actionSaveCodec->setIcon (QIcon::fromTheme ("document-save-as"));
-        ui->actionPrint->setIcon (QIcon::fromTheme ("document-print"));
-        ui->actionDoc->setIcon (QIcon::fromTheme ("document-properties"));
-        ui->actionUndo->setIcon (QIcon::fromTheme ("edit-undo"));
-        ui->actionRedo->setIcon (QIcon::fromTheme ("edit-redo"));
-        ui->actionCut->setIcon (QIcon::fromTheme ("edit-cut"));
-        ui->actionCopy->setIcon (QIcon::fromTheme ("edit-copy"));
-        ui->actionPaste->setIcon (QIcon::fromTheme ("edit-paste"));
-        ui->actionDelete->setIcon (QIcon::fromTheme ("edit-delete"));
-        ui->actionSelectAll->setIcon (QIcon::fromTheme ("edit-select-all"));
-        ui->actionReload->setIcon (QIcon::fromTheme ("view-refresh"));
-        ui->actionFind->setIcon (QIcon::fromTheme ("edit-find"));
-        ui->actionReplace->setIcon (QIcon::fromTheme ("edit-find-replace"));
-        ui->actionClose->setIcon (QIcon::fromTheme ("window-close"));
-        ui->actionQuit->setIcon (QIcon::fromTheme ("application-exit"));
-        ui->actionFont->setIcon (QIcon::fromTheme ("preferences-desktop-font"));
-        ui->actionPreferences->setIcon (QIcon::fromTheme ("preferences-system"));
-        ui->actionHelp->setIcon (QIcon::fromTheme ("help-contents"));
-        ui->actionAbout->setIcon (QIcon::fromTheme ("help-about"));
-        ui->actionJump->setIcon (QIcon::fromTheme ("go-jump"));
-        ui->actionEdit->setIcon (QIcon::fromTheme ("document-edit"));
-        ui->actionRun->setIcon (QIcon::fromTheme ("system-run"));
-        ui->actionCopyName->setIcon (QIcon::fromTheme ("edit-copy"));
-        ui->actionCopyPath->setIcon (QIcon::fromTheme ("edit-copy"));
-
-        /* these icons may not exist in some themes... */
-        QIcon icn = QIcon::fromTheme ("tab-close-other");
-        if (!icn.isNull())
-            ui->actionCloseOther->setIcon (icn);
-        icn = QIcon::fromTheme ("application-menu");
-        if (!icn.isNull())
-            ui->actionMenu->setIcon (icn);
-        /* ... and the following buttons don't have text, so we don't risk */
-        icn = QIcon::fromTheme ("go-down");
-        if (!icn.isNull())
-            ui->toolButtonNext->setIcon (icn);
-        icn = QIcon::fromTheme ("go-up");
-        if (!icn.isNull())
-            ui->toolButtonPrv->setIcon (icn);
-        icn = QIcon::fromTheme ("arrow-down-double");
-        if (!icn.isNull())
-            ui->toolButtonAll->setIcon (icn);
-        if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>())
-        {
-            icn = QIcon::fromTheme ("view-refresh");
-            if (!icn.isNull())
-                wordButton->setIcon (icn);
-        }
-
-        if (rtl)
-        {
-            ui->actionCloseRight->setIcon (QIcon::fromTheme ("go-previous"));
-            ui->actionCloseLeft->setIcon (QIcon::fromTheme ("go-next"));
-            ui->actionRightTab->setIcon (QIcon::fromTheme ("go-previous"));
-            ui->actionLeftTab->setIcon (QIcon::fromTheme ("go-next"));
-
-            /* shortcuts should be reversed for rtl */
-            ui->actionRightTab->setShortcut (QKeySequence (tr ("Alt+Left")));
-            ui->actionLeftTab->setShortcut (QKeySequence (tr ("Alt+Right")));
-        }
-        else
-        {
-            ui->actionCloseRight->setIcon (QIcon::fromTheme ("go-next"));
-            ui->actionCloseLeft->setIcon (QIcon::fromTheme ("go-previous"));
-            ui->actionRightTab->setIcon (QIcon::fromTheme ("go-next"));
-            ui->actionLeftTab->setIcon (QIcon::fromTheme ("go-previous"));
-        }
-
-        icn = QIcon::fromTheme ("featherpad");
-        if (!icn.isNull())
-            setWindowIcon (icn);
+        ui->toolButtonNext->setText (tr ("Next"));
+        ui->toolButtonPrv->setText (tr ("Previous"));
+        ui->toolButtonAll->setText (tr ("All"));
     }
-    else if (rtl)
+    else
     {
-        ui->actionCloseRight->setIcon (QIcon (":icons/go-previous.svg"));
-        ui->actionCloseLeft->setIcon (QIcon (":icons/go-next.svg"));
-        ui->actionRightTab->setIcon (QIcon (":icons/go-previous.svg"));
-        ui->actionLeftTab->setIcon (QIcon (":icons/go-next.svg"));
+        bool rtl (QApplication::layoutDirection() == Qt::RightToLeft);
+        if (config.getSysIcon())
+        {
+            ui->actionNew->setIcon (QIcon::fromTheme ("document-new"));
+            ui->actionOpen->setIcon (QIcon::fromTheme ("document-open"));
+            ui->menuOpenRecently->setIcon (QIcon::fromTheme ("document-open-recent"));
+            ui->actionClearRecent->setIcon (QIcon::fromTheme ("edit-clear"));
+            ui->actionSave->setIcon (QIcon::fromTheme ("document-save"));
+            ui->actionSaveAs->setIcon (QIcon::fromTheme ("document-save-as"));
+            ui->actionSaveCodec->setIcon (QIcon::fromTheme ("document-save-as"));
+            ui->actionPrint->setIcon (QIcon::fromTheme ("document-print"));
+            ui->actionDoc->setIcon (QIcon::fromTheme ("document-properties"));
+            ui->actionUndo->setIcon (QIcon::fromTheme ("edit-undo"));
+            ui->actionRedo->setIcon (QIcon::fromTheme ("edit-redo"));
+            ui->actionCut->setIcon (QIcon::fromTheme ("edit-cut"));
+            ui->actionCopy->setIcon (QIcon::fromTheme ("edit-copy"));
+            ui->actionPaste->setIcon (QIcon::fromTheme ("edit-paste"));
+            ui->actionDelete->setIcon (QIcon::fromTheme ("edit-delete"));
+            ui->actionSelectAll->setIcon (QIcon::fromTheme ("edit-select-all"));
+            ui->actionReload->setIcon (QIcon::fromTheme ("view-refresh"));
+            ui->actionFind->setIcon (QIcon::fromTheme ("edit-find"));
+            ui->actionReplace->setIcon (QIcon::fromTheme ("edit-find-replace"));
+            ui->actionClose->setIcon (QIcon::fromTheme ("window-close"));
+            ui->actionQuit->setIcon (QIcon::fromTheme ("application-exit"));
+            ui->actionFont->setIcon (QIcon::fromTheme ("preferences-desktop-font"));
+            ui->actionPreferences->setIcon (QIcon::fromTheme ("preferences-system"));
+            ui->actionHelp->setIcon (QIcon::fromTheme ("help-contents"));
+            ui->actionAbout->setIcon (QIcon::fromTheme ("help-about"));
+            ui->actionJump->setIcon (QIcon::fromTheme ("go-jump"));
+            ui->actionEdit->setIcon (QIcon::fromTheme ("document-edit"));
+            ui->actionRun->setIcon (QIcon::fromTheme ("system-run"));
+            ui->actionCopyName->setIcon (QIcon::fromTheme ("edit-copy"));
+            ui->actionCopyPath->setIcon (QIcon::fromTheme ("edit-copy"));
 
-        ui->actionRightTab->setShortcut (QKeySequence (tr ("Alt+Left")));
-        ui->actionLeftTab->setShortcut (QKeySequence (tr ("Alt+Right")));
+            /* these icons may not exist in some themes... */
+            QIcon icn = QIcon::fromTheme ("tab-close-other");
+            if (icn.isNull())
+                icn = QIcon (":icons/tab-close-other.svg");
+            ui->actionCloseOther->setIcon (icn);
+            icn = QIcon::fromTheme ("application-menu");
+            if (icn.isNull())
+                icn = QIcon (":icons/application-menu.svg");
+            ui->actionMenu->setIcon (icn);
+            /* ... and the following buttons don't have text, so we don't risk */
+            icn = QIcon::fromTheme ("go-down");
+            if (icn.isNull())
+                icn = QIcon (":icons/go-down.svg");
+             ui->toolButtonNext->setIcon (icn);
+            icn = QIcon::fromTheme ("go-up");
+            if (icn.isNull())
+                icn = QIcon (":icons/go-up.svg");
+            ui->toolButtonPrv->setIcon (icn);
+            icn = QIcon::fromTheme ("arrow-down-double");
+            if (icn.isNull())
+                icn = QIcon (":icons/arrow-down-double.svg");
+            ui->toolButtonAll->setIcon (icn);
+            if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>())
+            {
+                icn = QIcon::fromTheme ("view-refresh");
+                if (!icn.isNull())
+                    wordButton->setIcon (icn);
+            }
+
+            if (rtl)
+            {
+                ui->actionCloseRight->setIcon (QIcon::fromTheme ("go-previous"));
+                ui->actionCloseLeft->setIcon (QIcon::fromTheme ("go-next"));
+                ui->actionRightTab->setIcon (QIcon::fromTheme ("go-previous"));
+                ui->actionLeftTab->setIcon (QIcon::fromTheme ("go-next"));
+
+                /* shortcuts should be reversed for rtl */
+                ui->actionRightTab->setShortcut (QKeySequence (tr ("Alt+Left")));
+                ui->actionLeftTab->setShortcut (QKeySequence (tr ("Alt+Right")));
+            }
+            else
+            {
+                ui->actionCloseRight->setIcon (QIcon::fromTheme ("go-next"));
+                ui->actionCloseLeft->setIcon (QIcon::fromTheme ("go-previous"));
+                ui->actionRightTab->setIcon (QIcon::fromTheme ("go-next"));
+                ui->actionLeftTab->setIcon (QIcon::fromTheme ("go-previous"));
+            }
+
+            icn = QIcon::fromTheme ("featherpad");
+            if (icn.isNull())
+                icn = QIcon (":icons/featherpad.svg");
+            setWindowIcon (icn);
+        }
+        else // own icons
+        {
+            ui->actionNew->setIcon (QIcon (":icons/document-new.svg"));
+            ui->actionOpen->setIcon (QIcon (":icons/document-open.svg"));
+            ui->menuOpenRecently->setIcon (QIcon (":icons/document-open-recent.svg"));
+            ui->actionClearRecent->setIcon (QIcon (":icons/edit-clear.svg"));
+            ui->actionSave->setIcon (QIcon (":icons/document-save.svg"));
+            ui->actionSaveAs->setIcon (QIcon (":icons/document-save-as.svg"));
+            ui->actionSaveCodec->setIcon (QIcon (":icons/document-save-as.svg"));
+            ui->actionPrint->setIcon (QIcon (":icons/document-print.svg"));
+            ui->actionDoc->setIcon (QIcon (":icons/document-properties.svg"));
+            ui->actionUndo->setIcon (QIcon (":icons/edit-undo.svg"));
+            ui->actionRedo->setIcon (QIcon (":icons/edit-redo.svg"));
+            ui->actionCut->setIcon (QIcon (":icons/edit-cut.svg"));
+            ui->actionCopy->setIcon (QIcon (":icons/edit-copy.svg"));
+            ui->actionPaste->setIcon (QIcon (":icons/edit-paste.svg"));
+            ui->actionDelete->setIcon (QIcon (":icons/edit-delete.svg"));
+            ui->actionSelectAll->setIcon (QIcon (":icons/edit-select-all.svg"));
+            ui->actionReload->setIcon (QIcon (":icons/view-refresh.svg"));
+            ui->actionFind->setIcon (QIcon (":icons/edit-find.svg"));
+            ui->actionReplace->setIcon (QIcon (":icons/edit-find-replace.svg"));
+            ui->actionClose->setIcon (QIcon (":icons/window-close.svg"));
+            ui->actionQuit->setIcon (QIcon (":icons/application-exit.svg"));
+            ui->actionFont->setIcon (QIcon (":icons/preferences-desktop-font.svg"));
+            ui->actionPreferences->setIcon (QIcon (":icons/preferences-system.svg"));
+            ui->actionHelp->setIcon (QIcon (":icons/help-contents.svg"));
+            ui->actionAbout->setIcon (QIcon (":icons/help-about.svg"));
+            ui->actionJump->setIcon (QIcon (":icons/go-jump.svg"));
+            ui->actionEdit->setIcon (QIcon (":icons/document-edit.svg"));
+            ui->actionRun->setIcon (QIcon (":icons/system-run.svg"));
+            ui->actionCopyName->setIcon (QIcon (":icons/edit-copy.svg"));
+            ui->actionCopyPath->setIcon (QIcon (":icons/edit-copy.svg"));
+
+            ui->actionCloseOther->setIcon (QIcon (":icons/tab-close-other.svg"));
+            ui->actionMenu->setIcon (QIcon (":icons/application-menu.svg"));
+
+            ui->toolButtonNext->setIcon (QIcon (":icons/go-down.svg"));
+            ui->toolButtonPrv->setIcon (QIcon (":icons/go-up.svg"));
+            ui->toolButtonAll->setIcon (QIcon (":icons/arrow-down-double.svg"));
+
+            if (rtl)
+            {
+                ui->actionCloseRight->setIcon (QIcon (":icons/go-previous.svg"));
+                ui->actionCloseLeft->setIcon (QIcon (":icons/go-next.svg"));
+                ui->actionRightTab->setIcon (QIcon (":icons/go-previous.svg"));
+                ui->actionLeftTab->setIcon (QIcon (":icons/go-next.svg"));
+
+                ui->actionRightTab->setShortcut (QKeySequence (tr ("Alt+Left")));
+                ui->actionLeftTab->setShortcut (QKeySequence (tr ("Alt+Right")));
+            }
+            else
+            {
+                ui->actionCloseRight->setIcon (QIcon (":icons/go-next.svg"));
+                ui->actionCloseLeft->setIcon (QIcon (":icons/go-previous.svg"));
+                ui->actionRightTab->setIcon (QIcon (":icons/go-next.svg"));
+                ui->actionLeftTab->setIcon (QIcon (":icons/go-previous.svg"));
+            }
+
+            setWindowIcon (QIcon (":icons/featherpad.svg"));
+        }
     }
 }
 /*************************/
@@ -866,8 +934,10 @@ void FPwin::newTab()
 TabPage* FPwin::createEmptyTab (bool setCurrent)
 {
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
+    TabPage::ICONMODE iconMode = config.getIconless() ? TabPage::NONE
+                                                      : config.getSysIcon() ? TabPage::SYSTEM : TabPage::OWN;
     TabPage *tabPage = new TabPage (nullptr,
-                                    config.getSysIcon(),
+                                    iconMode,
                                     config.getDarkColScheme() ? config.getDarkBgColorValue()
                                                               : config.getLightBgColorValue());
     TextEdit *textEdit = tabPage->textEdit();

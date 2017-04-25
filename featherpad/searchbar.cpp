@@ -22,7 +22,7 @@
 namespace FeatherPad {
 
 
-SearchBar::SearchBar(QWidget *parent, Qt::WindowFlags f) : QFrame (parent, f)
+SearchBar::SearchBar(QWidget *parent, bool hasText, Qt::WindowFlags f) : QFrame (parent, f)
 {
     lineEdit_ = new LineEdit (this);
     lineEdit_->setMinimumWidth (150);
@@ -31,15 +31,17 @@ SearchBar::SearchBar(QWidget *parent, Qt::WindowFlags f) : QFrame (parent, f)
     /* See the comment about KAcceleratorManager in "fpwin.cpp". */
 
     toolButton_nxt_ = new QToolButton (this);
-    toolButton_nxt_->setAutoRaise (true);
-    //toolButton_nxt_->setText (tr ("&Next"));
-    toolButton_nxt_->setShortcut (QKeySequence (tr ("F3")));
-    toolButton_nxt_->setToolTip (tr ("Next") + " (" + tr ("F3") + ")");
-
     toolButton_prv_ = new QToolButton (this);
+    toolButton_nxt_->setAutoRaise (true);
     toolButton_prv_->setAutoRaise (true);
-    //toolButton_prv_->setText (tr ("Previous"));
+    if (hasText)
+    {
+        toolButton_nxt_->setText (tr ("Next"));
+        toolButton_prv_->setText (tr ("Previous"));
+    }
+    toolButton_nxt_->setShortcut (QKeySequence (tr ("F3")));
     toolButton_prv_->setShortcut (QKeySequence (tr ("F4")));
+    toolButton_nxt_->setToolTip (tr ("Next") + " (" + tr ("F3") + ")");
     toolButton_prv_->setToolTip (tr ("Previous") + " (" + tr ("F4") + ")");
 
     pushButton_case_ = new QPushButton (this);

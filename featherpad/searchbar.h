@@ -28,7 +28,7 @@ class SearchBar : public QFrame
 {
     Q_OBJECT
 public:
-    explicit SearchBar (QWidget *parent = 0, Qt::WindowFlags f = Qt::WindowFlags());
+    explicit SearchBar (QWidget *parent = 0, bool hasText = false, Qt::WindowFlags f = Qt::WindowFlags());
 
     void focusLineEdit();
     bool lineEditHasFocus();

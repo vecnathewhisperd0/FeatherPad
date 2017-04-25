@@ -13,6 +13,7 @@ V0.6.0
  * Set the maximum tab length to half the tabbar size and elide tab text dynamically.
  * Always ensure enough contrast between the active/inactive text selection color and the line highlight color.
  * Added an option that, by default, will append an empty line on saving if the last line of the document isn't empty.
+ * Iconless mode.
 
 V0.5.9
 ---------
