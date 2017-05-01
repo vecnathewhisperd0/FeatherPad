@@ -139,7 +139,7 @@ static const std::string detectCharsetLatin (const char *text)
 {
     uint8_t c = *text;
     bool noniso = false;
-    uint32_t xl = 0, xa = 0, xac = 0, xcC = 0, xcC1 = 0, xcS = 0, xcna = 0;
+    uint32_t xl = 0, xa = 0, xac = 0, xcC = 0, xcC1 = 0, xcS = 0, xcna = 0, xIso15M = 0;
     /* the OpenI18N for the locale ("ISO-8859-15" for me) */
     std::string charset = encodingItem[OPENI18N];
 
@@ -160,8 +160,13 @@ static const std::string detectCharsetLatin (const char *text)
                 /* Cyrillic capital letters */
                 xcC++;
             else if (c >= 0xD0 && c <= 0xDF)
+            {
                 /* Cyrillic capital letters again */
                 xcC1++;
+                if (c == 0xD7)
+                    /* ISO-8859-15 multiplication sign */
+                    xIso15M ++;
+            }
             else if (c >= 0xE0)
             {
                 /* Cyrillic small letters */
@@ -193,7 +198,12 @@ static const std::string detectCharsetLatin (const char *text)
         else if (!noniso && xcC + xcC1 + xa >= xcS - xa && !(xcC1 + xcS < xcC && xcna > 0))
             charset = "ISO-8859-1";
         else if (xcC + xcC1 < xcS && xcna > 0)
-            charset = "CP1251"; // Cryllic-1251
+        {
+            if(xcC1 > xIso15M)
+                charset = "CP1251"; // Cryllic-1251
+            else
+                charset = "ISO-8859-15";
+        }
         else if (xcC1 + xcS < xcC && xcna > 0)
             charset = "KOI8-U"; // Cryllic-KOI
         /* this should cover most cases */
