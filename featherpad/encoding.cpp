@@ -139,7 +139,8 @@ static const std::string detectCharsetLatin (const char *text)
 {
     uint8_t c = *text;
     bool noniso = false;
-    uint32_t xl = 0, xa = 0, xac = 0, xcC = 0, xcC1 = 0, xcS = 0, xcna = 0, xIso15M = 0;
+    bool noniso15 = false;
+    uint32_t xl = 0, xa = 0, xac = 0, xcC = 0, xcC1 = 0, xcS = 0, xcna = 0;
     /* the OpenI18N for the locale ("ISO-8859-15" for me) */
     std::string charset = encodingItem[OPENI18N];
 
@@ -163,9 +164,9 @@ static const std::string detectCharsetLatin (const char *text)
             {
                 /* Cyrillic capital letters again */
                 xcC1++;
-                if (c == 0xD7)
-                    /* ISO-8859-15 multiplication sign */
-                    xIso15M ++;
+                if (c == 0xDE || c == 0xDF)
+                    /* not used in ISO-8859-15 (Icelandic or German) */
+                    noniso15 = true;
             }
             else if (c >= 0xE0)
             {
@@ -199,7 +200,7 @@ static const std::string detectCharsetLatin (const char *text)
             charset = "ISO-8859-1";
         else if (xcC + xcC1 < xcS && xcna > 0)
         {
-            if(xcC1 > xIso15M)
+            if(noniso || noniso15)
                 charset = "CP1251"; // Cryllic-1251
             else
                 charset = "ISO-8859-15";
