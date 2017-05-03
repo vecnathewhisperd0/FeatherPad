@@ -1,6 +1,6 @@
 V0.6.1
 ---------
- * Detect ISO-8859-15.
+ * Improved encoding detection.
 
 V0.6.0
 ---------
