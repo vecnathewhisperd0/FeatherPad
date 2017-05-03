@@ -1,9 +1,10 @@
 #ifndef ENCODING_H
 #define ENCODING_H
 
+#include <QString>
+
 namespace FeatherPad {
 
-#include <QString>
 const QString detectCharset (const QByteArray byteArray);
 
 }

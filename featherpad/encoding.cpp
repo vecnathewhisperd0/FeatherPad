@@ -10,7 +10,6 @@
 #include <langinfo.h> // CODESET, nl_langinfo
 #include <stdint.h> // uint8_t, uint32_t
 #include <locale.h> // needed by FreeBSD for setlocale
-#include <QString>
 #include "encoding.h"
 
 namespace FeatherPad {

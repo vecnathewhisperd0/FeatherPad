@@ -52,18 +52,31 @@ void Loading::run()
     char c;
     qint64 charSize = sizeof (char);
     bool enforced = !charset_.isEmpty();
-    bool isUTF16 = enforced;
+    bool wasNull = false;
+    int num = 0;
     while (file.read (&c, charSize) > 0)
     {
         data.append (c);
-        if (!isUTF16 && c == '\0')
-            isUTF16 = true;
+        /* checking 4 bytes is enough to know
+           whether the encoding is UTF-16 or UTF-32 */
+        if (!enforced && num < 4)
+        {
+            ++ num;
+            if (c == '\0')
+            {
+                if (wasNull)
+                    charset_ = "UTF-32";
+                else
+                    charset_ = "UTF-16";
+                wasNull = true;
+            }
+            else
+                wasNull = false;
+        }
     }
     file.close();
 
-    if (!enforced && isUTF16)
-        charset_ = "UTF-16";
-    else if (charset_.isEmpty())
+    if (charset_.isEmpty())
         charset_ = detectCharset (data);
 
     QTextCodec *codec = QTextCodec::codecForName (charset_.toUtf8()); // or charset.toStdString().c_str()
