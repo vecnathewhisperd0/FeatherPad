@@ -76,7 +76,7 @@ protected:
 private:
     QStringList keywords (QString& lang);
     QStringList types();
-    bool escapedQuote (const QString &text, const int pos, bool canEscapeStart);
+    bool isEscapedQuote (const QString &text, const int pos, bool isStartQuote);
     bool isQuoted (const QString &text, const int index);
     bool isMLCommented (const QString &text, const int index);
     void resetHereDocStates (QTextBlock block);

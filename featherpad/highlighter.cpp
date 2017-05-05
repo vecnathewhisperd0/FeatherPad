@@ -642,8 +642,8 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
     }
 }
 /*************************/
-// Check if a start or end quotation mark is escaped at some position.
-bool Highlighter::escapedQuote (const QString &text, const int pos, bool canEscapeStart)
+// Check if a start or end quotation mark (positioned at "pos") is escaped.
+bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isStartQuote)
 {
     if (progLan == "html") return false;
 
@@ -667,30 +667,34 @@ bool Highlighter::escapedQuote (const QString &text, const int pos, bool canEsca
         }
     }
 
-    /* escaped start quotes are just for Bash or in '\"' */
-    if (canEscapeStart
-       && progLan != "sh" && progLan != "makefile" && progLan != "cmake"
-       && (pos < 2
-           || pos - 2 != text.indexOf ("'\\\"'", pos - 2)))
+    /* escaped start quotes are just for Bash and Perl */
+    if (isStartQuote
+        && progLan != "sh" && progLan != "makefile" && progLan != "cmake"
+        && progLan != "perl")
     {
         return false;
     }
 
+    /* in Perl, $' has a (deprecated?) meaning */
+    if (progLan == "perl" && pos >= 1 && pos - 1 == QRegExp ("\\$").indexIn (text, pos - 1))
+        return true;
+
     int i = 0;
     while (pos - i >= 1 && pos - i - 1 == QRegExp ("\\\\").indexIn (text, pos - i - 1))
         ++i;
-    /* only an odd number of backslashes
-       means that the quote is escaped */
+    /* only an odd number of backslashes means that the quote is escaped */
     if (
         i % 2 != 0
-            /* for perl, only double quote can be escaped */
-        && ((progLan == "perl"
-             && pos == QRegExp ("\"").indexIn (text, pos))
-            /* but for these languages, single quote can be escaped too */
-            || progLan == "cpp" || progLan == "c"
+            /* for perl, only double quote can be escaped? */
+        && (/*(progLan == "perl"
+             && pos == QRegExp ("\"").indexIn (text, pos)) ||*/
+            /* for these languages, both single and double quotes can be escaped */
+            progLan == "cpp" || progLan == "c"
             || progLan == "python"
+            || progLan == "perl"
             /* however, in Bash, single quote can be escaped only at start */
-            || ((progLan == "sh" || progLan == "makefile" || progLan == "cmake") && (canEscapeStart || pos == QRegExp ("\"").indexIn (text, pos))))
+            || ((progLan == "sh" || progLan == "makefile" || progLan == "cmake")
+                && (isStartQuote || pos == QRegExp ("\"").indexIn (text, pos))))
        )
     {
         return true;
@@ -709,8 +713,8 @@ bool Highlighter::isQuoted (const QString &text, const int index)
     int N;
     bool mixedQuotes = false;
     if (progLan == "c" || progLan == "cpp"
-        || progLan == "python" || progLan == "sh"
-        || progLan == "makefile" || progLan == "cmake"
+        || progLan == "python"
+        || progLan == "sh" || progLan == "makefile" || progLan == "cmake"
         || progLan == "lua" || progLan == "perl"
         || progLan == "ruby" || progLan == "html" || progLan == "javascript")
     {
@@ -749,8 +753,8 @@ bool Highlighter::isQuoted (const QString &text, const int index)
             continue;
 
         ++N;
-        if ((N % 2 == 0 || progLan == "sh" || progLan == "makefile" || progLan == "cmake") // it's an end quote (except for Bash)
-            && escapedQuote (text, pos, false))
+        if ((N % 2 == 0 && isEscapedQuote (text, pos, false)) // an escaped end quote
+            || isEscapedQuote (text, pos, true)) // or an escaped start quote in Bash and Perl
         {
             --N;
             continue;
@@ -1378,7 +1382,7 @@ void Highlighter::multiLineQuote (const QString &text)
     {
         index = quoteExpression.indexIn (text);
         /* skip escaped start quotes */
-        while (escapedQuote (text, index, true))
+        while (isEscapedQuote (text, index, true))
             index = quoteExpression.indexIn (text, index + 1);
         /* skip all comments */
         while (isMLCommented (text, index)) // multiline
@@ -1452,7 +1456,7 @@ void Highlighter::multiLineQuote (const QString &text)
         }
 
         /* check if the quote is escaped */
-        while (escapedQuote (text, endIndex, false))
+        while (isEscapedQuote (text, endIndex, false))
             endIndex = quoteExpression.indexIn (text, endIndex + 1);
 
         /* in c and cpp, multiline double quotes need backslash
@@ -1518,6 +1522,9 @@ void Highlighter::multiLineQuote (const QString &text)
                         /* instead of only using setFormat(),
                            also take into account url and note patterns */
                         singleLineComment (text, indx);
+                        /* since this is a single-line comment,
+                           there will be no quotation anymore */
+                        index = -1;
                     }
                     break;
                 }
@@ -1532,7 +1539,7 @@ void Highlighter::multiLineQuote (const QString &text)
         while (format (index) == commentFormat)
             index = quoteExpression.indexIn (text, index + 1);
         /* skip escaped start quotes */
-        while (escapedQuote (text, index, true))
+        while (isEscapedQuote (text, index, true))
             index = quoteExpression.indexIn (text, index + 1);
     }
 }
