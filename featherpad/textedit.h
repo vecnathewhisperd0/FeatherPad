@@ -143,85 +143,8 @@ signals:
     void zoomedOut (TextEdit *textEdit); // needed for reformatting text
 
 protected:
-    virtual void keyPressEvent (QKeyEvent *event)
-    {
-        if (isReadOnly())
-        {
-            QPlainTextEdit::keyPressEvent (event);
-            return;
-        }
-
-        if (autoIndentation && (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter))
-        {
-            /* first get the current cursor for computing the indentation */
-            QTextCursor start = textCursor();
-            QString indent = computeIndentation (start);
-            /* then press Enter normally... */
-            QPlainTextEdit::keyPressEvent (event);
-            /* ... and insert indentation */
-            start = textCursor();
-            start.insertText (indent);
-            event->accept();
-            return;
-        }
-        else if (event->key() == Qt::Key_Left || event->key() == Qt::Key_Right)
-        {
-            /* when text is selected, use arrow keys
-               to go to the start or end of the selection */
-            QTextCursor cursor = textCursor();
-            if (event->modifiers() == Qt::NoModifier && cursor.hasSelection())
-            {
-                QString str = cursor.selectedText();
-                if (event->key() == Qt::Key_Left)
-                {
-                    if (str.isRightToLeft())
-                        cursor.setPosition (cursor.selectionEnd());
-                    else
-                        cursor.setPosition (cursor.selectionStart());
-                }
-                else
-                {
-                    if (str.isRightToLeft())
-                        cursor.setPosition (cursor.selectionStart());
-                    else
-                        cursor.setPosition (cursor.selectionEnd());
-                }
-                cursor.clearSelection();
-                setTextCursor (cursor);
-                event->accept();
-                return;
-            }
-        }
-        /* because of a bug in Qt5, the non-breaking space (ZWNJ) isn't inserted with SHIFT+SPACE */
-        else if (event->key() == 0x200c)
-        {
-            insertPlainText (QChar (0x200C));
-            event->accept();
-            return;
-        }
-
-        QPlainTextEdit::keyPressEvent (event);
-    }
-
-    // a workaround for Qt5's scroll jump bug
-    virtual void wheelEvent (QWheelEvent *event)
-    {
-        if (scrollJumpWorkaround && event->angleDelta().manhattanLength() > 240)
-            event->ignore();
-        else
-        {
-            if (event->modifiers() & Qt::ControlModifier)
-            {
-                float delta = event->angleDelta().y() / 120.f;
-                zooming (delta);
-                return;
-            }
-            /* as in QPlainTextEdit::wheelEvent() */
-            QAbstractScrollArea::wheelEvent (event);
-            updateMicroFocus();
-        }
-    }
-
+    void keyPressEvent (QKeyEvent *event);
+    void wheelEvent (QWheelEvent *event);
     void resizeEvent (QResizeEvent *event);
     void timerEvent (QTimerEvent *event);
 
@@ -255,41 +178,7 @@ private slots:
     void onUpdateRequesting (const QRect&, int dy);
 
 private:
-    QString computeIndentation (QTextCursor& cur) const
-    {
-        if (cur.hasSelection())
-        {// this is more intuitive to me
-            if (cur.anchor() <= cur.position())
-                cur.setPosition (cur.anchor());
-            else
-                cur.setPosition (cur.position());
-        }
-        QTextCursor tmp = cur;
-        tmp.movePosition (QTextCursor::StartOfBlock);
-        QString str;
-        if (tmp.atBlockEnd())
-            return str;
-        int pos = tmp.position();
-        tmp.setPosition (++pos, QTextCursor::KeepAnchor);
-        QString selected;
-        while (!tmp.atBlockEnd()
-               && tmp <= cur
-               && ((selected = tmp.selectedText()) == " "
-                   || (selected = tmp.selectedText()) == "\t"))
-        {
-            str.append (selected);
-            tmp.setPosition (pos);
-            tmp.setPosition (++pos, QTextCursor::KeepAnchor);
-        }
-        if (tmp.atBlockEnd()
-            && tmp <= cur
-            && ((selected = tmp.selectedText()) == " "
-                || (selected = tmp.selectedText()) == "\t"))
-        {
-            str.append (selected);
-        }
-        return str;
-    }
+    QString computeIndentation (QTextCursor& cur) const;
 
     QWidget *lineNumberArea;
     QTextEdit::ExtraSelection currentLine;
