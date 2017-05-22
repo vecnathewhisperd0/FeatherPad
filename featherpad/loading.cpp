@@ -46,38 +46,79 @@ void Loading::run()
         return;
     }
 
-    /* read the file character by character
-       in order to determine if it's in UTF-16 */
+    /* read the file character by character to know
+       if it includes null (and because that's faster) */
+    bool enforced = !charset_.isEmpty();
+    bool hasNull = false;
     QByteArray data;
     char c;
-    qint64 charSize = sizeof (char);
-    bool enforced = !charset_.isEmpty();
-    bool wasNull = false;
-    int num = 0;
-    while (file.read (&c, charSize) > 0)
+    qint64 charSize = sizeof (char); // 1
+    if (enforced)
+    { // no need to check for the null character here
+        while (file.read (&c, charSize) > 0)
+            data.append (c);
+    }
+    else
     {
-        data.append (c);
-        /* checking 4 bytes is enough to know
+        unsigned char C[4];
+        int num = 0;
+        /* checking 4 bytes is enough to guess
            whether the encoding is UTF-16 or UTF-32 */
-        if (!enforced && num < 4)
+        while (num < 4 && file.read (&c, charSize) > 0)
         {
-            ++ num;
+            data.append (c);
             if (c == '\0')
+                hasNull = true;
+            C[num] = c;
+            ++ num;
+        }
+        if (num == 2 && ((C[0] != '\0' && C[1] == '\0') || (C[0] == '\0' && C[1] != '\0')))
+            charset_ = "UTF-16"; // single character
+        else if (num == 4)
+        {
+            if (hasNull)
             {
-                if (wasNull)
-                    charset_ = "UTF-32";
-                else
+                if ((C[0] == 0xFF && C[1] == 0xFE && C[2] != '\0' && C[3] == '\0') // le
+                    || (C[0] == 0xFE && C[1] == 0xFF && C[2] == '\0' && C[3] != '\0') // be
+                    || (C[0] != '\0' && C[1] == '\0' && C[2] != '\0' && C[3] == '\0') // le
+                    || (C[0] == '\0' && C[1] != '\0' && C[2] == '\0' && C[3] != '\0')) // be
+                {
                     charset_ = "UTF-16";
-                wasNull = true;
+                }
+                /*else if ((C[0] == 0xFF && C[1] == 0xFE && C[2] == '\0' && C[3] == '\0')
+                          || (C[0] == '\0' && C[1] == '\0' && C[2] == 0xFE && C[3] == 0xFF))*/
+                else if ((C[0] != '\0' && C[1] != '\0' && C[2] == '\0' && C[3] == '\0') // le
+                         || (C[0] == '\0' && C[1] == '\0' && C[2] != '\0' && C[3] != '\0')) // be
+                {
+                    charset_ = "UTF-32";
+                }
+            }
+            /* reading may still be possible */
+            if (charset_.isEmpty() && !hasNull)
+            {
+                while (file.read (&c, charSize) > 0)
+                {
+                    data.append (c);
+                    if (c == '\0' && !hasNull)
+                        hasNull = true;
+                }
             }
             else
-                wasNull = false;
+            { // the meaning of null characters was determined before
+                while (file.read (&c, charSize) > 0)
+                    data.append (c);
+            }
         }
     }
     file.close();
 
     if (charset_.isEmpty())
-        charset_ = detectCharset (data);
+    {
+        if (hasNull)
+            charset_ = "UTF-8"; // always open non-text files as UTF-8
+        else
+            charset_ = detectCharset (data);
+    }
 
     QTextCodec *codec = QTextCodec::codecForName (charset_.toUtf8()); // or charset.toStdString().c_str()
     if (!codec) // prevent any chance of crash if there's a bug
