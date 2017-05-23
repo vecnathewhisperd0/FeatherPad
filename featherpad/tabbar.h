@@ -44,6 +44,7 @@ public:
 
 signals:
     void tabDetached();
+    //void newTab();
 
 protected:
     /* from qtabbar.cpp */

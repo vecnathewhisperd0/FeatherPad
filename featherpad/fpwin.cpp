@@ -133,6 +133,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     ui->actionOther->setDisabled (true);
 
     connect (ui->actionNew, &QAction::triggered, this, &FPwin::newTab);
+    //connect (ui->tabWidget->tabBar(), &TabBar::newTab, this, &FPwin::newTab);
     connect (ui->actionDetachTab, &QAction::triggered, this, &FPwin::detachTab);
     connect (ui->actionRightTab, &QAction::triggered, this, &FPwin::nextTab);
     connect (ui->actionLeftTab, &QAction::triggered, this, &FPwin::previousTab);

@@ -381,7 +381,7 @@ void TextEdit::timerEvent (QTimerEvent *e)
 void TextEdit::highlightCurrentLine()
 {
     /* keep yellow and green highlights
-       (related to serching and replacing) */
+       (related to searching and replacing) */
     QList<QTextEdit::ExtraSelection> es = extraSelections();
     if (!es.isEmpty() && !currentLine.cursor.isNull())
         es.removeFirst(); // line highlight always comes first when it exists

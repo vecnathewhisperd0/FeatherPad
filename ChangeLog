@@ -2,7 +2,8 @@ V0.6.1
 ---------
  * Improved encoding detection.
  * Always open non-text files as UTF-8 (and detect UTF-16 and UTF-32 better).
- * Multiple-line indentation with Tab and de-indentation BackTab (Shift+Tab)
+ * Multiple-line indentation with Tab and de-indentation BackTab (Shift+Tab).
+ * Middle-click closes the tab.
 
 V0.6.0
 ---------
