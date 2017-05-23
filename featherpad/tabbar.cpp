@@ -54,7 +54,7 @@ void TabBar::mousePressEvent (QMouseEvent *event)
         {
             QRect r = tabRect (count() - 1);
             bool rtl (QApplication::layoutDirection() == Qt::RightToLeft);
-            if (rtl ? r.x() + r.width() > event->pos().x()
+            if (rtl ? r.x() > event->pos().x()
                     : r.x() + r.width() < event->pos().x())
             {
                 emit newTab();
