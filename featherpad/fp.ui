@@ -10,9 +10,6 @@
     <height>500</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Untitled</string>
-  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <property name="leftMargin">

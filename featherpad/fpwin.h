@@ -151,6 +151,7 @@ private slots:
     void addText (const QString text, const QString fileName, const QString charset,
                   bool enforceEncod, bool reload,
                   bool multiple); // Multiple files are being loaded?
+    void onOpeningLargeFiles();
 
 public:
     QWidget *dummyWidget; // Bypasses KDE's demand for a new window.

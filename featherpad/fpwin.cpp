@@ -508,8 +508,8 @@ bool FPwin::hasAnotherDialog()
             QList<QDialog*> dialogs = win->findChildren<QDialog*>();
             for (int j = 0; j < dialogs.count(); ++j)
             {
-                if (dialogs.at (j)->objectName() !=  "processDialog"
-                    && dialogs.at (j)->objectName() !=  "sessionDialog")
+                if (dialogs.at (j)->objectName() != "processDialog"
+                    && dialogs.at (j)->objectName() != "sessionDialog")
                 {
                     res = true;
                     break;
@@ -1457,8 +1457,10 @@ void FPwin::loadText (const QString fileName, bool enforceEncod, bool reload, bo
 void FPwin::addText (const QString text, const QString fileName, const QString charset,
                      bool enforceEncod, bool reload, bool multiple)
 {
-    if (fileName.isEmpty())
+    if (fileName.isEmpty() || charset.isEmpty())
     {
+        if (!fileName.isEmpty() && charset.isEmpty()) // means a very large file
+            connect (this, &FPwin::finishedLoading, this, &FPwin::onOpeningLargeFiles, Qt::UniqueConnection);
         -- loadingProcesses_; // can never become negative
         if (!isLoading())
         {
@@ -1655,6 +1657,24 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
     }
 }
 
+/*************************/
+void FPwin::onOpeningLargeFiles()
+{
+    disconnect (this, &FPwin::finishedLoading, this, &FPwin::onOpeningLargeFiles);
+
+    if (hasAnotherDialog()) return;
+    disableShortcuts (true);
+    MessageBox msgBox (QMessageBox::Warning,
+                       "FeatherPad",
+                       "<center><b><big>" + tr ("Very large file(s) not opened!") + "</big></b></center>",
+                       QMessageBox::Close,
+                       this);
+    msgBox.changeButtonText (QMessageBox::Close, tr ("Close"));
+    msgBox.setInformativeText ("<center><i>" + tr ("FeatherPad does not open files with sizes more than 500 MiB.") + "</i></center>");
+    msgBox.setWindowModality (Qt::WindowModal);
+    msgBox.exec();
+    disableShortcuts (false);
+}
 /*************************/
 void FPwin::newTabFromName (const QString& fileName, bool multiple)
 {
