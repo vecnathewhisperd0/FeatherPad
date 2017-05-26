@@ -50,7 +50,7 @@ void FPwin::removeGreenSel()
 /*************************/
 void FPwin::replaceDock()
 {
-    if (isLoading()) return;
+    if (!isReady()) return;
 
     if (!ui->dockReplace->isVisible())
     {
@@ -100,7 +100,7 @@ void FPwin::resizeDock (bool topLevel)
 /*************************/
 void FPwin::replace()
 {
-    if (isLoading()) return;
+    if (!isReady()) return;
 
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
@@ -174,7 +174,7 @@ void FPwin::replace()
 /*************************/
 void FPwin::replaceAll()
 {
-    if (isLoading()) return;
+    if (!isReady()) return;
 
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;

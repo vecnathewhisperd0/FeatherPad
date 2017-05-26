@@ -21,6 +21,7 @@
 #include <QPointer>
 #include "searchbar.h"
 #include "textedit.h"
+#include "utils.h"
 
 namespace FeatherPad {
 
@@ -28,13 +29,7 @@ class TabPage : public QWidget
 {
     Q_OBJECT
 public:
-    enum ICONMODE {
-      OWN,
-      SYSTEM,
-      NONE
-    };
-
-    explicit TabPage (QWidget *parent = 0, ICONMODE iconMode = OWN, int bgColorValue = 255);
+    TabPage (ICONMODE iconMode = OWN, int bgColorValue = 255, QWidget *parent = 0);
 
     QPointer<TextEdit> textEdit() const {
         return textEdit_;

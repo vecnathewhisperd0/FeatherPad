@@ -26,7 +26,7 @@ class Loading : public QThread {
     Q_OBJECT
 
 public:
-    explicit Loading (QString fname, QString charset, bool reload, bool multiple);
+    Loading (QString fname, QString charset, bool reload, bool multiple);
     ~Loading();
 
 signals:

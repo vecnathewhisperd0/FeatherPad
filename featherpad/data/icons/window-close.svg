@@ -1,6 +1,8 @@
-<svg width="48" version="1.1" xmlns="http://www.w3.org/2000/svg" height="48">
-<g style="fill:none;stroke:#ff3219;stroke-linecap:round;stroke-width:8.855;stroke-miterlimit:0" id="g4" transform="translate(3.5524934e-5,1.4389515e-5)">
-<path id="path3341" d="m 31.7442,31.7442 -15.4885,-15.4885"/>
-<path id="path3803" d="m 16.2558,31.7442 15.4884,-15.4885"/>
+<svg width="48" version="1.0" xmlns="http://www.w3.org/2000/svg" height="48">
+<g id="tab-close-normal" transform="matrix(0.17623219,0,0,0.17623219,215.77203,-147.98599)">
+<g id="g4668" transform="matrix(0.99826838,0,0,0.99826838,-760.92819,2516.7307)">
+<path style="fill:#fff;color-interpolation-filters:linearRGB" id="path4662" d="m -418.7645,-1586.2963 42.7985,42.7985 -42.7985,42.7985 4.8169,4.8169 43.3314,43.3314 42.7985,-42.7985 42.7985,42.7985 48.1483,-48.1483 -42.7985,-42.7985 42.7985,-42.7985 -48.1483,-48.1483 -42.7985,42.7985 -42.7985,-42.7985 -4.8169,4.8169 z"/>
+<path style="fill:#323232;color-interpolation-filters:linearRGB" id="path4654" d="m -399.5072,-1586.2963 42.7985,42.7985 -42.7985,42.7985 28.8911,28.8911 42.7985,-42.7985 42.7985,42.7985 28.8911,-28.8911 -42.7985,-42.7985 42.7985,-42.7985 -28.8911,-28.8911 -42.7985,42.7985 -42.7985,-42.7985 z"/>
+</g>
 </g>
 </svg>

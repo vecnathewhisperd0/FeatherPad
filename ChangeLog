@@ -5,6 +5,7 @@ V0.6.1
  * Multiple-line indentation with Tab and de-indentation BackTab (Shift+Tab).
  * Middle-click closes the tab.
  * Don't open files > 500 MiB.
+ * Added a warning-bar for non-prompt messages.
 
 V0.6.0
 ---------

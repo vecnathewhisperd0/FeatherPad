@@ -322,7 +322,7 @@ QTextCursor FPwin::finding (const QString str, const QTextCursor& start, QTextDo
 /*************************/
 void FPwin::find(bool forward)
 {
-    if (isLoading()) return;
+    if (!isReady()) return;
 
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
@@ -454,7 +454,7 @@ void FPwin::hlighting (const QRect&, int dy) const
 /*************************/
 void FPwin::searchFlagChanged()
 {
-    if (isLoading()) return;
+    if (!isReady()) return;
 
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;

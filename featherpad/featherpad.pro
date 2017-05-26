@@ -50,7 +50,9 @@ HEADERS += singleton.h \
            messagebox.h \
            tabpage.h \
            searchbar.h \
-           session.h
+           session.h \
+           warningbar.h \
+           utils.h
 
 FORMS += fp.ui \
          predDialog.ui \

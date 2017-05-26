@@ -23,6 +23,7 @@
 #include "pref.h"
 #include "session.h"
 #include "loading.h"
+#include "warningbar.h"
 
 #include <QFontDialog>
 #include <QPrintDialog>
@@ -238,7 +239,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     dummyWidget = new QWidget();
     setAcceptDrops (true);
     setAttribute (Qt::WA_AlwaysShowToolTips);
-    setAttribute(Qt::WA_DeleteOnClose, false); // we delete windows in singleton
+    setAttribute (Qt::WA_DeleteOnClose, false); // we delete windows in singleton
 }
 /*************************/
 FPwin::~FPwin()
@@ -335,6 +336,7 @@ void FPwin::applyConfig()
 
     if (config.getIconless())
     {
+        iconMode_ = NONE;
         ui->toolButtonNext->setText (tr ("Next"));
         ui->toolButtonPrv->setText (tr ("Previous"));
         ui->toolButtonAll->setText (tr ("All"));
@@ -344,6 +346,8 @@ void FPwin::applyConfig()
         bool rtl (QApplication::layoutDirection() == Qt::RightToLeft);
         if (config.getSysIcon())
         {
+            iconMode_ = SYSTEM;
+
             ui->actionNew->setIcon (QIcon::fromTheme ("document-new"));
             ui->actionOpen->setIcon (QIcon::fromTheme ("document-open"));
             ui->menuOpenRecently->setIcon (QIcon::fromTheme ("document-open-recent"));
@@ -430,6 +434,8 @@ void FPwin::applyConfig()
         }
         else // own icons
         {
+            iconMode_ = OWN;
+
             ui->actionNew->setIcon (QIcon (":icons/document-new.svg"));
             ui->actionOpen->setIcon (QIcon (":icons/document-open.svg"));
             ui->menuOpenRecently->setIcon (QIcon (":icons/document-open-recent.svg"));
@@ -498,6 +504,7 @@ void FPwin::applyConfig()
 // As a workaround, we keep window-modality but don't let the user open two window-modal dialogs.
 bool FPwin::hasAnotherDialog()
 {
+    closeWarningBar();
     bool res = false;
     FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
     for (int i = 0; i < singleton->Wins.count(); ++i)
@@ -520,15 +527,8 @@ bool FPwin::hasAnotherDialog()
     }
     if (res)
     {
-        MessageBox msgBox (this);
-        msgBox.setIcon (QMessageBox::Warning);
-        msgBox.setText ("<center><b><big>" + tr ("Another FeatherPad window has a modal dialog!") + "</big></b></center>");
-        msgBox.setInformativeText (tr ("<center><i>Please close this dialog first and then</i></center>\n"\
-                                       "<center><i>attend to that window or just close its dialog!</i></center><p></p>"));
-        msgBox.setStandardButtons (QMessageBox::Close);
-        msgBox.changeButtonText (QMessageBox::Close, tr ("Close"));
-        msgBox.setWindowModality (Qt::ApplicationModal);
-        msgBox.exec(); // shortcuts are disabled because this is an app-modal dialog
+        showWarningBar("<center><b><big>" + tr ("Another FeatherPad window has a modal dialog!") + "</big></b></center>"
+                       + "<center><i>" +tr ("Please attend to that window or just close its dialog!") + "</i></center>");
     }
     return res;
 }
@@ -562,7 +562,7 @@ void FPwin::deleteTabPage (int index)
 // Tabs are always closed from right to left.
 bool FPwin::closeTabs (int leftIndx, int rightIndx)
 {
-    if (isLoading()) return true;
+    if (!isReady()) return true;
 
     bool keep = false;
     int index, count;
@@ -935,12 +935,11 @@ void FPwin::newTab()
 TabPage* FPwin::createEmptyTab (bool setCurrent)
 {
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
-    TabPage::ICONMODE iconMode = config.getIconless() ? TabPage::NONE
-                                                      : config.getSysIcon() ? TabPage::SYSTEM : TabPage::OWN;
-    TabPage *tabPage = new TabPage (nullptr,
-                                    iconMode,
+
+    TabPage *tabPage = new TabPage (iconMode_,
                                     config.getDarkColScheme() ? config.getDarkBgColorValue()
-                                                              : config.getLightBgColorValue());
+                                                              : config.getLightBgColorValue(),
+                                    nullptr);
     TextEdit *textEdit = tabPage->textEdit();
     textEdit->setScrollJumpWorkaround (config.getScrollJumpWorkaround());
     textEdit->document()->setDefaultFont (config.getFont());
@@ -1157,9 +1156,13 @@ void FPwin::executeProcess()
     QList<QDialog*> dialogs = findChildren<QDialog*>();
     for (int i = 0; i < dialogs.count(); ++i)
     {
-        if (dialogs.at (i)->objectName() != "processDialog")
+        if (dialogs.at (i)->objectName() != "processDialog"
+            && dialogs.at (i)->objectName() != "sessionDialog")
+        {
             return; // shortcut may work when there's a modal dialog
+        }
     }
+    closeWarningBar();
 
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
     if (!config.getExecuteScripts()) return;
@@ -1170,19 +1173,8 @@ void FPwin::executeProcess()
 
     if (tabPage->findChild<QProcess *>(QString(), Qt::FindDirectChildrenOnly))
     {
-        if (hasAnotherDialog()) return;
-
-        disableShortcuts (true);
-        MessageBox msgBox (QMessageBox::Warning,
-                           "FeatherPad",
-                           "<center><b><big>" + tr ("Another process is running in this tab!") + "</big></b></center>",
-                           QMessageBox::Close,
-                           this);
-        msgBox.changeButtonText (QMessageBox::Close, tr ("Close"));
-        msgBox.setInformativeText (tr ("<center><i>Only one process is allowed per tab.</i></center>"));
-        msgBox.setWindowModality (Qt::WindowModal);
-        msgBox.exec();
-        disableShortcuts (false);
+        showWarningBar ("<center><b><big>" + tr ("Another process is running in this tab!") + "</big></b></center>"
+                        + "<center><i>" + tr ("Only one process is allowed per tab.") + "</i></center>");
         return;
     }
 
@@ -1303,7 +1295,7 @@ void FPwin::displayError()
 /*************************/
 void FPwin::closeTab()
 {
-    if (isLoading()) return;
+    if (!isReady()) return;
 
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return; // not needed
@@ -1336,6 +1328,7 @@ void FPwin::closeTab()
 void FPwin::closeTabAtIndex (int index)
 {
     if (unSaved (index, false)) return;
+    closeWarningBar();
 
     deleteTabPage (index);
     int count = ui->tabWidget->count();
@@ -1438,6 +1431,8 @@ void FPwin::unbusy()
 /*************************/
 void FPwin::loadText (const QString fileName, bool enforceEncod, bool reload, bool multiple)
 {
+    if (loadingProcesses_ == 0)
+        closeWarningBar();
     ++ loadingProcesses_;
     QString charset;
     if (enforceEncod)
@@ -1460,7 +1455,7 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
     if (fileName.isEmpty() || charset.isEmpty())
     {
         if (!fileName.isEmpty() && charset.isEmpty()) // means a very large file
-            connect (this, &FPwin::finishedLoading, this, &FPwin::onOpeningLargeFiles, Qt::UniqueConnection);
+            connect (this, &FPwin::finishedLoading, this, &FPwin::onOpeningHugeFiles, Qt::UniqueConnection);
         -- loadingProcesses_; // can never become negative
         if (!isLoading())
         {
@@ -1656,24 +1651,33 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
         emit finishedLoading();
     }
 }
-
 /*************************/
-void FPwin::onOpeningLargeFiles()
+void FPwin::onOpeningHugeFiles()
 {
-    disconnect (this, &FPwin::finishedLoading, this, &FPwin::onOpeningLargeFiles);
+    disconnect (this, &FPwin::finishedLoading, this, &FPwin::onOpeningHugeFiles);
+    showWarningBar ("<center><b><big>" + tr ("Huge file(s) not opened!") + "</big></b></center>\n"
+                    + "<center>" + tr ("FeatherPad does not open files larger than 500 MiB.") + "</center>");
+}
+/*************************/
+void FPwin::showWarningBar (const QString& message)
+{
+    closeWarningBar();
 
-    if (hasAnotherDialog()) return;
-    disableShortcuts (true);
-    MessageBox msgBox (QMessageBox::Warning,
-                       "FeatherPad",
-                       "<center><b><big>" + tr ("Very large file(s) not opened!") + "</big></b></center>",
-                       QMessageBox::Close,
-                       this);
-    msgBox.changeButtonText (QMessageBox::Close, tr ("Close"));
-    msgBox.setInformativeText ("<center><i>" + tr ("FeatherPad does not open files with sizes more than 500 MiB.") + "</i></center>");
-    msgBox.setWindowModality (Qt::WindowModal);
-    msgBox.exec();
-    disableShortcuts (false);
+    WarningBar *bar = new WarningBar (message, iconMode_);
+    ui->verticalLayout->insertWidget (2, bar);
+    connect (bar, &WarningBar::closeButtonPressed, [=]{ui->verticalLayout->removeWidget(bar); bar->deleteLater();});
+}
+/*************************/
+void FPwin::closeWarningBar()
+{
+    if (QLayoutItem *item = ui->verticalLayout->itemAt (2))
+    {
+        if (WarningBar *wb = qobject_cast<WarningBar*>(item->widget()))
+        {
+            ui->verticalLayout->removeWidget (item->widget());
+            delete wb; // delete it immediately because a modal dialog might pop up
+        }
+    }
 }
 /*************************/
 void FPwin::newTabFromName (const QString& fileName, bool multiple)
@@ -1853,7 +1857,7 @@ void FPwin::reload()
 // This is for both "Save" and "Save As"
 bool FPwin::saveFile (bool keepSyntax)
 {
-    if (isLoading()) return false;
+    if (!isReady()) return false;
 
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return false;
@@ -2169,19 +2173,9 @@ bool FPwin::saveFile (bool keepSyntax)
     }
     else
     {
-        if (hasAnotherDialog()) return success;
-        disableShortcuts (true);
         QString str = writer.device()->errorString();
-        MessageBox msgBox (QMessageBox::Warning,
-                           "FeatherPad",
-                           "<center><b><big>" + tr ("Cannot be saved!") + "</big></b></center>",
-                           QMessageBox::Close,
-                           this);
-        msgBox.changeButtonText (QMessageBox::Close, tr ("Close"));
-        msgBox.setInformativeText (QString ("<center><i>%1.</i></center>").arg (str));
-        msgBox.setWindowModality (Qt::WindowModal);
-        msgBox.exec();
-        disableShortcuts (false);
+        showWarningBar ("<center><b><big>" + tr ("Cannot be saved!") + "</big></b></center>\n"
+                        + "<center><i>" + QString ("<center><i>%1.</i></center>").arg (str) + "<i/></center>");
     }
 
     if (success && textEdit->getProg() == "help")
@@ -2236,7 +2230,7 @@ void FPwin::selectAllText()
 /*************************/
 void FPwin::makeEditable()
 {
-    if (isLoading()) return;
+    if (!isReady()) return;
 
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
@@ -2308,6 +2302,8 @@ void FPwin::tabSwitch (int index)
         setWindowModified (false);
         return;
     }
+
+    closeWarningBar();
 
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
     TextEdit *textEdit = tabPage->textEdit();
@@ -2494,7 +2490,7 @@ void FPwin::changeEvent (QEvent *event)
 /*************************/
 void FPwin::showHideSearch()
 {
-    if (isLoading()) return;
+    if (!isReady()) return;
 
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
@@ -2535,7 +2531,7 @@ void FPwin::showHideSearch()
 /*************************/
 void FPwin::jumpTo()
 {
-    if (isLoading()) return;
+    if (!isReady()) return;
 
     bool visibility = ui->spinBox->isVisible();
 
@@ -2954,7 +2950,7 @@ void FPwin::firstTab()
 /*************************/
 void FPwin::detachTab()
 {
-    if (isLoading()) return;
+    if (!isReady()) return;
 
     int index = ui->tabWidget->currentIndex();
     if (index == -1 || ui->tabWidget->count() == 1)
@@ -3167,6 +3163,9 @@ void FPwin::dropTab (QString str)
         ui->tabWidget->tabBar()->finishMouseMoveEvent();
         return;
     }
+
+    closeWarningBar();
+    dragSource->closeWarningBar();
 
     QString tooltip = dragSource->ui->tabWidget->tabToolTip (index);
     QString tabText = dragSource->ui->tabWidget->tabText (index);
@@ -3399,7 +3398,7 @@ void FPwin::prefDialog()
 /*************************/
 void FPwin::manageSessions()
 {
-    if (isLoading()) return;
+    if (!isReady()) return;
 
     /* first see whether the Sessions dialog is already open... */
     FPsingleton *singleton = static_cast<FPsingleton*>(qApp);

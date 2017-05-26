@@ -66,6 +66,14 @@ public:
     bool isLoading() {
         return (loadingProcesses_ > 0);
     }
+    bool isReady() {
+        if (loadingProcesses_ <= 0)
+        {
+            closeWarningBar();
+            return true;
+        }
+        return false;
+    }
 
 signals:
     void finishedLoading();
@@ -151,7 +159,7 @@ private slots:
     void addText (const QString text, const QString fileName, const QString charset,
                   bool enforceEncod, bool reload,
                   bool multiple); // Multiple files are being loaded?
-    void onOpeningLargeFiles();
+    void onOpeningHugeFiles();
 
 public:
     QWidget *dummyWidget; // Bypasses KDE's demand for a new window.
@@ -192,6 +200,8 @@ private:
     void waitToMakeBusy();
     void unbusy();
     void displayMessage (bool error);
+    void showWarningBar (const QString& message);
+    void closeWarningBar();
 
     QActionGroup *aGroup_;
     QString lastFile_; // The last opened or saved file (for file dialogs).
@@ -199,6 +209,7 @@ private:
     int rightClicked_; // The index of the right-clicked tab.
     int loadingProcesses_; // The number of loading processes (used to prevent early closing).
     QPointer<QThread> busyThread_; // Used to wait one second for making the cursor busy.
+    ICONMODE iconMode_; // Used only internally.
 };
 
 }

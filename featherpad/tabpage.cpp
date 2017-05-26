@@ -20,7 +20,7 @@
 
 namespace FeatherPad {
 
-TabPage::TabPage (QWidget *parent, ICONMODE iconMode, int bgColorValue) : QWidget (parent)
+TabPage::TabPage (ICONMODE iconMode, int bgColorValue, QWidget *parent) : QWidget (parent)
 {
     textEdit_ = new TextEdit (this, bgColorValue);
     searchBar_ = new SearchBar (this, iconMode == NONE);
