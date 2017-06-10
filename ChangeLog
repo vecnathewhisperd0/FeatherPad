@@ -6,6 +6,7 @@ V0.6.1
  * Middle-click closes the tab.
  * Don't open files > 500 MiB.
  * Added a warning-bar for non-prompt messages.
+ * Added markdown to Syntax highlighting
 
 V0.6.0
 ---------

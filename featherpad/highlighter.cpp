@@ -577,6 +577,89 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
         rule.format = gtkrcFormat;
         highlightingRules.append (rule);
     }
+    else if (progLan == "markdown")
+    {
+        QTextCharFormat markdownFormat;
+
+        /* italic */
+        markdownFormat.setFontItalic (true);
+        rule.pattern = QRegExp ("\\*[^\\*\\s]\\*|\\*[^\\*\\s][^\\*]*[^\\*\\s]\\*"
+                                "|"
+                                "_[^_\\s]_|_[^_\\s][^_]*[^_\\s]_");
+        rule.format = markdownFormat;
+        highlightingRules.append (rule);
+        markdownFormat.setFontItalic (false);
+
+        /* bold */
+        markdownFormat.setFontWeight (QFont::Bold);
+        rule.pattern = QRegExp ("\\*{2}[^\\*\\s]\\*{2}|\\*{2}[^\\*\\s][^\\*]*[^\\*\\s]\\*{2}"
+                                "|"
+                                "_{2}[^_\\s]_{2}|_{2}[^_\\s][^_]*[^_\\s]_{2}");
+        rule.format = markdownFormat;
+        highlightingRules.append (rule);
+
+        /* lists */
+        markdownFormat.setForeground (DarkBlue);
+        rule.pattern = QRegExp ("^ {,3}(\\*|\\+|\\-|[0-9]+\\.)\\s+");
+        rule.format = markdownFormat;
+        highlightingRules.append (rule);
+
+        /* footnotes */
+        markdownFormat.setFontItalic (true);
+        rule.pattern = QRegExp ("\\[\\^.+\\]");
+        rule.format = markdownFormat;
+        highlightingRules.append (rule);
+        markdownFormat.setFontItalic (false);
+
+        /* horizontal rules */
+        markdownFormat.setForeground (Brown);
+        rule.pattern = QRegExp ("^ {,3}(\\* {,2}){3,}\\s*$"
+                                "|"
+                                "^ {,3}(- {,2}){3,}\\s*$"
+                                "|"
+                                "^ {,3}(\\= {,2}){3,}\\s*$");
+        rule.format = markdownFormat;
+        highlightingRules.append (rule);
+
+        /*
+           links:
+           [link text] [link]
+           [link text] (http://example.com)
+           [link text]: http://example.com
+        */
+        rule.pattern = QRegExp ("\\[[^\\]\\^]*\\]\\s*\\[[^\\]]*\\]"
+                                "|"
+                                "\\[[^\\]\\^]*\\]\\s*\\(\\s*([A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+)\\s*\\)"
+                                "|"
+                                "\\[[^\\]\\^]*\\]: {1,}([A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+)");
+        rule.format = urlFormat;
+        highlightingRules.append (rule);
+
+        /*
+           images:
+           ![example image](example-image.jpg "An image")
+        */
+        markdownFormat.setFontWeight (QFont::Normal);
+        markdownFormat.setForeground (Violet);
+        markdownFormat.setFontUnderline (true);
+        rule.pattern = QRegExp ("\\!\\[[^\\]\\^]*\\]\\(\\s*\\S+(\\s+\\\".*\\\")*\\s*\\)");
+        rule.format = markdownFormat;
+        highlightingRules.append (rule);
+        markdownFormat.setFontUnderline (false);
+
+        /* code blocks */
+        markdownFormat.setForeground (Qt::magenta);
+        rule.pattern = QRegExp ("^( {4,}|\\s*\\t+\\s*).*");
+        rule.format = markdownFormat;
+        highlightingRules.append (rule);
+
+        /* headings */
+        markdownFormat.setFontWeight (QFont::Bold);
+        markdownFormat.setForeground (Blue);
+        rule.pattern = QRegExp ("^#+\\s+.*");
+        rule.format = markdownFormat;
+        highlightingRules.append (rule);
+    }
 
     /*******************
      * Quotation Marks *
@@ -639,6 +722,11 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
     {
         commentStartExpression = QRegExp ("^=[A-Za-z0-9_]+($|\\s+)");
         commentEndExpression = QRegExp ("^=cut.*");
+    }
+    else if (progLan == "markdown")
+    {
+        commentStartExpression = QRegExp ("^>.*");
+        commentEndExpression = QRegExp ("^$");
     }
 }
 /*************************/

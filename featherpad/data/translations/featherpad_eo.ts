@@ -1401,7 +1401,7 @@ executable, the file will be executed by clicking
 the Run button, that appears on the toolbar/filemenu
 when needed, or by its shortcut Ctrl+E. Then, the
 process could be killed by Ctrl+Alt+E.</source>
-        <translation>Tio inkludas nur ekzekveblajn dosierojn
+        <translation>Tio inkluzivas nur ekzekveblajn dosierojn
 scribitajn en skript-lingvoj kiel Shell kaj Python.
 
 Se ĝi estus markita kaj la malfermita dosiero estus

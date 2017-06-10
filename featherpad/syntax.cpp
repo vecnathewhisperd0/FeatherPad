@@ -90,7 +90,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
         else if (fname.endsWith (".sh")
                  || baseName == ".bashrc" || baseName == ".bash_profile"
                  || baseName == ".xprofile" || baseName == ".profile"
-                 || baseName == ".mkshrc"
+                 || baseName == ".bash_aliases" || baseName == ".mkshrc"
                  || baseName == ".zprofile" || baseName == ".zlogin"
                  || baseName == ".zshrc" || baseName == ".zshenv")
             progLan = "sh";
@@ -134,6 +134,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
              progLan = "gtkrc";
         else if (fname.endsWith (".htm", Qt::CaseInsensitive) || fname.endsWith (".html", Qt::CaseInsensitive))
             progLan = "html";
+        else if (fname.endsWith (".markdown") || fname.endsWith (".md") || fname.endsWith (".mkd"))
+            progLan = "markdown";
         else if (baseName == "sources.list" || baseName == "sources.list.save")
             progLan = "sourceslist";
         else if (baseName.startsWith ("makefile.", Qt::CaseInsensitive) && !baseName.endsWith (".txt"))
