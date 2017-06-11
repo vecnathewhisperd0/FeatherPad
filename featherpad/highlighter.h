@@ -90,7 +90,8 @@ private:
     void multiLineComment (const QString &text,
                            int index, int cssIndx,
                            QRegExp commentStartExp, QRegExp commentEndExp,
-                           int commState);
+                           int commState,
+                           QTextCharFormat comFormat);
     bool textEndsWithBackSlash (const QString &text);
     void multiLineQuote (const QString &text);
 
@@ -108,10 +109,13 @@ private:
     QTextCharFormat commentFormat;
     QTextCharFormat quotationFormat;
     QTextCharFormat urlFormat;
+    QTextCharFormat blockQuoteFormat;
+    QTextCharFormat codeBlockFormat;
 
     /* Programming language: */
     QString progLan;
 
+    QRegExp quoteMark;
     QColor Blue, DarkBlue, Red, DarkRed, DarkGreen, DarkMagenta, Violet, Brown, DarkYellow;
 
     /* The start and end cursors of the visible text: */
@@ -129,6 +133,10 @@ private:
         /* Python comments: */
         pyDoubleQuoteState,
         pySingleQuoteState,
+
+        /* markdown */
+        markdownBlockQuoteState,
+        markdownCodeBlockState,
 
         /* HTML: */
         htmlStyleState,

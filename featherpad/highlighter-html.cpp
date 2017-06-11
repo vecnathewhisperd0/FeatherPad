@@ -718,7 +718,8 @@ void Highlighter::htmlJavascript (const QString &text)
         multiLineComment (text,
                           javaIndex + matched, -1,
                           commentStartExp, commentEndExp,
-                          htmlJavaCommentState);
+                          htmlJavaCommentState,
+                          commentFormat);
 
         javaIndex = javaStartExp.indexIn (text, javaIndex + len);
     }
