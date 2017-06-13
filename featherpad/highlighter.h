@@ -39,22 +39,27 @@ struct BraceInfo
 class TextBlockData : public QTextBlockUserData
 {
 public:
-    TextBlockData() { Highlighted = false; }
+    TextBlockData() { Highlighted = false; OpenNests = 0; }
     ~TextBlockData();
     QVector<ParenthesisInfo *> parentheses();
     QVector<BraceInfo *> braces();
     QString delimiter();
     bool isHighlighted();
+    int openNests();
     void insertInfo (ParenthesisInfo *info);
     void insertInfo (BraceInfo *info);
     void insertInfo (QString str);
-    void insertInfo (bool highlighted);
+    void insertHighlightInfo (bool highlighted);
+    void insertNestInfo (int nests);
 
 private:
     QVector<ParenthesisInfo *> allParentheses;
     QVector<BraceInfo *> allBraces;
     QString Delimiter; // The delimiter string of a here-doc.
     bool Highlighted; // Is this block completely highlighted?
+    /* "Nest" is a generalized bracket. This variable
+       is the number of unclosed nests in a block. */
+    int OpenNests;
 };
 /*************************/
 /* This is a tricky but effective way for syntax highlighting. */
@@ -81,12 +86,13 @@ private:
     bool isMLCommented (const QString &text, const int index);
     void resetHereDocStates (QTextBlock block);
     bool isHereDocument (const QString &text);
+    bool quotedSHCommands (const QString &text, TextBlockData *currentBlockData);
     void pythonMLComment (const QString &text, const int indx);
     void htmlStyleHighlighter (const QString &text);
     void htmlBrackets (const QString &text);
     void htmlJavascript (const QString &text);
     int cssHighlighter (const QString &text);
-    void singleLineComment (const QString &text, int index);
+    void singleLineComment (const QString &text, int start, int end = -1);
     void multiLineComment (const QString &text,
                            int index, int cssIndx,
                            QRegExp commentStartExp, QRegExp commentEndExp,
@@ -94,6 +100,7 @@ private:
                            QTextCharFormat comFormat);
     bool textEndsWithBackSlash (const QString &text);
     void multiLineQuote (const QString &text);
+    void xmlQuotes (const QString &text);
 
     struct HighlightingRule
     {
@@ -107,16 +114,19 @@ private:
     QRegExp commentEndExpression;
 
     QTextCharFormat commentFormat;
-    QTextCharFormat quotationFormat;
+    QTextCharFormat quoteFormat; // Usually for double quote.
+    QTextCharFormat altQuoteFormat; // Usually for single quote.
     QTextCharFormat urlFormat;
     QTextCharFormat blockQuoteFormat;
     QTextCharFormat codeBlockFormat;
+    /* Used when there is a need to mark text or undo fomatting. */
+    QTextCharFormat neutralFormat;
 
     /* Programming language: */
     QString progLan;
 
     QRegExp quoteMark;
-    QColor Blue, DarkBlue, Red, DarkRed, DarkGreen, DarkMagenta, Violet, Brown, DarkYellow;
+    QColor Blue, DarkBlue, Red, DarkRed, DarkGreen, DarkGreenAlt, DarkMagenta, Violet, Brown, DarkYellow;
 
     /* The start and end cursors of the visible text: */
     QTextCursor startCursor, endCursor;
@@ -134,7 +144,9 @@ private:
         pyDoubleQuoteState,
         pySingleQuoteState,
 
-        /* markdown */
+        xmlValueState,
+
+        /* Markdown: */
         markdownBlockQuoteState,
         markdownCodeBlockState,
 

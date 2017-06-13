@@ -25,13 +25,15 @@ VScrollBar::VScrollBar (QWidget *parent)
     : QScrollBar (parent)
 {
     defaultWheelSpeed = QApplication::wheelScrollLines();
+    if (defaultWheelSpeed == 0) // in case something's wrong
+        defaultWheelSpeed = 3;
 }
 /*************************/
 bool VScrollBar::event (QEvent *event)
 {
     if (event->type() == QEvent::Enter)
         QApplication::setWheelScrollLines (102);
-    else if (event->type() == QEvent::QEvent::Leave)
+    else if (event->type() == QEvent::Leave)
         QApplication::setWheelScrollLines (defaultWheelSpeed);
 
     return QScrollBar::event (event);

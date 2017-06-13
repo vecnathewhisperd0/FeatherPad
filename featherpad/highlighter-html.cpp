@@ -104,9 +104,9 @@ void Highlighter::htmlBrackets (const QString &text)
             if (quoteIndex >= braIndex && quoteIndex <= endLimit)
             {
                 /* ... distinguish between double and single quotes */
-                if (quoteIndex == QRegExp ("\"").indexIn (text, quoteIndex))
+                if (quoteIndex == quoteMark.indexIn (text, quoteIndex))
                 {
-                    quoteExpression = QRegExp ("\"");
+                    quoteExpression = quoteMark;
                     quote = doubleQuoteState;
                 }
                 else
@@ -122,7 +122,7 @@ void Highlighter::htmlBrackets (const QString &text)
                by checking the previous line */
             quote = previousBlockState();
             if (quote == doubleQuoteState)
-                quoteExpression = QRegExp ("\"");
+                quoteExpression = quoteMark;
             else
                 quoteExpression = QRegExp ("\'");
         }
@@ -134,9 +134,9 @@ void Highlighter::htmlBrackets (const QString &text)
             {
                 /* ... distinguish between double and single quotes
                    again because the quote mark may have changed */
-                if (quoteIndex == QRegExp ("\"").indexIn (text, quoteIndex))
+                if (quoteIndex == quoteMark.indexIn (text, quoteIndex))
                 {
-                    quoteExpression = QRegExp ("\"");
+                    quoteExpression = quoteMark;
                     quote = doubleQuoteState;
                 }
                 else
@@ -177,7 +177,8 @@ void Highlighter::htmlBrackets (const QString &text)
             else
                 quoteLength = quoteEndIndex - quoteIndex
                               + Matched;
-            setFormat (quoteIndex, quoteLength, quotationFormat);
+            setFormat (quoteIndex, quoteLength, quoteExpression == quoteMark ? quoteFormat
+                                                                             : altQuoteFormat);
 
             /* the next quote may be different */
             quoteExpression = QRegExp ("\"|\'");
@@ -193,8 +194,11 @@ void Highlighter::htmlBrackets (const QString &text)
         htmlAttributeFormat.setForeground (Brown);
         QRegExp attExp = QRegExp ("[A-Za-z0-9_\\-]+(?=\\s*\\=)");
         int attIndex = attExp.indexIn (text, braIndex);
-        while (format (attIndex) == quotationFormat)
+        while (format (attIndex) == quoteFormat
+               || format (attIndex) == altQuoteFormat)
+        {
             attIndex = attExp.indexIn (text, attIndex + 1);
+        }
         while (attIndex >= braIndex && attIndex < endLimit)
         {
             int length = attExp.matchedLength();
@@ -354,9 +358,9 @@ void Highlighter::htmlStyleHighlighter (const QString &text)
                 if (quoteIndex >= braIndex && quoteIndex <= endLimit1)
                 {
                     /* ... distinguish between double and single quotes */
-                    if (quoteIndex == QRegExp ("\"").indexIn (text, quoteIndex))
+                    if (quoteIndex == quoteMark.indexIn (text, quoteIndex))
                     {
-                        quoteExpression = QRegExp ("\"");
+                        quoteExpression = quoteMark;
                         quote = htmlStyleDoubleQuoteState;
                     }
                     else
@@ -372,7 +376,7 @@ void Highlighter::htmlStyleHighlighter (const QString &text)
                    by checking the previous line */
                 quote = previousBlockState();
                 if (quote == htmlStyleDoubleQuoteState)
-                    quoteExpression = QRegExp ("\"");
+                    quoteExpression = quoteMark;
                 else
                     quoteExpression = QRegExp ("\'");
             }
@@ -384,9 +388,9 @@ void Highlighter::htmlStyleHighlighter (const QString &text)
                 {
                     /* ... distinguish between double and single quotes
                        again because the quote mark may have changed */
-                    if (quoteIndex == QRegExp ("\"").indexIn (text, quoteIndex))
+                    if (quoteIndex == quoteMark.indexIn (text, quoteIndex))
                     {
-                        quoteExpression = QRegExp ("\"");
+                        quoteExpression = quoteMark;
                         quote = htmlStyleDoubleQuoteState;
                     }
                     else
@@ -427,7 +431,8 @@ void Highlighter::htmlStyleHighlighter (const QString &text)
                 else
                     quoteLength = quoteEndIndex - quoteIndex
                                   + Matched;
-                setFormat (quoteIndex, quoteLength, quotationFormat);
+                setFormat (quoteIndex, quoteLength, quoteExpression == quoteMark ? quoteFormat
+                                                                                 : altQuoteFormat);
 
                 /* the next quote may be different */
                 quoteExpression = QRegExp ("\"|\'");
@@ -443,8 +448,11 @@ void Highlighter::htmlStyleHighlighter (const QString &text)
             htmlAttributeFormat.setForeground (Brown);
             QRegExp attExp = QRegExp ("[A-Za-z0-9_\\-]+(?=\\s*\\=)");
             int attIndex = attExp.indexIn (text, braIndex);
-            while (format (attIndex) == quotationFormat)
+            while (format (attIndex) == quoteFormat
+                   || format (attIndex) == altQuoteFormat)
+            {
                 attIndex = attExp.indexIn (text, attIndex + 1);
+            }
             while (attIndex >= braIndex && attIndex < endLimit)
             {
                 int length = attExp.matchedLength();
@@ -690,7 +698,8 @@ void Highlighter::htmlJavascript (const QString &text)
             QRegExp expression (rule.pattern);
             index = expression.indexIn (text, javaIndex + matched);
             /* skip quotes and all comments */
-            while (format (index) == quotationFormat
+            while (format (index) == quoteFormat
+                   || format (index) == altQuoteFormat
                    || format (index) == commentFormat
                    || format (index) == urlFormat)
             {
@@ -705,7 +714,8 @@ void Highlighter::htmlJavascript (const QString &text)
                 setFormat (index, length, rule.format);
                 index = expression.indexIn (text, index + length);
 
-                while (format (index) == quotationFormat
+                while (format (index) == quoteFormat
+                       || format (index) == altQuoteFormat
                        || format (index) == commentFormat)
                 {
                     index = expression.indexIn (text, index + 1);
