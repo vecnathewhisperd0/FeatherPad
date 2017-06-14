@@ -1987,8 +1987,7 @@ bool Highlighter::isHereDocument (const QString &text)
     if (previousBlockState() >= 0 && previousBlockState() < endState
         && comment.indexIn (text) != 0 // the whole line isn't commented out
         && (pos = delim.indexIn (text)) >= 0
-        && !SH_IsQuoted (text, pos, false)
-        && !SH_IsQuoted (text, pos, true)
+        && !isQuoted (text, pos)
         && (insideCommentPos == -1 || pos < insideCommentPos))
     {
         int i = 1;
@@ -2231,8 +2230,9 @@ bool Highlighter::SH_quotedCommands (const QString &text, TextBlockData *current
         indx = start.indexIn (text, endIndx);
     }
 
-    if (currentBlockState() == doubleQuoteState
-        || currentBlockState() == SH_MixedQuoteState)
+    if (N > 0
+        && (currentBlockState() == doubleQuoteState
+            || currentBlockState() == SH_MixedQuoteState))
     {
         /* highlighting should be forced on the next
            block, otherwise its format won't change */
