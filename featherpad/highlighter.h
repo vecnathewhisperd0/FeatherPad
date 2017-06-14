@@ -108,7 +108,8 @@ private:
     bool SH_IsQuoted (const QString &text, const int index, bool doubleQuoted);
     void SH_SingleQuote (const QString &text);
     void SH_DoubleQuote (const QString &text);
-    bool SH_quotedCommands (const QString &text, TextBlockData *currentBlockData);
+    bool SH_quotedCommands (const QString &text, TextBlockData *currentBlockData,
+                            int prevOpenNests);
 
     struct HighlightingRule
     {

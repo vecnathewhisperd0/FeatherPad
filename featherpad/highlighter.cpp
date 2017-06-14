@@ -2060,7 +2060,8 @@ bool Highlighter::isHereDocument (const QString &text)
 // This function neutralizes the format of double quoted
 // bash commands to highlight their syntax later.
 // The returned boolean shows if the next block should be highlighted.
-bool Highlighter::SH_quotedCommands (const QString &text, TextBlockData *currentBlockData)
+bool Highlighter::SH_quotedCommands (const QString &text, TextBlockData *currentBlockData,
+                                     int prevOpenNests)
 {
     if (progLan != "sh" || !currentBlockData) return false;
 
@@ -2142,7 +2143,6 @@ bool Highlighter::SH_quotedCommands (const QString &text, TextBlockData *current
                     comment = commentEnd + 1;
                 }
             }
-            currentBlockData->insertNestInfo (N);
         }
     }
     indx = start.indexIn (text, indx);
@@ -2150,11 +2150,7 @@ bool Highlighter::SH_quotedCommands (const QString &text, TextBlockData *current
     {
         while (indx >= 0 && format (indx) != quoteFormat)
             indx = start.indexIn (text, indx + 1);
-        if (indx == -1)
-        {
-            currentBlockData->insertNestInfo (N);
-            break;
-        }
+        if (indx == -1) break;
         ++ N;
 
         int endIndx = indx + 2;
@@ -2201,20 +2197,17 @@ bool Highlighter::SH_quotedCommands (const QString &text, TextBlockData *current
             if (currentBlockState() != doubleQuoteState
                 && currentBlockState() != SH_MixedQuoteState)
             {
-                currentBlockData->insertNestInfo (0);
+                N = 0;
                 -- endIndx;
             }
-            else
-                currentBlockData->insertNestInfo (N);
         }
         else if (format (endIndx) != quoteFormat
                  && format (endIndx) != altQuoteFormat)
         {
-            currentBlockData->insertNestInfo (0);
+            N = 0;
             -- endIndx;
         }
-        else
-            currentBlockData->insertNestInfo (N);
+
         length = endIndx - indx;
         setFormatWithoutOverwrite (indx, length, neutralFormat, altQuoteFormat);
         /* highlight all comments */
@@ -2229,8 +2222,9 @@ bool Highlighter::SH_quotedCommands (const QString &text, TextBlockData *current
         }
         indx = start.indexIn (text, endIndx);
     }
+    currentBlockData->insertNestInfo (N);
 
-    if (N > 0
+    if (N != prevOpenNests
         && (currentBlockState() == doubleQuoteState
             || currentBlockState() == SH_MixedQuoteState))
     {
@@ -2247,6 +2241,10 @@ void Highlighter::highlightBlock (const QString &text)
     if (progLan.isEmpty()) return;
 
     bool rehighlightNextBlock = false;
+    int prevOpenNests = 0;
+    if (TextBlockData *prevData = static_cast<TextBlockData *>(currentBlockUserData()))
+        prevOpenNests = prevData->openNests();
+
     int index;
     TextBlockData *data = new TextBlockData;
     data->insertHighlightInfo (false); // not highlighted yet
@@ -2342,7 +2340,7 @@ void Highlighter::highlightBlock (const QString &text)
     {
         /* remove quotation formatting from quoted
            bash commands to highlight them later */
-        rehighlightNextBlock = SH_quotedCommands (text, data);
+        rehighlightNextBlock = SH_quotedCommands (text, data, prevOpenNests);
     }
 
     /*************
