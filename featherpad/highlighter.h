@@ -86,13 +86,13 @@ private:
     bool isMLCommented (const QString &text, const int index);
     void resetHereDocStates (QTextBlock block);
     bool isHereDocument (const QString &text);
-    bool quotedSHCommands (const QString &text, TextBlockData *currentBlockData);
     void pythonMLComment (const QString &text, const int indx);
     void htmlStyleHighlighter (const QString &text);
     void htmlBrackets (const QString &text);
     void htmlJavascript (const QString &text);
     int cssHighlighter (const QString &text);
-    void singleLineComment (const QString &text, int start, int end = -1);
+    void singleLineComment (const QString &text, int start, int end = -1,
+                            bool canBeQuoted = false);
     void multiLineComment (const QString &text,
                            int index, int cssIndx,
                            QRegExp commentStartExp, QRegExp commentEndExp,
@@ -101,6 +101,14 @@ private:
     bool textEndsWithBackSlash (const QString &text);
     void multiLineQuote (const QString &text);
     void xmlQuotes (const QString &text);
+    void setFormatWithoutOverwrite (int start, int count,
+                                    const QTextCharFormat &newFormat,
+                                    const QTextCharFormat &oldFormat);
+    /* SH specific methods: */
+    bool SH_IsQuoted (const QString &text, const int index, bool doubleQuoted);
+    void SH_SingleQuote (const QString &text);
+    void SH_DoubleQuote (const QString &text);
+    bool SH_quotedCommands (const QString &text, TextBlockData *currentBlockData);
 
     struct HighlightingRule
     {
@@ -139,6 +147,7 @@ private:
         /* Quotation marks: */
         doubleQuoteState,
         singleQuoteState,
+        SH_MixedQuoteState,
 
         /* Python comments: */
         pyDoubleQuoteState,
@@ -168,7 +177,7 @@ private:
         commentInCssState,
         cssValueState,
 
-        endState // 18
+        endState // 22
 
         /* For here-docs, state >= endState or state < -1. */
     };
