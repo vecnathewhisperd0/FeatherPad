@@ -25,6 +25,7 @@ SOURCES += main.cpp \
            config.cpp \
            brackets.cpp \
            syntax.cpp \
+           highlighter-sh.cpp \
            highlighter-html.cpp \
            highlighter-patterns.cpp \
            vscrollbar.cpp \

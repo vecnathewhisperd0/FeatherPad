@@ -7,7 +7,7 @@ V0.6.1
  * Don't open files > 500 MiB.
  * Added a warning-bar for non-prompt messages.
  * Added markdown to syntax highlighting (thanks to AcarBurak at GitHub).
- * Highlight the syntax of sh double quoted codes "$(...)".
+ * Highlight the syntax of sh double quoted code distribution variables "$(...)".
 
 V0.6.0
 ---------

@@ -101,14 +101,15 @@ private:
     bool textEndsWithBackSlash (const QString &text);
     void multiLineQuote (const QString &text);
     void xmlQuotes (const QString &text);
-    void setFormatWithoutOverwrite (int start, int count,
+    void setFormatWithoutOverwrite (int start,
+                                    int count,
                                     const QTextCharFormat &newFormat,
                                     const QTextCharFormat &oldFormat);
     /* SH specific methods: */
-    bool SH_IsQuoted (const QString &text, const int index, bool doubleQuoted);
-    void SH_SingleQuote (const QString &text);
-    void SH_DoubleQuote (const QString &text);
-    bool SH_quotedCommands (const QString &text, TextBlockData *currentBlockData,
+    bool SH_MultiLineQuote (const QString &text);
+    void SH_SingleQuoteInsideCommand (const QString &text, int start, int end);
+    bool SH_quotedCommands (const QString &text,
+                            TextBlockData *currentBlockData,
                             int prevOpenNests);
 
     struct HighlightingRule
@@ -148,7 +149,6 @@ private:
         /* Quotation marks: */
         doubleQuoteState,
         singleQuoteState,
-        SH_MixedQuoteState,
 
         /* Python comments: */
         pyDoubleQuoteState,
@@ -178,7 +178,7 @@ private:
         commentInCssState,
         cssValueState,
 
-        endState // 22
+        endState // 21
 
         /* For here-docs, state >= endState or state < -1. */
     };
