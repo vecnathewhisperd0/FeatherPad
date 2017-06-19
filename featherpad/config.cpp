@@ -46,6 +46,7 @@ Config::Config():
     lightBgColorValue_ (255),
     darkBgColorValue_ (15),
     recentFilesNumber_ (10),
+    curRecentFilesNumber_ (10), // not needed
     winSize_ (QSize (700, 500)),
     startSize_ (QSize (700, 500)),
     font_ (QFont ("Monospace", 9)),

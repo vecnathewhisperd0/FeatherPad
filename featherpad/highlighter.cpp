@@ -762,12 +762,6 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
 
     if (progLan == "html" || progLan == "xml")
         return false;
-    if (progLan == "sh"
-        && pos == quoteMark.indexIn (text, pos)
-        && format (pos) == neutralFormat)
-    {
-        return true;
-    }
 
     if (pos != quoteMark.indexIn (text, pos)
         && (progLan == "markdown" || pos != QRegExp ("\'").indexIn (text, pos)))
@@ -871,8 +865,7 @@ bool Highlighter::isQuoted (const QString &text, const int index)
 
     while ((pos = quoteExpression.indexIn (text, pos + 1)) >= 0)
     {
-        /* skip formatted comments (probably not needed because multiline
-           comment formatting is never done before this method is called) */
+        /* skip formatted comments */
         if (format (pos) == commentFormat) continue;
 
         ++N;
@@ -890,6 +883,7 @@ bool Highlighter::isQuoted (const QString &text, const int index)
             break;
         }
 
+        /* "pos" might be negative next time */
         if (N % 2 == 0) res = false;
         else res = true;
 
@@ -1666,7 +1660,10 @@ void Highlighter::setFormatWithoutOverwrite (int start,
     {
         while (index < start + count
                && (format (index) == oldFormat
-                   || format (index) == commentFormat)) // never reformat comments
+                   /* skip comments and quotes */
+                   || format (index) == commentFormat
+                   || format (index) == quoteFormat
+                   || format (index) == altQuoteFormat))
         {
             ++ index;
         }
@@ -1675,7 +1672,9 @@ void Highlighter::setFormatWithoutOverwrite (int start,
             indx = index;
             while (indx < start + count
                    && format (indx) != oldFormat
-                   && format (indx) != commentFormat)
+                   && format (indx) != commentFormat
+                   && format (indx) != quoteFormat
+                   && format (indx) != altQuoteFormat)
             {
                 ++ indx;
             }
@@ -1807,7 +1806,8 @@ bool Highlighter::isHereDocument (const QString &text)
     int pos = 0;
 
     /* format the start delimiter */
-    if (previousBlockState() >= 0 && previousBlockState() < endState
+    if ((!currentBlock().previous().isValid()
+         || (previousBlockState() >= 0 && previousBlockState() < endState))
         && comment.indexIn (text) != 0 // the whole line isn't commented out
         && (pos = delim.indexIn (text)) >= 0
         && !isQuoted (text, pos)
@@ -1886,7 +1886,7 @@ void Highlighter::highlightBlock (const QString &text)
     if (progLan.isEmpty()) return;
 
     bool rehighlightNextBlock = false;
-    int prevOpenNests = 0;
+    int prevOpenNests = 0; // to be used in SH_CmndSubstVar()
     if (TextBlockData *prevData = static_cast<TextBlockData *>(currentBlockUserData()))
         prevOpenNests = prevData->openNests();
 
@@ -1895,10 +1895,6 @@ void Highlighter::highlightBlock (const QString &text)
     data->insertHighlightInfo (false); // not highlighted yet
     setCurrentBlockUserData (data); // to be fed in later
     setCurrentBlockState (0);
-
-    /* this is only for bash to set the format
-       of command substitution variables */
-    rehighlightNextBlock = SH_quotedCommands (text, data, prevOpenNests);
 
     /********************
      * "Here" Documents *
@@ -1921,6 +1917,10 @@ void Highlighter::highlightBlock (const QString &text)
     if (progLan != "html")
         singleLineComment (text, 0);
 
+    /* this is only for setting the format of
+       command substitution variables in bash */
+    rehighlightNextBlock = SH_CmndSubstVar (text, data, prevOpenNests);
+
     /*******************
      * Python Comments *
      *******************/
@@ -1942,7 +1942,7 @@ void Highlighter::highlightBlock (const QString &text)
      * (Multiline) Quotations *
      **************************/
     else if (progLan == "sh") // bash has its own method
-        rehighlightNextBlock = SH_MultiLineQuote (text) || rehighlightNextBlock;
+        SH_MultiLineQuote (text);
     else if (progLan != "diff" && progLan != "log"
              && progLan != "desktop" && progLan != "theme"
              && progLan != "changelog" && progLan != "url"

@@ -106,11 +106,13 @@ private:
                                     const QTextCharFormat &newFormat,
                                     const QTextCharFormat &oldFormat);
     /* SH specific methods: */
-    bool SH_MultiLineQuote (const QString &text);
-    void SH_SingleQuoteInsideCommand (const QString &text, int start, int end);
-    bool SH_quotedCommands (const QString &text,
-                            TextBlockData *currentBlockData,
-                            int prevOpenNests);
+    void SH_MultiLineQuote(const QString &text);
+    bool SH_SkipQuote (const QString &text, const int pos, bool isStartQuote);
+    bool SH_CharIsEscaped (const QString &text, const int pos);
+    void SH_CommentsInsideCmnd (const QString &text, int start, int end);
+    bool SH_CmndSubstVar (const QString &text,
+                          TextBlockData *currentBlockData,
+                          int prevOpenNests);
 
     struct HighlightingRule
     {
@@ -149,6 +151,9 @@ private:
         /* Quotation marks: */
         doubleQuoteState,
         singleQuoteState,
+
+        SH_DoubleQuoteState,
+        SH_SingleQuoteState,
 
         /* Python comments: */
         pyDoubleQuoteState,

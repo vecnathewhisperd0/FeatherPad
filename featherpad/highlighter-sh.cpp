@@ -19,23 +19,27 @@
 
 namespace FeatherPad {
 
+/*******************************************
+  FIXME: THIS APPROACH IS VERY INEFFICIENT
+ AND SHOULD BE REPLACED BY A REAL SOLUTION.
+********************************************/
+
 // multi/single-line quote highlighting for bash.
-bool Highlighter::SH_MultiLineQuote (const QString &text)
+void Highlighter::SH_MultiLineQuote (const QString &text)
 {
     int index = 0;
     QRegExp quoteExpression = QRegExp ("\"|\'");
-    int quote = doubleQuoteState;
     int initialState = currentBlockState();
 
     /* find the start quote */
     if (previousBlockState() != doubleQuoteState
+        && previousBlockState() != SH_SingleQuoteState
+        && previousBlockState() != SH_DoubleQuoteState
         && previousBlockState() != singleQuoteState)
     {
         index = quoteExpression.indexIn (text);
         /* skip escaped start quotes and all comments */
-        while (isEscapedQuote (text, index, true))
-            index = quoteExpression.indexIn (text, index + 1);
-        while (format (index) == commentFormat)
+        while (SH_SkipQuote (text, index, true))
             index = quoteExpression.indexIn (text, index + 1);
 
         /* if the start quote is found... */
@@ -43,24 +47,21 @@ bool Highlighter::SH_MultiLineQuote (const QString &text)
         {
             /* ... distinguish between double and single quotes */
             if (index == quoteMark.indexIn (text, index))
-            {
                 quoteExpression = quoteMark;
-                quote = doubleQuoteState;
-            }
             else
-            {
                 quoteExpression = QRegExp ("\'");
-                quote = singleQuoteState;
-            }
         }
     }
     else // but if we're inside a quotation...
     {
         /* ... distinguish between the two quote kinds
            by checking the previous line */
-        quote = previousBlockState();
-        if (quote == doubleQuoteState)
+        if (previousBlockState() == doubleQuoteState
+            || previousBlockState() == SH_SingleQuoteState
+            || previousBlockState() == SH_DoubleQuoteState)
+        {
             quoteExpression = quoteMark;
+        }
         else
             quoteExpression = QRegExp ("\'");
     }
@@ -73,15 +74,9 @@ bool Highlighter::SH_MultiLineQuote (const QString &text)
             /* ... distinguish between double and single quotes
                again because the quote mark may have changed */
             if (index == quoteMark.indexIn (text, index))
-            {
                 quoteExpression = quoteMark;
-                quote = doubleQuoteState;
-            }
             else
-            {
                 quoteExpression = QRegExp ("\'");
-                quote = singleQuoteState;
-            }
         }
 
         /* search for the end quote from the start quote */
@@ -89,32 +84,34 @@ bool Highlighter::SH_MultiLineQuote (const QString &text)
 
         /* but if there's no start quote ... */
         if (index == 0
-            && (previousBlockState() == doubleQuoteState || previousBlockState() == singleQuoteState))
+            && (previousBlockState() == doubleQuoteState
+                || previousBlockState() == SH_SingleQuoteState
+                || previousBlockState() == SH_DoubleQuoteState
+                || previousBlockState() == singleQuoteState))
         {
             /* ... search for the end quote from the line start */
             endIndex = quoteExpression.indexIn (text, 0);
         }
 
         /* check if the quote is escaped */
-        while (isEscapedQuote (text, endIndex, false))
+        while (SH_SkipQuote (text, endIndex, false))
             endIndex = quoteExpression.indexIn (text, endIndex + 1);
 
         int quoteLength;
         if (endIndex == -1)
         {
-            setCurrentBlockState (quote);
+            setCurrentBlockState (quoteExpression == quoteMark ? ((initialState == SH_DoubleQuoteState
+                                                                   || initialState == SH_SingleQuoteState)
+                                                                       ? initialState
+                                                                       : doubleQuoteState)
+                                                               : singleQuoteState);
             quoteLength = text.length() - index;
         }
         else
             quoteLength = endIndex - index
                           + quoteExpression.matchedLength(); // 1
         if (quoteExpression == quoteMark)
-        {
             setFormatWithoutOverwrite (index, quoteLength, quoteFormat, neutralFormat);
-            /* also highlight single quotes inside valid commands
-               (no double quote highlighting yet) */
-            SH_SingleQuoteInsideCommand (text, index, endIndex);
-        }
         else
             setFormat (index, quoteLength, altQuoteFormat);
 
@@ -123,27 +120,85 @@ bool Highlighter::SH_MultiLineQuote (const QString &text)
         index = quoteExpression.indexIn (text, index + quoteLength);
 
         /* skip escaped start quotes and all comments */
-        while (isEscapedQuote (text, index, true))
-            index = quoteExpression.indexIn (text, index + 1);
-        while (format (index) == commentFormat)
+        while (SH_SkipQuote (text, index, true))
             index = quoteExpression.indexIn (text, index + 1);
     }
-
-    TextBlockData *curData = static_cast<TextBlockData *>(currentBlockUserData());
-    if (curData && curData->openNests() != 0
-        && initialState != currentBlockState())
+}
+/*************************/
+// The bash quotes that should be skipped while multiline quotes are being highlighted.
+bool Highlighter::SH_SkipQuote (const QString &text, const int pos, bool isStartQuote)
+{
+    return (isEscapedQuote (text, pos, isStartQuote)
+            || format (pos) == neutralFormat // not needed
+            || format (pos) == commentFormat
+            || format (pos) == quoteFormat
+            || format (pos) == altQuoteFormat);
+}
+/*************************/
+// Should be used only with characters that can be escaped.
+bool Highlighter::SH_CharIsEscaped (const QString &text, const int pos)
+{
+    if (pos < 1) return false;
+    int i = 0;
+    while (pos - i >= 1
+           && pos - i - 1 == QRegExp ("\\\\").indexIn (text, pos - i - 1))
     {
-        return true;
+        ++i;
     }
+    if (i % 2 != 0)
+        return true;
     return false;
 }
 /*************************/
-// Bash single quote highlgihting inside command substitution variables $(...).
-void Highlighter::SH_SingleQuoteInsideCommand (const QString &text, int start, int end)
+// Highlight all comments inside command substitution variables appropriately.
+void Highlighter::SH_CommentsInsideCmnd (const QString &text, int start, int end)
 {
-    int index = start;
-    QRegExp quoteExpression = QRegExp ("\'");
+    QRegExp exp ("^#.*|\\s+#.*");
+    int comment = exp.indexIn (text, start);
+    while (comment != -1
+           /* skip quoted comments */
+           && (format (comment) == quoteFormat
+               || format (comment) == altQuoteFormat))
+    {
+        comment = exp.indexIn (text, comment + 1);
+    }
+    while (comment != -1 && (end == -1 ? comment < text.length() : comment < end))
+    {
+        int commentEnd = comment;
+        while ((end == -1 ? commentEnd <= text.length() : commentEnd < end)
+               && (commentEnd == text.length()
+                   || text.at (commentEnd) != ')' || SH_CharIsEscaped (text, commentEnd)))
+        {
+            ++ commentEnd;
+        }
+        singleLineComment (text, comment, commentEnd, true);
+        comment = commentEnd + 1;
+        while (comment != -1 && (format (comment) == quoteFormat
+                                 || format (comment) == altQuoteFormat))
+        {
+            comment = exp.indexIn (text, comment + 1);
+        }
+    }
+}
+/*************************/
+// This function highlights command substitution variables $(...).
+// It highlights code comments only inside their blocks (unlike Kate).
+bool Highlighter::SH_CmndSubstVar (const QString &text,
+                                   TextBlockData *currentBlockData,
+                                   int prevOpenNests)
+{
+    if (progLan != "sh" || !currentBlockData) return false;
+    if (currentBlockState() < -1 || currentBlockState() >= endState)
+        return (prevOpenNests != 0);
+
+    QRegExp exp = QRegExp ("\\$\\(|\\)|\\(|\"|\'");
+    QRegExp commetExp ("^#.*|\\s+#.*");
+    QRegExp quoteExpression;
     int N = 0;
+    int p = 0;
+    int indx = 0; int start = 0; int end = 0;
+    bool quoteFound = false;
+
     QTextBlock prevBlock = currentBlock().previous();
     if (prevBlock.isValid())
     {
@@ -151,88 +206,82 @@ void Highlighter::SH_SingleQuoteInsideCommand (const QString &text, int start, i
             N = prevData->openNests();
     }
 
-    if (N < 0)
-    { // the unclosed command of the previous block had an unclosed single quote
-        index = quoteExpression.indexIn (text, start);
-        while (isEscapedQuote (text, index, true))
-            index = quoteExpression.indexIn (text, index + 1);
-        setFormat (start,
-                   (index == -1 ? (end == -1 ? text.length() : end)
-                                : (end == -1 ? index + 1
-                                             : qMin (end, index) + 1)) - start,
-                   altQuoteFormat);
-        if (index == -1 || (end != -1 && index >= end))
-            return;
-        ++ index;
-    }
+    if (N > 0 && (previousBlockState() == SH_SingleQuoteState
+                  || previousBlockState() == SH_DoubleQuoteState))
+    { // there was an unclosed quote in the previous block
+        if (previousBlockState() == SH_SingleQuoteState)
+            quoteExpression = QRegExp ("\'");
+        else
+            quoteExpression = quoteMark;
 
-    index = quoteExpression.indexIn (text, index);
-    while (isEscapedQuote (text, index, true)
-           /* skip it if it's outside codes */
-           || (index != -1 && format (index) != neutralFormat))
-    {
-        index = quoteExpression.indexIn (text, index + 1);
-    }
-    while (index != -1 && (end == -1 || index < end))
-    {
-        int endIndex = quoteExpression.indexIn (text, index + 1);
-        while (isEscapedQuote (text, endIndex, true)
-               || (endIndex != -1 && format (endIndex) != neutralFormat))
+        end = quoteExpression.indexIn (text);
+        while (isEscapedQuote (text, end, false))
+            end = quoteExpression.indexIn (text, end + 1);
+        if (end == -1)
         {
-            endIndex = quoteExpression.indexIn (text, endIndex + 1);
-        }
-        setFormat (index,
-                   (endIndex == -1 ? (end == -1 ? text.length() : end)
-                                   : (end == -1 ? endIndex + 1
-                                                : qMin (end, endIndex) + 1)) - index,
-                   altQuoteFormat);
-        if (endIndex == -1 || (end != -1 && endIndex >= end))
-            return;
-        index = quoteExpression.indexIn (text, endIndex + 1);
-        while (isEscapedQuote (text, index, true)
-               || (index != -1 && format (index) != neutralFormat))
-        {
-            index = quoteExpression.indexIn (text, index + 1);
-        }
-    }
-}
-/*************************/
-// This function gives a preliminary, neutral format
-// to command substitution variables $(...) in order to
-// escape double quotes and highlight single quotes inside them.
-bool Highlighter::SH_quotedCommands (const QString &text,
-                                     TextBlockData *currentBlockData,
-                                     int prevOpenNests)
-{
-    if (progLan != "sh" || !currentBlockData) return false;
-
-    QTextCharFormat functionFormat;
-    functionFormat.setFontItalic (true);
-    functionFormat.setForeground (Blue);
-    QRegExp start = QRegExp ("\\$\\(");
-    int N = 0;
-    int singleQuotes = 0;
-    int p = 0;
-    int indx = 0;
-    QTextBlock prevBlock = currentBlock().previous();
-    if (prevBlock.isValid())
-    {
-        TextBlockData *prevData = static_cast<TextBlockData *>(prevBlock.userData());
-        if (prevData && (N = qAbs (prevData->openNests())) > 0)
-        {
-            if (prevData->openNests() < 0) // a previously unclosed single quote
-                singleQuotes = 1;
-
-            while (N > 0 && indx < text.length())
+            if (quoteExpression == quoteMark)
             {
-                if (text.at (indx) == '('
-                    && (indx == 0 || text.at (indx - 1) != '\\')) // not escaped
+                setFormat (0, text.length(), quoteFormat);
+                setCurrentBlockState (SH_DoubleQuoteState);
+            }
+            else
+            {
+                setFormat (0, text.length(), altQuoteFormat);
+                setCurrentBlockState (SH_SingleQuoteState);
+            }
+            if (N != 0)
+                currentBlockData->insertNestInfo (N);
+            return (N != prevOpenNests);
+        }
+        else
+        {
+            setFormat (0, end + 1, quoteExpression == quoteMark ? quoteFormat
+                                                                : altQuoteFormat);
+            start = indx = end + 1;
+        }
+    }
+    else if (N == 0) // a new search for code blocks
+    {
+        start = QRegExp ("\\$\\(").indexIn (text);
+        if (start == -1 || format (start) == commentFormat)
+            return (prevOpenNests != 0);
+        N = 1;
+        indx = start + 2;
+    }
+
+    while (indx < text.length()) // up to here, always N > 0
+    {
+        while (N > 0 && (indx = exp.indexIn (text, indx)) != -1)
+        {
+            while (format (indx) == commentFormat)
+                ++ indx;
+            if (indx == text.length())
+                break;
+            if (text.at (indx) == '\''
+                || text.at (indx) == '\"')
+            {
+                if (isEscapedQuote (text, indx, true))
                 {
-                    ++ p;
                     ++ indx;
+                    continue;
                 }
-                else if (text.at (indx) == ')'
-                         && (indx == 0 || text.at (indx - 1) != '\\'))
+                quoteFound = true;
+                break;
+            }
+            if (text.mid (indx, 2) == "$(")
+            {
+                ++ N;
+                indx += 2;
+            }
+            else if (text.at (indx) == '(')
+            {
+                if (!SH_CharIsEscaped (text, indx))
+                    ++ p;
+                ++ indx;
+            }
+            else if (text.at (indx) == ')')
+            {
+                if (!SH_CharIsEscaped (text, indx))
                 {
                     -- p;
                     if (p < 0)
@@ -240,110 +289,81 @@ bool Highlighter::SH_quotedCommands (const QString &text,
                         -- N;
                         p = 0;
                     }
-                    ++ indx;
                 }
-                else if (text.mid (indx, 2) == "$(")
-                {
-                    ++ N;
-                    indx += 2;
-                }
-                else
-                {
-                    if (text.at (indx) == '\''
-                        && (indx == 0 || text.at (indx - 1) != '\\'))
-                    {
-                        ++ singleQuotes;
-                    }
-                    ++ indx;
-                }
+                ++ indx;
             }
-            if (N < 0) N = 0;
-
-            if (indx > 0)
-            {
-                setFormat (0, indx, neutralFormat);
-                /* also highlight all comments appropriately */
-                int comment = QRegExp ("^#.*|\\s+#.*").indexIn (text, 0);
-                while (comment > -1 && comment < indx)
-                {
-                    int commentEnd = comment;
-                    while (commentEnd < indx && text.at (commentEnd) != ')')
-                        ++ commentEnd;
-                    singleLineComment (text, comment, commentEnd, true);
-                    comment = commentEnd + 1;
-                }
-            }
+            else ++ indx;
         }
-    }
-    indx = start.indexIn (text, indx);
-    while (indx >= 0)
-    {
-        ++ N;
+        if (N < 0) N = 0;
+        if (N == 0) -- indx;
 
-        int endIndx = indx + 2;
-        p = 0;
-        while (N > 0 && endIndx < text.length())
+        if (!quoteFound)
         {
-            if (text.at (endIndx) == '('
-                && (endIndx == 0 || text.at (endIndx - 1) != '\\'))
+            setFormat (start, (indx == -1 ? text.length() : indx + 1) - start , neutralFormat);
+            /* also highlight all comments appropriately */
+            SH_CommentsInsideCmnd (text, start, indx);
+            if (indx == -1) // N > 0
             {
-                ++ p;
-                ++ endIndx;
+                currentBlockData->insertNestInfo (N);
+                return (N != prevOpenNests);
             }
-            else if (text.at (endIndx) == ')'
-                     && (endIndx == 0 || text.at (endIndx - 1) != '\\'))
+            start = QRegExp ("\\$\\(").indexIn (text, indx + 1);
+            if (start == -1 || format (start) == commentFormat)
+                return (prevOpenNests != 0);
+            indx = start + 2;
+            N = 1;
+            continue;
+        }
+
+        /* a quote is found */
+        quoteFound = false;
+        setFormat (start, indx - start, neutralFormat);
+        /* see if this quote mark is commented out
+           (unfortunately, a backward search should be done) */
+        int lastComment = commetExp.lastIndexIn (text, indx + 1 - text.length());
+        if (lastComment > 0
+            && format (lastComment) != quoteFormat
+            && format (lastComment) != altQuoteFormat
+            && lastComment + commetExp.matchedLength() > indx)
+        {
+            indx = indx + 1;
+            continue;
+        }
+        if (text.at (indx) == '\'')
+            quoteExpression = QRegExp ("\'");
+        else
+            quoteExpression = quoteMark;
+        end = quoteExpression.indexIn (text, indx + 1);
+        while (isEscapedQuote (text, end, false))
+            end = quoteExpression.indexIn (text, end + 1);
+        if (end == -1)
+        {
+            if (quoteExpression == quoteMark)
             {
-                -- p;
-                if (p < 0)
-                {
-                    -- N;
-                    p = 0;
-                }
-                ++ endIndx;
-            }
-            else if (text.mid (endIndx, 2) == "$(")
-            {
-                ++ N;
-                endIndx += 2;
+                setFormat (indx, text.length() - indx, quoteFormat);
+                setCurrentBlockState (SH_DoubleQuoteState);
             }
             else
             {
-                if (text.at (endIndx) == '\''
-                    && (endIndx == 0 || text.at (endIndx - 1) != '\\'))
-                {
-                    ++ singleQuotes;
-                }
-                ++ endIndx;
-            };
+                setFormat (indx, text.length() - indx, altQuoteFormat);
+                setCurrentBlockState (SH_SingleQuoteState);
+            }
+            if (N != 0)
+                currentBlockData->insertNestInfo (N);
+            return (N != prevOpenNests);
         }
-        if (N < 0) N = 0;
-
-        int length = endIndx - indx;
-        setFormat (indx, length, neutralFormat);
-        /* highlight all comments */
-        int comment = QRegExp ("^#.*|\\s+#.*").indexIn (text, indx);
-        while (comment > -1 && comment < endIndx)
+        else
         {
-            int commentEnd = comment;
-            while (commentEnd < endIndx && text.at (commentEnd) != ')')
-                ++ commentEnd;
-            singleLineComment (text, comment, commentEnd, true);
-            comment = commentEnd + 1;
+            setFormat (indx, end + 1 - indx, quoteExpression == quoteMark ? quoteFormat
+                                                                          : altQuoteFormat);
+            start = indx = end + 1;
         }
-
-        indx = start.indexIn (text, endIndx);
     }
 
-    /* signal the existence of non-closed single quotes with a negative
-       number and consider all quotes closed when commands are closed */
     if (N != 0)
-        currentBlockData->insertNestInfo (singleQuotes % 2 == 0 ? N : -N);
-
+        currentBlockData->insertNestInfo (N);
     if (N != prevOpenNests)
-    {
-        /* since SH_MultiLineQuote() will force highlighting of the
-           next block ony if the current block has open quotes, next
-           block highlighting should also be forced here */
+    { // forced highlighting of the next block is necessary
         return true;
     }
     else return false;

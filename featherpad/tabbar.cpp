@@ -33,6 +33,7 @@ TabBar::TabBar (QWidget *parent)
     setElideMode (Qt::ElideMiddle); // works with minimumTabSizeHint()
     hideSingle_ = false;
     lock_ = false;
+    dragStarted_ = false; // not needed
 }
 /*************************/
 void TabBar::mousePressEvent (QMouseEvent *event)

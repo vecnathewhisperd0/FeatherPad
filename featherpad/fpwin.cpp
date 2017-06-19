@@ -2364,8 +2364,8 @@ void FPwin::tabSwitch (int index)
     ui->actionPaste->setEnabled (!readOnly);
     bool textIsSelected = textEdit->textCursor().hasSelection();
     ui->actionCopy->setEnabled (textIsSelected);
-    ui->actionCut->setEnabled (!readOnly & textIsSelected);
-    ui->actionDelete->setEnabled (!readOnly & textIsSelected);
+    ui->actionCut->setEnabled (!readOnly && textIsSelected);
+    ui->actionDelete->setEnabled (!readOnly && textIsSelected);
 
     if (isScriptLang (textEdit->getProg()) && QFileInfo (fname).isExecutable())
     {
