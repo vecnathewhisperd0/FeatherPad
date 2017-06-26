@@ -644,7 +644,7 @@
     <message>
         <location filename="../../fp.ui" line="785"/>
         <source>&amp;Windows-1252</source>
-        <translation>&amp;Vindozo-1252</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="796"/>
@@ -664,7 +664,7 @@
     <message>
         <location filename="../../fp.ui" line="884"/>
         <source>Ja&amp;panese (CP932)</source>
-        <translation>Ja&amp;pana (CP932)</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="903"/>
@@ -725,8 +725,8 @@
         <location filename="../../fpwin.cpp" line="74"/>
         <source>Calculate number of words
 (For huge texts, this may be CPU-intensive.)</source>
-        <translation>Подсчитайте количество слов 
-(для огромных текстов, возрастёт нагрузка на ЦПУ)</translation>
+        <translation>Подсчитать количество слов 
+(для огромных текстов возрастёт нагрузка на ЦПУ)</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="88"/>
@@ -1125,17 +1125,17 @@ KDE may have a bug that disables search and
 replace shortcuts with the iconless mode.
 
 Needs application restart to take effect.</source>
-        <translation>В главном окне и его меню нет значков.
+        <translation>Отключение иконок в главном окне и меню.
 
-У KDE может быть ошибка, которая отключает поиск и
-Замените ярлыки на режим без значка.
+У KDE может быть ошибка в виде отключения поиска и
+замены ярлыков в режиме без иконок.
 
 Требуется перезапуск приложения для вступления в силу.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="132"/>
         <source>&amp;Iconless mode</source>
-        <translation>&amp;Режим Iconless</translation>
+        <translation>&amp;Режим без иконок</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="146"/>
@@ -1181,10 +1181,10 @@ a menu button appears on the toolbar.</source>
 after the last tab is activated, and the same for Alt+Left.
 
 Tab navigation with mouse wheel is not affected.</source>
-        <translation>Это означает, что для LTR Alt + Right переходит на первую вкладку
-После активации последней вкладки и для Alt + Left.
+        <translation>Подразумевается, что сочетание Alt+Right перекинет
+на крайнюю левую вкладку с крайней правой, и наоборот для Alt+Left.
 
-Вкладка навигации с колесом мыши не влияет.</translation>
+На навигацию колесом мыши не повлияет.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="250"/>
@@ -1304,15 +1304,15 @@ Needs application restart to take effect.</source>
 tooltip and context menu of a single tab but you could not
 merge a single tabbed window into another one by tab drag-
 and-drop either.</source>
-        <translation>Если этот флажок установлен, вы потеряете не только 
-информационную подсказку и контекстное меню одной вкладки, 
-но вы не сможете объединить одно окно с вкладками в другое 
-с помощью перетаскивания вкладки..</translation>
+        <translation>Если этот флажок установлен, пропадут не только 
+подсказки и контекстное меню вкладки, 
+но и нельзя будет объединить одно окно с вкладками с другим 
+с помощью перетаскивания вкладки.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="227"/>
         <source>&amp;Do not show a single tab</source>
-        <translation>&amp;Не показывать ни одну вкладку</translation>
+        <translation>&amp;Не показывать единственную вкладку</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="238"/>
@@ -1332,7 +1332,7 @@ and-drop either.</source>
     <message>
         <location filename="../../predDialog.ui" line="260"/>
         <source>&amp;Wrap lines by default</source>
-        <translation>&amp;Выделение линий по-умолчанию</translation>
+        <translation>&amp;Выделение линий по умолчанию</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="374"/>
@@ -1364,16 +1364,16 @@ process could be killed by Ctrl+Alt+E.</source>
         <translation>Это включает только исполняемые файлы, 
 написанные на языках сценариев, таких как Shell и Python.
 
-Если он проверен и файл открыт, файл будет запущен,
-нажав кнопку «Запустить», которая появляется на 
-панели инструментов/меню файла, когда это необходимо, 
-или его комбинацией Ctrl + E. 
-Затем процесс можно &quot;убить&quot; Ctrl+Alt+E.</translation>
+Если это отмечено, и открытый файл исполняемый, то он будет запущен
+нажатием кнопки «Запустить», которая появляется на 
+панели инструментов в меню файла, когда потребуется, 
+или комбинацией Ctrl+E.
+Затем процесс можно завершить на Ctrl+Alt+E.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="340"/>
         <source>Needs window reopening to take effect.</source>
-        <translation>Требуется возобновление открытия окна.</translation>
+        <translation>Требуется ещё раз открыть окно.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="350"/>
@@ -1389,10 +1389,10 @@ Needs window reopening to take effect.</source>
         <translation>Значение цвета фона.
 255 означает белый, а 0 означает чёрный.
 
-Для светлого фона он может быть между 230 и 255; 
+Для светлого фона оно может быть между 230 и 255; 
 Для тёмного фона - от 0 до 50.
 
-Требуется возобновление открытия окна.</translation>
+Требуется ещё раз открыть окно.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="514"/>
@@ -1416,7 +1416,7 @@ Needs application restart to take effect.</source>
     <message>
         <location filename="../../predDialog.ui" line="267"/>
         <source>Auto-&amp;indent by default</source>
-        <translation>&amp;Автоматический отступ по умолчанию</translation>
+        <translation>&amp;Автоотступ по умолчанию</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="274"/>
@@ -1431,17 +1431,17 @@ Needs application restart to take effect.</source>
     <message>
         <location filename="../../predDialog.ui" line="304"/>
         <source>Never highlight syntax for files &gt; </source>
-        <translation>Никогда не выделяйте синтаксис для файлов &gt; </translation>
+        <translation>Никогда не выделять синтаксис для файлов &gt; </translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="343"/>
         <source>Dark c&amp;olor scheme</source>
-        <translation>&amp;Схема тёмного цвета</translation>
+        <translation>&amp;Тёмная цветовая схема</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="396"/>
         <source>Workaround for &amp;Qt5&apos;s scroll jump bug</source>
-        <translation>&amp;Обходное решение для ошибки перехода прокрутки Qt5</translation>
+        <translation>&amp;Устранение дёрганья при прокрутке на Qt5</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="426"/>
@@ -1464,14 +1464,14 @@ Needs application restart to take effect.</source>
         <source>The maximum number of recently modified or
 opened files FeatherPad should open with an
 empty startup of a session.</source>
-        <translation>Максимальное количество недавно изменённых 
-или открытых файлов FeatherPad должно 
-открываться с пустым запуском сеанса.</translation>
+        <translation>Открывать максимальное количество недавно изменённых 
+или открытых в FeatherPad файлов, 
+если при запуске не выбраны другие.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="485"/>
         <source>Start with recent files: </source>
-        <translation>Начните с последних файлов: </translation>
+        <translation>Начать с последних файлов: </translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="619"/>
@@ -1519,7 +1519,7 @@ empty startup of a session.</source>
     <message>
         <location filename="../../pref.cpp" line="654"/>
         <source>Recently &amp;Modified</source>
-        <translation>&amp;Недавно изменённый</translation>
+        <translation>&amp;Недавно изменённые</translation>
     </message>
 </context>
 <context>
@@ -1685,7 +1685,7 @@ empty startup of a session.</source>
     <message>
         <location filename="../../session.cpp" line="232"/>
         <source>&amp;OK</source>
-        <translation>&amp;Ok</translation>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../../session.cpp" line="251"/>
@@ -1705,7 +1705,7 @@ empty startup of a session.</source>
     <message>
         <location filename="../../session.cpp" line="264"/>
         <source>A session with the same name exists.&lt;br&gt;Do you want to overwrite it?</source>
-        <translation>Существует сессия с тем же именем.&lt;br&gt;Вы хотите перезаписать его?</translation>
+        <translation>Существует сессия с тем же именем.&lt;br&gt;Вы хотите перезаписать её?</translation>
     </message>
 </context>
 <context>
