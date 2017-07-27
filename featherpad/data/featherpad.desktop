@@ -1,9 +1,11 @@
 [Desktop Entry]
 Name=FeatherPad
 GenericName=Text Editor
+GenericName[da]=Tekstredigering
 GenericName[eo]=Tekst-Redaktilo
 GenericName[pl]=Edytor tekstu
 Comment=Lightweight Qt5 text editor
+Comment[da]=Letvægts Qt5-tekstredigering
 Comment[eo]=Malpeza tekst-redaktilo bazita sur Qt5
 Comment[pl]=Lekki edytor tekstu oparty na Qt5
 Exec=featherpad %F
