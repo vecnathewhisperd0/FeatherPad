@@ -8,7 +8,10 @@ V0.6.1
  * Added a warning-bar for non-prompt messages.
  * Added markdown to syntax highlighting (thanks to AcarBurak at GitHub).
  * Highlight the syntax of sh double quoted code distribution variables "$(...)".
- * Russian translation by Vladimir Sharonin.
+ * Russian translation by Vladimir Sharonin (Survolog at GitHub).
+ * Polish translation by Marcin Mikołajczak (m4sk1n at GitHub).
+ * Danish translation by scootergrisen at GitHub.
+ * Made translation support optional.
 
 V0.6.0
 ---------

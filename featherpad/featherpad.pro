@@ -65,12 +65,14 @@ unix:!macx: LIBS += -lX11
 
 unix {
   #TRANSLATIONS
-  TRANSLATIONS = $$system("find data/translations/ -name 'featherpad_*.ts'")
-  updateqm.input = TRANSLATIONS
-  updateqm.output = data/translations/translations/${QMAKE_FILE_BASE}.qm
-  updateqm.commands = $$[QT_INSTALL_BINS]/lrelease ${QMAKE_FILE_IN} -qm data/translations/translations/${QMAKE_FILE_BASE}.qm
-  updateqm.CONFIG += no_link target_predeps
-  QMAKE_EXTRA_COMPILERS += updateqm
+  exists($$[QT_INSTALL_BINS]/lrelease) {
+    TRANSLATIONS = $$system("find data/translations/ -name 'featherpad_*.ts'")
+    updateqm.input = TRANSLATIONS
+    updateqm.output = data/translations/translations/${QMAKE_FILE_BASE}.qm
+    updateqm.commands = $$[QT_INSTALL_BINS]/lrelease ${QMAKE_FILE_IN} -qm data/translations/translations/${QMAKE_FILE_BASE}.qm
+    updateqm.CONFIG += no_link target_predeps
+    QMAKE_EXTRA_COMPILERS += updateqm
+  }
 
   #VARIABLES
   isEmpty(PREFIX) {
