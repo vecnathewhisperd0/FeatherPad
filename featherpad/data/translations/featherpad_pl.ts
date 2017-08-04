@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="pl" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="pl">
 <context>
     <name>FeatherPad::FPwin</name>
     <message>
@@ -16,13 +18,14 @@
     <message>
         <location filename="../../fp.ui" line="57"/>
         <source>Go to line:</source>
-        <translation>Przejdź do linii:</translation>
+        <translation>Przejdź do wiersza:</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="93"/>
         <source>Select text from cursor to this line
 (Ctrl+Shift+J)</source>
-        <translation type="unfinished"/>
+        <translation>Zaznacz tekst od kursora do tego wiersza
+(Ctrl+Shift+J)</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="97"/>
@@ -416,7 +419,7 @@
     <message>
         <location filename="../../fp.ui" line="932"/>
         <source>Show/hide jump bar</source>
-        <translation type="unfinished"/>
+        <translation>Pokaż/ukryj pasek przechodzenia do linii</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="935"/>
@@ -561,7 +564,7 @@
     <message>
         <location filename="../../fp.ui" line="725"/>
         <source>Windows Arabic (&amp;CP1256)</source>
-        <translation type="unfinished"/>
+        <translation>Windows Arabic (&amp;CP1256)</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="733"/>
@@ -813,7 +816,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="531"/>
         <source>Please attend to that window or just close its dialog!</source>
-        <translation type="unfinished"/>
+        <translation>Przejdź do tego okna lub zamknij jego dialog!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="740"/>
@@ -888,7 +891,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="530"/>
         <source>Another FeatherPad window has a modal dialog!</source>
-        <translation type="unfinished"/>
+        <translation>Inne okno FeatherPad wyświetliło dialogowe okno modalne!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1177"/>
@@ -1106,13 +1109,13 @@
     <message>
         <location filename="../../predDialog.ui" line="52"/>
         <source>Start with this size: </source>
-        <translation>Rozpocznij z rozmiarem:</translation>
+        <translation>Rozpocznij z rozmiarem: </translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="65"/>
         <location filename="../../predDialog.ui" line="88"/>
         <source> px</source>
-        <translation>px</translation>
+        <translation> px</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="75"/>
@@ -1127,7 +1130,12 @@ KDE may have a bug that disables search and
 replace shortcuts with the iconless mode.
 
 Needs application restart to take effect.</source>
-        <translation type="unfinished"/>
+        <translation>Brak ikon w głównym oknie i jego menu.
+
+Błąd w KDE może skutkować niedziałającymi skrótami
+wyszukiwania i zastępowania w trybie bez ikon.
+
+Restart jest wymagany, aby uzyskać efekt.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="132"/>
@@ -1170,7 +1178,7 @@ przycisk menu pojawi się na pasku narzędzi.</translation>
     <message>
         <location filename="../../predDialog.ui" line="174"/>
         <source>Tab position: </source>
-        <translation>Położenie paska kart:</translation>
+        <translation>Położenie paska kart: </translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="185"/>
@@ -1198,12 +1206,12 @@ przycisk menu pojawi się na pasku narzędzi.</translation>
 after the last tab is activated, and the same for Alt+Left.
 
 Tab navigation with mouse wheel is not affected.</source>
-        <translation type="unfinished"/>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="214"/>
         <source>Tab navigation wraps &amp;around</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="250"/>
@@ -1218,7 +1226,7 @@ Tab navigation with mouse wheel is not affected.</source>
     <message>
         <location filename="../../predDialog.ui" line="304"/>
         <source>Never highlight syntax for files &gt; </source>
-        <translation>Nigdy nie podświetlaj składni w plikach &gt;</translation>
+        <translation>Nigdy nie podświetlaj składni w plikach &gt; </translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="381"/>
@@ -1255,12 +1263,12 @@ will be executed directly.
 If the script is not run in a terminal
 emulator, the output and error messages
 will be shown by a popup dialog.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="549"/>
         <source>Start with this command: </source>
-        <translation>Rozpocznij z komendą:</translation>
+        <translation>Rozpocznij z komendą: </translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="568"/>
@@ -1288,7 +1296,10 @@ will be shown by a popup dialog.</source>
 use system icons!
 
 Needs application restart to take effect.</source>
-        <translation type="unfinished"/>
+        <translation>Odznacz, jeżeli chcesz aby FeatherPad
+używał ikon systemowych!
+
+Restart jest wymagany, aby efekt był widoczny.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="117"/>
@@ -1301,7 +1312,9 @@ Needs application restart to take effect.</source>
 tooltip and context menu of a single tab but you could not
 merge a single tabbed window into another one by tab drag-
 and-drop either.</source>
-        <translation type="unfinished"/>
+        <translation>Jeżeli zaznaczone, utracisz menu kontekstowe pojedynczej
+karty i nie będziesz mógł przenieść dokumentu z jednokartowego
+okna do drugiego przeciągając kartę.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="227"/>
@@ -1346,23 +1359,24 @@ and-drop either.</source>
     <message>
         <location filename="../../predDialog.ui" line="374"/>
         <source>Background color value: </source>
-        <translation>Wartość koloru tła:</translation>
+        <translation>Wartość koloru tła: </translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="311"/>
         <source> MiB</source>
-        <translation>MiB</translation>
+        <translation> MiB</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="392"/>
         <source>This is not a complete fix but
 prevents annoying scroll jumps.</source>
-        <translation type="unfinished"/>
+        <translation>Nie jest to w pełni działająca poprawka,
+ale zapobiega irytującemu przeskakiwaniu przy przewijaniu.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="396"/>
         <source>Workaround for &amp;Qt5&apos;s scroll jump bug</source>
-        <translation type="unfinished"/>
+        <translation>Obejdź błąd przeskakiwania przy przewijaniu w &amp;Qt5</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="504"/>
@@ -1374,7 +1388,7 @@ executable, the file will be executed by clicking
 the Run button, that appears on the toolbar/filemenu
 when needed, or by its shortcut Ctrl+E. Then, the
 process could be killed by Ctrl+Alt+E.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="340"/>
@@ -1392,7 +1406,7 @@ between 230 and 255; for the dark
 background, between 0 and 50.
 
 Needs window reopening to take effect.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="514"/>
@@ -1407,12 +1421,16 @@ opened files FeatherPad shows. The default
 is 10.
 
 Needs application restart to take effect.</source>
-        <translation type="unfinished"/>
+        <translation>Maksymalna liczba ostatnio otwieranych plików
+wyświetlanych przez FeatherPad. Domyślna wartość
+to 10.
+
+Restart jest wymagany, aby uzyskać efekt.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="426"/>
         <source>Number of recent files: </source>
-        <translation>Liczba ostatnich plików:</translation>
+        <translation>Liczba ostatnich plików: </translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="480"/>
@@ -1420,12 +1438,13 @@ Needs application restart to take effect.</source>
         <source>The maximum number of recently modified or
 opened files FeatherPad should open with an
 empty startup of a session.</source>
-        <translation type="unfinished"/>
+        <translation>Maksymalna liczba ostatnio otwieranych plików
+uruchamianych po rozpoczęciu pustej sesji.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="485"/>
         <source>Start with recent files: </source>
-        <translation>Rozpocznij z ostatnimi plikami:</translation>
+        <translation>Rozpocznij z ostatnimi plikami: </translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="619"/>
@@ -1486,7 +1505,7 @@ empty startup of a session.</source>
     <message>
         <location filename="../../searchbar.cpp" line="48"/>
         <source>Match Case</source>
-        <translation type="unfinished"/>
+        <translation>Uwzględniaj wielkość znaków</translation>
     </message>
     <message>
         <location filename="../../searchbar.cpp" line="55"/>
@@ -1609,7 +1628,7 @@ empty startup of a session.</source>
     <message>
         <location filename="../../sessionDialog.ui" line="125"/>
         <source>Save the curent session under the given title.</source>
-        <translation type="unfinished"/>
+        <translation>Zapisz obecną sesję pod nadanym tytułem.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="128"/>
