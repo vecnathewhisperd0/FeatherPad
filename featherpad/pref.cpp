@@ -154,6 +154,9 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     ui->openedButton->setChecked (config.getRecentOpened());
     // no QButtonGroup connection because we want to see if we should clear the recent list at the end
 
+    ui->nativeDialogBox->setChecked (config.getNativeDialog());
+    connect (ui->nativeDialogBox, &QCheckBox::stateChanged, this, &PrefDialog::prefNativeDialog);
+
     connect (ui->closeButton, &QAbstractButton::clicked, this, &QDialog::close);
     connect (ui->helpButton, &QAbstractButton::clicked, this, &PrefDialog::showWhatsThis);
 
@@ -665,6 +668,16 @@ void PrefDialog::prefStartSize (int value)
     else if (QObject::sender() == ui->spinY)
         startSize.setHeight (value);
     config.setStartSize (startSize);
+}
+/*************************/
+void PrefDialog::prefNativeDialog (int checked)
+{
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    Config& config = singleton->getConfig();
+    if (checked == Qt::Checked)
+        config.setNativeDialog (true);
+    else if (checked == Qt::Unchecked)
+        config.setNativeDialog (false);
 }
 
 }

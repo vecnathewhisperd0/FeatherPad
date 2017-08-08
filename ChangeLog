@@ -12,6 +12,8 @@ V0.6.1
  * Polish translation by Marcin Mikołajczak (m4sk1n at GitHub).
  * Danish translation by scootergrisen at GitHub.
  * Made translation support optional.
+ * Warn the user about a previous crash.
+ * Added an option for native file dialogs.
 
 V0.6.0
 ---------

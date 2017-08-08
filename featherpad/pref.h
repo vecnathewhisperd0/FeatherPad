@@ -60,6 +60,7 @@ private slots:
     void prefCommand (QString command);
     void prefRecentFilesNumber (int value);
     void prefOpenRecentFile (int value);
+    void prefNativeDialog (int checked);
     void showWhatsThis();
 
 private:

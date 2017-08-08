@@ -43,7 +43,7 @@ public:
     Config& getConfig() {
         return config_;
     }
-    bool isX11() {
+    bool isX11() const {
       return isX11_;
     }
 
@@ -56,14 +56,15 @@ signals:
     void messageReceived (QString message);
 
 private:
-    bool _isRunning;
-    QString _uniqueKey;
+    bool isRunning_;
+    QString uniqueKey_;
     QSharedMemory sharedMemory;
     QLocalServer *localServer;
     static const int timeout = 1000;
     Config config_;
     QStringList lastFiles_;
     bool isX11_;
+    bool socketFailure_;
 };
 
 }

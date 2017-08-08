@@ -27,7 +27,7 @@
 namespace FeatherPad {
 
 FPsingleton::FPsingleton (int &argc, char *argv[], const QString uniqueKey)
-             : QApplication (argc, argv), _uniqueKey (uniqueKey)
+             : QApplication (argc, argv), uniqueKey_ (uniqueKey)
 {
   // For now, the lack of x11 is seen as wayland.
 #if defined Q_WS_X11 || defined Q_OS_LINUX || defined Q_OS_FREEBSD
@@ -40,32 +40,33 @@ FPsingleton::FPsingleton (int &argc, char *argv[], const QString uniqueKey)
     isX11_ = false;
 #endif
 
+    socketFailure_ = false;
     config_.readConfig();
     lastFiles_ = config_.getLastFiles();
     if (config_.getIconless())
         setAttribute (Qt::AA_DontShowIconsInMenus);
 
-    sharedMemory.setKey (_uniqueKey);
+    sharedMemory.setKey (uniqueKey_);
     if (sharedMemory.attach())
-        _isRunning = true;
+        isRunning_ = true;
     else
     {
-        _isRunning = false;
+        isRunning_ = false;
         // create shared memory
         if (!sharedMemory.create (1))
         {
-            qDebug ("Unable to create single instance.");
+            qDebug ("Unable to create a single instance.");
             return;
         }
         // create local server and listen to incomming messages from other instances
         localServer = new QLocalServer (this);
         connect (localServer, &QLocalServer::newConnection, this, &FPsingleton::receiveMessage);
-        if (!localServer->listen (_uniqueKey))
+        if (!localServer->listen (uniqueKey_))
         {
-            if (localServer->removeServer (_uniqueKey))
-                localServer->listen (_uniqueKey);
+            if (localServer->removeServer (uniqueKey_))
+                localServer->listen (uniqueKey_);
             else
-                qDebug ("Unable to remove server instance (from previous crash).");
+                qDebug ("Unable to remove server instance (from a previous crash).");
         }
     }
 }
@@ -91,18 +92,20 @@ void FPsingleton::receiveMessage()
 /*************************/
 bool FPsingleton::sendMessage (const QString &message)
 {
-    if (!_isRunning)
+    if (!isRunning_)
         return false;
     QLocalSocket localSocket (this);
-    localSocket.connectToServer (_uniqueKey, QIODevice::WriteOnly);
+    localSocket.connectToServer (uniqueKey_, QIODevice::WriteOnly);
     if (!localSocket.waitForConnected (timeout))
     {
+        socketFailure_ = true;
         qDebug ("%s", (const char *) localSocket.errorString().toLatin1());
         return false;
     }
     localSocket.write (message.toUtf8());
     if (!localSocket.waitForBytesWritten (timeout))
     {
+        socketFailure_ = true;
         qDebug ("%s", (const char *) localSocket.errorString().toLatin1());
         return false;
     }
@@ -114,6 +117,8 @@ FPwin* FPsingleton::newWin (const QString& message)
 {
     FPwin *fp = new FPwin;
     fp->show();
+    if (socketFailure_)
+        fp->showCrashWarning();
     Wins.append (fp);
 
     /* open all files in new tabs ("\n\r" was used as the splitter) */

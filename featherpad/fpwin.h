@@ -75,6 +75,8 @@ public:
         return false;
     }
 
+    void showCrashWarning();
+
 signals:
     void finishedLoading();
 

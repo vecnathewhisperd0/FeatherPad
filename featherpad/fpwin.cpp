@@ -1668,6 +1668,14 @@ void FPwin::showWarningBar (const QString& message)
     connect (bar, &WarningBar::closeButtonPressed, [=]{ui->verticalLayout->removeWidget(bar); bar->deleteLater();});
 }
 /*************************/
+void FPwin::showCrashWarning()
+{
+    QTimer::singleShot (0, [=]() {
+        this->showWarningBar ("<center><b><big>" + tr ("A previous crash detected!") + "</big></b></center>"
+                              + "<center><i>" +tr ("Preferably, close all FeatherPad windows and start again!") + "</i></center>");
+    });
+}
+/*************************/
 void FPwin::closeWarningBar()
 {
     if (QLayoutItem *item = ui->verticalLayout->itemAt (2))
@@ -1749,7 +1757,7 @@ void FPwin::fileOpen()
         /* if relevant, do filtering to make opening of similar files easier */
         filter = tr ("All Files (*);;.%1 Files (*.%1)").arg (fname.section ('.', -1, -1));
     }
-    FileDialog dialog (this);
+    FileDialog dialog (this, static_cast<FPsingleton*>(qApp)->getConfig().getNativeDialog());
     dialog.setAcceptMode (QFileDialog::AcceptOpen);
     dialog.setWindowTitle (tr ("Open file..."));
     dialog.setFileMode (QFileDialog::ExistingFiles);
@@ -1873,6 +1881,8 @@ bool FPwin::saveFile (bool keepSyntax)
         filter = tr (".%1 Files (*.%1);;All Files (*)").arg (fname.section ('.', -1, -1));
     }
 
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+
     if (fname.isEmpty()
         || !QFile::exists (fname)
         || textEdit->getFileName().isEmpty())
@@ -1913,7 +1923,7 @@ bool FPwin::saveFile (bool keepSyntax)
         {
             if (hasAnotherDialog()) return false;
             disableShortcuts (true);
-            FileDialog dialog (this);
+            FileDialog dialog (this, config.getNativeDialog());
             dialog.setAcceptMode (QFileDialog::AcceptSave);
             dialog.setWindowTitle (tr ("Save as..."));
             dialog.setFileMode (QFileDialog::AnyFile);
@@ -1944,7 +1954,7 @@ bool FPwin::saveFile (bool keepSyntax)
     {
         if (hasAnotherDialog()) return false;
         disableShortcuts (true);
-        FileDialog dialog (this);
+        FileDialog dialog (this, config.getNativeDialog());
         dialog.setAcceptMode (QFileDialog::AcceptSave);
         dialog.setWindowTitle (tr ("Save as..."));
         dialog.setFileMode (QFileDialog::AnyFile);
@@ -1973,7 +1983,7 @@ bool FPwin::saveFile (bool keepSyntax)
     {
         if (hasAnotherDialog()) return false;
         disableShortcuts (true);
-        FileDialog dialog (this);
+        FileDialog dialog (this, config.getNativeDialog());
         dialog.setAcceptMode (QFileDialog::AcceptSave);
         dialog.setWindowTitle (tr ("Keep encoding and save as..."));
         dialog.setFileMode (QFileDialog::AnyFile);
@@ -1999,7 +2009,6 @@ bool FPwin::saveFile (bool keepSyntax)
         disableShortcuts (false);
     }
 
-    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
     if (config.getAppendEmptyLine()
         && !textEdit->document()->lastBlock().text().isEmpty())
     {
