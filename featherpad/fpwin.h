@@ -204,6 +204,7 @@ private:
     void displayMessage (bool error);
     void showWarningBar (const QString& message);
     void closeWarningBar();
+    void disconnectLambda();
 
     QActionGroup *aGroup_;
     QString lastFile_; // The last opened or saved file (for file dialogs).
@@ -212,6 +213,7 @@ private:
     int loadingProcesses_; // The number of loading processes (used to prevent early closing).
     QPointer<QThread> busyThread_; // Used to wait one second for making the cursor busy.
     ICONMODE iconMode_; // Used only internally.
+    QMetaObject::Connection lambdaConnection_; // Captures a lambda connection to disconnect it later.
 };
 
 }

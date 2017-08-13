@@ -29,6 +29,7 @@
 #include <QPrintDialog>
 #include <QToolTip>
 #include <QDesktopWidget>
+#include <QScrollBar>
 #include <fstream> // std::ofstream
 #include <QPrinter>
 
@@ -1519,10 +1520,16 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
 
     /* we want to restore the cursor later */
     int pos = 0, anchor = 0;
+    int scrollbarValue = -1;
     if (reload)
     {
         pos = textEdit->textCursor().position();
         anchor = textEdit->textCursor().anchor();
+        if (QScrollBar *scrollbar = textEdit->verticalScrollBar())
+        {
+            if (scrollbar->isVisible())
+                scrollbarValue = scrollbar->value();
+        }
     }
 
     /* set the text */
@@ -1648,8 +1655,25 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
         unbusy();
         ui->tabWidget->tabBar()->lockTabs (false);
         disableShortcuts (false, false);
+        if (reload && scrollbarValue > -1)
+        { // restore the scrollbar position
+            lambdaConnection_ = QObject::connect (this, &FPwin::finishedLoading,
+                                                  [this, textEdit, scrollbarValue]() {
+                if (QScrollBar *scrollbar = textEdit->verticalScrollBar())
+                {
+                    if (scrollbar->isVisible())
+                        scrollbar->setValue (scrollbarValue);
+                }
+                disconnectLambda();
+            });
+        }
         emit finishedLoading();
     }
+}
+/*************************/
+void FPwin::disconnectLambda()
+{
+    QObject::disconnect(lambdaConnection_);
 }
 /*************************/
 void FPwin::onOpeningHugeFiles()
