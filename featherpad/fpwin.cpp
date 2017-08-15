@@ -1894,7 +1894,8 @@ bool FPwin::saveFile (bool keepSyntax)
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return false;
 
-    TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
+    TextEdit *textEdit = tabPage->textEdit();
     QString fname = textEdit->getFileName();
     if (fname.isEmpty()) fname = lastFile_;
     QString filter = tr ("All Files (*)");
@@ -2211,7 +2212,7 @@ bool FPwin::saveFile (bool keepSyntax)
                         + "<center><i>" + QString ("<center><i>%1.</i></center>").arg (str) + "<i/></center>");
     }
 
-    if (success && textEdit->getProg() == "help")
+    if (success && textEdit->isReadOnly() && !alreadyOpen (tabPage))
          QTimer::singleShot (0, this, SLOT (makeEditable()));
 
     return success;
