@@ -148,6 +148,9 @@ private:
     {
         commentState = 1,
 
+        /* Next-line commnets (ending back-slash in c/c++): */
+        nextLineCommentState,
+
         /* Quotation marks: */
         doubleQuoteState,
         singleQuoteState,
@@ -183,7 +186,7 @@ private:
         commentInCssState,
         cssValueState,
 
-        endState // 21
+        endState // 24
 
         /* For here-docs, state >= endState or state < -1. */
     };

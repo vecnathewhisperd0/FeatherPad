@@ -15,6 +15,7 @@ V0.6.1
  * Warn the user about a previous crash.
  * Added an option for native file dialogs.
  * Restore the scrollbar position, in addition to the cursor, on reloading.
+ * Consider "next-line" comments (with an ending back-slash) in c/c++.
 
 V0.6.0
 ---------

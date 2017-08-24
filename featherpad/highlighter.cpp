@@ -914,6 +914,9 @@ bool Highlighter::isMLCommented (const QString &text, const int index)
     if (index < 0 || commentStartExpression.isEmpty())
         return false;
 
+    if (previousBlockState() == nextLineCommentState)
+        return true; // see singleLineComment()
+
     bool res = false;
     int pos = -1;
     int N;
@@ -1281,7 +1284,7 @@ int Highlighter::cssHighlighter (const QString &text)
     return cssIndx;
 }
 /*************************/
-// "canBeQuoted" is used with comments in double quoted bash commands.
+// "canBeQuoted" and "end" are used with comments in double quoted bash commands.
 void Highlighter::singleLineComment (const QString &text, int start, int end, bool canBeQuoted)
 {
     QRegExp urlPattern = QRegExp ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
@@ -1300,7 +1303,10 @@ void Highlighter::singleLineComment (const QString &text, int start, int end, bo
                 end = QRegExp ("</script\\s*>").indexIn (text, start);
             if (end == -1) end = text.length();
             QRegExp expression (rule.pattern);
-            start = expression.indexIn (text, start);
+            if (previousBlockState() == nextLineCommentState)
+                start = 0;
+            else
+                start = expression.indexIn (text, start);
             if (start >= 0 && start < end
                 && (canBeQuoted || !isQuoted (text, start)))
             {
@@ -1324,6 +1330,15 @@ void Highlighter::singleLineComment (const QString &text, int start, int end, bo
                       setFormat (pIndex + start, ml, noteFormat);
                     indx = indx + ml;
                 }
+                /* take care of next-line comments with languages, for which
+                   no highlighting function is called after singleLineComment()
+                   and before the main formaatting in highlightBlock()
+                   (only c and c++ for now) */
+                if ((progLan == "c" || progLan == "cpp")
+                    && text.endsWith (QLatin1Char('\\')))
+                {
+                    setCurrentBlockState (nextLineCommentState);
+                }
             }
             break;
         }
@@ -1336,6 +1351,9 @@ void Highlighter::multiLineComment (const QString &text,
                                     int commState,
                                     QTextCharFormat comFormat)
 {
+    if (previousBlockState() == nextLineCommentState)
+        return;  // was processed by singleLineComment()
+
     bool commentBeforeBrace = false; // in css, not as: "{...
     QRegExp urlPattern = QRegExp ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
     QRegExp notePattern = QRegExp ("\\b(NOTE|TODO|FIXME|WARNING)\\b");
@@ -1476,6 +1494,14 @@ void Highlighter::multiLineComment (const QString &text,
         {
             index = commentStartExp.indexIn (text, index + 1);
         }
+    }
+
+    /* reset the block state if this line created a next-line comment
+       whose starting single-line comment sign is commented out now */
+    if (currentBlockState() == nextLineCommentState
+        && format (text.size() - 1) != commentFormat)
+    {
+        setCurrentBlockState (0);
     }
 }
 /*************************/
