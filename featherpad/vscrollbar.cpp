@@ -33,8 +33,13 @@ bool VScrollBar::event (QEvent *event)
 {
     if (event->type() == QEvent::Enter)
         QApplication::setWheelScrollLines (102);
-    else if (event->type() == QEvent::Leave)
+    else if (event->type() == QEvent::Leave
+             /* Apparently, the Qt5 hover bug is never going to be fixed! */
+             || (QApplication::wheelScrollLines() != defaultWheelSpeed
+                 && !rect().contains (mapFromGlobal (QCursor::pos()))))
+    {
         QApplication::setWheelScrollLines (defaultWheelSpeed);
+    }
 
     return QScrollBar::event (event);
 }

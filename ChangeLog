@@ -16,6 +16,7 @@ V0.6.1
  * Added an option for native file dialogs.
  * Restore the scrollbar position, in addition to the cursor, on reloading.
  * Consider "next-line" comments (with an ending back-slash) in c/c++.
+ * Workaround for "the hover bug" in Qt5 (will it ever be fixed?!).
 
 V0.6.0
 ---------
