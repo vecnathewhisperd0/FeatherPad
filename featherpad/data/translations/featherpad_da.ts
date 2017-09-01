@@ -922,12 +922,12 @@
     <message>
         <location filename="../../fpwin.cpp" line="1698"/>
         <source>A previous crash detected!</source>
-        <translation type="unfinished"></translation>
+        <translation>Et tidligere nedbrud er registreret!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1699"/>
         <source>Preferably, close all FeatherPad windows and start again!</source>
-        <translation type="unfinished"></translation>
+        <translation>Luk helst alle FeatherPad-vinduer og start igen!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1777"/>
@@ -1232,12 +1232,15 @@ Fanebladsnavigation med musehjul påvirkes ikke.</translation>
 desktop environment will be used instead of the Qt file dialog.
 
 Some desktop environments, like KDE and LXQt, provide files dialogs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hvis den er valgt til, bruges fildialogen som leveres af det nuværende
+skrivebordsmiljø i stedet for Qt-fildialogen.
+
+Nogle skrivebordsmiljøer, såsom KDE og LXQt leverer fildialoger.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="240"/>
         <source>Native file dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Indbygget fildialog</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="263"/>
@@ -1428,7 +1431,7 @@ process could be killed by Ctrl+Alt+E.</source>
         <translation>Dette inkludere eksekverbare filer som er
 skrevet i script-sprog såsom Shell og Python.
 
-Hvis den er valgt til og den åbnede fil er
+Hvis den er valgt til, og den åbnede fil er
 eksekverbar, så vil filen blive eksekveret når der klikkes
 på Kør-knappen, som vises på værktøjslinjen/filmenuen
 når det er nødvendigt, eller med dens genvej Ctrl+E. Så kan
