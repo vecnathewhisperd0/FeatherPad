@@ -922,12 +922,12 @@
     <message>
         <location filename="../../fpwin.cpp" line="1698"/>
         <source>A previous crash detected!</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykryto wcześniejsze zatrzymanie aplikacji!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1699"/>
         <source>Preferably, close all FeatherPad windows and start again!</source>
-        <translation type="unfinished"></translation>
+        <translation>Zalecane jest zamknięcie wszystkich okien FeatherPad i ponowne uruchomienie programu!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1777"/>
@@ -1216,7 +1216,7 @@ przycisk menu pojawi się na pasku narzędzi.</translation>
 after the last tab is activated, and the same for Alt+Left.
 
 Tab navigation with mouse wheel is not affected.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="214"/>
@@ -1229,12 +1229,15 @@ Tab navigation with mouse wheel is not affected.</source>
 desktop environment will be used instead of the Qt file dialog.
 
 Some desktop environments, like KDE and LXQt, provide files dialogs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeżeli zaznaczone, zamiast okien dialogowych Qt, zostaną
+użyte dostarczone przez używane środowisko graficzne.
+
+Niektóre środowiska, np. KDE i LXQt dostarczają własne okna dialogowe.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="240"/>
         <source>Native file dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Natywne okna dialogowe</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="263"/>
