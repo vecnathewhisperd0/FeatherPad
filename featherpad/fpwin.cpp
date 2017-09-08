@@ -546,6 +546,7 @@ void FPwin::deleteTabPage (int index)
     {
         disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
         disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
+        disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::formatOnTextChange);
         disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
         disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
         textEdit->setHighlighter (nullptr); // for consistency
@@ -1560,6 +1561,7 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
         {
             disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
             disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
+            disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::formatOnTextChange);
             disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
             disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
 
@@ -2147,6 +2149,7 @@ bool FPwin::saveFile (bool keepSyntax)
                 {
                     disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
                     disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
+                    disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::formatOnTextChange);
                     disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
                     disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
 
@@ -3029,6 +3032,7 @@ void FPwin::detachTab()
     disconnect (textEdit, &TextEdit::fileDropped, this, &FPwin::newTabFromName);
     disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
     disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
+    disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::formatOnTextChange);
     disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
     disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
 
@@ -3156,6 +3160,7 @@ void FPwin::detachTab()
         dropTarget->matchBrackets();
         connect (textEdit, &QPlainTextEdit::cursorPositionChanged, dropTarget, &FPwin::matchBrackets);
         connect (textEdit, &QPlainTextEdit::blockCountChanged, dropTarget, &FPwin::formatOnBlockChange);
+        connect (textEdit, &QPlainTextEdit::textChanged, dropTarget, &FPwin::formatOnTextChange);
         connect (textEdit, &TextEdit::updateRect, dropTarget, &FPwin::formatVisibleText);
         connect (textEdit, &TextEdit::resized, dropTarget, &FPwin::formatOnResizing);
     }
@@ -3225,6 +3230,7 @@ void FPwin::dropTab (QString str)
     disconnect (textEdit, &TextEdit::fileDropped, dragSource, &FPwin::newTabFromName);
     disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, dragSource, &FPwin::matchBrackets);
     disconnect (textEdit, &QPlainTextEdit::blockCountChanged, dragSource, &FPwin::formatOnBlockChange);
+    disconnect (textEdit, &QPlainTextEdit::textChanged, dragSource, &FPwin::formatOnTextChange);
     disconnect (textEdit, &TextEdit::updateRect, dragSource, &FPwin::formatVisibleText);
     disconnect (textEdit, &TextEdit::resized, dragSource, &FPwin::formatOnResizing);
 
@@ -3368,6 +3374,7 @@ void FPwin::dropTab (QString str)
         matchBrackets();
         connect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
         connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
+        connect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::formatOnTextChange);
         connect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
         connect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
     }

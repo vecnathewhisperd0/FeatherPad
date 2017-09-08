@@ -121,6 +121,7 @@ private slots:
     void showLN (bool checked);
     void toggleSyntaxHighlighting();
     void formatOnBlockChange (int) const;
+    void formatOnTextChange() const;
     void formatVisibleText (const QRect &rect, int dy) const;
     void formatOnResizing() const;
     void toggleWrapping();

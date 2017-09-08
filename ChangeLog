@@ -17,6 +17,7 @@ V0.6.1
  * Restore the scrollbar position, in addition to the cursor, on reloading.
  * Consider "next-line" comments (with an ending back-slash) in c/c++.
  * Workaround for "the hover bug" in Qt5 (will it ever be fixed?!).
+ * Highlight the syntax on text change too (because otherwise, the text won't be formatted if the whole visible text is pasted).
 
 V0.6.0
 ---------
