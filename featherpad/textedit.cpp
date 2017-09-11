@@ -48,6 +48,7 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
         else if (qGray (p.color (QPalette::Inactive, QPalette::Highlight).rgb()) - lineHGray < 30)
         { // also check the inactive highlight color
             p.setColor (QPalette::Inactive, QPalette::Highlight, p.highlight().color());
+            p.setColor (QPalette::Inactive, QPalette::HighlightedText, p.highlightedText().color());
             setPalette (p);
         }
     }
@@ -69,6 +70,7 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
         else if (lineHGray - qGray (p.color (QPalette::Inactive, QPalette::Highlight).rgb()) < 30)
         {
             p.setColor (QPalette::Inactive, QPalette::Highlight, p.highlight().color());
+            p.setColor (QPalette::Inactive, QPalette::HighlightedText, p.highlightedText().color());
             setPalette (p);
         }
     }
