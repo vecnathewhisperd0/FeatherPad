@@ -31,6 +31,7 @@ Config::Config():
     remFont_ (true),
     wrapByDefault_ (true),
     indentByDefault_ (true),
+    autoBracket_ (false),
     lineByDefault_ (false),
     syntaxByDefault_ (true),
     isMaxed_ (false),
@@ -136,6 +137,9 @@ void Config::readConfig()
     if (settings.value ("noIndent").toBool())
         indentByDefault_ = false; // true by default
 
+    if (settings.value ("autoBracket").toBool())
+        autoBracket_ = true; // false by default
+
     if (settings.value ("lineNumbers").toBool())
         lineByDefault_ = true; // false by default
 
@@ -229,6 +233,7 @@ void Config::writeConfig()
 
     settings.setValue ("noWrap", !wrapByDefault_);
     settings.setValue ("noIndent", !indentByDefault_);
+    settings.setValue ("autoBracket", autoBracket_);
     settings.setValue ("lineNumbers", lineByDefault_);
     settings.setValue ("noSyntaxHighlighting", !syntaxByDefault_);
     settings.setValue ("darkColorScheme", darkColScheme_);

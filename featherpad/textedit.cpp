@@ -23,6 +23,7 @@ namespace FeatherPad {
 TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
 {
     autoIndentation = true;
+    autoBracket = false;
     scrollJumpWorkaround = false;
 
     /* set the backgound color and ensure enough contrast
@@ -202,18 +203,71 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
         return;
     }
 
-    if (autoIndentation && (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter))
+    if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter)
     {
-        /* first get the current cursor for computing the indentation */
-        QTextCursor start = textCursor();
-        QString indent = computeIndentation (start);
-        /* then press Enter normally... */
-        QPlainTextEdit::keyPressEvent (event);
-        /* ... and insert indentation */
-        start = textCursor();
-        start.insertText (indent);
-        event->accept();
-        return;
+        if (autoIndentation)
+        {
+            /* first get the current cursor for computing the indentation */
+            QTextCursor start = textCursor();
+            QString indent = computeIndentation (start);
+            /* then press Enter normally... */
+            QPlainTextEdit::keyPressEvent (event);
+            /* ... and insert indentation */
+            start = textCursor();
+            start.insertText (indent);
+            event->accept();
+            return;
+        }
+    }
+    else if (event->key() == Qt::Key_ParenLeft
+             || event->key() == Qt::Key_BraceLeft
+             || event->key() == Qt::Key_BracketLeft
+             || event->key() == Qt::Key_QuoteDbl
+             || event->key() == Qt::Key_Apostrophe)
+    {
+        if (autoBracket)
+        {
+            QTextCursor cursor = textCursor();
+            bool autoB (false);
+            if (!cursor.hasSelection())
+            {
+                if (cursor.atBlockEnd())
+                    autoB = true;
+                else
+                {
+                    QTextCursor tmp = cursor;
+                    tmp.movePosition (QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
+                    if (!tmp.selectedText().at (0).isLetterOrNumber())
+                        autoB = true;
+                }
+            }
+            else if (cursor.position() == cursor.selectionStart())
+                autoB = true;
+            if (autoB)
+            {
+                QString str = cursor.selectedText();
+                int pos = cursor.position();
+                int anch = cursor.anchor();
+                cursor.beginEditBlock();
+                if (event->key() == Qt::Key_ParenLeft)
+                    cursor.insertText ("(" + str + ")");
+                else if (event->key() == Qt::Key_BraceLeft)
+                    cursor.insertText ("{" + str + "}");
+                else if (event->key() == Qt::Key_BracketLeft)
+                    cursor.insertText ("[" + str + "]");
+                else if (event->key() == Qt::Key_QuoteDbl)
+                    cursor.insertText ("\"" + str + "\"");
+                else// if (event->key() == Qt::Key_Apostrophe)
+                    cursor.insertText ("\'" + str + "\'");
+                /* select the text and set the cursor at its start */
+                cursor.setPosition (anch + 1, QTextCursor::MoveAnchor);
+                cursor.setPosition (pos + 1, QTextCursor::KeepAnchor);
+                setTextCursor (cursor);
+                cursor.endEditBlock();
+                event->accept();
+                return;
+            }
+        }
     }
     else if (event->key() == Qt::Key_Left || event->key() == Qt::Key_Right)
     {

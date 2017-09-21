@@ -204,6 +204,13 @@ public:
         indentByDefault_ = indent;
     }
 
+    bool getAutoBracket() const {
+        return autoBracket_;
+    }
+    void setAutoBracket (bool autoB) {
+        autoBracket_ = autoB;
+    }
+
     bool getLineByDefault() const {
         return lineByDefault_;
     }
@@ -285,7 +292,7 @@ public:
 
 private:
     bool remSize_, iconless_, sysIcon_, noToolbar_, noMenubar_, hideSearchbar_, showStatusbar_, remFont_, wrapByDefault_,
-         indentByDefault_, lineByDefault_, syntaxByDefault_, isMaxed_, isFull_, darkColScheme_,
+         indentByDefault_, autoBracket_, lineByDefault_, syntaxByDefault_, isMaxed_, isFull_, darkColScheme_,
          tabWrapAround_, hideSingleTab_, executeScripts_, appendEmptyLine_, nativeDialog_,
          scrollJumpWorkaround_; // Should a workaround for Qt5's "scroll jump" bug be applied?
     int tabPosition_, maxSHSize_, lightBgColorValue_, darkBgColorValue_, recentFilesNumber_;

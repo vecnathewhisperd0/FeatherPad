@@ -55,6 +55,10 @@ public:
         return autoIndentation;
     }
 
+    void setAutoBracket (bool autoB) {
+        autoBracket = autoB;
+    }
+
     bool hasDarkScheme() const {
         return darkScheme;
     }
@@ -183,6 +187,7 @@ private:
     QWidget *lineNumberArea;
     QTextEdit::ExtraSelection currentLine;
     bool autoIndentation;
+    bool autoBracket;
     bool scrollJumpWorkaround; // for working around Qt5's scroll jump bug
     bool darkScheme;
     QColor lineHColor;

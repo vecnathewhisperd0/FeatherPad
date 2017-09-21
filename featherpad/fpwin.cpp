@@ -943,6 +943,7 @@ TabPage* FPwin::createEmptyTab (bool setCurrent)
                                                               : config.getLightBgColorValue(),
                                     nullptr);
     TextEdit *textEdit = tabPage->textEdit();
+    textEdit->setAutoBracket (config.getAutoBracket());
     textEdit->setScrollJumpWorkaround (config.getScrollJumpWorkaround());
     textEdit->document()->setDefaultFont (config.getFont());
     /* we want consistent tabs */
