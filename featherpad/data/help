@@ -69,6 +69,12 @@ The status bar shows some information about the opened file and can be toggled w
 
 For fast scrolling, put the cursor on the scrollbar. If it is on the text, the scrolling speed will be normal.
 
+********************
+*   Text Tabbing   *
+********************
+
+The (selected multi-line) text can be tabbed by the Tab key and untabbed by Shift+Tab. If Ctrl+Tab is used, the tabulation will be done by 4 spaces instead of a tab. With Ctrl+Meta+Tab, the text will be tabbed by 2 spaces.
+
 *********************************
 *   Useful Keyboard Shortcuts   *
 *********************************
@@ -112,5 +118,7 @@ Reset zooming:                 Ctrl+0
 Change text alignment:         Ctrl+Shift+A (for RTL languages)
 Execute this file:             Ctrl+E (only if this is enabled in Preferences)
 Exit (kill) process:           Ctrl+Alt+E (exits the above process immediately)
+4-space text tabulation:       Ctrl+Tab
+2-space text tabulation:       Ctrl+Meta+Tab
 
 The remaining shortcuts are standard. All shortcuts, except for the extra ones above, can be found on menus or as tooltips.

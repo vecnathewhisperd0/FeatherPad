@@ -3,6 +3,7 @@ V0.6.1
  * Improved encoding detection.
  * Always open non-text files as UTF-8 (and detect UTF-16 and UTF-32 better).
  * Multiple-line indentation with Tab and de-indentation BackTab (Shift+Tab).
+ * Ctrl+Tab for a 4-space tabulation and Ctrl+Meta+Tab for a 2-space one.
  * Middle-click closes the tab.
  * Don't open files > 500 MiB.
  * Added a warning-bar for non-prompt messages.

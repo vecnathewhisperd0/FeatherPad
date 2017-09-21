@@ -245,20 +245,20 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                 autoB = true;
             if (autoB)
             {
-                QString str = cursor.selectedText();
+                QString selTxt = cursor.selectedText();
                 int pos = cursor.position();
                 int anch = cursor.anchor();
                 cursor.beginEditBlock();
                 if (event->key() == Qt::Key_ParenLeft)
-                    cursor.insertText ("(" + str + ")");
+                    cursor.insertText ("(" + selTxt + ")");
                 else if (event->key() == Qt::Key_BraceLeft)
-                    cursor.insertText ("{" + str + "}");
+                    cursor.insertText ("{" + selTxt + "}");
                 else if (event->key() == Qt::Key_BracketLeft)
-                    cursor.insertText ("[" + str + "]");
+                    cursor.insertText ("[" + selTxt + "]");
                 else if (event->key() == Qt::Key_QuoteDbl)
-                    cursor.insertText ("\"" + str + "\"");
+                    cursor.insertText ("\"" + selTxt + "\"");
                 else// if (event->key() == Qt::Key_Apostrophe)
-                    cursor.insertText ("\'" + str + "\'");
+                    cursor.insertText ("\'" + selTxt + "\'");
                 /* select the text and set the cursor at its start */
                 cursor.setPosition (anch + 1, QTextCursor::MoveAnchor);
                 cursor.setPosition (pos + 1, QTextCursor::KeepAnchor);
@@ -276,17 +276,17 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
         QTextCursor cursor = textCursor();
         if (event->modifiers() == Qt::NoModifier && cursor.hasSelection())
         {
-            QString str = cursor.selectedText();
+            QString selTxt = cursor.selectedText();
             if (event->key() == Qt::Key_Left)
             {
-                if (str.isRightToLeft())
+                if (selTxt.isRightToLeft())
                     cursor.setPosition (cursor.selectionEnd());
                 else
                     cursor.setPosition (cursor.selectionStart());
             }
             else
             {
-                if (str.isRightToLeft())
+                if (selTxt.isRightToLeft())
                     cursor.setPosition (cursor.selectionStart());
                 else
                     cursor.setPosition (cursor.selectionEnd());
@@ -311,11 +311,28 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
             cursor.movePosition (QTextCursor::StartOfBlock);
             for (int i = 0; i <= newLines; ++i)
             {
-                cursor.insertText ("\t");
+                if (event->modifiers() & Qt::ControlModifier)
+                {
+                    if (event->modifiers() & Qt::MetaModifier)
+                        cursor.insertText ("  ");
+                    else
+                        cursor.insertText ("    ");
+                }
+                else
+                    cursor.insertText ("\t");
                 if (!cursor.movePosition (QTextCursor::NextBlock))
                     break; // not needed
             }
             cursor.endEditBlock();
+            event->accept();
+            return;
+        }
+        else if (!cursor.hasSelection() && (event->modifiers() & Qt::ControlModifier))
+        {
+            if (event->modifiers() & Qt::MetaModifier)
+                cursor.insertText ("  ");
+            else
+                cursor.insertText ("    ");
             event->accept();
             return;
         }
