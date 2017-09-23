@@ -1081,10 +1081,6 @@ void FPwin::zoomIn()
     if (index == -1) return;
     TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
     textEdit->zooming (1.f);
-
-    /* this is sometimes needed for the
-       scrollbar range(s) to be updated (a Qt bug?) */
-    //QTimer::singleShot (0, textEdit, SLOT (updateEditorGeometry()));
 }
 /*************************/
 void FPwin::zoomOut()
@@ -1107,7 +1103,9 @@ void FPwin::zoomZero()
     QFontMetrics metrics (config.getFont());
     textEdit->setTabStopWidth (4 * metrics.width (' '));
 
-    //QTimer::singleShot (0, textEdit, SLOT (updateEditorGeometry()));
+    /* due to a Qt bug, this is needed for the
+       scrollbar range to be updated correctly */
+    textEdit->adjustScrollbars();
 
     /* this may be a zoom-out */
     reformat (textEdit);
@@ -2494,7 +2492,7 @@ void FPwin::fontDialog()
             config.setFont (newFont);
 
         /* the font can become larger... */
-        QTimer::singleShot (0, textEdit, SLOT (updateEditorGeometry()));
+        textEdit->adjustScrollbars();
         /* ... or smaller */
         reformat (textEdit);
     }

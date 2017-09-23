@@ -244,8 +244,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
     else if (event->key() == Qt::Key_ParenLeft
              || event->key() == Qt::Key_BraceLeft
              || event->key() == Qt::Key_BracketLeft
-             || event->key() == Qt::Key_QuoteDbl
-             || event->key() == Qt::Key_Apostrophe)
+             || event->key() == Qt::Key_QuoteDbl)
     {
         if (autoBracket)
         {
@@ -277,10 +276,8 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                     cursor.insertText ("{" + selTxt + "}");
                 else if (event->key() == Qt::Key_BracketLeft)
                     cursor.insertText ("[" + selTxt + "]");
-                else if (event->key() == Qt::Key_QuoteDbl)
+                else// if (event->key() == Qt::Key_QuoteDbl)
                     cursor.insertText ("\"" + selTxt + "\"");
-                else// if (event->key() == Qt::Key_Apostrophe)
-                    cursor.insertText ("\'" + selTxt + "\'");
                 /* select the text and set the cursor at its start */
                 cursor.setPosition (anch + 1, QTextCursor::MoveAnchor);
                 cursor.setPosition (pos + 1, QTextCursor::KeepAnchor);
@@ -500,17 +497,13 @@ void TextEdit::paintEvent (QPaintEvent *event)
     QPainter painter (viewport());
     Q_ASSERT (qobject_cast<QPlainTextDocumentLayout*>(document()->documentLayout()));
 
-    QPointF offset(contentOffset());
+    QPointF offset (contentOffset());
 
     QRect er = event->rect();
     QRect viewportRect = viewport()->rect();
-
     qreal maximumWidth = document()->documentLayout()->documentSize().width();
-
-    // Set a brush origin so that the WaveUnderline knows where the wave started
     painter.setBrushOrigin (offset);
 
-    // keep right margin clean from full-width selection
     int maxX = offset.x() + qMax ((qreal)viewportRect.width(), maximumWidth)
                - document()->documentMargin();
     er.setRight (qMin(er.right(), maxX));
@@ -521,7 +514,7 @@ void TextEdit::paintEvent (QPaintEvent *event)
     QTextBlock block = firstVisibleBlock();
     while (block.isValid())
     {
-        QRectF r = blockBoundingRect(block).translated(offset);
+        QRectF r = blockBoundingRect (block).translated (offset);
         QTextLayout *layout = block.layout();
 
         if (!block.isVisible())
@@ -547,7 +540,7 @@ void TextEdit::paintEvent (QPaintEvent *event)
             if (bg != Qt::NoBrush)
             {
                 QRectF contentsRect = r;
-                contentsRect.setWidth (qMax(r.width(), maximumWidth));
+                contentsRect.setWidth (qMax (r.width(), maximumWidth));
                 fillBackground (&painter, contentsRect, bg);
             }
 
@@ -610,7 +603,7 @@ void TextEdit::paintEvent (QPaintEvent *event)
               col.setAlpha (128);
               painter.setPen (col);
               const int margin = int(document()->documentMargin());
-              painter.drawText(r.adjusted(margin, 0, 0, 0), Qt::AlignTop | Qt::TextWordWrap, placeholderText());
+              painter.drawText (r.adjusted (margin, 0, 0, 0), Qt::AlignTop | Qt::TextWordWrap, placeholderText());
             }
             else
               layout->draw (&painter, offset, selections, er);
@@ -687,9 +680,13 @@ void TextEdit::lineNumberAreaPaintEvent (QPaintEvent *event)
     }
 }
 /*************************/
-void TextEdit::updateEditorGeometry()
+// This calls the private function _q_adjustScrollbars()
+// by calling QPlainTextEdit::resizeEvent().
+void TextEdit::adjustScrollbars()
 {
-    updateGeometry();
+    QSize vSize = viewport()->size();
+    QResizeEvent *_resizeEvent = new QResizeEvent (vSize, vSize);
+    QCoreApplication::postEvent (viewport(), _resizeEvent);
 }
 /*************************/
 void TextEdit::onUpdateRequesting (const QRect& /*rect*/, int dy)
@@ -720,6 +717,10 @@ void TextEdit::zooming (float range)
     /* if this is a zoom-out, the text will need
        to be formatted and/or highlighted again */
     if (range < 0) emit zoomedOut (this);
+
+    /* due to a Qt bug, this is needed for the
+       scrollbar range to be updated correctly */
+    adjustScrollbars();
 }
 
 }

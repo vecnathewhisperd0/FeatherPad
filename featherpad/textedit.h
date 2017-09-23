@@ -174,7 +174,7 @@ protected:
     }
 
 public slots:
-    void updateEditorGeometry();
+    void adjustScrollbars();
 
 private slots:
     void updateLineNumberAreaWidth (int newBlockCount);

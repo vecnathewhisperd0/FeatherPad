@@ -21,6 +21,7 @@ V0.6.1
  * Highlight the syntax on text change too (because otherwise, the text won't be formatted if the whole visible text is pasted).
  * Auto-bracket support.
  * A workaround for the RTL bug in QPlainTextEdit.
+ * A workaround for the scrollbar range bug in QPlainTextEdit (the range wasn't updated correctly on chaanging font size).
 
 V0.6.0
 ---------
