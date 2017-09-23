@@ -229,9 +229,10 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     connect (fullscreen, &QShortcut::activated, this, &FPwin::fullScreening);
     connect (defaultsize, &QShortcut::activated, this, &FPwin::defaultSize);
 
-    /* this is a workaround for the RTL bug in QPlainTextEdit */
-    QShortcut *align = new QShortcut (QKeySequence (tr ("Ctrl+Shift+A", "Alignment")), this);
-    connect (align, &QShortcut::activated, this, &FPwin::align);
+    /* this workaround, for the RTL bug in QPlainTextEdit, isn't needed
+       because a better workaround is included in textedit.cpp */
+    /*QShortcut *align = new QShortcut (QKeySequence (tr ("Ctrl+Shift+A", "Alignment")), this);
+    connect (align, &QShortcut::activated, this, &FPwin::align);*/
 
     /* exiting a process */
     QShortcut *kill = new QShortcut (QKeySequence (tr ("Ctrl+Alt+E", "Kill process")), this);
@@ -1133,7 +1134,7 @@ void FPwin::defaultSize()
     QTimer::singleShot (0, this, SLOT (show()));
 }
 /*************************/
-void FPwin::align()
+/*void FPwin::align()
 {
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
@@ -1152,7 +1153,7 @@ void FPwin::align()
         opt.setTextDirection (Qt::LayoutDirectionAuto);
         textEdit->document()->setDefaultTextOption (opt);
     }
-}
+}*/
 /*************************/
 void FPwin::executeProcess()
 {
@@ -1502,8 +1503,9 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
         raise();
     }
 
-    /* this is a workaround for the RTL bug in QPlainTextEdit */
-    QTextOption opt = textEdit->document()->defaultTextOption();
+    /* this workaround, for the RTL bug in QPlainTextEdit, isn't needed
+       because a better workaround is included in textedit.cpp */
+    /*QTextOption opt = textEdit->document()->defaultTextOption();
     if (text.isRightToLeft())
     {
         if (opt.alignment() == (Qt::AlignLeft))
@@ -1518,7 +1520,7 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
         opt = QTextOption (Qt::AlignLeft);
         opt.setTextDirection (Qt::LayoutDirectionAuto);
         textEdit->document()->setDefaultTextOption (opt);
-    }
+    }*/
 
     /* we want to restore the cursor later */
     int pos = 0, anchor = 0;

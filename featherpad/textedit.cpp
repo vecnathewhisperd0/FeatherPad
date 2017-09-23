@@ -209,12 +209,34 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
         {
             /* first get the current cursor for computing the indentation */
             QTextCursor start = textCursor();
+            bool isInsideBrackets (false);
+            if (autoBracket && !start.atBlockStart() && !start.atBlockEnd())
+            {
+                start.movePosition (QTextCursor::PreviousCharacter);
+                start.movePosition (QTextCursor::NextCharacter, QTextCursor::KeepAnchor, 2);
+                QString selTxt = start.selectedText();
+                if (selTxt == "{}" || selTxt == "()")
+                    isInsideBrackets = true;
+                start = textCursor();
+            }
             QString indent = computeIndentation (start);
+            start.beginEditBlock();
             /* then press Enter normally... */
             QPlainTextEdit::keyPressEvent (event);
             /* ... and insert indentation */
             start = textCursor();
             start.insertText (indent);
+            /* also handle brackets */
+            if (isInsideBrackets)
+            {
+                QPlainTextEdit::keyPressEvent (event);
+                start = textCursor();
+                start.insertText (indent);
+                start.movePosition (QTextCursor::PreviousBlock);
+                start.movePosition (QTextCursor::EndOfBlock);
+                setTextCursor (start);
+            }
+            start.endEditBlock();
             event->accept();
             return;
         }
@@ -450,7 +472,176 @@ void TextEdit::timerEvent (QTimerEvent *e)
         emit updateRect (rect(), Dy);
     }
 }
-/*************************/
+/*******************************************************
+***** Workaround for the RTL bug in QPlainTextEdit *****
+********************************************************/
+static void fillBackground (QPainter *p, const QRectF &rect, QBrush brush, const QRectF &gradientRect = QRectF())
+{
+    p->save();
+    if (brush.style() >= Qt::LinearGradientPattern && brush.style() <= Qt::ConicalGradientPattern)
+    {
+        if (!gradientRect.isNull())
+        {
+            QTransform m = QTransform::fromTranslate (gradientRect.left(), gradientRect.top());
+            m.scale (gradientRect.width(), gradientRect.height());
+            brush.setTransform (m);
+            const_cast<QGradient *>(brush.gradient())->setCoordinateMode (QGradient::LogicalMode);
+        }
+    }
+    else
+        p->setBrushOrigin(rect.topLeft());
+    p->fillRect (rect, brush);
+    p->restore();
+}
+// Exactly like QPlainTextEdit::paintEvent(),
+// except for setting of layout text option for RTL.
+void TextEdit::paintEvent (QPaintEvent *event)
+{
+    QPainter painter (viewport());
+    Q_ASSERT (qobject_cast<QPlainTextDocumentLayout*>(document()->documentLayout()));
+
+    QPointF offset(contentOffset());
+
+    QRect er = event->rect();
+    QRect viewportRect = viewport()->rect();
+
+    qreal maximumWidth = document()->documentLayout()->documentSize().width();
+
+    // Set a brush origin so that the WaveUnderline knows where the wave started
+    painter.setBrushOrigin (offset);
+
+    // keep right margin clean from full-width selection
+    int maxX = offset.x() + qMax ((qreal)viewportRect.width(), maximumWidth)
+               - document()->documentMargin();
+    er.setRight (qMin(er.right(), maxX));
+    painter.setClipRect (er);
+
+    bool editable = !isReadOnly();
+    QAbstractTextDocumentLayout::PaintContext context = getPaintContext();
+    QTextBlock block = firstVisibleBlock();
+    while (block.isValid())
+    {
+        QRectF r = blockBoundingRect(block).translated(offset);
+        QTextLayout *layout = block.layout();
+
+        if (!block.isVisible())
+        {
+            offset.ry() += r.height();
+            block = block.next();
+            continue;
+        }
+
+        /* the whole point of including paintEvent */
+        if (block.text().isRightToLeft())
+        {
+            QTextOption opt = document()->defaultTextOption();
+            opt = QTextOption (Qt::AlignRight);
+            opt.setTextDirection (Qt::RightToLeft);
+            layout->setTextOption (opt);
+        }
+
+        if (r.bottom() >= er.top() && r.top() <= er.bottom())
+        {
+            QTextBlockFormat blockFormat = block.blockFormat();
+            QBrush bg = blockFormat.background();
+            if (bg != Qt::NoBrush)
+            {
+                QRectF contentsRect = r;
+                contentsRect.setWidth (qMax(r.width(), maximumWidth));
+                fillBackground (&painter, contentsRect, bg);
+            }
+
+            QVector<QTextLayout::FormatRange> selections;
+            int blpos = block.position();
+            int bllen = block.length();
+            for (int i = 0; i < context.selections.size(); ++i)
+            {
+                const QAbstractTextDocumentLayout::Selection &range = context.selections.at (i);
+                const int selStart = range.cursor.selectionStart() - blpos;
+                const int selEnd = range.cursor.selectionEnd() - blpos;
+                if (selStart < bllen && selEnd > 0
+                    && selEnd > selStart)
+                {
+                    QTextLayout::FormatRange o;
+                    o.start = selStart;
+                    o.length = selEnd - selStart;
+                    o.format = range.format;
+                    selections.append(o);
+                }
+                else if (!range.cursor.hasSelection() && range.format.hasProperty (QTextFormat::FullWidthSelection)
+                         && block.contains(range.cursor.position()))
+                {
+                    // for full width selections we don't require an actual selection, just
+                    // a position to specify the line. that's more convenience in usage.
+                    QTextLayout::FormatRange o;
+                    QTextLine l = layout->lineForTextPosition (range.cursor.position() - blpos);
+                    o.start = l.textStart();
+                    o.length = l.textLength();
+                    if (o.start + o.length == bllen - 1)
+                        ++o.length; // include newline
+                    o.format = range.format;
+                    selections.append(o);
+                }
+            }
+
+            bool drawCursor ((editable || (textInteractionFlags() & Qt::TextSelectableByKeyboard))
+                             && context.cursorPosition >= blpos
+                             && context.cursorPosition < blpos + bllen);
+            bool drawCursorAsBlock (drawCursor && overwriteMode());
+
+            if (drawCursorAsBlock)
+            {
+                if (context.cursorPosition == blpos + bllen - 1)
+                    drawCursorAsBlock = false;
+                else
+                {
+                    QTextLayout::FormatRange o;
+                    o.start = context.cursorPosition - blpos;
+                    o.length = 1;
+                    o.format.setForeground (palette().base());
+                    o.format.setBackground (palette().text());
+                    selections.append(o);
+                }
+            }
+
+            if (!placeholderText().isEmpty() && document()->isEmpty())
+            {
+              QColor col = palette().text().color();
+              col.setAlpha (128);
+              painter.setPen (col);
+              const int margin = int(document()->documentMargin());
+              painter.drawText(r.adjusted(margin, 0, 0, 0), Qt::AlignTop | Qt::TextWordWrap, placeholderText());
+            }
+            else
+              layout->draw (&painter, offset, selections, er);
+            if ((drawCursor && !drawCursorAsBlock)
+                || (editable && context.cursorPosition < -1
+                    && !layout->preeditAreaText().isEmpty()))
+            {
+                int cpos = context.cursorPosition;
+                if (cpos < -1)
+                    cpos = layout->preeditAreaPosition() - (cpos + 2);
+                else
+                    cpos -= blpos;
+                layout->drawCursor (&painter, offset, cpos, cursorWidth());
+            }
+        }
+
+        offset.ry() += r.height();
+        if (offset.y() > viewportRect.height())
+            break;
+        block = block.next();
+    }
+
+    if (backgroundVisible() && !block.isValid() && offset.y() <= er.bottom()
+        && (centerOnScroll() || verticalScrollBar()->maximum() == verticalScrollBar()->minimum()))
+    {
+        painter.fillRect (QRect (QPoint ((int)er.left(), (int)offset.y()), er.bottomRight()), palette().background());
+    }
+}
+/************************************************
+***** End of the Workaround for the RTL bug *****
+*************************************************/
 void TextEdit::highlightCurrentLine()
 {
     /* keep yellow and green highlights

@@ -141,7 +141,7 @@ private slots:
     void zoomZero();
     void fullScreening();
     void defaultSize();
-    void align();
+    //void align();
     void manageSessions();
     void executeProcess();
     void exitProcess();

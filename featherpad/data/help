@@ -115,7 +115,6 @@ Resize window to fixed size:   Ctrl+Shift+W (700x500 by default but can be set i
 Zoom in:                       Ctrl+= (or Ctrl++ or Ctrl + mouse wheel)
 Zoom out:                      Ctrl+- (or Ctrl + mouse wheel)
 Reset zooming:                 Ctrl+0
-Change text alignment:         Ctrl+Shift+A (for RTL languages)
 Execute this file:             Ctrl+E (only if this is enabled in Preferences)
 Exit (kill) process:           Ctrl+Alt+E (exits the above process immediately)
 4-space text tabulation:       Ctrl+Tab
