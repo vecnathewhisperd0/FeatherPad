@@ -209,13 +209,21 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
         {
             /* first get the current cursor for computing the indentation */
             QTextCursor start = textCursor();
+            QString selTxt = start.selectedText();
+            QTextCursor anchorCur = start;
+            anchorCur.setPosition (start.anchor());
             bool isInsideBrackets (false);
-            if (autoBracket && !start.atBlockStart() && !start.atBlockEnd())
+            if (autoBracket
+                && start.position() == start.selectionStart()
+                && !start.atBlockStart() && !anchorCur.atBlockEnd())
             {
+                start.setPosition (start.position());
                 start.movePosition (QTextCursor::PreviousCharacter);
-                start.movePosition (QTextCursor::NextCharacter, QTextCursor::KeepAnchor, 2);
-                QString selTxt = start.selectedText();
-                if (selTxt == "{}" || selTxt == "()")
+                start.movePosition (QTextCursor::NextCharacter,
+                                    QTextCursor::KeepAnchor,
+                                    selTxt.size() + 2);
+                QString selTxt1 = start.selectedText();
+                if (selTxt1 == "{" + selTxt + "}" || selTxt1 == "(" + selTxt + ")")
                     isInsideBrackets = true;
                 start = textCursor();
             }
@@ -234,6 +242,12 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                 start.insertText (indent);
                 start.movePosition (QTextCursor::PreviousBlock);
                 start.movePosition (QTextCursor::EndOfBlock);
+                start.insertText (selTxt);
+                /* set the cursor so that Tab can be used */
+                start.setPosition (start.position() - selTxt.size(),
+                                   selTxt.contains (QChar::ParagraphSeparator)
+                                       ? QTextCursor::KeepAnchor
+                                       : QTextCursor::MoveAnchor);
                 setTextCursor (start);
             }
             start.endEditBlock();
