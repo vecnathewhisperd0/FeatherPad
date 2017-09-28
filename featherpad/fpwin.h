@@ -85,7 +85,7 @@ public slots:
     void newTab();
     void statusMsg();
     void statusMsgWithLineCount (const int lines);
-    void wordButtonStatus();
+    void updateWordInfo (int position = -1, int charsRemoved = 0, int charsAdded = 0);
 
 private slots:
     void newTabFromRecent();
@@ -121,7 +121,7 @@ private slots:
     void showLN (bool checked);
     void toggleSyntaxHighlighting();
     void formatOnBlockChange (int) const;
-    void formatOnTextChange() const;
+    void formatOnTextChange (int, int charsRemoved, int charsAdded) const;
     void formatVisibleText (const QRect &rect, int dy) const;
     void formatOnResizing() const;
     void toggleWrapping();

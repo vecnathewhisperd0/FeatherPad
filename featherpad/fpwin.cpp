@@ -63,7 +63,8 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
 
     /* status bar */
     QLabel *statusLabel = new QLabel();
-    statusLabel->setIndent(2);
+    statusLabel->setIndent (2);
+    statusLabel->setMinimumWidth (100);
     statusLabel->setTextInteractionFlags (Qt::TextSelectableByMouse);
     QToolButton *wordButton = new QToolButton();
     wordButton->setAutoRaise (true);
@@ -73,7 +74,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     wordButton->setIcon (QIcon (":icons/view-refresh.svg"));
     //wordButton->setText (tr ("Refresh"));
     wordButton->setToolTip (tr ("Calculate number of words\n(For huge texts, this may be CPU-intensive.)"));
-    connect (wordButton, &QAbstractButton::clicked, this, &FPwin::wordButtonStatus);
+    connect (wordButton, &QAbstractButton::clicked, [=]{updateWordInfo();});
     ui->statusBar->addWidget (statusLabel);
     ui->statusBar->addWidget (wordButton);
 
@@ -540,16 +541,16 @@ void FPwin::deleteTabPage (int index)
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
     TextEdit *textEdit = tabPage->textEdit();
     /* because deleting the syntax highlighter changes the text,
-       textChanged() signals should be disconnected here to prevent a crash */
-    disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::wordButtonStatus);
+       it is better to disconnect contentsChange() here to prevent a crash */
     disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::hlight);
+    disconnect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::updateWordInfo);
     if (Highlighter *highlighter = qobject_cast< Highlighter *>(textEdit->getHighlighter()))
     {
         disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
         disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
-        disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::formatOnTextChange);
         disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
         disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
+        disconnect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::formatOnTextChange);
         textEdit->setHighlighter (nullptr); // for consistency
         delete highlighter; highlighter = nullptr;
     }
@@ -1562,9 +1563,9 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
         {
             disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
             disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
-            disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::formatOnTextChange);
             disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
             disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
+            disconnect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::formatOnTextChange);
 
             /* remove bracket highlights to recreate them only if needed */
             QList<QTextEdit::ExtraSelection> es = textEdit->extraSelections();
@@ -1637,6 +1638,8 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
             statusMsgWithLineCount (textEdit->document()->blockCount());
             if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>())
                 wordButton->setVisible (true);
+            if (text.isEmpty())
+                updateWordInfo();
         }
         encodingToCheck (charset);
         ui->actionReload->setEnabled (true);
@@ -2143,16 +2146,16 @@ bool FPwin::saveFile (bool keepSyntax)
                 if (ui->statusBar->isVisible()
                     && textEdit->getWordNumber() != -1)
                 { // we want to change the statusbar text below
-                    disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::wordButtonStatus);
+                    disconnect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::updateWordInfo);
                 }
 
                 if (Highlighter *highlighter = qobject_cast< Highlighter *>(textEdit->getHighlighter()))
                 {
                     disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
                     disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
-                    disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::formatOnTextChange);
                     disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
                     disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
+                    disconnect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::formatOnTextChange);
 
                     /* remove bracket highlights */
                     QList<QTextEdit::ExtraSelection> es = textEdit->extraSelections();
@@ -2204,7 +2207,7 @@ bool FPwin::saveFile (bool keepSyntax)
                     }
                     statusLabel->setText (str);
                     if (textEdit->getWordNumber() != -1)
-                        connect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::wordButtonStatus);
+                        connect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::updateWordInfo);
                 }
             }
         }
@@ -2384,10 +2387,7 @@ void FPwin::tabSwitch (int index)
     ui->actionUndo->setEnabled (textEdit->document()->isUndoAvailable());
     ui->actionRedo->setEnabled (textEdit->document()->isRedoAvailable());
     ui->actionSave->setEnabled (modified);
-    if (fname.isEmpty())
-        ui->actionReload->setEnabled (false);
-    else
-        ui->actionReload->setEnabled (true);
+    ui->actionReload->setEnabled (!fname.isEmpty());
     bool readOnly = textEdit->isReadOnly();
     if (fname.isEmpty()
         && !modified
@@ -2427,7 +2427,7 @@ void FPwin::tabSwitch (int index)
             if (wordButton)
                 wordButton->setVisible (true);
             if (textEdit->document()->isEmpty()) // make an exception
-                wordButtonStatus();
+                updateWordInfo();
         }
         else
         {
@@ -2817,7 +2817,7 @@ void FPwin::docProp()
     ui->statusBar->setVisible (true);
     if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>())
         wordButton->setVisible (true);
-    wordButtonStatus();
+    updateWordInfo();
 }
 /*************************/
 // Set the status bar text according to the block count.
@@ -2865,15 +2865,15 @@ void FPwin::statusMsg()
     statusLabel->setText (str);
 }
 /*************************/
-void FPwin::wordButtonStatus()
+void FPwin::updateWordInfo (int /*position*/, int charsRemoved, int charsAdded)
 {
     QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>();
     if (!wordButton) return;
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
     TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
-    /* ensure that the signal comes from the active tab if this is about a tab a signal */
-    if (qobject_cast<TextEdit*>(QObject::sender()) && QObject::sender() != textEdit)
+    /* ensure that the signal comes from the active tab (when the info is going to be removed) */
+    if (qobject_cast<QTextDocument*>(QObject::sender()) && QObject::sender() != textEdit->document())
         return;
 
     if (wordButton->isVisible())
@@ -2892,11 +2892,11 @@ void FPwin::wordButtonStatus()
         statusLabel->setText (QString ("%1 <i>%2</i>")
                               .arg (statusLabel->text())
                               .arg (words));
-        connect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::wordButtonStatus);
+        connect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::updateWordInfo);
     }
-    else
+    else if (charsRemoved > 0 || charsAdded > 0) // not if only the format is changed
     {
-        disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::wordButtonStatus);
+        disconnect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::updateWordInfo);
         textEdit->setWordNumber (-1);
         wordButton->setVisible (true);
         statusMsgWithLineCount (textEdit->document()->blockCount());
@@ -3023,7 +3023,6 @@ void FPwin::detachTab()
 
     disconnect (textEdit, &TextEdit::updateRect, this ,&FPwin::hlighting);
     disconnect (textEdit, &QPlainTextEdit::textChanged, this ,&FPwin::hlight);
-    disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::wordButtonStatus);
     disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::statusMsgWithLineCount);
     disconnect (textEdit, &QPlainTextEdit::selectionChanged, this, &FPwin::statusMsg);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCut, &QAction::setEnabled);
@@ -3033,10 +3032,11 @@ void FPwin::detachTab()
     disconnect (textEdit, &TextEdit::fileDropped, this, &FPwin::newTabFromName);
     disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
     disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
-    disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::formatOnTextChange);
     disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
     disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
 
+    disconnect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::updateWordInfo);
+    disconnect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::formatOnTextChange);
     disconnect (textEdit->document(), &QTextDocument::blockCountChanged, this, &FPwin::setMax);
     disconnect (textEdit->document(), &QTextDocument::modificationChanged, this, &FPwin::asterisk);
     disconnect (textEdit->document(), &QTextDocument::undoAvailable, ui->actionUndo, &QAction::setEnabled);
@@ -3128,7 +3128,7 @@ void FPwin::detachTab()
             statusLabel->setText (QString ("%1 <i>%2</i>")
                                   .arg (statusLabel->text())
                                   .arg (textEdit->getWordNumber()));
-            connect (textEdit, &QPlainTextEdit::textChanged, dropTarget, &FPwin::wordButtonStatus);
+            connect (textEdit->document(), &QTextDocument::contentsChange, dropTarget, &FPwin::updateWordInfo);
         }
         connect (textEdit, &QPlainTextEdit::blockCountChanged, dropTarget, &FPwin::statusMsgWithLineCount);
         connect (textEdit, &QPlainTextEdit::selectionChanged, dropTarget, &FPwin::statusMsg);
@@ -3161,9 +3161,9 @@ void FPwin::detachTab()
         dropTarget->matchBrackets();
         connect (textEdit, &QPlainTextEdit::cursorPositionChanged, dropTarget, &FPwin::matchBrackets);
         connect (textEdit, &QPlainTextEdit::blockCountChanged, dropTarget, &FPwin::formatOnBlockChange);
-        connect (textEdit, &QPlainTextEdit::textChanged, dropTarget, &FPwin::formatOnTextChange);
         connect (textEdit, &TextEdit::updateRect, dropTarget, &FPwin::formatVisibleText);
         connect (textEdit, &TextEdit::resized, dropTarget, &FPwin::formatOnResizing);
+        connect (textEdit->document(), &QTextDocument::contentsChange, dropTarget, &FPwin::formatOnTextChange);
     }
 
     textEdit->setFocus();
@@ -3221,7 +3221,6 @@ void FPwin::dropTab (QString str)
 
     disconnect (textEdit, &TextEdit::updateRect, dragSource ,&FPwin::hlighting);
     disconnect (textEdit, &QPlainTextEdit::textChanged, dragSource ,&FPwin::hlight);
-    disconnect (textEdit, &QPlainTextEdit::textChanged, dragSource, &FPwin::wordButtonStatus);
     disconnect (textEdit, &QPlainTextEdit::blockCountChanged, dragSource, &FPwin::statusMsgWithLineCount);
     disconnect (textEdit, &QPlainTextEdit::selectionChanged, dragSource, &FPwin::statusMsg);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, dragSource->ui->actionCut, &QAction::setEnabled);
@@ -3231,10 +3230,11 @@ void FPwin::dropTab (QString str)
     disconnect (textEdit, &TextEdit::fileDropped, dragSource, &FPwin::newTabFromName);
     disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, dragSource, &FPwin::matchBrackets);
     disconnect (textEdit, &QPlainTextEdit::blockCountChanged, dragSource, &FPwin::formatOnBlockChange);
-    disconnect (textEdit, &QPlainTextEdit::textChanged, dragSource, &FPwin::formatOnTextChange);
     disconnect (textEdit, &TextEdit::updateRect, dragSource, &FPwin::formatVisibleText);
     disconnect (textEdit, &TextEdit::resized, dragSource, &FPwin::formatOnResizing);
 
+    disconnect (textEdit->document(), &QTextDocument::contentsChange, dragSource, &FPwin::updateWordInfo);
+    disconnect (textEdit->document(), &QTextDocument::contentsChange, dragSource, &FPwin::formatOnTextChange);
     disconnect (textEdit->document(), &QTextDocument::blockCountChanged, dragSource, &FPwin::setMax);
     disconnect (textEdit->document(), &QTextDocument::modificationChanged, dragSource, &FPwin::asterisk);
     disconnect (textEdit->document(), &QTextDocument::undoAvailable, dragSource->ui->actionUndo, &QAction::setEnabled);
@@ -3341,7 +3341,7 @@ void FPwin::dropTab (QString str)
         connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::statusMsgWithLineCount);
         connect (textEdit, &QPlainTextEdit::selectionChanged, this, &FPwin::statusMsg);
         if (textEdit->getWordNumber() != -1)
-            connect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::wordButtonStatus);
+            connect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::updateWordInfo);
     }
     if (ui->actionWrap->isChecked() && textEdit->lineWrapMode() == QPlainTextEdit::NoWrap)
         textEdit->setLineWrapMode (QPlainTextEdit::WidgetWidth);
@@ -3375,9 +3375,9 @@ void FPwin::dropTab (QString str)
         matchBrackets();
         connect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
         connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
-        connect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::formatOnTextChange);
         connect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
         connect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
+        connect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::formatOnTextChange);
     }
 
     textEdit->setFocus();
@@ -3526,7 +3526,8 @@ void FPwin::helpDoc()
 
     TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->currentWidget())->textEdit();
     if (!textEdit->document()->isEmpty()
-        || textEdit->document()->isModified())
+        || textEdit->document()->isModified()
+        || !textEdit->getFileName().isEmpty()) // an empty file is just opened
     {
         newTab();
         textEdit = qobject_cast< TabPage *>(ui->tabWidget->currentWidget())->textEdit();

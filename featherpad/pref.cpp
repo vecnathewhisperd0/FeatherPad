@@ -353,15 +353,13 @@ void PrefDialog::prefStatusbar (int checked)
                     win->ui->statusBar->setVisible (true);
                     if (QToolButton *wordButton = win->ui->statusBar->findChild<QToolButton *>())
                     {
-                        if (textEdit->getWordNumber() == -1 // when words aren't counted yet
-                            && (!textEdit->document()->isEmpty() || textEdit->document()->isModified()))
+                        wordButton->setVisible (true);
+                        if (textEdit->getWordNumber() != -1 // when words are already counted
+                            || textEdit->document()->isEmpty())
                         {
-                            wordButton->setVisible (false); // becomes "true" below
+                            win->updateWordInfo();
                         }
-                        else
-                            wordButton->setVisible (true);
                     }
-                    win->wordButtonStatus();
                 }
             }
             /* no need for this menu item anymore */

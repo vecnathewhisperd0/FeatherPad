@@ -43,9 +43,9 @@ void FPwin::toggleSyntaxHighlighting()
         for (int i = 0; i < count; ++i)
         {
             TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (i))->textEdit();
-            disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
+            disconnect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::formatOnTextChange);
             disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
-            disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::formatOnTextChange);
+            disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
             disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
             disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
 
@@ -253,15 +253,16 @@ void FPwin::syntaxHighlighting (TextEdit *textEdit)
     connect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
     /* visible text may change on block removal */
     connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
-    /* this is needed when the whole visible text is pasted */
-    connect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::formatOnTextChange);
     connect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
     connect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
+    /* this is needed when the whole visible text is pasted */
+    connect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::formatOnTextChange);
 }
 /*************************/
-void FPwin::formatOnTextChange() const
+void FPwin::formatOnTextChange (int /*position*/, int charsRemoved, int charsAdded) const
 {
-    formatOnResizing();
+    if (charsRemoved > 0 || charsAdded > 0)
+        formatOnResizing();
 }
 /*************************/
 void FPwin::formatOnBlockChange (int/* newBlockCount*/) const
