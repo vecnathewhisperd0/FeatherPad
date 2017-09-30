@@ -102,7 +102,7 @@ QStringList Highlighter::keywords (QString& lang)
                         << "\\b(else|elseif|end)(?!(\\.|@|#|\\$))\\b"
                         << "\\b(false|for|function)(?!(\\.|@|#|\\$))\\b"
                         << "\\b(if|in|local|nil|not|or|repeat|return)(?!(\\.|@|#|\\$))\\b"
-                        << "\\b(true|until|while)(?!(\\.|@|#|\\$))\\b";
+                        << "\\b(then|true|until|while)(?!(\\.|@|#|\\$))\\b";
     else if (lang == "python")
         keywordPatterns << "\\b(and|as|assert|break|class|continue)(?!(@|\\$))\\b"
                         << "\\b(def|del|elif|else|except|False|finally|for|from|global)(?!(@|\\$))\\b"
