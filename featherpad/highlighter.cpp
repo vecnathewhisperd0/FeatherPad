@@ -692,6 +692,16 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
         rule.format = markdownFormat;
         highlightingRules.append (rule);
     }
+    else if (progLan == "lua")
+    {
+        QTextCharFormat luaFormat;
+        luaFormat.setFontWeight (QFont::Bold);
+        luaFormat.setFontItalic (true);
+        luaFormat.setForeground (DarkMagenta);
+        rule.pattern = QRegExp ("\\bos(?=\\.)");
+        rule.format = luaFormat;
+        highlightingRules.append (rule);
+    }
 
     /************
      * Comments *
