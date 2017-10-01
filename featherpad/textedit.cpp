@@ -524,7 +524,7 @@ void TextEdit::paintEvent (QPaintEvent *event)
 
     int maxX = offset.x() + qMax ((qreal)viewportRect.width(), maximumWidth)
                - document()->documentMargin();
-    er.setRight (qMin(er.right(), maxX));
+    er.setRight (qMin (er.right(), maxX));
     painter.setClipRect (er);
 
     bool editable = !isReadOnly();
@@ -545,41 +545,13 @@ void TextEdit::paintEvent (QPaintEvent *event)
         if (r.bottom() >= er.top() && r.top() <= er.bottom())
         {
             /* take care of RTL */
-            if (block.text().isRightToLeft())
+            bool rtl (block.text().isRightToLeft());
+            if (rtl)
             {
                 QTextOption opt = document()->defaultTextOption();
                 opt = QTextOption (Qt::AlignRight);
                 opt.setTextDirection (Qt::RightToLeft);
                 layout->setTextOption (opt);
-            }
-            /* no indentation line with RTL (for now) */
-            else if (drawIndetLines)
-            {
-                QRegExp exp = QRegExp ("\\s+");
-                int indx = exp.indexIn (block.text());
-                if (indx == 0)
-                {
-                    painter.save();
-                    painter.setOpacity (0.2);
-                    int len = exp.matchedLength();
-                    QTextCursor cur = textCursor();
-                    cur.setPosition (block.position() + len);
-                    qreal rightMost = cursorRect (cur).right();
-                    QFontMetricsF fm = QFontMetricsF (document()->defaultFont());
-                    int yTop = qRound (r.topLeft().y());
-                    int yBottom =  qRound (r.height() >= (qreal)2 * fm.lineSpacing()
-                                               ? yTop + fm.height()
-                                               : r.bottomLeft().y() - (qreal)1);
-                    qreal x = r.topLeft().x();
-                    qreal tabWidth = (qreal)fm.width ("    ");
-                    x += tabWidth;
-                    while (x <= rightMost)
-                    {
-                        painter.drawLine (QLine (qRound (x), yTop, qRound (x), yBottom));
-                        x += tabWidth;
-                    }
-                    painter.restore();
-                }
             }
 
             QTextBlockFormat blockFormat = block.blockFormat();
@@ -606,13 +578,11 @@ void TextEdit::paintEvent (QPaintEvent *event)
                     o.start = selStart;
                     o.length = selEnd - selStart;
                     o.format = range.format;
-                    selections.append(o);
+                    selections.append (o);
                 }
                 else if (!range.cursor.hasSelection() && range.format.hasProperty (QTextFormat::FullWidthSelection)
                          && block.contains(range.cursor.position()))
                 {
-                    // for full width selections we don't require an actual selection, just
-                    // a position to specify the line. that's more convenience in usage.
                     QTextLayout::FormatRange o;
                     QTextLine l = layout->lineForTextPosition (range.cursor.position() - blpos);
                     o.start = l.textStart();
@@ -620,7 +590,7 @@ void TextEdit::paintEvent (QPaintEvent *event)
                     if (o.start + o.length == bllen - 1)
                         ++o.length; // include newline
                     o.format = range.format;
-                    selections.append(o);
+                    selections.append (o);
                 }
             }
 
@@ -640,20 +610,20 @@ void TextEdit::paintEvent (QPaintEvent *event)
                     o.length = 1;
                     o.format.setForeground (palette().base());
                     o.format.setBackground (palette().text());
-                    selections.append(o);
+                    selections.append (o);
                 }
             }
 
             if (!placeholderText().isEmpty() && document()->isEmpty())
             {
-              QColor col = palette().text().color();
-              col.setAlpha (128);
-              painter.setPen (col);
-              const int margin = int(document()->documentMargin());
-              painter.drawText (r.adjusted (margin, 0, 0, 0), Qt::AlignTop | Qt::TextWordWrap, placeholderText());
+                QColor col = palette().text().color();
+                col.setAlpha (128);
+                painter.setPen (col);
+                const int margin = int(document()->documentMargin());
+                painter.drawText (r.adjusted (margin, 0, 0, 0), Qt::AlignTop | Qt::TextWordWrap, placeholderText());
             }
             else
-              layout->draw (&painter, offset, selections, er);
+                layout->draw (&painter, offset, selections, er);
             if ((drawCursor && !drawCursorAsBlock)
                 || (editable && context.cursorPosition < -1
                     && !layout->preeditAreaText().isEmpty()))
@@ -664,6 +634,37 @@ void TextEdit::paintEvent (QPaintEvent *event)
                 else
                     cpos -= blpos;
                 layout->drawCursor (&painter, offset, cpos, cursorWidth());
+            }
+
+            /* indentation lines should be drawn after selections */
+            if (drawIndetLines
+                && !rtl) // no indentation line with RTL (for now)
+            {
+                QRegExp exp = QRegExp ("\\s+");
+                int indx = exp.indexIn (block.text());
+                if (indx == 0)
+                {
+                    painter.save();
+                    painter.setOpacity (0.2);
+                    int len = exp.matchedLength();
+                    QTextCursor cur = textCursor();
+                    cur.setPosition (block.position() + len);
+                    qreal rightMost = cursorRect (cur).right();
+                    QFontMetricsF fm = QFontMetricsF (document()->defaultFont());
+                    int yTop = qRound (r.topLeft().y());
+                    int yBottom =  qRound (r.height() >= (qreal)2 * fm.lineSpacing()
+                                               ? yTop + fm.height()
+                                               : r.bottomLeft().y() - (qreal)1);
+                    qreal x = r.topLeft().x();
+                    qreal tabWidth = (qreal)fm.width ("    ");
+                    x += tabWidth;
+                    while (x <= rightMost)
+                    {
+                        painter.drawLine (QLine (qRound (x), yTop, qRound (x), yBottom));
+                        x += tabWidth;
+                    }
+                    painter.restore();
+                }
             }
         }
 
