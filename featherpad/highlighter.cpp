@@ -16,6 +16,7 @@
  */
 
 #include "highlighter.h"
+#include <QTextDocument>
 
 Q_DECLARE_METATYPE(QTextBlock)
 
@@ -102,9 +103,19 @@ void TextBlockData::insertNestInfo (int nests)
 }
 /*************************/
 // Here, the order of formatting is important because of overrides.
-Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start, QTextCursor end, bool darkColorScheme) : QSyntaxHighlighter (parent)
+Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start, QTextCursor end,
+                          bool darkColorScheme, bool showWhiteSpace) : QSyntaxHighlighter (parent)
 {
     if (lang.isEmpty()) return;
+
+    if (showWhiteSpace)
+    {
+        QTextOption opt =  document()->defaultTextOption();
+        opt.setFlags (opt.flags() | QTextOption::ShowTabsAndSpaces
+                                  | QTextOption::ShowLineAndParagraphSeparators
+                                  | QTextOption::ShowDocumentTerminator);
+        document()->setDefaultTextOption (opt);
+    }
 
     /* for highlighting next block inside highlightBlock() when needed */
     qRegisterMetaType<QTextBlock>();
@@ -116,6 +127,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
     quoteMark = QRegExp ("\""); // the standard quote mark
 
     HighlightingRule rule;
+    QColor Faded;
     if (!darkColorScheme)
     {
         Blue = Qt::blue;
@@ -127,6 +139,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
         Violet = QColor (126, 0, 230); //d556e6
         Brown = QColor (160, 80, 0);
         DarkYellow = Qt::darkYellow;
+        Faded = QColor (100, 100, 100);
     }
     else
     {
@@ -139,10 +152,12 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
         Violet = QColor (255, 255, 0);
         Brown = QColor (255, 200, 0);
         DarkYellow = Qt::yellow;
+        Faded = QColor (140, 140, 140);
     }
     DarkGreenAlt = DarkGreen.lighter (101); // almost identical
 
     neutralFormat.setForeground (QBrush());
+    whiteSpaceFormat.setForeground (Faded);
 
     quoteFormat.setForeground (DarkGreen);
     altQuoteFormat.setForeground (DarkGreen);
@@ -703,6 +718,14 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
         highlightingRules.append (rule);
     }
 
+    if (showWhiteSpace)
+    {
+        whiteSpaceFormat.setForeground (Faded);
+        rule.pattern = QRegExp ("\\s+");
+        rule.format = whiteSpaceFormat;
+        highlightingRules.append (rule);
+    }
+
     /************
      * Comments *
      ************/
@@ -762,6 +785,18 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
         quoteFormat.setForeground (DarkRed); // not a quote but a code block
         commentStartExpression = QRegExp ("<!--");
         commentEndExpression = QRegExp ("-->");
+    }
+}
+/*************************/
+Highlighter::~Highlighter()
+{
+    if (QTextDocument *doc = document())
+    {
+        QTextOption opt =  doc->defaultTextOption();
+        opt.setFlags (opt.flags() & ~QTextOption::ShowTabsAndSpaces
+                                  & ~QTextOption::ShowLineAndParagraphSeparators
+                                  & ~QTextOption::ShowDocumentTerminator);
+        doc->setDefaultTextOption (opt);
     }
 }
 /*************************/
@@ -2048,10 +2083,11 @@ void Highlighter::highlightBlock (const QString &text)
             QRegExp expression (rule.pattern);
             index = expression.indexIn (text);
             /* skip quotes and all comments */
-            while (format (index) == quoteFormat
-                   || format (index) == altQuoteFormat
-                   || format (index) == commentFormat
-                   || format (index) == urlFormat)
+            while (rule.format != whiteSpaceFormat
+                   && (format (index) == quoteFormat
+                       || format (index) == altQuoteFormat
+                       || format (index) == commentFormat
+                       || format (index) == urlFormat))
             {
                 index = expression.indexIn (text, index + 1);
             }
@@ -2062,14 +2098,18 @@ void Highlighter::highlightBlock (const QString &text)
                 int l = length;
                 /* in c/c++, the neutral pattern after "#define" may contain
                    a (double-)slash but it's harmless to do this always: */
-                while (format (index + l - 1) == commentFormat)
+                while (rule.format != whiteSpaceFormat
+                       && format (index + l - 1) == commentFormat)
+                {
                     -- l;
+                }
                 setFormat (index, l, rule.format);
                 index = expression.indexIn (text, index + length);
 
-                while (format (index) == quoteFormat
-                       || format (index) == altQuoteFormat
-                       || format (index) == commentFormat)
+                while (rule.format != whiteSpaceFormat
+                       && (format (index) == quoteFormat
+                           || format (index) == altQuoteFormat
+                           || format (index) == commentFormat))
                 {
                     index = expression.indexIn (text, index + 1);
                 }

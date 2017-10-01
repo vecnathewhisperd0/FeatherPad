@@ -1259,30 +1259,42 @@ Niektóre środowiska, np. KDE i LXQt dostarczają własne okna dialogowe.</tran
         <translation>Nigdy nie podświetlaj składni w plikach &gt; </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="404"/>
+        <location filename="../../predDialog.ui" line="363"/>
+        <source>Show spaces, tabs, line-ends and
+the document end when the syntax
+is highlighted.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="368"/>
+        <source>Show whitespaces with syntax highlighting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="416"/>
         <source>Some text editors cannot open a document
 whose last line is not empty.</source>
         <translation>Niektóre edytory tekstu nie otworzą dokumentu
 jeżeli ostatni wiersz nie jest pusty.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="408"/>
+        <location filename="../../predDialog.ui" line="420"/>
         <source>Ensure an empty last line on saving</source>
         <translation>Sprawdzaj obecność pustego wiersza podczas zapisywania</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="430"/>
+        <location filename="../../predDialog.ui" line="442"/>
         <source>Files</source>
         <translation>Pliki</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="436"/>
+        <location filename="../../predDialog.ui" line="448"/>
         <source>File Management</source>
         <translation>Zarządzanie plikami</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="560"/>
-        <location filename="../../predDialog.ui" line="579"/>
+        <location filename="../../predDialog.ui" line="572"/>
+        <location filename="../../predDialog.ui" line="591"/>
         <source>This can be any starting command with
 arguments, for example, &quot;xterm -hold&quot;
 for running the process in XTerm.
@@ -1296,27 +1308,27 @@ will be shown by a popup dialog.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="572"/>
+        <location filename="../../predDialog.ui" line="584"/>
         <source>Start with this command: </source>
         <translation>Rozpocznij z komendą: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="591"/>
+        <location filename="../../predDialog.ui" line="603"/>
         <source>Command + Arguments</source>
         <translation>Komenda + argumenty</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="486"/>
+        <location filename="../../predDialog.ui" line="498"/>
         <source>Show recentl&amp;y modified files</source>
         <translation>Pokazuj ostatnio mod&amp;yfikowane pliki</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="496"/>
+        <location filename="../../predDialog.ui" line="508"/>
         <source>Show recentl&amp;y opened files</source>
         <translation>Pokazuj ostatnio ot&amp;wierane pliki</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="631"/>
+        <location filename="../../predDialog.ui" line="643"/>
         <source>Help</source>
         <translation>Pomoc</translation>
     </message>
@@ -1382,12 +1394,12 @@ okna do drugiego przeciągając kartę.</translation>
         <translation>Podświetaj składnię dom&amp;yślnie</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="366"/>
+        <location filename="../../predDialog.ui" line="378"/>
         <source>Dark c&amp;olor scheme</source>
         <translation>Ciemny zestaw k&amp;olorów</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="397"/>
+        <location filename="../../predDialog.ui" line="409"/>
         <source>Background color value: </source>
         <translation>Wartość koloru tła: </translation>
     </message>
@@ -1397,19 +1409,19 @@ okna do drugiego przeciągając kartę.</translation>
         <translation> MiB</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="415"/>
+        <location filename="../../predDialog.ui" line="427"/>
         <source>This is not a complete fix but
 prevents annoying scroll jumps.</source>
         <translation>Nie jest to w pełni działająca poprawka,
 ale zapobiega irytującemu przeskakiwaniu przy przewijaniu.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="419"/>
+        <location filename="../../predDialog.ui" line="431"/>
         <source>Workaround for &amp;Qt5&apos;s scroll jump bug</source>
         <translation>Obejdź błąd przeskakiwania przy przewijaniu w &amp;Qt5</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="527"/>
+        <location filename="../../predDialog.ui" line="539"/>
         <source>This only includes executable files written
 in script languages like Shell and Python.
 
@@ -1421,13 +1433,13 @@ process could be killed by Ctrl+Alt+E.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="363"/>
+        <location filename="../../predDialog.ui" line="375"/>
         <source>Needs window reopening to take effect.</source>
         <translation>Wymaga ponownego otwarcia okna, aby uzyskać efekt.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="373"/>
-        <location filename="../../predDialog.ui" line="387"/>
+        <location filename="../../predDialog.ui" line="385"/>
+        <location filename="../../predDialog.ui" line="399"/>
         <source>The color value of the background.
 255 means white while 0 means black.
 
@@ -1439,13 +1451,13 @@ Needs window reopening to take effect.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="537"/>
+        <location filename="../../predDialog.ui" line="549"/>
         <source>Run executable scripts</source>
         <translation>Wykonaj skrypty wykonywalne</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="442"/>
-        <location filename="../../predDialog.ui" line="456"/>
+        <location filename="../../predDialog.ui" line="454"/>
+        <location filename="../../predDialog.ui" line="468"/>
         <source>The maximum number of recently modified or
 opened files FeatherPad shows. The default
 is 10.
@@ -1458,13 +1470,13 @@ to 10.
 Restart jest wymagany, aby uzyskać efekt.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="449"/>
+        <location filename="../../predDialog.ui" line="461"/>
         <source>Number of recent files: </source>
         <translation>Liczba ostatnich plików: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="503"/>
         <location filename="../../predDialog.ui" line="515"/>
+        <location filename="../../predDialog.ui" line="527"/>
         <source>The maximum number of recently modified or
 opened files FeatherPad should open with an
 empty startup of a session.</source>
@@ -1472,55 +1484,55 @@ empty startup of a session.</source>
 uruchamianych po rozpoczęciu pustej sesji.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="508"/>
+        <location filename="../../predDialog.ui" line="520"/>
         <source>Start with recent files: </source>
         <translation>Rozpocznij z ostatnimi plikami: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="642"/>
+        <location filename="../../predDialog.ui" line="654"/>
         <source>Close</source>
         <translation>Zamknij</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="147"/>
-        <location filename="../../pref.cpp" line="153"/>
-        <location filename="../../pref.cpp" line="663"/>
-        <location filename="../../pref.cpp" line="668"/>
-        <location filename="../../pref.cpp" line="677"/>
+        <location filename="../../pref.cpp" line="152"/>
+        <location filename="../../pref.cpp" line="158"/>
+        <location filename="../../pref.cpp" line="680"/>
+        <location filename="../../pref.cpp" line="685"/>
+        <location filename="../../pref.cpp" line="694"/>
         <source>files</source>
         <translation>pliki</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="147"/>
-        <location filename="../../pref.cpp" line="153"/>
-        <location filename="../../pref.cpp" line="663"/>
-        <location filename="../../pref.cpp" line="668"/>
-        <location filename="../../pref.cpp" line="677"/>
+        <location filename="../../pref.cpp" line="152"/>
+        <location filename="../../pref.cpp" line="158"/>
+        <location filename="../../pref.cpp" line="680"/>
+        <location filename="../../pref.cpp" line="685"/>
+        <location filename="../../pref.cpp" line="694"/>
         <source>file</source>
         <translation>plik</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="154"/>
+        <location filename="../../pref.cpp" line="159"/>
         <source>No file</source>
         <translation>Brak pliku</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="198"/>
+        <location filename="../../pref.cpp" line="203"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Restart aplikacji jest wymagany, aby uzyskać efekt.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="205"/>
+        <location filename="../../pref.cpp" line="211"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Ponowne otwarcie okna jest wymagane, aby uzyskać efekt.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="692"/>
+        <location filename="../../pref.cpp" line="709"/>
         <source>&amp;Recently Opened</source>
         <translation>Ostatnio otwie&amp;rane</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="693"/>
+        <location filename="../../pref.cpp" line="710"/>
         <source>Recently &amp;Modified</source>
         <translation>Ostatnio &amp;modyfikowane</translation>
     </message>

@@ -225,6 +225,13 @@ public:
         syntaxByDefault_ = syntax;
     }
 
+    bool getShowWhiteSpace() const {
+        return showWhiteSpace_;
+    }
+    void setShowWhiteSpace (bool show) {
+        showWhiteSpace_ = show;
+    }
+
     int getMaxSHSize() const {
         return maxSHSize_;
     }
@@ -292,8 +299,8 @@ public:
 
 private:
     bool remSize_, iconless_, sysIcon_, noToolbar_, noMenubar_, hideSearchbar_, showStatusbar_, remFont_, wrapByDefault_,
-         indentByDefault_, autoBracket_, lineByDefault_, syntaxByDefault_, isMaxed_, isFull_, darkColScheme_,
-         tabWrapAround_, hideSingleTab_, executeScripts_, appendEmptyLine_, nativeDialog_,
+         indentByDefault_, autoBracket_, lineByDefault_, syntaxByDefault_, showWhiteSpace_, isMaxed_, isFull_,
+         darkColScheme_, tabWrapAround_, hideSingleTab_, executeScripts_, appendEmptyLine_, nativeDialog_,
          scrollJumpWorkaround_; // Should a workaround for Qt5's "scroll jump" bug be applied?
     int tabPosition_, maxSHSize_, lightBgColorValue_, darkBgColorValue_, recentFilesNumber_;
     int curRecentFilesNumber_; // the start value of recentFilesNumber_ -- fixed during a session

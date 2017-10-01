@@ -68,7 +68,9 @@ class Highlighter : public QSyntaxHighlighter
     Q_OBJECT
 
 public:
-    Highlighter (QTextDocument *parent, QString lang, QTextCursor start, QTextCursor end, bool darkColorScheme);
+    Highlighter (QTextDocument *parent, QString lang, QTextCursor start, QTextCursor end,
+                 bool darkColorScheme, bool showWhiteSpace = false);
+    ~Highlighter();
 
     void setLimit (QTextCursor start, QTextCursor end) {
         startCursor = start;
@@ -133,6 +135,7 @@ private:
     QTextCharFormat codeBlockFormat;
     /* Used when there is a need to mark text or undo fomatting. */
     QTextCharFormat neutralFormat;
+    QTextCharFormat whiteSpaceFormat; // For whitespaces.
 
     /* Programming language: */
     QString progLan;

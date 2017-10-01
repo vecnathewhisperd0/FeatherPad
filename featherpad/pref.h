@@ -50,6 +50,7 @@ private slots:
     void prefAutoBracket (int checked);
     void prefLine (int checked);
     void prefSyntax (int checked);
+    void prefWhiteSpace (int checked);
     void prefDarkColScheme (int checked);
     void prefColValue (int value);
     void prefAppendEmptyLine (int checked);
@@ -72,7 +73,7 @@ private:
 
     Ui::PrefDialog *ui;
     QWidget * parent_;
-    bool darkBg_, sysIcons_, iconless_;
+    bool darkBg_, sysIcons_, iconless_, showWhiteSpace_;
     int darkColValue_, lightColValue_, recentNumber_;
 };
 

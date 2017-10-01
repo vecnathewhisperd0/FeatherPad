@@ -40,6 +40,7 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     darkColValue_ = config.getDarkBgColorValue();
     lightColValue_ = config.getLightBgColorValue();
     recentNumber_ = config.getRecentFilesNumber();
+    showWhiteSpace_ = config.getShowWhiteSpace();
 
     /**************
      *** Window ***
@@ -106,8 +107,12 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
 
     ui->lineBox->setChecked (config.getLineByDefault());
     connect (ui->lineBox, &QCheckBox::stateChanged, this, &PrefDialog::prefLine);
+
     ui->syntaxBox->setChecked (config.getSyntaxByDefault());
     connect (ui->syntaxBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSyntax);
+
+    ui->whiteSpaceBox->setChecked (config.getShowWhiteSpace());
+    connect (ui->whiteSpaceBox, &QCheckBox::stateChanged, this, &PrefDialog::prefWhiteSpace);
 
     ui->colBox->setChecked (config.getDarkColScheme());
     connect (ui->colBox, &QCheckBox::stateChanged, this, &PrefDialog::prefDarkColScheme);
@@ -200,7 +205,8 @@ void PrefDialog::showPrompt()
     }
     else if (darkBg_ != config.getDarkColScheme()
              || (darkBg_ && darkColValue_ != config.getDarkBgColorValue())
-             || (!darkBg_ && lightColValue_ != config.getLightBgColorValue()))
+             || (!darkBg_ && lightColValue_ != config.getLightBgColorValue())
+             || showWhiteSpace_ != config.getShowWhiteSpace())
     {
         ui->promptLabel->setText ("<b>" + tr ("Window reopening is needed for changes to take effect.") + "</b>");
         ui->promptLabel->setStyleSheet (style);
@@ -493,6 +499,17 @@ void PrefDialog::prefSyntax (int checked)
         config.setSyntaxByDefault (true);
     else if (checked == Qt::Unchecked)
         config.setSyntaxByDefault (false);
+}
+/*************************/
+void PrefDialog::prefWhiteSpace (int checked)
+{
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    if (checked == Qt::Checked)
+        config.setShowWhiteSpace (true);
+    else if (checked == Qt::Unchecked)
+        config.setShowWhiteSpace (false);
+
+    showPrompt();
 }
 /*************************/
 void PrefDialog::prefDarkColScheme (int checked)

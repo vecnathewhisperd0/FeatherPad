@@ -1262,30 +1262,42 @@ Nogle skrivebordsmiljøer, såsom KDE og LXQt leverer fildialoger.</translation>
         <translation>Fremhæv aldrig syntaks for filer &gt; </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="404"/>
+        <location filename="../../predDialog.ui" line="363"/>
+        <source>Show spaces, tabs, line-ends and
+the document end when the syntax
+is highlighted.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="368"/>
+        <source>Show whitespaces with syntax highlighting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="416"/>
         <source>Some text editors cannot open a document
 whose last line is not empty.</source>
         <translation>Nogle tekstredigeringsprogrammer kan ikke åbne et dokument
 hvor den sidste linje ikke er tom.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="408"/>
+        <location filename="../../predDialog.ui" line="420"/>
         <source>Ensure an empty last line on saving</source>
         <translation>Sørg for en tom linje til sidst når der gemmes</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="430"/>
+        <location filename="../../predDialog.ui" line="442"/>
         <source>Files</source>
         <translation>Filer</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="436"/>
+        <location filename="../../predDialog.ui" line="448"/>
         <source>File Management</source>
         <translation>Filhåndtering</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="560"/>
-        <location filename="../../predDialog.ui" line="579"/>
+        <location filename="../../predDialog.ui" line="572"/>
+        <location filename="../../predDialog.ui" line="591"/>
         <source>This can be any starting command with
 arguments, for example, &quot;xterm -hold&quot;
 for running the process in XTerm.
@@ -1309,27 +1321,27 @@ så vises outputtet og fejlmeddelelserne
 af en pop op-dialog.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="572"/>
+        <location filename="../../predDialog.ui" line="584"/>
         <source>Start with this command: </source>
         <translation>Start med denne kommando: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="591"/>
+        <location filename="../../predDialog.ui" line="603"/>
         <source>Command + Arguments</source>
         <translation>Kommando + Argumenter</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="486"/>
+        <location filename="../../predDialog.ui" line="498"/>
         <source>Show recentl&amp;y modified files</source>
         <translation>&amp;Vis seneste ændrede filer</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="496"/>
+        <location filename="../../predDialog.ui" line="508"/>
         <source>Show recentl&amp;y opened files</source>
         <translation>&amp;Vis seneste åbnede filer</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="631"/>
+        <location filename="../../predDialog.ui" line="643"/>
         <source>Help</source>
         <translation>Hjælp</translation>
     </message>
@@ -1396,12 +1408,12 @@ trække og slippe et af dem.</translation>
         <translation>Fremhæv &amp;syntaks som standard</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="366"/>
+        <location filename="../../predDialog.ui" line="378"/>
         <source>Dark c&amp;olor scheme</source>
         <translation>Mørkt &amp;farveskema</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="397"/>
+        <location filename="../../predDialog.ui" line="409"/>
         <source>Background color value: </source>
         <translation>Baggrundens farveværdi: </translation>
     </message>
@@ -1411,19 +1423,19 @@ trække og slippe et af dem.</translation>
         <translation> MiB</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="415"/>
+        <location filename="../../predDialog.ui" line="427"/>
         <source>This is not a complete fix but
 prevents annoying scroll jumps.</source>
         <translation>Dette er ikke en fuldstændig rette men
 det forhindre irriterende rullehop.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="419"/>
+        <location filename="../../predDialog.ui" line="431"/>
         <source>Workaround for &amp;Qt5&apos;s scroll jump bug</source>
         <translation>Ret &amp;Qt5&apos;s rullehop-fejl</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="527"/>
+        <location filename="../../predDialog.ui" line="539"/>
         <source>This only includes executable files written
 in script languages like Shell and Python.
 
@@ -1442,13 +1454,13 @@ når det er nødvendigt, eller med dens genvej Ctrl+E. Så kan
 processen dræbes med Ctrl+Alt+E.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="363"/>
+        <location filename="../../predDialog.ui" line="375"/>
         <source>Needs window reopening to take effect.</source>
         <translation>Vinduet skal genåbnes før det træder i kraft.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="373"/>
-        <location filename="../../predDialog.ui" line="387"/>
+        <location filename="../../predDialog.ui" line="385"/>
+        <location filename="../../predDialog.ui" line="399"/>
         <source>The color value of the background.
 255 means white while 0 means black.
 
@@ -1467,13 +1479,13 @@ er mellem 0 og 50.
 Vinduet skal genåbnes før det træder i kraft.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="537"/>
+        <location filename="../../predDialog.ui" line="549"/>
         <source>Run executable scripts</source>
         <translation>Kør eksekverbare scripts</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="442"/>
-        <location filename="../../predDialog.ui" line="456"/>
+        <location filename="../../predDialog.ui" line="454"/>
+        <location filename="../../predDialog.ui" line="468"/>
         <source>The maximum number of recently modified or
 opened files FeatherPad shows. The default
 is 10.
@@ -1486,13 +1498,13 @@ er 10.
 Programmet skal genstartes før ændringerne træder i kraft.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="449"/>
+        <location filename="../../predDialog.ui" line="461"/>
         <source>Number of recent files: </source>
         <translation>Antal seneste filer: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="503"/>
         <location filename="../../predDialog.ui" line="515"/>
+        <location filename="../../predDialog.ui" line="527"/>
         <source>The maximum number of recently modified or
 opened files FeatherPad should open with an
 empty startup of a session.</source>
@@ -1501,55 +1513,55 @@ empty startup of a session.</source>
 tom opstart af en session.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="508"/>
+        <location filename="../../predDialog.ui" line="520"/>
         <source>Start with recent files: </source>
         <translation>Start med seneste filer: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="642"/>
+        <location filename="../../predDialog.ui" line="654"/>
         <source>Close</source>
         <translation>Luk</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="147"/>
-        <location filename="../../pref.cpp" line="153"/>
-        <location filename="../../pref.cpp" line="663"/>
-        <location filename="../../pref.cpp" line="668"/>
-        <location filename="../../pref.cpp" line="677"/>
+        <location filename="../../pref.cpp" line="152"/>
+        <location filename="../../pref.cpp" line="158"/>
+        <location filename="../../pref.cpp" line="680"/>
+        <location filename="../../pref.cpp" line="685"/>
+        <location filename="../../pref.cpp" line="694"/>
         <source>files</source>
         <translation>filer</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="147"/>
-        <location filename="../../pref.cpp" line="153"/>
-        <location filename="../../pref.cpp" line="663"/>
-        <location filename="../../pref.cpp" line="668"/>
-        <location filename="../../pref.cpp" line="677"/>
+        <location filename="../../pref.cpp" line="152"/>
+        <location filename="../../pref.cpp" line="158"/>
+        <location filename="../../pref.cpp" line="680"/>
+        <location filename="../../pref.cpp" line="685"/>
+        <location filename="../../pref.cpp" line="694"/>
         <source>file</source>
         <translation>fil</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="154"/>
+        <location filename="../../pref.cpp" line="159"/>
         <source>No file</source>
         <translation>Ingen fil</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="198"/>
+        <location filename="../../pref.cpp" line="203"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Programmet skal genstartes før ændringerne træder i kraft.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="205"/>
+        <location filename="../../pref.cpp" line="211"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Vinduet skal genåbnes før ændringerne træder i kraft.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="692"/>
+        <location filename="../../pref.cpp" line="709"/>
         <source>&amp;Recently Opened</source>
         <translation>&amp;Seneste åbnede</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="693"/>
+        <location filename="../../pref.cpp" line="710"/>
         <source>Recently &amp;Modified</source>
         <translation>Seneste &amp;ændrede</translation>
     </message>

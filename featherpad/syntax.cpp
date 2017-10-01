@@ -237,7 +237,8 @@ void FPwin::syntaxHighlighting (TextEdit *textEdit)
         return;
     }
 
-    if (textEdit->getSize() > static_cast<FPsingleton*>(qApp)->getConfig().getMaxSHSize()*1024*1024)
+    Config config = static_cast<FPsingleton*>(qApp)->getConfig();
+    if (textEdit->getSize() > config.getMaxSHSize()*1024*1024)
         return;
 
     QPoint Point (0, 0);
@@ -245,7 +246,9 @@ void FPwin::syntaxHighlighting (TextEdit *textEdit)
     Point = QPoint (textEdit->geometry().width(), textEdit->geometry().height());
     QTextCursor end = textEdit->cursorForPosition (Point);
 
-    Highlighter *highlighter = new Highlighter (textEdit->document(), progLan, start, end, textEdit->hasDarkScheme());
+    Highlighter *highlighter = new Highlighter (textEdit->document(), progLan, start, end,
+                                                textEdit->hasDarkScheme(),
+                                                config.getShowWhiteSpace());
     textEdit->setHighlighter (highlighter);
 
     QCoreApplication::processEvents(); // it's necessary to wait until the text is completely loaded
