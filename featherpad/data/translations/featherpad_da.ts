@@ -1262,13 +1262,6 @@ Nogle skrivebordsmiljøer, såsom KDE og LXQt leverer fildialoger.</translation>
         <translation>Fremhæv aldrig syntaks for filer &gt; </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="363"/>
-        <source>Show spaces, tabs, line-ends and
-the document end when the syntax
-is highlighted.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../predDialog.ui" line="368"/>
         <source>Show whitespaces with syntax highlighting</source>
         <translation type="unfinished"></translation>
@@ -1406,6 +1399,13 @@ trække og slippe et af dem.</translation>
         <location filename="../../predDialog.ui" line="304"/>
         <source>Highlight s&amp;yntax by default</source>
         <translation>Fremhæv &amp;syntaks som standard</translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="363"/>
+        <source>Show spaces, tabs, tab lines,
+line-ends and the document end
+when the syntax is highlighted.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="378"/>

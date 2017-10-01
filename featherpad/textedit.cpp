@@ -25,6 +25,7 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     autoIndentation = true;
     autoBracket = false;
     scrollJumpWorkaround = false;
+    drawIndetLines = false;
 
     /* set the backgound color and ensure enough contrast
        between the selection and line highlight colors */
@@ -505,7 +506,8 @@ static void fillBackground (QPainter *p, const QRectF &rect, QBrush brush, const
     p->restore();
 }
 // Exactly like QPlainTextEdit::paintEvent(),
-// except for setting of layout text option for RTL.
+// except for setting layout text option for RTL
+// and drawing vertical indentation lines (if needed).
 void TextEdit::paintEvent (QPaintEvent *event)
 {
     QPainter painter (viewport());
@@ -538,17 +540,47 @@ void TextEdit::paintEvent (QPaintEvent *event)
             continue;
         }
 
-        /* the whole point of including paintEvent */
-        if (block.text().isRightToLeft())
-        {
-            QTextOption opt = document()->defaultTextOption();
-            opt = QTextOption (Qt::AlignRight);
-            opt.setTextDirection (Qt::RightToLeft);
-            layout->setTextOption (opt);
-        }
-
         if (r.bottom() >= er.top() && r.top() <= er.bottom())
         {
+            /* take care of RTL */
+            if (block.text().isRightToLeft())
+            {
+                QTextOption opt = document()->defaultTextOption();
+                opt = QTextOption (Qt::AlignRight);
+                opt.setTextDirection (Qt::RightToLeft);
+                layout->setTextOption (opt);
+            }
+            /* no indentation line with RTL (for now) */
+            else if (drawIndetLines)
+            {
+                QRegExp exp = QRegExp ("\\s+");
+                int indx = exp.indexIn (block.text());
+                if (indx == 0)
+                {
+                    painter.save();
+                    painter.setOpacity (0.2);
+                    int len = exp.matchedLength();
+                    QTextCursor cur = textCursor();
+                    cur.setPosition (block.position() + len);
+                    int rightMost = cursorRect (cur).x();
+                    QFontMetrics fm = QFontMetrics (document()->defaultFont());
+                    QRect rect = r.toRect();
+                    int yTop = rect.topLeft().y();
+                    int yBottom =  rect.height() > 2 * fm.lineSpacing()
+                                       ? yTop + fm.height()
+                                       : rect.bottomLeft().y();
+                    int x = rect.topLeft().x();
+                    int tabWidth = fm.width(' ') * 4;
+                    x += tabWidth;
+                    while (x <= rightMost)
+                    {
+                        painter.drawLine (QLine (x, yTop, x, yBottom));
+                        x += tabWidth;
+                    }
+                    painter.restore();
+                }
+            }
+
             QTextBlockFormat blockFormat = block.blockFormat();
             QBrush bg = blockFormat.background();
             if (bg != Qt::NoBrush)

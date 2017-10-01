@@ -360,9 +360,9 @@ Some desktop environments, like KDE and LXQt, provide files dialogs.</string>
           <item row="7" column="1" colspan="2">
            <widget class="QCheckBox" name="whiteSpaceBox">
             <property name="toolTip">
-             <string>Show spaces, tabs, line-ends and
-the document end when the syntax
-is highlighted.</string>
+             <string>Show spaces, tabs, tab lines,
+line-ends and the document end
+when the syntax is highlighted.</string>
             </property>
             <property name="text">
              <string>Show whitespaces with syntax highlighting</string>

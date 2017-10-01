@@ -1263,15 +1263,6 @@ krampojn kaj ankaŭ la citmarkojn.</translation>
         <translation>Ne marku la sintakson por la dosieroj &gt; </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="363"/>
-        <source>Show spaces, tabs, line-ends and
-the document end when the syntax
-is highlighted.</source>
-        <translation>Montru spacojn, tabojn, linifinojn
-kaj la dokumentfinon kiam la sintakso
-estas markita.</translation>
-    </message>
-    <message>
         <location filename="../../predDialog.ui" line="368"/>
         <source>Show whitespaces with syntax highlighting</source>
         <translation>Montru la blankspacojn markante la sintakson</translation>
@@ -1408,6 +1399,15 @@ fenestron al alia per ŝovmetado.</translation>
         <location filename="../../predDialog.ui" line="304"/>
         <source>Highlight s&amp;yntax by default</source>
         <translation>Marku la sin&amp;takson defaŭlte</translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="363"/>
+        <source>Show spaces, tabs, tab lines,
+line-ends and the document end
+when the syntax is highlighted.</source>
+        <translation>Montru spacojn, tabojn, tabliniojn,
+linifinojn, kaj la dokumentfinon kiam
+la sintakso estas markita.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="378"/>

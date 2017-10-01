@@ -1259,13 +1259,6 @@ Niektóre środowiska, np. KDE i LXQt dostarczają własne okna dialogowe.</tran
         <translation>Nigdy nie podświetlaj składni w plikach &gt; </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="363"/>
-        <source>Show spaces, tabs, line-ends and
-the document end when the syntax
-is highlighted.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../predDialog.ui" line="368"/>
         <source>Show whitespaces with syntax highlighting</source>
         <translation type="unfinished"></translation>
@@ -1392,6 +1385,13 @@ okna do drugiego przeciągając kartę.</translation>
         <location filename="../../predDialog.ui" line="304"/>
         <source>Highlight s&amp;yntax by default</source>
         <translation>Podświetaj składnię dom&amp;yślnie</translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="363"/>
+        <source>Show spaces, tabs, tab lines,
+line-ends and the document end
+when the syntax is highlighted.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="378"/>

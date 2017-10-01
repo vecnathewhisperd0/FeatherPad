@@ -139,7 +139,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
         Violet = QColor (126, 0, 230); //d556e6
         Brown = QColor (160, 80, 0);
         DarkYellow = Qt::darkYellow;
-        Faded = QColor (100, 100, 100);
+        Faded = QColor (140, 140, 140);
     }
     else
     {
@@ -152,7 +152,7 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
         Violet = QColor (255, 255, 0);
         Brown = QColor (255, 200, 0);
         DarkYellow = Qt::yellow;
-        Faded = QColor (140, 140, 140);
+        Faded = QColor (120, 120, 120);
     }
     DarkGreenAlt = DarkGreen.lighter (101); // almost identical
 

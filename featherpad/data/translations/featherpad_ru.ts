@@ -1219,13 +1219,6 @@ Some desktop environments, like KDE and LXQt, provide files dialogs.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="363"/>
-        <source>Show spaces, tabs, line-ends and
-the document end when the syntax
-is highlighted.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../predDialog.ui" line="368"/>
         <source>Show whitespaces with syntax highlighting</source>
         <translation type="unfinished"></translation>
@@ -1372,6 +1365,13 @@ and-drop either.</source>
         <location filename="../../predDialog.ui" line="273"/>
         <source>&amp;Wrap lines by default</source>
         <translation>&amp;Выделение линий по умолчанию</translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="363"/>
+        <source>Show spaces, tabs, tab lines,
+line-ends and the document end
+when the syntax is highlighted.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="409"/>

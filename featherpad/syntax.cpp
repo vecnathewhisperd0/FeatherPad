@@ -59,6 +59,8 @@ void FPwin::toggleSyntaxHighlighting()
             textEdit->setRedSel (QList<QTextEdit::ExtraSelection>());
             textEdit->setExtraSelections (es);
 
+            textEdit->setDrawIndetLines (false);
+
             highlighter = qobject_cast< Highlighter *>(textEdit->getHighlighter());
             textEdit->setHighlighter (nullptr);
             delete highlighter; highlighter = nullptr;
@@ -246,6 +248,7 @@ void FPwin::syntaxHighlighting (TextEdit *textEdit)
     Point = QPoint (textEdit->geometry().width(), textEdit->geometry().height());
     QTextCursor end = textEdit->cursorForPosition (Point);
 
+    textEdit->setDrawIndetLines (config.getShowWhiteSpace());
     Highlighter *highlighter = new Highlighter (textEdit->document(), progLan, start, end,
                                                 textEdit->hasDarkScheme(),
                                                 config.getShowWhiteSpace());
