@@ -27,6 +27,8 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     scrollJumpWorkaround = false;
     drawIndetLines = false;
 
+    //document()->setUseDesignMetrics (true);
+
     /* set the backgound color and ensure enough contrast
        between the selection and line highlight colors */
     QPalette p = palette();
@@ -562,19 +564,18 @@ void TextEdit::paintEvent (QPaintEvent *event)
                     int len = exp.matchedLength();
                     QTextCursor cur = textCursor();
                     cur.setPosition (block.position() + len);
-                    int rightMost = cursorRect (cur).x();
-                    QFontMetrics fm = QFontMetrics (document()->defaultFont());
-                    QRect rect = r.toRect();
-                    int yTop = rect.topLeft().y();
-                    int yBottom =  rect.height() > 2 * fm.lineSpacing()
-                                       ? yTop + fm.height()
-                                       : rect.bottomLeft().y();
-                    int x = rect.topLeft().x();
-                    int tabWidth = fm.width(' ') * 4;
+                    qreal rightMost = cursorRect (cur).right();
+                    QFontMetricsF fm = QFontMetricsF (document()->defaultFont());
+                    int yTop = qRound (r.topLeft().y());
+                    int yBottom =  qRound (r.height() >= (qreal)2 * fm.lineSpacing()
+                                               ? yTop + fm.height()
+                                               : r.bottomLeft().y() - (qreal)1);
+                    qreal x = r.topLeft().x();
+                    qreal tabWidth = (qreal)fm.width ("    ");
                     x += tabWidth;
                     while (x <= rightMost)
                     {
-                        painter.drawLine (QLine (x, yTop, x, yBottom));
+                        painter.drawLine (QLine (qRound (x), yTop, qRound (x), yBottom));
                         x += tabWidth;
                     }
                     painter.restore();
@@ -757,8 +758,10 @@ void TextEdit::zooming (float range)
     if (newSize <= 0) return;
     f.setPointSizeF (newSize);
     setFont (f);
-    QFontMetrics metrics (f);
-    setTabStopWidth (4 * metrics.width (' '));
+    QFontMetricsF metrics (f);
+    QTextOption opt = document()->defaultTextOption();
+    opt.setTabStop (metrics.width ("    "));
+    document()->setDefaultTextOption (opt);
 
     /* if this is a zoom-out, the text will need
        to be formatted and/or highlighted again */
