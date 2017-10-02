@@ -68,7 +68,7 @@ void FPwin::matchBrackets()
         }
     }
 
-    /* bracket */
+    /* brace */
     QVector<BraceInfo *> braceInfos = data->braces();
     for (int i = 0; i < braceInfos.size(); ++i)
     {
@@ -85,6 +85,30 @@ void FPwin::matchBrackets()
         else if (info->position == curBlockPos - 1 && info->character == '}')
         {
             if (matchRightBrace (textEdit->textCursor().block(), braceInfos.size() - i, 0))
+            {
+                createSelection (blockPos + info->position);
+                break;
+            }
+        }
+    }
+
+    /* bracket */
+    QVector<BracketInfo *> bracketInfos = data->brackets();
+    for (int i = 0; i < bracketInfos.size(); ++i)
+    {
+        BracketInfo *info = bracketInfos.at (i);
+
+        if (info->position == curBlockPos && info->character == '[')
+        {
+            if (matchLeftBracket (textEdit->textCursor().block(), i + 1, 0))
+            {
+                createSelection (blockPos + info->position);
+                break;
+            }
+        }
+        else if (info->position == curBlockPos - 1 && info->character == ']')
+        {
+            if (matchRightBracket (textEdit->textCursor().block(), bracketInfos.size() - i, 0))
             {
                 createSelection (blockPos + info->position);
                 break;
@@ -215,6 +239,69 @@ bool FPwin::matchRightBrace (QTextBlock currentBlock, int i, int numLeftBraces)
     currentBlock = currentBlock.previous();
     if (currentBlock.isValid())
         return matchRightBrace (currentBlock, 0, numLeftBraces);
+
+    return false;
+}
+/*************************/
+bool FPwin::matchLeftBracket (QTextBlock currentBlock, int i, int numRightBrackets)
+{
+    TextBlockData *data = static_cast<TextBlockData *>(currentBlock.userData());
+    if (!data) return false;
+    QVector<BracketInfo *> infos = data->brackets();
+
+    int docPos = currentBlock.position();
+    for (; i < infos.size(); ++i)
+    {
+        BracketInfo *info = infos.at (i);
+        if (info->character == '[')
+        {
+            ++numRightBrackets;
+            continue;
+        }
+
+        if (info->character == ']' && numRightBrackets == 0)
+        {
+            createSelection (docPos + info->position);
+            return true;
+        }
+        else
+            --numRightBrackets;
+    }
+
+    currentBlock = currentBlock.next();
+    if (currentBlock.isValid())
+        return matchLeftBracket (currentBlock, 0, numRightBrackets);
+
+    return false;
+}
+/*************************/
+bool FPwin::matchRightBracket (QTextBlock currentBlock, int i, int numLeftBrackets)
+{
+    TextBlockData *data = static_cast<TextBlockData *>(currentBlock.userData());
+    if (!data) return false;
+    QVector<BracketInfo *> infos = data->brackets();
+
+    int docPos = currentBlock.position();
+    for (; i < infos.size(); ++i)
+    {
+        BracketInfo *info = infos.at (infos.size() - 1 - i);
+        if (info->character == ']')
+        {
+            ++numLeftBrackets;
+            continue;
+        }
+        if (info->character == '[' && numLeftBrackets == 0)
+        {
+            createSelection (docPos + info->position);
+            return true;
+        }
+        else
+            --numLeftBrackets;
+    }
+
+    currentBlock = currentBlock.previous();
+    if (currentBlock.isValid())
+        return matchRightBracket (currentBlock, 0, numLeftBrackets);
 
     return false;
 }

@@ -36,6 +36,12 @@ TextBlockData::~TextBlockData()
         allBraces.remove(0);
         delete info;
     }
+    while (!allBrackets.isEmpty())
+    {
+        BracketInfo *info = allBrackets.at (0);
+        allBrackets.remove(0);
+        delete info;
+    }
 }
 /*************************/
 QVector<ParenthesisInfo *> TextBlockData::parentheses()
@@ -46,6 +52,11 @@ QVector<ParenthesisInfo *> TextBlockData::parentheses()
 QVector<BraceInfo *> TextBlockData::braces()
 {
     return allBraces;
+}
+/*************************/
+QVector<BracketInfo *> TextBlockData::brackets()
+{
+    return allBrackets;
 }
 /*************************/
 QString TextBlockData::delimiter()
@@ -85,6 +96,18 @@ void TextBlockData::insertInfo (BraceInfo *info)
     }
 
     allBraces.insert (i, info);
+}
+/*************************/
+void TextBlockData::insertInfo (BracketInfo *info)
+{
+    int i = 0;
+    while (i < allBrackets.size()
+           && info->position > allBrackets.at (i)->position)
+    {
+        ++i;
+    }
+
+    allBrackets.insert (i, info);
 }
 /*************************/
 void TextBlockData::insertInfo (QString str)
@@ -553,11 +576,11 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
         rule.format = srtFormat;
         highlightingRules.append (rule);
     }
-    else if (progLan == "desktop" || progLan == "theme")
+    else if (progLan == "desktop" || progLan == "config" || progLan == "theme")
     {
         QTextCharFormat desktopSignsFormat;
         desktopSignsFormat.setForeground (DarkMagenta);
-        rule.pattern = QRegExp ("=|;|/|%|\\+|-");
+        rule.pattern = QRegExp ("^[^\\=]+=|^[^\\=]+\\[.*\\]=|;|/|%|\\+|-");
         rule.format = desktopSignsFormat;
         highlightingRules.append (rule);
 
@@ -569,17 +592,27 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
         rule.format = desktopFormat;
         highlightingRules.append (rule);
 
-        desktopFormat.setForeground (DarkGreenAlt);
-        /* before = */
-        rule.pattern = QRegExp ("^[^\\=]+(?=\\s*\\=)");
+        desktopFormat.setForeground (Blue);
+        /* [...] and before = (like ...[en]=)*/
+        rule.pattern = QRegExp ("^[^\\=]+\\[.*\\](?=\\s*\\=)");
         rule.format = desktopFormat;
         highlightingRules.append (rule);
 
-        desktopFormat.setForeground (Blue);
-        /* [...] and before = */
-        rule.pattern = QRegExp ("\\[.*\\](?=\\s*\\=)");
+        desktopFormat.setForeground (DarkGreenAlt);
+        /* before = and [] */
+        rule.pattern = QRegExp ("^[^\\=\\[]+(?=(\\[.*\\])*\\s*\\=)");
         rule.format = desktopFormat;
         highlightingRules.append (rule);
+
+        if (progLan == "config")
+        {
+            desktopFormat.setForeground (QBrush());
+            desktopFormat.setFontItalic (true);
+            /* color values */
+            rule.pattern = QRegExp ("#\\b([A-Za-z0-9]{3}){,2}(?![A-Za-z0-9_]+)|#\\b([A-Za-z0-9]{3}){2}[A-Za-z0-9]{2}(?![A-Za-z0-9_]+)");
+            rule.format = desktopFormat;
+            highlightingRules.append (rule);
+        }
     }
     else if (progLan == "url" || progLan == "sourceslist")
     {
@@ -737,11 +770,15 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
     {
         rule.pattern = QRegExp ("//.*"); // why had I set it to QRegExp ("//(?!\\*).*")?
     }
-    else if (progLan == "python" || progLan == "desktop"
+    else if (progLan == "python"
              || progLan == "sourceslist" || progLan == "qmake"
              || progLan == "gtkrc")
     {
         rule.pattern = QRegExp ("#.*"); // or "#[^\n]*"
+    }
+    else if (progLan == "desktop" || progLan == "config")
+    {
+        rule.pattern = QRegExp ("^\\s*#.*"); // only at start
     }
     else if (progLan == "deb")
     {
@@ -1310,12 +1347,13 @@ int Highlighter::cssHighlighter (const QString &text)
         }
     }
 
-    /* color value format (#xyz) */
+    /* color value format (#xyz, #abcdef, #abcdefxy) */
     QTextCharFormat cssColorFormat;
     cssColorFormat.setFontItalic (true);
     cssColorFormat.setForeground (DarkGreenAlt);
     cssColorFormat.setFontWeight (QFont::Bold);
-    QRegExp expression = QRegExp ("#\\b([A-Za-z0-9]{3}){,4}(?![A-Za-z0-9_]+)");
+    // previously: "#\\b([A-Za-z0-9]{3}){,4}(?![A-Za-z0-9_]+)"
+    QRegExp expression = QRegExp ("#\\b([A-Za-z0-9]{3}){,2}(?![A-Za-z0-9_]+)|#\\b([A-Za-z0-9]{3}){2}[A-Za-z0-9]{2}(?![A-Za-z0-9_]+)");
     int indxTmp = expression.indexIn (text);
     while (isQuoted (text, indxTmp))
         indxTmp = expression.indexIn (text, indxTmp + 1);
@@ -2022,10 +2060,10 @@ void Highlighter::debControlFormatting (const QString &text)
             }
             index = index + ml;
         }
-        debFormat.setFontItalic (false);
 
         /* non-commented URLs */
-        debFormat.setForeground (Violet);
+        debFormat.setForeground (DarkGreenAlt);
+        debFormat.setFontUnderline (true);
         exp = QRegExp ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
         while ((indx = text.indexOf (exp, indx)) > -1)
         {
@@ -2103,9 +2141,10 @@ void Highlighter::highlightBlock (const QString &text)
     else if (progLan == "sh") // bash has its own method
         SH_MultiLineQuote (text);
     else if (progLan != "diff" && progLan != "log"
-             && progLan != "desktop" && progLan != "theme"
+             && progLan != "desktop" && progLan != "config" && progLan != "theme"
              && progLan != "changelog" && progLan != "url"
-             && progLan != "srt" && progLan != "html")
+             && progLan != "srt" && progLan != "html"
+             && progLan != "deb")
     {
         multiLineQuote (text);
     }
@@ -2205,9 +2244,9 @@ void Highlighter::highlightBlock (const QString &text)
         }
     }
 
-    /***********************************
-     * Parentheses and Braces Matching *
-     ***********************************/
+    /*********************************************
+     * Parentheses, Braces and brackets Matching *
+     *********************************************/
 
     /* left parenthesis */
     index = text.indexOf ('(');
@@ -2294,6 +2333,50 @@ void Highlighter::highlightBlock (const QString &text)
                || format (index) == commentFormat)
         {
             index = text.indexOf ('}', index + 1);
+        }
+    }
+
+    /* left bracket */
+    index = text.indexOf ('[');
+    while (format (index) == quoteFormat || format (index) == altQuoteFormat
+           || format (index) == commentFormat)
+    {
+        index = text.indexOf ('[', index + 1);
+    }
+    while (index != -1)
+    {
+        BracketInfo *info = new BracketInfo;
+        info->character = '[';
+        info->position = index;
+        data->insertInfo (info);
+
+        index = text.indexOf ('[', index + 1);
+        while (format (index) == quoteFormat || format (index) == altQuoteFormat
+               || format (index) == commentFormat)
+        {
+            index = text.indexOf ('[', index + 1);
+        }
+    }
+
+    /* right bracket */
+    index = text.indexOf (']');
+    while (format (index) == quoteFormat || format (index) == altQuoteFormat
+           || format (index) == commentFormat)
+    {
+        index = text.indexOf (']', index + 1);
+    }
+    while (index != -1)
+    {
+        BracketInfo *info = new BracketInfo;
+        info->character = ']';
+        info->position = index;
+        data->insertInfo (info);
+
+        index = text.indexOf (']', index +1);
+        while (format (index) == quoteFormat || format (index) == altQuoteFormat
+               || format (index) == commentFormat)
+        {
+            index = text.indexOf (']', index + 1);
         }
     }
 

@@ -197,6 +197,8 @@ private:
     bool matchRightParenthesis (QTextBlock currentBlock, int index, int numLeftParentheses);
     bool matchLeftBrace (QTextBlock currentBlock, int index, int numRightBraces);
     bool matchRightBrace (QTextBlock currentBlock, int index, int numLeftBraces);
+    bool matchLeftBracket (QTextBlock currentBlock, int index, int numRightBrackets);
+    bool matchRightBracket (QTextBlock currentBlock, int index, int numLeftBrackets);
     void createSelection (int pos);
     void formatTextRect (QRect rect) const;
     void removeGreenSel();

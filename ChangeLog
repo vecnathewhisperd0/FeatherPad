@@ -24,6 +24,8 @@ V0.6.1
  * A workaround for the scrollbar range bug in QPlainTextEdit (the range wasn't updated correctly on chaanging font size).
  * Don't let the statusbar text change the window width.
  * Added an option for showing whitespaces with syntax highlighting.
+ * Match brackets too (in addition to parentheses and braces).
+ * Added config files to syntax highlighting.
 
 V0.6.0
 ---------

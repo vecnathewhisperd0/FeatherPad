@@ -34,6 +34,13 @@ struct BraceInfo
     int position;
 };
 
+struct BracketInfo
+{
+    char character; // '[' or ']'
+    int position;
+};
+
+
 /* This class is for detection of matching parentheses and
    braces, and also for highlighting of here-documents. */
 class TextBlockData : public QTextBlockUserData
@@ -43,11 +50,13 @@ public:
     ~TextBlockData();
     QVector<ParenthesisInfo *> parentheses();
     QVector<BraceInfo *> braces();
+    QVector<BracketInfo *> brackets();
     QString delimiter();
     bool isHighlighted();
     int openNests();
     void insertInfo (ParenthesisInfo *info);
     void insertInfo (BraceInfo *info);
+    void insertInfo (BracketInfo *info);
     void insertInfo (QString str);
     void insertHighlightInfo (bool highlighted);
     void insertNestInfo (int nests);
@@ -55,6 +64,7 @@ public:
 private:
     QVector<ParenthesisInfo *> allParentheses;
     QVector<BraceInfo *> allBraces;
+    QVector<BracketInfo *> allBrackets;
     QString Delimiter; // The delimiter string of a here-doc.
     bool Highlighted; // Is this block completely highlighted?
     /* "Nest" is a generalized bracket. This variable
@@ -190,7 +200,7 @@ private:
         commentInCssState,
         cssValueState,
 
-        endState // 25
+        endState // 24
 
         /* For here-docs, state >= endState or state < -1. */
     };

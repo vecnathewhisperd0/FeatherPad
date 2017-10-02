@@ -117,6 +117,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
             progLan = "css";
         else if (fname.endsWith (".desktop") || fname.endsWith (".desktop.in") || fname.endsWith (".directory"))
              progLan = "desktop";
+        else if (fname.endsWith (".conf") || fname.endsWith (".ini") || fname.endsWith (".kvconfig"))
+             progLan = "config";
         else if (fname.endsWith (".js"))
             progLan = "javascript";
         else if (fname.endsWith (".qml"))
