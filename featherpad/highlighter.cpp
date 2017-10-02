@@ -1957,31 +1957,15 @@ bool Highlighter::isHereDocument (const QString &text)
 /*************************/
 void Highlighter::debControlFormatting (const QString &text)
 {
-    bool applyFormat (false);
+    if (text.isEmpty()) return;
+    bool formatFurther (false);
+    QRegExp exp;
+    int indx = 0;
     QTextCharFormat debFormat;
-    if (previousBlockState() == debDescript)
+    if (QRegExp ("^[^\\s:]+:(?=\\s*)").indexIn (text) == 0)
     {
-        if (QRegExp ("^[^\\s:]+:(?=\\s*)").indexIn (text) != 0)
-        {
-            setCurrentBlockState (debDescript);
-            debFormat.setForeground (DarkGreenAlt);
-            setFormat (0, text.count(), debFormat);
-        }
-        else
-            applyFormat = true;
-    }
-    else if (text.startsWith ("Description:"))
-    {
-        setCurrentBlockState (debDescript);
-        applyFormat = true;
-    }
-    else if (QRegExp ("^[^\\s:]+:(?=\\s*)").indexIn (text) == 0)
-        applyFormat = true;
-
-    if (applyFormat)
-    {
-        int indx = 0;
-        QRegExp exp = QRegExp ("^[^\\s:]+(?=:)");
+        formatFurther = true;
+        exp = QRegExp ("^[^\\s:]+(?=:)");
         if (exp.indexIn (text) == 0)
         {
             /* before ":" */
@@ -1994,46 +1978,51 @@ void Highlighter::debControlFormatting (const QString &text)
             indx = text.indexOf (":");
             setFormat (indx, 1, debFormat);
             indx ++;
-        }
 
-        if (indx < text.count())
-        {
-            /* after ":" */
-            debFormat.setFontWeight (QFont::Normal);
-            debFormat.setForeground (DarkGreenAlt);
-            setFormat (indx, text.count() - indx , debFormat);
-
-            /* package versions */
-            if (text.startsWith ("Build-Depends:")
-                || text.startsWith ("Depends:"))
+            if (indx < text.count())
             {
-                exp = QRegExp ("\\([^\\(\\)\\[\\]]+\\)|\\[[^\\(\\)\\[\\]]+\\]");
-                int index = indx;
-                debFormat.setForeground (QBrush());
-                debFormat.setFontItalic (true);
-                while ((index = text.indexOf (exp, index)) > -1)
-                {
-                    int ml = exp.matchedLength();
-                    setFormat (index, ml, neutralFormat);
-                    if (ml > 2)
-                    {
-                        setFormat (index + 1, ml - 2 , debFormat);
-
-                        QRegExp rel = QRegExp ("<|>|\\=|~");
-                        int i = index;
-                        while ((i = text.indexOf (rel, i)) > -1 && i < index + ml - 1)
-                        {
-                            QTextCharFormat relFormat;
-                            relFormat.setForeground (DarkMagenta);
-                            setFormat (i, 1, relFormat);
-                            ++i;
-                        }
-                    }
-                    index = index + ml;
-                }
-                debFormat.setFontItalic (false);
+                /* after ":" */
+                debFormat.setFontWeight (QFont::Normal);
+                debFormat.setForeground (DarkGreenAlt);
+                setFormat (indx, text.count() - indx , debFormat);
             }
         }
+    }
+    else if (QRegExp ("^\\s+").indexIn (text) == 0)
+    {
+        formatFurther = true;
+        debFormat.setForeground (DarkGreenAlt);
+        setFormat (0, text.count(), debFormat);
+    }
+
+    if (formatFurther)
+    {
+        /* parentheses and brackets */
+        exp = QRegExp ("\\([^\\(\\)\\[\\]]+\\)|\\[[^\\(\\)\\[\\]]+\\]");
+        int index = indx;
+        debFormat.setForeground (QBrush());
+        debFormat.setFontItalic (true);
+        while ((index = text.indexOf (exp, index)) > -1)
+        {
+            int ml = exp.matchedLength();
+            setFormat (index, ml, neutralFormat);
+            if (ml > 2)
+            {
+                setFormat (index + 1, ml - 2 , debFormat);
+
+                QRegExp rel = QRegExp ("<|>|\\=|~");
+                int i = index;
+                while ((i = text.indexOf (rel, i)) > -1 && i < index + ml - 1)
+                {
+                    QTextCharFormat relFormat;
+                    relFormat.setForeground (DarkMagenta);
+                    setFormat (i, 1, relFormat);
+                    ++i;
+                }
+            }
+            index = index + ml;
+        }
+        debFormat.setFontItalic (false);
 
         /* non-commented URLs */
         debFormat.setForeground (Violet);

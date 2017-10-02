@@ -190,9 +190,6 @@ private:
         commentInCssState,
         cssValueState,
 
-        /* debian control description */
-        debDescript,
-
         endState // 25
 
         /* For here-docs, state >= endState or state < -1. */
