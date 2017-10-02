@@ -155,6 +155,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
         progLan = "changelog";
     else if (baseName == "gtkrc")
         progLan = "gtkrc";
+    else if (baseName == "control")
+        progLan = "deb";
 
     if (progLan.isEmpty()) // now, check mime types
     {
@@ -268,7 +270,13 @@ void FPwin::syntaxHighlighting (TextEdit *textEdit)
 void FPwin::formatOnTextChange (int /*position*/, int charsRemoved, int charsAdded) const
 {
     if (charsRemoved > 0 || charsAdded > 0)
-        formatOnResizing();
+    {
+        /* wait until the document's layout manager is notified about the change;
+           otherwise, the end cursor might be out of range in formatTextRect() */
+        QTimer::singleShot (0, [=]() {
+            formatOnResizing();
+        });
+    }
 }
 /*************************/
 void FPwin::formatOnBlockChange (int/* newBlockCount*/) const

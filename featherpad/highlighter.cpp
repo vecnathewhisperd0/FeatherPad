@@ -743,6 +743,10 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
     {
         rule.pattern = QRegExp ("#.*"); // or "#[^\n]*"
     }
+    else if (progLan == "deb")
+    {
+        rule.pattern = QRegExp ("^#[^\\s:]+:(?=\\s*)");
+    }
     else if (progLan == "lua")
         rule.pattern = QRegExp ("--(?!\\[).*");
     else if (progLan == "troff")
@@ -1951,6 +1955,98 @@ bool Highlighter::isHereDocument (const QString &text)
     return false;
 }
 /*************************/
+void Highlighter::debControlFormatting (const QString &text)
+{
+    bool applyFormat (false);
+    QTextCharFormat debFormat;
+    if (previousBlockState() == debDescript)
+    {
+        if (QRegExp ("^[^\\s:]+:(?=\\s*)").indexIn (text) != 0)
+        {
+            setCurrentBlockState (debDescript);
+            debFormat.setForeground (DarkGreenAlt);
+            setFormat (0, text.count(), debFormat);
+        }
+        else
+            applyFormat = true;
+    }
+    else if (text.startsWith ("Description:"))
+    {
+        setCurrentBlockState (debDescript);
+        applyFormat = true;
+    }
+    else if (QRegExp ("^[^\\s:]+:(?=\\s*)").indexIn (text) == 0)
+        applyFormat = true;
+
+    if (applyFormat)
+    {
+        int indx = 0;
+        QRegExp exp = QRegExp ("^[^\\s:]+(?=:)");
+        if (exp.indexIn (text) == 0)
+        {
+            /* before ":" */
+            debFormat.setFontWeight (QFont::Bold);
+            debFormat.setForeground (DarkBlue);
+            setFormat (0, exp.matchedLength(), debFormat);
+
+            /* ":" */
+            debFormat.setForeground (DarkMagenta);
+            indx = text.indexOf (":");
+            setFormat (indx, 1, debFormat);
+            indx ++;
+        }
+
+        if (indx < text.count())
+        {
+            /* after ":" */
+            debFormat.setFontWeight (QFont::Normal);
+            debFormat.setForeground (DarkGreenAlt);
+            setFormat (indx, text.count() - indx , debFormat);
+
+            /* package versions */
+            if (text.startsWith ("Build-Depends:")
+                || text.startsWith ("Depends:"))
+            {
+                exp = QRegExp ("\\([^\\(\\)\\[\\]]+\\)|\\[[^\\(\\)\\[\\]]+\\]");
+                int index = indx;
+                debFormat.setForeground (QBrush());
+                debFormat.setFontItalic (true);
+                while ((index = text.indexOf (exp, index)) > -1)
+                {
+                    int ml = exp.matchedLength();
+                    setFormat (index, ml, neutralFormat);
+                    if (ml > 2)
+                    {
+                        setFormat (index + 1, ml - 2 , debFormat);
+
+                        QRegExp rel = QRegExp ("<|>|\\=|~");
+                        int i = index;
+                        while ((i = text.indexOf (rel, i)) > -1 && i < index + ml - 1)
+                        {
+                            QTextCharFormat relFormat;
+                            relFormat.setForeground (DarkMagenta);
+                            setFormat (i, 1, relFormat);
+                            ++i;
+                        }
+                    }
+                    index = index + ml;
+                }
+                debFormat.setFontItalic (false);
+            }
+        }
+
+        /* non-commented URLs */
+        debFormat.setForeground (Violet);
+        exp = QRegExp ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
+        while ((indx = text.indexOf (exp, indx)) > -1)
+        {
+            int ml = exp.matchedLength();
+            setFormat (indx, ml, debFormat);
+            indx = indx + ml;
+        }
+    }
+}
+/*************************/
 // Start syntax highlighting!
 void Highlighter::highlightBlock (const QString &text)
 {
@@ -1980,6 +2076,9 @@ void Highlighter::highlightBlock (const QString &text)
             return;
         }
     }
+    /* just for debian control file */
+    else if (progLan == "deb")
+        debControlFormatting (text);
 
     /************************
      * Single-Line Comments *

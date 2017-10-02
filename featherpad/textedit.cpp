@@ -98,6 +98,19 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     connect (this, &QPlainTextEdit::updateRequest, this, &TextEdit::onUpdateRequesting);
 }
 /*************************/
+void TextEdit::setEditorFont (const QFont &f)
+{
+    setFont (f);
+    viewport()->setFont (f); // needed when whitespaces are shown
+    lineNumberArea->setFont (f);
+    document()->setDefaultFont (f);
+    /* we want consistent tabs */
+    QFontMetricsF metrics (f);
+    QTextOption opt = document()->defaultTextOption();
+    opt.setTabStop (metrics.width ("    "));
+    document()->setDefaultTextOption (opt);
+}
+/*************************/
 TextEdit::~TextEdit()
 {
     delete lineNumberArea;
@@ -641,8 +654,7 @@ void TextEdit::paintEvent (QPaintEvent *event)
                 && !rtl) // no indentation line with RTL (for now)
             {
                 QRegExp exp = QRegExp ("\\s+");
-                int indx = exp.indexIn (block.text());
-                if (indx == 0)
+                if (exp.indexIn (block.text()) == 0)
                 {
                     painter.save();
                     painter.setOpacity (0.2);
@@ -758,11 +770,7 @@ void TextEdit::zooming (float range)
     const float newSize = f.pointSizeF() + range;
     if (newSize <= 0) return;
     f.setPointSizeF (newSize);
-    setFont (f);
-    QFontMetricsF metrics (f);
-    QTextOption opt = document()->defaultTextOption();
-    opt.setTabStop (metrics.width ("    "));
-    document()->setDefaultTextOption (opt);
+    setEditorFont (f);
 
     /* if this is a zoom-out, the text will need
        to be formatted and/or highlighted again */

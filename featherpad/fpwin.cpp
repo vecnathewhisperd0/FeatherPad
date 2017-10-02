@@ -947,12 +947,7 @@ TabPage* FPwin::createEmptyTab (bool setCurrent)
     TextEdit *textEdit = tabPage->textEdit();
     textEdit->setAutoBracket (config.getAutoBracket());
     textEdit->setScrollJumpWorkaround (config.getScrollJumpWorkaround());
-    textEdit->document()->setDefaultFont (config.getFont());
-    /* we want consistent tabs */
-    QFontMetricsF metrics (config.getFont());
-    QTextOption opt = textEdit->document()->defaultTextOption();
-    opt.setTabStop (metrics.width ("    "));
-    textEdit->document()->setDefaultTextOption (opt);
+    textEdit->setEditorFont (config.getFont());
 
     int index = ui->tabWidget->currentIndex();
     if (index == -1) enableWidgets (true);
@@ -1102,11 +1097,7 @@ void FPwin::zoomZero()
     if (index == -1) return;
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
     TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
-    textEdit->setFont (config.getFont());
-    QFontMetricsF metrics (config.getFont());
-    QTextOption opt = textEdit->document()->defaultTextOption();
-    opt.setTabStop (metrics.width ("    "));
-    textEdit->document()->setDefaultTextOption (opt);
+    textEdit->setEditorFont (config.getFont());
 
     /* due to a Qt bug, this is needed for the
        scrollbar range to be updated correctly */
@@ -2485,11 +2476,7 @@ void FPwin::fontDialog()
             for (int j = 0; j < thisWin->ui->tabWidget->count(); ++j)
             {
                 TextEdit *thisTextEdit = qobject_cast< TabPage *>(thisWin->ui->tabWidget->widget (j))->textEdit();
-                thisTextEdit->document()->setDefaultFont (newFont);
-                QFontMetricsF metrics (newFont);
-                QTextOption opt = textEdit->document()->defaultTextOption();
-                opt.setTabStop (metrics.width ("    "));
-                textEdit->document()->setDefaultTextOption (opt);
+                thisTextEdit->setEditorFont (newFont);
             }
         }
 

@@ -115,6 +115,7 @@ private:
     bool SH_CmndSubstVar (const QString &text,
                           TextBlockData *currentBlockData,
                           int prevOpenNests);
+    void debControlFormatting (const QString &text);
 
     struct HighlightingRule
     {
@@ -189,7 +190,10 @@ private:
         commentInCssState,
         cssValueState,
 
-        endState // 24
+        /* debian control description */
+        debDescript,
+
+        endState // 25
 
         /* For here-docs, state >= endState or state < -1. */
     };

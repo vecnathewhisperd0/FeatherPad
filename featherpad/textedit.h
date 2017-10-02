@@ -40,6 +40,8 @@ public:
         emit QPlainTextEdit::updateRequest (rect(), 1);
     }
 
+    void setEditorFont (const QFont &f);
+
     void lineNumberAreaPaintEvent (QPaintEvent *event);
     int lineNumberAreaWidth();
     void showLineNumbers (bool show);
