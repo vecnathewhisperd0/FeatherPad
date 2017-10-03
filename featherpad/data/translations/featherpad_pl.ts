@@ -1246,12 +1246,12 @@ Niektóre środowiska, np. KDE i LXQt dostarczają własne okna dialogowe.</tran
     <message>
         <location filename="../../predDialog.ui" line="287"/>
         <source>This covers parentheses, braces, brackets and quotes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Obejmuje to nawiasy, klamry i cudzysłowie.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="290"/>
         <source>Auto-&amp;bracket</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatyczne &amp;nawiasy</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="327"/>
@@ -1262,17 +1262,18 @@ Niektóre środowiska, np. KDE i LXQt dostarczają własne okna dialogowe.</tran
         <location filename="../../predDialog.ui" line="363"/>
         <source>Show spaces, tabs and tab lines
 when the syntax is highlighted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokazuje spacje, tabulatory itp.
+jeżeli składnia jest podświetlana.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="367"/>
         <source>Show whitespaces with syntax highlighting</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyróżniaj białe znaki przy podświetlaniu składni</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="374"/>
         <source>Also show line and document ends</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokazuj także koniec dokumentów i wierszy</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="422"/>
@@ -1452,7 +1453,15 @@ between 230 and 255; for the dark
 background, between 0 and 50.
 
 Needs window reopening to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wartość koloru tła.
+255 oznacza biel, a 0 – czerń.
+
+Dla jasnego tła, może to być
+wartość pomiędzy 230 a 255;
+dla ciemnego – od 0 do 50.
+
+Wymagane jest ponowne otwarcie
+okna, aby efekt był widoczny.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="555"/>
