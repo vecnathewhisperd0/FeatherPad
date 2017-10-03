@@ -35,6 +35,7 @@ Config::Config():
     lineByDefault_ (false),
     syntaxByDefault_ (true),
     showWhiteSpace_ (false),
+    showEndings_ (false),
     isMaxed_ (false),
     isFull_ (false),
     darkColScheme_ (false),
@@ -150,6 +151,9 @@ void Config::readConfig()
     if (settings.value ("showWhiteSpace").toBool())
         showWhiteSpace_ = true; // false by default
 
+    if (settings.value ("showEndings").toBool())
+        showEndings_ = true; // false by default
+
     if (settings.value ("darkColorScheme").toBool())
         darkColScheme_ = true; // false by default
 
@@ -241,6 +245,7 @@ void Config::writeConfig()
     settings.setValue ("lineNumbers", lineByDefault_);
     settings.setValue ("noSyntaxHighlighting", !syntaxByDefault_);
     settings.setValue ("showWhiteSpace", showWhiteSpace_);
+    settings.setValue ("showEndings", showEndings_);
     settings.setValue ("darkColorScheme", darkColScheme_);
     settings.setValue ("scrollJumpWorkaround", scrollJumpWorkaround_);
     settings.setValue ("maxSHSize", maxSHSize_);

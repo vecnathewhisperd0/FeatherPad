@@ -127,16 +127,21 @@ void TextBlockData::insertNestInfo (int nests)
 /*************************/
 // Here, the order of formatting is important because of overrides.
 Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start, QTextCursor end,
-                          bool darkColorScheme, bool showWhiteSpace) : QSyntaxHighlighter (parent)
+                          bool darkColorScheme,
+                          bool showWhiteSpace, bool showEndings) : QSyntaxHighlighter (parent)
 {
     if (lang.isEmpty()) return;
 
-    if (showWhiteSpace)
+    if (showWhiteSpace || showEndings)
     {
         QTextOption opt =  document()->defaultTextOption();
-        opt.setFlags (opt.flags() | QTextOption::ShowTabsAndSpaces
-                                  | QTextOption::ShowLineAndParagraphSeparators
-                                  | QTextOption::ShowDocumentTerminator);
+        QTextOption::Flags flags = opt.flags();
+        if (showWhiteSpace)
+            flags |= QTextOption::ShowTabsAndSpaces;
+        if (showEndings)
+            flags |= QTextOption::ShowLineAndParagraphSeparators
+                     | QTextOption::ShowDocumentTerminator;
+        opt.setFlags (flags);
         document()->setDefaultTextOption (opt);
     }
 

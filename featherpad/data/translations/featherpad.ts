@@ -1248,34 +1248,45 @@ Some desktop environments, like KDE and LXQt, provide files dialogs.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="368"/>
+        <location filename="../../predDialog.ui" line="363"/>
+        <source>Show spaces, tabs and tab lines
+when the syntax is highlighted.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="367"/>
         <source>Show whitespaces with syntax highlighting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="416"/>
+        <location filename="../../predDialog.ui" line="374"/>
+        <source>Also show line and document ends</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="422"/>
         <source>Some text editors cannot open a document
 whose last line is not empty.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="420"/>
+        <location filename="../../predDialog.ui" line="426"/>
         <source>Ensure an empty last line on saving</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="442"/>
+        <location filename="../../predDialog.ui" line="448"/>
         <source>Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="448"/>
+        <location filename="../../predDialog.ui" line="454"/>
         <source>File Management</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="572"/>
-        <location filename="../../predDialog.ui" line="591"/>
+        <location filename="../../predDialog.ui" line="578"/>
+        <location filename="../../predDialog.ui" line="597"/>
         <source>This can be any starting command with
 arguments, for example, &quot;xterm -hold&quot;
 for running the process in XTerm.
@@ -1289,27 +1300,27 @@ will be shown by a popup dialog.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="584"/>
+        <location filename="../../predDialog.ui" line="590"/>
         <source>Start with this command: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="603"/>
+        <location filename="../../predDialog.ui" line="609"/>
         <source>Command + Arguments</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="498"/>
+        <location filename="../../predDialog.ui" line="504"/>
         <source>Show recentl&amp;y modified files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="508"/>
+        <location filename="../../predDialog.ui" line="514"/>
         <source>Show recentl&amp;y opened files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="643"/>
+        <location filename="../../predDialog.ui" line="649"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1370,19 +1381,12 @@ and-drop either.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="363"/>
-        <source>Show spaces, tabs, tab lines,
-line-ends and the document end
-when the syntax is highlighted.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../predDialog.ui" line="378"/>
+        <location filename="../../predDialog.ui" line="384"/>
         <source>Dark c&amp;olor scheme</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="409"/>
+        <location filename="../../predDialog.ui" line="415"/>
         <source>Background color value: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -1392,18 +1396,18 @@ when the syntax is highlighted.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="427"/>
+        <location filename="../../predDialog.ui" line="433"/>
         <source>This is not a complete fix but
 prevents annoying scroll jumps.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="431"/>
+        <location filename="../../predDialog.ui" line="437"/>
         <source>Workaround for &amp;Qt5&apos;s scroll jump bug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="539"/>
+        <location filename="../../predDialog.ui" line="545"/>
         <source>This only includes executable files written
 in script languages like Shell and Python.
 
@@ -1415,13 +1419,13 @@ process could be killed by Ctrl+Alt+E.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="375"/>
+        <location filename="../../predDialog.ui" line="381"/>
         <source>Needs window reopening to take effect.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="385"/>
-        <location filename="../../predDialog.ui" line="399"/>
+        <location filename="../../predDialog.ui" line="391"/>
+        <location filename="../../predDialog.ui" line="405"/>
         <source>The color value of the background.
 255 means white while 0 means black.
 
@@ -1433,13 +1437,13 @@ Needs window reopening to take effect.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="549"/>
+        <location filename="../../predDialog.ui" line="555"/>
         <source>Run executable scripts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="454"/>
-        <location filename="../../predDialog.ui" line="468"/>
+        <location filename="../../predDialog.ui" line="460"/>
+        <location filename="../../predDialog.ui" line="474"/>
         <source>The maximum number of recently modified or
 opened files FeatherPad shows. The default
 is 10.
@@ -1448,68 +1452,68 @@ Needs application restart to take effect.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="461"/>
+        <location filename="../../predDialog.ui" line="467"/>
         <source>Number of recent files: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="515"/>
-        <location filename="../../predDialog.ui" line="527"/>
+        <location filename="../../predDialog.ui" line="521"/>
+        <location filename="../../predDialog.ui" line="533"/>
         <source>The maximum number of recently modified or
 opened files FeatherPad should open with an
 empty startup of a session.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="520"/>
+        <location filename="../../predDialog.ui" line="526"/>
         <source>Start with recent files: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="654"/>
+        <location filename="../../predDialog.ui" line="660"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="152"/>
-        <location filename="../../pref.cpp" line="158"/>
-        <location filename="../../pref.cpp" line="680"/>
-        <location filename="../../pref.cpp" line="685"/>
-        <location filename="../../pref.cpp" line="694"/>
+        <location filename="../../pref.cpp" line="156"/>
+        <location filename="../../pref.cpp" line="162"/>
+        <location filename="../../pref.cpp" line="696"/>
+        <location filename="../../pref.cpp" line="701"/>
+        <location filename="../../pref.cpp" line="710"/>
         <source>files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="152"/>
-        <location filename="../../pref.cpp" line="158"/>
-        <location filename="../../pref.cpp" line="680"/>
-        <location filename="../../pref.cpp" line="685"/>
-        <location filename="../../pref.cpp" line="694"/>
+        <location filename="../../pref.cpp" line="156"/>
+        <location filename="../../pref.cpp" line="162"/>
+        <location filename="../../pref.cpp" line="696"/>
+        <location filename="../../pref.cpp" line="701"/>
+        <location filename="../../pref.cpp" line="710"/>
         <source>file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="159"/>
+        <location filename="../../pref.cpp" line="163"/>
         <source>No file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="203"/>
+        <location filename="../../pref.cpp" line="207"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="211"/>
+        <location filename="../../pref.cpp" line="216"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="709"/>
+        <location filename="../../pref.cpp" line="725"/>
         <source>&amp;Recently Opened</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="710"/>
+        <location filename="../../pref.cpp" line="726"/>
         <source>Recently &amp;Modified</source>
         <translation type="unfinished"></translation>
     </message>

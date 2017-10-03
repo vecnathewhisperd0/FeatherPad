@@ -255,7 +255,8 @@ void FPwin::syntaxHighlighting (TextEdit *textEdit)
     textEdit->setDrawIndetLines (config.getShowWhiteSpace());
     Highlighter *highlighter = new Highlighter (textEdit->document(), progLan, start, end,
                                                 textEdit->hasDarkScheme(),
-                                                config.getShowWhiteSpace());
+                                                config.getShowWhiteSpace(),
+                                                config.getShowEndings());
     textEdit->setHighlighter (highlighter);
 
     QCoreApplication::processEvents(); // it's necessary to wait until the text is completely loaded

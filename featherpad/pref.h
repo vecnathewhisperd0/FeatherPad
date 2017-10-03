@@ -51,6 +51,7 @@ private slots:
     void prefLine (int checked);
     void prefSyntax (int checked);
     void prefWhiteSpace (int checked);
+    void prefEndings (int checked);
     void prefDarkColScheme (int checked);
     void prefColValue (int value);
     void prefAppendEmptyLine (int checked);
@@ -73,7 +74,7 @@ private:
 
     Ui::PrefDialog *ui;
     QWidget * parent_;
-    bool darkBg_, sysIcons_, iconless_, showWhiteSpace_;
+    bool darkBg_, sysIcons_, iconless_, showWhiteSpace_, showEndings_;
     int darkColValue_, lightColValue_, recentNumber_;
 };
 

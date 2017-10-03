@@ -360,8 +360,7 @@ Some desktop environments, like KDE and LXQt, provide files dialogs.</string>
           <item row="7" column="1" colspan="2">
            <widget class="QCheckBox" name="whiteSpaceBox">
             <property name="toolTip">
-             <string>Show spaces, tabs, tab lines,
-line-ends and the document end
+             <string>Show spaces, tabs and tab lines
 when the syntax is highlighted.</string>
             </property>
             <property name="text">
@@ -369,7 +368,14 @@ when the syntax is highlighted.</string>
             </property>
            </widget>
           </item>
-          <item row="8" column="0" colspan="3">
+          <item row="8" column="1" colspan="2">
+           <widget class="QCheckBox" name="endingsBox">
+            <property name="text">
+             <string>Also show line and document ends</string>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="0" colspan="3">
            <widget class="QCheckBox" name="colBox">
             <property name="toolTip">
              <string>Needs window reopening to take effect.</string>
@@ -379,7 +385,7 @@ when the syntax is highlighted.</string>
             </property>
            </widget>
           </item>
-          <item row="9" column="2">
+          <item row="10" column="2">
            <widget class="QSpinBox" name="colorValueSpin">
             <property name="toolTip">
              <string>The color value of the background.
@@ -393,7 +399,7 @@ Needs window reopening to take effect.</string>
             </property>
            </widget>
           </item>
-          <item row="9" column="1">
+          <item row="10" column="1">
            <widget class="QLabel" name="colorValueLabel">
             <property name="toolTip">
              <string>The color value of the background.
@@ -410,7 +416,7 @@ Needs window reopening to take effect.</string>
             </property>
            </widget>
           </item>
-          <item row="10" column="0" colspan="3">
+          <item row="11" column="0" colspan="3">
            <widget class="QCheckBox" name="lastLineBox">
             <property name="toolTip">
              <string>Some text editors cannot open a document
@@ -421,7 +427,7 @@ whose last line is not empty.</string>
             </property>
            </widget>
           </item>
-          <item row="11" column="0" colspan="3">
+          <item row="12" column="0" colspan="3">
            <widget class="QCheckBox" name="scrollBox">
             <property name="toolTip">
              <string>This is not a complete fix but

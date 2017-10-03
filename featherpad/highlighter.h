@@ -79,7 +79,8 @@ class Highlighter : public QSyntaxHighlighter
 
 public:
     Highlighter (QTextDocument *parent, QString lang, QTextCursor start, QTextCursor end,
-                 bool darkColorScheme, bool showWhiteSpace = false);
+                 bool darkColorScheme,
+                 bool showWhiteSpace = false, bool showEndings = false);
     ~Highlighter();
 
     void setLimit (QTextCursor start, QTextCursor end) {
