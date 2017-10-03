@@ -99,7 +99,7 @@
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>100</width>
+              <width>50</width>
               <height>5</height>
              </size>
             </property>
@@ -351,7 +351,7 @@ Some desktop environments, like KDE and LXQt, provide files dialogs.</string>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>100</width>
+              <width>50</width>
               <height>5</height>
              </size>
             </property>
@@ -620,7 +620,7 @@ will be shown by a popup dialog.</string>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>100</width>
+              <width>50</width>
               <height>5</height>
              </size>
             </property>
