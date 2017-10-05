@@ -25,7 +25,8 @@ void FPwin::matchBrackets()
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
     TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
-    TextBlockData *data = static_cast<TextBlockData *>(textEdit->textCursor().block().userData());
+    QTextCursor cur = textEdit->textCursor();
+    TextBlockData *data = static_cast<TextBlockData *>(cur.block().userData());
     if (!data) return;
 
     QList<QTextEdit::ExtraSelection> es = textEdit->extraSelections();
@@ -40,9 +41,7 @@ void FPwin::matchBrackets()
     textEdit->setExtraSelections (es);
 
     QTextDocument *doc = textEdit->document();
-    QTextCursor cur = textEdit->textCursor();
     int curPos = cur.position();
-
     /* position of block's first character */
     int blockPos = cur.block().position();
     /* position of cursor in block */
@@ -61,7 +60,7 @@ void FPwin::matchBrackets()
 
             if (isAtLeft && info->position == curBlockPos && info->character == '(')
             {
-                if (matchLeftParenthesis (textEdit->textCursor().block(), i + 1, 0))
+                if (matchLeftParenthesis (cur.block(), i + 1, 0))
                 {
                     createSelection (blockPos + info->position);
                     if (isAtRight) isAtLeft = false;
@@ -70,7 +69,7 @@ void FPwin::matchBrackets()
             }
             if (isAtRight && info->position == curBlockPos - 1 && info->character == ')')
             {
-                if (matchRightParenthesis (textEdit->textCursor().block(), infos.size() - i, 0))
+                if (matchRightParenthesis (cur.block(), infos.size() - i, 0))
                 {
                     createSelection (blockPos + info->position);
                     if (isAtLeft) isAtRight = false;
@@ -94,7 +93,7 @@ void FPwin::matchBrackets()
 
             if (isAtLeft && info->position == curBlockPos && info->character == '{')
             {
-                if (matchLeftBrace (textEdit->textCursor().block(), i + 1, 0))
+                if (matchLeftBrace (cur.block(), i + 1, 0))
                 {
                     createSelection (blockPos + info->position);
                     if (isAtRight) isAtLeft = false;
@@ -103,7 +102,7 @@ void FPwin::matchBrackets()
             }
             if (isAtRight && info->position == curBlockPos - 1 && info->character == '}')
             {
-                if (matchRightBrace (textEdit->textCursor().block(), braceInfos.size() - i, 0))
+                if (matchRightBrace (cur.block(), braceInfos.size() - i, 0))
                 {
                     createSelection (blockPos + info->position);
                     if (isAtLeft) isAtRight = false;
@@ -126,7 +125,7 @@ void FPwin::matchBrackets()
 
             if (isAtLeft && info->position == curBlockPos && info->character == '[')
             {
-                if (matchLeftBracket (textEdit->textCursor().block(), i + 1, 0))
+                if (matchLeftBracket (cur.block(), i + 1, 0))
                 {
                     createSelection (blockPos + info->position);
                     if (isAtRight) isAtLeft = false;
@@ -135,7 +134,7 @@ void FPwin::matchBrackets()
             }
             if (isAtRight && info->position == curBlockPos - 1 && info->character == ']')
             {
-                if (matchRightBracket (textEdit->textCursor().block(), bracketInfos.size() - i, 0))
+                if (matchRightBracket (cur.block(), bracketInfos.size() - i, 0))
                 {
                     createSelection (blockPos + info->position);
                     if (isAtLeft) isAtRight = false;
