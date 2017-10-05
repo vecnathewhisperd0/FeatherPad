@@ -50,7 +50,7 @@ void TabBar::mousePressEvent (QMouseEvent *event)
         if (tabAt (event->pos()) > -1)
             dragStartPosition_ = event->pos();
         /* adding a new tab by (left/middle/right) clicking on a position
-           after the last tab could interfere with other kings of clicking */
+           after the last tab could interfere with other kinds of clicking */
         /*else if (count() > 0)
         {
             QRect r = tabRect (count() - 1);

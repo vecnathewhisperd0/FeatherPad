@@ -153,7 +153,7 @@ int TextEdit::lineNumberAreaWidth()
         ++digits;
     }
 
-    /* 4 = 2 + 2 */
+    /* 4 = 2 + 2 (-> lineNumberAreaPaintEvent) */
     int space = 4 + fontMetrics().width (QLatin1Char ('9')) * digits;
 
     return space;

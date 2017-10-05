@@ -39,79 +39,108 @@ void FPwin::matchBrackets()
     textEdit->setRedSel (QList<QTextEdit::ExtraSelection>());
     textEdit->setExtraSelections (es);
 
+    QTextDocument *doc = textEdit->document();
+    QTextCursor cur = textEdit->textCursor();
+    int curPos = cur.position();
+
     /* position of block's first character */
-    int blockPos = textEdit->textCursor().block().position();
+    int blockPos = cur.block().position();
     /* position of cursor in block */
-    int curBlockPos = textEdit->textCursor().position() - blockPos;
+    int curBlockPos = curPos - blockPos;
 
     /* parenthesis */
-    QVector<ParenthesisInfo *> infos = data->parentheses();
-    for (int i = 0; i < infos.size(); ++i)
+    bool isAtLeft (doc->characterAt (curPos) == '(');
+    bool isAtRight (doc->characterAt (curPos - 1) == ')');
+    bool findNextBrace (!isAtLeft || !isAtRight);
+    if (isAtLeft || isAtRight)
     {
-        ParenthesisInfo *info = infos.at (i);
+        QVector<ParenthesisInfo *> infos = data->parentheses();
+        for (int i = 0; i < infos.size(); ++i)
+        {
+            ParenthesisInfo *info = infos.at (i);
 
-        if (info->position == curBlockPos && info->character == '(')
-        {
-            if (matchLeftParenthesis (textEdit->textCursor().block(), i + 1, 0))
+            if (isAtLeft && info->position == curBlockPos && info->character == '(')
             {
-                createSelection (blockPos + info->position);
-                break;
+                if (matchLeftParenthesis (textEdit->textCursor().block(), i + 1, 0))
+                {
+                    createSelection (blockPos + info->position);
+                    if (isAtRight) isAtLeft = false;
+                    else break;
+                }
             }
-        }
-        else if (info->position == curBlockPos - 1 && info->character == ')')
-        {
-            if (matchRightParenthesis (textEdit->textCursor().block(), infos.size() - i, 0))
+            if (isAtRight && info->position == curBlockPos - 1 && info->character == ')')
             {
-                createSelection (blockPos + info->position);
-                break;
+                if (matchRightParenthesis (textEdit->textCursor().block(), infos.size() - i, 0))
+                {
+                    createSelection (blockPos + info->position);
+                    if (isAtLeft) isAtRight = false;
+                    else break;
+                }
             }
         }
     }
+    if (!findNextBrace) return;
 
     /* brace */
-    QVector<BraceInfo *> braceInfos = data->braces();
-    for (int i = 0; i < braceInfos.size(); ++i)
+    isAtLeft = (doc->characterAt (curPos) == '{');
+    isAtRight = (doc->characterAt (curPos - 1) == '}');
+    findNextBrace = !isAtLeft || !isAtRight;
+    if (isAtLeft || isAtRight)
     {
-        BraceInfo *info = braceInfos.at (i);
+        QVector<BraceInfo *> braceInfos = data->braces();
+        for (int i = 0; i < braceInfos.size(); ++i)
+        {
+            BraceInfo *info = braceInfos.at (i);
 
-        if (info->position == curBlockPos && info->character == '{')
-        {
-            if (matchLeftBrace (textEdit->textCursor().block(), i + 1, 0))
+            if (isAtLeft && info->position == curBlockPos && info->character == '{')
             {
-                createSelection (blockPos + info->position);
-                break;
+                if (matchLeftBrace (textEdit->textCursor().block(), i + 1, 0))
+                {
+                    createSelection (blockPos + info->position);
+                    if (isAtRight) isAtLeft = false;
+                    else break;
+                }
             }
-        }
-        else if (info->position == curBlockPos - 1 && info->character == '}')
-        {
-            if (matchRightBrace (textEdit->textCursor().block(), braceInfos.size() - i, 0))
+            if (isAtRight && info->position == curBlockPos - 1 && info->character == '}')
             {
-                createSelection (blockPos + info->position);
-                break;
+                if (matchRightBrace (textEdit->textCursor().block(), braceInfos.size() - i, 0))
+                {
+                    createSelection (blockPos + info->position);
+                    if (isAtLeft) isAtRight = false;
+                    else break;
+                }
             }
         }
     }
+    if (!findNextBrace) return;
 
     /* bracket */
-    QVector<BracketInfo *> bracketInfos = data->brackets();
-    for (int i = 0; i < bracketInfos.size(); ++i)
+    isAtLeft = (doc->characterAt (curPos) == '[');
+    isAtRight = (doc->characterAt (curPos - 1) == ']');
+    if (isAtLeft || isAtRight)
     {
-        BracketInfo *info = bracketInfos.at (i);
+        QVector<BracketInfo *> bracketInfos = data->brackets();
+        for (int i = 0; i < bracketInfos.size(); ++i)
+        {
+            BracketInfo *info = bracketInfos.at (i);
 
-        if (info->position == curBlockPos && info->character == '[')
-        {
-            if (matchLeftBracket (textEdit->textCursor().block(), i + 1, 0))
+            if (isAtLeft && info->position == curBlockPos && info->character == '[')
             {
-                createSelection (blockPos + info->position);
-                break;
+                if (matchLeftBracket (textEdit->textCursor().block(), i + 1, 0))
+                {
+                    createSelection (blockPos + info->position);
+                    if (isAtRight) isAtLeft = false;
+                    else break;
+                }
             }
-        }
-        else if (info->position == curBlockPos - 1 && info->character == ']')
-        {
-            if (matchRightBracket (textEdit->textCursor().block(), bracketInfos.size() - i, 0))
+            if (isAtRight && info->position == curBlockPos - 1 && info->character == ']')
             {
-                createSelection (blockPos + info->position);
-                break;
+                if (matchRightBracket (textEdit->textCursor().block(), bracketInfos.size() - i, 0))
+                {
+                    createSelection (blockPos + info->position);
+                    if (isAtLeft) isAtRight = false;
+                    else break;
+                }
             }
         }
     }
