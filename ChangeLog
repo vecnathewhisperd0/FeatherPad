@@ -26,6 +26,7 @@ V0.6.1
  * Added options for showing whitespaces and line/document ends with syntax highlighting.
  * Match brackets too (in addition to parentheses and braces).
  * Added config files to syntax highlighting.
+ * Support Shift+Enter (useful e.g. to write code comments).
 
 V0.6.0
 ---------

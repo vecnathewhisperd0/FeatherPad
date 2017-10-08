@@ -75,49 +75,62 @@ For fast scrolling, put the cursor on the scrollbar. If it is on the text, the s
 
 The (selected multi-line) text can be tabbed by the Tab key and untabbed by Shift+Tab. If Ctrl+Tab is used, the tabulation will be done by 4 spaces instead of a tab. With Ctrl+Meta+Tab, the text will be tabbed by 2 spaces.
 
+********************
+*   Auto-Bracket   *
+********************
+
+With "auto-bracketing" enabled in Preferences, if a left parenthesis, brace, square bracket or double-quote is typed, a right parenthesis, brace, square bracket or double-quote will respectively be inserted after it and the cursor will be moved between them, provided that the next character is not a letter or number. (Although double-quote is not a bracket and has identical left and right signs, it is included in this.)
+
+Also if any part of the text is selected from end to start, typing of a left parenthesis, brace, etc. will add a right one after the selection end, so that the selection will be put inside parentheses, braces, etc.
+
+For user convenience, if Enter/Return is pressed after a text selection is auto-bracketed by parentheses "(...)" or braces "{...}", the bracketed text will be put below the left bracket and above the right one.
+
+The same holds for RTL (right-to-left) texts but with right and left reversed.
+
 *********************************
 *   Useful Keyboard Shortcuts   *
 *********************************
 
-This help:                  Ctrl+H
-Show/hide line numbers:     Ctrl+L
-Toggle wrapping state:      Ctrl+W
-Toggle auto-indentation:    Ctrl+I
-Toggle syntax highlighting: Ctrl+Shift+H
-Refresh (reload file):      Ctrl+Shift+R
-Jump to line:               Ctrl+J
-Select text to line:        Ctrl+Shift+J (The Jump bar should be visible)
-Focus/hide search bar:      Ctrl+F (It hides only a focused search bar)
-Forward search:             F3 (or press Enter in the search entry)
-Backward search:            F4
-Match case:                 F5
-Whole word:                 F6
-'Replace' window:           Ctrl+R
-Forward replacement:        F7
-Backward replacement:       F8
-Replace all:                F9
-Clear a text entry:         Ctrl+K
-Preferences:                Ctrl+Shift+P
-Document statistics:        Ctrl+Shift+D
-Close tab:                  Ctrl+Shift+Q
-Detach tab:                 Ctrl+T
-Next tab:                   Alt+Right (Alt+Left for RTL)
-Previous tab:               Alt+Left (Alt+Right for RTL)
-Last tab:                   Alt+Up
-First tab:                  Alt+Down
-Print:                      Ctrl+P
-Edit uneditable texts:      Ctrl+E
+Ctrl+H          This help
+Ctrl+L          Show/hide line numbers
+Ctrl+W          Toggle wrapping state
+Ctrl+I          Toggle auto-indentation
+Ctrl+Shift+H    Toggle syntax highlighting
+Ctrl+Shift+R    Refresh (reload file)
+Ctrl+J          Jump to line
+Ctrl+Shift+J    Select text to line (the Jump bar should be visible)
+Ctrl+F          Focus/hide search bar (it hides only a focused search bar)
+F3              Forward search (also Enter can be pressed in the search entry)
+F4              Backward search
+F5              Match case
+F6              Whole word
+Ctrl+R          'Replace' window
+F7              Forward replacement
+F8              Backward replacement
+F9              Replace all
+Ctrl+K          Clear the text of an entry when it is focused
+Ctrl+Shift+P    Preferences
+Ctrl+Shift+D    Document statistics (on the statusbar)
+Ctrl+Shift+Q    Close tab
+Ctrl+T          Detach tab
+Alt+Right       Next tab (Alt+Left for RTL)
+Alt+Left        Previous tab (Alt+Right for RTL)
+Alt+Up          Last tab
+Alt+Down        First tab
+Ctrl+P          Print
+Ctrl+E          Edit uneditable documents
 
 Extra Shortcuts:
 =================
-(Un-)Fullscreen:               F11
-Resize window to fixed size:   Ctrl+Shift+W (700x500 by default but can be set in Preferences)
-Zoom in:                       Ctrl+= (or Ctrl++ or Ctrl + mouse wheel)
-Zoom out:                      Ctrl+- (or Ctrl + mouse wheel)
-Reset zooming:                 Ctrl+0
-Execute this file:             Ctrl+E (only if this is enabled in Preferences)
-Exit (kill) process:           Ctrl+Alt+E (exits the above process immediately)
-4-space text tabulation:       Ctrl+Tab
-2-space text tabulation:       Ctrl+Meta+Tab
+F11              (Un-)Fullscreen
+Ctrl+Shift+W     Resize window to fixed size (700x500 by default but can be set in Preferences)
+Ctrl+=           Zoom in (also Ctrl++ or Ctrl + mouse wheel)
+Ctrl+-           Zoom out (also Ctrl + mouse wheel)
+Ctrl+0           Reset zooming
+Ctrl+E           Execute this file (only if this is enabled in Preferences)
+Ctrl+Alt+E       Exit (kill) the above process immediately
+Ctrl+Tab         4-space text tabulation
+Ctrl+Meta+Tab    2-space text tabulation
+Shift+Enter      Insert newline with the non-letter prefix of the current line (to write code comments easily)
 
 The remaining shortcuts are standard. All shortcuts, except for the extra ones above, can be found on menus or as tooltips.

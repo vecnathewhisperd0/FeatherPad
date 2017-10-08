@@ -175,16 +175,17 @@ void TextEdit::updateLineNumberArea (const QRect &rect, int dy)
         updateLineNumberAreaWidth (0);
 }
 /*************************/
-QString TextEdit::computeIndentation (QTextCursor& cur) const
+QString TextEdit::computeIndentation (const QTextCursor cur) const
 {
-    if (cur.hasSelection())
+    QTextCursor cusror = cur;
+    if (cusror.hasSelection())
     {// this is more intuitive to me
-        if (cur.anchor() <= cur.position())
-            cur.setPosition (cur.anchor());
+        if (cusror.anchor() <= cusror.position())
+            cusror.setPosition (cusror.anchor());
         else
-            cur.setPosition (cur.position());
+            cusror.setPosition (cusror.position());
     }
-    QTextCursor tmp = cur;
+    QTextCursor tmp = cusror;
     tmp.movePosition (QTextCursor::StartOfBlock);
     QString str;
     if (tmp.atBlockEnd())
@@ -193,7 +194,7 @@ QString TextEdit::computeIndentation (QTextCursor& cur) const
     tmp.setPosition (++pos, QTextCursor::KeepAnchor);
     QString selected;
     while (!tmp.atBlockEnd()
-           && tmp <= cur
+           && tmp <= cusror
            && ((selected = tmp.selectedText()) == " "
                || (selected = tmp.selectedText()) == "\t"))
     {
@@ -202,7 +203,7 @@ QString TextEdit::computeIndentation (QTextCursor& cur) const
         tmp.setPosition (++pos, QTextCursor::KeepAnchor);
     }
     if (tmp.atBlockEnd()
-        && tmp <= cur
+        && tmp <= cusror
         && ((selected = tmp.selectedText()) == " "
             || (selected = tmp.selectedText()) == "\t"))
     {
@@ -211,6 +212,19 @@ QString TextEdit::computeIndentation (QTextCursor& cur) const
     return str;
 }
 /*************************/
+static inline bool isOnlySpaces (const QString &str)
+{
+    int i = 0;
+    while (i < str.size())
+    { // always skip the starting spaces
+        QChar ch = str.at (i);
+        if (ch == QChar (QChar::Space) || ch == QChar (QChar::Tabulation))
+            ++i;
+        else return false;
+    }
+    return true;
+}
+
 void TextEdit::keyPressEvent (QKeyEvent *event)
 {
     if (isReadOnly())
@@ -221,52 +235,103 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
 
     if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter)
     {
-        if (autoIndentation)
+        QTextCursor cur = textCursor();
+        bool isBracketed (false);
+        QString selTxt = cur.selectedText();
+        QString prefix, indent;
+        bool withShift (event->modifiers() & Qt::ShiftModifier);
+
+        /* with Shift+Enter, find the non-letter prefix */
+        if (withShift)
         {
-            /* first get the current cursor for computing the indentation */
-            QTextCursor start = textCursor();
-            QString selTxt = start.selectedText();
-            QTextCursor anchorCur = start;
-            anchorCur.setPosition (start.anchor());
-            bool isInsideBrackets (false);
+            cur.clearSelection();
+            setTextCursor (cur);
+            QString blockText = cur.block().text();
+            int i = 0;
+            int curBlockPos = cur.position() - cur.block().position();
+            while (i < curBlockPos)
+            {
+                QChar ch = blockText.at (i);
+                if (!ch.isLetterOrNumber())
+                {
+                    prefix += ch;
+                    ++i;
+                }
+                else break;
+            }
+        }
+        else
+        {
+            /* find the indentation */
+            if (autoIndentation)
+                indent = computeIndentation (cur);
+            /* check whether a bracketed text is selected
+               so that the cursor position is at its start */
+            QTextCursor anchorCur = cur;
+            anchorCur.setPosition (cur.anchor());
             if (autoBracket
-                && start.position() == start.selectionStart()
-                && !start.atBlockStart() && !anchorCur.atBlockEnd())
+                && cur.position() == cur.selectionStart()
+                && !cur.atBlockStart() && !anchorCur.atBlockEnd())
             {
-                start.setPosition (start.position());
-                start.movePosition (QTextCursor::PreviousCharacter);
-                start.movePosition (QTextCursor::NextCharacter,
-                                    QTextCursor::KeepAnchor,
-                                    selTxt.size() + 2);
-                QString selTxt1 = start.selectedText();
+                cur.setPosition (cur.position());
+                cur.movePosition (QTextCursor::PreviousCharacter);
+                cur.movePosition (QTextCursor::NextCharacter,
+                                  QTextCursor::KeepAnchor,
+                                  selTxt.size() + 2);
+                QString selTxt1 = cur.selectedText();
                 if (selTxt1 == "{" + selTxt + "}" || selTxt1 == "(" + selTxt + ")")
-                    isInsideBrackets = true;
-                start = textCursor();
+                    isBracketed = true;
+                cur = textCursor(); // reset the current cursor
             }
-            QString indent = computeIndentation (start);
-            start.beginEditBlock();
-            /* then press Enter normally... */
-            QPlainTextEdit::keyPressEvent (event);
-            /* ... and insert indentation */
-            start = textCursor();
-            start.insertText (indent);
-            /* also handle brackets */
-            if (isInsideBrackets)
+        }
+
+        if (withShift || autoIndentation || isBracketed)
+        {
+            cur.beginEditBlock();
+            /* first press Enter normally... */
+            cur.insertText (QChar (QChar::ParagraphSeparator));
+            /* ... then, insert indentation... */
+            cur.insertText (indent);
+            /* ... and handle Shift+Enter or brackets */
+            if (withShift)
+                cur.insertText (prefix);
+            else if (isBracketed)
             {
-                QPlainTextEdit::keyPressEvent (event);
-                start = textCursor();
-                start.insertText (indent);
-                start.movePosition (QTextCursor::PreviousBlock);
-                start.movePosition (QTextCursor::EndOfBlock);
-                start.insertText (selTxt);
-                /* set the cursor so that Tab can be used */
-                start.setPosition (start.position() - selTxt.size(),
-                                   selTxt.contains (QChar::ParagraphSeparator)
-                                       ? QTextCursor::KeepAnchor
-                                       : QTextCursor::MoveAnchor);
-                setTextCursor (start);
+                cur.movePosition (QTextCursor::PreviousBlock);
+                cur.movePosition (QTextCursor::EndOfBlock);
+                int start = -1;
+                QStringList lines = selTxt.split (QChar (QChar::ParagraphSeparator));
+                if (lines.size() == 1)
+                {
+                    cur.insertText (QChar (QChar::ParagraphSeparator));
+                    cur.insertText (indent);
+                    start = cur.position();
+                    if (!isOnlySpaces (lines. at (0)))
+                        cur.insertText (lines. at (0));
+                }
+                else // multi-line
+                {
+                    for (int i = 0; i < lines.size(); ++i)
+                    {
+                        if (i == 0 && isOnlySpaces (lines. at (0)))
+                            continue;
+                        cur.insertText (QChar (QChar::ParagraphSeparator));
+                        if (i == 0)
+                        {
+                            cur.insertText (indent);
+                            start = cur.position();
+                        }
+                        else if (i == 1 && start == -1)
+                            start = cur.position(); // the first line was only spaces
+                        cur.insertText (lines. at (i));
+                    }
+                }
+                cur.setPosition (start, start >= cur.block().position()
+                                            ? QTextCursor::MoveAnchor
+                                            : QTextCursor::KeepAnchor);
+                setTextCursor (cur);
             }
-            start.endEditBlock();
+            cur.endEditBlock();
             event->accept();
             return;
         }
@@ -296,18 +361,34 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                 autoB = true;
             if (autoB)
             {
-                QString selTxt = cursor.selectedText();
                 int pos = cursor.position();
                 int anch = cursor.anchor();
                 cursor.beginEditBlock();
+                cursor.setPosition (anch);
                 if (event->key() == Qt::Key_ParenLeft)
-                    cursor.insertText ("(" + selTxt + ")");
+                {
+                    cursor.insertText (")");
+                    cursor.setPosition (pos);
+                    cursor.insertText ("(");
+                }
                 else if (event->key() == Qt::Key_BraceLeft)
-                    cursor.insertText ("{" + selTxt + "}");
+                {
+                    cursor.insertText ("}");
+                    cursor.setPosition (pos);
+                    cursor.insertText ("{");
+                }
                 else if (event->key() == Qt::Key_BracketLeft)
-                    cursor.insertText ("[" + selTxt + "]");
+                {
+                    cursor.insertText ("]");
+                    cursor.setPosition (pos);
+                    cursor.insertText ("[");
+                }
                 else// if (event->key() == Qt::Key_QuoteDbl)
-                    cursor.insertText ("\"" + selTxt + "\"");
+                {
+                    cursor.insertText ("\"");
+                    cursor.setPosition (pos);
+                    cursor.insertText ("\"");
+                }
                 /* select the text and set the cursor at its start */
                 cursor.setPosition (anch + 1, QTextCursor::MoveAnchor);
                 cursor.setPosition (pos + 1, QTextCursor::KeepAnchor);
@@ -349,7 +430,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
     else if (event->key() == Qt::Key_Tab)
     {
         QTextCursor cursor = textCursor();
-        int newLines = cursor.selectedText().count (QChar::ParagraphSeparator);
+        int newLines = cursor.selectedText().count (QChar (QChar::ParagraphSeparator));
         if (newLines > 0)
         {
             cursor.beginEditBlock();
@@ -389,7 +470,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
     else if (event->key() == Qt::Key_Backtab)
     {
         QTextCursor cursor = textCursor();
-        int newLines = cursor.selectedText().count (QChar::ParagraphSeparator);
+        int newLines = cursor.selectedText().count (QChar (QChar::ParagraphSeparator));
         if (cursor.anchor() <= cursor.position())
             cursor.setPosition (cursor.anchor());
         else

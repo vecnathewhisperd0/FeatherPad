@@ -189,7 +189,7 @@ private slots:
     void onUpdateRequesting (const QRect&, int dy);
 
 private:
-    QString computeIndentation (QTextCursor& cur) const;
+    QString computeIndentation (const QTextCursor cur) const;
 
     QWidget *lineNumberArea;
     QTextEdit::ExtraSelection currentLine;
