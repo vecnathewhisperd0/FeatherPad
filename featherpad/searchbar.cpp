@@ -22,11 +22,24 @@
 namespace FeatherPad {
 
 
-SearchBar::SearchBar(QWidget *parent, bool hasText, Qt::WindowFlags f) : QFrame (parent, f)
+SearchBar::SearchBar(QWidget *parent,
+                     bool hasText,
+                     const QStringList &shortcuts,
+                     Qt::WindowFlags f)
+    : QFrame (parent, f)
 {
     lineEdit_ = new LineEdit (this);
     lineEdit_->setMinimumWidth (150);
     lineEdit_->setPlaceholderText (tr ("Search..."));
+    shortcuts_ = shortcuts;
+    QString nxtShortcut, prevShortcut, csShortcut, wholeShortcut;
+    if (shortcuts.size() >= 4)
+    {
+        nxtShortcut = shortcuts.at (0);
+        prevShortcut = shortcuts.at (1);
+        csShortcut = shortcuts.at (2);
+        wholeShortcut = shortcuts.at (3);
+    }
 
     /* See the comment about KAcceleratorManager in "fpwin.cpp". */
 
@@ -39,22 +52,22 @@ SearchBar::SearchBar(QWidget *parent, bool hasText, Qt::WindowFlags f) : QFrame 
         toolButton_nxt_->setText (tr ("Next"));
         toolButton_prv_->setText (tr ("Previous"));
     }
-    toolButton_nxt_->setShortcut (QKeySequence (tr ("F3")));
-    toolButton_prv_->setShortcut (QKeySequence (tr ("F4")));
-    toolButton_nxt_->setToolTip (tr ("Next") + " (" + tr ("F3") + ")");
-    toolButton_prv_->setToolTip (tr ("Previous") + " (" + tr ("F4") + ")");
+    toolButton_nxt_->setShortcut (QKeySequence (nxtShortcut));
+    toolButton_prv_->setShortcut (QKeySequence (prevShortcut));
+    toolButton_nxt_->setToolTip (tr ("Next") + " (" + nxtShortcut + ")");
+    toolButton_prv_->setToolTip (tr ("Previous") + " (" + prevShortcut + ")");
 
     pushButton_case_ = new QPushButton (this);
     pushButton_case_->setText (tr ("Match Case"));
-    pushButton_case_->setShortcut (QKeySequence (tr ("F5")));
-    pushButton_case_->setToolTip (tr ("F5"));
+    pushButton_case_->setShortcut (QKeySequence (csShortcut));
+    pushButton_case_->setToolTip (csShortcut);
     pushButton_case_->setCheckable (true);
     pushButton_case_->setFocusPolicy (Qt::NoFocus);
 
     pushButton_whole_ = new QPushButton (this);
     pushButton_whole_->setText (tr ("Whole Word"));
-    pushButton_whole_->setShortcut (QKeySequence (tr ("F6")));
-    pushButton_whole_->setToolTip (tr ("F6"));
+    pushButton_whole_->setShortcut (QKeySequence (wholeShortcut));
+    pushButton_whole_->setToolTip (wholeShortcut);
     pushButton_whole_->setCheckable (true);
     pushButton_whole_->setFocusPolicy (Qt::NoFocus);
 
@@ -119,8 +132,8 @@ bool SearchBar::matchWhole() const
     return pushButton_whole_->isChecked();
 }
 /*************************/
-// Used only in a workaround (-> FPwin::disableShortcuts())
-void SearchBar::disableShortcuts (bool disable)
+// Used only in a workaround (-> FPwin::updateShortcuts())
+void SearchBar::updateShortcuts (bool disable)
 {
     if (disable)
     {
@@ -129,12 +142,12 @@ void SearchBar::disableShortcuts (bool disable)
         pushButton_case_->setShortcut (QKeySequence());
         pushButton_whole_->setShortcut (QKeySequence());
     }
-    else
+    else if (shortcuts_.size() >= 4)
     {
-        toolButton_nxt_->setShortcut (QKeySequence (tr ("F3")));
-        toolButton_prv_->setShortcut (QKeySequence (tr ("F4")));
-        pushButton_case_->setShortcut (QKeySequence (tr ("F5")));
-        pushButton_whole_->setShortcut (QKeySequence (tr ("F6")));
+        toolButton_nxt_->setShortcut (QKeySequence (shortcuts_.at (0)));
+        toolButton_prv_->setShortcut (QKeySequence (shortcuts_.at (1)));
+        pushButton_case_->setShortcut (QKeySequence (shortcuts_.at (2)));
+        pushButton_whole_->setShortcut (QKeySequence (shortcuts_.at (3)));
     }
 }
 /*************************/

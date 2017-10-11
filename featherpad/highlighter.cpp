@@ -140,7 +140,10 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
             flags |= QTextOption::ShowTabsAndSpaces;
         if (showEndings)
             flags |= QTextOption::ShowLineAndParagraphSeparators
-                     | QTextOption::ShowDocumentTerminator;
+#if QT_VERSION >= 0x050700
+                     | QTextOption::ShowDocumentTerminator
+#endif
+                     ;
         opt.setFlags (flags);
         document()->setDefaultTextOption (opt);
     }
@@ -841,7 +844,10 @@ Highlighter::~Highlighter()
         QTextOption opt =  doc->defaultTextOption();
         opt.setFlags (opt.flags() & ~QTextOption::ShowTabsAndSpaces
                                   & ~QTextOption::ShowLineAndParagraphSeparators
-                                  & ~QTextOption::ShowDocumentTerminator);
+#if QT_VERSION >= 0x050700
+                                  & ~QTextOption::ShowDocumentTerminator
+#endif
+                                  );
         doc->setDefaultTextOption (opt);
     }
 }

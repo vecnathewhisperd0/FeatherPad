@@ -216,17 +216,17 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     ui->toolButtonPrv->setShortcut (QKeySequence (tr ("F8")));
     ui->toolButtonAll->setShortcut (QKeySequence (tr ("F9")));
 
-    QShortcut *zoomin = new QShortcut (QKeySequence (tr ("Ctrl+=", "Zoom in")), this);
-    QShortcut *zoominPlus = new QShortcut (QKeySequence (tr ("Ctrl++", "Zoom in")), this);
-    QShortcut *zoomout = new QShortcut (QKeySequence (tr ("Ctrl+-", "Zoom out")), this);
-    QShortcut *zoomzero = new QShortcut (QKeySequence (tr ("Ctrl+0", "Zoom default")), this);
+    QShortcut *zoomin = new QShortcut (QKeySequence (tr ("Ctrl+=")), this);
+    QShortcut *zoominPlus = new QShortcut (QKeySequence (tr ("Ctrl++")), this);
+    QShortcut *zoomout = new QShortcut (QKeySequence (tr ("Ctrl+-")), this);
+    QShortcut *zoomzero = new QShortcut (QKeySequence (tr ("Ctrl+0")), this);
     connect (zoomin, &QShortcut::activated, this, &FPwin::zoomIn);
     connect (zoominPlus, &QShortcut::activated, this, &FPwin::zoomIn);
     connect (zoomout, &QShortcut::activated, this, &FPwin::zoomOut);
     connect (zoomzero, &QShortcut::activated, this, &FPwin::zoomZero);
 
-    QShortcut *fullscreen = new QShortcut (QKeySequence (tr ("F11", "Fullscreen")), this);
-    QShortcut *defaultsize = new QShortcut (QKeySequence (tr ("Ctrl+Shift+W", "Default size")), this);
+    QShortcut *fullscreen = new QShortcut (QKeySequence (tr ("F11")), this);
+    QShortcut *defaultsize = new QShortcut (QKeySequence (tr ("Ctrl+Shift+W")), this);
     connect (fullscreen, &QShortcut::activated, this, &FPwin::fullScreening);
     connect (defaultsize, &QShortcut::activated, this, &FPwin::defaultSize);
 
@@ -236,7 +236,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     connect (align, &QShortcut::activated, this, &FPwin::align);*/
 
     /* exiting a process */
-    QShortcut *kill = new QShortcut (QKeySequence (tr ("Ctrl+Alt+E", "Kill process")), this);
+    QShortcut *kill = new QShortcut (QKeySequence (tr ("Ctrl+Alt+E")), this);
     connect (kill, &QShortcut::activated, this, &FPwin::exitProcess);
 
     dummyWidget = new QWidget();
@@ -498,6 +498,30 @@ void FPwin::applyConfig()
             setWindowIcon (QIcon (":icons/featherpad.svg"));
         }
     }
+
+    if (!config.hasReservedShortcuts())
+    {
+        QStringList reserved;
+        reserved << tr ("Ctrl+Shift+Z") << tr ("Ctrl+Z") << tr ("Ctrl+X") << tr ("Ctrl+C") << tr ("Ctrl+V") << tr ("Ctrl+A")
+                 << tr ("F3") << tr ("F4") << tr ("F5") << tr ("F6")
+                 << tr ("F7") << tr ("F8") << tr ("F9")
+                 << tr ("F11") << tr ("Ctrl+Shift+W")
+                 << tr ("Ctrl+=") << tr ("Ctrl++") << tr ("Ctrl+-") << tr ("Ctrl+0")
+                 << tr ("Ctrl+Alt+E")
+                 << tr ("Shift+Enter") << tr ("Ctrl+Tab") << tr ("Ctrl+Meta+Tab")
+                 << tr ("Alt+Right") << tr ("Alt+Left") << tr ("Alt+Down")  << tr ("Alt+Up");
+        config.setReservedShortcuts (reserved);
+    }
+    config.readShortcuts();
+
+    QHash<QString, QString> ca = config.customShortcutActions();
+    QHash<QString, QString>::const_iterator it = ca.constBegin();
+    while (it != ca.constEnd())
+    {
+        if (QAction *action = findChild<QAction*>(it.key()))
+            action->setShortcut (it.value());
+        ++it;
+    }
 }
 /*************************/
 // We want all dialogs to be window-modal as far as possible. However there is a problem:
@@ -735,7 +759,7 @@ int FPwin::unSaved (int index, bool noToAll)
     {
         unbusy(); // made busy at closeTabs()
         if (hasAnotherDialog()) return 1; // cancel
-        disableShortcuts (true);
+        updateShortcuts (true);
 
         MessageBox msgBox (this);
         msgBox.setIcon (QMessageBox::Question);
@@ -781,7 +805,7 @@ int FPwin::unSaved (int index, bool noToAll)
             unsaved = 1;
             break;
         }
-        disableShortcuts (false);
+        updateShortcuts (false);
     }
     return unsaved;
 }
@@ -832,11 +856,7 @@ void FPwin::enableWidgets (bool enable) const
     }
 }
 /*************************/
-// When a window-modal dialog is shown, Qt doesn't disable the main window shortcuts.
-// This is definitely a bug in Qt. As a workaround, we use this function to disable
-// all shortcuts on showing a dialog and to enable them again on hiding it.
-// The searchbar shortcuts of the current tab page are handled separately.
-void FPwin::disableShortcuts (bool disable, bool page)
+void FPwin::updateCustomizableShortcuts (bool disable)
 {
     if (disable)
     {
@@ -861,6 +881,55 @@ void FPwin::disableShortcuts (bool disable, bool page)
         ui->actionDetachTab->setShortcut (QKeySequence());
         ui->actionReload->setShortcut (QKeySequence());
 
+        /* the shortcuts of these 3 actions don't need to be unset
+           but they may need to be reset with Preferences dialog */
+        ui->actionJump->setShortcut (QKeySequence());
+        ui->actionRun->setShortcut (QKeySequence());
+        ui->actionSession->setShortcut (QKeySequence());
+    }
+    else
+    {
+        QHash<QString, QString> ca = static_cast<FPsingleton*>(qApp)->
+                                     getConfig().customShortcutActions();
+        QList<QString> keys = ca.keys();
+
+        ui->actionLineNumbers->setShortcut (keys.contains ("actionLineNumbers") ? ca.value ("actionLineNumbers") : QKeySequence (tr ("Ctrl+L")));
+        ui->actionWrap->setShortcut (keys.contains ("actionWrap") ? ca.value ("actionWrap") : QKeySequence (tr ("Ctrl+W")));
+        ui->actionIndent->setShortcut (keys.contains ("actionIndent") ? ca.value ("actionIndent") : QKeySequence (tr ("Ctrl+I")));
+        ui->actionSyntax->setShortcut (keys.contains ("actionSyntax") ? ca.value ("actionSyntax") : QKeySequence (tr ("Ctrl+Shift+H")));
+
+        ui->actionNew->setShortcut (keys.contains ("actionNew") ? ca.value ("actionNew") : QKeySequence (tr ("Ctrl+N")));
+        ui->actionOpen->setShortcut (keys.contains ("actionOpen") ? ca.value ("actionOpen") : QKeySequence (tr ("Ctrl+O")));
+        ui->actionSave->setShortcut (keys.contains ("actionSave") ? ca.value ("actionSave") : QKeySequence (tr ("Ctrl+S")));
+        ui->actionFind->setShortcut (keys.contains ("actionFind") ? ca.value ("actionFind") : QKeySequence (tr ("Ctrl+F")));
+        ui->actionReplace->setShortcut (keys.contains ("actionReplace") ? ca.value ("actionReplace") : QKeySequence (tr ("Ctrl+R")));
+        ui->actionSaveAs->setShortcut (keys.contains ("actionSaveAs") ? ca.value ("actionSaveAs") : QKeySequence (tr ("Ctrl+Shift+S")));
+        ui->actionPrint->setShortcut (keys.contains ("actionPrint") ? ca.value ("actionPrint") : QKeySequence (tr ("Ctrl+P")));
+        ui->actionDoc->setShortcut (keys.contains ("actionDoc") ? ca.value ("actionDoc") : QKeySequence (tr ("Ctrl+Shift+D")));
+        ui->actionClose->setShortcut (keys.contains ("actionClose") ? ca.value ("actionClose") : QKeySequence (tr ("Ctrl+Shift+Q")));
+        ui->actionQuit->setShortcut (keys.contains ("actionQuit") ? ca.value ("actionQuit") : QKeySequence (tr ("Ctrl+Q")));
+        ui->actionPreferences->setShortcut (keys.contains ("actionPreferences") ? ca.value ("actionPreferences") : QKeySequence (tr ("Ctrl+Shift+P")));
+        ui->actionHelp->setShortcut (keys.contains ("actionHelp") ? ca.value ("actionHelp") : QKeySequence (tr ("Ctrl+H")));
+        ui->actionEdit->setShortcut (keys.contains ("actionEdit") ? ca.value ("actionEdit") : QKeySequence (tr ("Ctrl+E")));
+        ui->actionDetachTab->setShortcut (keys.contains ("actionDetachTab") ? ca.value ("actionDetachTab") : QKeySequence (tr ("Ctrl+T")));
+        ui->actionReload->setShortcut (keys.contains ("actionReload") ? ca.value ("actionReload") : QKeySequence (tr ("Ctrl+Shift+R")));
+
+        ui->actionJump->setShortcut (keys.contains ("actionJump") ? ca.value ("actionJump") : QKeySequence (tr ("Ctrl+J")));
+        ui->actionRun->setShortcut (keys.contains ("actionRun") ? ca.value ("actionRun") : QKeySequence (tr ("Ctrl+E")));
+        ui->actionSession->setShortcut (keys.contains ("actionSession") ? ca.value ("actionSession") : QKeySequence (tr ("Ctrl+M")));
+    }
+}
+/*************************/
+// When a window-modal dialog is shown, Qt doesn't disable the main window shortcuts.
+// This is definitely a bug in Qt. As a workaround, we use this function to disable
+// all shortcuts on showing a dialog and to enable them again on hiding it.
+// The searchbar shortcuts of the current tab page are handled separately.
+//
+// This function also updates shortcuts after they're customized in the Preferences dialog.
+void FPwin::updateShortcuts (bool disable, bool page)
+{
+    if (disable)
+    {
         ui->actionUndo->setShortcut (QKeySequence());
         ui->actionRedo->setShortcut (QKeySequence());
         ui->actionCut->setShortcut (QKeySequence());
@@ -879,27 +948,6 @@ void FPwin::disableShortcuts (bool disable, bool page)
     }
     else
     {
-        ui->actionLineNumbers->setShortcut (QKeySequence (tr ("Ctrl+L")));
-        ui->actionWrap->setShortcut (QKeySequence (tr ("Ctrl+W")));
-        ui->actionIndent->setShortcut (QKeySequence (tr ("Ctrl+I")));
-        ui->actionSyntax->setShortcut (QKeySequence (tr ("Ctrl+Shift+H")));
-
-        ui->actionNew->setShortcut (QKeySequence (tr ("Ctrl+N")));
-        ui->actionOpen->setShortcut (QKeySequence (tr ("Ctrl+O")));
-        ui->actionSave->setShortcut (QKeySequence (tr ("Ctrl+S")));
-        ui->actionFind->setShortcut (QKeySequence (tr ("Ctrl+F")));
-        ui->actionReplace->setShortcut (QKeySequence (tr ("Ctrl+R")));
-        ui->actionSaveAs->setShortcut (QKeySequence (tr ("Ctrl+Shift+S")));
-        ui->actionPrint->setShortcut (QKeySequence (tr ("Ctrl+P")));
-        ui->actionDoc->setShortcut (QKeySequence (tr ("Ctrl+Shift+D")));
-        ui->actionClose->setShortcut (QKeySequence (tr ("Ctrl+Shift+Q")));
-        ui->actionQuit->setShortcut (QKeySequence (tr ("Ctrl+Q")));
-        ui->actionPreferences->setShortcut (QKeySequence (tr ("Ctrl+Shift+P")));
-        ui->actionHelp->setShortcut (QKeySequence (tr ("Ctrl+H")));
-        ui->actionEdit->setShortcut (QKeySequence (tr ("Ctrl+E")));
-        ui->actionDetachTab->setShortcut (QKeySequence (tr ("Ctrl+T")));
-        ui->actionReload->setShortcut (QKeySequence (tr ("Ctrl+Shift+R")));
-
         ui->actionUndo->setShortcut (QKeySequence (tr ("Ctrl+Z")));
         ui->actionRedo->setShortcut (QKeySequence (tr ("Ctrl+Shift+Z")));
         ui->actionCut->setShortcut (QKeySequence (tr ("Ctrl+X")));
@@ -924,10 +972,12 @@ void FPwin::disableShortcuts (bool disable, bool page)
         ui->actionLastTab->setShortcut (QKeySequence (tr ("Alt+Up")));
         ui->actionFirstTab->setShortcut (QKeySequence (tr ("Alt+Down")));
     }
+    updateCustomizableShortcuts (disable);
+
     if (page) // disable/enable searchbar shortcuts of the current page too
     {
         if (TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget()))
-            tabPage->disableShortcuts (disable);
+            tabPage->updateShortcuts (disable);
     }
 }
 /*************************/
@@ -940,9 +990,11 @@ TabPage* FPwin::createEmptyTab (bool setCurrent)
 {
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
 
+    static const QStringList searchShortcuts = {tr ("F3"), tr ("F4"), tr ("F5"), tr ("F6")};
     TabPage *tabPage = new TabPage (iconMode_,
                                     config.getDarkColScheme() ? config.getDarkBgColorValue()
                                                               : config.getLightBgColorValue(),
+                                    searchShortcuts,
                                     nullptr);
     TextEdit *textEdit = tabPage->textEdit();
     textEdit->setAutoBracket (config.getAutoBracket());
@@ -1443,7 +1495,7 @@ void FPwin::loadText (const QString fileName, bool enforceEncod, bool reload, bo
     if (QGuiApplication::overrideCursor() == nullptr)
         waitToMakeBusy();
     ui->tabWidget->tabBar()->lockTabs (true);
-    disableShortcuts (true, false);
+    updateShortcuts (true, false);
 }
 /*************************/
 // When multiple files are being loaded, we don't change the current tab.
@@ -1459,7 +1511,7 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
         {
             unbusy();
             ui->tabWidget->tabBar()->lockTabs (false);
-            disableShortcuts (false, false);
+            updateShortcuts (false, false);
             emit finishedLoading();
         }
         return;
@@ -1655,7 +1707,7 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
     {
         unbusy();
         ui->tabWidget->tabBar()->lockTabs (false);
-        disableShortcuts (false, false);
+        updateShortcuts (false, false);
         if (reload && scrollbarValue > -1)
         { // restore the scrollbar position
             lambdaConnection_ = QObject::connect (this, &FPwin::finishedLoading,
@@ -1674,7 +1726,7 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
 /*************************/
 void FPwin::disconnectLambda()
 {
-    QObject::disconnect(lambdaConnection_);
+    QObject::disconnect (lambdaConnection_);
 }
 /*************************/
 void FPwin::onOpeningHugeFiles()
@@ -1774,7 +1826,7 @@ void FPwin::fileOpen()
     }
 
     if (hasAnotherDialog()) return;
-    disableShortcuts (true);
+    updateShortcuts (true);
     QString filter = tr ("All Files (*)");
     if (!fname.isEmpty()
         && QFileInfo (fname).fileName().contains ('.'))
@@ -1803,7 +1855,7 @@ void FPwin::fileOpen()
         foreach (fname, files)
             newTabFromName (fname, multiple);
     }
-    disableShortcuts (false);
+    updateShortcuts (false);
 }
 /*************************/
 // Check if the file is already opened for editing somewhere else.
@@ -1948,7 +2000,7 @@ bool FPwin::saveFile (bool keepSyntax)
             && QObject::sender() != ui->actionSaveCodec)
         {
             if (hasAnotherDialog()) return false;
-            disableShortcuts (true);
+            updateShortcuts (true);
             FileDialog dialog (this, config.getNativeDialog());
             dialog.setAcceptMode (QFileDialog::AcceptSave);
             dialog.setWindowTitle (tr ("Save as..."));
@@ -1963,23 +2015,23 @@ bool FPwin::saveFile (bool keepSyntax)
                 fname = dialog.selectedFiles().at (0);
                 if (fname.isEmpty() || QFileInfo (fname).isDir())
                 {
-                    disableShortcuts (false);
+                    updateShortcuts (false);
                     return false;
                 }
             }
             else
             {
-                disableShortcuts (false);
+                updateShortcuts (false);
                 return false;
             }
-            disableShortcuts (false);
+            updateShortcuts (false);
         }
     }
 
     if (QObject::sender() == ui->actionSaveAs)
     {
         if (hasAnotherDialog()) return false;
-        disableShortcuts (true);
+        updateShortcuts (true);
         FileDialog dialog (this, config.getNativeDialog());
         dialog.setAcceptMode (QFileDialog::AcceptSave);
         dialog.setWindowTitle (tr ("Save as..."));
@@ -1994,21 +2046,21 @@ bool FPwin::saveFile (bool keepSyntax)
             fname = dialog.selectedFiles().at (0);
             if (fname.isEmpty() || QFileInfo (fname).isDir())
             {
-                disableShortcuts (false);
+                updateShortcuts (false);
                 return false;
             }
         }
         else
         {
-            disableShortcuts (false);
+            updateShortcuts (false);
             return false;
         }
-        disableShortcuts (false);
+        updateShortcuts (false);
     }
     else if (QObject::sender() == ui->actionSaveCodec)
     {
         if (hasAnotherDialog()) return false;
-        disableShortcuts (true);
+        updateShortcuts (true);
         FileDialog dialog (this, config.getNativeDialog());
         dialog.setAcceptMode (QFileDialog::AcceptSave);
         dialog.setWindowTitle (tr ("Keep encoding and save as..."));
@@ -2023,16 +2075,16 @@ bool FPwin::saveFile (bool keepSyntax)
             fname = dialog.selectedFiles().at (0);
             if (fname.isEmpty() || QFileInfo (fname).isDir())
             {
-                disableShortcuts (false);
+                updateShortcuts (false);
                 return false;
             }
         }
         else
         {
-            disableShortcuts (false);
+            updateShortcuts (false);
             return false;
         }
-        disableShortcuts (false);
+        updateShortcuts (false);
     }
 
     if (config.getAppendEmptyLine()
@@ -2053,7 +2105,7 @@ bool FPwin::saveFile (bool keepSyntax)
         QString encoding  = checkToEncoding();
 
         if (hasAnotherDialog()) return false;
-        disableShortcuts (true);
+        updateShortcuts (true);
         MessageBox msgBox (this);
         msgBox.setIcon (QMessageBox::Question);
         msgBox.addButton (QMessageBox::Yes);
@@ -2106,11 +2158,11 @@ bool FPwin::saveFile (bool keepSyntax)
             writer.setCodec (QTextCodec::codecForName (encoding.toUtf8()));
             break;
         default:
-            disableShortcuts (false);
+            updateShortcuts (false);
             return false;
             break;
         }
-        disableShortcuts (false);
+        updateShortcuts (false);
     }
     if (!success)
         success = writer.write (textEdit->document());
@@ -2456,7 +2508,7 @@ void FPwin::fontDialog()
     if (index == -1) return;
 
     if (hasAnotherDialog()) return;
-    disableShortcuts (true);
+    updateShortcuts (true);
 
     TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
 
@@ -2489,7 +2541,7 @@ void FPwin::fontDialog()
         /* ... or smaller */
         reformat (textEdit);
     }
-    disableShortcuts (false);
+    updateShortcuts (false);
 }
 /*************************/
 void FPwin::changeEvent (QEvent *event)
@@ -2904,7 +2956,7 @@ void FPwin::filePrint()
     if (index == -1) return;
 
     if (hasAnotherDialog()) return;
-    disableShortcuts (true);
+    updateShortcuts (true);
 
     TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
     QPrinter printer (QPrinter::HighResolution);
@@ -2929,7 +2981,7 @@ void FPwin::filePrint()
     if (dlg.exec() == QDialog::Accepted)
         textEdit->print (&printer);
 
-    disableShortcuts (false);
+    updateShortcuts (false);
 }
 /*************************/
 void FPwin::nextTab()
@@ -3422,13 +3474,41 @@ void FPwin::prefDialog()
     if (isLoading()) return;
 
     if (hasAnotherDialog()) return;
-    disableShortcuts (true);
-    PrefDialog dlg (this);
+
+    static QHash<QString, QString> defaultShortcuts; // FIXME: use C++11 initializer
+    if (defaultShortcuts.isEmpty())
+    {
+        defaultShortcuts.insert ("actionNew", tr ("Ctrl+N"));
+        defaultShortcuts.insert ("actionOpen", tr ("Ctrl+O"));
+        defaultShortcuts.insert ("actionSave", tr ("Ctrl+S"));
+        defaultShortcuts.insert ("actionReload", tr ("Ctrl+Shift+R"));
+        defaultShortcuts.insert ("actionFind", tr ("Ctrl+F"));
+        defaultShortcuts.insert ("actionReplace", tr ("Ctrl+R"));
+        defaultShortcuts.insert ("actionSaveAs", tr ("Ctrl+Shift+S"));
+        defaultShortcuts.insert ("actionPrint", tr ("Ctrl+P"));
+        defaultShortcuts.insert ("actionDoc", tr ("Ctrl+Shift+D"));
+        defaultShortcuts.insert ("actionClose", tr ("Ctrl+Shift+Q"));
+        defaultShortcuts.insert ("actionQuit", tr ("Ctrl+Q"));
+        defaultShortcuts.insert ("actionLineNumbers", tr ("Ctrl+L"));
+        defaultShortcuts.insert ("actionWrap", tr ("Ctrl+W"));
+        defaultShortcuts.insert ("actionIndent", tr ("Ctrl+I"));
+        defaultShortcuts.insert ("actionSyntax", tr ("Ctrl+Shift+H"));
+        defaultShortcuts.insert ("actionPreferences", tr ("Ctrl+Shift+P"));
+        defaultShortcuts.insert ("actionHelp", tr ("Ctrl+H"));
+        defaultShortcuts.insert ("actionJump", tr ("Ctrl+J"));
+        defaultShortcuts.insert ("actionEdit", tr ("Ctrl+Shift+E"));
+        defaultShortcuts.insert ("actionDetachTab", tr ("Ctrl+T"));
+        defaultShortcuts.insert ("actionRun", tr ("Ctrl+E"));
+        defaultShortcuts.insert ("actionSession", tr ("Ctrl+M"));
+    }
+
+    updateShortcuts (true);
+    PrefDialog dlg (defaultShortcuts, this);
     /*dlg.show();
     move (x() + width()/2 - dlg.width()/2,
           y() + height()/2 - dlg.height()/ 2);*/
     dlg.exec();
-    disableShortcuts (false);
+    updateShortcuts (false);
 }
 /*************************/
 void FPwin::manageSessions()
@@ -3465,7 +3545,7 @@ void FPwin::aboutDialog()
     if (isLoading()) return;
 
     if (hasAnotherDialog()) return;
-    disableShortcuts (true);
+    updateShortcuts (true);
     MessageBox msgBox (this);
     msgBox.setText (QString ("<center><b><big>%1 %2</big></b></center><br>").arg (qApp->applicationName()).arg (qApp->applicationVersion()));
     msgBox.setInformativeText ("<center> " + tr ("A lightweight, tabbed, plain-text editor") + " </center>\n<center> "
@@ -3488,7 +3568,7 @@ void FPwin::aboutDialog()
     msgBox.setIconPixmap (FPIcon.pixmap (64, 64));
     msgBox.setWindowTitle (tr ("About FeatherPad"));
     msgBox.exec();
-    disableShortcuts (false);
+    updateShortcuts (false);
 }
 /*************************/
 void FPwin::helpDoc()

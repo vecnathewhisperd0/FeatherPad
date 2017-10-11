@@ -19,9 +19,24 @@
 #define PREF_H
 
 #include <QDialog>
+#include <QStyledItemDelegate>
+#include <QTableWidgetItem>
 #include "config.h"
 
 namespace FeatherPad {
+
+class Delegate : public QStyledItemDelegate
+{
+    Q_OBJECT
+
+public:
+    Delegate (QObject *parent = 0);
+
+    virtual QWidget* createEditor (QWidget *parent,
+                                   const QStyleOptionViewItem&,
+                                   const QModelIndex&) const;
+    virtual bool eventFilter (QObject *object, QEvent *event);
+};
 
 namespace Ui {
 class PrefDialog;
@@ -32,7 +47,7 @@ class PrefDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit PrefDialog (QWidget *parent = 0);
+    explicit PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget *parent = 0);
     ~PrefDialog();
 
 private slots:
@@ -65,17 +80,23 @@ private slots:
     void prefOpenRecentFile (int value);
     void prefNativeDialog (int checked);
     void showWhatsThis();
+    void prefShortcuts();
+    void defaultSortcuts();
+    void onShortcutChange (QTableWidgetItem *item);
 
 private:
     void closeEvent (QCloseEvent *event);
     void prefTabPosition();
     void prefRecentFilesKind();
-    void showPrompt();
+    void showPrompt (QString str = QString(), bool temporary = false);
 
     Ui::PrefDialog *ui;
     QWidget * parent_;
     bool darkBg_, sysIcons_, iconless_, showWhiteSpace_, showEndings_;
     int darkColValue_, lightColValue_, recentNumber_;
+    QHash<QString, QString> shortcuts_, newShortcuts_, defaultShortcuts_;
+    QString prevtMsg_;
+    QTimer *promptTimer_;
 };
 
 }

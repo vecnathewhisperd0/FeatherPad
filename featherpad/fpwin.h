@@ -76,6 +76,7 @@ public:
     }
 
     void showCrashWarning();
+    void updateCustomizableShortcuts (bool disable = false);
 
 signals:
     void finishedLoading();
@@ -185,7 +186,7 @@ private:
     void changeEvent (QEvent *event);
     QTextDocument::FindFlags getSearchFlags() const;
     void enableWidgets (bool enable) const;
-    void disableShortcuts (bool disable, bool page = true);
+    void updateShortcuts (bool disable, bool page = true);
     QTextCursor finding (const QString str, const QTextCursor& start, QTextDocument::FindFlags flags = 0,
                          const int end = 0) const;
     void setProgLang (TextEdit *textEdit);

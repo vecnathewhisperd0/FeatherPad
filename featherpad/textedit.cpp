@@ -175,7 +175,7 @@ void TextEdit::updateLineNumberArea (const QRect &rect, int dy)
         updateLineNumberAreaWidth (0);
 }
 /*************************/
-QString TextEdit::computeIndentation (const QTextCursor cur) const
+QString TextEdit::computeIndentation (const QTextCursor &cur) const
 {
     QTextCursor cusror = cur;
     if (cusror.hasSelection())

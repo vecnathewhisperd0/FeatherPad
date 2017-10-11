@@ -27,6 +27,7 @@ V0.6.1
  * Match brackets too (in addition to parentheses and braces).
  * Added config files to syntax highlighting.
  * Support Shift+Enter (useful e.g. to write code comments).
+ * Addded a shortcut editor to Preferences for customizing some shortcuts.
 
 V0.6.0
 ---------

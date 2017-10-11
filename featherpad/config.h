@@ -45,6 +45,7 @@ public:
     ~Config();
 
     void readConfig();
+    void readShortcuts();
     void writeConfig();
 
     bool getRemSize() const {
@@ -304,7 +305,30 @@ public:
     }
     void addRecentFile (QString file);
 
+    QHash<QString, QString> customShortcutActions() const {
+        return actions_;
+    }
+    void setActionShortcut (const QString &action, const QString &shortcut) {
+        actions_.insert (action, shortcut);
+    }
+    void removeShortcut (const QString &action) {
+        actions_.remove (action);
+        removedActions_ << action;
+    }
+
+    bool hasReservedShortcuts() const {
+        return (!reservedShortcuts_.isEmpty());
+    }
+    QStringList reservedShortcuts() const {
+        return reservedShortcuts_;
+    }
+    void setReservedShortcuts (const QStringList &s) {
+        reservedShortcuts_ = s;
+    }
+
 private:
+    bool isValidShortCut (const QVariant v);
+
     bool remSize_, iconless_, sysIcon_, noToolbar_, noMenubar_, hideSearchbar_, showStatusbar_, remFont_, wrapByDefault_,
          indentByDefault_, autoBracket_, lineByDefault_, syntaxByDefault_, showWhiteSpace_, showEndings_, isMaxed_, isFull_,
          darkColScheme_, tabWrapAround_, hideSingleTab_, executeScripts_, appendEmptyLine_, nativeDialog_,
@@ -317,6 +341,8 @@ private:
     int openRecentFiles_;
     bool recentOpened_;
     QStringList recentFiles_;
+    QHash<QString, QString> actions_;
+    QStringList removedActions_, reservedShortcuts_;
 };
 
 }

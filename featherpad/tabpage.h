@@ -29,7 +29,9 @@ class TabPage : public QWidget
 {
     Q_OBJECT
 public:
-    TabPage (ICONMODE iconMode = OWN, int bgColorValue = 255, QWidget *parent = 0);
+    TabPage (ICONMODE iconMode = OWN, int bgColorValue = 255,
+             const QStringList &searchShortcuts = QStringList(),
+             QWidget *parent = 0);
 
     QPointer<TextEdit> textEdit() const {
         return textEdit_;
@@ -46,7 +48,7 @@ public:
     bool matchCase() const;
     bool matchWhole() const;
 
-    void disableShortcuts (bool disable);
+    void updateShortcuts (bool disable);
 
 signals:
     void find (bool forward);

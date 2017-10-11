@@ -28,7 +28,10 @@ class SearchBar : public QFrame
 {
     Q_OBJECT
 public:
-    SearchBar (QWidget *parent = 0, bool hasText = false, Qt::WindowFlags f = Qt::WindowFlags());
+    SearchBar (QWidget *parent = 0,
+               bool hasText = false,
+               const QStringList &shortcuts = QStringList(),
+               Qt::WindowFlags f = Qt::WindowFlags());
 
     void focusLineEdit();
     bool lineEditHasFocus();
@@ -38,7 +41,7 @@ public:
     bool matchCase() const;
     bool matchWhole() const;
 
-    void disableShortcuts (bool disable);
+    void updateShortcuts (bool disable);
     void setSearchIcons (QIcon iconNext, QIcon iconPrev);
 
 signals:
@@ -54,6 +57,7 @@ private:
     QPointer<QToolButton> toolButton_prv_;
     QPointer<QPushButton> pushButton_case_;
     QPointer<QPushButton> pushButton_whole_;
+    QStringList shortcuts_;
 };
 
 }

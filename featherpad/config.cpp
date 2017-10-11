@@ -17,6 +17,7 @@
 
 #include "config.h"
 #include <QFileInfo>
+#include <QKeySequence>
 
 namespace FeatherPad {
 
@@ -172,7 +173,7 @@ void Config::readConfig()
         executeScripts_ = true; // false by default
     executeCommand_ = settings.value ("executeCommand").toString();
 
-    QVariant v = settings.value("appendEmptyLine");
+    QVariant v = settings.value ("appendEmptyLine");
     if (v.isValid()) // true by default
         appendEmptyLine_ = v.toBool();
 
@@ -187,6 +188,23 @@ void Config::readConfig()
     if (settings.value ("recentOpened").toBool())
         recentOpened_ = true; // false by default
 
+    settings.endGroup();
+}
+/*************************/
+void Config::readShortcuts()
+{
+    Settings settings ("featherpad", "fp");
+    settings.beginGroup ("shortcuts");
+    QStringList actions = settings.childKeys();
+
+    for (int i = 0; i < actions.size(); ++i)
+    {
+        QVariant v = settings.value (actions.at (i));
+        if (isValidShortCut (v))
+            setActionShortcut (actions.at (i), v.toString());
+        else // remove the key on writing config
+            removedActions_ << actions.at (i);
+    }
     settings.endGroup();
 }
 /*************************/
@@ -264,6 +282,24 @@ void Config::writeConfig()
     settings.setValue ("recentOpened", recentOpened_);
 
     settings.endGroup();
+
+    /*****************
+     *** Shortcuts ***
+     *****************/
+
+    settings.beginGroup ("shortcuts");
+
+    for (int i = 0; i < removedActions_.size(); ++i)
+        settings.remove (removedActions_.at (i));
+
+    QHash<QString, QString>::const_iterator it = actions_.constBegin();
+    while (it != actions_.constEnd())
+    {
+        settings.setValue (it.key(), it.value());
+        ++it;
+    }
+
+    settings.endGroup();
 }
 /*************************/
 void Config::addRecentFile (QString file)
@@ -282,6 +318,26 @@ QStringList Config::getLastFiles() const
     for (int i = 0; i < n; ++i)
         res << recentFiles_.at (i);
     return res;
+}
+/*************************/
+bool Config::isValidShortCut (const QVariant v)
+{
+    static QStringList added;
+    if (v.isValid())
+    {
+        QString str = v.toString();
+        if (!QKeySequence (str).toString().isEmpty())
+        {
+            if (!reservedShortcuts_.contains (str)
+                // prevent ambiguous shortcuts at startup as far as possible
+                && !added.contains (str))
+            {
+                added << str;
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 }

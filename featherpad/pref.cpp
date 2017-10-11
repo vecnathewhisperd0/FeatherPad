@@ -23,15 +23,54 @@
 
 #include <QDesktopWidget>
 #include <QWhatsThis>
+#include <QKeySequenceEdit>
 
 namespace FeatherPad {
 
-PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialog)
+static QHash<QString, QString> OBJECT_NAMES;
+
+Delegate::Delegate (QObject *parent)
+    : QStyledItemDelegate (parent)
+{
+}
+
+QWidget* Delegate::createEditor (QWidget *parent,
+                                 const QStyleOptionViewItem& /*option*/,
+                                 const QModelIndex& /*index*/) const
+{
+    return new QKeySequenceEdit (parent);
+}
+/*************************/
+bool Delegate::eventFilter (QObject *object, QEvent *event)
+{
+    QWidget *editor = qobject_cast<QWidget*>(object);
+    if (editor && event->type() == QEvent::KeyPress)
+    {
+        int k = static_cast<QKeyEvent *>(event)->key();
+        if (k == Qt::Key_Return || k == Qt::Key_Enter)
+        {
+            emit QAbstractItemDelegate::commitData (editor);
+            emit QAbstractItemDelegate::closeEditor (editor);
+            return true;
+        }
+    }
+    return QStyledItemDelegate::eventFilter (object, event);
+}
+/*************************/
+PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget *parent)
+    : QDialog (parent), ui (new Ui::PrefDialog)
 {
     ui->setupUi (this);
     parent_ = parent;
     setWindowModality (Qt::WindowModal);
     ui->promptLabel->hide();
+    promptTimer_ = nullptr;
+
+    Delegate *del = new Delegate (ui->tableWidget);
+    ui->tableWidget->setItemDelegate (del);
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode (QHeaderView::Stretch);
+    ui->tableWidget->horizontalHeader()->setSectionsClickable (false);
+    ui->tableWidget->sortByColumn (0, Qt::AscendingOrder);
 
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
     sysIcons_ = config.getSysIcon();
@@ -92,6 +131,9 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     ui->singleTabBox->setChecked (config.getHideSingleTab());
     connect (ui->singleTabBox, &QCheckBox::stateChanged, this, &PrefDialog::prefHideSingleTab);
 
+    ui->nativeDialogBox->setChecked (config.getNativeDialog());
+    connect (ui->nativeDialogBox, &QCheckBox::stateChanged, this, &PrefDialog::prefNativeDialog);
+
     /************
      *** Text ***
      ************/
@@ -145,6 +187,10 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     connect (ui->spinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
              this, &PrefDialog::prefMaxSHSize);
 
+    /*************
+     *** Files ***
+     *************/
+
     ui->exeBox->setChecked (config.getExecuteScripts());
     connect (ui->exeBox, &QCheckBox::stateChanged, this, &PrefDialog::prefExecute);
     ui->commandEdit->setText (config.getExecuteCommand());
@@ -167,8 +213,119 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
     ui->openedButton->setChecked (config.getRecentOpened());
     // no QButtonGroup connection because we want to see if we should clear the recent list at the end
 
-    ui->nativeDialogBox->setChecked (config.getNativeDialog());
-    connect (ui->nativeDialogBox, &QCheckBox::stateChanged, this, &PrefDialog::prefNativeDialog);
+    /*****************
+     *** Shortcuts ***
+     *****************/
+
+    defaultShortcuts_ = defaultShortcuts;
+    FPwin *win = static_cast<FPwin *>(parent_);
+
+    if (OBJECT_NAMES.isEmpty())
+    {
+        OBJECT_NAMES.insert (win->ui->actionNew->text().remove ("&"), "actionNew");
+        OBJECT_NAMES.insert (win->ui->actionOpen->text().remove ("&"), "actionOpen");
+        OBJECT_NAMES.insert (win->ui->actionSave->text().remove ("&"), "actionSave");
+        OBJECT_NAMES.insert (win->ui->actionReload->text().remove ("&"), "actionReload");
+        OBJECT_NAMES.insert (win->ui->actionFind->text().remove ("&"), "actionFind");
+        OBJECT_NAMES.insert (win->ui->actionReplace->text().remove ("&"), "actionReplace");
+        OBJECT_NAMES.insert (win->ui->actionSaveAs->text().remove ("&"), "actionSaveAs");
+        OBJECT_NAMES.insert (win->ui->actionPrint->text().remove ("&"), "actionPrint");
+        OBJECT_NAMES.insert (win->ui->actionDoc->text().remove ("&"), "actionDoc");
+        OBJECT_NAMES.insert (win->ui->actionClose->text().remove ("&"), "actionClose");
+        OBJECT_NAMES.insert (win->ui->actionQuit->text().remove ("&"), "actionQuit");
+        OBJECT_NAMES.insert (win->ui->actionLineNumbers->text().remove ("&"), "actionLineNumbers");
+        OBJECT_NAMES.insert (win->ui->actionWrap->text().remove ("&"), "actionWrap");
+        OBJECT_NAMES.insert (win->ui->actionIndent->text().remove ("&"), "actionIndent");
+        OBJECT_NAMES.insert (win->ui->actionSyntax->text().remove ("&"), "actionSyntax");
+        OBJECT_NAMES.insert (win->ui->actionPreferences->text().remove ("&"), "actionPreferences");
+        OBJECT_NAMES.insert (win->ui->actionHelp->text().remove ("&"), "actionHelp");
+        OBJECT_NAMES.insert (win->ui->actionJump->text().remove ("&"), "actionJump");
+        OBJECT_NAMES.insert (win->ui->actionEdit->text().remove ("&"), "actionEdit");
+        OBJECT_NAMES.insert (win->ui->actionDetachTab->text().remove ("&"), "actionDetachTab");
+        OBJECT_NAMES.insert (win->ui->actionRun->text().remove ("&"), "actionRun");
+        OBJECT_NAMES.insert (win->ui->actionSession->text().remove ("&"), "actionSession");
+    }
+
+    QHash<QString, QString> ca = config.customShortcutActions();
+    QList<QString> keys = ca.keys();
+
+    shortcuts_.insert (win->ui->actionNew->text().remove ("&"),
+                       keys.contains ("actionNew") ? ca.value ("actionNew") : defaultShortcuts_.value ("actionNew"));
+    shortcuts_.insert (win->ui->actionOpen->text().remove ("&"),
+                       keys.contains ("actionOpen") ? ca.value ("actionOpen") : defaultShortcuts_.value ("actionOpen"));
+    shortcuts_.insert (win->ui->actionSave->text().remove ("&"),
+                       keys.contains ("actionSave") ? ca.value ("actionSave") : defaultShortcuts_.value ("actionSave"));
+    shortcuts_.insert (win->ui->actionReload->text().remove ("&"),
+                       keys.contains ("actionReload") ? ca.value ("actionReload") : defaultShortcuts_.value ("actionReload"));
+    shortcuts_.insert (win->ui->actionFind->text().remove ("&"),
+                       keys.contains ("actionFind") ? ca.value ("actionFind") : defaultShortcuts_.value ("actionFind"));
+    shortcuts_.insert (win->ui->actionReplace->text().remove ("&"),
+                       keys.contains ("actionReplace") ? ca.value ("actionReplace") : defaultShortcuts_.value ("actionReplace"));
+    shortcuts_.insert (win->ui->actionSaveAs->text().remove ("&"),
+                       keys.contains ("actionSaveAs") ? ca.value ("actionSaveAs") : defaultShortcuts_.value ("actionSaveAs"));
+    shortcuts_.insert (win->ui->actionPrint->text().remove ("&"),
+                       keys.contains ("actionPrint") ? ca.value ("actionPrint") :defaultShortcuts_.value ("actionPrint"));
+    shortcuts_.insert (win->ui->actionDoc->text().remove ("&"),
+                       keys.contains ("actionDoc") ? ca.value ("actionDoc") : defaultShortcuts_.value ("actionDoc"));
+    shortcuts_.insert (win->ui->actionClose->text().remove ("&"),
+                       keys.contains ("actionClose") ? ca.value ("actionClose") : defaultShortcuts_.value ("actionClose"));
+    shortcuts_.insert (win->ui->actionQuit->text().remove ("&"),
+                       keys.contains ("actionQuit") ? ca.value ("actionQuit") : defaultShortcuts_.value ("actionQuit"));
+    shortcuts_.insert (win->ui->actionLineNumbers->text().remove ("&"),
+                       keys.contains ("actionLineNumbers") ? ca.value ("actionLineNumbers") : defaultShortcuts_.value ("actionLineNumbers"));
+    shortcuts_.insert (win->ui->actionWrap->text().remove ("&"),
+                       keys.contains ("actionWrap") ? ca.value ("actionWrap") : defaultShortcuts_.value ("actionWrap"));
+    shortcuts_.insert (win->ui->actionIndent->text().remove ("&"),
+                       keys.contains ("actionIndent") ? ca.value ("actionIndent") : defaultShortcuts_.value ("actionIndent"));
+    shortcuts_.insert (win->ui->actionSyntax->text().remove ("&"),
+                       keys.contains ("actionSyntax") ? ca.value ("actionSyntax") : defaultShortcuts_.value ("actionSyntax"));
+    shortcuts_.insert (win->ui->actionPreferences->text().remove ("&"),
+                       keys.contains ("actionPreferences") ? ca.value ("actionPreferences") : defaultShortcuts_.value ("actionPreferences"));
+    shortcuts_.insert (win->ui->actionHelp->text().remove ("&"),
+                       keys.contains ("actionHelp") ? ca.value ("actionHelp") : defaultShortcuts_.value ("actionHelp"));
+    shortcuts_.insert (win->ui->actionJump->text().remove ("&"),
+                       keys.contains ("actionJump") ? ca.value ("actionJump") : defaultShortcuts_.value ("actionJump"));
+    shortcuts_.insert (win->ui->actionEdit->text().remove ("&"),
+                       keys.contains ("actionEdit") ? ca.value ("actionEdit") : defaultShortcuts_.value ("actionEdit"));
+    shortcuts_.insert (win->ui->actionDetachTab->text().remove ("&"),
+                       keys.contains ("actionDetachTab") ? ca.value ("actionDetachTab") : defaultShortcuts_.value ("actionDetachTab"));
+    shortcuts_.insert (win->ui->actionRun->text().remove ("&"),
+                       keys.contains ("actionRun") ? ca.value ("actionRun") : defaultShortcuts_.value ("actionRun"));
+    shortcuts_.insert (win->ui->actionSession->text().remove ("&"),
+                       keys.contains ("actionSession") ? ca.value ("actionSession") : defaultShortcuts_.value ("actionSession"));
+
+    QList<QString> val = shortcuts_.values();
+    for (int i = 0; i < val.size(); ++i)
+    {
+        if (val.indexOf (val.at (i), i + 1) > -1)
+        {
+            showPrompt (tr ("Warning: Ambiguous shortcut detected!"), false);
+            break;
+        }
+    }
+
+    ui->tableWidget->setRowCount (shortcuts_.size());
+    ui->tableWidget->setSortingEnabled (false);
+    int index = 0;
+    QHash<QString, QString>::const_iterator it = shortcuts_.constBegin();
+    while (it != shortcuts_.constEnd())
+    {
+        QTableWidgetItem *item = new QTableWidgetItem (it.key());
+        item->setFlags (item->flags() & ~Qt::ItemIsEditable & ~Qt::ItemIsSelectable);
+        ui->tableWidget->setItem (index, 0, item);
+        ui->tableWidget->setItem (index, 1, new QTableWidgetItem (it.value()));
+        ++ it;
+        ++ index;
+    }
+    ui->tableWidget->setSortingEnabled (true);
+    ui->tableWidget->setCurrentCell (0, 1);
+    connect (ui->tableWidget, &QTableWidget::itemChanged, this, &PrefDialog::onShortcutChange);
+    connect (ui->defaultButton, &QAbstractButton::clicked, this, &PrefDialog::defaultSortcuts);
+    ui->defaultButton->setDisabled (ca.isEmpty());
+
+    /*************
+     *** Other ***
+     *************/
 
     connect (ui->closeButton, &QAbstractButton::clicked, this, &QDialog::close);
     connect (ui->helpButton, &QAbstractButton::clicked, this, &PrefDialog::showWhatsThis);
@@ -186,23 +343,54 @@ PrefDialog::PrefDialog (QWidget *parent):QDialog (parent), ui (new Ui::PrefDialo
 /*************************/
 PrefDialog::~PrefDialog()
 {
+    if(promptTimer_)
+    {
+        promptTimer_->stop();
+        delete promptTimer_;
+    }
     delete ui; ui = nullptr;
 }
 /*************************/
 void PrefDialog::closeEvent (QCloseEvent *event)
 {
+    prefShortcuts();
     prefTabPosition();
     event->accept();
     prefRecentFilesKind();
 }
 /*************************/
-void PrefDialog::showPrompt()
+void PrefDialog::showPrompt (QString str, bool temporary)
 {
-    QString style ("QLabel {background-color: #7d0000; color: white; border-radius: 3px; margin: 2px; padding: 5px;}");
+    static const QString style ("QLabel {background-color: #7d0000; color: white; border-radius: 3px; margin: 2px; padding: 5px;}");
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
-    if (sysIcons_ != config.getSysIcon()
-        || iconless_ != config.getIconless()
-        || recentNumber_ != config.getRecentFilesNumber())
+    if (!str.isEmpty())
+    { // show the provided message
+        ui->promptLabel->setText ("<b>" + str + "</b>");
+        ui->promptLabel->setStyleSheet (style);
+        if (temporary) // show it temporarily
+        {
+            if (!promptTimer_)
+            {
+                promptTimer_ = new QTimer();
+                promptTimer_->setSingleShot (true);
+                connect (promptTimer_, &QTimer::timeout, [this] {
+                    if (!prevtMsg_.isEmpty()
+                        && ui->tabWidget->currentIndex() == 3) // Shortcuts page
+                    { // show the previous message if it exists
+                        ui->promptLabel->setText (prevtMsg_);
+                        ui->promptLabel->setStyleSheet (style);
+                    }
+                    else showPrompt();
+                });
+            }
+            promptTimer_->start (3300);
+        }
+        else
+            prevtMsg_ = "<b>" + str + "</b>";
+    }
+    else if (sysIcons_ != config.getSysIcon()
+            || iconless_ != config.getIconless()
+            || recentNumber_ != config.getRecentFilesNumber())
     {
         ui->promptLabel->setText ("<b>" + tr ("Application restart is needed for changes to take effect.") + "</b>");
         ui->promptLabel->setStyleSheet (style);
@@ -218,8 +406,16 @@ void PrefDialog::showPrompt()
     }
     else
     {
-        ui->promptLabel->clear();
-        ui->promptLabel->setStyleSheet ("QLabel {margin: 2px; padding: 5px;}");
+        if (prevtMsg_.isEmpty()) // clear prompt
+        {
+            ui->promptLabel->clear();
+            ui->promptLabel->setStyleSheet ("QLabel {margin: 2px; padding: 5px;}");
+        }
+        else // show the previous message
+        {
+            ui->promptLabel->setText (prevtMsg_);
+            ui->promptLabel->setStyleSheet (style);
+        }
     }
     ui->promptLabel->show();
 }
@@ -747,6 +943,107 @@ void PrefDialog::prefNativeDialog (int checked)
         config.setNativeDialog (true);
     else if (checked == Qt::Unchecked)
         config.setNativeDialog (false);
+}
+/*************************/
+void PrefDialog::onShortcutChange (QTableWidgetItem *item)
+{
+    Config config = static_cast<FPsingleton*>(qApp)->getConfig();
+    QString txt = item->text();
+    QString desc = ui->tableWidget->item (ui->tableWidget->currentRow(), 0)->text();
+    if (txt.isEmpty() || !txt.contains ("+") || config.reservedShortcuts().contains (txt))
+    {
+        if (txt.isEmpty() || !txt.contains ("+"))
+            showPrompt (tr ("The typed shortcut was not valid."), true);
+        else
+            showPrompt (tr ("The typed shortcut was reserved."), true);
+        disconnect (ui->tableWidget, &QTableWidget::itemChanged, this, &PrefDialog::onShortcutChange);
+        item->setText (shortcuts_.value (desc));
+        connect (ui->tableWidget, &QTableWidget::itemChanged, this, &PrefDialog::onShortcutChange);
+    }
+    else
+    {
+        if (!shortcuts_.keys (txt).isEmpty())
+            showPrompt (tr ("Warning: Ambiguous shortcut detected!"), false);
+        else if (ui->promptLabel->isVisible())
+        {
+            prevtMsg_ = QString();
+            showPrompt();
+        }
+        shortcuts_.insert (desc, txt);
+        newShortcuts_.insert (OBJECT_NAMES.value (desc), txt);
+        /* also set the state of the Default button */
+        QHash<QString, QString>::const_iterator it = shortcuts_.constBegin();
+        while (it != shortcuts_.constEnd())
+        {
+            if (defaultShortcuts_.value (OBJECT_NAMES.value (it.key())) != it.value())
+            {
+                ui->defaultButton->setEnabled (true);
+                return;
+            }
+            ++it;
+        }
+        ui->defaultButton->setEnabled (false);
+    }
+}
+/*************************/
+void PrefDialog::defaultSortcuts()
+{
+    if (newShortcuts_.isEmpty()
+        && static_cast<FPsingleton*>(qApp)->getConfig().customShortcutActions().isEmpty())
+    { // do nothing if there's no custom shortcut
+        return;
+    }
+
+    disconnect (ui->tableWidget, &QTableWidget::itemChanged, this, &PrefDialog::onShortcutChange);
+    int cur = ui->tableWidget->currentColumn() == 0
+                  ? 0
+                  : ui->tableWidget->currentRow();
+    ui->tableWidget->setSortingEnabled (false);
+    newShortcuts_ = defaultShortcuts_;
+    int index = 0;
+    QMutableHashIterator<QString, QString> it (shortcuts_);
+    while (it.hasNext())
+    {
+        it.next();
+        ui->tableWidget->item (index, 0)->setText (it.key());
+        QString s = defaultShortcuts_.value (OBJECT_NAMES.value (it.key()));
+        ui->tableWidget->item (index, 1)->setText (s);
+        it.setValue (s);
+        ++ index;
+    }
+    ui->tableWidget->setSortingEnabled (true);
+    ui->tableWidget->setCurrentCell (cur, 1);
+    connect (ui->tableWidget, &QTableWidget::itemChanged, this, &PrefDialog::onShortcutChange);
+
+    ui->defaultButton->setEnabled (false);
+    if (ui->promptLabel->isVisible())
+    {
+        prevtMsg_ = QString();
+        showPrompt();
+    }
+}
+/*************************/
+void PrefDialog::prefShortcuts()
+{
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    Config& config = singleton->getConfig();
+    QHash<QString, QString>::const_iterator it = newShortcuts_.constBegin();
+    while (it != newShortcuts_.constEnd())
+    {
+        if (defaultShortcuts_.value (it.key()) == it.value())
+            config.removeShortcut (it.key());
+        else
+            config.setActionShortcut (it.key(), it.value());
+        ++it;
+    }
+    /* update the shortcuts for all windows
+       (the current window will update them on closing this dialog) */
+    for (int i = 0; i < singleton->Wins.count(); ++i)
+    {
+        FPwin *win = singleton->Wins.at (i);
+        if (win != parent_)
+            win->updateCustomizableShortcuts();
+    }
 }
 
 }

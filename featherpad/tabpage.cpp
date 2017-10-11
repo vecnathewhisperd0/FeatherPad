@@ -20,10 +20,13 @@
 
 namespace FeatherPad {
 
-TabPage::TabPage (ICONMODE iconMode, int bgColorValue, QWidget *parent) : QWidget (parent)
+TabPage::TabPage (ICONMODE iconMode, int bgColorValue,
+                  const QStringList &searchShortcuts,
+                  QWidget *parent)
+    : QWidget (parent)
 {
     textEdit_ = new TextEdit (this, bgColorValue);
-    searchBar_ = new SearchBar (this, iconMode == NONE);
+    searchBar_ = new SearchBar (this, iconMode == NONE, searchShortcuts);
 
     QIcon icnNext, icnPrev;
     switch (iconMode) {
@@ -95,9 +98,9 @@ bool TabPage::matchWhole() const
     return searchBar_->matchWhole();
 }
 /*************************/
-void TabPage::disableShortcuts (bool disable)
+void TabPage::updateShortcuts (bool disable)
 {
-    searchBar_->disableShortcuts (disable);
+    searchBar_->updateShortcuts (disable);
 }
 
 }
