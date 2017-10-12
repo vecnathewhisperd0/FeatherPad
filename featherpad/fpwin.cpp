@@ -509,7 +509,8 @@ void FPwin::applyConfig()
                  << tr ("Ctrl+=") << tr ("Ctrl++") << tr ("Ctrl+-") << tr ("Ctrl+0")
                  << tr ("Ctrl+Alt+E")
                  << tr ("Shift+Enter") << tr ("Ctrl+Tab") << tr ("Ctrl+Meta+Tab")
-                 << tr ("Alt+Right") << tr ("Alt+Left") << tr ("Alt+Down")  << tr ("Alt+Up");
+                 << tr ("Alt+Right") << tr ("Alt+Left") << tr ("Alt+Down")  << tr ("Alt+Up")
+                 << tr ("Ctrl+K"); // used by LineEdit
         config.setReservedShortcuts (reserved);
     }
     config.readShortcuts();
