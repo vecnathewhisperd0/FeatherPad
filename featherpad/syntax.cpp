@@ -109,7 +109,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
             progLan = "qmake";
         else if (fname.endsWith (".tr") || fname.endsWith (".t") || fname.endsWith (".roff"))
             progLan = "troff";
-        else if (fname.endsWith (".xml") || fname.endsWith (".svg") || fname.endsWith (".qrc")
+        else if (fname.endsWith (".xml", Qt::CaseInsensitive) || fname.endsWith (".svg", Qt::CaseInsensitive) || fname.endsWith (".qrc")
+                 || fname.endsWith (".meta4", Qt::CaseInsensitive) || fname.endsWith (".metalink", Qt::CaseInsensitive)
                  /*|| fname.endsWith (".ui")*/ || fname.endsWith (".rdf") || fname.endsWith (".docbook") || fname.endsWith (".fnx")
                  || fname.endsWith (".ts") || fname.endsWith (".menu"))
             progLan = "xml";
@@ -143,7 +144,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
             progLan = "markdown";
         else if (baseName == "sources.list" || baseName == "sources.list.save")
             progLan = "sourceslist";
-        else if (baseName.startsWith ("makefile.", Qt::CaseInsensitive) && !baseName.endsWith (".txt"))
+        else if (baseName.startsWith ("makefile.", Qt::CaseInsensitive) && !baseName.endsWith (".txt", Qt::CaseInsensitive))
             progLan = "makefile";
         else if (baseName.compare ("CMakeLists.txt", Qt::CaseInsensitive) == 0)
             progLan = "cmake";
@@ -191,6 +192,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
         else if (mime == "text/troff")
             progLan = "troff";
         else if (mime == "application/xml" || mime == "image/svg+xml" || mime == "application/x-designer"
+                 || mime == "application/metalink4+xml" || mime == "application/metalink+xml"
                  || mime == "application/x-gtk-builder" || mime == "text/rdf+xml" || mime == "application/rdf+xml"
                  || mime == "application/x-docbook+xml" || mime == "application/x-xbel" || mime == "text/feathernotes-fnx"
                  || mime == "text/vnd.trolltech.linguist")
