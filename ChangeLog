@@ -28,6 +28,7 @@ V0.6.1
  * Added config files to syntax highlighting.
  * Support Shift+Enter (useful e.g. to write code comments).
  * Addded a shortcut editor to Preferences for customizing some shortcuts.
+ * Filtering for the session manager dialog.
 
 V0.6.0
 ---------

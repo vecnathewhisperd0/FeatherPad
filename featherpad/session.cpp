@@ -33,6 +33,7 @@ SessionDialog::SessionDialog (QWidget *parent):QDialog (parent), ui (new Ui::Ses
     ui->promptLabel->setStyleSheet ("QLabel {background-color: #7d0000; color: white; border-radius: 3px; margin: 2px; padding: 5px;}");
     ui->listWidget->setSizeAdjustPolicy (QAbstractScrollArea::AdjustToContents);
     ui->listWidget->setContextMenuPolicy (Qt::CustomContextMenu);
+    filterTimer_ = nullptr;
 
     connect (ui->listWidget, &QListWidget::itemDoubleClicked, [=]{openSessions();});
     connect (ui->listWidget, &QListWidget::itemSelectionChanged, this, &SessionDialog::selectionChanged);
@@ -41,17 +42,17 @@ SessionDialog::SessionDialog (QWidget *parent):QDialog (parent), ui (new Ui::Ses
 
     QSettings settings ("featherpad", "fp");
     settings.beginGroup ("sessions");
-    QStringList keys = settings.allKeys();
+    allItems_ = settings.allKeys();
     settings.endGroup();
-    if (keys.count() > 0)
+    if (allItems_.count() > 0)
     {
-        ui->listWidget->addItems (keys);
+        ui->listWidget->addItems (allItems_);
         ui->listWidget->setCurrentRow (0);
         QTimer::singleShot (0, ui->listWidget, SLOT (setFocus()));
     }
     else
     {
-        ui->clearBtn->setEnabled (false);
+        onEmptinessChanged (true);
         QTimer::singleShot (0, ui->lineEdit, SLOT (setFocus()));
     }
 
@@ -73,11 +74,19 @@ SessionDialog::SessionDialog (QWidget *parent):QDialog (parent), ui (new Ui::Ses
 
     connect (ui->closeButton, &QAbstractButton::clicked, this, &QDialog::close);
 
-    resize (parent_->size()/2);
+    connect(ui->filterLineEdit,&QLineEdit::textChanged, this, &SessionDialog::filter);
+
+    resize (QSize (parent_->size().width()/2, 3*parent_->size().height()/4));
 }
 /*************************/
 SessionDialog::~SessionDialog()
 {
+    if (filterTimer_)
+    {
+        disconnect (filterTimer_, &QTimer::timeout, this, &SessionDialog::reallyApplyFilter);
+        filterTimer_->stop();
+        delete filterTimer_;
+    }
     delete ui; ui = nullptr;
 }
 /*************************/
@@ -118,7 +127,7 @@ void SessionDialog::saveSession()
 
     if (!hasFile)
         showPrompt (tr ("Nothing saved.<br>No file was opened."));
-    else if (!ui->listWidget->findItems (ui->lineEdit->text(), Qt::MatchExactly).isEmpty())
+    else if (allItems_.contains (ui->lineEdit->text()))
         showPrompt (NAME);
     else
         reallySaveSession();
@@ -143,8 +152,12 @@ void SessionDialog::reallySaveSession()
         }
     }
     /* there's always an opened file here */
-    ui->listWidget->addItem (ui->lineEdit->text());
-    ui->clearBtn->setEnabled (true);
+    QRegExp exp (ui->filterLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard);
+    if (allItems_.isEmpty() || allItems_.filter (exp).contains (ui->lineEdit->text()))
+        ui->listWidget->addItem (ui->lineEdit->text());
+    allItems_ << ui->lineEdit->text();
+    allItems_.removeDuplicates();
+    onEmptinessChanged (false);
     QSettings settings ("featherpad", "fp");
     settings.beginGroup ("sessions");
     settings.setValue (ui->lineEdit->text(), files);
@@ -286,18 +299,19 @@ void SessionDialog::removeSelected()
     for (int i = 0; i < count; ++i)
     {
         settings.remove (items.at (i)->text());
+        allItems_.removeOne (items.at (i)->text());
         delete ui->listWidget->takeItem (ui->listWidget->row (items.at (i)));
     }
     settings.endGroup();
 
     if (ui->listWidget->count() == 0)
-        ui->clearBtn->setEnabled (false);
+        onEmptinessChanged (true);
 }
 /*************************/
 void SessionDialog::removeAll()
 {
     ui->listWidget->clear();
-    ui->clearBtn->setEnabled (false);
+    onEmptinessChanged (true);
     QSettings settings ("featherpad", "fp");
     settings.beginGroup ("sessions");
     settings.remove ("");
@@ -337,7 +351,7 @@ void SessionDialog::OnCommittingName (QWidget* editor)
         return;
     }
 
-    if (ui->listWidget->findItems (rename_.newName, Qt::MatchExactly).count() > 1)
+    if (allItems_.contains (rename_.newName))
         showPrompt (RENAME);
     else
         reallyRenameSession();
@@ -358,19 +372,80 @@ void SessionDialog::reallyRenameSession()
     settings.setValue (rename_.newName, files);
     settings.endGroup();
 
+    allItems_.removeOne (rename_.oldName);
+    allItems_ << rename_.newName;
+    allItems_.removeDuplicates();
+
     if (QListWidgetItem* cur = ui->listWidget->currentItem())
     {
+        bool isFiltered (false);
+        /* if the renamed item is filtered, remove it
+           with all items that have the same name */
+        if (!ui->filterLineEdit->text().isEmpty())
+        {
+            QRegExp exp (ui->filterLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard);
+            if (!allItems_.filter (exp).contains (rename_.newName))
+                isFiltered = true;
+        }
         /* if there's another item with the new name, remove it */
         QList<QListWidgetItem*> sameItems = ui->listWidget->findItems (rename_.newName, Qt::MatchExactly);
         for (int i = 0; i < sameItems.count(); ++i)
         {
-            if (sameItems.at (i) != cur)
+            if (isFiltered || sameItems.at (i) != cur)
                 delete ui->listWidget->takeItem (ui->listWidget->row (sameItems.at (i)));
         }
-        ui->listWidget->scrollToItem (cur);
+        if (!isFiltered)
+            ui->listWidget->scrollToItem (cur);
     }
 
     rename_.newName = rename_.oldName = QString(); // reset
+}
+/*************************/
+void SessionDialog::filter (const QString&/*text*/)
+{
+    if (!filterTimer_)
+    {
+        filterTimer_ = new QTimer();
+        filterTimer_->setSingleShot (true);
+        connect (filterTimer_, &QTimer::timeout, this, &SessionDialog::reallyApplyFilter);
+    }
+    filterTimer_->start (200);
+}
+/*************************/
+void SessionDialog::reallyApplyFilter()
+{
+    /* first, get the selection */
+    QStringList sel;
+    QList<QListWidgetItem*> items = ui->listWidget->selectedItems();
+    for (int i = 0; i < items.count(); ++i)
+        sel << items.at (i)->text();
+    /* then, clear the current list and add the filtered one */
+    ui->listWidget->clear();
+    QRegExp exp (ui->filterLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard);
+    QStringList filtered = allItems_.filter (exp);
+    ui->listWidget->addItems (filtered);
+    /* finally, restore the selection as far as possible */
+    if (filtered.count() == 1)
+        ui->listWidget->setCurrentRow (0);
+    else if (!sel.isEmpty())
+    {
+        for (int i = 0; i < ui->listWidget->count(); ++i)
+        {
+            if (sel.contains (ui->listWidget->item (i)->text()))
+                ui->listWidget->setCurrentRow (i, QItemSelectionModel::Select);
+        }
+    }
+}
+/*************************/
+void SessionDialog::onEmptinessChanged (bool empty)
+{
+    ui->clearBtn->setEnabled (!empty);
+    if (empty)
+    {
+        allItems_.clear();
+        ui->filterLineEdit->clear();
+    }
+    ui->filterLineEdit->setEnabled (!empty);
 }
 
 }

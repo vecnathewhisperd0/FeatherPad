@@ -343,7 +343,7 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
 /*************************/
 PrefDialog::~PrefDialog()
 {
-    if(promptTimer_)
+    if (promptTimer_)
     {
         promptTimer_->stop();
         delete promptTimer_;

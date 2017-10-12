@@ -19,6 +19,7 @@
 #define SESSION_H
 
 #include <QDialog>
+#include <QTimer>
 
 namespace FeatherPad {
 
@@ -49,6 +50,8 @@ private slots:
     void renameSession();
     void reallyRenameSession();
     void OnCommittingName (QWidget* editor);
+    void filter (const QString&);
+    void reallyApplyFilter();
 
 private:
     enum PROMPT {
@@ -65,10 +68,14 @@ private:
 
     void showPrompt (PROMPT prompt);
     void showPrompt (QString message);
+    void onEmptinessChanged (bool empty);
 
     Ui::SessionDialog *ui;
     QWidget * parent_;
     Rename rename_;
+    /* Used only for filtering: */
+    QStringList allItems_;
+    QTimer *filterTimer_;
 };
 
 }
