@@ -1402,7 +1402,7 @@ will be shown by a popup dialog.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="692"/>
+        <location filename="../../predDialog.ui" line="695"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1577,7 +1577,7 @@ empty startup of a session.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="703"/>
+        <location filename="../../predDialog.ui" line="706"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>

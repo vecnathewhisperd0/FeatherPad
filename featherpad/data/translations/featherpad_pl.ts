@@ -1415,7 +1415,7 @@ will be shown by a popup dialog.</source>
         <translation>Pokazuj ostatnio ot&amp;wierane pliki</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="692"/>
+        <location filename="../../predDialog.ui" line="695"/>
         <source>Help</source>
         <translation>Pomoc</translation>
     </message>
@@ -1609,7 +1609,7 @@ uruchamianych po rozpoczęciu pustej sesji.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="703"/>
+        <location filename="../../predDialog.ui" line="706"/>
         <source>Close</source>
         <translation>Zamknij</translation>
     </message>

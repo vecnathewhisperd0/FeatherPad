@@ -1428,7 +1428,7 @@ eligajn kaj erarajn mesaĝojn.</translation>
         <translation>Montru la lastatempe mal&amp;fermitajn dosierojn</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="692"/>
+        <location filename="../../predDialog.ui" line="695"/>
         <source>Help</source>
         <translation>Helpo</translation>
     </message>
@@ -1630,7 +1630,7 @@ okaze de senenhava startigo de sesio.</translation>
         <translation>Defaŭlto</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="703"/>
+        <location filename="../../predDialog.ui" line="706"/>
         <source>Close</source>
         <translation>Fermi</translation>
     </message>

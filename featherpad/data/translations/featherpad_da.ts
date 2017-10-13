@@ -1427,7 +1427,7 @@ af en pop op-dialog.</translation>
         <translation>&amp;Vis seneste åbnede filer</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="692"/>
+        <location filename="../../predDialog.ui" line="695"/>
         <source>Help</source>
         <translation>Hjælp</translation>
     </message>
@@ -1629,7 +1629,7 @@ tom opstart af en session.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="703"/>
+        <location filename="../../predDialog.ui" line="706"/>
         <source>Close</source>
         <translation>Luk</translation>
     </message>
