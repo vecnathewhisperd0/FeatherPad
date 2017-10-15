@@ -43,17 +43,22 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
                                             "background-color: rgb(%1, %1, %1);}")
                                    .arg (bgColorValue));
         int lineHGray = qGray (lineHColor.rgb());
-        if (qGray (p.highlight().color().rgb()) - lineHGray < 30)
+        QColor col = p.highlight().color();
+        if (qGray (col.rgb()) - lineHGray < 30 && col.hslSaturation() < 100)
         {
             setStyleSheet ("QPlainTextEdit {"
                            "selection-background-color: rgb(180, 180, 180);"
                            "selection-color: black;}");
         }
-        else if (qGray (p.color (QPalette::Inactive, QPalette::Highlight).rgb()) - lineHGray < 30)
-        { // also check the inactive highlight color
-            p.setColor (QPalette::Inactive, QPalette::Highlight, p.highlight().color());
-            p.setColor (QPalette::Inactive, QPalette::HighlightedText, p.highlightedText().color());
-            setPalette (p);
+        else
+        {
+            col = p.color (QPalette::Inactive, QPalette::Highlight);
+            if (qGray (col.rgb()) - lineHGray < 30 && col.hslSaturation() < 100)
+            { // also check the inactive highlight color
+                p.setColor (QPalette::Inactive, QPalette::Highlight, p.highlight().color());
+                p.setColor (QPalette::Inactive, QPalette::HighlightedText, p.highlightedText().color());
+                setPalette (p);
+            }
         }
     }
     else
@@ -65,17 +70,22 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
                                             "background-color: rgb(%1, %1, %1);}")
                                    .arg (bgColorValue));
         int lineHGray = qGray (lineHColor.rgb());
-        if (lineHGray - qGray (p.highlight().color().rgb()) < 30)
+        QColor col = p.highlight().color();
+        if (lineHGray - qGray (col.rgb()) < 30 && col.hslSaturation() < 100)
         {
             setStyleSheet ("QPlainTextEdit {"
                            "selection-background-color: rgb(100, 100, 100);"
                            "selection-color: white;}");
         }
-        else if (lineHGray - qGray (p.color (QPalette::Inactive, QPalette::Highlight).rgb()) < 30)
+        else
         {
-            p.setColor (QPalette::Inactive, QPalette::Highlight, p.highlight().color());
-            p.setColor (QPalette::Inactive, QPalette::HighlightedText, p.highlightedText().color());
-            setPalette (p);
+            col = p.color (QPalette::Inactive, QPalette::Highlight);
+            if (lineHGray - qGray (col.rgb()) < 30 && col.hslSaturation() < 100)
+            {
+                p.setColor (QPalette::Inactive, QPalette::Highlight, p.highlight().color());
+                p.setColor (QPalette::Inactive, QPalette::HighlightedText, p.highlightedText().color());
+                setPalette (p);
+            }
         }
     }
 
