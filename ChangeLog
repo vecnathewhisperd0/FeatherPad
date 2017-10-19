@@ -1,3 +1,8 @@
+V0.6.2
+---------
+ * Added playlists to syntax highlighting.
+ * Fixed single-line comments when the comment sign is repeated after being quoted.
+
 V0.6.1
 ---------
  * Improved encoding detection.

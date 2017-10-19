@@ -112,13 +112,15 @@ void FPwin::setProgLang (TextEdit *textEdit)
         else if (fname.endsWith (".xml", Qt::CaseInsensitive) || fname.endsWith (".svg", Qt::CaseInsensitive) || fname.endsWith (".qrc")
                  || fname.endsWith (".meta4", Qt::CaseInsensitive) || fname.endsWith (".metalink", Qt::CaseInsensitive)
                  /*|| fname.endsWith (".ui")*/ || fname.endsWith (".rdf") || fname.endsWith (".docbook") || fname.endsWith (".fnx")
-                 || fname.endsWith (".ts") || fname.endsWith (".menu"))
+                 || fname.endsWith (".ts") || fname.endsWith (".menu")
+                 || fname.endsWith (".xspf", Qt::CaseInsensitive) || fname.endsWith (".asx", Qt::CaseInsensitive))
             progLan = "xml";
         else if (fname.endsWith (".css") || fname.endsWith (".qss"))
             progLan = "css";
         else if (fname.endsWith (".desktop") || fname.endsWith (".desktop.in") || fname.endsWith (".directory"))
              progLan = "desktop";
-        else if (fname.endsWith (".conf") || fname.endsWith (".ini") || fname.endsWith (".kvconfig"))
+        else if (fname.endsWith (".conf") || fname.endsWith (".ini") || fname.endsWith (".kvconfig")
+                 || fname.endsWith (".pls", Qt::CaseInsensitive))
              progLan = "config";
         else if (fname.endsWith (".js"))
             progLan = "javascript";
@@ -138,6 +140,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
              progLan = "theme";
         else if (fname.endsWith (".rc"))
              progLan = "gtkrc";
+        else if (fname.endsWith (".m3u", Qt::CaseInsensitive))
+            progLan = "m3u";
         else if (fname.endsWith (".htm", Qt::CaseInsensitive) || fname.endsWith (".html", Qt::CaseInsensitive))
             progLan = "html";
         else if (fname.endsWith (".markdown") || fname.endsWith (".md") || fname.endsWith (".mkd"))
@@ -195,7 +199,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
                  || mime == "application/metalink4+xml" || mime == "application/metalink+xml"
                  || mime == "application/x-gtk-builder" || mime == "text/rdf+xml" || mime == "application/rdf+xml"
                  || mime == "application/x-docbook+xml" || mime == "application/x-xbel" || mime == "text/feathernotes-fnx"
-                 || mime == "text/vnd.trolltech.linguist")
+                 || mime == "text/vnd.trolltech.linguist"
+                 || mime == "application/xspf+xml" || mime == "audio/x-ms-asx")
             progLan = "xml";
         else if (mime == "text/css")
             progLan = "css";
@@ -203,6 +208,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
             progLan = "changelog";
         else if (mime == "application/x-desktop")
             progLan = "desktop";
+        else if (mime == "audio/x-scpls")
+            progLan = "config";
         else if (mime == "application/javascript")
             progLan = "javascript";
         else if (mime == "text/x-qml")
@@ -219,6 +226,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
             progLan = "diff";
         else if (mime == "text/html" || mime == "application/xhtml+xml")
             progLan = "html";
+        else if (mime == "audio/x-mpegurl")
+            progLan = "m3u";
         /* start checking contents */
         /*else
         {

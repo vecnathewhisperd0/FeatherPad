@@ -320,7 +320,7 @@ bool Highlighter::SH_CmndSubstVar (const QString &text,
         setFormat (start, indx - start, neutralFormat);
         /* see if this quote mark is commented out
            (unfortunately, a backward search should be done) */
-        int lastComment = commetExp.lastIndexIn (text, indx + 1 - text.length());
+        int lastComment = commetExp.lastIndexIn (text, indx - text.length());
         if (lastComment > 0
             && format (lastComment) != quoteFormat
             && format (lastComment) != altQuoteFormat

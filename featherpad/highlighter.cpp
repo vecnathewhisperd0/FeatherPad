@@ -586,14 +586,25 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
     }
     else if (progLan == "desktop" || progLan == "config" || progLan == "theme")
     {
-        QTextCharFormat desktopSignsFormat;
-        desktopSignsFormat.setForeground (DarkMagenta);
+        QTextCharFormat desktopFormat;
+        if (progLan == "config")
+        {
+            desktopFormat.setFontWeight (QFont::Bold);
+            desktopFormat.setFontItalic (true);
+            /* color values */
+            rule.pattern = QRegExp ("#([A-Fa-f0-9]{3}){,2}(?![A-Za-z0-9_]+)|#([A-Fa-f0-9]{3}){2}[A-Fa-f0-9]{2}(?![A-Za-z0-9_]+)");
+            rule.format = desktopFormat;
+            highlightingRules.append (rule);
+            desktopFormat.setFontItalic (false);
+            desktopFormat.setFontWeight (QFont::Normal);
+        }
+
+        desktopFormat.setForeground (DarkMagenta);
         rule.pattern = QRegExp ("^[^\\=]+=|^[^\\=]+\\[.*\\]=|;|/|%|\\+|-");
-        rule.format = desktopSignsFormat;
+        rule.format = desktopFormat;
         highlightingRules.append (rule);
 
-        QTextCharFormat desktopFormat;
-
+        desktopFormat.setForeground (QBrush());
         desktopFormat.setFontWeight (QFont::Bold);
         /* [...] */
         rule.pattern = QRegExp ("^\\[.*\\]$");
@@ -611,16 +622,6 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
         rule.pattern = QRegExp ("^[^\\=\\[]+(?=(\\[.*\\])*\\s*\\=)");
         rule.format = desktopFormat;
         highlightingRules.append (rule);
-
-        if (progLan == "config")
-        {
-            desktopFormat.setForeground (QBrush());
-            desktopFormat.setFontItalic (true);
-            /* color values */
-            rule.pattern = QRegExp ("#\\b([A-Za-z0-9]{3}){,2}(?![A-Za-z0-9_]+)|#\\b([A-Za-z0-9]{3}){2}[A-Za-z0-9]{2}(?![A-Za-z0-9_]+)");
-            rule.format = desktopFormat;
-            highlightingRules.append (rule);
-        }
     }
     else if (progLan == "url" || progLan == "sourceslist")
     {
@@ -643,13 +644,13 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
     }
     else if (progLan == "gtkrc")
     {
-        /* color value format (#xyz) */
         QTextCharFormat gtkrcFormat;
-        gtkrcFormat.setForeground (DarkGreenAlt);
         gtkrcFormat.setFontWeight (QFont::Bold);
-        rule.pattern = QRegExp ("#\\b([A-Za-z0-9]{3}){,4}(?![A-Za-z0-9_]+)");
+        /* color value format (#xyz) */
+        /*gtkrcFormat.setForeground (DarkGreenAlt);
+        rule.pattern = QRegExp ("#([A-Fa-f0-9]{3}){,2}(?![A-Za-z0-9_]+)|#([A-Fa-f0-9]{3}){2}[A-Fa-f0-9]{2}(?![A-Za-z0-9_]+)");
         rule.format = gtkrcFormat;
-        highlightingRules.append (rule);
+        highlightingRules.append (rule);*/
 
         gtkrcFormat.setForeground (Blue);
         rule.pattern = QRegExp ("(fg|bg|base|text)(\\[NORMAL\\]|\\[PRELIGHT\\]|\\[ACTIVE\\]|\\[SELECTED\\]|\\[INSENSITIVE\\])");
@@ -758,6 +759,37 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
         rule.format = luaFormat;
         highlightingRules.append (rule);
     }
+    else if (progLan == "m3u")
+    {
+        QTextCharFormat plFormat;
+        plFormat.setFontWeight (QFont::Bold);
+        rule.pattern = QRegExp ("^#EXTM3U\\b");
+        rule.format = plFormat;
+        highlightingRules.append (rule);
+
+        /* after "," */
+        plFormat.setFontWeight (QFont::Normal);
+        plFormat.setForeground (DarkRed);
+        rule.pattern = QRegExp ("^#EXTINF\\s*:\\s*-*[0-9]+\\s*,.*|^#EXTINF\\s*:\\s*,.*");
+        rule.format = plFormat;
+        highlightingRules.append (rule);
+
+        /* before "," and after "EXTINF:" */
+        plFormat.setForeground (DarkYellow);
+        rule.pattern = QRegExp ("^#EXTINF\\s*:\\s*-*[0-9]+\\b");
+        rule.format = plFormat;
+        highlightingRules.append (rule);
+
+        plFormat.setForeground (QBrush());
+        rule.pattern = QRegExp ("^#EXTINF\\s*:");
+        rule.format = plFormat;
+        highlightingRules.append (rule);
+
+        plFormat.setForeground (DarkGreen);
+        rule.pattern = QRegExp ("^#EXTINF\\b");
+        rule.format = plFormat;
+        highlightingRules.append (rule);
+    }
 
     if (showWhiteSpace)
     {
@@ -791,6 +823,10 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
     else if (progLan == "deb")
     {
         rule.pattern = QRegExp ("^#[^\\s:]+:(?=\\s*)");
+    }
+    else if (progLan == "m3u")
+    {
+        rule.pattern = QRegExp ("^\\s+#|^#(?!(EXTM3U|EXTINF))");
     }
     else if (progLan == "lua")
         rule.pattern = QRegExp ("--(?!\\[).*");
@@ -1230,9 +1266,9 @@ int Highlighter::cssHighlighter (const QString &text)
     QTextCharFormat cssValueFormat;
     cssValueFormat.setFontItalic (true);
     cssValueFormat.setForeground (DarkGreenAlt);
-    QTextCharFormat cssFormat;
-    cssFormat.setFontUnderline (true);
-    cssFormat.setForeground (Red);
+    QTextCharFormat cssErrorFormat;
+    cssErrorFormat.setFontUnderline (true);
+    cssErrorFormat.setForeground (Red);
     if (previousBlockState() != cssBlockState
         && previousBlockState() != commentInCssState
         && previousBlockState() != cssValueState)
@@ -1275,7 +1311,7 @@ int Highlighter::cssHighlighter (const QString &text)
         while (indxTmp >= 0 && indxTmp < endIndex)
         {
             int length = expression.matchedLength();
-            setFormat (indxTmp, length, cssFormat);
+            setFormat (indxTmp, length, cssErrorFormat);
             indxTmp = expression.indexIn (text, indxTmp + length);
         }
 
@@ -1309,7 +1345,7 @@ int Highlighter::cssHighlighter (const QString &text)
         index = cssStartExpression.indexIn (text);
         if (index > -1)
         {
-            while (format (index) != cssFormat)
+            while (format (index) != cssErrorFormat)
             {
                 index = cssStartExpression.indexIn (text, index + 1);
                 if (index == -1) break;
@@ -1350,7 +1386,7 @@ int Highlighter::cssHighlighter (const QString &text)
         index = cssStartExpression.indexIn (text, index + cssLength);
         if (index > -1)
         {
-            while (format (index) != cssFormat)
+            while (format (index) != cssErrorFormat)
             {
                 index = cssStartExpression.indexIn (text, index + 1);
                 if (index == -1) break;
@@ -1360,21 +1396,45 @@ int Highlighter::cssHighlighter (const QString &text)
 
     /* color value format (#xyz, #abcdef, #abcdefxy) */
     QTextCharFormat cssColorFormat;
-    cssColorFormat.setFontItalic (true);
+
     cssColorFormat.setForeground (DarkGreenAlt);
     cssColorFormat.setFontWeight (QFont::Bold);
+    cssColorFormat.setFontItalic (true);
     // previously: "#\\b([A-Za-z0-9]{3}){,4}(?![A-Za-z0-9_]+)"
-    QRegExp expression = QRegExp ("#\\b([A-Za-z0-9]{3}){,2}(?![A-Za-z0-9_]+)|#\\b([A-Za-z0-9]{3}){2}[A-Za-z0-9]{2}(?![A-Za-z0-9_]+)");
+    QRegExp expression = QRegExp ("#([A-Fa-f0-9]{3}){,2}(?![A-Za-z0-9_]+)|#([A-Fa-f0-9]{3}){2}[A-Fa-f0-9]{2}(?![A-Za-z0-9_]+)");
     int indxTmp = expression.indexIn (text);
     while (isQuoted (text, indxTmp))
         indxTmp = expression.indexIn (text, indxTmp + 1);
     while (indxTmp >= 0)
     {
         int length = expression.matchedLength();
-        if (format (indxTmp) == cssValueFormat // should be a value
-            && format (indxTmp) != cssFormat) // not an error
+        if (/*format (indxTmp) == cssValueFormat // should be a value
+            &&*/ format (indxTmp) != cssErrorFormat) // not an error
         {
             setFormat (indxTmp, length, cssColorFormat);
+        }
+        indxTmp = expression.indexIn (text, indxTmp + length);
+    }
+
+    /* definitions (starting with @) */
+    QTextCharFormat cssDefinitionFormat;
+    cssDefinitionFormat.setForeground (Brown);
+    expression = QRegExp ("^\\s*@[A-Za-z-]+\\s+|;\\s*@[A-Za-z-]+\\s+");
+    indxTmp = expression.indexIn (text);
+    while (isQuoted (text, indxTmp))
+        indxTmp = expression.indexIn (text, indxTmp + 1);
+    while (indxTmp >= 0)
+    {
+        int length = expression.matchedLength();
+        if (format (indxTmp) != cssValueFormat
+            && format (indxTmp) != cssErrorFormat)
+        {
+            if (text.at (indxTmp) == ';')
+            {
+                ++indxTmp;
+                --length;
+            }
+            setFormat (indxTmp, length, cssDefinitionFormat);
         }
         indxTmp = expression.indexIn (text, indxTmp + length);
     }
@@ -1404,9 +1464,18 @@ void Highlighter::singleLineComment (const QString &text, int start, int end, bo
             if (previousBlockState() == nextLineCommentState)
                 start = 0;
             else
+            {
                 start = expression.indexIn (text, start);
-            if (start >= 0 && start < end
-                && (canBeQuoted || !isQuoted (text, start)))
+                if (!canBeQuoted)
+                { // skip quoted comments
+                    while (start >= 0 && start < end
+                           && isQuoted (text, start))
+                    {
+                        start = expression.indexIn (text, start + 1);
+                    }
+                }
+            }
+            if (start >= 0 && start < end)
             {
                 setFormat (start, end - start, commentFormat);
 
@@ -2155,7 +2224,7 @@ void Highlighter::highlightBlock (const QString &text)
              && progLan != "desktop" && progLan != "config" && progLan != "theme"
              && progLan != "changelog" && progLan != "url"
              && progLan != "srt" && progLan != "html"
-             && progLan != "deb")
+             && progLan != "deb" && progLan != "m3u")
     {
         multiLineQuote (text);
     }
