@@ -1331,12 +1331,12 @@ Nogle skrivebordsmiljøer, såsom KDE og LXQt leverer fildialoger.</translation>
     <message>
         <location filename="../../predDialog.ui" line="287"/>
         <source>This covers parentheses, braces, brackets and quotes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dette dækker parenteser, klammer, vinkelparenteser og citationstegn.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="290"/>
         <source>Auto-&amp;bracket</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatisk &amp;vinkelparenteser</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="327"/>
@@ -1347,17 +1347,18 @@ Nogle skrivebordsmiljøer, såsom KDE og LXQt leverer fildialoger.</translation>
         <location filename="../../predDialog.ui" line="363"/>
         <source>Show spaces, tabs and tab lines
 when the syntax is highlighted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis mellemrum, tabulatorer og linjeskift
+når syntaksen er fremhævet.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="367"/>
         <source>Show whitespaces with syntax highlighting</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis blanktegn med syntaksfremhævning</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="374"/>
         <source>Also show line and document ends</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis også linje- og dokumentslutninger</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="422"/>
@@ -1606,27 +1607,27 @@ tom opstart af en session.</translation>
     <message>
         <location filename="../../predDialog.ui" line="636"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>Genveje</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="655"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Handling</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="660"/>
         <source>Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Genvej</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="668"/>
         <source>Restore default shortcuts.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gendan standardgenveje.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="671"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Standard</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="706"/>
@@ -1660,7 +1661,7 @@ tom opstart af en session.</translation>
         <location filename="../../pref.cpp" line="302"/>
         <location filename="../../pref.cpp" line="966"/>
         <source>Warning: Ambiguous shortcut detected!</source>
-        <translation type="unfinished"></translation>
+        <translation>Advarsel: Tvetydig genvej registreret!</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="395"/>
@@ -1685,12 +1686,12 @@ tom opstart af en session.</translation>
     <message>
         <location filename="../../pref.cpp" line="956"/>
         <source>The typed shortcut was not valid.</source>
-        <translation type="unfinished"></translation>
+        <translation>Den indtastede genvej var ikke gyldig.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="958"/>
         <source>The typed shortcut was reserved.</source>
-        <translation type="unfinished"></translation>
+        <translation>Den indtastede genvej var reserveret.</translation>
     </message>
 </context>
 <context>
@@ -1744,7 +1745,7 @@ tom opstart af en session.</translation>
     <message>
         <location filename="../../sessionDialog.ui" line="56"/>
         <source>Filter...</source>
-        <translation type="unfinished"></translation>
+        <translation>Filter...</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="69"/>
