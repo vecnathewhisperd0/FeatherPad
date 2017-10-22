@@ -2,6 +2,7 @@ V0.6.2
 ---------
  * Added playlists to syntax highlighting.
  * Fixed single-line comments when the comment sign is repeated after being quoted.
+ * Fixed two bad typos in "session.cpp".
 
 V0.6.1
 ---------
