@@ -152,11 +152,11 @@ void SessionDialog::reallySaveSession()
         }
     }
     /* there's always an opened file here */
-    QRegExp exp (ui->filterLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard);
-    if (allItems_.isEmpty() || allItems_.filter (exp).contains (ui->lineEdit->text()))
-        ui->listWidget->addItem (ui->lineEdit->text());
     allItems_ << ui->lineEdit->text();
     allItems_.removeDuplicates();
+    QRegExp exp (ui->filterLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard);
+    if (allItems_.filter (exp).contains (ui->lineEdit->text()))
+        ui->listWidget->addItem (ui->lineEdit->text());
     onEmptinessChanged (false);
     QSettings settings ("featherpad", "fp");
     settings.beginGroup ("sessions");
@@ -304,7 +304,7 @@ void SessionDialog::removeSelected()
     }
     settings.endGroup();
 
-    if (ui->listWidget->count() == 0)
+    if (allItems_.count() == 0)
         onEmptinessChanged (true);
 }
 /*************************/
