@@ -1586,27 +1586,27 @@ uruchamianych po rozpoczęciu pustej sesji.</translation>
     <message>
         <location filename="../../predDialog.ui" line="636"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>Skróty</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="655"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Działanie</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="660"/>
         <source>Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Skrót</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="668"/>
         <source>Restore default shortcuts.</source>
-        <translation type="unfinished"></translation>
+        <translation>Przywróć domyślne skróty.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="671"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Domyślne</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="706"/>
@@ -1640,7 +1640,7 @@ uruchamianych po rozpoczęciu pustej sesji.</translation>
         <location filename="../../pref.cpp" line="302"/>
         <location filename="../../pref.cpp" line="966"/>
         <source>Warning: Ambiguous shortcut detected!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ostrzeżenie: Wykryto niejednoznaczny skrót!</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="395"/>
@@ -1665,12 +1665,12 @@ uruchamianych po rozpoczęciu pustej sesji.</translation>
     <message>
         <location filename="../../pref.cpp" line="956"/>
         <source>The typed shortcut was not valid.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wprowadzony skrót jest nieprawidłowy.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="958"/>
         <source>The typed shortcut was reserved.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wprowadzony skrót został zarejestrowany.</translation>
     </message>
 </context>
 <context>
@@ -1724,7 +1724,7 @@ uruchamianych po rozpoczęciu pustej sesji.</translation>
     <message>
         <location filename="../../sessionDialog.ui" line="56"/>
         <source>Filter...</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtruj…</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="69"/>
