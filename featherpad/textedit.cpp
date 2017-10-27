@@ -15,8 +15,12 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QApplication>
 #include "textedit.h"
 #include "vscrollbar.h"
+
+#define SCROLL_FRAMES_PER_SEC 60
+#define SCROLL_DURATION 300 // in ms
 
 namespace FeatherPad {
 
@@ -26,6 +30,10 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     autoBracket = false;
     scrollJumpWorkaround = false;
     drawIndetLines = false;
+
+    inertialScrolling_ = false;
+    wheelEvent_ = nullptr;
+    scrollTimer_ = nullptr;
 
     //document()->setUseDesignMetrics (true);
 
@@ -123,6 +131,12 @@ void TextEdit::setEditorFont (const QFont &f)
 /*************************/
 TextEdit::~TextEdit()
 {
+    if (scrollTimer_)
+    {
+        disconnect (scrollTimer_, &QTimer::timeout, this, &TextEdit::scrollWithInertia);
+        scrollTimer_->stop();
+        delete scrollTimer_;
+    }
     delete lineNumberArea;
 }
 /*************************/
@@ -550,10 +564,88 @@ void TextEdit::wheelEvent (QWheelEvent *event)
             zooming (delta);
             return;
         }
-        /* as in QPlainTextEdit::wheelEvent() */
-        QAbstractScrollArea::wheelEvent (event);
-        updateMicroFocus();
+        if (event->modifiers() & Qt::ShiftModifier)
+        { // line-by-line scrolling when Shift is pressed
+            QWheelEvent e (event->pos(), event->globalPos(),
+                           event->angleDelta().y() / QApplication::wheelScrollLines(),
+                           event->buttons(), Qt::NoModifier, Qt::Vertical);
+            QCoreApplication::sendEvent (verticalScrollBar(), &e);
+            return;
+        }
+        if (!inertialScrolling_
+            || !event->spontaneous()
+            || (event->modifiers() & Qt::AltModifier))
+        { // proceed as in QPlainTextEdit::wheelEvent()
+            QAbstractScrollArea::wheelEvent (event);
+            updateMicroFocus();
+            return;
+        }
+
+        if (QScrollBar* vbar = verticalScrollBar())
+        {
+            /* always set the initial speed to 3 lines per wheel turn */
+            int delta = event->angleDelta().y() * 3 / QApplication::wheelScrollLines();
+            if((delta > 0 && vbar->value() == vbar->minimum())
+               || (delta < 0 && vbar->value() == vbar->maximum()))
+            {
+                return; // the scrollbar can't move
+            }
+            /* keep track of the wheel event */
+            wheelEvent_ = event;
+            /* find the number of wheel events in 500 ms
+               and set the scroll frames per second accordingly */
+            static QList<qint64> wheelEvents;
+            wheelEvents << QDateTime::currentMSecsSinceEpoch();
+            while (wheelEvents.last() - wheelEvents.first() > 500)
+                wheelEvents.removeFirst();
+            int fps = qMax (SCROLL_FRAMES_PER_SEC / wheelEvents.size(), 5);
+
+            /* set the data for inertial scrolling */
+            scollData data;
+            data.delta = delta;
+            data.totalSteps = data.leftSteps = fps * SCROLL_DURATION / 1000;
+            queuedScrollSteps_.append (data);
+            if (!scrollTimer_)
+            {
+                scrollTimer_ = new QTimer();
+                scrollTimer_->setTimerType (Qt::PreciseTimer);
+                connect (scrollTimer_, &QTimer::timeout, this, &TextEdit::scrollWithInertia);
+            }
+            scrollTimer_->start (1000 / SCROLL_FRAMES_PER_SEC);
+        }
     }
+}
+/*************************/
+void TextEdit::scrollWithInertia()
+{
+    if (!wheelEvent_ || !verticalScrollBar()) return;
+
+    int totalDelta = 0;
+    for (QList<scollData>::iterator it = queuedScrollSteps_.begin(); it != queuedScrollSteps_.end(); ++it)
+    {
+        totalDelta += qRound ((qreal)it->delta / (qreal)it->totalSteps);
+        -- it->leftSteps;
+    }
+    /* only remove the first queue to simulate an inertia */
+    while (!queuedScrollSteps_.empty())
+    {
+        int t = queuedScrollSteps_.begin()->totalSteps; // 18 for one wheel turn
+        int l = queuedScrollSteps_.begin()->leftSteps;
+        if ((t > 10 && l <= 0)
+            || (t > 5 && t <= 10 && l <= -3)
+            || (t <= 5 && l <= -6))
+        {
+            queuedScrollSteps_.removeFirst();
+        }
+        else break;
+    }
+    /* -> qevent.cpp -> QWheelEvent::QWheelEvent() */
+    QWheelEvent e (wheelEvent_->pos(), wheelEvent_->globalPos(),
+                   totalDelta,
+                   wheelEvent_->buttons(), Qt::NoModifier, Qt::Vertical);
+    QCoreApplication::sendEvent (verticalScrollBar(), &e);
+    if (queuedScrollSteps_.empty())
+        scrollTimer_->stop();
 }
 /*************************/
 void TextEdit::resizeEvent (QResizeEvent *e)

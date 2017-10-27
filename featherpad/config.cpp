@@ -45,6 +45,7 @@ Config::Config():
     executeScripts_ (false),
     appendEmptyLine_ (true),
     nativeDialog_ (false),
+    inertialScrolling_ (false),
     scrollJumpWorkaround_ (false),
     tabPosition_ (0),
     maxSHSize_ (2),
@@ -158,6 +159,9 @@ void Config::readConfig()
     if (settings.value ("darkColorScheme").toBool())
         darkColScheme_ = true; // false by default
 
+    if (settings.value ("inertialScrolling").toBool())
+        inertialScrolling_ = true; // false by default
+
     if (settings.value ("scrollJumpWorkaround").toBool())
         scrollJumpWorkaround_ = true; // false by default
 
@@ -265,6 +269,7 @@ void Config::writeConfig()
     settings.setValue ("showWhiteSpace", showWhiteSpace_);
     settings.setValue ("showEndings", showEndings_);
     settings.setValue ("darkColorScheme", darkColScheme_);
+    settings.setValue ("inertialScrolling", inertialScrolling_);
     settings.setValue ("scrollJumpWorkaround", scrollJumpWorkaround_);
     settings.setValue ("maxSHSize", maxSHSize_);
 

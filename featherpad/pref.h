@@ -79,6 +79,7 @@ private slots:
     void prefRecentFilesNumber (int value);
     void prefOpenRecentFile (int value);
     void prefNativeDialog (int checked);
+    void prefInertialScrolling (int checked);
     void showWhatsThis();
     void prefShortcuts();
     void defaultSortcuts();

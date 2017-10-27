@@ -4,14 +4,14 @@
 <context>
     <name>FeatherPad::FPwin</name>
     <message>
-        <location filename="../../fpwin.cpp" line="1015"/>
-        <location filename="../../fpwin.cpp" line="1415"/>
-        <location filename="../../fpwin.cpp" line="1446"/>
-        <location filename="../../fpwin.cpp" line="1973"/>
-        <location filename="../../fpwin.cpp" line="1993"/>
-        <location filename="../../fpwin.cpp" line="1996"/>
-        <location filename="../../fpwin.cpp" line="2419"/>
-        <location filename="../../fpwin.cpp" line="2970"/>
+        <location filename="../../fpwin.cpp" line="1016"/>
+        <location filename="../../fpwin.cpp" line="1416"/>
+        <location filename="../../fpwin.cpp" line="1447"/>
+        <location filename="../../fpwin.cpp" line="1974"/>
+        <location filename="../../fpwin.cpp" line="1994"/>
+        <location filename="../../fpwin.cpp" line="1997"/>
+        <location filename="../../fpwin.cpp" line="2420"/>
+        <location filename="../../fpwin.cpp" line="2971"/>
         <source>Untitled</source>
         <translation>Без названия</translation>
     </message>
@@ -59,9 +59,9 @@
         <translation>&amp;Настройки</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1043"/>
-        <location filename="../../fpwin.cpp" line="1917"/>
-        <location filename="../../fpwin.cpp" line="2880"/>
+        <location filename="../../fpwin.cpp" line="1044"/>
+        <location filename="../../fpwin.cpp" line="1918"/>
+        <location filename="../../fpwin.cpp" line="2881"/>
         <source>Encoding</source>
         <translation>Кодировка</translation>
     </message>
@@ -78,7 +78,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="311"/>
-        <location filename="../../fpwin.cpp" line="2498"/>
+        <location filename="../../fpwin.cpp" line="2499"/>
         <location filename="../../replace.cpp" line="60"/>
         <location filename="../../replace.cpp" line="112"/>
         <source>Rep&amp;lacement</source>
@@ -141,7 +141,7 @@
     <message>
         <location filename="../../fp.ui" line="460"/>
         <location filename="../../fpwin.cpp" line="902"/>
-        <location filename="../../fpwin.cpp" line="3482"/>
+        <location filename="../../fpwin.cpp" line="3483"/>
         <source>Ctrl+N</source>
         <translation></translation>
     </message>
@@ -158,7 +158,7 @@
     <message>
         <location filename="../../fp.ui" line="471"/>
         <location filename="../../fpwin.cpp" line="903"/>
-        <location filename="../../fpwin.cpp" line="3483"/>
+        <location filename="../../fpwin.cpp" line="3484"/>
         <source>Ctrl+O</source>
         <translation></translation>
     </message>
@@ -175,7 +175,7 @@
     <message>
         <location filename="../../fp.ui" line="485"/>
         <location filename="../../fpwin.cpp" line="904"/>
-        <location filename="../../fpwin.cpp" line="3484"/>
+        <location filename="../../fpwin.cpp" line="3485"/>
         <source>Ctrl+S</source>
         <translation></translation>
     </message>
@@ -222,7 +222,7 @@
     <message>
         <location filename="../../fp.ui" line="527"/>
         <location filename="../../fpwin.cpp" line="916"/>
-        <location filename="../../fpwin.cpp" line="3485"/>
+        <location filename="../../fpwin.cpp" line="3486"/>
         <source>Ctrl+Shift+R</source>
         <translation></translation>
     </message>
@@ -234,7 +234,7 @@
     <message>
         <location filename="../../fp.ui" line="538"/>
         <location filename="../../fpwin.cpp" line="905"/>
-        <location filename="../../fpwin.cpp" line="3486"/>
+        <location filename="../../fpwin.cpp" line="3487"/>
         <source>Ctrl+F</source>
         <translation></translation>
     </message>
@@ -246,7 +246,7 @@
     <message>
         <location filename="../../fp.ui" line="549"/>
         <location filename="../../fpwin.cpp" line="906"/>
-        <location filename="../../fpwin.cpp" line="3487"/>
+        <location filename="../../fpwin.cpp" line="3488"/>
         <source>Ctrl+R</source>
         <translation></translation>
     </message>
@@ -258,7 +258,7 @@
     <message>
         <location filename="../../fp.ui" line="557"/>
         <location filename="../../fpwin.cpp" line="907"/>
-        <location filename="../../fpwin.cpp" line="3488"/>
+        <location filename="../../fpwin.cpp" line="3489"/>
         <source>Ctrl+Shift+S</source>
         <translation></translation>
     </message>
@@ -270,14 +270,14 @@
     <message>
         <location filename="../../fp.ui" line="565"/>
         <location filename="../../fpwin.cpp" line="908"/>
-        <location filename="../../fpwin.cpp" line="3489"/>
+        <location filename="../../fpwin.cpp" line="3490"/>
         <source>Ctrl+P</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="573"/>
         <location filename="../../fpwin.cpp" line="909"/>
-        <location filename="../../fpwin.cpp" line="3490"/>
+        <location filename="../../fpwin.cpp" line="3491"/>
         <source>Ctrl+Shift+D</source>
         <translation></translation>
     </message>
@@ -289,7 +289,7 @@
     <message>
         <location filename="../../fp.ui" line="581"/>
         <location filename="../../fpwin.cpp" line="910"/>
-        <location filename="../../fpwin.cpp" line="3491"/>
+        <location filename="../../fpwin.cpp" line="3492"/>
         <source>Ctrl+Shift+Q</source>
         <translation></translation>
     </message>
@@ -301,7 +301,7 @@
     <message>
         <location filename="../../fp.ui" line="589"/>
         <location filename="../../fpwin.cpp" line="911"/>
-        <location filename="../../fpwin.cpp" line="3492"/>
+        <location filename="../../fpwin.cpp" line="3493"/>
         <source>Ctrl+Q</source>
         <translation></translation>
     </message>
@@ -366,7 +366,7 @@
     <message>
         <location filename="../../fp.ui" line="651"/>
         <location filename="../../fpwin.cpp" line="897"/>
-        <location filename="../../fpwin.cpp" line="3493"/>
+        <location filename="../../fpwin.cpp" line="3494"/>
         <source>Ctrl+L</source>
         <translation></translation>
     </message>
@@ -378,7 +378,7 @@
     <message>
         <location filename="../../fp.ui" line="665"/>
         <location filename="../../fpwin.cpp" line="898"/>
-        <location filename="../../fpwin.cpp" line="3494"/>
+        <location filename="../../fpwin.cpp" line="3495"/>
         <source>Ctrl+W</source>
         <translation></translation>
     </message>
@@ -390,7 +390,7 @@
     <message>
         <location filename="../../fp.ui" line="679"/>
         <location filename="../../fpwin.cpp" line="899"/>
-        <location filename="../../fpwin.cpp" line="3495"/>
+        <location filename="../../fpwin.cpp" line="3496"/>
         <source>Ctrl+I</source>
         <translation></translation>
     </message>
@@ -402,7 +402,7 @@
     <message>
         <location filename="../../fp.ui" line="693"/>
         <location filename="../../fpwin.cpp" line="900"/>
-        <location filename="../../fpwin.cpp" line="3496"/>
+        <location filename="../../fpwin.cpp" line="3497"/>
         <source>Ctrl+Shift+H</source>
         <translation></translation>
     </message>
@@ -414,14 +414,14 @@
     <message>
         <location filename="../../fp.ui" line="701"/>
         <location filename="../../fpwin.cpp" line="912"/>
-        <location filename="../../fpwin.cpp" line="3497"/>
+        <location filename="../../fpwin.cpp" line="3498"/>
         <source>Ctrl+Shift+P</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="709"/>
         <location filename="../../fpwin.cpp" line="913"/>
-        <location filename="../../fpwin.cpp" line="3498"/>
+        <location filename="../../fpwin.cpp" line="3499"/>
         <source>Ctrl+H</source>
         <translation></translation>
     </message>
@@ -453,7 +453,7 @@
     <message>
         <location filename="../../fp.ui" line="935"/>
         <location filename="../../fpwin.cpp" line="918"/>
-        <location filename="../../fpwin.cpp" line="3499"/>
+        <location filename="../../fpwin.cpp" line="3500"/>
         <source>Ctrl+J</source>
         <translation></translation>
     </message>
@@ -464,7 +464,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="946"/>
-        <location filename="../../fpwin.cpp" line="3500"/>
+        <location filename="../../fpwin.cpp" line="3501"/>
         <source>Ctrl+Shift+E</source>
         <translation></translation>
     </message>
@@ -517,7 +517,7 @@
         <location filename="../../fp.ui" line="1055"/>
         <location filename="../../fpwin.cpp" line="914"/>
         <location filename="../../fpwin.cpp" line="919"/>
-        <location filename="../../fpwin.cpp" line="3502"/>
+        <location filename="../../fpwin.cpp" line="3503"/>
         <source>Ctrl+E</source>
         <translation></translation>
     </message>
@@ -539,7 +539,7 @@
     <message>
         <location filename="../../fp.ui" line="1074"/>
         <location filename="../../fpwin.cpp" line="920"/>
-        <location filename="../../fpwin.cpp" line="3503"/>
+        <location filename="../../fpwin.cpp" line="3504"/>
         <source>Ctrl+M</source>
         <translation></translation>
     </message>
@@ -621,7 +621,7 @@
     <message>
         <location filename="../../fp.ui" line="957"/>
         <location filename="../../fpwin.cpp" line="915"/>
-        <location filename="../../fpwin.cpp" line="3501"/>
+        <location filename="../../fpwin.cpp" line="3502"/>
         <source>Ctrl+T</source>
         <translation></translation>
     </message>
@@ -794,7 +794,7 @@
         <translation>Все</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1319"/>
+        <location filename="../../fpwin.cpp" line="1320"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
@@ -820,7 +820,7 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="783"/>
-        <location filename="../../fpwin.cpp" line="2117"/>
+        <location filename="../../fpwin.cpp" line="2118"/>
         <source>Cancel</source>
         <translation>Отменить</translation>
     </message>
@@ -830,129 +830,129 @@
         <translation>Не ко всем</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1026"/>
+        <location filename="../../fpwin.cpp" line="1027"/>
         <source>Unsaved</source>
         <translation>Несохранённый</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1045"/>
-        <location filename="../../fpwin.cpp" line="2885"/>
-        <location filename="../../fpwin.cpp" line="2899"/>
+        <location filename="../../fpwin.cpp" line="1046"/>
+        <location filename="../../fpwin.cpp" line="2886"/>
+        <location filename="../../fpwin.cpp" line="2900"/>
         <source>Sel. Chars</source>
         <translation>Sel. символы</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1227"/>
+        <location filename="../../fpwin.cpp" line="1228"/>
         <source>Another process is running in this tab!</source>
         <translation>Другой процесс работает на этой вкладке!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1228"/>
+        <location filename="../../fpwin.cpp" line="1229"/>
         <source>Only one process is allowed per tab.</source>
         <translation>Только один процесс разрешён на вкладку.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1306"/>
+        <location filename="../../fpwin.cpp" line="1307"/>
         <source>Script Output</source>
         <translation>Вывод скрипта</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1322"/>
+        <location filename="../../fpwin.cpp" line="1323"/>
         <source>Clear</source>
         <translation>Очистить</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1439"/>
-        <location filename="../../fpwin.cpp" line="2408"/>
+        <location filename="../../fpwin.cpp" line="1440"/>
+        <location filename="../../fpwin.cpp" line="2409"/>
         <source>*Untitled</source>
         <translation>*Без названия</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1736"/>
+        <location filename="../../fpwin.cpp" line="1737"/>
         <source>Huge file(s) not opened!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1737"/>
+        <location filename="../../fpwin.cpp" line="1738"/>
         <source>FeatherPad does not open files larger than 500 MiB.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1752"/>
+        <location filename="../../fpwin.cpp" line="1753"/>
         <source>A previous crash detected!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1753"/>
+        <location filename="../../fpwin.cpp" line="1754"/>
         <source>Preferably, close all FeatherPad windows and start again!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1831"/>
-        <location filename="../../fpwin.cpp" line="1955"/>
-        <location filename="../../fpwin.cpp" line="1982"/>
+        <location filename="../../fpwin.cpp" line="1832"/>
+        <location filename="../../fpwin.cpp" line="1956"/>
+        <location filename="../../fpwin.cpp" line="1983"/>
         <source>All Files (*)</source>
         <translation>Все файлы (*)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1836"/>
+        <location filename="../../fpwin.cpp" line="1837"/>
         <source>All Files (*);;.%1 Files (*.%1)</source>
         <translation>Все файлы (*);;.%1 Файлы (*.%1)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1840"/>
+        <location filename="../../fpwin.cpp" line="1841"/>
         <source>Open file...</source>
         <translation>Открыть файл...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2007"/>
-        <location filename="../../fpwin.cpp" line="2038"/>
+        <location filename="../../fpwin.cpp" line="2008"/>
+        <location filename="../../fpwin.cpp" line="2039"/>
         <source>Save as...</source>
         <translation>Сохранить как...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2115"/>
+        <location filename="../../fpwin.cpp" line="2116"/>
         <source>Yes</source>
         <translation>Да</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2116"/>
+        <location filename="../../fpwin.cpp" line="2117"/>
         <source>No</source>
         <translation>Нет</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3552"/>
+        <location filename="../../fpwin.cpp" line="3553"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translation>Лёгкий, с вкладками, текстовый редактор</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3553"/>
+        <location filename="../../fpwin.cpp" line="3554"/>
         <source>based on Qt5</source>
         <translation>на основе Qt5</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3554"/>
+        <location filename="../../fpwin.cpp" line="3555"/>
         <source>Author</source>
         <translation>Автор</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3555"/>
+        <location filename="../../fpwin.cpp" line="3556"/>
         <source>aka.</source>
         <translation>aka.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2417"/>
-        <location filename="../../fpwin.cpp" line="3642"/>
+        <location filename="../../fpwin.cpp" line="2418"/>
+        <location filename="../../fpwin.cpp" line="3643"/>
         <source>Help</source>
         <translation>Справка</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1044"/>
-        <location filename="../../fpwin.cpp" line="1919"/>
-        <location filename="../../fpwin.cpp" line="2232"/>
-        <location filename="../../fpwin.cpp" line="2243"/>
-        <location filename="../../fpwin.cpp" line="2250"/>
-        <location filename="../../fpwin.cpp" line="2884"/>
+        <location filename="../../fpwin.cpp" line="1045"/>
+        <location filename="../../fpwin.cpp" line="1920"/>
+        <location filename="../../fpwin.cpp" line="2233"/>
+        <location filename="../../fpwin.cpp" line="2244"/>
+        <location filename="../../fpwin.cpp" line="2251"/>
+        <location filename="../../fpwin.cpp" line="2885"/>
         <source>Lines</source>
         <translation>Строки</translation>
     </message>
@@ -1058,62 +1058,62 @@
         <translation>Файл удалён.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1046"/>
-        <location filename="../../fpwin.cpp" line="2887"/>
-        <location filename="../../fpwin.cpp" line="2900"/>
+        <location filename="../../fpwin.cpp" line="1047"/>
+        <location filename="../../fpwin.cpp" line="2888"/>
+        <location filename="../../fpwin.cpp" line="2901"/>
         <source>Words</source>
         <translation>Слова</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1310"/>
+        <location filename="../../fpwin.cpp" line="1311"/>
         <source>Script File</source>
         <translation>Файл сценария</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1960"/>
+        <location filename="../../fpwin.cpp" line="1961"/>
         <source>.%1 Files (*.%1);;All Files (*)</source>
         <translation>.%1 Файлы (*.%1);;Все файлы (*)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2067"/>
+        <location filename="../../fpwin.cpp" line="2068"/>
         <source>Keep encoding and save as...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2118"/>
+        <location filename="../../fpwin.cpp" line="2119"/>
         <source>Do you want to use &lt;b&gt;MS Windows&lt;/b&gt; end-of-lines?</source>
         <translation>Вы хотите использовать &lt;b&gt;MS Windows&lt;/b&gt; конец строк?</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2119"/>
+        <location filename="../../fpwin.cpp" line="2120"/>
         <source>This may be good for readability under MS Windows.</source>
         <translation>Это может быть полезно для удобочитаемости под MS Windows.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2266"/>
+        <location filename="../../fpwin.cpp" line="2267"/>
         <source>Cannot be saved!</source>
         <translation>Не удаётся сохранить!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2228"/>
-        <location filename="../../fpwin.cpp" line="2234"/>
-        <location filename="../../fpwin.cpp" line="2242"/>
-        <location filename="../../fpwin.cpp" line="2883"/>
+        <location filename="../../fpwin.cpp" line="2229"/>
+        <location filename="../../fpwin.cpp" line="2235"/>
+        <location filename="../../fpwin.cpp" line="2243"/>
+        <location filename="../../fpwin.cpp" line="2884"/>
         <source>Syntax</source>
         <translation>Синтаксис</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2981"/>
+        <location filename="../../fpwin.cpp" line="2982"/>
         <source>Print Document</source>
         <translation>Печать документа</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3557"/>
+        <location filename="../../fpwin.cpp" line="3558"/>
         <source>Ok</source>
         <translation>Да</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3570"/>
+        <location filename="../../fpwin.cpp" line="3571"/>
         <source>About FeatherPad</source>
         <translation>О FeatherPad</translation>
     </message>
@@ -1330,18 +1330,23 @@ whose last line is not empty.</source>
         <translation>Убедитесь, что пустая последняя строка при сохранении</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="448"/>
+        <location filename="../../predDialog.ui" line="437"/>
+        <source>Inertial scrolling with mouse wheel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="459"/>
         <source>Files</source>
         <translation>Файл</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="454"/>
+        <location filename="../../predDialog.ui" line="465"/>
         <source>File Management</source>
         <translation>Управление файлами</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="578"/>
-        <location filename="../../predDialog.ui" line="597"/>
+        <location filename="../../predDialog.ui" line="589"/>
+        <location filename="../../predDialog.ui" line="608"/>
         <source>This can be any starting command with
 arguments, for example, &quot;xterm -hold&quot;
 for running the process in XTerm.
@@ -1364,42 +1369,42 @@ will be shown by a popup dialog.</source>
 во всплывающем диалоговом окне.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="590"/>
+        <location filename="../../predDialog.ui" line="601"/>
         <source>Start with this command: </source>
         <translation>Запуск с этой команды: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="609"/>
+        <location filename="../../predDialog.ui" line="620"/>
         <source>Command + Arguments</source>
         <translation>Команда + Аргументы</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="636"/>
+        <location filename="../../predDialog.ui" line="647"/>
         <source>Shortcuts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="655"/>
+        <location filename="../../predDialog.ui" line="666"/>
         <source>Action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="660"/>
+        <location filename="../../predDialog.ui" line="671"/>
         <source>Shortcut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="668"/>
+        <location filename="../../predDialog.ui" line="679"/>
         <source>Restore default shortcuts.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="671"/>
+        <location filename="../../predDialog.ui" line="682"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="695"/>
+        <location filename="../../predDialog.ui" line="706"/>
         <source>Help</source>
         <translation>Справка</translation>
     </message>
@@ -1496,14 +1501,14 @@ and-drop either.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="433"/>
+        <location filename="../../predDialog.ui" line="444"/>
         <source>This is not a complete fix but
 prevents annoying scroll jumps.</source>
         <translation>Это не полное исправление, 
 но предотвращает раздражающие скачки прокрутки.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="545"/>
+        <location filename="../../predDialog.ui" line="556"/>
         <source>This only includes executable files written
 in script languages like Shell and Python.
 
@@ -1546,13 +1551,13 @@ Needs window reopening to take effect.</source>
 Требуется ещё раз открыть окно.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="555"/>
+        <location filename="../../predDialog.ui" line="566"/>
         <source>Run executable scripts</source>
         <translation>Запуск исполняемых скриптов</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="460"/>
-        <location filename="../../predDialog.ui" line="474"/>
+        <location filename="../../predDialog.ui" line="471"/>
+        <location filename="../../predDialog.ui" line="485"/>
         <source>The maximum number of recently modified or
 opened files FeatherPad shows. The default
 is 10.
@@ -1590,28 +1595,34 @@ Needs application restart to take effect.</source>
         <translation>&amp;Тёмная цветовая схема</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="437"/>
+        <location filename="../../predDialog.ui" line="433"/>
+        <source>Should the mouse wheel scrolling be inertial
+if the cursor is inside the text view?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="448"/>
         <source>Workaround for &amp;Qt5&apos;s scroll jump bug</source>
         <translation>&amp;Устранение дёрганья при прокрутке на Qt5</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="467"/>
+        <location filename="../../predDialog.ui" line="478"/>
         <source>Number of recent files: </source>
         <translation>Количество последних файлов: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="504"/>
+        <location filename="../../predDialog.ui" line="515"/>
         <source>Show recentl&amp;y modified files</source>
         <translation>&amp;Показать недавно изменённые файлы</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="514"/>
+        <location filename="../../predDialog.ui" line="525"/>
         <source>Show recentl&amp;y opened files</source>
         <translation>&amp;Показать недавно открытые файлы</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="521"/>
-        <location filename="../../predDialog.ui" line="533"/>
+        <location filename="../../predDialog.ui" line="532"/>
+        <location filename="../../predDialog.ui" line="544"/>
         <source>The maximum number of recently modified or
 opened files FeatherPad should open with an
 empty startup of a session.</source>
@@ -1620,71 +1631,71 @@ empty startup of a session.</source>
 если при запуске не выбраны другие.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="526"/>
+        <location filename="../../predDialog.ui" line="537"/>
         <source>Start with recent files: </source>
         <translation>Начать с последних файлов: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="706"/>
+        <location filename="../../predDialog.ui" line="717"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="202"/>
-        <location filename="../../pref.cpp" line="208"/>
-        <location filename="../../pref.cpp" line="892"/>
-        <location filename="../../pref.cpp" line="897"/>
-        <location filename="../../pref.cpp" line="906"/>
+        <location filename="../../pref.cpp" line="205"/>
+        <location filename="../../pref.cpp" line="211"/>
+        <location filename="../../pref.cpp" line="921"/>
+        <location filename="../../pref.cpp" line="926"/>
+        <location filename="../../pref.cpp" line="935"/>
         <source>files</source>
         <translation>файлы</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="202"/>
-        <location filename="../../pref.cpp" line="208"/>
-        <location filename="../../pref.cpp" line="892"/>
-        <location filename="../../pref.cpp" line="897"/>
-        <location filename="../../pref.cpp" line="906"/>
+        <location filename="../../pref.cpp" line="205"/>
+        <location filename="../../pref.cpp" line="211"/>
+        <location filename="../../pref.cpp" line="921"/>
+        <location filename="../../pref.cpp" line="926"/>
+        <location filename="../../pref.cpp" line="935"/>
         <source>file</source>
         <translation>файл</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="209"/>
+        <location filename="../../pref.cpp" line="212"/>
         <source>No file</source>
         <translation>Нет файла</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="302"/>
-        <location filename="../../pref.cpp" line="966"/>
+        <location filename="../../pref.cpp" line="305"/>
+        <location filename="../../pref.cpp" line="995"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="395"/>
+        <location filename="../../pref.cpp" line="398"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Чтобы изменения вступили в силу, необходим перезапуск приложения.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="404"/>
+        <location filename="../../pref.cpp" line="407"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Для того, чтобы изменения вступили в силу, требуется повторное открытие окна.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="921"/>
+        <location filename="../../pref.cpp" line="950"/>
         <source>&amp;Recently Opened</source>
         <translation>&amp;Недавно открытые</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="922"/>
+        <location filename="../../pref.cpp" line="951"/>
         <source>Recently &amp;Modified</source>
         <translation>&amp;Недавно изменённые</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="956"/>
+        <location filename="../../pref.cpp" line="985"/>
         <source>The typed shortcut was not valid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="958"/>
+        <location filename="../../pref.cpp" line="987"/>
         <source>The typed shortcut was reserved.</source>
         <translation type="unfinished"></translation>
     </message>

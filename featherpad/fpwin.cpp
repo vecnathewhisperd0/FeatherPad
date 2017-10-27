@@ -1001,6 +1001,7 @@ TabPage* FPwin::createEmptyTab (bool setCurrent)
     textEdit->setAutoBracket (config.getAutoBracket());
     textEdit->setScrollJumpWorkaround (config.getScrollJumpWorkaround());
     textEdit->setEditorFont (config.getFont());
+    textEdit->setInertialScrolling (config.getInertialScrolling());
 
     int index = ui->tabWidget->currentIndex();
     if (index == -1) enableWidgets (true);

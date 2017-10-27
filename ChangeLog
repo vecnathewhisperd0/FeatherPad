@@ -1,3 +1,7 @@
+V0.6.3
+---------
+ * Optional inertial wheel scrolling when the cursor is inside the text view.
+
 V0.6.2
 ---------
  * Added playlists to syntax highlighting.

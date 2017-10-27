@@ -144,6 +144,13 @@ public:
         highlighter_ = h;
     }
 
+    bool getInertialScrolling() const {
+        return inertialScrolling_;
+    }
+    void setInertialScrolling (bool inertial) {
+        inertialScrolling_ = inertial;
+    }
+
 signals:
     /* inform the main widget */
     void fileDropped (const QString& localFile,
@@ -187,6 +194,7 @@ private slots:
     void highlightCurrentLine();
     void updateLineNumberArea (const QRect&, int);
     void onUpdateRequesting (const QRect&, int dy);
+    void scrollWithInertia();
 
 private:
     QString computeIndentation (const QTextCursor &cur) const;
@@ -219,7 +227,19 @@ private:
     */
     QList<QTextEdit::ExtraSelection> greenSel_; // for replaced matches
     QList<QTextEdit::ExtraSelection> redSel_; // for bracket matches
-    QSyntaxHighlighter *highlighter_; // // syntax highlighter
+    QSyntaxHighlighter *highlighter_; // syntax highlighter
+    /******************************
+     ***** Inertial scrolling *****
+     ******************************/
+    bool inertialScrolling_;
+    struct scollData {
+      int delta;
+      int leftSteps;
+      int totalSteps;
+    };
+    QTimer *scrollTimer_;
+    QWheelEvent *wheelEvent_;
+    QList<scollData> queuedScrollSteps_;
 };
 /*************************/
 class LineNumberArea : public QWidget

@@ -187,6 +187,9 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
     connect (ui->spinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
              this, &PrefDialog::prefMaxSHSize);
 
+    ui->inertiaBox->setChecked (config.getInertialScrolling());
+    connect (ui->inertiaBox, &QCheckBox::stateChanged, this, &PrefDialog::prefInertialScrolling);
+
     /*************
      *** Files ***
      *************/
@@ -846,6 +849,32 @@ void PrefDialog::prefMaxSHSize (int value)
 {
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
     config.setMaxSHSize (value);
+}
+/*************************/
+void PrefDialog::prefInertialScrolling (int checked)
+{
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    Config& config = singleton->getConfig();
+    if (checked == Qt::Checked)
+    {
+        config.setInertialScrolling (true);
+        for (int i = 0; i < singleton->Wins.count(); ++i)
+        {
+            FPwin *win = singleton->Wins.at (i);
+            for (int j = 0; j < win->ui->tabWidget->count(); ++j)
+                qobject_cast< TabPage *>(win->ui->tabWidget->widget (j))->textEdit()->setInertialScrolling (true);
+        }
+    }
+    else if (checked == Qt::Unchecked)
+    {
+        config.setInertialScrolling (false);
+        for (int i = 0; i < singleton->Wins.count(); ++i)
+        {
+            FPwin *win = singleton->Wins.at (i);
+            for (int j = 0; j < win->ui->tabWidget->count(); ++j)
+                qobject_cast< TabPage *>(win->ui->tabWidget->widget (j))->textEdit()->setInertialScrolling (false);
+        }
+    }
 }
 /*************************/
 void PrefDialog::prefExecute (int checked)

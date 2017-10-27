@@ -326,12 +326,19 @@ public:
         reservedShortcuts_ = s;
     }
 
+    bool getInertialScrolling() const {
+        return inertialScrolling_;
+    }
+    void setInertialScrolling (bool inertial) {
+        inertialScrolling_ = inertial;
+    }
+
 private:
     bool isValidShortCut (const QVariant v);
 
     bool remSize_, iconless_, sysIcon_, noToolbar_, noMenubar_, hideSearchbar_, showStatusbar_, remFont_, wrapByDefault_,
          indentByDefault_, autoBracket_, lineByDefault_, syntaxByDefault_, showWhiteSpace_, showEndings_, isMaxed_, isFull_,
-         darkColScheme_, tabWrapAround_, hideSingleTab_, executeScripts_, appendEmptyLine_, nativeDialog_,
+         darkColScheme_, tabWrapAround_, hideSingleTab_, executeScripts_, appendEmptyLine_, nativeDialog_, inertialScrolling_,
          scrollJumpWorkaround_; // Should a workaround for Qt5's "scroll jump" bug be applied?
     int tabPosition_, maxSHSize_, lightBgColorValue_, darkBgColorValue_, recentFilesNumber_;
     int curRecentFilesNumber_; // the start value of recentFilesNumber_ -- fixed during a session
