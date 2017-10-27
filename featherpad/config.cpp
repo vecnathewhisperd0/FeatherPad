@@ -282,7 +282,8 @@ void Config::writeConfig()
     settings.setValue ("executeCommand", executeCommand_);
     while (recentFiles_.count() > recentFilesNumber_) // recentFilesNumber_ may have decreased
         recentFiles_.removeLast();
-    settings.setValue ("recentFiles", recentFiles_);
+    if (!recentFiles_.isEmpty()) // don't save "@Invalid()"
+        settings.setValue ("recentFiles", recentFiles_);
     settings.setValue ("openRecentFiles", openRecentFiles_);
     settings.setValue ("recentOpened", recentOpened_);
 
