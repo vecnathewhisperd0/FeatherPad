@@ -2516,7 +2516,7 @@ void FPwin::fontDialog()
 
     QFont currentFont = textEdit->document()->defaultFont();
     QFontDialog fd (currentFont, this);
-    fd.setOption (QFontDialog::DontUseNativeDialog);
+    //fd.setOption (QFontDialog::DontUseNativeDialog);
     fd.setWindowModality (Qt::WindowModal);
     fd.move (this->x() + this->width()/2 - fd.width()/2,
              this->y() + this->height()/2 - fd.height()/ 2);

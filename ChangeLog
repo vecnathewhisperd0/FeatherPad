@@ -1,6 +1,7 @@
 V0.6.3
 ---------
  * Optional inertial wheel scrolling when the cursor is inside the text view.
+ * Use the native font dialog as a workaround under GTK environments.
 
 V0.6.2
 ---------
