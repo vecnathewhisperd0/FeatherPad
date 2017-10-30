@@ -565,6 +565,15 @@ void FPwin::deleteTabPage (int index)
 {
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
     TextEdit *textEdit = tabPage->textEdit();
+    if (textEdit->getSaveCursor())
+    {
+        QString fileName = textEdit->getFileName();
+        if (!fileName.isEmpty())
+        {
+            Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+            config.saveCursorPos (fileName, textEdit->textCursor().position());
+        }
+    }
     /* because deleting the syntax highlighter changes the text,
        it is better to disconnect contentsChange() here to prevent a crash */
     disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::hlight);
@@ -743,6 +752,7 @@ void FPwin::dropEvent (QDropEvent *event)
         foreach (QUrl url, urlList)
             newTabFromName (url.adjusted (QUrl::NormalizePathSegments) // KDE may give a double slash
                                .toLocalFile(),
+                            false,
                             multiple);
     }
 
@@ -1481,7 +1491,7 @@ void FPwin::unbusy()
         QGuiApplication::restoreOverrideCursor();
 }
 /*************************/
-void FPwin::loadText (const QString fileName, bool enforceEncod, bool reload, bool multiple)
+void FPwin::loadText (const QString fileName, bool enforceEncod, bool reload, bool saveCursor, bool multiple)
 {
     if (loadingProcesses_ == 0)
         closeWarningBar();
@@ -1489,7 +1499,7 @@ void FPwin::loadText (const QString fileName, bool enforceEncod, bool reload, bo
     QString charset;
     if (enforceEncod)
         charset = checkToEncoding();
-    Loading *thread = new Loading (fileName, charset, reload, multiple);
+    Loading *thread = new Loading (fileName, charset, reload, saveCursor, multiple);
     connect (thread, &Loading::completed, this, &FPwin::addText);
     connect (thread, &Loading::finished, thread, &QObject::deleteLater);
     thread->start();
@@ -1502,7 +1512,7 @@ void FPwin::loadText (const QString fileName, bool enforceEncod, bool reload, bo
 /*************************/
 // When multiple files are being loaded, we don't change the current tab.
 void FPwin::addText (const QString text, const QString fileName, const QString charset,
-                     bool enforceEncod, bool reload, bool multiple)
+                     bool enforceEncod, bool reload, bool saveCursor, bool multiple)
 {
     if (fileName.isEmpty() || charset.isEmpty())
     {
@@ -1550,6 +1560,7 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
         activateWindow();
         raise();
     }
+    textEdit->setSaveCursor (saveCursor);
 
     /* this workaround, for the RTL bug in QPlainTextEdit, isn't needed
        because a better workaround is included in textedit.cpp */
@@ -1591,6 +1602,8 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
     connect (textEdit->document(), &QTextDocument::modificationChanged, ui->actionSave, &QAction::setEnabled);
     connect (textEdit->document(), &QTextDocument::modificationChanged, this, &FPwin::asterisk);
 
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+
     /* now, restore the cursor */
     if (reload)
     {
@@ -1603,6 +1616,18 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
             cur.setPosition (pos, QTextCursor::KeepAnchor);
         }
         textEdit->setTextCursor (cur);
+    }
+    else if (saveCursor)
+    {
+        QHash<QString, QVariant> cursorPos = config.savedCursorPos();
+        if (cursorPos.contains (fileName))
+        {
+            QTextCursor cur = textEdit->textCursor();
+            cur.movePosition (QTextCursor::End, QTextCursor::MoveAnchor);
+            int pos = qMin (qMax (cursorPos.value (fileName, 0).toInt(), 0), cur.position());
+            cur.setPosition (pos);
+            textEdit->setTextCursor (cur);
+        }
     }
 
     if (enforceEncod || reload)
@@ -1633,7 +1658,6 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
     }
 
     QFileInfo fInfo (fileName);
-    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
 
     textEdit->setFileName (fileName);
     textEdit->setSize (fInfo.size());
@@ -1767,14 +1791,14 @@ void FPwin::closeWarningBar()
     }
 }
 /*************************/
-void FPwin::newTabFromName (const QString& fileName, bool multiple)
+void FPwin::newTabFromName (const QString& fileName, bool saveCursor, bool multiple)
 {
     if (!fileName.isEmpty()
         /* although loadText() takes care of folders, we don't want to open
            (a symlink to) /dev/null and then, get a prompt dialog on closing */
         && QFileInfo (fileName).isFile())
     {
-        loadText (fileName, false, false, multiple);
+        loadText (fileName, false, false, saveCursor, multiple);
     }
 }
 /*************************/
@@ -1782,7 +1806,7 @@ void FPwin::newTabFromRecent()
 {
     QAction *action = qobject_cast<QAction*>(QObject::sender());
     if (!action) return;
-    loadText (action->data().toString(), false, false, false);
+    loadText (action->data().toString(), false, false, false, false);
 }
 /*************************/
 void FPwin::fileOpen()
@@ -1855,7 +1879,7 @@ void FPwin::fileOpen()
         QStringList files = dialog.selectedFiles();
         bool multiple (files.count() > 1 || isLoading());
         foreach (fname, files)
-            newTabFromName (fname, multiple);
+            newTabFromName (fname, false, multiple);
     }
     updateShortcuts (false);
 }
@@ -1936,9 +1960,9 @@ void FPwin::reload()
 
     if (unSaved (index, false)) return;
 
-    QString fname = qobject_cast< TabPage *>(ui->tabWidget->widget (index))
-                    ->textEdit()->getFileName();
-    if (!fname.isEmpty()) loadText (fname, false, true);
+    TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
+    QString fname = textEdit->getFileName();
+    if (!fname.isEmpty()) loadText (fname, false, true, textEdit->getSaveCursor());
 }
 /*************************/
 // This is for both "Save" and "Save As"

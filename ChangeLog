@@ -1,3 +1,7 @@
+V0.7
+---------
+ * Remember cursor positions for files that are managed by the session dialog (thanks to AcarBurak at GitHub for the idea).
+
 V0.6.3
 ---------
  * Optional inertial wheel scrolling when the cursor is inside the text view.

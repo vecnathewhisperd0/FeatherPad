@@ -57,7 +57,8 @@ Config::Config():
     startSize_ (QSize (700, 500)),
     font_ (QFont ("Monospace", 9)),
     openRecentFiles_ (0),
-    recentOpened_ (false) {}
+    recentOpened_ (false),
+    cursorPosRetrieved_ (false) {}
 /*************************/
 Config::~Config() {}
 /*************************/
@@ -306,6 +307,37 @@ void Config::writeConfig()
     }
 
     settings.endGroup();
+
+    writeCursorPos();
+}
+/*************************/
+void Config::readCursorPos()
+{
+    if (!cursorPosRetrieved_)
+    {
+        Settings settings ("featherpad", "fp_cursor_pos");
+        cursorPos_ = settings.value ("cursorPositions").toHash();
+        cursorPosRetrieved_ = true;
+    }
+}
+/*************************/
+void Config::writeCursorPos()
+{
+    if (!cursorPos_.isEmpty())
+    {
+        /* no need to clean up the config file here because
+           it's more or less cleaned by the session dialog */
+        /*QHash<QString, QVariant>::iterator it = cursorPos_.begin();
+        while (it != cursorPos_.end())
+        {
+            if (!QFileInfo (it.key()).isFile())
+                it = cursorPos_.erase (it);
+            else ++it;
+        }*/
+        Settings settings ("featherpad", "fp_cursor_pos");
+        if (settings.isWritable())
+            settings.setValue ("cursorPositions", cursorPos_);
+    }
 }
 /*************************/
 void Config::addRecentFile (QString file)

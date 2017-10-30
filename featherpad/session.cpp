@@ -148,7 +148,10 @@ void SessionDialog::reallySaveSession()
         {
             TextEdit *textEdit = qobject_cast< TabPage *>(win->ui->tabWidget->widget (j))->textEdit();
             if (!textEdit->getFileName().isEmpty())
+            {
                 files << textEdit->getFileName();
+                textEdit->setSaveCursor (true);
+            }
         }
     }
     /* there's always an opened file here */
@@ -181,16 +184,22 @@ void SessionDialog::openSessions()
     {
         if (FPwin *win = static_cast<FPwin *>(parent_))
         {
+            Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
             int broken = 0;
             bool multiple (files.count() > 1 || win->isLoading());
             for (int i = 0; i < files.count(); ++i)
             {
                 if (!QFileInfo (files.at (i)).isFile())
                 {
+                    /* first, clean up the cursor config file */
+                    config.removeCursorPos (files.at (i));
+
                     ++broken;
                     continue;
                 }
-                win->newTabFromName (files.at (i), multiple);
+                win->newTabFromName (files.at (i),
+                                     true, // to save the cursor position
+                                     multiple);
             }
             if (broken == files.count())
                 showPrompt (tr ("No file exists or can be opened."));
@@ -294,15 +303,27 @@ void SessionDialog::removeSelected()
     int count = items.count();
     if (count == 0) return;
 
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
     QSettings settings ("featherpad", "fp");
     settings.beginGroup ("sessions");
     for (int i = 0; i < count; ++i)
     {
+        /* first, clean up the cursor config file */
+        QStringList files = settings.value (items.at (i)->text()).toStringList();
+        for (int j = 0; j < files.count(); ++j)
+            config.removeCursorPos (files.at (j));
+
         settings.remove (items.at (i)->text());
         allItems_.removeOne (items.at (i)->text());
         delete ui->listWidget->takeItem (ui->listWidget->row (items.at (i)));
     }
     settings.endGroup();
+
+    if (config.savedCursorPos().isEmpty())
+    {
+        Settings curSettings ("featherpad", "fp_cursor_pos");
+        curSettings.remove ("cursorPositions");
+    }
 
     if (allItems_.count() == 0)
         onEmptinessChanged (true);
@@ -310,6 +331,12 @@ void SessionDialog::removeSelected()
 /*************************/
 void SessionDialog::removeAll()
 {
+    /* first, clean up the cursor config file */
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    config.removeAllCursorPos();
+    Settings curSettings ("featherpad", "fp_cursor_pos");
+    curSettings.remove ("cursorPositions");
+
     ui->listWidget->clear();
     onEmptinessChanged (true);
     QSettings settings ("featherpad", "fp");

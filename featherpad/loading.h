@@ -26,12 +26,12 @@ class Loading : public QThread {
     Q_OBJECT
 
 public:
-    Loading (QString fname, QString charset, bool reload, bool multiple);
+    Loading (QString fname, QString charset, bool reload, bool saveCursor, bool multiple);
     ~Loading();
 
 signals:
     void completed (const QString str, const QString fname, const QString charset,
-                    bool enforceEncod, bool reload, bool multiple);
+                    bool enforceEncod, bool reload, bool saveCursor, bool multiple);
 
 private:
     void run();
@@ -39,6 +39,7 @@ private:
     QString fname_;
     QString charset_;
     bool reload_; // Is this a reloading?
+    bool saveCursor_; // Should the cursor position be saved?
     bool multiple_; // Are there multiple files to load?
 };
 

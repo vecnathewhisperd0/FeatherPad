@@ -30,6 +30,7 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     autoBracket = false;
     scrollJumpWorkaround = false;
     drawIndetLines = false;
+    saveCursor_ = false;
 
     inertialScrolling_ = false;
     wheelEvent_ = nullptr;

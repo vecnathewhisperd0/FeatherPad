@@ -151,9 +151,17 @@ public:
         inertialScrolling_ = inertial;
     }
 
+    bool getSaveCursor() const {
+        return saveCursor_;
+    }
+    void setSaveCursor (bool save) {
+        saveCursor_ = save;
+    }
+
 signals:
     /* inform the main widget */
     void fileDropped (const QString& localFile,
+                      bool saveCursor,
                       bool multiple); // Multiple files are dropped?
     void resized(); // needed by syntax highlighting
     void updateRect (const QRect &rect, int dy);
@@ -180,6 +188,7 @@ protected:
             foreach (QUrl url, source->urls())
                 emit fileDropped (url.adjusted (QUrl::NormalizePathSegments) // KDE may give a double slash
                                      .toLocalFile(),
+                                  false,
                                   multiple);
         }
         else
@@ -228,6 +237,7 @@ private:
     QList<QTextEdit::ExtraSelection> greenSel_; // for replaced matches
     QList<QTextEdit::ExtraSelection> redSel_; // for bracket matches
     QSyntaxHighlighter *highlighter_; // syntax highlighter
+    bool saveCursor_;
     /******************************
      ***** Inertial scrolling *****
      ******************************/

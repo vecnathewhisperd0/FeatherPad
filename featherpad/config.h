@@ -47,6 +47,7 @@ public:
     void readConfig();
     void readShortcuts();
     void writeConfig();
+    void writeCursorPos();
 
     bool getRemSize() const {
         return remSize_;
@@ -333,8 +334,31 @@ public:
         inertialScrolling_ = inertial;
     }
 
+    QHash<QString, QVariant> savedCursorPos() {
+        readCursorPos();
+        return cursorPos_;
+    }
+    void saveCursorPos (const QString& name, int pos) {
+        readCursorPos();
+        if (removedCursorPos_.contains (name))
+            removedCursorPos_.removeOne (name);
+        else
+            cursorPos_.insert (name, pos);
+    }
+    void removeCursorPos (const QString& name) {
+        readCursorPos();
+        cursorPos_.remove (name);
+        removedCursorPos_ << name;
+    }
+    void removeAllCursorPos() {
+        readCursorPos();
+        removedCursorPos_.append (cursorPos_.keys());
+        cursorPos_.clear();
+    }
+
 private:
     bool isValidShortCut (const QVariant v);
+    void readCursorPos();
 
     bool remSize_, iconless_, sysIcon_, noToolbar_, noMenubar_, hideSearchbar_, showStatusbar_, remFont_, wrapByDefault_,
          indentByDefault_, autoBracket_, lineByDefault_, syntaxByDefault_, showWhiteSpace_, showEndings_, isMaxed_, isFull_,
@@ -350,6 +374,9 @@ private:
     QStringList recentFiles_;
     QHash<QString, QString> actions_;
     QStringList removedActions_, reservedShortcuts_;
+    QHash<QString, QVariant> cursorPos_;
+    QStringList removedCursorPos_; // used only internally for the clean-up
+    bool cursorPosRetrieved_; // used only internally for reading once
 };
 
 }

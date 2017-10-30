@@ -22,10 +22,11 @@
 
 namespace FeatherPad {
 
-Loading::Loading (QString fname, QString charset, bool reload, bool multiple) :
+Loading::Loading (QString fname, QString charset, bool reload, bool saveCursor, bool multiple) :
     fname_ (fname),
     charset_ (charset),
     reload_ (reload),
+    saveCursor_ (saveCursor),
     multiple_ (multiple)
 {}
 /*************************/
@@ -35,19 +36,19 @@ void Loading::run()
 {
     if (!QFile::exists (fname_))
     {
-        emit completed (QString(), QString(), QString(), false, false, false);
+        emit completed (QString(), QString(), QString(), false, false, false, false);
         return;
     }
 
     QFile file (fname_);
     if (file.size() > 500*1024*1024) // don't open files with sizes > 500 Mib
     {
-        emit completed (QString(), fname_, QString(), false, false, false);
+        emit completed (QString(), fname_, QString(), false, false, false, false);
         return;
     }
     if (!file.open (QFile::ReadOnly))
     {
-        emit completed (QString(), QString(), QString(), false, false, false);
+        emit completed (QString(), QString(), QString(), false, false, false, false);
         return;
     }
 
@@ -133,7 +134,7 @@ void Loading::run()
     }
 
     QString text = codec->toUnicode (data);
-    emit completed (text, fname_, charset_, enforced, reload_, multiple_);
+    emit completed (text, fname_, charset_, enforced, reload_, saveCursor_, multiple_);
 }
 
 }
