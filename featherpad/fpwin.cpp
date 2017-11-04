@@ -319,14 +319,18 @@ void FPwin::toggleSidePane()
             ListWidget *lw = sidePane_->listWidget();
             for (int i = 0; i < ui->tabWidget->count(); ++i)
             {
-                TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (i));
-                QString txt = ui->tabWidget->tabText (i);
-                if (tabPage->textEdit()->document()->isModified() && txt.startsWith ("*"))
-                {
-                    txt.remove (0, 1);
-                    txt.append ("*");
-                }
-                QListWidgetItem *lwi = new QListWidgetItem (txt, lw);
+                TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->widget (i));
+                /* tab text can't be used because, on the one hand, it may be elided
+                   and, on the other hand, KDE's auto-mnemonics may interfere */
+                QString fname = tabPage->textEdit()->getFileName();
+                if (fname.isEmpty())
+                    fname = tr ("Untitled");
+                else
+                    fname = QFileInfo (fname).fileName();
+                if (tabPage->textEdit()->document()->isModified())
+                    fname.append ("*");
+                fname.replace ("\n", " ");
+                QListWidgetItem *lwi = new QListWidgetItem (fname, lw);
                 lwi->setToolTip (ui->tabWidget->tabToolTip (i));
                 sideItems_.insert (lwi, tabPage);
                 lw->addItem (lwi);
