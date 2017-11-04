@@ -47,7 +47,7 @@ TabPage::TabPage (ICONMODE iconMode, int bgColorValue,
         break;
     }
 
-    QGridLayout *mainGrid = new QGridLayout (this);
+    QGridLayout *mainGrid = new QGridLayout;
     mainGrid->setVerticalSpacing (4);
     mainGrid->setContentsMargins (0, 0, 0, 0);
     mainGrid->addWidget (textEdit_, 0, 0);

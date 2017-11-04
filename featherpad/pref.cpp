@@ -81,6 +81,7 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
     recentNumber_ = config.getRecentFilesNumber();
     showWhiteSpace_ = config.getShowWhiteSpace();
     showEndings_ = config.getShowEndings();
+    sidePaneMode_ = config.getSidePaneMode();
 
     /**************
      *** Window ***
@@ -133,6 +134,11 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
 
     ui->nativeDialogBox->setChecked (config.getNativeDialog());
     connect (ui->nativeDialogBox, &QCheckBox::stateChanged, this, &PrefDialog::prefNativeDialog);
+
+    ui->sidePaneBox->setChecked (config.getSidePaneMode());
+    ui->sidePaneSizeBox->setChecked (config.getRemSplitterPos());
+    connect (ui->sidePaneBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSidePaneMode);
+    connect (ui->sidePaneSizeBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSplitterPos);
 
     /************
      *** Text ***
@@ -247,6 +253,7 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
         OBJECT_NAMES.insert (win->ui->actionDetachTab->text().remove ("&"), "actionDetachTab");
         OBJECT_NAMES.insert (win->ui->actionRun->text().remove ("&"), "actionRun");
         OBJECT_NAMES.insert (win->ui->actionSession->text().remove ("&"), "actionSession");
+        OBJECT_NAMES.insert (win->ui->actionSidePane->text().remove ("&"), "actionSidePane");
     }
 
     QHash<QString, QString> ca = config.customShortcutActions();
@@ -296,6 +303,8 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
                        keys.contains ("actionRun") ? ca.value ("actionRun") : defaultShortcuts_.value ("actionRun"));
     shortcuts_.insert (win->ui->actionSession->text().remove ("&"),
                        keys.contains ("actionSession") ? ca.value ("actionSession") : defaultShortcuts_.value ("actionSession"));
+    shortcuts_.insert (win->ui->actionSidePane->text().remove ("&"),
+                       keys.contains ("actionSidePane") ? ca.value ("actionSidePane") : defaultShortcuts_.value ("actionSidePane"));
 
     QList<QString> val = shortcuts_.values();
     for (int i = 0; i < val.size(); ++i)
@@ -332,6 +341,7 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
 
     connect (ui->closeButton, &QAbstractButton::clicked, this, &QDialog::close);
     connect (ui->helpButton, &QAbstractButton::clicked, this, &PrefDialog::showWhatsThis);
+    connect (this, &QDialog::rejected, this, &PrefDialog::onClosing);
 
     /* set tooltip as "whatsthis" */
     QList<QWidget*> widgets = findChildren<QWidget*>();
@@ -356,9 +366,14 @@ PrefDialog::~PrefDialog()
 /*************************/
 void PrefDialog::closeEvent (QCloseEvent *event)
 {
+    onClosing();
+    event->accept();
+}
+/*************************/
+void PrefDialog::onClosing()
+{
     prefShortcuts();
     prefTabPosition();
-    event->accept();
     prefRecentFilesKind();
 }
 /*************************/
@@ -393,7 +408,8 @@ void PrefDialog::showPrompt (QString str, bool temporary)
     }
     else if (sysIcons_ != config.getSysIcon()
             || iconless_ != config.getIconless()
-            || recentNumber_ != config.getRecentFilesNumber())
+            || recentNumber_ != config.getRecentFilesNumber()
+            || sidePaneMode_ != config.getSidePaneMode())
     {
         ui->promptLabel->setText ("<b>" + tr ("Application restart is needed for changes to take effect.") + "</b>");
         ui->promptLabel->setStyleSheet (style);
@@ -972,6 +988,28 @@ void PrefDialog::prefNativeDialog (int checked)
         config.setNativeDialog (true);
     else if (checked == Qt::Unchecked)
         config.setNativeDialog (false);
+}
+/*************************/
+void PrefDialog::prefSidePaneMode (int checked)
+{
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    Config& config = singleton->getConfig();
+    if (checked == Qt::Checked)
+        config.setSidePaneMode (true);
+    else if (checked == Qt::Unchecked)
+        config.setSidePaneMode (false);
+
+    showPrompt();
+}
+/*************************/
+void PrefDialog::prefSplitterPos (int checked)
+{
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    Config& config = singleton->getConfig();
+    if (checked == Qt::Checked)
+        config.setRemSplitterPos (true);
+    else if (checked == Qt::Unchecked)
+        config.setRemSplitterPos (false);
 }
 /*************************/
 void PrefDialog::onShortcutChange (QTableWidgetItem *item)

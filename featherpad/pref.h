@@ -51,6 +51,7 @@ public:
     ~PrefDialog();
 
 private slots:
+    void onClosing();
     void prefSize (int checked);
     void prefStartSize (int value);
     void prefIcon (int checked);
@@ -79,6 +80,8 @@ private slots:
     void prefRecentFilesNumber (int value);
     void prefOpenRecentFile (int value);
     void prefNativeDialog (int checked);
+    void prefSidePaneMode (int checked);
+    void prefSplitterPos (int checked);
     void prefInertialScrolling (int checked);
     void showWhatsThis();
     void prefShortcuts();
@@ -93,7 +96,7 @@ private:
 
     Ui::PrefDialog *ui;
     QWidget * parent_;
-    bool darkBg_, sysIcons_, iconless_, showWhiteSpace_, showEndings_;
+    bool darkBg_, sysIcons_, iconless_, showWhiteSpace_, showEndings_, sidePaneMode_;
     int darkColValue_, lightColValue_, recentNumber_;
     QHash<QString, QString> shortcuts_, newShortcuts_, defaultShortcuts_;
     QString prevtMsg_;

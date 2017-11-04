@@ -56,6 +56,8 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     rightClicked_ = -1;
     busyThread_ = nullptr;
 
+    sidePane_ = nullptr;
+
     /* JumpTo bar*/
     ui->spinBox->hide();
     ui->label->hide();
@@ -117,9 +119,9 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     ui->actionISO_8859_1->setActionGroup (aGroup_);
     ui->actionISO_8859_15->setActionGroup (aGroup_);
     ui->actionWindows_1252->setActionGroup (aGroup_);
-    ui->actionCryllic_CP1251->setActionGroup (aGroup_);
-    ui->actionCryllic_KOI8_U->setActionGroup (aGroup_);
-    ui->actionCryllic_ISO_8859_5->setActionGroup (aGroup_);
+    ui->actionCyrillic_CP1251->setActionGroup (aGroup_);
+    ui->actionCyrillic_KOI8_U->setActionGroup (aGroup_);
+    ui->actionCyrillic_ISO_8859_5->setActionGroup (aGroup_);
     ui->actionChineese_BIG5->setActionGroup (aGroup_);
     ui->actionChinese_GB18030->setActionGroup (aGroup_);
     ui->actionJapanese_ISO_2022_JP->setActionGroup (aGroup_);
@@ -140,8 +142,19 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     connect (ui->actionDetachTab, &QAction::triggered, this, &FPwin::detachTab);
     connect (ui->actionRightTab, &QAction::triggered, this, &FPwin::nextTab);
     connect (ui->actionLeftTab, &QAction::triggered, this, &FPwin::previousTab);
-    connect (ui->actionLastTab, &QAction::triggered, this, &FPwin::lastTab);
-    connect (ui->actionFirstTab, &QAction::triggered, this, &FPwin::firstTab);
+    if (sidePane_)
+    {
+        QString txt = ui->actionFirstTab->text();
+        ui->actionFirstTab->setText (ui->actionLastTab->text());
+        ui->actionLastTab->setText (txt);
+        connect (ui->actionFirstTab, &QAction::triggered, this, &FPwin::lastTab);
+        connect (ui->actionLastTab, &QAction::triggered, this, &FPwin::firstTab);
+    }
+    else
+    {
+        connect (ui->actionLastTab, &QAction::triggered, this, &FPwin::lastTab);
+        connect (ui->actionFirstTab, &QAction::triggered, this, &FPwin::firstTab);
+    }
     connect (ui->actionClose, &QAction::triggered, this, &FPwin::closeTab);
     connect (ui->tabWidget, &QTabWidget::tabCloseRequested, this, &FPwin::closeTabAtIndex);
     connect (ui->actionOpen, &QAction::triggered, this, &FPwin::fileOpen);
@@ -203,6 +216,13 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     connect (ui->actionAbout, &QAction::triggered, this, &FPwin::aboutDialog);
     connect (ui->actionHelp, &QAction::triggered, this, &FPwin::helpDoc);
 
+    connect (this, &FPwin::finishedLoading, [this] {
+        if (sidePane_)
+            sidePane_->listWidget()->scrollToItem (sidePane_->listWidget()->currentItem());
+    });
+    ui->actionSidePane->setAutoRepeat (false); // don't let UI change too rapidly
+    connect (ui->actionSidePane, &QAction::triggered, [this] {toggleSidePane();});
+
     /***************************************************************************
      *****     KDE (KAcceleratorManager) has a nasty "feature" that        *****
      *****   "smartly" gives mnemonics to tab and tool button texts so     *****
@@ -227,7 +247,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
 
     QShortcut *fullscreen = new QShortcut (QKeySequence (tr ("F11")), this);
     QShortcut *defaultsize = new QShortcut (QKeySequence (tr ("Ctrl+Shift+W")), this);
-    connect (fullscreen, &QShortcut::activated, this, &FPwin::fullScreening);
+    connect (fullscreen, &QShortcut::activated, [this] {setWindowState (windowState() ^ Qt::WindowFullScreen);});
     connect (defaultsize, &QShortcut::activated, this, &FPwin::defaultSize);
 
     /* this workaround, for the RTL bug in QPlainTextEdit, isn't needed
@@ -263,8 +283,66 @@ void FPwin::closeEvent (QCloseEvent *event)
         Config& config = singleton->getConfig();
         if (config.getRemSize() && windowState() == Qt::WindowNoState)
             config.setWinSize (size());
+        if (sidePane_ && config.getRemSplitterPos())
+        {
+            QList<int> sizes = ui->splitter->sizes();
+            config.setSplitterPos (qRound (100.0 * (qreal)sizes.at (0) / (qreal)(sizes.at (0) + sizes.at (1))));
+        }
         singleton->removeWin (this);
         event->accept();
+    }
+}
+/*************************/
+void FPwin::toggleSidePane()
+{
+    if (!sidePane_)
+    {
+        ui->tabWidget->tabBar()->hide();
+        sidePane_ = new SidePane();
+        ui->splitter->insertWidget (0, sidePane_);
+        int mult = size().width() / 100; // for more precision
+        int sp = static_cast<FPsingleton*>(qApp)->getConfig().getSplitterPos();
+        QList<int> sizes;
+        sizes << sp * mult << (100 - sp) * mult;
+        ui->splitter->setSizes (sizes);
+        connect (sidePane_->listWidget(), &QWidget::customContextMenuRequested, this, &FPwin::listContextMenu);
+        connect (sidePane_->listWidget(), &QListWidget::currentItemChanged, this, &FPwin::changeTab);
+        connect (sidePane_->listWidget(), &ListWidget::closItem, [this](QListWidgetItem* item) {
+            if (!sideItems_.isEmpty())
+                closeTabAtIndex (ui->tabWidget->indexOf (sideItems_.value (item)));
+        });
+
+        if (ui->tabWidget->count() > 0)
+        {
+            updateShortcuts (true);
+            int curIndex = ui->tabWidget->currentIndex();
+            ListWidget *lw = sidePane_->listWidget();
+            for (int i = 0; i < ui->tabWidget->count(); ++i)
+            {
+                TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (i));
+                QString txt = ui->tabWidget->tabText (i);
+                if (tabPage->textEdit()->document()->isModified() && txt.startsWith ("*"))
+                {
+                    txt.remove (0, 1);
+                    txt.append ("*");
+                }
+                QListWidgetItem *lwi = new QListWidgetItem (txt, lw);
+                lwi->setToolTip (ui->tabWidget->tabToolTip (i));
+                sideItems_.insert (lwi, tabPage);
+                lw->addItem (lwi);
+                if (i == curIndex)
+                    lw->setCurrentItem (lwi);
+            }
+            sidePane_->listWidget()->scrollTo (sidePane_->listWidget()->currentIndex());
+            updateShortcuts (false);
+        }
+    }
+    else
+    {
+        sideItems_.clear();
+        delete sidePane_;
+        sidePane_ = nullptr;
+        ui->tabWidget->tabBar()->show();
     }
 }
 /*************************/
@@ -304,6 +382,9 @@ void FPwin::applyConfig()
     ui->actionMenu->setVisible (config.getNoMenubar());
 
     ui->actionDoc->setVisible (!config.getShowStatusbar());
+
+    if (config.getSidePaneMode())
+        toggleSidePane();
 
     ui->actionWrap->setChecked (config.getWrapByDefault());
 
@@ -564,6 +645,14 @@ bool FPwin::hasAnotherDialog()
 void FPwin::deleteTabPage (int index)
 {
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
+    if (sidePane_ && !sideItems_.isEmpty())
+    {
+        if (QListWidgetItem *wi = sideItems_.key (tabPage))
+        {
+            sideItems_.remove (wi);
+            delete sidePane_->listWidget()->takeItem (sidePane_->listWidget()->row (wi));
+        }
+    }
     TextEdit *textEdit = tabPage->textEdit();
     if (textEdit->getSaveCursor())
     {
@@ -697,6 +786,7 @@ bool FPwin::closeTabs (int leftIndx, int rightIndx)
 /*************************/
 void FPwin::copyTabFileName()
 {
+    if (rightClicked_ < 0) return;
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (rightClicked_));
     QString fname = tabPage->textEdit()->getFileName();
     QApplication::clipboard()->setText (QFileInfo (fname).fileName());
@@ -704,6 +794,7 @@ void FPwin::copyTabFileName()
 /*************************/
 void FPwin::copyTabFilePath()
 {
+    if (rightClicked_ < 0) return;
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (rightClicked_));
     QString str = tabPage->textEdit()->getFileName();
     str.chop (QFileInfo (str).fileName().count());
@@ -897,6 +988,8 @@ void FPwin::updateCustomizableShortcuts (bool disable)
         ui->actionJump->setShortcut (QKeySequence());
         ui->actionRun->setShortcut (QKeySequence());
         ui->actionSession->setShortcut (QKeySequence());
+
+        ui->actionSidePane->setShortcut (QKeySequence());
     }
     else
     {
@@ -928,6 +1021,8 @@ void FPwin::updateCustomizableShortcuts (bool disable)
         ui->actionJump->setShortcut (keys.contains ("actionJump") ? ca.value ("actionJump") : QKeySequence (tr ("Ctrl+J")));
         ui->actionRun->setShortcut (keys.contains ("actionRun") ? ca.value ("actionRun") : QKeySequence (tr ("Ctrl+E")));
         ui->actionSession->setShortcut (keys.contains ("actionSession") ? ca.value ("actionSession") : QKeySequence (tr ("Ctrl+M")));
+
+        ui->actionSidePane->setShortcut (keys.contains ("actionSidePane") ? ca.value ("actionSidePane") : QKeySequence (tr ("Ctrl+Alt+P")));
     }
 }
 /*************************/
@@ -1078,6 +1173,20 @@ TabPage* FPwin::createEmptyTab (bool setCurrent)
        I neither know why this s a workaround: */
     QApplication::clipboard()->text (QClipboard::Selection);
 
+    if (sidePane_)
+    {
+        ListWidget *lw = sidePane_->listWidget();
+        QListWidgetItem *lwi = new QListWidgetItem (tr ("Untitled"), lw);
+        lwi->setToolTip (tr ("Unsaved"));
+        sideItems_.insert (lwi, tabPage);
+        lw->addItem (lwi);
+        if (setCurrent
+            || index == -1) // for tabs, it's done automatically
+        {
+            lw->setCurrentItem (lwi);
+        }
+    }
+
     if (setCurrent)
     {
         ui->tabWidget->setCurrentWidget (tabPage);
@@ -1171,24 +1280,24 @@ void FPwin::zoomZero()
     reformat (textEdit);
 }
 /*************************/
-void FPwin::fullScreening()
-{
-    setWindowState (windowState() ^ Qt::WindowFullScreen);
-}
-/*************************/
 void FPwin::defaultSize()
 {
-    if (size() == QSize (700, 500)) return;
-    if (isMaximized() && isFullScreen())
+    QSize s = static_cast<FPsingleton*>(qApp)->getConfig().getStartSize();
+    if (size() == s) return;
+    if (isMaximized() || isFullScreen())
+        showNormal();
+    /*if (isMaximized() && isFullScreen())
         showMaximized();
     if (isMaximized())
-        showNormal();
+        showNormal();*/
     /* instead of hiding, reparent with the dummy
        widget to guarantee resizing under all DEs */
-    setParent (dummyWidget, Qt::SubWindow);
-    resize (static_cast<FPsingleton*>(qApp)->getConfig().getStartSize());
-    if (parent() != nullptr)
-        setParent (nullptr, Qt::Window);
+    /*Qt::WindowFlags flags = windowFlags();
+    setParent (dummyWidget, Qt::SubWindow);*/
+    hide();
+    resize (s);
+    /*if (parent() != nullptr)
+        setParent (nullptr, flags);*/
     QTimer::singleShot (0, this, SLOT (show()));
 }
 /*************************/
@@ -1435,6 +1544,12 @@ void FPwin::setTitle (const QString& fileName, int indx)
 
     shownName.replace ("&", "&&"); // single ampersand is for mnemonic
     ui->tabWidget->setTabText (index, shownName);
+
+    if (sidePane_ && !sideItems_.isEmpty())
+    {
+        if (QListWidgetItem *wi = sideItems_.key (qobject_cast<TabPage*>(ui->tabWidget->widget (index))))
+            wi->setText (shownName);
+    }
 }
 /*************************/
 void FPwin::asterisk (bool modified)
@@ -1444,26 +1559,28 @@ void FPwin::asterisk (bool modified)
     QString fname = qobject_cast< TabPage *>(ui->tabWidget->widget (index))
                     ->textEdit()->getFileName();
     QString shownName;
-    if (modified)
-    {
-        if (fname.isEmpty())
-            shownName = tr ("*Untitled");
-        else
-            shownName = QFileInfo (fname).fileName().prepend("*");
-    }
+    if (fname.isEmpty())
+        shownName = tr ("Untitled");
     else
-    {
-        if (fname.isEmpty())
-            shownName = tr ("Untitled");
-        else
-            shownName = QFileInfo (fname).fileName();
-    }
+        shownName = QFileInfo (fname).fileName();
+    if (modified)
+        shownName.prepend ("*");
     shownName.replace ("\n", " ");
 
     setWindowTitle (shownName);
 
     shownName.replace ("&", "&&");
     ui->tabWidget->setTabText (index, shownName);
+
+    if (sidePane_)
+    {
+        if (modified)
+        {
+            shownName.remove (0, 1);
+            shownName.append ("*");
+        }
+        sidePane_->listWidget()->currentItem()->setText (shownName);
+    }
 }
 /*************************/
 void FPwin::waitToMakeBusy()
@@ -1532,12 +1649,16 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
     if (enforceEncod || reload)
         multiple = false; // respect the logic
 
+    /* only for the side-pane mode */
+    static bool scrollToFirstItem (false);
+    static TabPage *firstPage = nullptr;
+
     TextEdit *textEdit;
     TabPage *tabPage;
     if (ui->tabWidget->currentIndex() == -1)
         tabPage = createEmptyTab (!multiple);
     else
-        tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
+        tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget());
     textEdit = tabPage->textEdit();
 
     bool openInCurrentTab (true);
@@ -1553,6 +1674,8 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
     }
     else
     {
+        if (sidePane_ && !reload && !enforceEncod) // an unused empty tab
+            scrollToFirstItem = true;
         /*if (isMinimized())
             setWindowState (windowState() & (~Qt::WindowMinimized | Qt::WindowActive));*/
         if (static_cast<FPsingleton*>(qApp)->isX11() && isWindowShaded (winId()))
@@ -1561,6 +1684,13 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
         raise();
     }
     textEdit->setSaveCursor (saveCursor);
+
+    if (scrollToFirstItem
+        && (!firstPage
+            || firstPage->textEdit()->getFileName().compare (fileName, Qt::CaseInsensitive) > 0))
+    {
+        firstPage = tabPage;
+    }
 
     /* this workaround, for the RTL bug in QPlainTextEdit, isn't needed
        because a better workaround is included in textedit.cpp */
@@ -1679,6 +1809,8 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
     if (w > 200 * metrics.width (' ')) w = 200 * metrics.width (' ');
     QString elidedTip = metrics.elidedText (tip, Qt::ElideMiddle, w);
     ui->tabWidget->setTabToolTip (ui->tabWidget->indexOf (tabPage), elidedTip);
+    if (!sideItems_.isEmpty())
+        sideItems_.key (tabPage)->setToolTip (elidedTip);
 
     if (alreadyOpen (tabPage))
     {
@@ -1746,6 +1878,13 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
                 disconnectLambda();
             });
         }
+        /* select the first item (sidePane_ exists) */
+        else if (firstPage && !sideItems_.isEmpty())
+            sidePane_->listWidget()->setCurrentItem (sideItems_.key (firstPage));
+        /* reset the static variables */
+        scrollToFirstItem = false;
+        firstPage = nullptr;
+
         emit finishedLoading();
     }
 }
@@ -1767,8 +1906,11 @@ void FPwin::showWarningBar (const QString& message)
     closeWarningBar();
 
     WarningBar *bar = new WarningBar (message, iconMode_);
-    ui->verticalLayout->insertWidget (2, bar);
-    connect (bar, &WarningBar::closeButtonPressed, [=]{ui->verticalLayout->removeWidget(bar); bar->deleteLater();});
+    ui->verticalLayout->insertWidget (ui->verticalLayout->count(), bar); // at end
+    connect (bar, &WarningBar::closeButtonPressed, [=] {
+        ui->verticalLayout->removeWidget(bar);
+        bar->deleteLater();
+    });
 }
 /*************************/
 void FPwin::showCrashWarning()
@@ -1781,7 +1923,7 @@ void FPwin::showCrashWarning()
 /*************************/
 void FPwin::closeWarningBar()
 {
-    if (QLayoutItem *item = ui->verticalLayout->itemAt (2))
+    if (QLayoutItem *item = ui->verticalLayout->itemAt (ui->verticalLayout->count() - 1))
     {
         if (WarningBar *wb = qobject_cast<WarningBar*>(item->widget()))
         {
@@ -2208,6 +2350,8 @@ bool FPwin::saveFile (bool keepSyntax)
         if (w > 200 * metrics.width (' ')) w = 200 * metrics.width (' ');
         QString elidedTip = metrics.elidedText (tip, Qt::ElideMiddle, w);
         ui->tabWidget->setTabToolTip (index, elidedTip);
+        if (!sideItems_.isEmpty())
+            sideItems_.key (tabPage)->setToolTip (elidedTip);
         lastFile_ = fname;
         config.addRecentFile (lastFile_);
         if (!keepSyntax)
@@ -2407,6 +2551,12 @@ void FPwin::redoing()
     qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit()->redo();
 }
 /*************************/
+void FPwin::changeTab (QListWidgetItem *current, QListWidgetItem* /*previous*/)
+{
+    if (!sidePane_ || sideItems_.isEmpty()) return;
+    ui->tabWidget->setCurrentWidget (sideItems_.value (current));
+}
+/*************************/
 // Change the window title and the search entry when switching tabs and...
 void FPwin::tabSwitch (int index)
 {
@@ -2427,25 +2577,17 @@ void FPwin::tabSwitch (int index)
     bool modified (textEdit->document()->isModified());
 
     QString shownName;
-    if (modified)
+    if (fname.isEmpty())
     {
-        if (fname.isEmpty())
-            shownName = tr ("*Untitled");
+        if (textEdit->getProg() == "help")
+            shownName = "** " + tr ("Help") + " **";
         else
-            shownName = QFileInfo (fname).fileName().prepend("*");
+            shownName = tr ("Untitled");
     }
     else
-    {
-        if (fname.isEmpty())
-        {
-            if (textEdit->getProg() == "help")
-                shownName = "** " + tr ("Help") + " **";
-            else
-                shownName = tr ("Untitled");
-        }
-        else
-            shownName = QFileInfo (fname).fileName();
-    }
+        shownName = QFileInfo (fname).fileName();
+    if (modified)
+        shownName.prepend ("*");
     shownName.replace ("\n", " ");
     setWindowTitle (shownName);
 
@@ -2779,11 +2921,11 @@ void FPwin::encodingToCheck (const QString& encoding)
     else if (encoding == "CP1252")
         ui->actionWindows_1252->setChecked (true);
     else if (encoding == "CP1251")
-        ui->actionCryllic_CP1251->setChecked (true);
+        ui->actionCyrillic_CP1251->setChecked (true);
     else if (encoding == "KOI8-U")
-        ui->actionCryllic_KOI8_U->setChecked (true);
+        ui->actionCyrillic_KOI8_U->setChecked (true);
     else if (encoding == "ISO-8859-5")
-        ui->actionCryllic_ISO_8859_5->setChecked (true);
+        ui->actionCyrillic_ISO_8859_5->setChecked (true);
     else if (encoding == "BIG5")
         ui->actionChineese_BIG5->setChecked (true);
     else if (encoding == "B18030")
@@ -2827,11 +2969,11 @@ const QString FPwin::checkToEncoding() const
         encoding = "ISO-8859-15";
     else if (ui->actionWindows_1252->isChecked())
         encoding = "CP1252";
-    else if (ui->actionCryllic_CP1251->isChecked())
+    else if (ui->actionCyrillic_CP1251->isChecked())
         encoding = "CP1251";
-    else if (ui->actionCryllic_KOI8_U->isChecked())
+    else if (ui->actionCyrillic_KOI8_U->isChecked())
         encoding = "KOI8-U";
-    else if (ui->actionCryllic_ISO_8859_5->isChecked())
+    else if (ui->actionCyrillic_ISO_8859_5->isChecked())
         encoding = "ISO-8859-5";
     else if (ui->actionChineese_BIG5->isChecked())
         encoding = "BIG5";
@@ -3017,10 +3159,24 @@ void FPwin::nextTab()
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
 
-    if (QWidget *widget = ui->tabWidget->widget (index + 1))
-        ui->tabWidget->setCurrentWidget (widget);
-    else if (static_cast<FPsingleton*>(qApp)->getConfig().getTabWrapAround())
-        ui->tabWidget->setCurrentIndex (0);
+    if (sidePane_)
+    {
+        int curRow = sidePane_->listWidget()->currentRow();
+        if (curRow == sidePane_->listWidget()->count() - 1)
+        {
+            if (static_cast<FPsingleton*>(qApp)->getConfig().getTabWrapAround())
+                sidePane_->listWidget()->setCurrentRow (0);
+        }
+        else
+            sidePane_->listWidget()->setCurrentRow (curRow + 1);
+    }
+    else
+    {
+        if (QWidget *widget = ui->tabWidget->widget (index + 1))
+            ui->tabWidget->setCurrentWidget (widget);
+        else if (static_cast<FPsingleton*>(qApp)->getConfig().getTabWrapAround())
+            ui->tabWidget->setCurrentIndex (0);
+    }
 }
 /*************************/
 void FPwin::previousTab()
@@ -3030,13 +3186,27 @@ void FPwin::previousTab()
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
 
-    if (QWidget *widget = ui->tabWidget->widget (index - 1))
-        ui->tabWidget->setCurrentWidget (widget);
-    else if (static_cast<FPsingleton*>(qApp)->getConfig().getTabWrapAround())
+    if (sidePane_)
     {
-        int count = ui->tabWidget->count();
-        if (count > 0)
-            ui->tabWidget->setCurrentIndex (count - 1);
+        int curRow = sidePane_->listWidget()->currentRow();
+        if (curRow == 0)
+        {
+            if (static_cast<FPsingleton*>(qApp)->getConfig().getTabWrapAround())
+                sidePane_->listWidget()->setCurrentRow (sidePane_->listWidget()->count() - 1);
+        }
+        else
+            sidePane_->listWidget()->setCurrentRow (curRow - 1);
+    }
+    else
+    {
+        if (QWidget *widget = ui->tabWidget->widget (index - 1))
+            ui->tabWidget->setCurrentWidget (widget);
+        else if (static_cast<FPsingleton*>(qApp)->getConfig().getTabWrapAround())
+        {
+            int count = ui->tabWidget->count();
+            if (count > 0)
+                ui->tabWidget->setCurrentIndex (count - 1);
+        }
     }
 }
 /*************************/
@@ -3044,16 +3214,30 @@ void FPwin::lastTab()
 {
     if (isLoading()) return;
 
-    int count = ui->tabWidget->count();
-    if (count > 0)
-        ui->tabWidget->setCurrentIndex (count - 1);
+    if (sidePane_)
+    {
+        int count = sidePane_->listWidget()->count();
+        if (count > 0)
+            sidePane_->listWidget()->setCurrentRow (count - 1);
+    }
+    else
+    {
+        int count = ui->tabWidget->count();
+        if (count > 0)
+            ui->tabWidget->setCurrentIndex (count - 1);
+    }
 }
 /*************************/
 void FPwin::firstTab()
 {
     if (isLoading()) return;
 
-    if ( ui->tabWidget->count() > 0)
+    if (sidePane_)
+    {
+        if (sidePane_->listWidget()->count() > 0)
+            sidePane_->listWidget()->setCurrentRow (0);
+    }
+    else if (ui->tabWidget->count() > 0)
         ui->tabWidget->setCurrentIndex (0);
 }
 /*************************/
@@ -3130,6 +3314,14 @@ void FPwin::detachTab()
         ui->actionLastTab->setDisabled (true);
         ui->actionFirstTab->setDisabled (true);
     }
+    if (sidePane_ && !sideItems_.isEmpty())
+    {
+        if (QListWidgetItem *wi = sideItems_.key (tabPage))
+        {
+            sideItems_.remove (wi);
+            delete sidePane_->listWidget()->takeItem (sidePane_->listWidget()->row (wi));
+        }
+    }
 
     /*******************************************************************
      ***** create a new window and replace its tab by this widget. *****
@@ -3145,6 +3337,20 @@ void FPwin::detachTab()
     textEdit->setRedSel (QList<QTextEdit::ExtraSelection>());
     /* ... then insert the detached widget... */
     dropTarget->ui->tabWidget->insertTab (0, tabPage, tabText);
+    if (dropTarget->sidePane_)
+    {
+        ListWidget *lw = dropTarget->sidePane_->listWidget();
+        if (textEdit->document()->isModified())
+        {
+            tabText.remove (0, 1);
+            tabText.append ("*");
+        }
+        QListWidgetItem *lwi = new QListWidgetItem (tabText, lw);
+        lw->setToolTip (tooltip);
+        dropTarget->sideItems_.insert (lwi, tabPage);
+        lw->addItem (lwi);
+        lw->setCurrentItem (lwi);
+    }
     /* ... and remove all yellow and green highlights
        (the yellow ones will be recreated later if needed) */
     QList<QTextEdit::ExtraSelection> es;
@@ -3319,7 +3525,7 @@ void FPwin::dropTab (QString str)
        tabbar might not be updated properly with tab reordering during a fast drag-and-drop */
     dragSource->ui->tabWidget->tabBar()->releaseMouse();
 
-    dragSource->ui->tabWidget->removeTab (index);
+    dragSource->ui->tabWidget->removeTab (index); // there can't be a side-pane here
     int count = dragSource->ui->tabWidget->count();
     if (count == 1)
     {
@@ -3357,6 +3563,20 @@ void FPwin::dropTab (QString str)
                                       ->isSearchBarVisible());
     }
     ui->tabWidget->insertTab (insertIndex, tabPage, tabText);
+    if (sidePane_)
+    {
+        ListWidget *lw = sidePane_->listWidget();
+        if (textEdit->document()->isModified())
+        {
+            tabText.remove (0, 1);
+            tabText.append ("*");
+        }
+        QListWidgetItem *lwi = new QListWidgetItem (tabText, lw);
+        lw->setToolTip (tooltip);
+        sideItems_.insert (lwi, tabPage);
+        lw->addItem (lwi);
+        lw->setCurrentItem (lwi);
+    }
     ui->tabWidget->setCurrentIndex (insertIndex);
     /* ... and remove all yellow and green highlights
        (the yellow ones will be recreated later if needed) */
@@ -3495,6 +3715,40 @@ void FPwin::tabContextMenu (const QPoint& p)
         menu.exec (tbar->mapToGlobal (p));
 }
 /*************************/
+void FPwin::listContextMenu (const QPoint& p)
+{
+    if (!sidePane_) return;
+
+    ListWidget *lw = sidePane_->listWidget();
+    QModelIndex index = lw->indexAt (p);
+    if (!index.isValid()) return;
+    lw->selectionModel()->select (index, QItemSelectionModel::ClearAndSelect); // not needed
+
+    rightClicked_ = ui->tabWidget->currentIndex();
+    if (rightClicked_ < 0) return;
+
+    QString fname = qobject_cast< TabPage *>(ui->tabWidget->widget (rightClicked_))
+                    ->textEdit()->getFileName();
+
+    QMenu menu;
+    menu.addAction (ui->actionClose);
+    if (lw->count() > 1)
+    {
+        menu.addSeparator();
+        menu.addAction (ui->actionCloseOther);
+        menu.addAction (ui->actionCloseAll);
+        menu.addSeparator();
+        menu.addAction (ui->actionDetachTab);
+    }
+    if (!fname.isEmpty())
+    {
+        menu.addSeparator();
+        menu.addAction (ui->actionCopyName);
+        menu.addAction (ui->actionCopyPath);
+    }
+    menu.exec (lw->mapToGlobal (p));
+}
+/*************************/
 void FPwin::prefDialog()
 {
     if (isLoading()) return;
@@ -3526,6 +3780,7 @@ void FPwin::prefDialog()
         defaultShortcuts.insert ("actionDetachTab", tr ("Ctrl+T"));
         defaultShortcuts.insert ("actionRun", tr ("Ctrl+E"));
         defaultShortcuts.insert ("actionSession", tr ("Ctrl+M"));
+        defaultShortcuts.insert ("actionSidePane", tr ("Ctrl+Alt+P"));
     }
 
     updateShortcuts (true);
@@ -3623,13 +3878,13 @@ void FPwin::helpDoc()
     if (!helpFile.exists()) return;
     if (!helpFile.open (QFile::ReadOnly)) return;
 
-    TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->currentWidget())->textEdit();
+    TextEdit *textEdit = qobject_cast<TabPage*>(ui->tabWidget->currentWidget())->textEdit();
     if (!textEdit->document()->isEmpty()
         || textEdit->document()->isModified()
         || !textEdit->getFileName().isEmpty()) // an empty file is just opened
     {
         newTab();
-        textEdit = qobject_cast< TabPage *>(ui->tabWidget->currentWidget())->textEdit();
+        textEdit = qobject_cast<TabPage*>(ui->tabWidget->currentWidget())->textEdit();
     }
 
     QByteArray data = helpFile.readAll();
@@ -3669,6 +3924,12 @@ void FPwin::helpDoc()
     setWindowTitle (title + "[*]");
     setWindowModified (false);
     ui->tabWidget->setTabToolTip (index, title);
+    if (sidePane_)
+    {
+        QListWidgetItem *cur = sidePane_->listWidget()->currentItem();
+        cur->setText (title);
+        cur->setToolTip (title);
+    }
 }
 
 }

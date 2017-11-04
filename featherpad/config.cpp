@@ -23,12 +23,14 @@ namespace FeatherPad {
 
 Config::Config():
     remSize_ (true),
+    remSplitterPos_ (true),
     iconless_ (false),
     sysIcon_ (false),
     noToolbar_ (false),
     noMenubar_ (false),
     hideSearchbar_ (false),
     showStatusbar_ (false),
+    sidePaneMode_ (false),
     remFont_ (true),
     wrapByDefault_ (true),
     indentByDefault_ (true),
@@ -55,6 +57,7 @@ Config::Config():
     curRecentFilesNumber_ (10), // not needed
     winSize_ (QSize (700, 500)),
     startSize_ (QSize (700, 500)),
+    splitterPos_ (20), // percentage
     font_ (QFont ("Monospace", 9)),
     openRecentFiles_ (0),
     recentOpened_ (false),
@@ -86,6 +89,11 @@ void Config::readConfig()
     if (!startSize_.isValid() || startSize_.isNull())
         startSize_ = QSize (700, 500);
 
+    if (settings.value ("splitterPos") == "none")
+        remSplitterPos_ = false; // true by default
+    else
+        splitterPos_ = qMin (qMax (settings.value ("splitterPos", 20).toInt(), 0), 100);
+
     if (settings.value ("iconless").toBool())
         iconless_ = true; // false by default
 
@@ -109,6 +117,9 @@ void Config::readConfig()
 
     if (settings.value ("showStatusbar").toBool())
         showStatusbar_ = true; // false by default
+
+    if (settings.value ("sidePaneMode").toBool())
+        sidePaneMode_ = true; // false by default
 
     int pos = settings.value ("tabPosition").toInt();
     if (pos > 0 && pos <= 3)
@@ -237,6 +248,11 @@ void Config::writeConfig()
         settings.remove ("fullscreen");
     }
 
+    if (remSplitterPos_)
+        settings.setValue ("splitterPos", splitterPos_);
+    else
+        settings.setValue ("splitterPos", "none");
+
     settings.setValue ("startSize", startSize_);
     settings.setValue ("iconless", iconless_);
     settings.setValue ("sysIcon", sysIcon_);
@@ -244,6 +260,7 @@ void Config::writeConfig()
     settings.setValue ("noMenubar", noMenubar_);
     settings.setValue ("hideSearchbar", hideSearchbar_);
     settings.setValue ("showStatusbar", showStatusbar_);
+    settings.setValue ("sidePaneMode", sidePaneMode_);
     settings.setValue ("tabPosition", tabPosition_);
     settings.setValue ("tabWrapAround", tabWrapAround_);
     settings.setValue ("hideSingleTab", hideSingleTab_);

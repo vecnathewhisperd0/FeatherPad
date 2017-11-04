@@ -154,7 +154,7 @@ static const std::string detectCharsetLatin (const char *text)
         }
         else if (c >= 0xC0)
         {
-            /* Arabic or Cryllic letters */
+            /* Arabic or Cyrillic letters */
             xac ++;
             if (c >= 0xC0 && c <= 0xCF)
                 /* Cyrillic capital letters */
@@ -200,12 +200,12 @@ static const std::string detectCharsetLatin (const char *text)
         else if (xcC + xcC1 < xcS && xcna > 0)
         {
             if (noniso || noniso15) // FIXME: this is very inefficient
-                charset = "CP1251"; // Cryllic-1251
+                charset = "CP1251"; // Cyrillic-1251
             else
                 charset = "ISO-8859-15";
         }
         else if (xcC1 + xcS < xcC && xcna > 0)
-            charset = "KOI8-U"; // Cryllic-KOI
+            charset = "KOI8-U"; // Cyrillic-KOI
         /* this should cover most cases */
         else if (noniso || xcC + xcC1 + xa >= xcS - xa)
             charset = "CP1256"; // MS Windows Arabic

@@ -74,7 +74,7 @@ SearchBar::SearchBar(QWidget *parent,
     setTabOrder (lineEdit_, toolButton_nxt_);
     setTabOrder (toolButton_nxt_, toolButton_prv_);
 
-    QGridLayout *mainGrid = new QGridLayout (this);
+    QGridLayout *mainGrid = new QGridLayout;
     mainGrid->setHorizontalSpacing (1);
     mainGrid->setContentsMargins (2, 0, 2, 0);
     mainGrid->addWidget (lineEdit_, 0, 0);

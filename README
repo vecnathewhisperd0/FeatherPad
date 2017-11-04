@@ -11,6 +11,7 @@ FeatherPad (by Pedram Pourang, a.k.a. Tsu Jan <tsujan2000@gmail.com>) is a light
 * Automatic detection of text encoding as far as possible and optional saving with encoding;
 * Syntax highlighting for common programming languages;
 * Session management;
+* Side-pane mode;
 * Printing;
 * Text zooming;
 * Appropriate but non-interrupting prompts;
@@ -19,4 +20,4 @@ And other features that can be found in its settings, on its menus or when it is
 
 Please see INSTALL for instructions on compilation, installation and translation!
 
-FeatherPad was written in GTK+-2.0 at first, then ported to GTK+-3.0, Qt4 (with new features) and, at last, Qt5.
+FeatherPad was written in GTK+ at first, then ported to Qt with more features. Its homepage is https://github.com/tsujan/FeatherPad.

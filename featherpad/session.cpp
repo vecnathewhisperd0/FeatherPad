@@ -74,7 +74,7 @@ SessionDialog::SessionDialog (QWidget *parent):QDialog (parent), ui (new Ui::Ses
 
     connect (ui->closeButton, &QAbstractButton::clicked, this, &QDialog::close);
 
-    connect(ui->filterLineEdit,&QLineEdit::textChanged, this, &SessionDialog::filter);
+    connect (ui->filterLineEdit, &QLineEdit::textChanged, this, &SessionDialog::filter);
 
     resize (QSize (parent_->size().width()/2, 3*parent_->size().height()/4));
 }

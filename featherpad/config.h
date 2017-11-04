@@ -56,6 +56,13 @@ public:
         remSize_ = rem;
     }
 
+    bool getRemSplitterPos() const {
+        return remSplitterPos_;
+    }
+    void setRemSplitterPos (bool rem) {
+        remSplitterPos_ = rem;
+    }
+
     bool getIconless() const {
         return iconless_;
     }
@@ -143,6 +150,13 @@ public:
         startSize_ = s;
     }
 
+    int getSplitterPos() const {
+        return splitterPos_;
+    }
+    void setSplitterPos (int pos) {
+        splitterPos_ = pos;
+    }
+
     bool getNoToolbar() const {
         return noToolbar_;
     }
@@ -169,6 +183,13 @@ public:
     }
     void setShowStatusbar (bool show) {
         showStatusbar_ = show;
+    }
+
+    bool getSidePaneMode() const {
+        return sidePaneMode_;
+    }
+    void setSidePaneMode (bool sidePane) {
+        sidePaneMode_ = sidePane;
     }
 
     int getTabPosition() const {
@@ -360,13 +381,14 @@ private:
     bool isValidShortCut (const QVariant v);
     void readCursorPos();
 
-    bool remSize_, iconless_, sysIcon_, noToolbar_, noMenubar_, hideSearchbar_, showStatusbar_, remFont_, wrapByDefault_,
+    bool remSize_, remSplitterPos_, iconless_, sysIcon_, noToolbar_, noMenubar_, hideSearchbar_, showStatusbar_, sidePaneMode_, remFont_, wrapByDefault_,
          indentByDefault_, autoBracket_, lineByDefault_, syntaxByDefault_, showWhiteSpace_, showEndings_, isMaxed_, isFull_,
          darkColScheme_, tabWrapAround_, hideSingleTab_, executeScripts_, appendEmptyLine_, nativeDialog_, inertialScrolling_,
          scrollJumpWorkaround_; // Should a workaround for Qt5's "scroll jump" bug be applied?
     int tabPosition_, maxSHSize_, lightBgColorValue_, darkBgColorValue_, recentFilesNumber_;
     int curRecentFilesNumber_; // the start value of recentFilesNumber_ -- fixed during a session
     QSize winSize_, startSize_;
+    int splitterPos_;
     QFont font_;
     QString executeCommand_;
     int openRecentFiles_;

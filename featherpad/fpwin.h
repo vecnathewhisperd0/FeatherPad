@@ -23,6 +23,7 @@
 #include "highlighter.h"
 #include "textedit.h"
 #include "tabpage.h"
+#include "sidepane.h"
 #include "config.h"
 
 namespace FeatherPad {
@@ -140,7 +141,6 @@ private slots:
     void zoomIn();
     void zoomOut();
     void zoomZero();
-    void fullScreening();
     void defaultSize();
     //void align();
     void manageSessions();
@@ -156,6 +156,7 @@ private slots:
     void lastTab();
     void firstTab();
     void tabContextMenu (const QPoint& p);
+    void listContextMenu (const QPoint& p);
     void prefDialog();
     void aboutDialog();
     void helpDoc();
@@ -209,6 +210,8 @@ private:
     void showWarningBar (const QString& message);
     void closeWarningBar();
     void disconnectLambda();
+    void changeTab (QListWidgetItem *current, QListWidgetItem*);
+    void toggleSidePane();
 
     QActionGroup *aGroup_;
     QString lastFile_; // The last opened or saved file (for file dialogs).
@@ -218,6 +221,8 @@ private:
     QPointer<QThread> busyThread_; // Used to wait one second for making the cursor busy.
     ICONMODE iconMode_; // Used only internally.
     QMetaObject::Connection lambdaConnection_; // Captures a lambda connection to disconnect it later.
+    SidePane *sidePane_;
+    QHash<QListWidgetItem*, TabPage*> sideItems_; // For fast tab switching.
 };
 
 }
