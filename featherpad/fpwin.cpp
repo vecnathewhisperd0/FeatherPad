@@ -326,7 +326,7 @@ void FPwin::toggleSidePane()
                 if (fname.isEmpty())
                     fname = tr ("Untitled");
                 else
-                    fname = QFileInfo (fname).fileName();
+                    fname = fname.section ('/', -1);
                 if (tabPage->textEdit()->document()->isModified())
                     fname.append ("*");
                 fname.replace ("\n", " ");
@@ -793,7 +793,7 @@ void FPwin::copyTabFileName()
     if (rightClicked_ < 0) return;
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (rightClicked_));
     QString fname = tabPage->textEdit()->getFileName();
-    QApplication::clipboard()->setText (QFileInfo (fname).fileName());
+    QApplication::clipboard()->setText (fname.section ('/', -1));
 }
 /*************************/
 void FPwin::copyTabFilePath()
@@ -801,7 +801,7 @@ void FPwin::copyTabFilePath()
     if (rightClicked_ < 0) return;
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (rightClicked_));
     QString str = tabPage->textEdit()->getFileName();
-    str.chop (QFileInfo (str).fileName().count());
+    str.chop (str.section ('/', -1).count());
     QApplication::clipboard()->setText (str);
 }
 /*************************/
@@ -1539,7 +1539,7 @@ void FPwin::setTitle (const QString& fileName, int indx)
         shownName = tr ("Untitled");
     else
     {
-        shownName = QFileInfo (fileName).fileName();
+        shownName = fileName.section ('/', -1);
         shownName.replace ("\n", " "); // no multi-line tab text
     }
 
@@ -1566,7 +1566,7 @@ void FPwin::asterisk (bool modified)
     if (fname.isEmpty())
         shownName = tr ("Untitled");
     else
-        shownName = QFileInfo (fname).fileName();
+        shownName = fname.section ('/', -1);
     if (modified)
         shownName.prepend ("*");
     shownName.replace ("\n", " ");
@@ -1689,9 +1689,12 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
     }
     textEdit->setSaveCursor (saveCursor);
 
+    QFileInfo fInfo (fileName);
+
     if (scrollToFirstItem
         && (!firstPage
-            || firstPage->textEdit()->getFileName().compare (fileName, Qt::CaseInsensitive) > 0))
+            || firstPage->textEdit()->getFileName().section ('/', -1).
+               compare (fInfo.fileName(), Qt::CaseInsensitive) > 0))
     {
         firstPage = tabPage;
     }
@@ -1790,8 +1793,6 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
             delete highlighter; highlighter = nullptr;
         }
     }
-
-    QFileInfo fInfo (fileName);
 
     textEdit->setFileName (fileName);
     textEdit->setSize (fInfo.size());
@@ -2589,7 +2590,7 @@ void FPwin::tabSwitch (int index)
             shownName = tr ("Untitled");
     }
     else
-        shownName = QFileInfo (fname).fileName();
+        shownName = fname.section ('/', -1);
     if (modified)
         shownName.prepend ("*");
     shownName.replace ("\n", " ");
