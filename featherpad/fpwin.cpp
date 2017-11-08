@@ -585,7 +585,7 @@ void FPwin::applyConfig()
     }
 
     if (!config.hasReservedShortcuts())
-    {
+    { // this is here, and not in "singleton.cpp", just to simplify translation
         QStringList reserved;
         reserved << tr ("Ctrl+Shift+Z") << tr ("Ctrl+Z") << tr ("Ctrl+X") << tr ("Ctrl+C") << tr ("Ctrl+V") << tr ("Ctrl+A")
                  << tr ("F3") << tr ("F4") << tr ("F5") << tr ("F6")
@@ -597,8 +597,8 @@ void FPwin::applyConfig()
                  << tr ("Alt+Right") << tr ("Alt+Left") << tr ("Alt+Down")  << tr ("Alt+Up")
                  << tr ("Ctrl+K"); // used by LineEdit
         config.setReservedShortcuts (reserved);
+        config.readShortcuts();
     }
-    config.readShortcuts();
 
     QHash<QString, QString> ca = config.customShortcutActions();
     QHash<QString, QString>::const_iterator it = ca.constBegin();

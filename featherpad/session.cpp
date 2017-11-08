@@ -109,20 +109,36 @@ void SessionDialog::saveSession()
     if (ui->lineEdit->text().isEmpty()) return;
 
     bool hasFile (false);
-    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
-    for (int i = 0; i < singleton->Wins.count(); ++i)
+    if (ui->windowBox->isChecked())
     {
-        FPwin *win = singleton->Wins.at (i);
-        for (int j = 0; j < win->ui->tabWidget->count(); ++j)
+        FPwin *win = static_cast<FPwin *>(parent_);
+        for (int i = 0; i < win->ui->tabWidget->count(); ++i)
         {
-            if (!qobject_cast< TabPage *>(win->ui->tabWidget->widget (j))
+            if (!qobject_cast<TabPage*>(win->ui->tabWidget->widget (i))
                 ->textEdit()->getFileName().isEmpty())
             {
                 hasFile = true;
                 break;
             }
         }
-        if (hasFile) break;
+    }
+    else
+    {
+        FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+        for (int i = 0; i < singleton->Wins.count(); ++i)
+        {
+            FPwin *win = singleton->Wins.at (i);
+            for (int j = 0; j < win->ui->tabWidget->count(); ++j)
+            {
+                if (!qobject_cast<TabPage*>(win->ui->tabWidget->widget (j))
+                    ->textEdit()->getFileName().isEmpty())
+                {
+                    hasFile = true;
+                    break;
+                }
+            }
+            if (hasFile) break;
+        }
     }
 
     if (!hasFile)
@@ -139,14 +155,13 @@ void SessionDialog::reallySaveSession()
     for (int i = 0; i < sameItems.count(); ++i)
         delete ui->listWidget->takeItem (ui->listWidget->row (sameItems.at (i)));
 
-    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
     QStringList files;
     if (ui->windowBox->isChecked())
     {
         FPwin *win = static_cast<FPwin *>(parent_);
         for (int i = 0; i < win->ui->tabWidget->count(); ++i)
         {
-            TextEdit *textEdit = qobject_cast< TabPage *>(win->ui->tabWidget->widget (i))->textEdit();
+            TextEdit *textEdit = qobject_cast<TabPage*>(win->ui->tabWidget->widget (i))->textEdit();
             if (!textEdit->getFileName().isEmpty())
             {
                 files << textEdit->getFileName();
@@ -156,12 +171,13 @@ void SessionDialog::reallySaveSession()
     }
     else
     {
+        FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
         for (int i = 0; i < singleton->Wins.count(); ++i)
         {
             FPwin *win = singleton->Wins.at (i);
             for (int j = 0; j < win->ui->tabWidget->count(); ++j)
             {
-                TextEdit *textEdit = qobject_cast< TabPage *>(win->ui->tabWidget->widget (j))->textEdit();
+                TextEdit *textEdit = qobject_cast<TabPage*>(win->ui->tabWidget->widget (j))->textEdit();
                 if (!textEdit->getFileName().isEmpty())
                 {
                     files << textEdit->getFileName();
