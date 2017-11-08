@@ -1721,7 +1721,7 @@ empty startup of a session.</source>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="101"/>
-        <location filename="../../sessionDialog.ui" line="256"/>
+        <location filename="../../sessionDialog.ui" line="267"/>
         <source>&amp;Remove</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1742,7 +1742,7 @@ empty startup of a session.</source>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="72"/>
-        <location filename="../../sessionDialog.ui" line="261"/>
+        <location filename="../../sessionDialog.ui" line="272"/>
         <source>&amp;Open</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1759,23 +1759,34 @@ empty startup of a session.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="166"/>
+        <location filename="../../sessionDialog.ui" line="159"/>
+        <source>By default, all files that are opened in all
+windows will be included in the saved session.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../sessionDialog.ui" line="163"/>
+        <source>Save only from this &amp;window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../sessionDialog.ui" line="177"/>
         <source>&lt;b&gt;Warning&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="212"/>
-        <location filename="../../session.cpp" line="268"/>
+        <location filename="../../sessionDialog.ui" line="223"/>
+        <location filename="../../session.cpp" line="284"/>
         <source>&amp;Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="219"/>
+        <location filename="../../sessionDialog.ui" line="230"/>
         <source>&amp;No</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="269"/>
+        <location filename="../../sessionDialog.ui" line="280"/>
         <source>Re&amp;name</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1785,7 +1796,7 @@ empty startup of a session.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="246"/>
+        <location filename="../../sessionDialog.ui" line="257"/>
         <source>&amp;Close</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1810,37 +1821,37 @@ empty startup of a session.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="205"/>
+        <location filename="../../session.cpp" line="221"/>
         <source>No file exists or can be opened.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="211"/>
+        <location filename="../../session.cpp" line="227"/>
         <source>Not all files exist or can be opened.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="254"/>
+        <location filename="../../session.cpp" line="270"/>
         <source>&amp;OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="273"/>
+        <location filename="../../session.cpp" line="289"/>
         <source>Do you really want to remove all saved sessions?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="279"/>
+        <location filename="../../session.cpp" line="295"/>
         <source>Do you really want to remove the selected sessions?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="281"/>
+        <location filename="../../session.cpp" line="297"/>
         <source>Do you really want to remove the selected session?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="286"/>
+        <location filename="../../session.cpp" line="302"/>
         <source>A session with the same name exists.&lt;br&gt;Do you want to overwrite it?</source>
         <translation type="unfinished"></translation>
     </message>

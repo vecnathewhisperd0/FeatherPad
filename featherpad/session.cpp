@@ -141,16 +141,32 @@ void SessionDialog::reallySaveSession()
 
     FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
     QStringList files;
-    for (int i = 0; i < singleton->Wins.count(); ++i)
+    if (ui->windowBox->isChecked())
     {
-        FPwin *win = singleton->Wins.at (i);
-        for (int j = 0; j < win->ui->tabWidget->count(); ++j)
+        FPwin *win = static_cast<FPwin *>(parent_);
+        for (int i = 0; i < win->ui->tabWidget->count(); ++i)
         {
-            TextEdit *textEdit = qobject_cast< TabPage *>(win->ui->tabWidget->widget (j))->textEdit();
+            TextEdit *textEdit = qobject_cast< TabPage *>(win->ui->tabWidget->widget (i))->textEdit();
             if (!textEdit->getFileName().isEmpty())
             {
                 files << textEdit->getFileName();
                 textEdit->setSaveCursor (true);
+            }
+        }
+    }
+    else
+    {
+        for (int i = 0; i < singleton->Wins.count(); ++i)
+        {
+            FPwin *win = singleton->Wins.at (i);
+            for (int j = 0; j < win->ui->tabWidget->count(); ++j)
+            {
+                TextEdit *textEdit = qobject_cast< TabPage *>(win->ui->tabWidget->widget (j))->textEdit();
+                if (!textEdit->getFileName().isEmpty())
+                {
+                    files << textEdit->getFileName();
+                    textEdit->setSaveCursor (true);
+                }
             }
         }
     }

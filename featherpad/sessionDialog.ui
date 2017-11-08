@@ -153,6 +153,17 @@
          </property>
         </widget>
        </item>
+       <item row="5" column="0" colspan="4">
+        <widget class="QCheckBox" name="windowBox">
+         <property name="toolTip">
+          <string>By default, all files that are opened in all
+windows will be included in the saved session.</string>
+         </property>
+         <property name="text">
+          <string>Save only from this &amp;window</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="page_2">
