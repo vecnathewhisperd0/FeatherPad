@@ -510,7 +510,7 @@
     <message>
         <location filename="../../fp.ui" line="1094"/>
         <source>Show/Hide Side-Pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis/skjul siderude</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1097"/>
@@ -1221,17 +1221,18 @@
         <location filename="../../predDialog.ui" line="111"/>
         <source>Most suitable with sessions
 but without tab functionality.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bedst egnet med sessioner
+uden fanebladsfunktionalitet.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="138"/>
         <source>Uncheck for 1/5 of the width.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fravælg for 1/5 af bredten.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="141"/>
         <source>Remember splitter position</source>
-        <translation type="unfinished"></translation>
+        <translation>Husk opdelerens placering</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="161"/>
@@ -1400,7 +1401,7 @@ hvor den sidste linje ikke er tom.</translation>
     <message>
         <location filename="../../predDialog.ui" line="474"/>
         <source>Inertial scrolling with mouse wheel</source>
-        <translation type="unfinished"></translation>
+        <translation>Inertisk rulning med musehjul</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="496"/>
@@ -1476,7 +1477,7 @@ Programmet skal genstartes før ændringerne træder i kraft.</translation>
     <message>
         <location filename="../../predDialog.ui" line="115"/>
         <source>Start with side-pane mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Start med siderude-tilstand</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="154"/>
@@ -1623,7 +1624,8 @@ Programmet skal genstartes før ændringerne træder i kraft.</translation>
         <location filename="../../predDialog.ui" line="470"/>
         <source>Should the mouse wheel scrolling be inertial
 if the cursor is inside the text view?</source>
-        <translation type="unfinished"></translation>
+        <translation>Skal musehjulets rulning være inertisk
+hvis markøren er inden i tekstvisningen?</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="515"/>
@@ -1815,12 +1817,13 @@ tom opstart af en session.</translation>
         <location filename="../../sessionDialog.ui" line="159"/>
         <source>By default, all files that are opened in all
 windows will be included in the saved session.</source>
-        <translation type="unfinished"></translation>
+        <translation>Som standard, gemmes alle filer som er åbnet i alle
+vinduer i den gemte session.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="163"/>
         <source>Save only from this &amp;window</source>
-        <translation type="unfinished"></translation>
+        <translation>Gem kun fra dette &amp;vindue</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="177"/>
