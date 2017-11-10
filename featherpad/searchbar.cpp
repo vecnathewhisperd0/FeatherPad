@@ -71,8 +71,9 @@ SearchBar::SearchBar(QWidget *parent,
     pushButton_whole_->setCheckable (true);
     pushButton_whole_->setFocusPolicy (Qt::NoFocus);
 
-    setTabOrder (lineEdit_, toolButton_nxt_);
-    setTabOrder (toolButton_nxt_, toolButton_prv_);
+    /* there are shortcuts for forward/backward search */
+    toolButton_nxt_->setFocusPolicy (Qt::NoFocus);
+    toolButton_prv_->setFocusPolicy (Qt::NoFocus);
 
     QGridLayout *mainGrid = new QGridLayout;
     mainGrid->setHorizontalSpacing (1);

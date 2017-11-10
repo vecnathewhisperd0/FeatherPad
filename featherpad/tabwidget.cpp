@@ -23,6 +23,7 @@ TabWidget::TabWidget (QWidget *parent) : QTabWidget (parent)
 {
     tb = new TabBar;
     setTabBar (tb);
+    tb->setFocusPolicy (Qt::NoFocus); // there are shortcuts for tab switching
     curIndx= -1;
     timerId = 0;
     connect (this, &QTabWidget::currentChanged, this, &TabWidget::tabSwitch);

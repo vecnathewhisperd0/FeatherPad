@@ -81,7 +81,6 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
     recentNumber_ = config.getRecentFilesNumber();
     showWhiteSpace_ = config.getShowWhiteSpace();
     showEndings_ = config.getShowEndings();
-    sidePaneMode_ = config.getSidePaneMode();
 
     /**************
      *** Window ***
@@ -408,8 +407,7 @@ void PrefDialog::showPrompt (QString str, bool temporary)
     }
     else if (sysIcons_ != config.getSysIcon()
             || iconless_ != config.getIconless()
-            || recentNumber_ != config.getRecentFilesNumber()
-            || sidePaneMode_ != config.getSidePaneMode())
+            || recentNumber_ != config.getRecentFilesNumber())
     {
         ui->promptLabel->setText ("<b>" + tr ("Application restart is needed for changes to take effect.") + "</b>");
         ui->promptLabel->setStyleSheet (style);
@@ -998,8 +996,6 @@ void PrefDialog::prefSidePaneMode (int checked)
         config.setSidePaneMode (true);
     else if (checked == Qt::Unchecked)
         config.setSidePaneMode (false);
-
-    showPrompt();
 }
 /*************************/
 void PrefDialog::prefSplitterPos (int checked)

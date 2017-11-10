@@ -69,6 +69,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     statusLabel->setMinimumWidth (100);
     statusLabel->setTextInteractionFlags (Qt::TextSelectableByMouse);
     QToolButton *wordButton = new QToolButton();
+    wordButton->setFocusPolicy (Qt::NoFocus);
     wordButton->setAutoRaise (true);
     wordButton->setToolButtonStyle (Qt::ToolButtonIconOnly);
     wordButton->setIconSize (QSize (16, 16));
@@ -300,6 +301,7 @@ void FPwin::toggleSidePane()
         ui->tabWidget->tabBar()->hide();
         sidePane_ = new SidePane();
         ui->splitter->insertWidget (0, sidePane_);
+        sidePane_->listWidget()->setFocus();
         int mult = size().width() / 100; // for more precision
         int sp = static_cast<FPsingleton*>(qApp)->getConfig().getSplitterPos();
         QList<int> sizes;
@@ -343,10 +345,18 @@ void FPwin::toggleSidePane()
     }
     else
     {
-        sideItems_.clear();
-        delete sidePane_;
-        sidePane_ = nullptr;
-        ui->tabWidget->tabBar()->show();
+        if (!sidePane_->listWidget()->hasFocus())
+            sidePane_->listWidget()->setFocus();
+        else
+        {
+            sideItems_.clear();
+            delete sidePane_;
+            sidePane_ = nullptr;
+            ui->tabWidget->tabBar()->show();
+            /* return focus to the document */
+            if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget()))
+                tabPage->textEdit()->setFocus();
+        }
     }
 }
 /*************************/
@@ -595,6 +605,7 @@ void FPwin::applyConfig()
                  << tr ("Ctrl+Alt+E")
                  << tr ("Shift+Enter") << tr ("Ctrl+Tab") << tr ("Ctrl+Meta+Tab")
                  << tr ("Alt+Right") << tr ("Alt+Left") << tr ("Alt+Down")  << tr ("Alt+Up")
+                 << tr ("Ctrl+Shift+J")
                  << tr ("Ctrl+K"); // used by LineEdit
         config.setReservedShortcuts (reserved);
         config.readShortcuts();
