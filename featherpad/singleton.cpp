@@ -165,61 +165,64 @@ void FPsingleton::handleMessage (const QString& message)
     /* get the desktop the command is issued from */
     long d = sl.at (0).toInt();
     bool found = false;
-    const QRect sr = QApplication::desktop()->screenGeometry();
-    for (int i = 0; i < Wins.count(); ++i)
+    if (!config_.getOpenInWindows())
     {
-        WId id = Wins.at (i)->winId();
-        /* if the command is issued from where a FeatherPad
-           window exists and if that window isn't minimized
-           and doesn't have a modal dialog... */
-        if (!isX11_ // always open a new tab on wayland
-            || (onWhichDesktop (id) == d
-                && (!Wins.at (i)->isMinimized() || isWindowShaded (id))))
+        const QRect sr = QApplication::desktop()->screenGeometry();
+        for (int i = 0; i < Wins.count(); ++i)
         {
-            bool hasDialog = false;
-            QList<QDialog*> dialogs = Wins.at (i)->findChildren<QDialog*>();
-            for (int j = 0; j < dialogs.count(); ++j)
+            WId id = Wins.at (i)->winId();
+            /* if the command is issued from where a FeatherPad
+               window exists and if that window isn't minimized
+               and doesn't have a modal dialog... */
+            if (!isX11_ // always open a new tab on wayland
+                || (onWhichDesktop (id) == d
+                    && (!Wins.at (i)->isMinimized() || isWindowShaded (id))))
             {
-                if (dialogs.at (j)->objectName() !=  "processDialog"
-                    && dialogs.at (j)->objectName() !=  "sessionDialog")
+                bool hasDialog = false;
+                QList<QDialog*> dialogs = Wins.at (i)->findChildren<QDialog*>();
+                for (int j = 0; j < dialogs.count(); ++j)
                 {
-                    hasDialog = true;
-                    break;
-                }
-            }
-            if (hasDialog) continue;
-            /* consider viewports too, so that if more than half of the width as well as the height
-               of the window is inside the current viewport (of the current desktop), open a new tab */
-            QRect g = Wins.at (i)->geometry();
-            if (g.x() + g.width()/2 >= 0 && g.x() + g.width()/2 < sr.width()
-                && g.y() + g.height()/2 >= 0 && g.y() + g.height()/2 < sr.height())
-            {
-                if (d >= 0) // it may be -1 for some DEs that don't support _NET_CURRENT_DESKTOP
-                {
-                    /* first, pretend to KDE that a new window is created
-                       (without this, the next new window would open on a wrong desktop) */
-                    Wins.at (i)->dummyWidget->showMinimized();
-                    QCoreApplication::processEvents();
-                    Wins.at (i)->dummyWidget->close();
-                }
-
-                /* and then, open tab(s) in the current FeatherPad window... */
-                if (sl.at (1).isEmpty())
-                    Wins.at (i)->newTab();
-                else
-                {
-                    bool multiple (sl.count() > 2 || Wins.at (i)->isLoading());
-                    for (int j = 1; j < sl.count(); ++j)
+                    if (dialogs.at (j)->objectName() !=  "processDialog"
+                        && dialogs.at (j)->objectName() !=  "sessionDialog")
                     {
-                        QString slj = sl.at (j);
-                        if (slj.startsWith ("file://"))
-                            slj = QUrl (slj).toLocalFile();
-                        QFileInfo fInfo (slj);
-                        Wins.at (i)->newTabFromName (fInfo.absoluteFilePath(), false, multiple);
+                        hasDialog = true;
+                        break;
                     }
                 }
-                found = true;
-                break;
+                if (hasDialog) continue;
+                /* consider viewports too, so that if more than half of the width as well as the height
+                   of the window is inside the current viewport (of the current desktop), open a new tab */
+                QRect g = Wins.at (i)->geometry();
+                if (g.x() + g.width()/2 >= 0 && g.x() + g.width()/2 < sr.width()
+                    && g.y() + g.height()/2 >= 0 && g.y() + g.height()/2 < sr.height())
+                {
+                    if (d >= 0) // it may be -1 for some DEs that don't support _NET_CURRENT_DESKTOP
+                    {
+                        /* first, pretend to KDE that a new window is created
+                           (without this, the next new window would open on a wrong desktop) */
+                        Wins.at (i)->dummyWidget->showMinimized();
+                        QCoreApplication::processEvents();
+                        Wins.at (i)->dummyWidget->close();
+                    }
+
+                    /* and then, open tab(s) in the current FeatherPad window... */
+                    if (sl.at (1).isEmpty())
+                        Wins.at (i)->newTab();
+                    else
+                    {
+                        bool multiple (sl.count() > 2 || Wins.at (i)->isLoading());
+                        for (int j = 1; j < sl.count(); ++j)
+                        {
+                            QString slj = sl.at (j);
+                            if (slj.startsWith ("file://"))
+                                slj = QUrl (slj).toLocalFile();
+                            QFileInfo fInfo (slj);
+                            Wins.at (i)->newTabFromName (fInfo.absoluteFilePath(), false, multiple);
+                        }
+                    }
+                    found = true;
+                    break;
+                }
             }
         }
     }

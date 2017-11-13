@@ -131,6 +131,9 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
     ui->singleTabBox->setChecked (config.getHideSingleTab());
     connect (ui->singleTabBox, &QCheckBox::stateChanged, this, &PrefDialog::prefHideSingleTab);
 
+    ui->windowBox->setChecked (config.getOpenInWindows());
+    connect (ui->windowBox, &QCheckBox::stateChanged, this, &PrefDialog::prefOpenInWindows);
+
     ui->nativeDialogBox->setChecked (config.getNativeDialog());
     connect (ui->nativeDialogBox, &QCheckBox::stateChanged, this, &PrefDialog::prefNativeDialog);
 
@@ -979,6 +982,16 @@ void PrefDialog::prefStartSize (int value)
     else if (QObject::sender() == ui->spinY)
         startSize.setHeight (value);
     config.setStartSize (startSize);
+}
+/*************************/
+void PrefDialog::prefOpenInWindows (int checked)
+{
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    Config& config = singleton->getConfig();
+    if (checked == Qt::Checked)
+        config.setOpenInWindows (true);
+    else if (checked == Qt::Unchecked)
+        config.setOpenInWindows (false);
 }
 /*************************/
 void PrefDialog::prefNativeDialog (int checked)

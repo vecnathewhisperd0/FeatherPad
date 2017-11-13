@@ -417,10 +417,10 @@ void FPwin::applyConfig()
     if (config.getTabPosition() != 0)
         ui->tabWidget->setTabPosition ((QTabWidget::TabPosition) config.getTabPosition());
 
-    ui->tabWidget->tabBar()->hideSingle (config.getHideSingleTab());
-
-    if (config.getSidePaneMode())
-        toggleSidePane(); // should come after setting hideSingle()
+    if (!config.getSidePaneMode()) // hideSingle() shouldn't be set with the side-pane
+        ui->tabWidget->tabBar()->hideSingle (config.getHideSingleTab());
+    else
+        toggleSidePane();
 
     if (config.getRecentOpened())
         ui->menuOpenRecently->setTitle (tr ("&Recently Opened"));

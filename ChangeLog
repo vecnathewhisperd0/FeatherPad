@@ -5,6 +5,7 @@ V0.7
  * French translation by Cyril Cottet.
  * Also apply all settings when Escape is pressed to close the Preferences dialog. (Some settings were applied only when the Close button was pressed).
  * Added an option to save a session only from the currect window.
+ * An option for always opening files in separate windows.
 
 V0.6.3
 ---------

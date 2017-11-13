@@ -46,6 +46,7 @@ Config::Config():
     hideSingleTab_ (false),
     executeScripts_ (false),
     appendEmptyLine_ (true),
+    openInWindows_ (false),
     nativeDialog_ (false),
     inertialScrolling_ (false),
     scrollJumpWorkaround_ (false),
@@ -130,6 +131,9 @@ void Config::readConfig()
 
     if (settings.value ("hideSingleTab").toBool())
         hideSingleTab_ = true; // false by default
+
+    if (settings.value ("openInWindows").toBool())
+        openInWindows_ = true; // false by default
 
     if (settings.value ("nativeDialog").toBool())
         nativeDialog_ = true; // false by default
@@ -264,6 +268,7 @@ void Config::writeConfig()
     settings.setValue ("tabPosition", tabPosition_);
     settings.setValue ("tabWrapAround", tabWrapAround_);
     settings.setValue ("hideSingleTab", hideSingleTab_);
+    settings.setValue ("openInWindows", openInWindows_);
     settings.setValue ("nativeDialog", nativeDialog_);
 
     settings.endGroup();

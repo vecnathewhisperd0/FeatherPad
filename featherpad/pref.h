@@ -79,6 +79,7 @@ private slots:
     void prefCommand (QString command);
     void prefRecentFilesNumber (int value);
     void prefOpenRecentFile (int value);
+    void prefOpenInWindows (int checked);
     void prefNativeDialog (int checked);
     void prefSidePaneMode (int checked);
     void prefSplitterPos (int checked);
