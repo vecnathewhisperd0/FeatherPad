@@ -76,6 +76,10 @@ public:
         return false;
     }
 
+    bool hasSidePane()const {
+        return (sidePane_ != nullptr);
+    }
+
     void showCrashWarning();
     void updateCustomizableShortcuts (bool disable = false);
 

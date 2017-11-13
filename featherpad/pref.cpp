@@ -840,9 +840,11 @@ void PrefDialog::prefHideSingleTab (int checked)
         config.setHideSingleTab (true);
         for (int i = 0; i < singleton->Wins.count(); ++i)
         {
-            TabBar *tabBar = singleton->Wins.at (i)->ui->tabWidget->tabBar();
-            tabBar->hideSingle (true);
-            if (singleton->Wins.at (i)->ui->tabWidget->count() == 1)
+            FPwin *win = singleton->Wins.at (i);
+            TabBar *tabBar = win->ui->tabWidget->tabBar();
+            if (!win->hasSidePane())
+                tabBar->hideSingle (true);
+            if (win->ui->tabWidget->count() == 1)
                 tabBar->hide();
         }
     }
@@ -851,9 +853,10 @@ void PrefDialog::prefHideSingleTab (int checked)
         config.setHideSingleTab (false);
         for (int i = 0; i < singleton->Wins.count(); ++i)
         {
-            TabBar *tabBar = singleton->Wins.at (i)->ui->tabWidget->tabBar();
+            FPwin *win = singleton->Wins.at (i);
+            TabBar *tabBar = win->ui->tabWidget->tabBar();
             tabBar->hideSingle (false);
-            if (singleton->Wins.at (i)->ui->tabWidget->count() == 1)
+            if (!win->hasSidePane() && win->ui->tabWidget->count() == 1)
                 tabBar->show();
         }
     }

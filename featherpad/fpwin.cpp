@@ -299,6 +299,7 @@ void FPwin::toggleSidePane()
     if (!sidePane_)
     {
         ui->tabWidget->tabBar()->hide();
+        ui->tabWidget->tabBar()->hideSingle (false); // prevent tabs from reappearing
         sidePane_ = new SidePane();
         ui->splitter->insertWidget (0, sidePane_);
         sidePane_->listWidget()->setFocus();
@@ -352,7 +353,11 @@ void FPwin::toggleSidePane()
             sideItems_.clear();
             delete sidePane_;
             sidePane_ = nullptr;
-            ui->tabWidget->tabBar()->show();
+            bool hideSingleTab = static_cast<FPsingleton*>(qApp)->
+                                 getConfig().getHideSingleTab();
+            ui->tabWidget->tabBar()->hideSingle (hideSingleTab);
+            if (!hideSingleTab || ui->tabWidget->count() > 1)
+                ui->tabWidget->tabBar()->show();
             /* return focus to the document */
             if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget()))
                 tabPage->textEdit()->setFocus();
@@ -397,9 +402,6 @@ void FPwin::applyConfig()
 
     ui->actionDoc->setVisible (!config.getShowStatusbar());
 
-    if (config.getSidePaneMode())
-        toggleSidePane();
-
     ui->actionWrap->setChecked (config.getWrapByDefault());
 
     ui->actionIndent->setChecked (config.getIndentByDefault());
@@ -416,6 +418,9 @@ void FPwin::applyConfig()
         ui->tabWidget->setTabPosition ((QTabWidget::TabPosition) config.getTabPosition());
 
     ui->tabWidget->tabBar()->hideSingle (config.getHideSingleTab());
+
+    if (config.getSidePaneMode())
+        toggleSidePane(); // should come after setting hideSingle()
 
     if (config.getRecentOpened())
         ui->menuOpenRecently->setTitle (tr ("&Recently Opened"));
