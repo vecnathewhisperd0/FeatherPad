@@ -38,7 +38,7 @@ FeatherPad remembers recently modified or opened files, depending on which optio
 
 Sessions can be saved and opened by using the Session Manager dialog. As mentioned above, there is no limit to the number of stored sessions. Each session can have any name and consist of any number of files. All files of a session are opened in the current FeatherPad window and their cursor positions are remembered.
 
-FeatherPad also has a side-pane mode, which can be enabled either temporarily or with startup. It is most suitable for working with sessions because its file list is alphabetically ordered and can be filtered. Unlike in the tab mode, when multiple files are opened in the side-pane mode, the alphabetically first file becomes visible. Each pane item has a right-click menu, which contains menu-items for various jobs when there is more than one page. Items can also be removed by middle-clicking without being selected.
+FeatherPad also has a side-pane mode, which can be enabled either temporarily or with startup. It is most suitable for working with sessions because its file list is alphabetically ordered and can be filtered. Unlike in the tab mode, when multiple files are opened in the side-pane mode while the active document is empty, the alphabetically first file becomes visible. Each pane item has a right-click menu, which contains menu-items for various jobs when there is more than one page. Items can also be removed by middle-clicking without being selected.
 
 Although the side-pane mode does not have the features provided by tabs -- for example, the tab drag-and-drop is missing from it -- it can be used alongside the tab mode.
 

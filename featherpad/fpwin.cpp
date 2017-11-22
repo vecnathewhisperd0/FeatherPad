@@ -327,7 +327,12 @@ void FPwin::toggleSidePane()
                    and, on the other hand, KDE's auto-mnemonics may interfere */
                 QString fname = tabPage->textEdit()->getFileName();
                 if (fname.isEmpty())
-                    fname = tr ("Untitled");
+                {
+                    if (tabPage->textEdit()->getProg() == "help")
+                        fname = "** " + tr ("Help") + " **";
+                    else
+                        fname = tr ("Untitled");
+                }
                 else
                     fname = fname.section ('/', -1);
                 if (tabPage->textEdit()->document()->isModified())
@@ -1831,7 +1836,10 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
     QString elidedTip = metrics.elidedText (tip, Qt::ElideMiddle, w);
     ui->tabWidget->setTabToolTip (ui->tabWidget->indexOf (tabPage), elidedTip);
     if (!sideItems_.isEmpty())
-        sideItems_.key (tabPage)->setToolTip (elidedTip);
+    {
+        if (QListWidgetItem *wi = sideItems_.key (tabPage))
+            wi->setToolTip (elidedTip);
+    }
 
     if (alreadyOpen (tabPage))
     {
@@ -1901,7 +1909,10 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
         }
         /* select the first item (sidePane_ exists) */
         else if (firstPage && !sideItems_.isEmpty())
-            sidePane_->listWidget()->setCurrentItem (sideItems_.key (firstPage));
+        {
+            if (QListWidgetItem *wi = sideItems_.key (firstPage))
+                sidePane_->listWidget()->setCurrentItem (wi);
+        }
         /* reset the static variables */
         scrollToFirstItem = false;
         firstPage = nullptr;
@@ -2372,7 +2383,10 @@ bool FPwin::saveFile (bool keepSyntax)
         QString elidedTip = metrics.elidedText (tip, Qt::ElideMiddle, w);
         ui->tabWidget->setTabToolTip (index, elidedTip);
         if (!sideItems_.isEmpty())
-            sideItems_.key (tabPage)->setToolTip (elidedTip);
+        {
+            if (QListWidgetItem *wi = sideItems_.key (tabPage))
+                wi->setToolTip (elidedTip);
+        }
         lastFile_ = fname;
         config.addRecentFile (lastFile_);
         if (!keepSyntax)
@@ -3888,7 +3902,13 @@ void FPwin::helpDoc()
                 && !thisTextEdit->document()->isModified()
                 && !thisTextEdit->document()->isEmpty())
             {
-                ui->tabWidget->setCurrentIndex (ui->tabWidget->indexOf (thisTabPage));
+                if (sidePane_ && !sideItems_.isEmpty())
+                {
+                    if (QListWidgetItem *wi = sideItems_.key (thisTabPage))
+                        sidePane_->listWidget()->setCurrentItem (wi); // sets the current widget at changeTab()
+                }
+                else
+                    ui->tabWidget->setCurrentWidget (thisTabPage);
                 return;
             }
         }
