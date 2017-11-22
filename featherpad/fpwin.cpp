@@ -1897,7 +1897,7 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
         updateShortcuts (false, false);
         if (reload && scrollbarValue > -1)
         { // restore the scrollbar position
-            lambdaConnection_ = QObject::connect (this, &FPwin::finishedLoading,
+            lambdaConnection_ = QObject::connect (this, &FPwin::finishedLoading, textEdit,
                                                   [this, textEdit, scrollbarValue]() {
                 if (QScrollBar *scrollbar = textEdit->verticalScrollBar())
                 {
@@ -1947,7 +1947,7 @@ void FPwin::showWarningBar (const QString& message)
 /*************************/
 void FPwin::showCrashWarning()
 {
-    QTimer::singleShot (0, [=]() {
+    QTimer::singleShot (0, this, [=]() {
         this->showWarningBar ("<center><b><big>" + tr ("A previous crash detected!") + "</big></b></center>"
                               + "<center><i>" +tr ("Preferably, close all FeatherPad windows and start again!") + "</i></center>");
     });
