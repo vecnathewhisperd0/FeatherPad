@@ -733,7 +733,15 @@ bool FPwin::closeTabs (int leftIndx, int rightIndx)
         if (leftIndx >= index)
             break;
         else
-            ui->tabWidget->setCurrentIndex (index);
+        {
+            if (sidePane_ && !sideItems_.isEmpty())
+            {
+                if (QListWidgetItem *wi = sideItems_.key (qobject_cast<TabPage*>(ui->tabWidget->widget (index))))
+                    sidePane_->listWidget()->setCurrentItem (wi); // sets the current widget at changeTab()
+            }
+            else
+                ui->tabWidget->setCurrentIndex (index);
+        }
         if (leftIndx == index - 1) // only one tab to be closed
             unsaved = unSaved (index, false);
         else
@@ -771,7 +779,13 @@ bool FPwin::closeTabs (int leftIndx, int rightIndx)
             while (index > leftIndx)
             {
                 if (rightIndx == 0) break;
-                ui->tabWidget->setCurrentIndex (index);
+                if (sidePane_ && !sideItems_.isEmpty())
+                {
+                    if (QListWidgetItem *wi = sideItems_.key (qobject_cast<TabPage*>(ui->tabWidget->widget (index))))
+                        sidePane_->listWidget()->setCurrentItem (wi);
+                }
+                else
+                    ui->tabWidget->setCurrentIndex (index);
 
                 deleteTabPage (index);
 
