@@ -1337,12 +1337,16 @@ current desktop, files will be opened in its tabs.
 
 However, some desktop environments may not
 report that they have multiple desktops.</source>
-        <translation type="unfinished"></translation>
+        <translation>Filer åbnes som standard i faneblade, hvis der findes
+et FeatherPad-vindue på det nuværende skrivebord.
+
+Dog rapporterer nogle skrivebordsmiljøer
+muligvis ikke at de har flere skriveborde.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="278"/>
         <source>Always open in separate windows</source>
-        <translation type="unfinished"></translation>
+        <translation>Åbn altid i separate vinduer</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="285"/>
