@@ -1628,11 +1628,11 @@ void FPwin::waitToMakeBusy()
 
     busyThread_ = new QThread;
     BusyMaker *makeBusy = new BusyMaker();
-    makeBusy->moveToThread(busyThread_);
+    makeBusy->moveToThread (busyThread_);
     connect (busyThread_, &QThread::started, makeBusy, &BusyMaker::waiting);
     connect (busyThread_, &QThread::finished, busyThread_, &QObject::deleteLater);
+    connect (busyThread_, &QThread::finished, makeBusy, &QObject::deleteLater);
     connect (makeBusy, &BusyMaker::finished, busyThread_, &QThread::quit);
-    connect (makeBusy, &BusyMaker::finished, makeBusy, &QObject::deleteLater);
     busyThread_->start();
 }
 /*************************/
@@ -2733,8 +2733,8 @@ void FPwin::fontDialog()
     QFontDialog fd (currentFont, this);
     //fd.setOption (QFontDialog::DontUseNativeDialog);
     fd.setWindowModality (Qt::WindowModal);
-    fd.move (this->x() + this->width()/2 - fd.width()/2,
-             this->y() + this->height()/2 - fd.height()/ 2);
+    fd.move (x() + width()/2 - fd.width()/2,
+             y() + height()/2 - fd.height()/ 2);
     if (fd.exec())
     {
         QFont newFont = fd.selectedFont();
