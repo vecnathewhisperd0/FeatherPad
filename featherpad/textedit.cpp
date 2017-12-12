@@ -357,6 +357,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                 setTextCursor (cur);
             }
             cur.endEditBlock();
+            ensureCursorVisible();
             event->accept();
             return;
         }
