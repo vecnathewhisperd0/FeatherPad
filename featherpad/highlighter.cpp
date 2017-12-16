@@ -2256,7 +2256,7 @@ void Highlighter::highlightBlock (const QString &text)
         /* the ``` code block of markdown is like a multiline comment
            but shouldn't be formatted inside a comment or block quote */
         if (previousBlockState() != commentState && previousBlockState() != markdownBlockQuoteState && codeBlockFormat.isValid())
-            multiLineComment (text, 0, -1, QRegExp ("^```$"), QRegExp ("^```$"), markdownCodeBlockState, codeBlockFormat);
+            multiLineComment (text, 0, -1, QRegExp ("^```[^\\s^`]*$"), QRegExp ("^```$"), markdownCodeBlockState, codeBlockFormat);
     }
 
     /*************
