@@ -281,10 +281,8 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
     QTextCharFormat typeFormat;
     typeFormat.setForeground (DarkMagenta); //(QColor (102, 0, 0));
 
-    QStringList patterns;
-
-    patterns = keywords (lang);
-    foreach (const QString &pattern, patterns)
+    const QStringList keywordPatterns = keywords (lang);
+    for (const QString &pattern : keywordPatterns)
     {
         rule.pattern = QRegExp (pattern);
         rule.format = keywordFormat;
@@ -306,8 +304,8 @@ Highlighter::Highlighter (QTextDocument *parent, QString lang, QTextCursor start
         highlightingRules.append (rule);
     }
 
-    patterns = types();
-    foreach (const QString &pattern, patterns)
+    const QStringList typePatterns = types();
+    for (const QString &pattern : typePatterns)
     {
         rule.pattern = QRegExp (pattern);
         rule.format = typeFormat;
@@ -1453,7 +1451,7 @@ void Highlighter::singleLineComment (const QString &text, int start, int end, bo
     noteFormat.setFontItalic (true);
     noteFormat.setForeground (DarkRed);
 
-    foreach (const HighlightingRule &rule, highlightingRules)
+    for (const HighlightingRule &rule : static_cast<const QVector<HighlightingRule>&>(highlightingRules))
     {
         if (rule.format == commentFormat)
         {
@@ -1634,7 +1632,7 @@ void Highlighter::multiLineComment (const QString &text,
         /* reformat from here if the format was cleared before */
         if (badIndex >= 0)
         {
-            foreach (const HighlightingRule &rule, highlightingRules)
+            for (const HighlightingRule &rule : static_cast<const QVector<HighlightingRule>&>(highlightingRules))
             {
                 if (rule.format == commentFormat)
                 {
@@ -2281,7 +2279,7 @@ void Highlighter::highlightBlock (const QString &text)
     else if (bn >= startCursor.blockNumber() && bn <= endCursor.blockNumber())
     {
         data->insertHighlightInfo (true); // completely highlighted
-        foreach (const HighlightingRule &rule, highlightingRules)
+        for (const HighlightingRule &rule : static_cast<const QVector<HighlightingRule>&>(highlightingRules))
         {
             /* single-line comments are already formatted */
             if (rule.format == commentFormat)

@@ -18,6 +18,8 @@
 #include "singleton.h"
 #include "x11.h"
 #include <signal.h>
+#include <QLibraryInfo>
+#include <QTranslator>
 
 void handleQuitSignals (const std::vector<int>& quitSignals)
 {

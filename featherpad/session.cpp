@@ -20,6 +20,7 @@
 
 #include "session.h"
 #include "ui_sessionDialog.h"
+#include <QFileInfo>
 
 namespace FeatherPad {
 

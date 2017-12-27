@@ -17,6 +17,7 @@
 
 #include "fpwin.h"
 #include "ui_fp.h"
+#include <QTextDocumentFragment>
 
 namespace FeatherPad {
 

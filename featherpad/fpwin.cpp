@@ -32,6 +32,10 @@
 #include <QScrollBar>
 #include <fstream> // std::ofstream
 #include <QPrinter>
+#include <QClipboard>
+#include <QProcess>
+#include <QTextDocumentWriter>
+#include <QTextCodec>
 
 #include "x11.h"
 
@@ -692,16 +696,7 @@ void FPwin::deleteTabPage (int index)
        it is better to disconnect contentsChange() here to prevent a crash */
     disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::hlight);
     disconnect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::updateWordInfo);
-    if (Highlighter *highlighter = qobject_cast< Highlighter *>(textEdit->getHighlighter()))
-    {
-        disconnect (textEdit, &TextEdit::updateBracketMatching, this, &FPwin::matchBrackets);
-        disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
-        disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
-        disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
-        disconnect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::formatOnTextChange);
-        textEdit->setHighlighter (nullptr); // for consistency
-        delete highlighter; highlighter = nullptr;
-    }
+    syntaxHighlighting (textEdit, false);
     ui->tabWidget->removeTab (index);
     delete tabPage; tabPage = nullptr;
 }
@@ -877,9 +872,9 @@ void FPwin::dropEvent (QDropEvent *event)
         dropTab (event->mimeData()->data("application/featherpad-tab"));
     else
     {
-        QList<QUrl> urlList = event->mimeData()->urls();
+        const QList<QUrl> urlList = event->mimeData()->urls();
         bool multiple (urlList.count() > 1 || isLoading());
-        foreach (QUrl url, urlList)
+        for (const QUrl &url : urlList)
             newTabFromName (url.adjusted (QUrl::NormalizePathSegments) // KDE may give a double slash
                                .toLocalFile(),
                             false,
@@ -1805,28 +1800,7 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
     if (enforceEncod || reload)
     { // uninstall the syntax highlgihter to reinstall it below
         textEdit->setGreenSel (QList<QTextEdit::ExtraSelection>()); // they'll have no meaning later
-        if (Highlighter *highlighter = qobject_cast< Highlighter *>(textEdit->getHighlighter()))
-        {
-            disconnect (textEdit, &TextEdit::updateBracketMatching, this, &FPwin::matchBrackets);
-            disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
-            disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
-            disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
-            disconnect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::formatOnTextChange);
-
-            /* remove bracket highlights to recreate them only if needed */
-            QList<QTextEdit::ExtraSelection> es = textEdit->extraSelections();
-            int n = textEdit->getRedSel().count();
-            while (n > 0 && !es.isEmpty())
-            {
-                es.removeLast();
-                --n;
-            }
-            textEdit->setRedSel (QList<QTextEdit::ExtraSelection>());
-            textEdit->setExtraSelections (es);
-
-            textEdit->setHighlighter (nullptr);
-            delete highlighter; highlighter = nullptr;
-        }
+        syntaxHighlighting (textEdit, false);
     }
 
     textEdit->setFileName (fileName);
@@ -2064,10 +2038,10 @@ void FPwin::fileOpen()
     }
     if (dialog.exec())
     {
-        QStringList files = dialog.selectedFiles();
+        const QStringList files = dialog.selectedFiles();
         bool multiple (files.count() > 1 || isLoading());
-        foreach (fname, files)
-            newTabFromName (fname, false, multiple);
+        for (const QString &file : files)
+            newTabFromName (file, false, multiple);
     }
     updateShortcuts (false);
 }
@@ -2415,30 +2389,10 @@ bool FPwin::saveFile (bool keepSyntax)
                     disconnect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::updateWordInfo);
                 }
 
-                if (Highlighter *highlighter = qobject_cast< Highlighter *>(textEdit->getHighlighter()))
-                {
-                    disconnect (textEdit, &TextEdit::updateBracketMatching, this, &FPwin::matchBrackets);
-                    disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
-                    disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
-                    disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
-                    disconnect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::formatOnTextChange);
-
-                    /* remove bracket highlights */
-                    QList<QTextEdit::ExtraSelection> es = textEdit->extraSelections();
-                    int n = textEdit->getRedSel().count();
-                    while (n > 0 && !es.isEmpty())
-                    {
-                        es.removeLast();
-                        --n;
-                    }
-                    textEdit->setRedSel (QList<QTextEdit::ExtraSelection>());
-                    textEdit->setExtraSelections (es);
-
-                    textEdit->setHighlighter (nullptr);
-                    delete highlighter; highlighter = nullptr;
-                }
-                if (ui->actionSyntax->isChecked()) // not needed really
+                syntaxHighlighting (textEdit, false);
+                if (ui->actionSyntax->isChecked())
                     syntaxHighlighting (textEdit);
+
                 if (ui->statusBar->isVisible())
                 { // correct the statusbar text just by replacing the old syntax info
                     QLabel *statusLabel = ui->statusBar->findChild<QLabel *>();
@@ -3417,6 +3371,8 @@ void FPwin::detachTab()
         dropTarget->ui->actionReload->setEnabled (true);
     if (!hl)
         dropTarget->ui->actionSyntax->setChecked (false);
+    else
+        dropTarget->syntaxHighlighting (textEdit);
     if (spin)
     {
         dropTarget->ui->spinBox->setVisible (true);
@@ -3481,16 +3437,6 @@ void FPwin::detachTab()
     }
     connect (textEdit, &TextEdit::fileDropped, dropTarget, &FPwin::newTabFromName);
     connect (textEdit, &TextEdit::zoomedOut, dropTarget, &FPwin::reformat);
-
-    if (textEdit->getHighlighter())
-    {
-        dropTarget->matchBrackets();
-        connect (textEdit, &TextEdit::updateBracketMatching, dropTarget, &FPwin::matchBrackets);
-        connect (textEdit, &QPlainTextEdit::blockCountChanged, dropTarget, &FPwin::formatOnBlockChange);
-        connect (textEdit, &TextEdit::updateRect, dropTarget, &FPwin::formatVisibleText);
-        connect (textEdit, &TextEdit::resized, dropTarget, &FPwin::formatOnResizing);
-        connect (textEdit->document(), &QTextDocument::contentsChange, dropTarget, &FPwin::formatOnTextChange);
-    }
 
     textEdit->setFocus();
 
@@ -3651,10 +3597,11 @@ void FPwin::dropTab (QString str)
         ui->actionFirstTab->setEnabled (true);
     }
     /* reload buttons, syntax highlighting, jump bar, line numbers */
-    if (ui->actionSyntax->isChecked() && !textEdit->getHighlighter())
+    if (ui->actionSyntax->isChecked())
         syntaxHighlighting (textEdit);
     else if (!ui->actionSyntax->isChecked() && textEdit->getHighlighter())
-    {
+    { // there's no connction to the drag target yet
+        textEdit->setDrawIndetLines (false);
         Highlighter *highlighter = qobject_cast< Highlighter *>(textEdit->getHighlighter());
         textEdit->setHighlighter (nullptr);
         delete highlighter; highlighter = nullptr;
@@ -3709,16 +3656,6 @@ void FPwin::dropTab (QString str)
     }
     connect (textEdit, &TextEdit::fileDropped, this, &FPwin::newTabFromName);
     connect (textEdit, &TextEdit::zoomedOut, this, &FPwin::reformat);
-
-    if (textEdit->getHighlighter()) // it's set to NULL above when syntax highlighting is disabled
-    {
-        matchBrackets();
-        connect (textEdit, &TextEdit::updateBracketMatching, this, &FPwin::matchBrackets);
-        connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
-        connect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
-        connect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
-        connect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::formatOnTextChange);
-    }
 
     textEdit->setFocus();
 

@@ -18,8 +18,9 @@
 #ifndef TEXTEDIT_H
 #define TEXTEDIT_H
 
-#include <QtGui>
 #include <QPlainTextEdit>
+#include <QMimeData>
+#include <QSyntaxHighlighter>
 
 namespace FeatherPad {
 
@@ -185,8 +186,9 @@ protected:
     {
         if (source->hasUrls())
         {
-            bool multiple (source->urls().count() > 1);
-            foreach (QUrl url, source->urls())
+            const QList<QUrl> urlList = source->urls();
+            bool multiple (urlList.count() > 1);
+            for (const QUrl &url : urlList)
                 emit fileDropped (url.adjusted (QUrl::NormalizePathSegments) // KDE may give a double slash
                                      .toLocalFile(),
                                   false,

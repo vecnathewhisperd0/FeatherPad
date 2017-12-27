@@ -8,6 +8,8 @@ V0.7
  * An option for always opening files in separate windows.
  * Fixed a memory leak in making the cursor busy on closing a window with a tab (found by valgrind).
  * Fixed a bug in bracket matching, which happened when a selected text was removed while the cursor was at its start.
+ * Get red of "foreach" because it is deprecated and will be removed sooner or later.
+ * Fixed double connections with syntax highlighting of dropped pages.
 
 V0.6.3
 ---------

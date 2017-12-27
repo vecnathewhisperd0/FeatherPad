@@ -17,6 +17,8 @@
 
 #include "singleton.h"
 #include "ui_fp.h"
+#include <QMimeDatabase>
+#include <QFileInfo>
 
 namespace FeatherPad {
 
@@ -32,39 +34,10 @@ void FPwin::toggleSyntaxHighlighting()
     int count = ui->tabWidget->count();
     if (count == 0) return;
 
-    Highlighter *highlighter = nullptr;
-    if (ui->actionSyntax->isChecked())
+    for (int i = 0; i < count; ++i)
     {
-        for (int i = 0; i < count; ++i)
-            syntaxHighlighting (qobject_cast< TabPage *>(ui->tabWidget->widget (i))->textEdit());
-    }
-    else
-    {
-        for (int i = 0; i < count; ++i)
-        {
-            TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (i))->textEdit();
-            disconnect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::formatOnTextChange);
-            disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
-            disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
-            disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
-            disconnect (textEdit, &TextEdit::updateBracketMatching, this, &FPwin::matchBrackets);
-
-            QList<QTextEdit::ExtraSelection> es = textEdit->extraSelections();
-            int n = textEdit->getRedSel().count();
-            while (n > 0 && !es.isEmpty())
-            {
-                es.removeLast();
-                --n;
-            }
-            textEdit->setRedSel (QList<QTextEdit::ExtraSelection>());
-            textEdit->setExtraSelections (es);
-
-            textEdit->setDrawIndetLines (false);
-
-            highlighter = qobject_cast< Highlighter *>(textEdit->getHighlighter());
-            textEdit->setHighlighter (nullptr);
-            delete highlighter; highlighter = nullptr;
-        }
+        syntaxHighlighting (qobject_cast< TabPage *>(ui->tabWidget->widget (i))->textEdit(),
+                            ui->actionSyntax->isChecked());
     }
 }
 /*************************/
@@ -243,42 +216,72 @@ void FPwin::setProgLang (TextEdit *textEdit)
     textEdit->setProg (progLan);
 }
 /*************************/
-void FPwin::syntaxHighlighting (TextEdit *textEdit)
+void FPwin::syntaxHighlighting (TextEdit *textEdit, bool highlight)
 {
     if (textEdit == nullptr) return;
 
-    QString progLan = textEdit->getProg();
-    if (progLan.isEmpty()
-        || progLan == "help") // used for marking the help doc
+    if (highlight)
     {
-        return;
+        QString progLan = textEdit->getProg();
+        if (progLan.isEmpty()
+            || progLan == "help") // used for marking the help doc
+        {
+            return;
+        }
+
+        Config config = static_cast<FPsingleton*>(qApp)->getConfig();
+        if (textEdit->getSize() > config.getMaxSHSize()*1024*1024)
+            return;
+
+        if (!qobject_cast< Highlighter *>(textEdit->getHighlighter()))
+        {
+            QPoint Point (0, 0);
+            QTextCursor start = textEdit->cursorForPosition (Point);
+            Point = QPoint (textEdit->geometry().width(), textEdit->geometry().height());
+            QTextCursor end = textEdit->cursorForPosition (Point);
+
+            textEdit->setDrawIndetLines (config.getShowWhiteSpace());
+            Highlighter *highlighter = new Highlighter (textEdit->document(), progLan, start, end,
+                                                        textEdit->hasDarkScheme(),
+                                                        config.getShowWhiteSpace(),
+                                                        config.getShowEndings());
+            textEdit->setHighlighter (highlighter);
+
+            QCoreApplication::processEvents(); // it's necessary to wait until the text is completely loaded
+        }
+        matchBrackets(); // in case the cursor is beside a bracket when the text is loaded
+        connect (textEdit, &TextEdit::updateBracketMatching, this, &FPwin::matchBrackets);
+        /* visible text may change on block removal */
+        connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
+        connect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
+        connect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
+        /* this is needed when the whole visible text is pasted */
+        connect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::formatOnTextChange);
     }
+    else if (Highlighter *highlighter = qobject_cast< Highlighter *>(textEdit->getHighlighter()))
+    {
+        disconnect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::formatOnTextChange);
+        disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
+        disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
+        disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
+        disconnect (textEdit, &TextEdit::updateBracketMatching, this, &FPwin::matchBrackets);
 
-    Config config = static_cast<FPsingleton*>(qApp)->getConfig();
-    if (textEdit->getSize() > config.getMaxSHSize()*1024*1024)
-        return;
+        /* remove bracket highlights */
+        QList<QTextEdit::ExtraSelection> es = textEdit->extraSelections();
+        int n = textEdit->getRedSel().count();
+        while (n > 0 && !es.isEmpty())
+        {
+            es.removeLast();
+            --n;
+        }
+        textEdit->setRedSel (QList<QTextEdit::ExtraSelection>());
+        textEdit->setExtraSelections (es);
 
-    QPoint Point (0, 0);
-    QTextCursor start = textEdit->cursorForPosition (Point);
-    Point = QPoint (textEdit->geometry().width(), textEdit->geometry().height());
-    QTextCursor end = textEdit->cursorForPosition (Point);
+        textEdit->setDrawIndetLines (false);
 
-    textEdit->setDrawIndetLines (config.getShowWhiteSpace());
-    Highlighter *highlighter = new Highlighter (textEdit->document(), progLan, start, end,
-                                                textEdit->hasDarkScheme(),
-                                                config.getShowWhiteSpace(),
-                                                config.getShowEndings());
-    textEdit->setHighlighter (highlighter);
-
-    QCoreApplication::processEvents(); // it's necessary to wait until the text is completely loaded
-    matchBrackets(); // in case the cursor is beside a bracket when the text is loaded
-    connect (textEdit, &TextEdit::updateBracketMatching, this, &FPwin::matchBrackets);
-    /* visible text may change on block removal */
-    connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
-    connect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
-    connect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
-    /* this is needed when the whole visible text is pasted */
-    connect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::formatOnTextChange);
+        textEdit->setHighlighter (nullptr); // for consistency
+        delete highlighter; highlighter = nullptr;
+    }
 }
 /*************************/
 void FPwin::formatOnTextChange (int /*position*/, int charsRemoved, int charsAdded) const

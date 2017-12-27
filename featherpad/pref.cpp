@@ -24,6 +24,7 @@
 #include <QDesktopWidget>
 #include <QWhatsThis>
 #include <QKeySequenceEdit>
+#include <QFileInfo>
 
 namespace FeatherPad {
 

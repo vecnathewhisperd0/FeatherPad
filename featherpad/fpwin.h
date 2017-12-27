@@ -195,7 +195,7 @@ private:
     QTextCursor finding (const QString str, const QTextCursor& start, QTextDocument::FindFlags flags = 0,
                          const int end = 0) const;
     void setProgLang (TextEdit *textEdit);
-    void syntaxHighlighting (TextEdit *textEdit);
+    void syntaxHighlighting (TextEdit *textEdit, bool highlight = true);
     void encodingToCheck (const QString& encoding);
     const QString checkToEncoding() const;
     void applyConfig();

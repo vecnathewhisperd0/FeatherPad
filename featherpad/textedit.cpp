@@ -16,6 +16,9 @@
  */
 
 #include <QApplication>
+#include <QTimer>
+#include <QDateTime>
+#include <QPainter>
 #include "textedit.h"
 #include "vscrollbar.h"
 
@@ -957,12 +960,14 @@ void TextEdit::onUpdateRequesting (const QRect& /*rect*/, int dy)
 void TextEdit::onSelectionChanged()
 {
     QTextCursor cur = textCursor();
-    if (!cur.hasSelection()) {
+    if (!cur.hasSelection())
+    {
         if (cur.position() == prevPos && cur.position() < prevAnchor)
             emit updateBracketMatching();
         prevAnchor = prevPos = -1;
     }
-    else {
+    else
+    {
         prevAnchor = cur.anchor();
         prevPos = cur.position();
     }

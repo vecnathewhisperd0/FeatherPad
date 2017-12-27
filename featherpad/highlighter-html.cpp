@@ -689,7 +689,7 @@ void Highlighter::htmlJavascript (const QString &text)
             setCurrentBlockState (0);
 
         int index;
-        foreach (const HighlightingRule &rule, highlightingRules)
+        for (const HighlightingRule &rule : static_cast<const QVector<HighlightingRule>&>(highlightingRules))
         {
             /* single-line comments are already formatted */
             if (rule.format == commentFormat)
