@@ -47,7 +47,7 @@ void FPwin::toggleSyntaxHighlighting()
             disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
             disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
             disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
-            disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
+            disconnect (textEdit, &TextEdit::updateBracketMatching, this, &FPwin::matchBrackets);
 
             QList<QTextEdit::ExtraSelection> es = textEdit->extraSelections();
             int n = textEdit->getRedSel().count();
@@ -272,7 +272,7 @@ void FPwin::syntaxHighlighting (TextEdit *textEdit)
 
     QCoreApplication::processEvents(); // it's necessary to wait until the text is completely loaded
     matchBrackets(); // in case the cursor is beside a bracket when the text is loaded
-    connect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
+    connect (textEdit, &TextEdit::updateBracketMatching, this, &FPwin::matchBrackets);
     /* visible text may change on block removal */
     connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
     connect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);

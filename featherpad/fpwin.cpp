@@ -694,7 +694,7 @@ void FPwin::deleteTabPage (int index)
     disconnect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::updateWordInfo);
     if (Highlighter *highlighter = qobject_cast< Highlighter *>(textEdit->getHighlighter()))
     {
-        disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
+        disconnect (textEdit, &TextEdit::updateBracketMatching, this, &FPwin::matchBrackets);
         disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
         disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
         disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
@@ -1807,7 +1807,7 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
         textEdit->setGreenSel (QList<QTextEdit::ExtraSelection>()); // they'll have no meaning later
         if (Highlighter *highlighter = qobject_cast< Highlighter *>(textEdit->getHighlighter()))
         {
-            disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
+            disconnect (textEdit, &TextEdit::updateBracketMatching, this, &FPwin::matchBrackets);
             disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
             disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
             disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
@@ -2417,7 +2417,7 @@ bool FPwin::saveFile (bool keepSyntax)
 
                 if (Highlighter *highlighter = qobject_cast< Highlighter *>(textEdit->getHighlighter()))
                 {
-                    disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
+                    disconnect (textEdit, &TextEdit::updateBracketMatching, this, &FPwin::matchBrackets);
                     disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
                     disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
                     disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
@@ -3334,7 +3334,7 @@ void FPwin::detachTab()
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCopy, &QAction::setEnabled);
     disconnect (textEdit, &TextEdit::zoomedOut, this, &FPwin::reformat);
     disconnect (textEdit, &TextEdit::fileDropped, this, &FPwin::newTabFromName);
-    disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
+    disconnect (textEdit, &TextEdit::updateBracketMatching, this, &FPwin::matchBrackets);
     disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
     disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
     disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
@@ -3485,7 +3485,7 @@ void FPwin::detachTab()
     if (textEdit->getHighlighter())
     {
         dropTarget->matchBrackets();
-        connect (textEdit, &QPlainTextEdit::cursorPositionChanged, dropTarget, &FPwin::matchBrackets);
+        connect (textEdit, &TextEdit::updateBracketMatching, dropTarget, &FPwin::matchBrackets);
         connect (textEdit, &QPlainTextEdit::blockCountChanged, dropTarget, &FPwin::formatOnBlockChange);
         connect (textEdit, &TextEdit::updateRect, dropTarget, &FPwin::formatVisibleText);
         connect (textEdit, &TextEdit::resized, dropTarget, &FPwin::formatOnResizing);
@@ -3554,7 +3554,7 @@ void FPwin::dropTab (QString str)
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, dragSource->ui->actionCopy, &QAction::setEnabled);
     disconnect (textEdit, &TextEdit::zoomedOut, dragSource, &FPwin::reformat);
     disconnect (textEdit, &TextEdit::fileDropped, dragSource, &FPwin::newTabFromName);
-    disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, dragSource, &FPwin::matchBrackets);
+    disconnect (textEdit, &TextEdit::updateBracketMatching, dragSource, &FPwin::matchBrackets);
     disconnect (textEdit, &QPlainTextEdit::blockCountChanged, dragSource, &FPwin::formatOnBlockChange);
     disconnect (textEdit, &TextEdit::updateRect, dragSource, &FPwin::formatVisibleText);
     disconnect (textEdit, &TextEdit::resized, dragSource, &FPwin::formatOnResizing);
@@ -3713,7 +3713,7 @@ void FPwin::dropTab (QString str)
     if (textEdit->getHighlighter()) // it's set to NULL above when syntax highlighting is disabled
     {
         matchBrackets();
-        connect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::matchBrackets);
+        connect (textEdit, &TextEdit::updateBracketMatching, this, &FPwin::matchBrackets);
         connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
         connect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
         connect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);

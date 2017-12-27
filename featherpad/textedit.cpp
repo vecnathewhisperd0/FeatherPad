@@ -26,6 +26,7 @@ namespace FeatherPad {
 
 TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
 {
+    prevAnchor = prevPos = -1;
     autoIndentation = true;
     autoBracket = false;
     scrollJumpWorkaround = false;
@@ -115,6 +116,8 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     lineNumberArea->hide();
 
     connect (this, &QPlainTextEdit::updateRequest, this, &TextEdit::onUpdateRequesting);
+    connect (this, &QPlainTextEdit::cursorPositionChanged, this, &TextEdit::updateBracketMatching);
+    connect (this, &QPlainTextEdit::selectionChanged, this, &TextEdit::onSelectionChanged);
 }
 /*************************/
 void TextEdit::setEditorFont (const QFont &f)
@@ -946,6 +949,23 @@ void TextEdit::onUpdateRequesting (const QRect& /*rect*/, int dy)
     else Dy = dy;
 
     updateTimerId = startTimer (50);
+}
+/*************************/
+// Bracket matching isn't only based on the signal "cursorPositionChanged()"
+// because it isn't emitted when a selected text is removed while the cursor
+// is at its start. This function emits an appropriate signal in such cases.
+void TextEdit::onSelectionChanged()
+{
+    QTextCursor cur = textCursor();
+    if (!cur.hasSelection()) {
+        if (cur.position() == prevPos && cur.position() < prevAnchor)
+            emit updateBracketMatching();
+        prevAnchor = prevPos = -1;
+    }
+    else {
+        prevAnchor = cur.anchor();
+        prevPos = cur.position();
+    }
 }
 /*************************/
 void TextEdit::zooming (float range)

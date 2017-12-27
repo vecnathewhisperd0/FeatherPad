@@ -166,6 +166,7 @@ signals:
     void resized(); // needed by syntax highlighting
     void updateRect (const QRect &rect, int dy);
     void zoomedOut (TextEdit *textEdit); // needed for reformatting text
+    void updateBracketMatching();
 
 protected:
     void keyPressEvent (QKeyEvent *event);
@@ -203,11 +204,13 @@ private slots:
     void highlightCurrentLine();
     void updateLineNumberArea (const QRect&, int);
     void onUpdateRequesting (const QRect&, int dy);
+    void onSelectionChanged();
     void scrollWithInertia();
 
 private:
     QString computeIndentation (const QTextCursor &cur) const;
 
+    int prevAnchor, prevPos; // used only for bracket matching
     QWidget *lineNumberArea;
     QTextEdit::ExtraSelection currentLine;
     bool autoIndentation;
