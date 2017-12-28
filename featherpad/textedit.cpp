@@ -22,6 +22,7 @@
 #include "textedit.h"
 #include "vscrollbar.h"
 
+#define UPDATE_INTERVAL 50 // in ms
 #define SCROLL_FRAMES_PER_SEC 60
 #define SCROLL_DURATION 300 // in ms
 
@@ -668,7 +669,7 @@ void TextEdit::resizeEvent (QResizeEvent *e)
         killTimer (resizeTimerId);
         resizeTimerId = 0;
     }
-    resizeTimerId = startTimer (50);
+    resizeTimerId = startTimer (UPDATE_INTERVAL);
 }
 /*************************/
 void TextEdit::timerEvent (QTimerEvent *e)
@@ -951,7 +952,7 @@ void TextEdit::onUpdateRequesting (const QRect& /*rect*/, int dy)
     }
     else Dy = dy;
 
-    updateTimerId = startTimer (50);
+    updateTimerId = startTimer (UPDATE_INTERVAL);
 }
 /*************************/
 // Bracket matching isn't only based on the signal "cursorPositionChanged()"
@@ -989,6 +990,25 @@ void TextEdit::zooming (float range)
     /* due to a Qt bug, this is needed for the
        scrollbar range to be updated correctly */
     adjustScrollbars();
+}
+/*************************/
+// Since the visible text rectangle is updated by a timer, if the text
+// page is first shown for a very short time (when, for example, the
+// active tab is changed quickly several times), "updateRect()" might
+// be emitted when the text page isn't visible, while "updateRequest()"
+// might not be emitted when it becomes visible again. That will result in
+// an incomplete syntax highlighting. Therefore, we restart "updateTimerId"
+// and give a positive value to "Dy" whenever the text page is shown.
+void TextEdit::showEvent (QShowEvent *event)
+{
+    QPlainTextEdit::showEvent (event);
+    if (updateTimerId)
+    {
+        killTimer (updateTimerId);
+        updateTimerId = 0;
+    }
+    Dy = 1;
+    updateTimerId = startTimer (UPDATE_INTERVAL);
 }
 
 }

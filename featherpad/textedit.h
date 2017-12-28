@@ -175,6 +175,7 @@ protected:
     void resizeEvent (QResizeEvent *event);
     void timerEvent (QTimerEvent *event);
     void paintEvent (QPaintEvent *event); // only for working around the RTL bug
+    void showEvent (QShowEvent *event);
 
     /* we want to pass dropping of files to
        the main widget with a custom signal */

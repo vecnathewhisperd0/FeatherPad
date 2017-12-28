@@ -48,17 +48,26 @@ QItemSelectionModel::SelectionFlags ListWidget::selectionCommand (const QModelIn
 /*************************/
 void ListWidget::mousePressEvent (QMouseEvent *event)
 {
-    if (event->button() == Qt::MidButton
-        && selectionMode() == QAbstractItemView::SingleSelection)
+    if (selectionMode() == QAbstractItemView::SingleSelection)
     {
-        QModelIndex index = indexAt (event->pos());
-        if (QListWidgetItem *item = itemFromIndex (index))
-        { // index is checked for its validity in QListWidget::itemFromIndex()
-            emit closItem (item);
-            return;
+        if (event->button() == Qt::MidButton)
+        {
+            QModelIndex index = indexAt (event->pos());
+            if (QListWidgetItem *item = itemFromIndex (index))
+            { // index is checked for its validity in QListWidget::itemFromIndex()
+                emit closItem (item);
+                return;
+            }
         }
+        else if (event->button() == Qt::RightButton)
+            return;
     }
     QListWidget::mousePressEvent (event);
+}
+/*************************/
+QListWidgetItem *ListWidget::getItemFromIndex (const QModelIndex &index) const
+{
+    return itemFromIndex (index);
 }
 /*************************/
 void ListWidget::rowsInserted (const QModelIndex &parent, int start, int end)

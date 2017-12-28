@@ -177,14 +177,14 @@ public:
 private:
     TabPage *createEmptyTab(bool setCurrent);
     bool hasAnotherDialog();
-    void deleteTabPage (int index);
+    void deleteTabPage (int tabIndex);
     void loadText (const QString fileName, bool enforceEncod, bool reload, bool saveCursor = false, bool multiple = false);
     bool alreadyOpen (TabPage *tabPage) const;
-    void setTitle (const QString& fileName, int indx = -1);
-    int unSaved (int index, bool noToAll);
+    void setTitle (const QString& fileName, int tabIndex = -1);
+    int unSaved (int tabIndex, bool noToAll);
     bool saveFile (bool keepSyntax);
     void closeEvent (QCloseEvent *event);
-    bool closeTabs (int leftIndx, int rightIndx);
+    bool closeTabs (int first, int last);
     void dragEnterEvent (QDragEnterEvent *event);
     void dropEvent (QDropEvent *event);
     void dropTab (QString str);
@@ -220,7 +220,7 @@ private:
     QActionGroup *aGroup_;
     QString lastFile_; // The last opened or saved file (for file dialogs).
     QString txtReplace_; // The replacing text.
-    int rightClicked_; // The index of the right-clicked tab.
+    int rightClicked_; // The index/row of the right-clicked tab/item.
     int loadingProcesses_; // The number of loading processes (used to prevent early closing).
     QPointer<QThread> busyThread_; // Used to wait one second for making the cursor busy.
     ICONMODE iconMode_; // Used only internally.

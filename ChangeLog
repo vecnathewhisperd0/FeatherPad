@@ -10,6 +10,9 @@ V0.7
  * Fixed a bug in bracket matching, which happened when a selected text was removed while the cursor was at its start.
  * Get red of "foreach" because it is deprecated and will be removed sooner or later.
  * Fixed double connections with syntax highlighting of dropped pages.
+ * Don't set the right-clicked side-pane item as the current item.
+ * Added items for closing next/previous tabs to side-pane context menus.
+ * Fixed incomplete syntax highlighting after the active tab is changed quickly several times.
 
 V0.6.3
 ---------

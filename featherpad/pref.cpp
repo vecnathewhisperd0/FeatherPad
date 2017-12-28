@@ -567,10 +567,9 @@ void PrefDialog::prefStatusbar (int checked)
             {
                 /* here we can't use docProp() directly
                    because we don't want to count words */
-                int index = win->ui->tabWidget->currentIndex();
-                if (index > -1)
+                if (TabPage *tabPage = qobject_cast<TabPage*>(win->ui->tabWidget->currentWidget()))
                 {
-                    TextEdit *textEdit = qobject_cast< TabPage *>(win->ui->tabWidget->widget (index))->textEdit();
+                    TextEdit *textEdit = tabPage->textEdit();
                     win->statusMsgWithLineCount (textEdit->document()->blockCount());
                     for (int j = 0; j < win->ui->tabWidget->count(); ++j)
                     {
@@ -624,12 +623,8 @@ void PrefDialog::prefFont (int checked)
         // get the document font of the current window
         if (FPwin *win = static_cast<FPwin *>(parent_))
         {
-            int index = win->ui->tabWidget->currentIndex();
-            if (index > -1)
-            {
-                config.setFont (qobject_cast< TabPage *>(win->ui->tabWidget->widget (index))
-                                ->textEdit()->document()->defaultFont());
-            }
+            if (TabPage *tabPage = qobject_cast<TabPage*>(win->ui->tabWidget->currentWidget()))
+                config.setFont (tabPage->textEdit()->document()->defaultFont());
         }
     }
     else if (checked == Qt::Unchecked)
@@ -910,10 +905,9 @@ void PrefDialog::prefExecute (int checked)
         for (int i = 0; i < singleton->Wins.count(); ++i)
         {
             FPwin *win = singleton->Wins.at (i);
-            int index = win->ui->tabWidget->currentIndex();
-            if (index > -1)
+            if (TabPage *tabPage = qobject_cast<TabPage*>(win->ui->tabWidget->currentWidget()))
             {
-                TextEdit *textEdit = qobject_cast< TabPage *>(win->ui->tabWidget->widget (index))->textEdit();
+                TextEdit *textEdit = tabPage->textEdit();
                 if (win->isScriptLang (textEdit->getProg()) && QFileInfo (textEdit->getFileName()).isExecutable())
                     win->ui->actionRun->setVisible (true);
             }

@@ -318,30 +318,30 @@ void FPwin::formatOnResizing() const
 /*************************/
 void FPwin::formatTextRect (QRect rect) const
 {
-    int index = ui->tabWidget->currentIndex();
-    if (index == -1) return;
-
-    TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
-    Highlighter *highlighter = qobject_cast< Highlighter *>(textEdit->getHighlighter());
-    if (highlighter == nullptr) return;
-    QString progLan = textEdit->getProg();
-    if (progLan.isEmpty()) return;
-
-    QPoint Point (0, 0);
-    QTextCursor start = textEdit->cursorForPosition (Point);
-    Point = QPoint (rect.width(), rect.height());
-    QTextCursor end = textEdit->cursorForPosition (Point);
-
-    highlighter->setLimit (start, end);
-    QTextBlock block = start.block();
-    while (block.isValid() && block.blockNumber() <= end.blockNumber())
+    if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget()))
     {
-        if (TextBlockData *data = static_cast<TextBlockData *>(block.userData()))
+        TextEdit *textEdit = tabPage->textEdit();
+        Highlighter *highlighter = qobject_cast< Highlighter *>(textEdit->getHighlighter());
+        if (highlighter == nullptr) return;
+        QString progLan = textEdit->getProg();
+        if (progLan.isEmpty()) return;
+
+        QPoint Point (0, 0);
+        QTextCursor start = textEdit->cursorForPosition (Point);
+        Point = QPoint (rect.width(), rect.height());
+        QTextCursor end = textEdit->cursorForPosition (Point);
+
+        highlighter->setLimit (start, end);
+        QTextBlock block = start.block();
+        while (block.isValid() && block.blockNumber() <= end.blockNumber())
         {
-            if (!data->isHighlighted()) // isn't highlighted (completely)
-                highlighter->rehighlightBlock (block);
+            if (TextBlockData *data = static_cast<TextBlockData *>(block.userData()))
+            {
+                if (!data->isHighlighted()) // isn't highlighted (completely)
+                    highlighter->rehighlightBlock (block);
+            }
+            block = block.next();
         }
-        block = block.next();
     }
 }
 

@@ -33,6 +33,8 @@ class ListWidget : public QListWidget
 public:
     ListWidget (QWidget *parent = nullptr) : QListWidget (parent) {}
 
+    QListWidgetItem *getItemFromIndex (const QModelIndex &index) const;
+
 signals:
     void closItem (QListWidgetItem *item);
     void rowsAreInserted (int start, int end);
