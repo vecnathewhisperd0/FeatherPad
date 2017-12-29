@@ -175,13 +175,19 @@ public:
     Ui::FPwin *ui;
 
 private:
+    enum DOCSTATE {
+      SAVED,
+      UNDECIDED,
+      DISCARDED
+    };
+
     TabPage *createEmptyTab(bool setCurrent);
     bool hasAnotherDialog();
     void deleteTabPage (int tabIndex);
     void loadText (const QString fileName, bool enforceEncod, bool reload, bool saveCursor = false, bool multiple = false);
     bool alreadyOpen (TabPage *tabPage) const;
     void setTitle (const QString& fileName, int tabIndex = -1);
-    int unSaved (int tabIndex, bool noToAll);
+    DOCSTATE savePrompt (int tabIndex, bool noToAll);
     bool saveFile (bool keepSyntax);
     void closeEvent (QCloseEvent *event);
     bool closeTabs (int first, int last);

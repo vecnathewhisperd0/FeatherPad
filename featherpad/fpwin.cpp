@@ -728,8 +728,8 @@ bool FPwin::closeTabs (int first, int last)
     }
     bool keep = false;
     int index, count;
-    int unsaved = 0;
-    while (unsaved == 0 && ui->tabWidget->count() > 0)
+    DOCSTATE state = SAVED;
+    while (state == SAVED && ui->tabWidget->count() > 0)
     {
         if (QGuiApplication::overrideCursor() == nullptr)
             waitToMakeBusy();
@@ -742,21 +742,14 @@ bool FPwin::closeTabs (int first, int last)
 
         if (first >= index)
             break;
-        else
-        {
-            if (hasSideList)
-                sidePane_->listWidget()->setCurrentRow (index); // sets the current widget at changeTab()
-            else
-                ui->tabWidget->setCurrentIndex (index);
-        }
         int tabIndex = hasSideList ? ui->tabWidget->indexOf (sideItems_.value (sidePane_->listWidget()->item (index)))
                                    : index;
         if (first == index - 1) // only one tab to be closed
-            unsaved = unSaved (tabIndex, false);
+            state = savePrompt (tabIndex, false);
         else
-            unsaved = unSaved (tabIndex, true); // with a "No to all" button
-        switch (unsaved) {
-        case 0: // close this tab and go to the next one on the left
+            state = savePrompt (tabIndex, true); // with a "No to all" button
+        switch (state) {
+        case SAVED: // close this tab and go to the next one on the left
             keep = false;
             deleteTabPage (tabIndex);
 
@@ -780,19 +773,14 @@ bool FPwin::closeTabs (int first, int last)
                 ui->actionFirstTab->setDisabled (true);
             }
             break;
-        case 1: // stop quitting (cancel or can't save)
+        case UNDECIDED: // stop quitting (cancel or can't save)
             keep = true;
             break;
-        case 2: // no to all: close all tabs (and quit)
+        case DISCARDED: // no to all: close all tabs (and quit)
             keep = false;
             while (index > first)
             {
                 if (last == 0) break;
-                if (hasSideList)
-                    sidePane_->listWidget()->setCurrentRow (index);
-                else
-                    ui->tabWidget->setCurrentIndex (index);
-
                 deleteTabPage (tabIndex);
 
                 if (last < 0)
@@ -828,11 +816,13 @@ bool FPwin::closeTabs (int first, int last)
     }
 
     unbusy();
-    /* restore the current page/item */
-    if (curPage)
-        ui->tabWidget->setCurrentWidget (curPage);
-    else if (curItem)
-        sidePane_->listWidget()->setCurrentItem (curItem);
+    if (!keep)
+    { // restore the current page/item
+        if (curPage)
+            ui->tabWidget->setCurrentWidget (curPage);
+        else if (curItem)
+            sidePane_->listWidget()->setCurrentItem (curItem);
+    }
     return keep;
 }
 /*************************/
@@ -910,18 +900,29 @@ void FPwin::dropEvent (QDropEvent *event)
     event->acceptProposedAction();
 }
 /*************************/
-// This method checks if there's any text that isn't saved yet.
+// This method checks if there's any text that isn't saved under a tab and,
+// if there is, it activates the tab and shows an appropriate prompt dialog.
 // "tabIndex" is always the tab index and not the item row (in the side-pane).
-int FPwin::unSaved (int tabIndex, bool noToAll)
+FPwin::DOCSTATE FPwin::savePrompt (int tabIndex, bool noToAll)
 {
-    int unsaved = 0;
-    TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (tabIndex))->textEdit();
+    DOCSTATE state = SAVED;
+    TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->widget (tabIndex));
+    TextEdit *textEdit = tabPage->textEdit();
     QString fname = textEdit->getFileName();
     if (textEdit->document()->isModified()
         || (!fname.isEmpty() && (!QFile::exists (fname) || !QFileInfo (fname).isFile())))
     {
         unbusy(); // made busy at closeTabs()
-        if (hasAnotherDialog()) return 1; // cancel
+        if (hasAnotherDialog()) return UNDECIDED; // cancel
+
+        if (tabIndex != ui->tabWidget->currentIndex())
+        { // switch to the page that needs attention
+            if (sidePane_ && !sideItems_.isEmpty())
+                sidePane_->listWidget()->setCurrentItem (sideItems_.key (tabPage)); // sets the current widget at changeTab()
+            else
+                ui->tabWidget->setCurrentIndex (tabIndex);
+        }
+
         updateShortcuts (true);
 
         MessageBox msgBox (this);
@@ -954,23 +955,24 @@ int FPwin::unSaved (int tabIndex, bool noToAll)
         switch (msgBox.exec()) {
         case QMessageBox::Save:
             if (!saveFile (true))
-                unsaved = 1;
+                state = UNDECIDED;
             break;
         case QMessageBox::Discard:
             break;
         case QMessageBox::Cancel:
-            unsaved = 1;
+            state = UNDECIDED;
             break;
         case QMessageBox::NoToAll:
-            unsaved = 2;
+            state = DISCARDED;
             break;
         default:
-            unsaved = 1;
+            state = UNDECIDED;
             break;
         }
+
         updateShortcuts (false);
     }
-    return unsaved;
+    return state;
 }
 /*************************/
 // Enable or disable some widgets.
@@ -1535,10 +1537,7 @@ void FPwin::closeTab()
     {
         index = ui->tabWidget->indexOf (sideItems_.value (sidePane_->listWidget()->item (rightClicked_)));
         if (index != ui->tabWidget->currentIndex())
-        {
             curItem = sidePane_->listWidget()->currentItem();
-            sidePane_->listWidget()->setCurrentRow (rightClicked_); // sets the current widget at changeTab()
-        }
     }
     else // close the current page
     {
@@ -1546,7 +1545,7 @@ void FPwin::closeTab()
         if (index == -1) return; // not needed
     }
 
-    if (unSaved (index, false)) return;
+    if (savePrompt (index, false) != SAVED) return;
 
     deleteTabPage (index);
     int count = ui->tabWidget->count();
@@ -1579,11 +1578,8 @@ void FPwin::closeTabAtIndex (int index)
 {
     TabPage *curPage = nullptr;
     if (index != ui->tabWidget->currentIndex())
-    {
         curPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget());
-        ui->tabWidget->setCurrentIndex (index);
-    }
-    if (unSaved (index, false)) return;
+    if (savePrompt (index, false) != SAVED) return;
     closeWarningBar();
 
     deleteTabPage (index);
@@ -2138,7 +2134,7 @@ void FPwin::enforceEncoding (QAction*)
     QString fname = textEdit->getFileName();
     if (!fname.isEmpty())
     {
-        if (unSaved (index, false))
+        if (savePrompt (index, false) != SAVED)
         { // back to the previous encoding
             encodingToCheck (textEdit->getEncoding());
             return;
@@ -2173,7 +2169,7 @@ void FPwin::reload()
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
 
-    if (unSaved (index, false)) return;
+    if (savePrompt (index, false) != SAVED) return;
 
     TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
     QString fname = textEdit->getFileName();
