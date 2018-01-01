@@ -13,6 +13,7 @@ V0.7
  * Don't set the right-clicked side-pane item as the current item.
  * Added items for closing next/previous tabs to side-pane context menus.
  * Fixed incomplete syntax highlighting after the active tab is changed quickly several times.
+ * Distinguish opened symlinks visually and add a context menu item for copying their target paths.
 
 V0.6.3
 ---------

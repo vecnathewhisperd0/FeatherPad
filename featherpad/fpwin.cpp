@@ -330,6 +330,7 @@ void FPwin::toggleSidePane()
                 /* tab text can't be used because, on the one hand, it may be elided
                    and, on the other hand, KDE's auto-mnemonics may interfere */
                 QString fname = tabPage->textEdit()->getFileName();
+                bool isLink (false);
                 if (fname.isEmpty())
                 {
                     if (tabPage->textEdit()->getProg() == "help")
@@ -338,11 +339,15 @@ void FPwin::toggleSidePane()
                         fname = tr ("Untitled");
                 }
                 else
+                {
+                    isLink = QFileInfo (fname).isSymLink();
                     fname = fname.section ('/', -1);
+                }
                 if (tabPage->textEdit()->document()->isModified())
                     fname.append ("*");
                 fname.replace ("\n", " ");
-                QListWidgetItem *lwi = new QListWidgetItem (fname, lw);
+                QListWidgetItem *lwi = new QListWidgetItem (isLink ? QIcon (":icons/link.svg") : QIcon(),
+                                                            fname, lw);
                 lwi->setToolTip (ui->tabWidget->tabToolTip (i));
                 sideItems_.insert (lwi, tabPage);
                 lw->addItem (lwi);
@@ -1615,11 +1620,13 @@ void FPwin::setTitle (const QString& fileName, int tabIndex)
     if (index < 0)
         index = ui->tabWidget->currentIndex(); // is never -1
 
+    bool isLink (false);
     QString shownName;
     if (fileName.isEmpty())
         shownName = tr ("Untitled");
     else
     {
+        isLink = QFileInfo (fileName).isSymLink();
         shownName = fileName.section ('/', -1);
         shownName.replace ("\n", " "); // no multi-line tab text
     }
@@ -1629,11 +1636,21 @@ void FPwin::setTitle (const QString& fileName, int tabIndex)
 
     shownName.replace ("&", "&&"); // single ampersand is for mnemonic
     ui->tabWidget->setTabText (index, shownName);
+    if (isLink)
+        ui->tabWidget->setTabIcon (index, QIcon (":icons/link.svg"));
+    else
+        ui->tabWidget->setTabIcon (index, QIcon());
 
     if (sidePane_ && !sideItems_.isEmpty())
     {
         if (QListWidgetItem *wi = sideItems_.key (qobject_cast<TabPage*>(ui->tabWidget->widget (index))))
+        {
             wi->setText (shownName);
+            if (isLink)
+                wi->setIcon (QIcon (":icons/link.svg"));
+            else
+                wi->setIcon (QIcon());
+        }
     }
 }
 /*************************/
@@ -3385,7 +3402,11 @@ void FPwin::detachTab()
     textEdit->setGreenSel (QList<QTextEdit::ExtraSelection>());
     textEdit->setRedSel (QList<QTextEdit::ExtraSelection>());
     /* ... then insert the detached widget... */
-    dropTarget->ui->tabWidget->insertTab (0, tabPage, tabText);
+    bool isLink = dropTarget->lastFile_.isEmpty() ? false
+                                                  : QFileInfo (dropTarget->lastFile_).isSymLink();
+    dropTarget->ui->tabWidget->insertTab (0, tabPage,
+                                          isLink ? QIcon (":icons/link.svg") : QIcon(),
+                                          tabText);
     if (dropTarget->sidePane_)
     {
         ListWidget *lw = dropTarget->sidePane_->listWidget();
@@ -3394,7 +3415,8 @@ void FPwin::detachTab()
             tabText.remove (0, 1);
             tabText.append ("*");
         }
-        QListWidgetItem *lwi = new QListWidgetItem (tabText, lw);
+        QListWidgetItem *lwi = new QListWidgetItem (isLink ? QIcon (":icons/link.svg") : QIcon(),
+                                                    tabText, lw);
         lw->setToolTip (tooltip);
         dropTarget->sideItems_.insert (lwi, tabPage);
         lw->addItem (lwi);
@@ -3603,7 +3625,10 @@ void FPwin::dropTab (QString str)
         tabPage->setSearchBarVisible (qobject_cast< TabPage *>(ui->tabWidget->widget (insertIndex - 1))
                                       ->isSearchBarVisible());
     }
-    ui->tabWidget->insertTab (insertIndex, tabPage, tabText);
+    bool isLink = lastFile_.isEmpty() ? false : QFileInfo (lastFile_).isSymLink();
+    ui->tabWidget->insertTab (insertIndex, tabPage,
+                              isLink ? QIcon (":icons/link.svg") : QIcon(),
+                              tabText);
     if (sidePane_)
     {
         ListWidget *lw = sidePane_->listWidget();
@@ -3612,7 +3637,8 @@ void FPwin::dropTab (QString str)
             tabText.remove (0, 1);
             tabText.append ("*");
         }
-        QListWidgetItem *lwi = new QListWidgetItem (tabText, lw);
+        QListWidgetItem *lwi = new QListWidgetItem (isLink ? QIcon (":icons/link.svg") : QIcon(),
+                                                    tabText, lw);
         lw->setToolTip (tooltip);
         sideItems_.insert (lwi, tabPage);
         lw->addItem (lwi);
@@ -3742,6 +3768,15 @@ void FPwin::tabContextMenu (const QPoint& p)
         showMenu = true;
         menu.addAction (ui->actionCopyName);
         menu.addAction (ui->actionCopyPath);
+        QFileInfo info (fname);
+        if (info.isSymLink())
+        {
+            menu.addSeparator();
+            QAction *action = menu.addAction (QIcon (":icons/link.svg"), tr ("Copy Target Path"));
+            connect (action, &QAction::triggered, action, [info] {
+                QApplication::clipboard()->setText (info.symLinkTarget());
+            });
+        }
     }
     if (showMenu) // we don't want an empty menu
         menu.exec (tbar->mapToGlobal (p));
@@ -3783,6 +3818,15 @@ void FPwin::listContextMenu (const QPoint& p)
         menu.addSeparator();
         menu.addAction (ui->actionCopyName);
         menu.addAction (ui->actionCopyPath);
+        QFileInfo info (fname);
+        if (info.isSymLink())
+        {
+            menu.addSeparator();
+            QAction *action = menu.addAction (QIcon (":icons/link.svg"), tr ("Copy Target Path"));
+            connect (action, &QAction::triggered, action, [info] {
+                QApplication::clipboard()->setText (info.symLinkTarget());
+            });
+        }
     }
     menu.exec (lw->mapToGlobal (p));
     rightClicked_ = -1; // reset
