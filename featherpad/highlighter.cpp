@@ -922,8 +922,11 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
     }
 
     /* in Perl, $' has a (deprecated?) meaning */
-    if (progLan == "perl" && pos >= 1 && pos - 1 == QRegExp ("\\$").indexIn (text, pos - 1))
+    if (isStartQuote // otherwise undetectable
+        && progLan == "perl" && pos >= 1 && pos - 1 == QRegExp ("\\$").indexIn (text, pos - 1))
+    {
         return true;
+    }
 
     int i = 0;
     while (pos - i >= 1 && pos - i - 1 == QRegExp ("\\\\").indexIn (text, pos - i - 1))
