@@ -28,6 +28,8 @@ Files are always opened after the active tab unless it is empty, in which case t
 
 If a file is opened multiple times, its second (third, ... ) instance will be uneditable by default and will have a light yellow or dark red background, depending on whether the default or the dark color scheme is used. To make it editable, click on the newly created 'Edit' button on the toolbar or the 'Edit' menu. After that, these two buttons will disappear again.
 
+If the opened file is a symbolic link (symlink), the context menu of its tab will have two extra items for copying its target path and opening its target inside the current window.
+
 Executable script files could be run from inside FeatherPad if the corresponding option is enabled in the Preferences dialog. Then also a Run button will appear on the tool bar and the File menu whenever needed. If no terminal command is used to run them, their output and error messages will be shown by a popup dialog.
 
 FeatherPad remembers recently modified or opened files, depending on which option is enabled in the Preferences dialog. It can also open them on a session startup. However, it has a more advanced session manager, which provides the user with options for saving a session and restoring or removing saved sessions at any time and without limit.
