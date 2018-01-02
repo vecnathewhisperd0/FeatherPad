@@ -3784,6 +3784,20 @@ void FPwin::tabContextMenu (const QPoint& p)
             connect (action, &QAction::triggered, action, [info] {
                 QApplication::clipboard()->setText (info.symLinkTarget());
             });
+            action = menu.addAction (QIcon (":icons/link.svg"), tr ("Open Target Here"));
+            connect (action, &QAction::triggered, action, [this, info] {
+                QString targetName = info.symLinkTarget();
+                for (int i = 0; i < ui->tabWidget->count(); ++i)
+                {
+                    TabPage *thisTabPage = qobject_cast<TabPage*>(ui->tabWidget->widget (i));
+                    if (targetName == thisTabPage->textEdit()->getFileName())
+                    {
+                        ui->tabWidget->setCurrentWidget (thisTabPage);
+                        return;
+                    }
+                }
+                newTabFromName (targetName, false);
+            });
         }
     }
     if (showMenu) // we don't want an empty menu
@@ -3833,6 +3847,21 @@ void FPwin::listContextMenu (const QPoint& p)
             QAction *action = menu.addAction (QIcon (":icons/link.svg"), tr ("Copy Target Path"));
             connect (action, &QAction::triggered, action, [info] {
                 QApplication::clipboard()->setText (info.symLinkTarget());
+            });
+            action = menu.addAction (QIcon (":icons/link.svg"), tr ("Open Target Here"));
+            connect (action, &QAction::triggered, action, [this, info] {
+                QString targetName = info.symLinkTarget();
+                for (int i = 0; i < ui->tabWidget->count(); ++i)
+                {
+                    TabPage *thisTabPage = qobject_cast<TabPage*>(ui->tabWidget->widget (i));
+                    if (targetName == thisTabPage->textEdit()->getFileName())
+                    {
+                        if (QListWidgetItem *wi = sideItems_.key (thisTabPage))
+                            sidePane_->listWidget()->setCurrentItem (wi); // sets the current widget at changeTab()
+                        return;
+                    }
+                }
+                newTabFromName (targetName, false);
             });
         }
     }
