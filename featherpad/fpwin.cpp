@@ -2112,12 +2112,15 @@ void FPwin::fileOpen()
     updateShortcuts (false);
 }
 /*************************/
-// Check if the file is already opened for editing somewhere else.
+// Check if the file is already opened for editing somewhere else, considering symlink targets too.
 bool FPwin::alreadyOpen (TabPage *tabPage) const
 {
     bool res = false;
 
     QString fileName = tabPage->textEdit()->getFileName();
+    QString target = QFileInfo (fileName).symLinkTarget();
+    if (target.isEmpty())
+        target = fileName;
     FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
     for (int i = 0; i < singleton->Wins.count(); ++i)
     {
@@ -2128,7 +2131,12 @@ bool FPwin::alreadyOpen (TabPage *tabPage) const
             if (thisOne == this && thisTabPage == tabPage)
                 continue;
             TextEdit *thisTextEdit = thisTabPage->textEdit();
-            if (thisTextEdit->getFileName() == fileName && !thisTextEdit->isReadOnly())
+            if (thisTextEdit->isReadOnly())
+                continue;
+            QString thisTarget = QFileInfo (thisTextEdit->getFileName()).symLinkTarget();
+            if (thisTarget.isEmpty())
+                thisTarget = thisTextEdit->getFileName();
+            if (thisTarget == target)
             {
                 res = true;
                 break;
