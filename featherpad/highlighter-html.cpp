@@ -638,11 +638,11 @@ void Highlighter::htmlJavascript (const QString &text)
 {
     if (progLan != "html") return;
     int javaIndex = 0;
-    QRegExp javaStartExp = QRegExp ("<script\\s+language\\s*\\=\\s*\"\\s*JavaScript\\s*\"[A-Za-z0-9_\\.\"\\s\\=]*>");
-    QRegExp javaEndExp = QRegExp ("</script\\s*>");
+    QRegExp javaStartExp = QRegExp ("<(script|SCRIPT)\\s+(language|LANGUAGE)\\s*\\=\\s*\"\\s*JavaScript\\s*\"[A-Za-z0-9_\\.\"\\s\\=]*>");
+    QRegExp javaEndExp = QRegExp ("</(script|SCRIPT)\\s*>");
 
     QRegExp commentStartExp = QRegExp ("/\\*");
-    QRegExp commentEndExp = QRegExp ("\\*/|(?=</script\\s*>)");
+    QRegExp commentEndExp = QRegExp ("\\*/|(?=</(script|SCRIPT)\\s*>)");
 
     if (previousBlockState() != htmlJavaState
         && previousBlockState() != htmlJavaCommentState)
