@@ -15,6 +15,7 @@ V0.7
  * Fixed incomplete syntax highlighting after the active tab is changed quickly several times.
  * Distinguish opened symlinks visually. Also, add context menu items for copying their target paths and opening their targets.
  * When checking if a files is already opened, also consider symlink targets.
+ * Syntax highlighting for regular expressions of JavaScript (\...\). Also, fixed JavaScript inside HTML to some extent.
 
 V0.6.3
 ---------

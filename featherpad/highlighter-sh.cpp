@@ -135,21 +135,6 @@ bool Highlighter::SH_SkipQuote (const QString &text, const int pos, bool isStart
             || format (pos) == altQuoteFormat);
 }
 /*************************/
-// Should be used only with characters that can be escaped.
-bool Highlighter::SH_CharIsEscaped (const QString &text, const int pos)
-{
-    if (pos < 1) return false;
-    int i = 0;
-    while (pos - i >= 1
-           && pos - i - 1 == QRegExp ("\\\\").indexIn (text, pos - i - 1))
-    {
-        ++i;
-    }
-    if (i % 2 != 0)
-        return true;
-    return false;
-}
-/*************************/
 // Highlight all comments inside command substitution variables appropriately.
 void Highlighter::SH_CommentsInsideCmnd (const QString &text, int start, int end)
 {
@@ -167,7 +152,7 @@ void Highlighter::SH_CommentsInsideCmnd (const QString &text, int start, int end
         int commentEnd = comment;
         while ((end == -1 ? commentEnd <= text.length() : commentEnd < end)
                && (commentEnd == text.length()
-                   || text.at (commentEnd) != ')' || SH_CharIsEscaped (text, commentEnd)))
+                   || text.at (commentEnd) != ')' || isEscapedChar (text, commentEnd)))
         {
             ++ commentEnd;
         }
@@ -275,13 +260,13 @@ bool Highlighter::SH_CmndSubstVar (const QString &text,
             }
             else if (text.at (indx) == '(')
             {
-                if (!SH_CharIsEscaped (text, indx))
+                if (!isEscapedChar (text, indx))
                     ++ p;
                 ++ indx;
             }
             else if (text.at (indx) == ')')
             {
-                if (!SH_CharIsEscaped (text, indx))
+                if (!isEscapedChar (text, indx))
                 {
                     -- p;
                     if (p < 0)

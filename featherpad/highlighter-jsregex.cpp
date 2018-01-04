@@ -1,0 +1,166 @@
+/*
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2018 <tsujan2000@gmail.com>
+ *
+ * FeatherPad is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the
+ * Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * FeatherPad is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#include "highlighter.h"
+
+namespace FeatherPad {
+
+// This is only for the starting "/".
+bool Highlighter::isEscapedJSRegex (const QString &text, const int pos)
+{
+    if (pos < 0) return false;
+    if (progLan != "javascript") return false;
+
+    /* escape "<.../>", "</...>" and the single-line comment sign ("//") */
+    if ((text.length() > pos + 1 && (text.at (pos + 1) == '>'
+                                     || text.at (pos + 1) == '/'))
+        || (pos > 0 && (text.at (pos - 1) == '<'
+                        || text.at (pos - 1) == '/')))
+    {
+        return true;
+    }
+
+    int i = pos - 1;
+    while (i >= 0 && (text.at (i) == ' ' || text.at (i) == '\t'))
+        --i;
+    if (i == -1)
+    {
+        QTextBlock prev = currentBlock().previous();
+        if (!prev.isValid()) return false;
+        prev.setUserState (updateState); // update the next line (which is the current line)
+        QString txt = prev.text();
+        if (txt.isEmpty()) return false;
+        QChar ch = txt.at (txt.length() - 1);
+        return ch.isLetterOrNumber() || ch == '_' || ch == ')' || ch == ']';
+    }
+    else
+    {
+        QChar ch = text.at (i);
+        return ch.isLetterOrNumber() || ch == '_' || ch == ')' || ch == ']';
+    }
+}
+/*************************/
+bool Highlighter::isInsideJSRegex (const QString &text, const int index)
+{
+    if (index < 0) return false;
+    if (progLan != "javascript") return false;
+
+    QRegExp exp ("/");
+    bool res = false;
+    int pos = -1;
+    int N;
+
+    if (previousBlockState() != JSRegexState)
+        N = 0;
+    else
+    {
+        N = 1;
+        res = true;
+    }
+
+    while ((pos = exp.indexIn (text, pos + 1)) >= 0)
+    {
+        /* skip formatted comments and quotes */
+        if (format (pos) == commentFormat || format (pos) == quoteFormat || format (pos) == quoteFormat)
+            continue;
+
+        ++N;
+        if ((N % 2 == 0 && isEscapedChar (text, pos)) // an escaped end sign
+            || (N % 2 != 0 && isEscapedJSRegex (text, pos))) // or an escaped start sign
+        {
+            --N;
+            continue;
+        }
+
+        if (index < pos)
+        {
+            if (N % 2 == 0) res = true;
+            else res = false;
+            break;
+        }
+
+        /* "pos" might be negative next time */
+        if (N % 2 == 0) res = false;
+        else res = true;
+    }
+
+    return res;
+}
+/*************************/
+void Highlighter::multiLineJSRegex (const QString &text, const int index)
+{
+    if (index < 0) return;
+    if (progLan != "javascript") return;
+
+    int startIndex = index;
+    QRegExp startExp ("/");
+    QRegExp endExp ("/"); // for now, they're the same
+
+    if (previousBlockState() != JSRegexState || startIndex > 0)
+    {
+        startIndex = startExp.indexIn (text, startIndex);
+        /* skip comments and quotations (all formatted to this point) */
+        while (isEscapedJSRegex (text, startIndex)
+               || format (startIndex) == commentFormat
+               || format (startIndex) == quoteFormat
+               || format (startIndex) == altQuoteFormat)
+        {
+            startIndex = startExp.indexIn (text, startIndex + 1);
+        }
+    }
+
+    while (startIndex >= 0)
+    {
+        int endIndex;
+        /* when the start sign is in the prvious line
+           and the search for the end sign has just begun,
+           search for the end sign from the line start */
+        if (previousBlockState() == JSRegexState && startIndex == 0)
+            endIndex = endExp.indexIn (text, 0);
+        else
+            endIndex = endExp.indexIn (text, startIndex + startExp.matchedLength());
+
+        while (isEscapedChar (text, endIndex))
+            endIndex = endExp.indexIn (text, endIndex + 1);
+
+        int len;
+        if (endIndex == -1)
+        {
+            setCurrentBlockState (JSRegexState);
+            len = text.length() - startIndex;
+        }
+        else
+        {
+            len = endIndex - startIndex
+                  + endExp.matchedLength();
+        }
+        setFormat (startIndex, len, JSRegexFormat);
+
+        startIndex = startExp.indexIn (text, startIndex + len);
+
+        /* skip comments and quotations again */
+        while (isEscapedJSRegex (text, startIndex)
+               || format (startIndex) == commentFormat
+               || format (startIndex) == quoteFormat
+               || format (startIndex) == altQuoteFormat)
+        {
+            startIndex = startExp.indexIn (text, startIndex + 1);
+        }
+    }
+}
+
+}

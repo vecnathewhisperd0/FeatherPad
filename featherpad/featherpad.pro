@@ -28,6 +28,7 @@ SOURCES += main.cpp \
            highlighter-sh.cpp \
            highlighter-html.cpp \
            highlighter-patterns.cpp \
+           highlighter-jsregex.cpp \
            vscrollbar.cpp \
            loading.cpp \
            tabpage.cpp \

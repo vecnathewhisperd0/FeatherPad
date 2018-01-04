@@ -46,19 +46,21 @@ struct BracketInfo
 class TextBlockData : public QTextBlockUserData
 {
 public:
-    TextBlockData() { Highlighted = false; OpenNests = 0; }
+    TextBlockData() { Highlighted = false; special = false; OpenNests = 0; }
     ~TextBlockData();
     QVector<ParenthesisInfo *> parentheses();
     QVector<BraceInfo *> braces();
     QVector<BracketInfo *> brackets();
     QString delimiter();
     bool isHighlighted();
+    bool isSpecial();
     int openNests();
     void insertInfo (ParenthesisInfo *info);
     void insertInfo (BraceInfo *info);
     void insertInfo (BracketInfo *info);
     void insertInfo (QString str);
     void insertHighlightInfo (bool highlighted);
+    void makeSpecial (bool make);
     void insertNestInfo (int nests);
 
 private:
@@ -67,6 +69,7 @@ private:
     QVector<BracketInfo *> allBrackets;
     QString Delimiter; // The delimiter string of a here-doc.
     bool Highlighted; // Is this block completely highlighted?
+    bool special; // A "special" block (with an embedded language, for example)?
     /* "Nest" is a generalized bracket. This variable
        is the number of unclosed nests in a block. */
     int OpenNests;
@@ -78,7 +81,7 @@ class Highlighter : public QSyntaxHighlighter
     Q_OBJECT
 
 public:
-    Highlighter (QTextDocument *parent, QString lang, QTextCursor start, QTextCursor end,
+    Highlighter (QTextDocument *parent, const QString& lang, QTextCursor start, QTextCursor end,
                  bool darkColorScheme,
                  bool showWhiteSpace = false, bool showEndings = false);
     ~Highlighter();
@@ -94,9 +97,10 @@ protected:
 private:
     QStringList keywords (QString& lang);
     QStringList types();
+    bool isEscapedChar (const QString &text, const int pos);
     bool isEscapedQuote (const QString &text, const int pos, bool isStartQuote);
     bool isQuoted (const QString &text, const int index);
-    bool isMLCommented (const QString &text, const int index);
+    bool isMLCommented (const QString &text, const int index, int comState = commentState);
     void resetHereDocStates (QTextBlock block);
     bool isHereDocument (const QString &text);
     void pythonMLComment (const QString &text, const int indx);
@@ -107,12 +111,12 @@ private:
     void singleLineComment (const QString &text, int start, int end = -1,
                             bool canBeQuoted = false);
     void multiLineComment (const QString &text,
-                           int index, int cssIndx,
+                           const int index, const int cssIndx,
                            QRegExp commentStartExp, QRegExp commentEndExp,
-                           int commState,
+                           const int commState,
                            QTextCharFormat comFormat);
     bool textEndsWithBackSlash (const QString &text);
-    void multiLineQuote (const QString &text);
+    void multiLineQuote (const QString &text, int comState = commentState);
     void xmlQuotes (const QString &text);
     void setFormatWithoutOverwrite (int start,
                                     int count,
@@ -121,12 +125,16 @@ private:
     /* SH specific methods: */
     void SH_MultiLineQuote(const QString &text);
     bool SH_SkipQuote (const QString &text, const int pos, bool isStartQuote);
-    bool SH_CharIsEscaped (const QString &text, const int pos);
     void SH_CommentsInsideCmnd (const QString &text, int start, int end);
     bool SH_CmndSubstVar (const QString &text,
                           TextBlockData *currentBlockData,
                           int prevOpenNests);
+
     void debControlFormatting (const QString &text);
+
+    bool isEscapedJSRegex (const QString &text, const int pos);
+    bool isInsideJSRegex (const QString &text, const int index);
+    void multiLineJSRegex (const QString &text, const int index);
 
     struct HighlightingRule
     {
@@ -148,6 +156,7 @@ private:
     /* Used when there is a need to mark text or undo fomatting. */
     QTextCharFormat neutralFormat;
     QTextCharFormat whiteSpaceFormat; // For whitespaces.
+    QTextCharFormat JSRegexFormat;
 
     /* Programming language: */
     QString progLan;
@@ -183,6 +192,9 @@ private:
         markdownBlockQuoteState,
         markdownCodeBlockState,
 
+        /* JavaScript: */
+        JSRegexState,
+
         /* HTML: */
         htmlStyleState,
         htmlStyleBracketState,
@@ -201,7 +213,10 @@ private:
         commentInCssState,
         cssValueState,
 
-        endState // 24
+        /* Used to update the format of the next line (as in JavaScript): */
+        updateState,
+
+        endState // 26
 
         /* For here-docs, state >= endState or state < -1. */
     };
