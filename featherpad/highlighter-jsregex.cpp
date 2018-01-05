@@ -99,7 +99,7 @@ bool Highlighter::isInsideJSRegex (const QString &text, const int index)
     while ((pos = exp.indexIn (text, pos + 1)) >= 0)
     {
         /* skip formatted comments and quotes */
-        if (format (pos) == commentFormat || format (pos) == quoteFormat || format (pos) == quoteFormat)
+        if (format (pos) == commentFormat || format (pos) == quoteFormat || format (pos) == altQuoteFormat)
             continue;
 
         ++N;
