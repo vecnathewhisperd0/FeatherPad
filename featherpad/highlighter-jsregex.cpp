@@ -29,7 +29,9 @@ bool Highlighter::isEscapedJSRegex (const QString &text, const int pos)
     if ((text.length() > pos + 1 && (text.at (pos + 1) == '>'
                                      || text.at (pos + 1) == '/'))
         || (pos > 0 && (text.at (pos - 1) == '<'
-                        || text.at (pos - 1) == '/')))
+                        || (text.at (pos - 1) == '/'
+                            /* not the end of (a previously formatted) JS regex */
+                            && format (pos - 1) != JSRegexFormat))))
     {
         return true;
     }
@@ -38,20 +40,42 @@ bool Highlighter::isEscapedJSRegex (const QString &text, const int pos)
     while (i >= 0 && (text.at (i) == ' ' || text.at (i) == '\t'))
         --i;
     if (i == -1)
-    {
+    { // examine the previous line(s)
         QTextBlock prev = currentBlock().previous();
         if (!prev.isValid()) return false;
-        prev.setUserState (updateState); // update the next line (which is the current line)
         QString txt = prev.text();
-        if (txt.isEmpty()) return false;
-        QChar ch = txt.at (txt.length() - 1);
-        return ch.isLetterOrNumber() || ch == '_' || ch == ')' || ch == ']';
+        QRegExp nonSpace ("[^\\s]+");
+        while (nonSpace.indexIn (txt, 0) == -1)
+        {
+            prev.setUserState (updateState); // update the next line if this one changes
+            prev = prev.previous();
+            if (!prev.isValid()) return false;
+            txt = prev.text();
+        }
+        int last = txt.length() - 1;
+        QChar ch = txt.at (last);
+        while (ch == ' ' || ch == '\t')
+        {
+            --last;
+            ch = txt.at (last);
+        }
+        if (prev.userState() == JSRegexEndState)
+            return false; // a regex isn't escaped if it follows another one
+        else
+        {
+            prev.setUserState (updateState); // update the next line if this one changes
+            return ch.isLetterOrNumber() || ch == '_'
+                   || ch == ')' || ch == ']'; // as with Kate
+        }
     }
     else
     {
         QChar ch = text.at (i);
-        return ch.isLetterOrNumber() || ch == '_' || ch == ')' || ch == ']';
+        return format (i) != JSRegexFormat && (ch.isLetterOrNumber() || ch == '_'
+                                               || ch == ')' || ch == ']'); // as with Kate
     }
+
+    return false;
 }
 /*************************/
 bool Highlighter::isInsideJSRegex (const QString &text, const int index)
@@ -86,7 +110,7 @@ bool Highlighter::isInsideJSRegex (const QString &text, const int index)
             continue;
         }
 
-        if (index < pos)
+        if (index <= pos) // they may be equal, as when "//" is at the end of "/...//"
         {
             if (N % 2 == 0) res = true;
             else res = false;
@@ -108,7 +132,7 @@ void Highlighter::multiLineJSRegex (const QString &text, const int index)
 
     int startIndex = index;
     QRegExp startExp ("/");
-    QRegExp endExp ("/"); // for now, they're the same
+    QRegExp endExp ("/[A-Za-z0-9_]*");
 
     if (previousBlockState() != JSRegexState || startIndex > 0)
     {
@@ -160,6 +184,23 @@ void Highlighter::multiLineJSRegex (const QString &text, const int index)
         {
             startIndex = startExp.indexIn (text, startIndex + 1);
         }
+    }
+
+    /* If this line ends with a regex plus spaces, give it a special
+       state to decide about the probable regex of its following line
+       and also for that line to be updated when this state is toggled. */
+    if (currentBlockState() == 0 && !text.isEmpty())
+    {
+        int last = text.length() - 1;
+        QChar ch = text.at (last);
+        while (ch == ' ' || ch == '\t')
+        {
+            --last;
+            if (last < 0) return;
+            ch = text.at (last);
+        }
+        if (format (last) == JSRegexFormat)
+            setCurrentBlockState (JSRegexEndState);
     }
 }
 

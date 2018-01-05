@@ -194,6 +194,7 @@ private:
 
         /* JavaScript: */
         JSRegexState,
+        JSRegexEndState, // the line ends with a JS regex + spaces
 
         /* HTML: */
         htmlStyleState,
@@ -216,7 +217,7 @@ private:
         /* Used to update the format of the next line (as in JavaScript): */
         updateState,
 
-        endState // 26
+        endState // 27
 
         /* For here-docs, state >= endState or state < -1. */
     };

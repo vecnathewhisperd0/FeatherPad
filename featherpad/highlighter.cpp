@@ -697,7 +697,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang, QTextCurso
 
         /* footnotes */
         markdownFormat.setFontItalic (true);
-        rule.pattern = QRegExp ("\\[\\^.+\\]");
+        rule.pattern = QRegExp ("\\[\\^[^\\]]+\\]");
         rule.format = markdownFormat;
         highlightingRules.append (rule);
         markdownFormat.setFontItalic (false);
@@ -1136,8 +1136,7 @@ void Highlighter::pythonMLComment (const QString &text, const int indx)
 {
     if (progLan != "python") return;
 
-    //QRegExp urlPattern = QRegExp ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
-    QRegExp urlPattern = QRegExp ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)]+");
+    QRegExp urlPattern = QRegExp ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
     QRegExp notePattern = QRegExp ("\\b(NOTE|TODO|FIXME|WARNING)\\b");
     int pIndex = 0;
     QTextCharFormat noteFormat;
@@ -1473,8 +1472,7 @@ int Highlighter::cssHighlighter (const QString &text)
 // "canBeQuoted" and "end" are used with comments in double quoted bash commands.
 void Highlighter::singleLineComment (const QString &text, int start, int end, bool canBeQuoted)
 {
-    //QRegExp urlPattern = QRegExp ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
-    QRegExp urlPattern = QRegExp ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)]+");
+    QRegExp urlPattern = QRegExp ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
     QRegExp notePattern = QRegExp ("\\b(NOTE|TODO|FIXME|WARNING)\\b");
     int pIndex = 0;
     QTextCharFormat noteFormat;
@@ -1550,8 +1548,7 @@ void Highlighter::multiLineComment (const QString &text,
         return;  // was processed by singleLineComment()
 
     bool commentBeforeBrace = false; // in css, not as: "{...
-    //QRegExp urlPattern = QRegExp ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
-    QRegExp urlPattern = QRegExp ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)]+");
+    QRegExp urlPattern = QRegExp ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
     QRegExp notePattern = QRegExp ("\\b(NOTE|TODO|FIXME|WARNING)\\b");
     int startIndex = index;
     int pIndex = 0;
@@ -1576,6 +1573,38 @@ void Highlighter::multiLineComment (const QString &text,
         }
         if (startIndex >=0 && startIndex < cssIndx)
             commentBeforeBrace = true;
+
+        /* special handling for markdown */
+        if (progLan == "markdown" && startIndex > 0)
+        {
+            if (QRegExp ("^#+\\s+.*").indexIn (text, 0) == 0
+                || QRegExp ("^( {4,}|\\s*\\t+\\s*).*").indexIn (text, 0) == 0)
+            {
+                return; // no comment start sign inside headings or code blocks
+            }
+            /* no comment start sign inside footnotes, images or links */
+            QRegExp mExp ("\\[\\^[^\\]]+\\]"
+                          "|"
+                          "\\!\\[[^\\]\\^]*\\]\\s*"
+                          "(\\(\\s*[^\\)\\(\\s]+(\\s+\\\".*\\\")*\\s*\\)|\\s*\\[[^\\]]*\\])"
+                          "|"
+                          "\\[[^\\]\\^]*\\]\\s*\\[[^\\]\\s]*\\]"
+                          "|"
+                          "\\[[^\\]\\^]*\\]\\s*\\(\\s*[^\\)\\(\\s]+(\\s+\\\".*\\\")*\\s*\\)"
+                          "|"
+                          "\\[[^\\]\\^]*\\]:\\s+\\s*[^\\)\\(\\s]+(\\s+\\\".*\\\")*");
+            int mStart = mExp.indexIn (text, 0);
+            while (mStart >= 0 && mStart < startIndex)
+            {
+                int mEnd = mStart + mExp.matchedLength();
+                if (startIndex < mEnd)
+                {
+                    startIndex = commentStartExp.indexIn (text, mEnd);
+                    if (startIndex == -1) return;
+                }
+                mStart = mExp.indexIn (text, mEnd);
+            }
+        }
     }
 
     while (startIndex >= 0)
@@ -2177,8 +2206,7 @@ void Highlighter::debControlFormatting (const QString &text)
         /* non-commented URLs */
         debFormat.setForeground (DarkGreenAlt);
         debFormat.setFontUnderline (true);
-        //exp = QRegExp ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
-        exp = QRegExp ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)]+");
+        exp = QRegExp ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
         while ((indx = text.indexOf (exp, indx)) > -1)
         {
             int ml = exp.matchedLength();
