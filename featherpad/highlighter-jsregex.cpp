@@ -36,6 +36,8 @@ bool Highlighter::isEscapedJSRegex (const QString &text, const int pos)
         return true;
     }
 
+    static QRegExp keys;
+
     int i = pos - 1;
     while (i >= 0 && (text.at (i) == ' ' || text.at (i) == '\t'))
         --i;
@@ -64,15 +66,35 @@ bool Highlighter::isEscapedJSRegex (const QString &text, const int pos)
         else
         {
             prev.setUserState (updateState); // update the next line if this one changes
-            return ch.isLetterOrNumber() || ch == '_'
-                   || ch == ')' || ch == ']'; // as with Kate
+            if (ch.isLetterOrNumber() || ch == '_'
+                || ch == ')' || ch == ']') // as with Kate
+            { // a regex isn't escaped if it follows a JavaScript keyword
+                if (keys.isEmpty())
+                    keys = QRegExp (keywords (progLan).join ('|'));
+                int len = qMin (12, last + 1);
+                QString str = txt.mid (last - len + 1, len);
+                int j;
+                if ((j = keys.lastIndexIn (str)) > -1 && j + keys.matchedLength() == len)
+                    return false;
+                return true;
+            }
         }
     }
     else
     {
         QChar ch = text.at (i);
-        return format (i) != JSRegexFormat && (ch.isLetterOrNumber() || ch == '_'
-                                               || ch == ')' || ch == ']'); // as with Kate
+        if (format (i) != JSRegexFormat && (ch.isLetterOrNumber() || ch == '_'
+                                            || ch == ')' || ch == ']')) // as with Kate
+        { // a regex isn't escaped if it follows a JavaScript keyword
+            if (keys.isEmpty())
+                keys = QRegExp (keywords (progLan).join ('|'));
+            int len = qMin (12, i + 1);
+            QString str = text.mid (i - len + 1, len);
+            int j;
+            if ((j = keys.lastIndexIn (str)) > -1 && j + keys.matchedLength() == len)
+                return false;
+            return true;
+        }
     }
 
     return false;
