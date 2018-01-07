@@ -59,19 +59,14 @@ QVector<BracketInfo *> TextBlockData::brackets()
     return allBrackets;
 }
 /*************************/
-QString TextBlockData::delimiter()
+QString TextBlockData::labelInfo()
 {
-    return Delimiter;
+    return label;
 }
 /*************************/
 bool TextBlockData::isHighlighted()
 {
     return Highlighted;
-}
-/*************************/
-bool TextBlockData::isSpecial()
-{
-    return special;
 }
 /*************************/
 int TextBlockData::openNests()
@@ -117,12 +112,7 @@ void TextBlockData::insertInfo (BracketInfo *info)
 /*************************/
 void TextBlockData::insertInfo (QString str)
 {
-    Delimiter = str;
-}
-/*************************/
-void TextBlockData::makeSpecial (bool make)
-{
-    special = make;
+    label = str;
 }
 /*************************/
 void TextBlockData::insertHighlightInfo (bool highlighted)
@@ -136,7 +126,8 @@ void TextBlockData::insertNestInfo (int nests)
 }
 /*************************/
 // Here, the order of formatting is important because of overrides.
-Highlighter::Highlighter (QTextDocument *parent, const QString& lang, QTextCursor start, QTextCursor end,
+Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
+                          const QTextCursor &start, const QTextCursor &end,
                           bool darkColorScheme,
                           bool showWhiteSpace, bool showEndings) : QSyntaxHighlighter (parent)
 {
@@ -801,7 +792,6 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang, QTextCurso
 
     if (showWhiteSpace)
     {
-        whiteSpaceFormat.setForeground (Faded);
         rule.pattern = QRegExp ("\\s+");
         rule.format = whiteSpaceFormat;
         highlightingRules.append (rule);
@@ -980,7 +970,8 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
     return false;
 }
 /*************************/
-// Check if a character is inside quotation marks but consider the language.
+// Checks if a character is inside quotation marks, considering the language
+// (should be used with care because it gives correct results only in special places).
 bool Highlighter::isQuoted (const QString &text, const int index)
 {
     if (index < 0) return false;
@@ -1064,10 +1055,12 @@ bool Highlighter::isQuoted (const QString &text, const int index)
     return res;
 }
 /*************************/
-// Checks if a character is inside a multiline comment
-// (works only with real comments whose state is "comState").
+// Checks if a start quote is inside a multiline comment (may give an incorrect result
+// with other characters and works only with real comments whose state is "comState").
 bool Highlighter::isMLCommented (const QString &text, const int index, int comState)
 {
+    if (commentStartExpression.isEmpty()) return false;
+
     /* not for Python */
     if (progLan == "python") return false;
 
@@ -1470,47 +1463,47 @@ int Highlighter::cssHighlighter (const QString &text)
 }
 /*************************/
 // "canBeQuoted" and "end" are used with comments in double quoted bash commands.
-void Highlighter::singleLineComment (const QString &text, int start, int end, bool canBeQuoted)
+void Highlighter::singleLineComment (const QString &text, const int start, int end, bool canBeQuoted)
 {
-    QRegExp urlPattern = QRegExp ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
-    QRegExp notePattern = QRegExp ("\\b(NOTE|TODO|FIXME|WARNING)\\b");
-    int pIndex = 0;
-    QTextCharFormat noteFormat;
-    noteFormat.setFontWeight (QFont::Bold);
-    noteFormat.setFontItalic (true);
-    noteFormat.setForeground (DarkRed);
-
     for (const HighlightingRule &rule : static_cast<const QVector<HighlightingRule>&>(highlightingRules))
     {
         if (rule.format == commentFormat)
         {
+            int startIndex = qMax (start, 0);
             if (end == -1) end = text.length();
             QRegExp expression (rule.pattern);
             if (previousBlockState() == nextLineCommentState)
-                start = 0;
+                startIndex = 0;
             else
             {
-                start = expression.indexIn (text, start);
+                startIndex = expression.indexIn (text, startIndex);
                 if (!canBeQuoted)
                 { // skip quoted comments
-                    while (start >= 0 && start < end
-                           && (isQuoted (text, start) || isInsideJSRegex (text, start)))
+                    while (startIndex >= 0 && startIndex < end
+                           && (isQuoted (text, startIndex) || isInsideJSRegex (text, startIndex)))
                     {
-                        start = expression.indexIn (text, start + 1);
+                        startIndex = expression.indexIn (text, startIndex + 1);
                     }
                 }
             }
-            if (start >= 0 && start < end)
+            if (startIndex >= 0 && startIndex < end)
             {
-                setFormat (start, end - start, commentFormat);
+                setFormat (startIndex, end - startIndex, commentFormat);
 
                 /* also format urls and email addresses inside the comment */
-                QString str = text.mid (start, end - start);
+                QString str = text.mid (startIndex, end - startIndex);
+                QRegExp urlPattern = QRegExp ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
+                QRegExp notePattern = QRegExp ("\\b(NOTE|TODO|FIXME|WARNING)\\b");
+                QTextCharFormat noteFormat;
+                noteFormat.setFontWeight (QFont::Bold);
+                noteFormat.setFontItalic (true);
+                noteFormat.setForeground (DarkRed);
                 int indx = 0;
+                int pIndex = 0;
                 while ((pIndex = str.indexOf (urlPattern, indx)) > -1)
                 {
                     int ml = urlPattern.matchedLength();
-                    setFormat (pIndex + start, ml, urlFormat);
+                    setFormat (pIndex + startIndex, ml, urlFormat);
                     indx = indx + ml;
                 }
                 /* format note patterns too */
@@ -1519,7 +1512,7 @@ void Highlighter::singleLineComment (const QString &text, int start, int end, bo
                 {
                     int ml = notePattern.matchedLength();
                     if (format (pIndex) != urlFormat)
-                      setFormat (pIndex + start, ml, noteFormat);
+                      setFormat (pIndex + startIndex, ml, noteFormat);
                     indx = indx + ml;
                 }
                 /* take care of next-line comments with languages, for which
@@ -1539,9 +1532,9 @@ void Highlighter::singleLineComment (const QString &text, int start, int end, bo
 /*************************/
 void Highlighter::multiLineComment (const QString &text,
                                     const int index, const int cssIndx,
-                                    QRegExp commentStartExp, QRegExp commentEndExp,
+                                    const QRegExp &commentStartExp, const QRegExp &commentEndExp,
                                     const int commState,
-                                    QTextCharFormat comFormat)
+                                    const QTextCharFormat &comFormat)
 {
     if (index < 0) return;
     if (previousBlockState() == nextLineCommentState)
@@ -1699,7 +1692,7 @@ void Highlighter::multiLineComment (const QString &text,
                     int INDX = expression.indexIn (text, badIndex);
                     while (format (INDX) == quoteFormat
                            || format (INDX) == altQuoteFormat
-                           || isMLCommented (text, INDX))
+                           || isMLCommented (text, INDX, commState))
                     {
                         INDX = expression.indexIn (text, INDX + 1);
                     }
@@ -2105,7 +2098,7 @@ bool Highlighter::isHereDocument (const QString &text)
         QTextBlock block = currentBlock().previous();
         TextBlockData *data = static_cast<TextBlockData *>(block.userData());
         if (!data) return false;
-        delimStr = data->delimiter();
+        delimStr = data->labelInfo();
         if (text == delimStr
             || (text.startsWith (delimStr)
                 && text.indexOf (QRegExp ("\\s+")) == delimStr.length()))

@@ -19,7 +19,7 @@
 
 namespace FeatherPad {
 
-QStringList Highlighter::keywords (QString& lang)
+QStringList Highlighter::keywords (const QString &lang)
 {
     QStringList keywordPatterns;
     if (lang == "c" || lang == "cpp")

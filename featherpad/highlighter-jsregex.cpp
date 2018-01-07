@@ -100,6 +100,7 @@ bool Highlighter::isEscapedJSRegex (const QString &text, const int pos)
     return false;
 }
 /*************************/
+// This should be used with care because it gives correct results only in special places.
 bool Highlighter::isInsideJSRegex (const QString &text, const int index)
 {
     if (index < 0) return false;

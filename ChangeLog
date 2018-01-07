@@ -15,7 +15,7 @@ V0.7
  * Fixed incomplete syntax highlighting after the active tab is changed quickly several times.
  * Distinguish opened symlinks visually. Also, add context menu items for copying their target paths and opening their targets.
  * When checking if a files is already opened, also consider symlink targets.
- * Syntax highlighting for regular expressions of JavaScript (/.../). Also, fixed JavaScript inside HTML to some extent.
+ * Syntax highlighting for regular expressions of JavaScript (/.../). Also, fixed JavaScript inside HTML.
 
 V0.6.3
 ---------
@@ -38,7 +38,7 @@ V0.6.1
  * Don't open files > 500 MiB.
  * Added a warning-bar for non-prompt messages.
  * Added markdown to syntax highlighting (thanks to AcarBurak at GitHub).
- * Highlight the syntax of sh double quoted code distribution variables "$(...)".
+ * Highlight the syntax of sh double quoted code substitution variables "$(...)".
  * Russian translation by Vladimir Sharonin (Survolog at GitHub).
  * Polish translation by Marcin Mikołajczak (m4sk1n at GitHub).
  * Danish translation by scootergrisen at GitHub.

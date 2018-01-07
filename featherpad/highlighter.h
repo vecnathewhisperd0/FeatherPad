@@ -46,30 +46,27 @@ struct BracketInfo
 class TextBlockData : public QTextBlockUserData
 {
 public:
-    TextBlockData() { Highlighted = false; special = false; OpenNests = 0; }
+    TextBlockData() { Highlighted = false; OpenNests = 0; }
     ~TextBlockData();
     QVector<ParenthesisInfo *> parentheses();
     QVector<BraceInfo *> braces();
     QVector<BracketInfo *> brackets();
-    QString delimiter();
+    QString labelInfo();
     bool isHighlighted();
-    bool isSpecial();
     int openNests();
     void insertInfo (ParenthesisInfo *info);
     void insertInfo (BraceInfo *info);
     void insertInfo (BracketInfo *info);
     void insertInfo (QString str);
     void insertHighlightInfo (bool highlighted);
-    void makeSpecial (bool make);
     void insertNestInfo (int nests);
 
 private:
     QVector<ParenthesisInfo *> allParentheses;
     QVector<BraceInfo *> allBraces;
     QVector<BracketInfo *> allBrackets;
-    QString Delimiter; // The delimiter string of a here-doc.
+    QString label; // A label (usually, the delimiter string of a here-doc).
     bool Highlighted; // Is this block completely highlighted?
-    bool special; // A "special" block (with an embedded language, for example)?
     /* "Nest" is a generalized bracket. This variable
        is the number of unclosed nests in a block. */
     int OpenNests;
@@ -81,12 +78,13 @@ class Highlighter : public QSyntaxHighlighter
     Q_OBJECT
 
 public:
-    Highlighter (QTextDocument *parent, const QString& lang, QTextCursor start, QTextCursor end,
+    Highlighter (QTextDocument *parent, const QString& lang,
+                 const QTextCursor &start, const QTextCursor &end,
                  bool darkColorScheme,
                  bool showWhiteSpace = false, bool showEndings = false);
     ~Highlighter();
 
-    void setLimit (QTextCursor start, QTextCursor end) {
+    void setLimit (const QTextCursor &start, const QTextCursor &end) {
         startCursor = start;
         endCursor = end;
     }
@@ -95,26 +93,25 @@ protected:
     void highlightBlock (const QString &text);
 
 private:
-    QStringList keywords (QString& lang);
+    QStringList keywords (const QString &lang);
     QStringList types();
     bool isEscapedChar (const QString &text, const int pos);
     bool isEscapedQuote (const QString &text, const int pos, bool isStartQuote);
     bool isQuoted (const QString &text, const int index);
     bool isMLCommented (const QString &text, const int index, int comState = commentState);
-    void resetHereDocStates (QTextBlock block);
     bool isHereDocument (const QString &text);
     void pythonMLComment (const QString &text, const int indx);
-    void htmlStyleHighlighter (const QString &text);
-    void htmlBrackets (const QString &text);
+    void htmlStyleHighlighter (const QString &text, const int start = 0);
+    void htmlBrackets (const QString &text, const int start = 0);
     void htmlJavascript (const QString &text);
     int cssHighlighter (const QString &text);
-    void singleLineComment (const QString &text, int start, int end = -1,
+    void singleLineComment (const QString &text, const int start, int end = -1,
                             bool canBeQuoted = false);
     void multiLineComment (const QString &text,
                            const int index, const int cssIndx,
-                           QRegExp commentStartExp, QRegExp commentEndExp,
+                           const QRegExp &commentStartExp, const QRegExp &commentEndExp,
                            const int commState,
-                           QTextCharFormat comFormat);
+                           const QTextCharFormat &comFormat);
     bool textEndsWithBackSlash (const QString &text);
     void multiLineQuote (const QString &text, int comState = commentState);
     void xmlQuotes (const QString &text);
@@ -194,7 +191,7 @@ private:
 
         /* JavaScript: */
         JSRegexState,
-        JSRegexEndState, // the line ends with a JS regex + spaces
+        JSRegexEndState, // the line ends with a JS regex (+ spaces)
 
         /* HTML: */
         htmlStyleState,

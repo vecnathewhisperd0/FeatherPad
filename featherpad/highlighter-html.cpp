@@ -20,7 +20,7 @@
 namespace FeatherPad {
 
 // This should be called before htmlStyleHighlighter();
-void Highlighter::htmlBrackets (const QString &text)
+void Highlighter::htmlBrackets (const QString &text, const int start)
 {
     if (progLan != "html") return;
 
@@ -28,17 +28,18 @@ void Highlighter::htmlBrackets (const QString &text)
      * (Multiline) HTML Brackets *
      *****************************/
 
-    int braIndex = 0;
+    int braIndex = start;
     QRegExp braStartExp = QRegExp ("<(?!\\!)/{,1}[A-Za-z0-9_\\-]+");
     QRegExp braEndExp = QRegExp (">");
     QTextCharFormat htmlBraFormat;
     htmlBraFormat.setFontWeight (QFont::Bold);
     htmlBraFormat.setForeground (Violet);
-    if (previousBlockState() != htmlBracketState
-        && previousBlockState() != singleQuoteState
-        && previousBlockState() != doubleQuoteState)
+    if ((previousBlockState() != htmlBracketState
+         && previousBlockState() != singleQuoteState
+         && previousBlockState() != doubleQuoteState)
+        || braIndex > 0)
     {
-        braIndex = braStartExp.indexIn (text);
+        braIndex = braStartExp.indexIn (text, braIndex);
         while (format (braIndex) == commentFormat || format (braIndex) == urlFormat)
             braIndex = braStartExp.indexIn (text, braIndex + 1);
 
@@ -212,24 +213,25 @@ void Highlighter::htmlBrackets (const QString &text)
     }
 }
 /*************************/
-void Highlighter::htmlStyleHighlighter (const QString &text)
+void Highlighter::htmlStyleHighlighter (const QString &text, const int start)
 {
     if (progLan != "html") return;
 
-    int styleIndex = 0;
+    int styleIndex = start;
     QRegExp styleStartExp = QRegExp ("<style");
     QRegExp styleEndExp = QRegExp ("</style>");
     QTextCharFormat htmlStyleFormat;
     htmlStyleFormat.setFontWeight (QFont::Bold);
     htmlStyleFormat.setForeground (Violet);
-    if (previousBlockState() != htmlStyleState
-        && previousBlockState() != htmlBlockState
-        && previousBlockState() != htmlValueState
-        && previousBlockState() != htmlStyleBracketState
-        && previousBlockState() != htmlStyleSingleQuoteState
-        && previousBlockState() != htmlStyleDoubleQuoteState)
+    if ((previousBlockState() != htmlStyleState
+         && previousBlockState() != htmlBlockState
+         && previousBlockState() != htmlValueState
+         && previousBlockState() != htmlStyleBracketState
+         && previousBlockState() != htmlStyleSingleQuoteState
+         && previousBlockState() != htmlStyleDoubleQuoteState)
+        || styleIndex > 0)
     {
-        styleIndex = styleStartExp.indexIn (text);
+        styleIndex = styleStartExp.indexIn (text, start);
         while (format (styleIndex) == commentFormat || format (styleIndex) == urlFormat)
             styleIndex = styleStartExp.indexIn (text, styleIndex + 1);
     }
@@ -293,7 +295,7 @@ void Highlighter::htmlStyleHighlighter (const QString &text)
              && previousBlockState() != htmlStyleDoubleQuoteState)
             || braIndex < styleIndex) // another style
         {
-            braIndex = braStartExp.indexIn (text);
+            braIndex = braStartExp.indexIn (text, start);
         }
 
         int tempIndex = braIndex; // to check progress in the following loop
@@ -481,7 +483,7 @@ void Highlighter::htmlStyleHighlighter (const QString &text)
                  && previousBlockState() != htmlValueState)
                 || tmpIndex < styleIndex) // another style
             {
-                index = htmlStartExp.indexIn (text);
+                index = htmlStartExp.indexIn (text, start);
             }
 
             while (index >= styleIndex && index <= endLimit)
@@ -551,7 +553,7 @@ void Highlighter::htmlStyleHighlighter (const QString &text)
             if (previousBlockState() != htmlValueState
                 || tmpIndex < styleIndex)
             {
-                index = htmlStartExp.indexIn (text);
+                index = htmlStartExp.indexIn (text, start);
                 if (index > -1)
                 {
                     while (format (index) != htmlFormat)
@@ -612,7 +614,7 @@ void Highlighter::htmlStyleHighlighter (const QString &text)
             htmlColorFormat.setForeground (Qt::magenta);
             htmlColorFormat.setFontWeight (QFont::Bold);
             QRegExp expression = QRegExp ("#\\b([A-Za-z0-9]{3}){,4}(?![A-Za-z0-9_]+)");
-            int indxTmp = expression.indexIn (text);
+            int indxTmp = expression.indexIn (text, start);
             while (isQuoted (text, indxTmp))
                 indxTmp = expression.indexIn (text, indxTmp + 1);
             while (indxTmp >= 0 && indxTmp < endLimit)
@@ -632,6 +634,22 @@ void Highlighter::htmlStyleHighlighter (const QString &text)
         while (format (styleIndex) == commentFormat || format (styleIndex) == urlFormat)
             styleIndex = styleStartExp.indexIn (text, styleIndex + 1);
     }
+
+    /* at last, format whitespaces */
+    for (const HighlightingRule &rule : static_cast<const QVector<HighlightingRule>&>(highlightingRules))
+    {
+        if (rule.format == whiteSpaceFormat)
+        {
+            QRegExp expression (rule.pattern);
+            int index = expression.indexIn (text, start);
+            while (index >= 0)
+            {
+                int length = expression.matchedLength();
+                setFormat (index, length, rule.format);
+                index = expression.indexIn (text, index + length);
+            }
+        }
+    }
 }
 /*************************/
 void Highlighter::htmlJavascript (const QString &text)
@@ -643,13 +661,9 @@ void Highlighter::htmlJavascript (const QString &text)
     QRegExp javaStartExp = QRegExp ("<(script|SCRIPT)\\s+(language|LANGUAGE)\\s*\\=\\s*\"\\s*JavaScript\\s*\"[A-Za-z0-9_\\.\"\\s\\=]*>");
     QRegExp javaEndExp = QRegExp ("</(script|SCRIPT)\\s*>");
 
-    /* switch to javascript comments temporarily */
-    QRegExp origCommentStartExp (commentStartExpression);
-    QRegExp origCommentEndExp (commentEndExpression);
+    /* switch to javascript temporarily */
     commentStartExpression = QRegExp ("/\\*");
     commentEndExpression = QRegExp ("\\*/");
-    /* and the same for the programming language */
-    QString lang = progLan;
     progLan = "javascript";
 
     bool wasJavascript (false);
@@ -657,7 +671,7 @@ void Highlighter::htmlJavascript (const QString &text)
     if (prevBlock.isValid())
     {
         if (TextBlockData *prevData = static_cast<TextBlockData *>(prevBlock.userData()))
-            wasJavascript = prevData->isSpecial(); // perhaps, it was made "special" below
+            wasJavascript = prevData->labelInfo() == "JS"; // it was labeled below
     }
 
     if (!wasJavascript)
@@ -666,106 +680,25 @@ void Highlighter::htmlJavascript (const QString &text)
         while (format (javaIndex) == commentFormat
                || format (javaIndex) == quoteFormat
                || format (javaIndex) == altQuoteFormat
-               || format (javaIndex) == urlFormat
-               || format (javaIndex) == JSRegexFormat)
+               || format (javaIndex) == urlFormat)
         {
             javaIndex = javaStartExp.indexIn (text, javaIndex + 1);
         }
     }
-    int curState = currentBlockState();
+    int matched = 0;
     TextBlockData *curData = static_cast<TextBlockData *>(currentBlock().userData());
     while (javaIndex >= 0)
     {
-        int javaEndIndex;
-        int matched = 0;
-
-        /* when the javascript block starts in the prvious line
-           and the search for its end has just begun... */
-        if (javaIndex == 0 && wasJavascript)
-        {
-            /* ...search for its end from the line start */
-            javaEndIndex = javaEndExp.indexIn (text, 0);
-        }
-        else
-        {
+        if (!wasJavascript || javaIndex > 0)
             matched = javaStartExp.matchedLength();
-            javaEndIndex = javaEndExp.indexIn (text,
-                                               javaIndex + matched);
-        }
 
-        while (javaEndIndex > -1
-               && (isQuoted (text, javaEndIndex)
-                   || isMLCommented (text, javaEndIndex, htmlJavaCommentState)
-                   || isInsideJSRegex (text, javaEndIndex)))
-        {
-            javaEndIndex = javaEndExp.indexIn (text, javaEndIndex + 1);
-        }
-
-        int len;
-        if (javaEndIndex == -1)
-        {
-            /* setting the state is needed for the next line to be updated later */
-            setCurrentBlockState (htmlJavaState);
-            /* Since a multiline comment/quote state might be set, the next line
-               couldn't be processed based on the state of this one. So, we make
-               this line "special" to show that it's written in javascript, not html. */
-            curData->makeSpecial (true);
-            len = text.length() - javaIndex;
-        }
-        else
-        {
-            len = javaEndIndex - javaIndex
-                  + javaEndExp.matchedLength();
-        }
-
-        /* clear all html formats */
-        /*QTextCharFormat neutral;
+        /* starting from here, clear all html formats... */
+        QTextCharFormat neutral;
         neutral.setForeground (QBrush());
-        if (javaEndIndex == -1)
-            setFormat (javaIndex + matched, len - matched, neutral);
-        else
-            setFormat (javaIndex + matched, javaEndIndex - javaIndex - matched, neutral);
-        if (currentBlockState() == commentState)
-            setCurrentBlockState (0);*/
+        setFormat (javaIndex + matched, text.length() - javaIndex - matched, neutral);
+        setCurrentBlockState (0);
 
-        int index;
-        for (const HighlightingRule &rule : static_cast<const QVector<HighlightingRule>&>(highlightingRules))
-        {
-            /* single-line comments are already formatted */
-            if (rule.format == commentFormat)
-                continue;
-
-            QRegExp expression (rule.pattern);
-            index = expression.indexIn (text, javaIndex + matched);
-            /* skip quotes and all comments */
-            while (format (index) == quoteFormat
-                   || format (index) == altQuoteFormat
-                   || format (index) == commentFormat
-                   || format (index) == urlFormat)
-            {
-                index = expression.indexIn (text, index + 1);
-            }
-
-            while (index >= 0 && index < javaIndex + len)
-            {
-                int length = expression.matchedLength();
-                if (index + length > javaIndex + len)
-                    length = javaIndex + len - index;
-                setFormat (index, length, rule.format);
-                index = expression.indexIn (text, index + length);
-
-                while (format (index) == quoteFormat
-                       || format (index) == altQuoteFormat
-                       || format (index) == commentFormat
-                       || format (index) == urlFormat
-                       || format (index) == JSRegexFormat)
-                {
-                    index = expression.indexIn (text, index + 1);
-                }
-            }
-        }
-
-        /* javascript comments and quotes */
+        /* ... and apply the javascript formats */
         singleLineComment (text, javaIndex + matched);
         multiLineQuote (text, htmlJavaCommentState);
         multiLineComment (text,
@@ -774,27 +707,98 @@ void Highlighter::htmlJavascript (const QString &text)
                           htmlJavaCommentState,
                           commentFormat);
         multiLineJSRegex (text, javaIndex + matched);
+        for (const HighlightingRule &rule : static_cast<const QVector<HighlightingRule>&>(highlightingRules))
+        {
+            if (rule.format == commentFormat)
+                continue;
 
-        /* restore the state if the javascript block is ended here
-           to prevent html syntax highlighting from restarting */
-        if (javaEndIndex > -1)
-            setCurrentBlockState (curState);
+            QRegExp expression (rule.pattern);
+            int index = expression.indexIn (text, javaIndex + matched);
+            while (rule.format != whiteSpaceFormat
+                   && (format (index) == quoteFormat
+                       || format (index) == altQuoteFormat
+                       || format (index) == commentFormat
+                       || format (index) == urlFormat))
+            {
+                index = expression.indexIn (text, index + 1);
+            }
+
+            while (index >= 0)
+            {
+                int length = expression.matchedLength();
+                setFormat (index, length, rule.format);
+                index = expression.indexIn (text, index + length);
+
+                while (rule.format != whiteSpaceFormat
+                       && (format (index) == quoteFormat
+                           || format (index) == altQuoteFormat
+                           || format (index) == commentFormat
+                           || format (index) == urlFormat
+                           || format (index) == JSRegexFormat))
+                {
+                    index = expression.indexIn (text, index + 1);
+                }
+            }
+        }
+
+        /* now, search for the end of the javascript block */
+        int javaEndIndex;
+        if (javaIndex == 0 && wasJavascript)
+            javaEndIndex = javaEndExp.indexIn (text, 0);
+        else
+        {
+            javaEndIndex = javaEndExp.indexIn (text,
+                                               javaIndex + matched);
+        }
+
+        while (javaEndIndex > -1
+               && (format (javaEndIndex) == quoteFormat
+                   || format (javaEndIndex) == altQuoteFormat
+                   || format (javaEndIndex) == commentFormat
+                   || format (javaEndIndex) == urlFormat
+                   || format (javaEndIndex) == JSRegexFormat))
+        {
+            javaEndIndex = javaEndExp.indexIn (text, javaEndIndex + 1);
+        }
+
+        int len;
+        if (javaEndIndex == -1)
+        {
+            if (currentBlockState() == 0)
+                setCurrentBlockState (htmlJavaState); // for updating the next line
+            /* Since the next line couldn't be processed based on the state of this line,
+               we label this line to show that it's written in javascript and not html. */
+            curData->insertInfo ("JS");
+            len = text.length() - javaIndex;
+        }
+        else
+        {
+            len = javaEndIndex - javaIndex
+                  + javaEndExp.matchedLength();
+            /* if the javascript block ends at this line,
+               format the rest of the line as an html code again */
+            setFormat (javaEndIndex, text.length() - javaEndIndex, neutral);
+            setCurrentBlockState (0);
+            progLan = "html";
+            htmlBrackets (text, javaEndIndex);
+            htmlStyleHighlighter (text, javaEndIndex);
+            progLan = "javascript";
+        }
 
         javaIndex = javaStartExp.indexIn (text, javaIndex + len);
         while (format (javaIndex) == commentFormat
                || format (javaIndex) == urlFormat
                || format (javaIndex) == quoteFormat
-               || format (javaIndex) == altQuoteFormat
-               || format (javaIndex) == JSRegexFormat)
+               || format (javaIndex) == altQuoteFormat)
         {
             javaIndex = javaStartExp.indexIn (text, javaIndex + 1);
         }
     }
 
-    /* restore html info */
-    progLan = lang;
-    commentStartExpression = origCommentStartExp;
-    commentEndExpression = origCommentEndExp;
+    /* revert to html */
+    progLan = "html";
+    commentStartExpression = QRegExp ("<!--");
+    commentEndExpression = QRegExp ("-->");
 }
 
 }
