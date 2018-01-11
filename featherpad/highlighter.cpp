@@ -665,18 +665,18 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
         /* italic */
         markdownFormat.setFontItalic (true);
-        rule.pattern = QRegExp ("\\*[^\\*\\s]\\*|\\*[^\\*\\s][^\\*]*[^\\*\\s]\\*"
+        rule.pattern = QRegExp ("\\*[^\\*]+\\*"
                                 "|"
-                                "_[^_\\s]_|_[^_\\s][^_]*[^_\\s]_");
+                                "_[^_]+_");
         rule.format = markdownFormat;
         highlightingRules.append (rule);
         markdownFormat.setFontItalic (false);
 
         /* bold */
         markdownFormat.setFontWeight (QFont::Bold);
-        rule.pattern = QRegExp ("\\*{2}[^\\*\\s]\\*{2}|\\*{2}[^\\*\\s][^\\*]*[^\\*\\s]\\*{2}"
+        rule.pattern = QRegExp ("\\*{2}[^\\*]+\\*{2}"
                                 "|"
-                                "_{2}[^_\\s]_{2}|_{2}[^_\\s][^_]*[^_\\s]_{2}");
+                                "_{2}[^_]+_{2}");
         rule.format = markdownFormat;
         highlightingRules.append (rule);
 
@@ -1008,7 +1008,9 @@ bool Highlighter::isQuoted (const QString &text, const int index)
         {
             if (previousBlockState() == doubleQuoteState
                 || previousBlockState() == htmlStyleDoubleQuoteState)
+            {
                 quoteExpression = quoteMark;
+            }
             else
                 quoteExpression = QRegExp ("\'");
         }
@@ -1270,7 +1272,7 @@ void Highlighter::pythonMLComment (const QString &text, const int indx)
 }
 /*************************/
 // This should come before multiline comments highlighting.
-int Highlighter::cssHighlighter (const QString &text)
+int Highlighter::cssHighlighter (const QString &text, const int start)
 {
     if (progLan != "css") return -1;
 
@@ -1282,18 +1284,19 @@ int Highlighter::cssHighlighter (const QString &text)
 
     QRegExp cssStartExpression = QRegExp ("\\{");
     QRegExp cssEndExpression = QRegExp ("\\}");
-    int index = 0;
+    int index = start;
     QTextCharFormat cssValueFormat;
     cssValueFormat.setFontItalic (true);
-    cssValueFormat.setForeground (DarkGreenAlt);
+    cssValueFormat.setForeground (DarkMagenta);
     QTextCharFormat cssErrorFormat;
     cssErrorFormat.setFontUnderline (true);
     cssErrorFormat.setForeground (Red);
-    if (previousBlockState() != cssBlockState
-        && previousBlockState() != commentInCssState
-        && previousBlockState() != cssValueState)
+    if (index > 0
+        || (previousBlockState() != cssBlockState
+            && previousBlockState() != commentInCssState
+            && previousBlockState() != cssValueState))
     {
-        index = cssStartExpression.indexIn (text);
+        index = cssStartExpression.indexIn (text, index);
         if (index >= 0) cssIndx = index;
     }
 
@@ -1360,9 +1363,9 @@ int Highlighter::cssHighlighter (const QString &text)
     cssStartExpression = QRegExp (":");
     cssEndExpression = QRegExp (";|\\}");
     index = 0;
-    if (previousBlockState() != cssValueState)
+    if (previousBlockState() != cssValueState || start > 0)
     {
-        index = cssStartExpression.indexIn (text);
+        index = cssStartExpression.indexIn (text, start);
         if (index > -1)
         {
             while (format (index) != cssErrorFormat)
@@ -1417,12 +1420,12 @@ int Highlighter::cssHighlighter (const QString &text)
     /* color value format (#xyz, #abcdef, #abcdefxy) */
     QTextCharFormat cssColorFormat;
 
-    cssColorFormat.setForeground (DarkGreenAlt);
+    cssColorFormat.setForeground (DarkMagenta);
     cssColorFormat.setFontWeight (QFont::Bold);
     cssColorFormat.setFontItalic (true);
     // previously: "#\\b([A-Za-z0-9]{3}){,4}(?![A-Za-z0-9_]+)"
     QRegExp expression = QRegExp ("#([A-Fa-f0-9]{3}){,2}(?![A-Za-z0-9_]+)|#([A-Fa-f0-9]{3}){2}[A-Fa-f0-9]{2}(?![A-Za-z0-9_]+)");
-    int indxTmp = expression.indexIn (text);
+    int indxTmp = expression.indexIn (text, start);
     while (isQuoted (text, indxTmp))
         indxTmp = expression.indexIn (text, indxTmp + 1);
     while (indxTmp >= 0)
@@ -1440,7 +1443,7 @@ int Highlighter::cssHighlighter (const QString &text)
     QTextCharFormat cssDefinitionFormat;
     cssDefinitionFormat.setForeground (Brown);
     expression = QRegExp ("^\\s*@[A-Za-z-]+\\s+|;\\s*@[A-Za-z-]+\\s+");
-    indxTmp = expression.indexIn (text);
+    indxTmp = expression.indexIn (text, start);
     while (isQuoted (text, indxTmp))
         indxTmp = expression.indexIn (text, indxTmp + 1);
     while (indxTmp >= 0)
@@ -1564,7 +1567,7 @@ void Highlighter::multiLineComment (const QString &text,
         {
             startIndex = commentStartExp.indexIn (text, startIndex + 1);
         }
-        if (startIndex >=0 && startIndex < cssIndx)
+        if (startIndex >= 0 && startIndex < cssIndx)
             commentBeforeBrace = true;
 
         /* special handling for markdown */
@@ -1641,7 +1644,9 @@ void Highlighter::multiLineComment (const QString &text,
             if ((currentBlockState() != cssBlockState
                  && currentBlockState() != cssValueState)
                 || commentBeforeBrace)
+            {
                 setCurrentBlockState (commState);
+            }
             else
                 setCurrentBlockState (commentInCssState);
             commentLength = text.length() - startIndex;
@@ -1738,9 +1743,10 @@ bool Highlighter::textEndsWithBackSlash (const QString &text)
 // This also covers single-line quotes. It comes after single-line comments
 // and before nulti-line ones are formatted. "comState" is the comment state,
 // whose default is "commentState" but may be different for some languages.
-void Highlighter::multiLineQuote (const QString &text, int comState)
+// Sometimes (with multi-language docs), formatting should be started from "start".
+void Highlighter::multiLineQuote (const QString &text, const int start, int comState)
 {
-    int index = 0;
+    int index = start;
     bool mixedQuotes = false;
     if (progLan == "c" || progLan == "cpp"
         || progLan == "python"
@@ -1759,10 +1765,11 @@ void Highlighter::multiLineQuote (const QString &text, int comState)
     int quote = doubleQuoteState;
 
     /* find the start quote */
-    if (previousBlockState() != doubleQuoteState
-        && previousBlockState() != singleQuoteState)
+    if ((previousBlockState() != doubleQuoteState
+         && previousBlockState() != singleQuoteState)
+        || index > 0)
     {
-        index = quoteExpression.indexIn (text);
+        index = quoteExpression.indexIn (text, index);
         /* skip escaped start quotes and all comments */
         while (isEscapedQuote (text, index, true)
                || isInsideJSRegex (text, index)
@@ -2121,6 +2128,23 @@ bool Highlighter::isHereDocument (const QString &text)
             else
                 setCurrentBlockState (previousBlockState());
             setFormat (0, text.length(), blockFormat);
+
+            /* also, format whitespaces */
+            for (const HighlightingRule &rule : static_cast<const QVector<HighlightingRule>&>(highlightingRules))
+            {
+                if (rule.format == whiteSpaceFormat)
+                {
+                    QRegExp expression (rule.pattern);
+                    int index = expression.indexIn (text);
+                    while (index >= 0)
+                    {
+                        int length = expression.matchedLength();
+                        setFormat (index, length, rule.format);
+                        index = expression.indexIn (text, index + length);
+                    }
+                }
+            }
+
             return true;
         }
     }
@@ -2325,7 +2349,7 @@ void Highlighter::highlightBlock (const QString &text)
     if (progLan == "html")
     {
         htmlBrackets (text);
-        htmlStyleHighlighter (text);
+        htmlCSSHighlighter (text);
         htmlJavascript (text);
         /* go to braces matching */
         data->insertHighlightInfo (true); // completely highlighted

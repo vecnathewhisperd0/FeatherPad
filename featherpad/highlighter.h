@@ -101,10 +101,10 @@ private:
     bool isMLCommented (const QString &text, const int index, int comState = commentState);
     bool isHereDocument (const QString &text);
     void pythonMLComment (const QString &text, const int indx);
-    void htmlStyleHighlighter (const QString &text, const int start = 0);
+    void htmlCSSHighlighter (const QString &text, const int start = 0);
     void htmlBrackets (const QString &text, const int start = 0);
     void htmlJavascript (const QString &text);
-    int cssHighlighter (const QString &text);
+    int cssHighlighter (const QString &text, const int start = 0);
     void singleLineComment (const QString &text, const int start, int end = -1,
                             bool canBeQuoted = false);
     void multiLineComment (const QString &text,
@@ -113,7 +113,9 @@ private:
                            const int commState,
                            const QTextCharFormat &comFormat);
     bool textEndsWithBackSlash (const QString &text);
-    void multiLineQuote (const QString &text, int comState = commentState);
+    void multiLineQuote (const QString &text,
+                         const int start = 0,
+                         int comState = commentState);
     void xmlQuotes (const QString &text);
     void setFormatWithoutOverwrite (int start,
                                     int count,
@@ -194,15 +196,12 @@ private:
         JSRegexEndState, // the line ends with a JS regex (+ spaces)
 
         /* HTML: */
-        htmlStyleState,
-        htmlStyleBracketState,
-        //htmlStyleAttState,
-        htmlStyleSingleQuoteState,
-        htmlStyleDoubleQuoteState,
         htmlBracketState,
-        //htmlAttState,
-        htmlBlockState,
-        htmlValueState,
+        htmlStyleState,
+        htmlStyleDoubleQuoteState,
+        htmlStyleSingleQuoteState,
+        htmlCSSState,
+        htmlCSSCommentState,
         htmlJavaState,
         htmlJavaCommentState,
 
@@ -214,7 +213,7 @@ private:
         /* Used to update the format of the next line (as in JavaScript): */
         updateState,
 
-        endState // 27
+        endState // 26
 
         /* For here-docs, state >= endState or state < -1. */
     };
