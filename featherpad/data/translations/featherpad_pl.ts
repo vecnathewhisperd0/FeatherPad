@@ -511,7 +511,7 @@
     <message>
         <location filename="../../fp.ui" line="1103"/>
         <source>Side-Pane</source>
-        <translation type="unfinished"></translation>
+        <translation>Panel boczny</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1106"/>
@@ -1102,13 +1102,13 @@
         <location filename="../../fpwin.cpp" line="3783"/>
         <location filename="../../fpwin.cpp" line="3847"/>
         <source>Copy Target Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopiuj ścieżkę docelową</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="3787"/>
         <location filename="../../fpwin.cpp" line="3851"/>
         <source>Open Target Here</source>
-        <translation type="unfinished"></translation>
+        <translation>Otwórz cel tutaj</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="3952"/>
@@ -1235,17 +1235,18 @@
         <location filename="../../predDialog.ui" line="111"/>
         <source>Most suitable with sessions
 but without tab functionality.</source>
-        <translation type="unfinished"></translation>
+        <translation>Najbardziej przydatne w sesjach
+bez możliwości korzystana z kart.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="138"/>
         <source>Uncheck for 1/5 of the width.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odznacz, aby używać 1/5 szerokości.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="141"/>
         <source>Remember splitter position</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapamiętaj szerokość panelu</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="161"/>
@@ -1350,7 +1351,7 @@ report that they have multiple desktops.</source>
     <message>
         <location filename="../../predDialog.ui" line="278"/>
         <source>Always open in separate windows</source>
-        <translation type="unfinished"></translation>
+        <translation>Zawsze otwieraj w oddzielnych oknach</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="285"/>
@@ -1491,7 +1492,7 @@ Restart jest wymagany, aby efekt był widoczny.</translation>
     <message>
         <location filename="../../predDialog.ui" line="115"/>
         <source>Start with side-pane mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Uruchamiaj z panelem bocznym</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="154"/>
@@ -1822,12 +1823,13 @@ uruchamianych po rozpoczęciu pustej sesji.</translation>
         <location filename="../../sessionDialog.ui" line="159"/>
         <source>By default, all files that are opened in all
 windows will be included in the saved session.</source>
-        <translation type="unfinished"></translation>
+        <translation>Domyślnie wszystkie pliki otwarte we wszystkich
+oknach zostaną uwzględnione w zapisanej sesji.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="163"/>
         <source>Save only from this &amp;window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Zapisz tylko z tego okna</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="177"/>
