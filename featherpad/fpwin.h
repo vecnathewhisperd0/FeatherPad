@@ -13,6 +13,8 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @license GPL-3.0+ <http://spdx.org/licenses/GPL-3.0+>
  */
 
 #ifndef FPWIN_H
