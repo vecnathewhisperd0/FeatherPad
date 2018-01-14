@@ -1,10 +1,30 @@
 /*
- * encoding.c
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014 <tsujan2000@gmail.com>
  *
- * Adapted from:
- * Tarot Osuji's Leafpad
- * http://tarot.freeshell.org/leafpad/
+ * FeatherPad is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the
+ * Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * FeatherPad is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @license GPL-2.0+ <http://spdx.org/licenses/GPL-2.0+>
  */
+
+/* This file was adapted from
+ * Leafpad - GTK+ based simple text editor
+ * File: src/encoding.c
+ * Copyright: 2004-2005 Tarot Osuji
+ * License: GPL-2.0+
+ * Homepage: http://tarot.freeshell.org/leafpad/
+ */
+
 
 #include <stdlib.h> // getenv
 #include <langinfo.h> // CODESET, nl_langinfo
