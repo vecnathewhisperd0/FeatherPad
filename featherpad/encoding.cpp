@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @license GPL-2.0+ <http://spdx.org/licenses/GPL-2.0+>
+ * @license GPL-2.0+ <https://spdx.org/licenses/GPL-2.0+.html>
  */
 
 /* This file was adapted from
