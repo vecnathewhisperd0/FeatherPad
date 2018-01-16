@@ -64,6 +64,8 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
         isStyle = true;
     }
 
+    int bn = currentBlock().blockNumber();
+    bool mainFormatting (bn >= startCursor.blockNumber() && bn <= endCursor.blockNumber());
     int firstBraIndex = braIndex; // to check progress in the following loop
     while (braIndex >= 0)
     {
@@ -225,21 +227,29 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
          * (Multiline) HTML Attributes *
          *******************************/
 
-        QTextCharFormat htmlAttributeFormat;
-        htmlAttributeFormat.setFontItalic (true);
-        htmlAttributeFormat.setForeground (Brown);
-        QRegExp attExp = QRegExp ("[A-Za-z0-9_\\-]+(?=\\s*\\=)");
-        int attIndex = attExp.indexIn (text, braIndex);
-        while (format (attIndex) == quoteFormat
-               || format (attIndex) == altQuoteFormat)
+        if (mainFormatting)
         {
-            attIndex = attExp.indexIn (text, attIndex + 1);
-        }
-        while (attIndex >= braIndex && attIndex < endLimit)
-        {
-            int length = attExp.matchedLength();
-            setFormat (attIndex, length, htmlAttributeFormat);
-            attIndex = attExp.indexIn (text, attIndex + length);
+            QTextCharFormat htmlAttributeFormat;
+            htmlAttributeFormat.setFontItalic (true);
+            htmlAttributeFormat.setForeground (Brown);
+            QRegExp attExp = QRegExp ("[A-Za-z0-9_\\-]+(?=\\s*\\=)");
+            int attIndex = attExp.indexIn (text, braIndex);
+            while (format (attIndex) == quoteFormat
+                   || format (attIndex) == altQuoteFormat)
+            {
+                attIndex = attExp.indexIn (text, attIndex + attExp.matchedLength());
+            }
+            while (attIndex >= braIndex && attIndex < endLimit)
+            {
+                int length = attExp.matchedLength();
+                setFormat (attIndex, length, htmlAttributeFormat);
+                attIndex = attExp.indexIn (text, attIndex + length);
+                while (format (attIndex) == quoteFormat
+                       || format (attIndex) == altQuoteFormat)
+                {
+                    attIndex = attExp.indexIn (text, attIndex + attExp.matchedLength());
+                }
+            }
         }
 
         indx = braIndex + len;
@@ -257,17 +267,21 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
     }
 
     /* at last, format whitespaces */
-    for (const HighlightingRule &rule : static_cast<const QVector<HighlightingRule>&>(highlightingRules))
+    if (mainFormatting)
     {
-        if (rule.format == whiteSpaceFormat)
+        static_cast<TextBlockData *>(currentBlock().userData())->insertHighlightInfo (true); // completely highlighted
+        for (const HighlightingRule &rule : static_cast<const QVector<HighlightingRule>&>(highlightingRules))
         {
-            QRegExp expression (rule.pattern);
-            int index = expression.indexIn (text, start);
-            while (index >= 0)
+            if (rule.format == whiteSpaceFormat)
             {
-                int length = expression.matchedLength();
-                setFormat (index, length, rule.format);
-                index = expression.indexIn (text, index + length);
+                QRegExp expression (rule.pattern);
+                int index = expression.indexIn (text, start);
+                while (index >= 0)
+                {
+                    int length = expression.matchedLength();
+                    setFormat (index, length, rule.format);
+                    index = expression.indexIn (text, index + length);
+                }
             }
         }
     }
@@ -325,6 +339,8 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
             matched = braEndExp.matchedLength(); // 1
     }
     TextBlockData *curData = static_cast<TextBlockData *>(currentBlock().userData());
+    int bn = currentBlock().blockNumber();
+    bool mainFormatting (bn >= startCursor.blockNumber() && bn <= endCursor.blockNumber());
     while (cssIndex >= 0)
     {
         /* single-line style bracket (<style ...>) */
@@ -339,66 +355,51 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
 
         /* ... and apply the css formats */;
         multiLineQuote (text, cssIndex + matched, htmlCSSCommentState);
-        int cssIndx = cssHighlighter (text, cssIndex + matched);
+        int cssIndx = cssHighlighter (text, mainFormatting, cssIndex + matched);
         multiLineComment (text,
                           cssIndex + matched, cssIndx,
                           commentStartExpression, commentEndExpression,
                           htmlCSSCommentState,
                           commentFormat);
-        for (const HighlightingRule &rule : static_cast<const QVector<HighlightingRule>&>(highlightingRules))
+        if (mainFormatting)
         {
-            if (rule.format == commentFormat)
-                continue;
-
-            QRegExp expression (rule.pattern);
-            int index = expression.indexIn (text, cssIndex + matched);
-            while (rule.format != whiteSpaceFormat
-                   && (format (index) == quoteFormat
-                       || format (index) == altQuoteFormat
-                       || format (index) == commentFormat
-                       || format (index) == urlFormat))
-            {
-                index = expression.indexIn (text, index + 1);
-            }
-
-            while (index >= 0)
-            {
-                int length = expression.matchedLength();
-                setFormat (index, length, rule.format);
-                index = expression.indexIn (text, index + length);
-
-                while (rule.format != whiteSpaceFormat
-                       && (format (index) == quoteFormat
-                           || format (index) == altQuoteFormat
-                           || format (index) == commentFormat
-                           || format (index) == urlFormat))
+            for (const HighlightingRule &rule : static_cast<const QVector<HighlightingRule>&>(highlightingRules))
+            { // CSS doesn't have any main formatting except for witesapces
+                if (rule.format == whiteSpaceFormat)
                 {
-                    index = expression.indexIn (text, index + 1);
+                    QRegExp expression (rule.pattern);
+                    int index = expression.indexIn (text, start);
+                    while (index >= 0)
+                    {
+                        int length = expression.matchedLength();
+                        setFormat (index, length, rule.format);
+                        index = expression.indexIn (text, index + length);
+                    }
                 }
             }
         }
 
         /* now, search for the end of the css block */
-        int javaEndIndex;
+        int cssEndIndex;
         if (cssIndex == 0 && wasCSS)
-            javaEndIndex = cssEndExp.indexIn (text, 0);
+            cssEndIndex = cssEndExp.indexIn (text, 0);
         else
         {
-            javaEndIndex = cssEndExp.indexIn (text,
+            cssEndIndex = cssEndExp.indexIn (text,
                                                cssIndex + matched);
         }
 
-        while (javaEndIndex > -1
-               && (format (javaEndIndex) == quoteFormat
-                   || format (javaEndIndex) == altQuoteFormat
-                   || format (javaEndIndex) == commentFormat
-                   || format (javaEndIndex) == urlFormat))
+        while (cssEndIndex > -1
+               && (format (cssEndIndex) == quoteFormat
+                   || format (cssEndIndex) == altQuoteFormat
+                   || format (cssEndIndex) == commentFormat
+                   || format (cssEndIndex) == urlFormat))
         {
-            javaEndIndex = cssEndExp.indexIn (text, javaEndIndex + 1);
+            cssEndIndex = cssEndExp.indexIn (text, cssEndIndex + 1);
         }
 
         int len;
-        if (javaEndIndex == -1)
+        if (cssEndIndex == -1)
         {
             if (currentBlockState() == 0)
                 setCurrentBlockState (htmlCSSState); // for updating the next line
@@ -409,14 +410,14 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
         }
         else
         {
-            len = javaEndIndex - cssIndex
+            len = cssEndIndex - cssIndex
                   + cssEndExp.matchedLength();
             /* if the css block ends at this line, format
                the rest of the line as an html code again */
-            setFormat (javaEndIndex, text.length() - javaEndIndex, neutral);
+            setFormat (cssEndIndex, text.length() - cssEndIndex, neutral);
             setCurrentBlockState (0);
             progLan = "html";
-            htmlBrackets (text, javaEndIndex);
+            htmlBrackets (text, cssEndIndex);
             progLan = "css";
         }
 
@@ -472,6 +473,8 @@ void Highlighter::htmlJavascript (const QString &text)
     }
     int matched = 0;
     TextBlockData *curData = static_cast<TextBlockData *>(currentBlock().userData());
+    int bn = currentBlock().blockNumber();
+    bool mainFormatting (bn >= startCursor.blockNumber() && bn <= endCursor.blockNumber());
     while (javaIndex >= 0)
     {
         if (!wasJavascript || javaIndex > 0)
@@ -492,36 +495,39 @@ void Highlighter::htmlJavascript (const QString &text)
                           htmlJavaCommentState,
                           commentFormat);
         multiLineJSRegex (text, javaIndex + matched);
-        for (const HighlightingRule &rule : static_cast<const QVector<HighlightingRule>&>(highlightingRules))
+        if (mainFormatting)
         {
-            if (rule.format == commentFormat)
-                continue;
-
-            QRegExp expression (rule.pattern);
-            int index = expression.indexIn (text, javaIndex + matched);
-            while (rule.format != whiteSpaceFormat
-                   && (format (index) == quoteFormat
-                       || format (index) == altQuoteFormat
-                       || format (index) == commentFormat
-                       || format (index) == urlFormat))
+            for (const HighlightingRule &rule : static_cast<const QVector<HighlightingRule>&>(highlightingRules))
             {
-                index = expression.indexIn (text, index + 1);
-            }
+                if (rule.format == commentFormat)
+                    continue;
 
-            while (index >= 0)
-            {
-                int length = expression.matchedLength();
-                setFormat (index, length, rule.format);
-                index = expression.indexIn (text, index + length);
-
+                QRegExp expression (rule.pattern);
+                int index = expression.indexIn (text, javaIndex + matched);
                 while (rule.format != whiteSpaceFormat
                        && (format (index) == quoteFormat
                            || format (index) == altQuoteFormat
                            || format (index) == commentFormat
-                           || format (index) == urlFormat
-                           || format (index) == JSRegexFormat))
+                           || format (index) == urlFormat))
                 {
                     index = expression.indexIn (text, index + 1);
+                }
+
+                while (index >= 0)
+                {
+                    int length = expression.matchedLength();
+                    setFormat (index, length, rule.format);
+                    index = expression.indexIn (text, index + length);
+
+                    while (rule.format != whiteSpaceFormat
+                           && (format (index) == quoteFormat
+                               || format (index) == altQuoteFormat
+                               || format (index) == commentFormat
+                               || format (index) == urlFormat
+                               || format (index) == JSRegexFormat))
+                    {
+                        index = expression.indexIn (text, index + 1);
+                    }
                 }
             }
         }

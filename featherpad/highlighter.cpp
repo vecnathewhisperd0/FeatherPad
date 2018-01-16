@@ -805,8 +805,8 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
     /* single line comments */
     rule.pattern = QRegExp();
-    if (progLan == "c" || progLan == "cpp" || Lang == "javascript" // javascript inside html
-        || progLan == "qml" || progLan == "php" /*|| progLan == "css"*/)
+    if (progLan == "c" || progLan == "cpp" || progLan == "javascript"
+        || progLan == "qml" || progLan == "php")
     {
         rule.pattern = QRegExp ("//.*"); // why had I set it to QRegExp ("//(?!\\*).*")?
     }
@@ -1274,11 +1274,15 @@ void Highlighter::pythonMLComment (const QString &text, const int indx)
 }
 /*************************/
 // This should come before multiline comments highlighting.
-int Highlighter::cssHighlighter (const QString &text, const int start)
+int Highlighter::cssHighlighter (const QString &text, bool mainFormatting, const int start)
 {
     if (progLan != "css") return -1;
 
     int cssIndx = -1;
+    /* CSS can have huge lines, which will take
+       a lot of CPU time if they're formatted completely. */
+    if (text.length() > 50000)
+        mainFormatting = false;
 
     /**************************
      * (Multiline) CSS Blocks *
@@ -1328,31 +1332,34 @@ int Highlighter::cssHighlighter (const QString &text, const int start)
             cssLength = endIndex - index
                         + cssEndExpression.matchedLength();
 
-        /* at first, we suppose all syntax is wrong */
-        QRegExp expression = QRegExp ("[^\\{^\\}^\\s]+");
-        int indxTmp = expression.indexIn (text, index);
-        while (isQuoted (text, indxTmp))
-            indxTmp = expression.indexIn (text, indxTmp + 1);
-        while (indxTmp >= 0 && indxTmp < endIndex)
+        if (mainFormatting)
         {
-            int length = expression.matchedLength();
-            setFormat (indxTmp, length, cssErrorFormat);
-            indxTmp = expression.indexIn (text, indxTmp + length);
-        }
+            /* at first, we suppose all syntax is wrong */
+            QRegExp expression = QRegExp ("[^\\{^\\}^\\s]+");
+            int indxTmp = expression.indexIn (text, index);
+            while (isQuoted (text, indxTmp))
+                indxTmp = expression.indexIn (text, indxTmp + 1);
+            while (indxTmp >= 0 && indxTmp < endIndex)
+            {
+                int length = expression.matchedLength();
+                setFormat (indxTmp, length, cssErrorFormat);
+                indxTmp = expression.indexIn (text, indxTmp + length);
+            }
 
-        /* css attribute format (before :...;) */
-        QTextCharFormat cssAttFormat;
-        cssAttFormat.setFontItalic (true);
-        cssAttFormat.setForeground (Blue);
-        expression = QRegExp ("[A-Za-z0-9_\\-]+(?=\\s*:.*;*)");
-        indxTmp = expression.indexIn (text, index);
-        while (isQuoted (text, indxTmp))
-            indxTmp = expression.indexIn (text, indxTmp + 1);
-        while (indxTmp >= 0 && indxTmp < endIndex)
-        {
-            int length = expression.matchedLength();
-            setFormat (indxTmp, length, cssAttFormat);
-            indxTmp = expression.indexIn (text, indxTmp + length);
+            /* css attribute format (before :...;) */
+            QTextCharFormat cssAttFormat;
+            cssAttFormat.setFontItalic (true);
+            cssAttFormat.setForeground (Blue);
+            expression = QRegExp ("[A-Za-z0-9_\\-]+(?=\\s*:.*;*)");
+            indxTmp = expression.indexIn (text, index);
+            while (isQuoted (text, indxTmp))
+                indxTmp = expression.indexIn (text, indxTmp + 1);
+            while (indxTmp >= 0 && indxTmp < endIndex)
+            {
+                int length = expression.matchedLength();
+                setFormat (indxTmp, length, cssAttFormat);
+                indxTmp = expression.indexIn (text, indxTmp + length);
+            }
         }
 
         index = cssStartExpression.indexIn (text, index + cssLength);
@@ -1411,6 +1418,7 @@ int Highlighter::cssHighlighter (const QString &text, const int start)
         index = cssStartExpression.indexIn (text, index + cssLength);
         if (index > -1)
         {
+            if (!mainFormatting) break;
             while (format (index) != cssErrorFormat)
             {
                 index = cssStartExpression.indexIn (text, index + 1);
@@ -1419,49 +1427,52 @@ int Highlighter::cssHighlighter (const QString &text, const int start)
         }
     }
 
-    /* color value format (#xyz, #abcdef, #abcdefxy) */
-    QTextCharFormat cssColorFormat;
-
-    cssColorFormat.setForeground (DarkMagenta);
-    cssColorFormat.setFontWeight (QFont::Bold);
-    cssColorFormat.setFontItalic (true);
-    // previously: "#\\b([A-Za-z0-9]{3}){,4}(?![A-Za-z0-9_]+)"
-    QRegExp expression = QRegExp ("#([A-Fa-f0-9]{3}){,2}(?![A-Za-z0-9_]+)|#([A-Fa-f0-9]{3}){2}[A-Fa-f0-9]{2}(?![A-Za-z0-9_]+)");
-    int indxTmp = expression.indexIn (text, start);
-    while (isQuoted (text, indxTmp))
-        indxTmp = expression.indexIn (text, indxTmp + 1);
-    while (indxTmp >= 0)
+    if (mainFormatting)
     {
-        int length = expression.matchedLength();
-        if (/*format (indxTmp) == cssValueFormat // should be a value
-            &&*/ format (indxTmp) != cssErrorFormat) // not an error
-        {
-            setFormat (indxTmp, length, cssColorFormat);
-        }
-        indxTmp = expression.indexIn (text, indxTmp + length);
-    }
+        /* color value format (#xyz, #abcdef, #abcdefxy) */
+        QTextCharFormat cssColorFormat;
 
-    /* definitions (starting with @) */
-    QTextCharFormat cssDefinitionFormat;
-    cssDefinitionFormat.setForeground (Brown);
-    expression = QRegExp ("^\\s*@[A-Za-z-]+\\s+|;\\s*@[A-Za-z-]+\\s+");
-    indxTmp = expression.indexIn (text, start);
-    while (isQuoted (text, indxTmp))
-        indxTmp = expression.indexIn (text, indxTmp + 1);
-    while (indxTmp >= 0)
-    {
-        int length = expression.matchedLength();
-        if (format (indxTmp) != cssValueFormat
-            && format (indxTmp) != cssErrorFormat)
+        cssColorFormat.setForeground (DarkMagenta);
+        cssColorFormat.setFontWeight (QFont::Bold);
+        cssColorFormat.setFontItalic (true);
+        // previously: "#\\b([A-Za-z0-9]{3}){,4}(?![A-Za-z0-9_]+)"
+        QRegExp expression = QRegExp ("#([A-Fa-f0-9]{3}){,2}(?![A-Za-z0-9_]+)|#([A-Fa-f0-9]{3}){2}[A-Fa-f0-9]{2}(?![A-Za-z0-9_]+)");
+        int indxTmp = expression.indexIn (text, start);
+        while (isQuoted (text, indxTmp))
+            indxTmp = expression.indexIn (text, indxTmp + 1);
+        while (indxTmp >= 0)
         {
-            if (text.at (indxTmp) == ';')
+            int length = expression.matchedLength();
+            if (/*format (indxTmp) == cssValueFormat // should be a value
+                    &&*/ format (indxTmp) != cssErrorFormat) // not an error
             {
-                ++indxTmp;
-                --length;
+                setFormat (indxTmp, length, cssColorFormat);
             }
-            setFormat (indxTmp, length, cssDefinitionFormat);
+            indxTmp = expression.indexIn (text, indxTmp + length);
         }
-        indxTmp = expression.indexIn (text, indxTmp + length);
+
+        /* definitions (starting with @) */
+        QTextCharFormat cssDefinitionFormat;
+        cssDefinitionFormat.setForeground (Brown);
+        expression = QRegExp ("^\\s*@[A-Za-z-]+\\s+|;\\s*@[A-Za-z-]+\\s+");
+        indxTmp = expression.indexIn (text, start);
+        while (isQuoted (text, indxTmp))
+            indxTmp = expression.indexIn (text, indxTmp + 1);
+        while (indxTmp >= 0)
+        {
+            int length = expression.matchedLength();
+            if (format (indxTmp) != cssValueFormat
+                    && format (indxTmp) != cssErrorFormat)
+            {
+                if (text.at (indxTmp) == ';')
+                {
+                    ++indxTmp;
+                    --length;
+                }
+                setFormat (indxTmp, length, cssDefinitionFormat);
+            }
+            indxTmp = expression.indexIn (text, indxTmp + length);
+        }
     }
 
     return cssIndx;
@@ -1544,6 +1555,10 @@ void Highlighter::multiLineComment (const QString &text,
     if (index < 0) return;
     if (previousBlockState() == nextLineCommentState)
         return;  // was processed by singleLineComment()
+
+    /* CSS can have huge lines, which will take
+       a lot of CPU time if they're formatted completely. */
+    bool mainFormatting = (progLan != "css" || text.length() <= 50000);
 
     bool commentBeforeBrace = false; // in css, not as: "{...
     QRegExp urlPattern = QRegExp ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
@@ -1628,7 +1643,7 @@ void Highlighter::multiLineComment (const QString &text,
         }
 
         /* if there's a comment end ... */
-        if (endIndex >= 0)
+        if (mainFormatting && endIndex >= 0)
         {
             /* ... clear the comment format from there to reformat later as
                a single-line comment sign may have been commented out now */
@@ -1655,7 +1670,7 @@ void Highlighter::multiLineComment (const QString &text,
         }
         else
         {
-            if (cssIndx >= startIndex && cssIndx < endIndex)
+            if (mainFormatting && cssIndx >= startIndex && cssIndx < endIndex)
             {
                 /* if '{' is inside the comment,
                    this isn't a CSS block */
@@ -1665,31 +1680,34 @@ void Highlighter::multiLineComment (const QString &text,
             commentLength = endIndex - startIndex
                             + commentEndExp.matchedLength();
         }
-        setFormat (startIndex, commentLength, comFormat);
+        if (mainFormatting)
+        {
+            setFormat (startIndex, commentLength, comFormat);
 
-        /* format urls and email addresses inside the comment */
-        QString str = text.mid (startIndex, commentLength);
-        int indx = 0;
-        while ((pIndex = str.indexOf (urlPattern, indx)) > -1)
-        {
-            int ml = urlPattern.matchedLength();
-            setFormat (pIndex + startIndex, ml, urlFormat);
-            indx = indx + ml;
-        }
-        /* format note patterns too */
-        indx = 0;
-        while ((pIndex = str.indexOf (notePattern, indx)) > -1)
-        {
-            int ml = notePattern.matchedLength();
-            if (format (pIndex) != urlFormat)
-              setFormat (pIndex + startIndex, ml, noteFormat);
-            indx = indx + ml;
+            /* format urls and email addresses inside the comment */
+            QString str = text.mid (startIndex, commentLength);
+            int indx = 0;
+            while ((pIndex = str.indexOf (urlPattern, indx)) > -1)
+            {
+                int ml = urlPattern.matchedLength();
+                setFormat (pIndex + startIndex, ml, urlFormat);
+                indx = indx + ml;
+            }
+            /* format note patterns too */
+            indx = 0;
+            while ((pIndex = str.indexOf (notePattern, indx)) > -1)
+            {
+                int ml = notePattern.matchedLength();
+                if (format (pIndex) != urlFormat)
+                    setFormat (pIndex + startIndex, ml, noteFormat);
+                indx = indx + ml;
+            }
         }
 
         startIndex = commentStartExp.indexIn (text, startIndex + commentLength);
 
         /* reformat from here if the format was cleared before */
-        if (badIndex >= 0)
+        if (mainFormatting && badIndex >= 0)
         {
             for (const HighlightingRule &rule : static_cast<const QVector<HighlightingRule>&>(highlightingRules))
             {
@@ -2268,6 +2286,9 @@ void Highlighter::highlightBlock (const QString &text)
     else if (progLan == "deb")
         debControlFormatting (text);
 
+    int bn = currentBlock().blockNumber();
+    bool mainFormatting (bn >= startCursor.blockNumber() && bn <= endCursor.blockNumber());
+
     /************************
      * Single-Line Comments *
      ************************/
@@ -2315,7 +2336,7 @@ void Highlighter::highlightBlock (const QString &text)
      *******/
 
     /* helps seeing if a comment destroys a css block */
-    int cssIndx = cssHighlighter (text);
+    int cssIndx = cssHighlighter (text, mainFormatting);
 
     /**********************
      * Multiline Comments *
@@ -2347,14 +2368,12 @@ void Highlighter::highlightBlock (const QString &text)
      * HTML Only *
      *************/
 
-    int bn = currentBlock().blockNumber();
     if (progLan == "html")
     {
         htmlBrackets (text);
         htmlCSSHighlighter (text);
         htmlJavascript (text);
         /* go to braces matching */
-        data->insertHighlightInfo (true); // completely highlighted
     }
 
     /*******************
@@ -2362,7 +2381,7 @@ void Highlighter::highlightBlock (const QString &text)
      *******************/
 
     // we format html embedded javascript in htmlJavascript()
-    else if (bn >= startCursor.blockNumber() && bn <= endCursor.blockNumber())
+    else if (mainFormatting)
     {
         data->insertHighlightInfo (true); // completely highlighted
         for (const HighlightingRule &rule : static_cast<const QVector<HighlightingRule>&>(highlightingRules))

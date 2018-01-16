@@ -111,6 +111,7 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     size_ = 0;
     wordNumber_ = -1; // not calculated yet
     encoding_= "UTF-8";
+    uneditable_ = false;
     highlighter_ = nullptr;
     setFrameShape (QFrame::NoFrame);
     /* first we replace the widget's vertical scrollbar with ours because
@@ -427,8 +428,10 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                 /* select the text and set the cursor at its start */
                 cursor.setPosition (anch + 1, QTextCursor::MoveAnchor);
                 cursor.setPosition (pos + 1, QTextCursor::KeepAnchor);
-                setTextCursor (cursor);
                 cursor.endEditBlock();
+                /* WARNING: Why does putting "setTextCursor()" before "endEditBlock()"
+                            cause a crash with huge lines? Most probably, a Qt bug. */
+                setTextCursor (cursor);
                 event->accept();
                 return;
             }

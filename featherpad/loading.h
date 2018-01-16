@@ -28,12 +28,19 @@ class Loading : public QThread {
     Q_OBJECT
 
 public:
-    Loading (QString fname, QString charset, bool reload, bool saveCursor, bool multiple);
+    Loading (QString fname, QString charset, bool reload,
+             bool saveCursor, bool forceUneditable, bool multiple);
     ~Loading();
 
 signals:
-    void completed (const QString str, const QString fname, const QString charset,
-                    bool enforceEncod, bool reload, bool saveCursor, bool multiple);
+    void completed (const QString text = QString(),
+                    const QString fname = QString(),
+                    const QString charset = QString(),
+                    bool enforceEncod = false,
+                    bool reload = false,
+                    bool saveCursor = false,
+                    bool uneditable = false,
+                    bool multiple = false);
 
 private:
     void run();
@@ -42,6 +49,7 @@ private:
     QString charset_;
     bool reload_; // Is this a reloading?
     bool saveCursor_; // Should the cursor position be saved?
+    bool forceUneditable_; // Should the doc be always uneditable?
     bool multiple_; // Are there multiple files to load?
 };
 

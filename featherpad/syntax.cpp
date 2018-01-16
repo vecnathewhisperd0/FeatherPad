@@ -220,7 +220,11 @@ void FPwin::setProgLang (TextEdit *textEdit)
 /*************************/
 void FPwin::syntaxHighlighting (TextEdit *textEdit, bool highlight)
 {
-    if (textEdit == nullptr) return;
+    if (textEdit == nullptr
+        || textEdit->isUneditable()) // has huge lines or isn't a text
+    {
+        return;
+    }
 
     if (highlight)
     {

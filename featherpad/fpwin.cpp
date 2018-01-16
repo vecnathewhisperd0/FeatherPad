@@ -1712,7 +1712,8 @@ void FPwin::unbusy()
         QGuiApplication::restoreOverrideCursor();
 }
 /*************************/
-void FPwin::loadText (const QString fileName, bool enforceEncod, bool reload, bool saveCursor, bool multiple)
+void FPwin::loadText (const QString fileName, bool enforceEncod, bool reload,
+                      bool saveCursor, bool enforceUneditable, bool multiple)
 {
     if (loadingProcesses_ == 0)
         closeWarningBar();
@@ -1720,7 +1721,7 @@ void FPwin::loadText (const QString fileName, bool enforceEncod, bool reload, bo
     QString charset;
     if (enforceEncod)
         charset = checkToEncoding();
-    Loading *thread = new Loading (fileName, charset, reload, saveCursor, multiple);
+    Loading *thread = new Loading (fileName, charset, reload, saveCursor, enforceUneditable, multiple);
     connect (thread, &Loading::completed, this, &FPwin::addText);
     connect (thread, &Loading::finished, thread, &QObject::deleteLater);
     thread->start();
@@ -1733,7 +1734,9 @@ void FPwin::loadText (const QString fileName, bool enforceEncod, bool reload, bo
 /*************************/
 // When multiple files are being loaded, we don't change the current tab.
 void FPwin::addText (const QString text, const QString fileName, const QString charset,
-                     bool enforceEncod, bool reload, bool saveCursor, bool multiple)
+                     bool enforceEncod, bool reload, bool saveCursor,
+                     bool uneditable,
+                     bool multiple)
 {
     if (fileName.isEmpty() || charset.isEmpty())
     {
@@ -1880,6 +1883,11 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
         config.addRecentFile (lastFile_);
     textEdit->setEncoding (charset);
     textEdit->setWordNumber (-1);
+    if (uneditable)
+    {
+        connect (this, &FPwin::finishedLoading, this, &FPwin::onOpeningUneditable, Qt::UniqueConnection);
+        textEdit->makeUneditable (uneditable);
+    }
     setProgLang (textEdit);
     if (ui->actionSyntax->isChecked())
         syntaxHighlighting (textEdit);
@@ -1899,20 +1907,37 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
             wi->setToolTip (elidedTip);
     }
 
-    if (alreadyOpen (tabPage))
+    if (uneditable || alreadyOpen (tabPage))
     {
         textEdit->setReadOnly (true);
         if (!textEdit->hasDarkScheme())
-            textEdit->viewport()->setStyleSheet (".QWidget {"
-                                                 "color: black;"
-                                                 "background-color: rgb(236, 236, 208);}");
+        {
+            if (uneditable) // as with Help
+                textEdit->viewport()->setStyleSheet (".QWidget {"
+                                                     "color: black;"
+                                                     "background-color: rgb(225, 238, 255);}");
+            else
+                textEdit->viewport()->setStyleSheet (".QWidget {"
+                                                     "color: black;"
+                                                     "background-color: rgb(236, 236, 208);}");
+        }
         else
-            textEdit->viewport()->setStyleSheet (".QWidget {"
-                                                 "color: white;"
-                                                 "background-color: rgb(60, 0, 0);}");
+        {
+            if (uneditable)
+                textEdit->viewport()->setStyleSheet (".QWidget {"
+                                                     "color: white;"
+                                                     "background-color: rgb(0, 60, 110);}");
+            else
+                textEdit->viewport()->setStyleSheet (".QWidget {"
+                                                     "color: white;"
+                                                     "background-color: rgb(60, 0, 0);}");
+        }
         if (!multiple || openInCurrentTab)
         {
-            ui->actionEdit->setVisible (true);
+            if (!uneditable)
+                ui->actionEdit->setVisible (true);
+            else
+                ui->actionSaveAs->setDisabled (true);
             ui->actionCut->setDisabled (true);
             ui->actionPaste->setDisabled (true);
             ui->actionDelete->setDisabled (true);
@@ -1988,7 +2013,16 @@ void FPwin::onOpeningHugeFiles()
 {
     disconnect (this, &FPwin::finishedLoading, this, &FPwin::onOpeningHugeFiles);
     showWarningBar ("<center><b><big>" + tr ("Huge file(s) not opened!") + "</big></b></center>\n"
-                    + "<center>" + tr ("FeatherPad does not open files larger than 500 MiB.") + "</center>");
+                    + "<center>" + tr ("FeatherPad does not open files larger than 100 MiB.") + "</center>");
+}
+/*************************/
+void FPwin::onOpeningUneditable()
+{
+    disconnect (this, &FPwin::finishedLoading, this, &FPwin::onOpeningUneditable);
+    QTimer::singleShot (100, this, [=]() { // TabWidget has a 50-ms timer
+        this->showWarningBar ("<center><b><big>" + tr ("Uneditable file(s)!") + "</big></b></center>\n"
+                              + "<center>" + tr ("Non-text files or files with huge lines cannot be edited.") + "</center>");
+    });
 }
 /*************************/
 void FPwin::showWarningBar (const QString& message)
@@ -2023,14 +2057,16 @@ void FPwin::closeWarningBar()
     }
 }
 /*************************/
-void FPwin::newTabFromName (const QString& fileName, bool saveCursor, bool multiple)
+void FPwin::newTabFromName (const QString& fileName, bool saveCursor,
+                            bool multiple)
 {
     if (!fileName.isEmpty()
         /* although loadText() takes care of folders, we don't want to open
            (a symlink to) /dev/null and then, get a prompt dialog on closing */
         && QFileInfo (fileName).isFile())
     {
-        loadText (fileName, false, false, saveCursor, multiple);
+        loadText (fileName, false, false,
+                  saveCursor, false, multiple);
     }
 }
 /*************************/
@@ -2038,7 +2074,7 @@ void FPwin::newTabFromRecent()
 {
     QAction *action = qobject_cast<QAction*>(QObject::sender());
     if (!action) return;
-    loadText (action->data().toString(), false, false, false, false);
+    loadText (action->data().toString(), false, false);
 }
 /*************************/
 void FPwin::fileOpen()
@@ -2166,7 +2202,8 @@ void FPwin::enforceEncoding (QAction*)
             encodingToCheck (textEdit->getEncoding());
             return;
         }
-        loadText (fname, true, true);
+        loadText (fname, true, true,
+                  false, textEdit->isUneditable(), false);
     }
     else
     {
@@ -2200,7 +2237,9 @@ void FPwin::reload()
 
     TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
     QString fname = textEdit->getFileName();
-    if (!fname.isEmpty()) loadText (fname, false, true, textEdit->getSaveCursor());
+    if (!fname.isEmpty())
+        loadText (fname, false, true,
+                  textEdit->getSaveCursor());
 }
 /*************************/
 // This is for both "Save" and "Save As"
@@ -2678,13 +2717,15 @@ void FPwin::tabSwitch (int index)
     bool readOnly = textEdit->isReadOnly();
     if (fname.isEmpty()
         && !modified
-        && !textEdit->document()->isEmpty()) // 'Help' is the exception
+        && !textEdit->document()->isEmpty()) // 'Help' is an exception
     {
         ui->actionEdit->setVisible (false);
+        ui->actionSaveAs->setEnabled (true);
     }
     else
     {
-        ui->actionEdit->setVisible (readOnly);
+        ui->actionEdit->setVisible (readOnly && !textEdit->isUneditable());
+        ui->actionSaveAs->setEnabled (!textEdit->isUneditable());
     }
     ui->actionPaste->setEnabled (!readOnly);
     bool textIsSelected = textEdit->textCursor().hasSelection();
@@ -3412,6 +3453,7 @@ void FPwin::detachTab()
     textEdit->setGreenSel (QList<QTextEdit::ExtraSelection>());
     textEdit->setRedSel (QList<QTextEdit::ExtraSelection>());
     /* ... then insert the detached widget... */
+    dropTarget->enableWidgets (true); // the tab will be inserted and switched to below
     bool isLink = dropTarget->lastFile_.isEmpty() ? false
                                                   : QFileInfo (dropTarget->lastFile_).isSymLink();
     dropTarget->ui->tabWidget->insertTab (0, tabPage,
@@ -3440,7 +3482,6 @@ void FPwin::detachTab()
     textEdit->setExtraSelections (es);
 
     /* at last, set all properties correctly */
-    dropTarget->enableWidgets (true);
     dropTarget->setWindowTitle (title);
     dropTarget->ui->tabWidget->setTabToolTip (0, tooltip);
     /* reload buttons, syntax highlighting, jump bar, line numbers */
@@ -3635,6 +3676,16 @@ void FPwin::dropTab (QString str)
         tabPage->setSearchBarVisible (qobject_cast< TabPage *>(ui->tabWidget->widget (insertIndex - 1))
                                       ->isSearchBarVisible());
     }
+    if (ui->tabWidget->count() == 0) // the tab will be inserted and switched to below
+        enableWidgets (true);
+    else if (ui->tabWidget->count() == 1)
+    { // tab detach and switch actions
+        ui->actionDetachTab->setEnabled (true);
+        ui->actionRightTab->setEnabled (true);
+        ui->actionLeftTab->setEnabled (true);
+        ui->actionLastTab->setEnabled (true);
+        ui->actionFirstTab->setEnabled (true);
+    }
     bool isLink = lastFile_.isEmpty() ? false : QFileInfo (lastFile_).isSymLink();
     ui->tabWidget->insertTab (insertIndex, tabPage,
                               isLink ? QIcon (":icons/link.svg") : QIcon(),
@@ -3666,18 +3717,7 @@ void FPwin::dropTab (QString str)
     textEdit->setExtraSelections (es);
 
     /* at last, set all properties correctly */
-    if (ui->tabWidget->count() == 1)
-        enableWidgets (true);
     ui->tabWidget->setTabToolTip (insertIndex, tooltip);
-    /* detach button */
-    if (ui->tabWidget->count() == 2)
-    {
-        ui->actionDetachTab->setEnabled (true);
-        ui->actionRightTab->setEnabled (true);
-        ui->actionLeftTab->setEnabled (true);
-        ui->actionLastTab->setEnabled (true);
-        ui->actionFirstTab->setEnabled (true);
-    }
     /* reload buttons, syntax highlighting, jump bar, line numbers */
     if (ui->actionSyntax->isChecked())
         syntaxHighlighting (textEdit);

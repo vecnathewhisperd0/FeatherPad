@@ -106,7 +106,7 @@ private:
     void htmlCSSHighlighter (const QString &text, const int start = 0);
     void htmlBrackets (const QString &text, const int start = 0);
     void htmlJavascript (const QString &text);
-    int cssHighlighter (const QString &text, const int start = 0);
+    int cssHighlighter (const QString &text, bool mainFormatting, const int start = 0);
     void singleLineComment (const QString &text, const int start, int end = -1,
                             bool canBeQuoted = false);
     void multiLineComment (const QString &text,

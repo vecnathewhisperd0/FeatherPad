@@ -89,7 +89,8 @@ signals:
     void finishedLoading();
 
 public slots:
-    void newTabFromName (const QString& fileName, bool saveCursor, bool multiple = false);
+    void newTabFromName (const QString& fileName, bool saveCursor,
+                         bool multiple = false);
     void newTab();
     void statusMsg();
     void statusMsgWithLineCount (const int lines);
@@ -169,8 +170,10 @@ private slots:
     void matchBrackets();
     void addText (const QString text, const QString fileName, const QString charset,
                   bool enforceEncod, bool reload, bool saveCursor,
+                  bool uneditable, // This doc should be uneditable?
                   bool multiple); // Multiple files are being loaded?
     void onOpeningHugeFiles();
+    void onOpeningUneditable();
 
 public:
     QWidget *dummyWidget; // Bypasses KDE's demand for a new window.
@@ -186,7 +189,8 @@ private:
     TabPage *createEmptyTab(bool setCurrent);
     bool hasAnotherDialog();
     void deleteTabPage (int tabIndex);
-    void loadText (const QString fileName, bool enforceEncod, bool reload, bool saveCursor = false, bool multiple = false);
+    void loadText (const QString fileName, bool enforceEncod, bool reload,
+                   bool saveCursor = false, bool enforceUneditable = false, bool multiple = false);
     bool alreadyOpen (TabPage *tabPage) const;
     void setTitle (const QString& fileName, int tabIndex = -1);
     DOCSTATE savePrompt (int tabIndex, bool noToAll);

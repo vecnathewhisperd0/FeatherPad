@@ -24,11 +24,13 @@
 
 namespace FeatherPad {
 
-Loading::Loading (QString fname, QString charset, bool reload, bool saveCursor, bool multiple) :
+Loading::Loading (QString fname, QString charset, bool reload,
+                  bool saveCursor, bool forceUneditable, bool multiple) :
     fname_ (fname),
     charset_ (charset),
     reload_ (reload),
     saveCursor_ (saveCursor),
+    forceUneditable_ (forceUneditable),
     multiple_ (multiple)
 {}
 /*************************/
@@ -38,19 +40,19 @@ void Loading::run()
 {
     if (!QFile::exists (fname_))
     {
-        emit completed (QString(), QString(), QString(), false, false, false, false);
+        emit completed();
         return;
     }
 
     QFile file (fname_);
-    if (file.size() > 500*1024*1024) // don't open files with sizes > 500 Mib
+    if (file.size() > 100*1024*1024) // don't open files with sizes > 100 Mib
     {
-        emit completed (QString(), fname_, QString(), false, false, false, false);
+        emit completed (QString(), fname_);
         return;
     }
     if (!file.open (QFile::ReadOnly))
     {
-        emit completed (QString(), QString(), QString(), false, false, false, false);
+        emit completed();
         return;
     }
 
@@ -104,11 +106,24 @@ void Loading::run()
             /* reading may still be possible */
             if (charset_.isEmpty() && !hasNull)
             {
+                int num = 0;
                 while (file.read (&c, charSize) > 0)
                 {
-                    data.append (c);
-                    if (c == '\0' && !hasNull)
-                        hasNull = true;
+                    if (c == '\0')
+                    {
+                        if (!hasNull)
+                            hasNull = true;
+                    }
+                    else if (c == '\n' || c == '\r')
+                        num = 0;
+                    if (num <= 500000)
+                        data.append (c);
+                    else if (num == 500001)
+                    {
+                        data += QByteArray ("    HUGE LINE TRUNCATED: NO LINE WITH MORE THAN 500000 CHARACTERS");
+                        forceUneditable_ = true;
+                    }
+                    ++num;
                 }
             }
             else
@@ -123,7 +138,10 @@ void Loading::run()
     if (charset_.isEmpty())
     {
         if (hasNull)
+        {
+            forceUneditable_ = true;
             charset_ = "UTF-8"; // always open non-text files as UTF-8
+        }
         else
             charset_ = detectCharset (data);
     }
@@ -136,7 +154,14 @@ void Loading::run()
     }
 
     QString text = codec->toUnicode (data);
-    emit completed (text, fname_, charset_, enforced, reload_, saveCursor_, multiple_);
+    emit completed (text,
+                    fname_,
+                    charset_,
+                    enforced,
+                    reload_,
+                    saveCursor_,
+                    forceUneditable_,
+                    multiple_);
 }
 
 }

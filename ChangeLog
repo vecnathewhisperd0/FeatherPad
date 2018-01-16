@@ -17,6 +17,10 @@ V0.7
  * When checking if a files is already opened, also consider symlink targets.
  * Syntax highlighting for regular expressions of JavaScript (/.../).
  * Fixes for the syntax highlighting of HTML, especially its style and embedded JavaScript.
+ * Reduced the maximum file size to 100 MiB.
+ * Truncate all lines with more than 500,000 characters while loading a text because they would take a lot of CPU time if shown. Append this string to the truncated lines: "    HUGE LINE TRUNCATED: NO LINE WITH MORE THAN 500000 CHARACTERS". Also, don't highlight the syntax of documents with such lines.
+ * Don't format huge lines (with more than 50,000 characters) in CSS. This is especially useful with HTML syntax highlighting. (Kate avoids this problem by "jumping" over huge lines while scrolling but that isn't a good solution, in my opinion.)
+ * Open non-text files as well as files with huge lines as completely uneditable documents to prevent accidental overwritings.
 
 V0.6.3
 ---------

@@ -140,6 +140,13 @@ public:
         redSel_ = sel;
     }
 
+    bool isUneditable() const {
+        return uneditable_;
+    }
+    void makeUneditable (bool readOnly) {
+        uneditable_ = readOnly;
+    }
+
     QSyntaxHighlighter *getHighlighter() const {
         return highlighter_;
     }
@@ -244,6 +251,7 @@ private:
     */
     QList<QTextEdit::ExtraSelection> greenSel_; // for replaced matches
     QList<QTextEdit::ExtraSelection> redSel_; // for bracket matches
+    bool uneditable_; // the doc is uneditable for some reason
     QSyntaxHighlighter *highlighter_; // syntax highlighter
     bool saveCursor_;
     /******************************
