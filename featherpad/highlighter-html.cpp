@@ -66,9 +66,15 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
 
     int bn = currentBlock().blockNumber();
     bool mainFormatting (bn >= startCursor.blockNumber() && bn <= endCursor.blockNumber());
+    bool hugeLine (text.length() > 50000);
     int firstBraIndex = braIndex; // to check progress in the following loop
     while (braIndex >= 0)
     {
+        if (hugeLine)
+        {
+            setFormat (braIndex, text.length() - braIndex, translucentFormat);
+            break;
+        }
         int braEndIndex;
 
         int matched = 0;

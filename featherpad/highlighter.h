@@ -157,6 +157,7 @@ private:
     /* Used when there is a need to mark text or undo fomatting. */
     QTextCharFormat neutralFormat;
     QTextCharFormat whiteSpaceFormat; // For whitespaces.
+    QTextCharFormat translucentFormat;
     QTextCharFormat JSRegexFormat;
 
     /* Programming language: */

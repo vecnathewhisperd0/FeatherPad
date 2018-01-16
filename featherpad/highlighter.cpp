@@ -161,7 +161,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     quoteMark = QRegExp ("\""); // the standard quote mark
 
     HighlightingRule rule;
-    QColor Faded;
+    QColor Faded, translucent;
     if (!darkColorScheme)
     {
         Blue = Qt::blue;
@@ -174,6 +174,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         Brown = QColor (160, 80, 0);
         DarkYellow = Qt::darkYellow;
         Faded = QColor (140, 140, 140);
+        translucent = QColor (0, 0, 0, 190);
     }
     else
     {
@@ -187,11 +188,14 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         Brown = QColor (255, 200, 0);
         DarkYellow = Qt::yellow;
         Faded = QColor (120, 120, 120);
+        translucent = QColor (255, 255, 255, 190);
     }
     DarkGreenAlt = DarkGreen.lighter (101); // almost identical
 
     neutralFormat.setForeground (QBrush());
     whiteSpaceFormat.setForeground (Faded);
+    translucentFormat.setForeground (translucent);
+    translucentFormat.setFontItalic (true);
 
     quoteFormat.setForeground (DarkGreen);
     altQuoteFormat.setForeground (DarkGreen);
@@ -1281,7 +1285,8 @@ int Highlighter::cssHighlighter (const QString &text, bool mainFormatting, const
     int cssIndx = -1;
     /* CSS can have huge lines, which will take
        a lot of CPU time if they're formatted completely. */
-    if (text.length() > 50000)
+    bool hugeText (text.length() > 50000);
+    if (hugeText)
         mainFormatting = false;
 
     /**************************
@@ -1308,6 +1313,8 @@ int Highlighter::cssHighlighter (const QString &text, bool mainFormatting, const
 
     while (index >= 0)
     {
+        if (hugeText)
+            setFormat (index, text.length() - index, translucentFormat);
         int endIndex;
         /* when the css block starts in the prvious line
            and the search for its end has just begun... */
@@ -1408,17 +1415,20 @@ int Highlighter::cssHighlighter (const QString &text, bool mainFormatting, const
         else
             cssLength = endIndex - index
                         + cssEndExpression.matchedLength();
-        /* css value format */
-        setFormat (index, cssLength, cssValueFormat);
+        if (mainFormatting)
+        {
+            /* css value format */
+            setFormat (index, cssLength, cssValueFormat);
 
-        setFormat (index, startMatch, neutralFormat);
-        if (endIndex > -1)
-            setFormat (endIndex, 1, neutralFormat);
+            setFormat (index, startMatch, neutralFormat);
+            if (endIndex > -1)
+                setFormat (endIndex, 1, neutralFormat);
+        }
 
         index = cssStartExpression.indexIn (text, index + cssLength);
         if (index > -1)
         {
-            if (!mainFormatting) break;
+            if (!mainFormatting) break; // there's no cssErrorFormat
             while (format (index) != cssErrorFormat)
             {
                 index = cssStartExpression.indexIn (text, index + 1);
@@ -1558,7 +1568,7 @@ void Highlighter::multiLineComment (const QString &text,
 
     /* CSS can have huge lines, which will take
        a lot of CPU time if they're formatted completely. */
-    bool mainFormatting = (progLan != "css" || text.length() <= 50000);
+    bool hugeText = (progLan == "css" && text.length() > 50000);
 
     bool commentBeforeBrace = false; // in css, not as: "{...
     QRegExp urlPattern = QRegExp ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
@@ -1643,7 +1653,7 @@ void Highlighter::multiLineComment (const QString &text,
         }
 
         /* if there's a comment end ... */
-        if (mainFormatting && endIndex >= 0)
+        if (!hugeText && endIndex >= 0)
         {
             /* ... clear the comment format from there to reformat later as
                a single-line comment sign may have been commented out now */
@@ -1670,7 +1680,7 @@ void Highlighter::multiLineComment (const QString &text,
         }
         else
         {
-            if (mainFormatting && cssIndx >= startIndex && cssIndx < endIndex)
+            if (!hugeText && cssIndx >= startIndex && cssIndx < endIndex)
             {
                 /* if '{' is inside the comment,
                    this isn't a CSS block */
@@ -1680,7 +1690,7 @@ void Highlighter::multiLineComment (const QString &text,
             commentLength = endIndex - startIndex
                             + commentEndExp.matchedLength();
         }
-        if (mainFormatting)
+        if (!hugeText)
         {
             setFormat (startIndex, commentLength, comFormat);
 
@@ -1707,7 +1717,7 @@ void Highlighter::multiLineComment (const QString &text,
         startIndex = commentStartExp.indexIn (text, startIndex + commentLength);
 
         /* reformat from here if the format was cleared before */
-        if (mainFormatting && badIndex >= 0)
+        if (!hugeText && badIndex >= 0)
         {
             for (const HighlightingRule &rule : static_cast<const QVector<HighlightingRule>&>(highlightingRules))
             {
