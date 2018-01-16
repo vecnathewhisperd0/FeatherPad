@@ -805,7 +805,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
     /* single line comments */
     rule.pattern = QRegExp();
-    if (progLan == "c" || progLan == "cpp" || progLan == "javascript"
+    if (progLan == "c" || progLan == "cpp" || Lang == "javascript"
         || progLan == "qml" || progLan == "php")
     {
         rule.pattern = QRegExp ("//.*"); // why had I set it to QRegExp ("//(?!\\*).*")?
