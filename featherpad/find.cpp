@@ -323,7 +323,7 @@ QTextCursor FPwin::finding (const QString str, const QTextCursor& start, QTextDo
     return res;
 }
 /*************************/
-void FPwin::find(bool forward)
+void FPwin::find (bool forward)
 {
     if (!isReady()) return;
 

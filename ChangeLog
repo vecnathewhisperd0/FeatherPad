@@ -1,3 +1,7 @@
+V0.7.1
+---------
+ * Close the warning-bar when the text is scrolled.
+
 V0.7
 ---------
  * Remember cursor positions for files that are managed by the session dialog (thanks to AcarBurak at GitHub for the idea).
@@ -14,7 +18,7 @@ V0.7
  * Added items for closing next/previous tabs to side-pane context menus.
  * Fixed incomplete syntax highlighting after the active tab is changed quickly several times.
  * Distinguish opened symlinks visually. Also, add context menu items for copying their target paths and opening their targets.
- * When checking if a files is already opened, also consider symlink targets.
+ * When checking if a file is already opened, also consider symlink targets.
  * Syntax highlighting for regular expressions of JavaScript (/.../).
  * Fixes for the syntax highlighting of HTML, especially its style and embedded JavaScript.
  * Reduced the maximum file size to 100 MiB.

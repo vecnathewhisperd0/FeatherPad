@@ -2035,6 +2035,14 @@ void FPwin::showWarningBar (const QString& message)
         ui->verticalLayout->removeWidget(bar);
         bar->deleteLater();
     });
+    /* close the bar when the text is scrolled */
+    if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget()))
+    {
+        connect (tabPage->textEdit(), &QPlainTextEdit::updateRequest, bar, [=](const QRect&, int dy) {
+            if (dy != 0)
+                closeWarningBar();
+        });
+    }
 }
 /*************************/
 void FPwin::showCrashWarning()
