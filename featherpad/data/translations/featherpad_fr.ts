@@ -1003,24 +1003,24 @@
     <message>
         <location filename="../../fpwin.cpp" line="2023"/>
         <source>Uneditable file(s)!</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier(s) non modifiable(s)!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2024"/>
         <source>Non-text files or files with huge lines cannot be edited.</source>
-        <translation type="unfinished"></translation>
+        <translation>Les fichiers non textuels ou contenant de trop grandes lignes ne peuvent pas être modifiés.</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="3833"/>
         <location filename="../../fpwin.cpp" line="3897"/>
         <source>Copy Target Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Copier le chemin de la cible</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="3837"/>
         <location filename="../../fpwin.cpp" line="3901"/>
         <source>Open Target Here</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir ici la cible</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="4002"/>
@@ -1359,12 +1359,17 @@ current desktop, files will be opened in its tabs.
 
 However, some desktop environments may not
 report that they have multiple desktops.</source>
-        <translation type="unfinished"></translation>
+        <translation>Par défaut, si une fenêtre FeatherPad existe
+dans le bureau actuel, les fichiers seront ouverts
+dans ses onglets.
+
+Cependant, certains environnements de bureau
+n&apos;indiquent pas qu&apos;ils ont des bureaux multiples.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="278"/>
         <source>Always open in separate windows</source>
-        <translation type="unfinished"></translation>
+        <translation>Toujours ouvrir dans des fenêtres séparées</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="285"/>
@@ -1853,12 +1858,13 @@ d&apos;une session.</translation>
         <location filename="../../sessionDialog.ui" line="159"/>
         <source>By default, all files that are opened in all
 windows will be included in the saved session.</source>
-        <translation type="unfinished"></translation>
+        <translation>Par défaut, tous les fichiers ouverts dans toutes les
+fenêtres seront inclus dans la session sauvegardée.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="163"/>
         <source>Save only from this &amp;window</source>
-        <translation type="unfinished"></translation>
+        <translation>Sauvegarder uniquement depuis cette fenêtre</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="177"/>
