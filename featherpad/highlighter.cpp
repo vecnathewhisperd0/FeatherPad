@@ -168,12 +168,13 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         DarkBlue = Qt::darkBlue;
         Red = Qt::red;
         DarkRed = QColor (150, 0, 0);
+        Verda = QColor (0, 110, 110);
         DarkGreen = Qt::darkGreen;
         DarkMagenta = Qt::darkMagenta;
         Violet = QColor (126, 0, 230); //d556e6
         Brown = QColor (160, 80, 0);
         DarkYellow = Qt::darkYellow;
-        Faded = QColor (140, 140, 140);
+        Faded = QColor (145, 145, 145);
         translucent = QColor (0, 0, 0, 190);
     }
     else
@@ -182,6 +183,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         DarkBlue = QColor (65, 154, 255);
         Red = QColor (255, 120, 120);
         DarkRed = QColor (255, 160, 0);
+        Verda = QColor (150, 255, 0);
         DarkGreen = Qt::green;
         DarkMagenta = QColor (255, 153, 255);
         Violet = QColor (255, 255, 0);
@@ -498,7 +500,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         QTextCharFormat diffLinesFormat;
         diffLinesFormat.setFontWeight (QFont::Bold);
         diffLinesFormat.setForeground (DarkGreenAlt);
-        rule.pattern = QRegExp ("^@{2}[0-9,\\-\\+\\s]+@{2}");
+        rule.pattern = QRegExp ("^@{2}[\\d,\\-\\+\\s]+@{2}");
         rule.format = diffLinesFormat;
         highlightingRules.append (rule);
     }
@@ -509,27 +511,27 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
          *   blue  green  magenta bold */
         QTextCharFormat logFormat;
         logFormat.setFontWeight (QFont::Bold);
-        rule.pattern = QRegExp ("^[A-Za-z]{3}\\s+[0-9]{1,2}\\s{1}[0-9]{2}:[0-9]{2}:[0-9]{2}\\s+[A-Za-z0-9_\\[\\]\\s]+(?=\\s*:)");
+        rule.pattern = QRegExp ("^[A-Za-z]{3}\\s+\\d{1,2}\\s{1}\\d{2}:\\d{2}:\\d{2}\\s+[A-Za-z0-9_\\[\\]\\s]+(?=\\s*:)");
         rule.format = logFormat;
         highlightingRules.append (rule);
 
         QTextCharFormat logFormat1;
         logFormat1.setForeground (Qt::magenta);
-        rule.pattern = QRegExp ("^[A-Za-z]{3}\\s+[0-9]{1,2}\\s{1}[0-9]{2}:[0-9]{2}:[0-9]{2}\\s+[A-Za-z]+");
+        rule.pattern = QRegExp ("^[A-Za-z]{3}\\s+\\d{1,2}\\s{1}\\d{2}:\\d{2}:\\d{2}\\s+[A-Za-z]+");
         rule.format = logFormat1;
         highlightingRules.append (rule);
 
         QTextCharFormat logDateFormat;
         logDateFormat.setFontWeight (QFont::Bold);
         logDateFormat.setForeground (Blue);
-        rule.pattern = QRegExp ("^[A-Za-z]{3}\\s+[0-9]{1,2}(?=\\s{1}[0-9]{2}:[0-9]{2}:[0-9]{2})");
+        rule.pattern = QRegExp ("^[A-Za-z]{3}\\s+\\d{1,2}(?=\\s{1}\\d{2}:\\d{2}:\\d{2})");
         rule.format = logDateFormat;
         highlightingRules.append (rule);
 
         QTextCharFormat logTimeFormat;
         logTimeFormat.setFontWeight (QFont::Bold);
         logTimeFormat.setForeground (DarkGreenAlt);
-        rule.pattern = QRegExp ("\\s{1}[0-9]{2}:[0-9]{2}:[0-9]{2}\\b");
+        rule.pattern = QRegExp ("\\s{1}\\d{2}:\\d{2}:\\d{2}\\b");
         rule.format = logTimeFormat;
         highlightingRules.append (rule);
 
@@ -561,31 +563,31 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         /* hh:mm:ss,ttt */
         srtFormat.setForeground (QBrush());
         srtFormat.setFontItalic (true);
-        rule.pattern = QRegExp ("^[0-9]+$|^[0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3}\\s-->\\s[0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3}$");
+        rule.pattern = QRegExp ("^\\d+$|^\\d{2}:\\d{2}:\\d{2},\\d{3}\\s-->\\s\\d{2}:\\d{2}:\\d{2},\\d{3}$");
         rule.format = srtFormat;
         highlightingRules.append (rule);
 
         /* subtitle line */
         srtFormat.setForeground (Red);
-        rule.pattern = QRegExp ("^[0-9]+$");
+        rule.pattern = QRegExp ("^\\d+$");
         rule.format = srtFormat;
         highlightingRules.append (rule);
 
         /* mm */
         srtFormat.setForeground (DarkGreenAlt);
-        rule.pattern = QRegExp ("[0-9]{2}(?=:[0-9]{2},[0-9]{3}\\s-->\\s[0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3}$)|[0-9]{2}(?=:[0-9]{2},[0-9]{3}$)");
+        rule.pattern = QRegExp ("\\d{2}(?=:\\d{2},\\d{3}\\s-->\\s\\d{2}:\\d{2}:\\d{2},\\d{3}$)|\\d{2}(?=:\\d{2},\\d{3}$)");
         rule.format = srtFormat;
         highlightingRules.append (rule);
 
         /* hh */
         srtFormat.setForeground (Blue);
-        rule.pattern = QRegExp ("^[0-9]{2}(?=:[0-9]{2}:[0-9]{2},[0-9]{3}\\s-->\\s[0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3}$)|\\s[0-9]{2}(?=:[0-9]{2}:[0-9]{2},[0-9]{3}$)");
+        rule.pattern = QRegExp ("^\\d{2}(?=:\\d{2}:\\d{2},\\d{3}\\s-->\\s\\d{2}:\\d{2}:\\d{2},\\d{3}$)|\\s\\d{2}(?=:\\d{2}:\\d{2},\\d{3}$)");
         rule.format = srtFormat;
         highlightingRules.append (rule);
 
         /* ss */
         srtFormat.setForeground (Brown);
-        rule.pattern = QRegExp ("[0-9]{2}(?=,[0-9]{3}\\s-->\\s[0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3}$)|[0-9]{2}(?=,[0-9]{3}$)");
+        rule.pattern = QRegExp ("\\d{2}(?=,\\d{3}\\s-->\\s\\d{2}:\\d{2}:\\d{2},\\d{3}$)|\\d{2}(?=,\\d{3}$)");
         rule.format = srtFormat;
         highlightingRules.append (rule);
     }
@@ -688,7 +690,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
         /* lists */
         markdownFormat.setForeground (DarkBlue);
-        rule.pattern = QRegExp ("^ {,3}(\\*|\\+|\\-|[0-9]+\\.|[0-9]+\\))\\s+");
+        rule.pattern = QRegExp ("^ {,3}(\\*|\\+|\\-|\\d+\\.|\\d+\\))\\s+");
         rule.format = markdownFormat;
         highlightingRules.append (rule);
 
@@ -775,13 +777,13 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         /* after "," */
         plFormat.setFontWeight (QFont::Normal);
         plFormat.setForeground (DarkRed);
-        rule.pattern = QRegExp ("^#EXTINF\\s*:\\s*-*[0-9]+\\s*,.*|^#EXTINF\\s*:\\s*,.*");
+        rule.pattern = QRegExp ("^#EXTINF\\s*:\\s*-*\\d+\\s*,.*|^#EXTINF\\s*:\\s*,.*");
         rule.format = plFormat;
         highlightingRules.append (rule);
 
         /* before "," and after "EXTINF:" */
         plFormat.setForeground (DarkYellow);
-        rule.pattern = QRegExp ("^#EXTINF\\s*:\\s*-*[0-9]+\\b");
+        rule.pattern = QRegExp ("^#EXTINF\\s*:\\s*-*\\d+\\b");
         rule.format = plFormat;
         highlightingRules.append (rule);
 
@@ -1295,13 +1297,21 @@ int Highlighter::cssHighlighter (const QString &text, bool mainFormatting, const
 
     QRegExp cssStartExpression = QRegExp ("\\{");
     QRegExp cssEndExpression = QRegExp ("\\}");
+    QRegExp numExpression = QRegExp ("(-|\\+){,1}\\b\\d*\\.{,1}\\d+");
     int index = start;
+
     QTextCharFormat cssValueFormat;
     cssValueFormat.setFontItalic (true);
-    cssValueFormat.setForeground (DarkMagenta);
+    cssValueFormat.setForeground (Verda);
+
+    QTextCharFormat numFormat;
+    numFormat.setFontItalic (true);
+    numFormat.setForeground (Brown);
+
     QTextCharFormat cssErrorFormat;
     cssErrorFormat.setFontUnderline (true);
     cssErrorFormat.setForeground (Red);
+
     if (index > 0
         || (previousBlockState() != cssBlockState
             && previousBlockState() != commentInCssState
@@ -1342,7 +1352,7 @@ int Highlighter::cssHighlighter (const QString &text, bool mainFormatting, const
         if (mainFormatting)
         {
             /* at first, we suppose all syntax is wrong */
-            QRegExp expression = QRegExp ("[^\\{^\\}^\\s]+");
+            QRegExp expression = QRegExp ("[^\\{\\}\\s]+");
             int indxTmp = expression.indexIn (text, index);
             while (isQuoted (text, indxTmp))
                 indxTmp = expression.indexIn (text, indxTmp + 1);
@@ -1420,6 +1430,15 @@ int Highlighter::cssHighlighter (const QString &text, bool mainFormatting, const
             /* css value format */
             setFormat (index, cssLength, cssValueFormat);
 
+            /* numbers in css values */
+            int nIndex = numExpression.indexIn (text, index + startMatch);
+            while (nIndex > -1
+                   && nIndex + numExpression.matchedLength() <= index + cssLength)
+            {
+                setFormat (nIndex, numExpression.matchedLength(), numFormat);
+                nIndex = numExpression.indexIn (text, nIndex + numExpression.matchedLength());
+            }
+
             setFormat (index, startMatch, neutralFormat);
             if (endIndex > -1)
                 setFormat (endIndex, 1, neutralFormat);
@@ -1442,7 +1461,7 @@ int Highlighter::cssHighlighter (const QString &text, bool mainFormatting, const
         /* color value format (#xyz, #abcdef, #abcdefxy) */
         QTextCharFormat cssColorFormat;
 
-        cssColorFormat.setForeground (DarkMagenta);
+        cssColorFormat.setForeground (Verda);
         cssColorFormat.setFontWeight (QFont::Bold);
         cssColorFormat.setFontItalic (true);
         // previously: "#\\b([A-Za-z0-9]{3}){,4}(?![A-Za-z0-9_]+)"
@@ -2371,7 +2390,7 @@ void Highlighter::highlightBlock (const QString &text)
         /* the ``` code block of markdown is like a multiline comment
            but shouldn't be formatted inside a comment or block quote */
         if (previousBlockState() != commentState && previousBlockState() != markdownBlockQuoteState && codeBlockFormat.isValid())
-            multiLineComment (text, 0, -1, QRegExp ("^```[^\\s^`]*$"), QRegExp ("^```$"), markdownCodeBlockState, codeBlockFormat);
+            multiLineComment (text, 0, -1, QRegExp ("^```[^\\s`]*$"), QRegExp ("^```$"), markdownCodeBlockState, codeBlockFormat);
     }
 
     /*************

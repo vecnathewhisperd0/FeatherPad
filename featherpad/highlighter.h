@@ -164,7 +164,7 @@ private:
     QString progLan;
 
     QRegExp quoteMark;
-    QColor Blue, DarkBlue, Red, DarkRed, DarkGreen, DarkGreenAlt, DarkMagenta, Violet, Brown, DarkYellow;
+    QColor Blue, DarkBlue, Red, DarkRed, Verda, DarkGreen, DarkGreenAlt, DarkMagenta, Violet, Brown, DarkYellow;
 
     /* The start and end cursors of the visible text: */
     QTextCursor startCursor, endCursor;
