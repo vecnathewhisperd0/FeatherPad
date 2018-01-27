@@ -1,6 +1,10 @@
 V0.7.1
 ---------
  * Close the warning-bar when the text is scrolled.
+ * Fixed the workaround for the RTL bug in QPlainTextEdit (it included an odd line and the indentation lines were disabled for RTL).
+ * Some fixes for markdown and sh syntax highlighting.
+ * Fixed highlighting of here-docs for languages other than sh.
+ * Fixed highlighting of bash command substitution by using a completely different approach with a simple logic.
 
 V0.7
 ---------

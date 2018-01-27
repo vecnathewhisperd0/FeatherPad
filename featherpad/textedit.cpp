@@ -759,7 +759,7 @@ void TextEdit::paintEvent (QPaintEvent *event)
             if (rtl)
             {
                 QTextOption opt = document()->defaultTextOption();
-                opt = QTextOption (Qt::AlignRight);
+                opt.setAlignment (Qt::AlignRight);
                 opt.setTextDirection (Qt::RightToLeft);
                 layout->setTextOption (opt);
             }
@@ -847,32 +847,48 @@ void TextEdit::paintEvent (QPaintEvent *event)
             }
 
             /* indentation lines should be drawn after selections */
-            if (drawIndetLines
-                && !rtl) // no indentation line with RTL (for now)
+            if (drawIndetLines)
             {
                 QRegExp exp = QRegExp ("\\s+");
                 if (exp.indexIn (block.text()) == 0)
                 {
-                    painter.save();
-                    painter.setOpacity (0.2);
-                    int len = exp.matchedLength();
-                    QTextCursor cur = textCursor();
-                    cur.setPosition (block.position() + len);
-                    qreal rightMost = cursorRect (cur).right();
-                    QFontMetricsF fm = QFontMetricsF (document()->defaultFont());
-                    int yTop = qRound (r.topLeft().y());
-                    int yBottom =  qRound (r.height() >= (qreal)2 * fm.lineSpacing()
-                                               ? yTop + fm.height()
-                                               : r.bottomLeft().y() - (qreal)1);
-                    qreal x = r.topLeft().x();
-                    qreal tabWidth = (qreal)fm.width ("    ");
-                    x += tabWidth;
-                    while (x <= rightMost)
+                    QRegExp exp = QRegExp ("\\s+");
+                    if (exp.indexIn (block.text()) == 0)
                     {
-                        painter.drawLine (QLine (qRound (x), yTop, qRound (x), yBottom));
-                        x += tabWidth;
+                        painter.save();
+                        painter.setOpacity (0.18);
+                        QTextCursor cur = textCursor();
+                        cur.setPosition (exp.matchedLength() + block.position());
+                        QFontMetricsF fm = QFontMetricsF (document()->defaultFont());
+                        int yTop = qRound (r.topLeft().y());
+                        int yBottom =  qRound (r.height() >= (qreal)2 * fm.lineSpacing()
+                                                   ? yTop + fm.height()
+                                                   : r.bottomLeft().y() - (qreal)1);
+                        qreal tabWidth = (qreal)fm.width ("    ");
+                        if (rtl)
+                        {
+                            qreal leftMost = cursorRect (cur).left();
+                            qreal x = r.topRight().x();
+                            x -= tabWidth;
+                            while (x >= leftMost)
+                            {
+                                painter.drawLine (QLine (qRound (x), yTop, qRound (x), yBottom));
+                                x -= tabWidth;
+                            }
+                        }
+                        else
+                        {
+                            qreal rightMost = cursorRect (cur).right();
+                            qreal x = r.topLeft().x();
+                            x += tabWidth;
+                            while (x <= rightMost)
+                            {
+                                painter.drawLine (QLine (qRound (x), yTop, qRound (x), yBottom));
+                                x += tabWidth;
+                            }
+                        }
+                        painter.restore();
                     }
-                    painter.restore();
                 }
             }
         }

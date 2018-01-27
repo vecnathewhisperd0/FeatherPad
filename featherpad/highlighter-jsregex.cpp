@@ -158,17 +158,21 @@ void Highlighter::multiLineJSRegex (const QString &text, const int index)
     int startIndex = index;
     QRegExp startExp ("/");
     QRegExp endExp ("/[A-Za-z0-9_]*");
+    QTextCharFormat fi;
 
-    if (previousBlockState() != JSRegexState || startIndex > 0)
+    int prevState = previousBlockState();
+    if (prevState != JSRegexState || startIndex > 0)
     {
         startIndex = startExp.indexIn (text, startIndex);
         /* skip comments and quotations (all formatted to this point) */
-        while (isEscapedJSRegex (text, startIndex)
-               || format (startIndex) == commentFormat
-               || format (startIndex) == quoteFormat
-               || format (startIndex) == altQuoteFormat)
+        fi = format (startIndex);
+        while (startIndex >= 0
+               && (isEscapedJSRegex (text, startIndex)
+                   || fi == commentFormat
+                   || fi == quoteFormat || fi == altQuoteFormat))
         {
             startIndex = startExp.indexIn (text, startIndex + 1);
+            fi = format (startIndex);
         }
     }
 
@@ -178,7 +182,7 @@ void Highlighter::multiLineJSRegex (const QString &text, const int index)
         /* when the start sign is in the prvious line
            and the search for the end sign has just begun,
            search for the end sign from the line start */
-        if (previousBlockState() == JSRegexState && startIndex == 0)
+        if (prevState == JSRegexState && startIndex == 0)
             endIndex = endExp.indexIn (text, 0);
         else
             endIndex = endExp.indexIn (text, startIndex + startExp.matchedLength());
@@ -202,12 +206,14 @@ void Highlighter::multiLineJSRegex (const QString &text, const int index)
         startIndex = startExp.indexIn (text, startIndex + len);
 
         /* skip comments and quotations again */
-        while (isEscapedJSRegex (text, startIndex)
-               || format (startIndex) == commentFormat
-               || format (startIndex) == quoteFormat
-               || format (startIndex) == altQuoteFormat)
+        fi = format (startIndex);
+        while (startIndex >= 0
+               && (isEscapedJSRegex (text, startIndex)
+                   || fi == commentFormat
+                   || fi == quoteFormat || fi == altQuoteFormat))
         {
             startIndex = startExp.indexIn (text, startIndex + 1);
+            fi = format (startIndex);
         }
     }
 

@@ -320,26 +320,30 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
             wasCSS = prevData->labelInfo() == "CSS"; // it's labeled below
     }
 
+    QTextCharFormat fi;
     int matched = 0;
     if ((!wasCSS || start > 0)  && !wasStyle)
     {
         cssIndex = cssStartExp.indexIn (text, start);
-        while (format (cssIndex) == commentFormat
-               || format (cssIndex) == quoteFormat
-               || format (cssIndex) == altQuoteFormat)
+        fi = format (cssIndex);
+        while (cssIndex >= 0
+               && (fi == commentFormat
+                   || fi == quoteFormat || fi == altQuoteFormat))
         {
-            cssIndex = cssStartExp.indexIn (text, cssIndex + 1);
+            cssIndex = cssStartExp.indexIn (text, cssIndex + cssStartExp.matchedLength());
+            fi = format (cssIndex);
         }
     }
     else if (wasStyle)
     {
         cssIndex = braEndExp.indexIn (text, start);
-        while (format (cssIndex) == commentFormat
-               || format (cssIndex) == quoteFormat
-               || format (cssIndex) == altQuoteFormat
-               || format (cssIndex) == urlFormat)
+        fi = format (cssIndex);
+        while (cssIndex >= 0
+               && (fi == commentFormat || fi == urlFormat
+                   || fi == quoteFormat || fi == altQuoteFormat))
         {
             cssIndex = braEndExp.indexIn (text, cssIndex + 1);
+            fi = format (cssIndex);
         }
         if (cssIndex > -1)
             matched = braEndExp.matchedLength(); // 1
@@ -395,13 +399,13 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
                                                cssIndex + matched);
         }
 
+        fi = format (cssEndIndex);
         while (cssEndIndex > -1
-               && (format (cssEndIndex) == quoteFormat
-                   || format (cssEndIndex) == altQuoteFormat
-                   || format (cssEndIndex) == commentFormat
-                   || format (cssEndIndex) == urlFormat))
+               && (fi == quoteFormat || fi == altQuoteFormat
+                   || fi == commentFormat || fi == urlFormat))
         {
-            cssEndIndex = cssEndExp.indexIn (text, cssEndIndex + 1);
+            cssEndIndex = cssEndExp.indexIn (text, cssEndIndex + cssEndExp.matchedLength());
+            fi = format (cssEndIndex);
         }
 
         int len;
@@ -428,12 +432,13 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
         }
 
         cssIndex = cssStartExp.indexIn (text, cssIndex + len);
-        while (format (cssIndex) == commentFormat
-               || format (cssIndex) == urlFormat
-               || format (cssIndex) == quoteFormat
-               || format (cssIndex) == altQuoteFormat)
+        fi = format (cssIndex);
+        while (cssIndex >= 0
+               && (fi == commentFormat || fi == urlFormat
+                   || fi == quoteFormat || fi == altQuoteFormat))
         {
-            cssIndex = cssStartExp.indexIn (text, cssIndex + 1);
+            cssIndex = cssStartExp.indexIn (text, cssIndex + cssStartExp.matchedLength());
+            fi = format (cssIndex);
         }
         matched = 0; // single-line style bracket (<style ...>)
     }
@@ -466,15 +471,17 @@ void Highlighter::htmlJavascript (const QString &text)
             wasJavascript = prevData->labelInfo() == "JS"; // it's labeled below
     }
 
+    QTextCharFormat fi;
     if (!wasJavascript)
     {
         javaIndex = javaStartExp.indexIn (text);
-        while (format (javaIndex) == commentFormat
-               || format (javaIndex) == quoteFormat
-               || format (javaIndex) == altQuoteFormat
-               || format (javaIndex) == urlFormat)
+        fi = format (javaIndex);
+        while (javaIndex >= 0
+               && (fi == commentFormat || fi == urlFormat
+                   || fi == quoteFormat || fi == altQuoteFormat))
         {
-            javaIndex = javaStartExp.indexIn (text, javaIndex + 1);
+            javaIndex = javaStartExp.indexIn (text, javaIndex + javaStartExp.matchedLength());
+            fi = format (javaIndex);
         }
     }
     int matched = 0;
@@ -510,13 +517,16 @@ void Highlighter::htmlJavascript (const QString &text)
 
                 QRegExp expression (rule.pattern);
                 int index = expression.indexIn (text, javaIndex + matched);
-                while (rule.format != whiteSpaceFormat
-                       && (format (index) == quoteFormat
-                           || format (index) == altQuoteFormat
-                           || format (index) == commentFormat
-                           || format (index) == urlFormat))
+                if (rule.format != whiteSpaceFormat)
                 {
-                    index = expression.indexIn (text, index + 1);
+                    fi = format (index);
+                    while (index >= 0
+                           && (fi == quoteFormat || fi == altQuoteFormat
+                               || fi == commentFormat || fi == urlFormat))
+                    {
+                        index = expression.indexIn (text, index + expression.matchedLength());
+                        fi = format (index);
+                    }
                 }
 
                 while (index >= 0)
@@ -525,14 +535,17 @@ void Highlighter::htmlJavascript (const QString &text)
                     setFormat (index, length, rule.format);
                     index = expression.indexIn (text, index + length);
 
-                    while (rule.format != whiteSpaceFormat
-                           && (format (index) == quoteFormat
-                               || format (index) == altQuoteFormat
-                               || format (index) == commentFormat
-                               || format (index) == urlFormat
-                               || format (index) == JSRegexFormat))
+                    if (rule.format != whiteSpaceFormat)
                     {
-                        index = expression.indexIn (text, index + 1);
+                        fi = format (index);
+                        while (index >= 0
+                               && (fi == quoteFormat || fi == altQuoteFormat
+                                   || fi == commentFormat || fi == urlFormat
+                                   || fi == JSRegexFormat))
+                        {
+                            index = expression.indexIn (text, index + expression.matchedLength());
+                            fi = format (index);
+                        }
                     }
                 }
             }
@@ -548,14 +561,14 @@ void Highlighter::htmlJavascript (const QString &text)
                                                javaIndex + matched);
         }
 
+        fi = format (javaEndIndex);
         while (javaEndIndex > -1
-               && (format (javaEndIndex) == quoteFormat
-                   || format (javaEndIndex) == altQuoteFormat
-                   || format (javaEndIndex) == commentFormat
-                   || format (javaEndIndex) == urlFormat
-                   || format (javaEndIndex) == JSRegexFormat))
+               && (fi == quoteFormat || fi == altQuoteFormat
+                   || fi == commentFormat || fi == urlFormat
+                   || fi == JSRegexFormat))
         {
-            javaEndIndex = javaEndExp.indexIn (text, javaEndIndex + 1);
+            javaEndIndex = javaEndExp.indexIn (text, javaEndIndex + javaEndExp.matchedLength());
+            fi = format (javaEndIndex);
         }
 
         int len;
@@ -583,12 +596,13 @@ void Highlighter::htmlJavascript (const QString &text)
         }
 
         javaIndex = javaStartExp.indexIn (text, javaIndex + len);
-        while (format (javaIndex) == commentFormat
-               || format (javaIndex) == urlFormat
-               || format (javaIndex) == quoteFormat
-               || format (javaIndex) == altQuoteFormat)
+        fi = format (javaEndIndex);
+        while (javaIndex > -1
+               && (fi == commentFormat || fi == urlFormat
+                   || fi == quoteFormat || fi == altQuoteFormat))
         {
-            javaIndex = javaStartExp.indexIn (text, javaIndex + 1);
+            javaIndex = javaStartExp.indexIn (text, javaIndex + javaStartExp.matchedLength());
+            fi = format (javaEndIndex);
         }
     }
 

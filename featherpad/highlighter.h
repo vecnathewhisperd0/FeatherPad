@@ -48,20 +48,24 @@ struct BracketInfo
 class TextBlockData : public QTextBlockUserData
 {
 public:
-    TextBlockData() { Highlighted = false; OpenNests = 0; }
+    TextBlockData() { Highlighted = false; Property = false; OpenNests = 0; }
     ~TextBlockData();
-    QVector<ParenthesisInfo *> parentheses();
-    QVector<BraceInfo *> braces();
-    QVector<BracketInfo *> brackets();
-    QString labelInfo();
-    bool isHighlighted();
-    int openNests();
+    QVector<ParenthesisInfo *> parentheses() const;
+    QVector<BraceInfo *> braces() const;
+    QVector<BracketInfo *> brackets() const;
+    QString labelInfo() const;
+    bool isHighlighted() const;
+    bool getProperty() const;
+    int openNests() const;
+    QSet<int> openQuotes() const;
     void insertInfo (ParenthesisInfo *info);
     void insertInfo (BraceInfo *info);
     void insertInfo (BracketInfo *info);
-    void insertInfo (QString str);
+    void insertInfo (const QString &str);
     void insertHighlightInfo (bool highlighted);
+    void setProperty (bool p);
     void insertNestInfo (int nests);
+    void insertOpenQuotes (const QSet<int> &openQuotes);
 
 private:
     QVector<ParenthesisInfo *> allParentheses;
@@ -69,9 +73,11 @@ private:
     QVector<BracketInfo *> allBrackets;
     QString label; // A label (usually, the delimiter string of a here-doc).
     bool Highlighted; // Is this block completely highlighted?
+    bool Property; // A general boolean property (use with SH).
     /* "Nest" is a generalized bracket. This variable
        is the number of unclosed nests in a block. */
     int OpenNests;
+    QSet<int> OpenQuotes; // The numbers of open double quotes of open nests.
 };
 /*************************/
 /* This is a tricky but effective way for syntax highlighting. */
@@ -98,8 +104,10 @@ private:
     QStringList keywords (const QString &lang);
     QStringList types();
     bool isEscapedChar (const QString &text, const int pos);
-    bool isEscapedQuote (const QString &text, const int pos, bool isStartQuote);
-    bool isQuoted (const QString &text, const int index);
+    bool isEscapedQuote (const QString &text, const int pos, bool isStartQuote,
+                         bool skipCommandSign = false);
+    bool isQuoted (const QString &text, const int index,
+                   bool skipCommandSign = false);
     bool isMLCommented (const QString &text, const int index, int comState = commentState);
     bool isHereDocument (const QString &text);
     void pythonMLComment (const QString &text, const int indx);
@@ -107,8 +115,7 @@ private:
     void htmlBrackets (const QString &text, const int start = 0);
     void htmlJavascript (const QString &text);
     int cssHighlighter (const QString &text, bool mainFormatting, const int start = 0);
-    void singleLineComment (const QString &text, const int start, int end = -1,
-                            bool canBeQuoted = false);
+    void singleLineComment (const QString &text, const int start);
     void multiLineComment (const QString &text,
                            const int index, const int cssIndx,
                            const QRegExp &commentStartExp, const QRegExp &commentEndExp,
@@ -126,10 +133,12 @@ private:
     /* SH specific methods: */
     void SH_MultiLineQuote(const QString &text);
     bool SH_SkipQuote (const QString &text, const int pos, bool isStartQuote);
-    void SH_CommentsInsideCmnd (const QString &text, int start, int end);
+    int formatInsideCommand (const QString &text,
+                             const int minOpenNests, int &nests, QSet<int> &quotes,
+                             const bool isHereDocStart, const int index);
     bool SH_CmndSubstVar (const QString &text,
                           TextBlockData *currentBlockData,
-                          int prevOpenNests);
+                          int oldOpenNests, const QSet<int> &oldOpenQuotes);
 
     void debControlFormatting (const QString &text);
 
@@ -183,6 +192,8 @@ private:
 
         SH_DoubleQuoteState,
         SH_SingleQuoteState,
+        SH_MixedDoubleQuoteState,
+        SH_MixedSingleQuoteState,
 
         /* Python comments: */
         pyDoubleQuoteState,
@@ -216,7 +227,7 @@ private:
         /* Used to update the format of the next line (as in JavaScript): */
         updateState,
 
-        endState // 26
+        endState // 28
 
         /* For here-docs, state >= endState or state < -1. */
     };

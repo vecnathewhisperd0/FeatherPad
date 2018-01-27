@@ -30,9 +30,10 @@ QStringList Highlighter::keywords (const QString &lang)
                         << "\\b(const|case|catch|cdecl|continue)(?!(\\.|-|@|#|\\$))\\b"
                         << "\\b(break|default|do)(?!(\\.|-|@|#|\\$))\\b"
                         << "\\b(enum|explicit|else|extern)(?!(\\.|-|@|#|\\$))\\b"
-                        << "\\b(for|goto|if|NULL|pasca|register|return)(?!(\\.|-|@|#|\\$))\\b"
+                        << "\\b(for|if|NULL|pasca|register|return)(?!(\\.|-|@|#|\\$))\\b"
                         << "\\b(signals|sizeof|static|struct|switch)(?!(\\.|-|@|#|\\$))\\b"
-                        << "\\b(typedef|typename|union|volatile|while)(?!(\\.|-|@|#|\\$))\\b";
+                        << "\\b(typedef|typename|union|volatile|while)(?!(\\.|-|@|#|\\$))\\b"
+                        << "\\b(goto\\s+\\w+\\s*(?=;)|\\w+\\s*(?=:(?!:)))";
 
         if (lang == "c")
             keywordPatterns << "\\b(FALSE|TRUE)(?!(\\.|-|@|#|\\$))\\b";
