@@ -181,7 +181,7 @@ int Highlighter::formatInsideCommand (const QString &text,
         if (indx == text.length())
             break;
         QString c = text.at (indx);
-        if (c == '\'')
+        if (c == "\'")
         {
             if (comment)
             {
@@ -218,7 +218,7 @@ int Highlighter::formatInsideCommand (const QString &text,
                 }
             }
         }
-        else if (c == '\"')
+        else if (c == "\"")
         {
             if (comment)
                 setFormat (indx, 1, commentFormat);
@@ -229,7 +229,7 @@ int Highlighter::formatInsideCommand (const QString &text,
             }
             ++ indx;
         }
-        else if (c == '$') // may start a new code block
+        else if (c == "$") // may start a new code block
         {
             if (comment)
             {
@@ -258,7 +258,7 @@ int Highlighter::formatInsideCommand (const QString &text,
                 }
             }
         }
-        else if (c == '(')
+        else if (c == "(")
         {
             if (doubleQuoted)
                 setFormat (indx, 1, quoteFormat);
@@ -273,7 +273,7 @@ int Highlighter::formatInsideCommand (const QString &text,
             }
             ++ indx;
         }
-        else if (c == ')') // may end a code block
+        else if (c == ")") // may end a code block
         {
             if (doubleQuoted)
                 setFormat (indx, 1, quoteFormat);
@@ -303,7 +303,7 @@ int Highlighter::formatInsideCommand (const QString &text,
             }
             ++ indx;
         }
-        else if (c == '#') // may be comment sign
+        else if (c == "#") // may be comment sign
         {
             if (comment)
                 setFormat (indx, 1, commentFormat);
@@ -345,8 +345,12 @@ int Highlighter::formatInsideCommand (const QString &text,
     /* save the states */
     if (doubleQuoted)
     {
-        if (!isHereDocStart)
+        if (!isHereDocStart
+            /* an open subcommand may have already set the state */
+            && currentBlockState() != SH_SingleQuoteState)
+        { // FIXME: This state is redundant. remove it later!
             setCurrentBlockState (SH_DoubleQuoteState);
+        }
         quotes.insert (initialOpenNests);
     }
     else

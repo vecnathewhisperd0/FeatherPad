@@ -88,9 +88,11 @@ unix {
 
   #MAKE INSTALL
 
-  INSTALLS += target desktop iconsvg help trans
-
   target.path =$$BINDIR
+
+  # add the fpad symlink
+  slink.path = $$BINDIR
+  slink.extra += ln -sf $${TARGET} fpad && cp --no-dereference fpad $(INSTALL_ROOT)$$BINDIR
 
   desktop.path = $$DATADIR/applications
   desktop.files += ./data/$${TARGET}.desktop
@@ -103,4 +105,6 @@ unix {
 
   trans.path = $$DATADIR/featherpad
   trans.files += data/translations/translations
+
+  INSTALLS += target slink desktop iconsvg help trans
 }

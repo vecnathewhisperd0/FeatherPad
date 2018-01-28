@@ -5,6 +5,7 @@ V0.7.1
  * Some fixes for markdown and sh syntax highlighting.
  * Fixed highlighting of here-docs for languages other than sh.
  * Fixed highlighting of bash command substitution by using a completely different approach with a simple logic.
+ * Added the symlink "fpad".
 
 V0.7
 ---------
