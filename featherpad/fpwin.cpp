@@ -62,6 +62,9 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     rightClicked_ = -1;
     busyThread_ = nullptr;
 
+    autoSaver_ = nullptr;
+    autoSaverRemainingTime_ = -1;
+
     sidePane_ = nullptr;
 
     /* JumpTo bar*/
@@ -101,7 +104,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     ui->toolButtonAll->setToolTip (tr ("Replace all") + " (" + tr ("F9") + ")");
     ui->dockReplace->setVisible (false);
 
-    applyConfig();
+    applyConfigOnStarting();
 
     QWidget* spacer = new QWidget();
     spacer->setSizePolicy (QSizePolicy::Expanding, QSizePolicy::Preferred);
@@ -167,9 +170,9 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     connect (ui->actionOpen, &QAction::triggered, this, &FPwin::fileOpen);
     connect (ui->actionReload, &QAction::triggered, this, &FPwin::reload);
     connect (aGroup_, &QActionGroup::triggered, this, &FPwin::enforceEncoding);
-    connect (ui->actionSave, &QAction::triggered, this, &FPwin::fileSave);
-    connect (ui->actionSaveAs, &QAction::triggered, this, &FPwin::fileSave);
-    connect (ui->actionSaveCodec, &QAction::triggered, this, &FPwin::fileSave);
+    connect (ui->actionSave, &QAction::triggered, [=]{saveFile (false);});
+    connect (ui->actionSaveAs, &QAction::triggered, this, [=]{saveFile (false);});
+    connect (ui->actionSaveCodec, &QAction::triggered, this, [=]{saveFile (false);});
 
     connect (ui->actionCut, &QAction::triggered, this, &FPwin::cutText);
     connect (ui->actionCopy, &QAction::triggered, this, &FPwin::copyText);
@@ -274,6 +277,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
 /*************************/
 FPwin::~FPwin()
 {
+    startAutoSaving (false);
     delete dummyWidget; dummyWidget = nullptr;
     delete aGroup_; aGroup_ = nullptr;
     delete ui; ui = nullptr;
@@ -381,7 +385,7 @@ void FPwin::toggleSidePane()
     }
 }
 /*************************/
-void FPwin::applyConfig()
+void FPwin::applyConfigOnStarting()
 {
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
 
@@ -640,6 +644,9 @@ void FPwin::applyConfig()
             action->setShortcut (it.value());
         ++it;
     }
+
+    if (config.getAutoSave())
+        startAutoSaving (true, config.getAutoSaveInterval());
 }
 /*************************/
 // We want all dialogs to be window-modal as far as possible. However there is a problem:
@@ -717,6 +724,8 @@ void FPwin::deleteTabPage (int tabIndex)
 bool FPwin::closeTabs (int first, int last)
 {
     if (!isReady()) return true;
+
+    pauseAutoSaving (true);
 
     bool hasSideList (sidePane_ && !sideItems_.isEmpty());
     TabPage *curPage = nullptr;
@@ -830,6 +839,9 @@ bool FPwin::closeTabs (int first, int last)
         else if (curItem)
             sidePane_->listWidget()->setCurrentItem (curItem);
     }
+
+    pauseAutoSaving (false);
+
     return keep;
 }
 /*************************/
@@ -916,8 +928,8 @@ FPwin::DOCSTATE FPwin::savePrompt (int tabIndex, bool noToAll)
     TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->widget (tabIndex));
     TextEdit *textEdit = tabPage->textEdit();
     QString fname = textEdit->getFileName();
-    if (textEdit->document()->isModified()
-        || (!fname.isEmpty() && (!QFile::exists (fname) || !QFileInfo (fname).isFile())))
+    bool isRemoved (!fname.isEmpty() && (!QFile::exists (fname) || !QFileInfo (fname).isFile()));
+    if (textEdit->document()->isModified() || isRemoved)
     {
         unbusy(); // made busy at closeTabs()
         if (hasAnotherDialog()) return UNDECIDED; // cancel
@@ -935,10 +947,10 @@ FPwin::DOCSTATE FPwin::savePrompt (int tabIndex, bool noToAll)
         MessageBox msgBox (this);
         msgBox.setIcon (QMessageBox::Question);
         msgBox.setText ("<center><b><big>" + tr ("Save changes?") + "</big></b></center>");
-        if (textEdit->document()->isModified())
-            msgBox.setInformativeText ("<center><i>" + tr ("The document has been modified.") + "</i></center>");
-        else
+        if (isRemoved)
             msgBox.setInformativeText ("<center><i>" + tr ("The file has been removed.") + "</i></center>");
+        else
+            msgBox.setInformativeText ("<center><i>" + tr ("The document has been modified.") + "</i></center>");
         if (noToAll && ui->tabWidget->count() > 1)
             msgBox.setStandardButtons (QMessageBox::Save
                                        | QMessageBox::Discard
@@ -1538,6 +1550,8 @@ void FPwin::closeTab()
 {
     if (!isReady()) return;
 
+    pauseAutoSaving (true);
+
     QListWidgetItem *curItem = nullptr;
     int index = -1;
     if (sidePane_ && rightClicked_ >= 0) // close the right-clicked item
@@ -1549,10 +1563,18 @@ void FPwin::closeTab()
     else // close the current page
     {
         index = ui->tabWidget->currentIndex();
-        if (index == -1) return; // not needed
+        if (index == -1)  // not needed
+        {
+            pauseAutoSaving (false);
+            return;
+        }
     }
 
-    if (savePrompt (index, false) != SAVED) return;
+    if (savePrompt (index, false) != SAVED)
+    {
+        pauseAutoSaving (false);
+        return;
+    }
 
     deleteTabPage (index);
     int count = ui->tabWidget->count();
@@ -1579,14 +1601,22 @@ void FPwin::closeTab()
         if (TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget()))
             tabPage->textEdit()->setFocus();
     }
+
+    pauseAutoSaving (false);
 }
 /*************************/
 void FPwin::closeTabAtIndex (int index)
 {
+    pauseAutoSaving (true);
+
     TabPage *curPage = nullptr;
     if (index != ui->tabWidget->currentIndex())
         curPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget());
-    if (savePrompt (index, false) != SAVED) return;
+    if (savePrompt (index, false) != SAVED)
+    {
+        pauseAutoSaving (false);
+        return;
+    }
     closeWarningBar();
 
     deleteTabPage (index);
@@ -1614,6 +1644,8 @@ void FPwin::closeTabAtIndex (int index)
         if (TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget()))
             tabPage->textEdit()->setFocus();
     }
+
+    pauseAutoSaving (false);
 }
 /*************************/
 void FPwin::setTitle (const QString& fileName, int tabIndex)
@@ -2566,11 +2598,6 @@ bool FPwin::saveFile (bool keepSyntax)
          QTimer::singleShot (0, this, SLOT (makeEditable()));
 
     return success;
-}
-/*************************/
-void FPwin::fileSave()
-{
-    saveFile (false);
 }
 /*************************/
 void FPwin::cutText()
@@ -3989,6 +4016,134 @@ void FPwin::manageSessions()
           y() + height()/2 - dlg.height()/ 2);*/
     dlg->raise();
     dlg->activateWindow();
+}
+/*************************/
+// Pauses or resumes auto-saving.
+void FPwin::pauseAutoSaving (bool pause)
+{
+    if (pause)
+    {
+        autoSaverPause_.start();
+        autoSaverRemainingTime_ = autoSaver_->remainingTime();
+    }
+    else if (autoSaverPause_.isValid())
+    {
+        if (autoSaverPause_.hasExpired (autoSaverRemainingTime_))
+        {
+            autoSaverPause_.invalidate();
+            autoSave();
+        }
+        else
+            autoSaverPause_.invalidate();
+    }
+}
+/*************************/
+void FPwin::startAutoSaving (bool start, int interval)
+{
+    if (start)
+    {
+        if (!autoSaver_)
+        {
+            autoSaver_ = new QTimer (this);
+            connect (autoSaver_, &QTimer::timeout, this, &FPwin::autoSave);
+        }
+        autoSaver_->setInterval (interval * 1000 * 60);
+        autoSaver_->start();
+    }
+    else if (autoSaver_)
+    {
+        if (autoSaver_->isActive())
+            autoSaver_->stop();
+        delete autoSaver_; autoSaver_ = nullptr;
+    }
+}
+/*************************/
+void FPwin::autoSave()
+{
+    /* since there are important differences between this
+       and saveFile(), we can't use the latter here.
+       We especially don't show any prompt or warning here. */
+    if (autoSaverPause_.isValid()) return;
+    QTimer::singleShot (0, this, [=]() {
+        if (!autoSaver_ || !autoSaver_->isActive())
+            return;
+        int index = ui->tabWidget->currentIndex();
+        if (index == -1) return;
+
+        Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+
+        for (int indx = 0; indx < ui->tabWidget->count(); ++indx)
+        {
+            TabPage *thisTabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (indx));
+            TextEdit *thisTextEdit = thisTabPage->textEdit();
+            if (thisTextEdit->isUneditable() || !thisTextEdit->document()->isModified())
+                continue;
+            QString fname = thisTextEdit->getFileName();
+            if (fname.isEmpty() || !QFile::exists (fname))
+                continue;
+            QTextDocumentWriter writer (fname, "plaintext");
+            if (writer.write (thisTextEdit->document()))
+            {
+                thisTextEdit->document()->setModified (false);
+                QFileInfo fInfo (fname);
+                thisTextEdit->setSize (fInfo.size());
+                setTitle (fname, (indx == index ? -1 : indx));
+                config.addRecentFile (fname); // recently saved also means recently opened
+                /* uninstall and reinstall the syntax highlgihter if the programming language is changed */
+                QString prevLan = thisTextEdit->getProg();
+                setProgLang (thisTextEdit);
+                if (prevLan != thisTextEdit->getProg())
+                {
+                    if (indx == index && ui->statusBar->isVisible()
+                        && thisTextEdit->getWordNumber() != -1)
+                    { // we want to change the statusbar text below
+                        disconnect (thisTextEdit->document(), &QTextDocument::contentsChange, this, &FPwin::updateWordInfo);
+                    }
+
+                    syntaxHighlighting (thisTextEdit, false);
+                    if (ui->actionSyntax->isChecked())
+                        syntaxHighlighting (thisTextEdit);
+
+                    if (indx == index && ui->statusBar->isVisible())
+                    { // correct the statusbar text just by replacing the old syntax info
+                        QLabel *statusLabel = ui->statusBar->findChild<QLabel *>();
+                        QString str = statusLabel->text();
+                        QString syntaxStr = tr ("Syntax");
+                        int i = str.indexOf (syntaxStr);
+                        if (i == -1) // there was no language before saving (prevLan.isEmpty())
+                        {
+                            QString lineStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
+                            int j = str.indexOf (lineStr);
+                            syntaxStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Syntax") + QString (":</b> <i>%1</i>")
+                                                                                        .arg (thisTextEdit->getProg());
+                            str.insert (j, syntaxStr);
+                        }
+                        else
+                        {
+                            if (thisTextEdit->getProg().isEmpty()) // there's no language after saving
+                            {
+                                syntaxStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Syntax");
+                                QString lineStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
+                                int j = str.indexOf (syntaxStr);
+                                int k = str.indexOf (lineStr);
+                                str.remove (j, k - j);
+                            }
+                            else // the language is changed by saving
+                            {
+                                QString lineStr = "</i>&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
+                                int j = str.indexOf (lineStr);
+                                int offset = syntaxStr.count() + 9; // size of ":</b> <i>"
+                                str.replace (i + offset, j - i - offset, thisTextEdit->getProg());
+                            }
+                        }
+                        statusLabel->setText (str);
+                        if (thisTextEdit->getWordNumber() != -1)
+                            connect (thisTextEdit->document(), &QTextDocument::contentsChange, this, &FPwin::updateWordInfo);
+                    }
+                }
+            }
+        }
+    });
 }
 /*************************/
 void FPwin::aboutDialog()

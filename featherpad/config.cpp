@@ -51,6 +51,7 @@ Config::Config():
     openInWindows_ (false),
     nativeDialog_ (false),
     inertialScrolling_ (false),
+    autoSave_ (false),
     scrollJumpWorkaround_ (false),
     tabPosition_ (0),
     maxSHSize_ (2),
@@ -58,6 +59,7 @@ Config::Config():
     darkBgColorValue_ (15),
     recentFilesNumber_ (10),
     curRecentFilesNumber_ (10), // not needed
+    autoSaveInterval_ (1), // not needed
     winSize_ (QSize (700, 500)),
     startSize_ (QSize (700, 500)),
     splitterPos_ (20), // percentage
@@ -180,6 +182,9 @@ void Config::readConfig()
     if (settings.value ("inertialScrolling").toBool())
         inertialScrolling_ = true; // false by default
 
+    if (settings.value ("autoSave").toBool())
+        autoSave_ = true; // false by default
+
     if (settings.value ("scrollJumpWorkaround").toBool())
         scrollJumpWorkaround_ = true; // false by default
 
@@ -209,6 +214,8 @@ void Config::readConfig()
     openRecentFiles_ = qBound (0, settings.value ("openRecentFiles", 0).toInt(), recentFilesNumber_);
     if (settings.value ("recentOpened").toBool())
         recentOpened_ = true; // false by default
+
+    autoSaveInterval_ = qBound (1, settings.value ("autoSaveInterval", 1).toInt(), 60);
 
     settings.endGroup();
 }
@@ -295,6 +302,7 @@ void Config::writeConfig()
     settings.setValue ("showEndings", showEndings_);
     settings.setValue ("darkColorScheme", darkColScheme_);
     settings.setValue ("inertialScrolling", inertialScrolling_);
+    settings.setValue ("autoSave", autoSave_);
     settings.setValue ("scrollJumpWorkaround", scrollJumpWorkaround_);
     settings.setValue ("maxSHSize", maxSHSize_);
 
@@ -313,6 +321,8 @@ void Config::writeConfig()
         settings.setValue ("recentFiles", recentFiles_);
     settings.setValue ("openRecentFiles", openRecentFiles_);
     settings.setValue ("recentOpened", recentOpened_);
+
+    settings.setValue ("autoSaveInterval", autoSaveInterval_);
 
     settings.endGroup();
 

@@ -6,6 +6,8 @@ V0.7.1
  * Fixed highlighting of here-docs for languages other than sh.
  * Fixed highlighting of bash command substitution by using a completely different approach with a simple logic.
  * Added the symlink "fpad".
+ * Added an options for auto-saving of opened files (disabled by default).
+ * Fixed a potential cause of crash in the function "formatOnTextChange()" by using the object "this" in the singleShot timer.
 
 V0.7
 ---------

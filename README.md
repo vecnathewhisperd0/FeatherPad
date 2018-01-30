@@ -12,6 +12,7 @@ FeatherPad (by Pedram Pourang, a.k.a. Tsu Jan <tsujan2000@gmail.com>) is a light
   * Syntax highlighting for common programming languages;
   * Session management;
   * Side-pane mode;
+  * Auto-saving;
   * Printing;
   * Text zooming;
   * Appropriate but non-interrupting prompts; and

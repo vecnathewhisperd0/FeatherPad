@@ -90,11 +90,13 @@ private slots:
     void prefShortcuts();
     void defaultSortcuts();
     void onShortcutChange (QTableWidgetItem *item);
+    void prefAutoSave (int checked);
 
 private:
     void closeEvent (QCloseEvent *event);
     void prefTabPosition();
     void prefRecentFilesKind();
+    void prefApplyAutoSave();
     void showPrompt (QString str = QString(), bool temporary = false);
 
     Ui::PrefDialog *ui;

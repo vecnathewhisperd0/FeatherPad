@@ -22,6 +22,7 @@
 
 #include <QMainWindow>
 #include <QActionGroup>
+#include <QElapsedTimer>
 #include "highlighter.h"
 #include "textedit.h"
 #include "tabpage.h"
@@ -85,6 +86,8 @@ public:
     void showCrashWarning();
     void updateCustomizableShortcuts (bool disable = false);
 
+    void startAutoSaving (bool start, int interval = 1);
+
 signals:
     void finishedLoading();
 
@@ -111,7 +114,6 @@ private slots:
     void fileOpen();
     void reload();
     void enforceEncoding (QAction*);
-    void fileSave();
     void cutText();
     void copyText();
     void pasteText();
@@ -174,6 +176,8 @@ private slots:
                   bool multiple); // Multiple files are being loaded?
     void onOpeningHugeFiles();
     void onOpeningUneditable();
+    void autoSave();
+    void pauseAutoSaving (bool pause);
 
 public:
     QWidget *dummyWidget; // Bypasses KDE's demand for a new window.
@@ -210,7 +214,7 @@ private:
     void syntaxHighlighting (TextEdit *textEdit, bool highlight = true);
     void encodingToCheck (const QString& encoding);
     const QString checkToEncoding() const;
-    void applyConfig();
+    void applyConfigOnStarting();
     bool matchLeftParenthesis (QTextBlock currentBlock, int index, int numRightParentheses);
     bool matchRightParenthesis (QTextBlock currentBlock, int index, int numLeftParentheses);
     bool matchLeftBrace (QTextBlock currentBlock, int index, int numRightBraces);
@@ -239,6 +243,10 @@ private:
     QMetaObject::Connection lambdaConnection_; // Captures a lambda connection to disconnect it later.
     SidePane *sidePane_;
     QHash<QListWidgetItem*, TabPage*> sideItems_; // For fast tab switching.
+    // Auto-saving:
+    QTimer *autoSaver_;
+    QElapsedTimer autoSaverPause_;
+    int autoSaverRemainingTime_;
 };
 
 }

@@ -296,9 +296,7 @@ void FPwin::formatOnTextChange (int /*position*/, int charsRemoved, int charsAdd
     {
         /* wait until the document's layout manager is notified about the change;
            otherwise, the end cursor might be out of range in formatTextRect() */
-        QTimer::singleShot (0, [=]() {
-            formatOnResizing();
-        });
+        QTimer::singleShot (0, this, SLOT (formatOnResizing()));
     }
 }
 /*************************/

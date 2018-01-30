@@ -251,7 +251,7 @@ private:
     */
     QList<QTextEdit::ExtraSelection> greenSel_; // for replaced matches
     QList<QTextEdit::ExtraSelection> redSel_; // for bracket matches
-    bool uneditable_; // the doc is uneditable for some reason
+    bool uneditable_; // the doc should be made uneditable because of its contents
     QSyntaxHighlighter *highlighter_; // syntax highlighter
     bool saveCursor_;
     /******************************

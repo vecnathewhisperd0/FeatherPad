@@ -227,6 +227,11 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
     ui->openedButton->setChecked (config.getRecentOpened());
     // no QButtonGroup connection because we want to see if we should clear the recent list at the end
 
+    ui->autoSaveBox->setChecked (config.getAutoSave());
+    ui->autoSaveSpin->setValue (config.getAutoSaveInterval());
+    ui->autoSaveSpin->setEnabled (ui->autoSaveBox->isChecked());
+    connect (ui->autoSaveBox, &QCheckBox::stateChanged, this, &PrefDialog::prefAutoSave);
+
     /*****************
      *** Shortcuts ***
      *****************/
@@ -380,6 +385,7 @@ void PrefDialog::onClosing()
     prefShortcuts();
     prefTabPosition();
     prefRecentFilesKind();
+    prefApplyAutoSave();
 }
 /*************************/
 void PrefDialog::showPrompt (QString str, bool temporary)
@@ -1119,6 +1125,30 @@ void PrefDialog::prefShortcuts()
         FPwin *win = singleton->Wins.at (i);
         if (win != parent_)
             win->updateCustomizableShortcuts();
+    }
+}
+/*************************/
+void PrefDialog::prefAutoSave (int checked)
+{
+    /* don't do anything other than enabling/disabling the spinbox */
+    if (checked == Qt::Checked)
+        ui->autoSaveSpin->setEnabled (true);
+    else if (checked == Qt::Unchecked)
+        ui->autoSaveSpin->setEnabled (false);
+}
+/*************************/
+void PrefDialog::prefApplyAutoSave()
+{
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    Config& config = singleton->getConfig();
+    bool as = ui->autoSaveBox->isChecked();
+    int interval = ui->autoSaveSpin->value();
+    if (config.getAutoSave() != as || interval != config.getAutoSaveInterval())
+    {
+        config.setAutoSave (as);
+        config.setAutoSaveInterval (interval);
+        for (int i = 0; i < singleton->Wins.count(); ++i)
+            singleton->Wins.at (i)->startAutoSaving (as, interval);
     }
 }
 
