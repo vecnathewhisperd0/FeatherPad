@@ -4021,6 +4021,7 @@ void FPwin::manageSessions()
 // Pauses or resumes auto-saving.
 void FPwin::pauseAutoSaving (bool pause)
 {
+    if (!autoSaver_) return;
     if (pause)
     {
         autoSaverPause_.start();
