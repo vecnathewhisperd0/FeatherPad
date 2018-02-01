@@ -47,32 +47,25 @@ void TabBar::mousePressEvent (QMouseEvent *event)
     }
     QTabBar::mousePressEvent (event);
 
-    switch (event->button()) {
-    case Qt::LeftButton:
+    if (event->button() == Qt::LeftButton) {
         if (tabAt (event->pos()) > -1)
             dragStartPosition_ = event->pos();
-        /* adding a new tab by (left/middle/right) clicking on a position
-           after the last tab could interfere with other kinds of clicking */
-        /*else if (count() > 0)
-        {
-            QRect r = tabRect (count() - 1);
-            bool rtl (QApplication::layoutDirection() == Qt::RightToLeft);
-            if (rtl ? r.x() > event->pos().x()
-                    : r.x() + r.width() < event->pos().x())
-            {
-                emit newTab();
-            }
-        }*/
-        break;
-    case Qt::MidButton:
-        if (tabAt (event->pos()) > -1)
-            emit tabCloseRequested (tabAt (event->pos()));
-        break;
-    case Qt::RightButton:
-    default: break;
+        else if (event->type() == QEvent::MouseButtonDblClick && count() > 0)
+            emit addEmptyTab();
     }
 
     dragStarted_ = false;
+}
+/*************************/
+void TabBar::mouseReleaseEvent (QMouseEvent *event)
+{
+    QTabBar::mouseReleaseEvent (event);
+    if (event->button() == Qt::MidButton)
+    {
+        int index = tabAt (event->pos());
+        if (index > -1)
+            emit tabCloseRequested (index);
+    }
 }
 /*************************/
 void TabBar::mouseMoveEvent (QMouseEvent *event)

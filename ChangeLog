@@ -8,6 +8,8 @@ V0.7.1
  * Added the symlink "fpad".
  * Added an options for auto-saving of opened files (disabled by default).
  * Fixed a potential cause of crash in the function "formatOnTextChange()" by using the object "this" in the singleShot timer.
+ * Close tabs on releasing the middle mouse button instead of pressing it.
+ * Add a new tab on double clicking an empty space of the tabbar.
 
 V0.7
 ---------

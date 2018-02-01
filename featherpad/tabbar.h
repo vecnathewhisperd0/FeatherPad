@@ -46,11 +46,12 @@ public:
 
 signals:
     void tabDetached();
-    //void newTab();
+    void addEmptyTab();
 
 protected:
     /* from qtabbar.cpp */
     virtual void mousePressEvent (QMouseEvent *event);
+    virtual void mouseReleaseEvent (QMouseEvent *event);
     virtual void mouseMoveEvent (QMouseEvent *event);
     virtual bool event (QEvent *event);
     virtual void wheelEvent (QWheelEvent *event);
