@@ -10,6 +10,8 @@ V0.7.1
  * Fixed a potential cause of crash in the function "formatOnTextChange()" by using the object "this" in the singleShot timer.
  * Close tabs on releasing the middle mouse button instead of pressing it.
  * Add a new tab on double clicking an empty space of the tabbar.
+ * Added a warning about the lack of permission to read.
+ * Show warnings on focusing the window or changing the tab when a file is modified in another way or removed.
 
 V0.7
 ---------

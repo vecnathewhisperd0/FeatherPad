@@ -1774,6 +1774,8 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
     {
         if (!fileName.isEmpty() && charset.isEmpty()) // means a very large file
             connect (this, &FPwin::finishedLoading, this, &FPwin::onOpeningHugeFiles, Qt::UniqueConnection);
+        else
+            connect (this, &FPwin::finishedLoading, this, &FPwin::onPermissionDenied, Qt::UniqueConnection);
         -- loadingProcesses_; // can never become negative
         if (!isLoading())
         {
@@ -1910,6 +1912,7 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
 
     textEdit->setFileName (fileName);
     textEdit->setSize (fInfo.size());
+    textEdit->setLastModified (fInfo.lastModified());
     lastFile_ = fileName;
     if (config.getRecentOpened())
         config.addRecentFile (lastFile_);
@@ -2044,14 +2047,25 @@ void FPwin::disconnectLambda()
 void FPwin::onOpeningHugeFiles()
 {
     disconnect (this, &FPwin::finishedLoading, this, &FPwin::onOpeningHugeFiles);
-    showWarningBar ("<center><b><big>" + tr ("Huge file(s) not opened!") + "</big></b></center>\n"
-                    + "<center>" + tr ("FeatherPad does not open files larger than 100 MiB.") + "</center>");
+    QTimer::singleShot (100, this, [=]() { // TabWidget has a 50-ms timer
+        showWarningBar ("<center><b><big>" + tr ("Huge file(s) not opened!") + "</big></b></center>\n"
+                        + "<center>" + tr ("FeatherPad does not open files larger than 100 MiB.") + "</center>");
+    });
+}
+/*************************/
+void FPwin::onPermissionDenied()
+{
+    disconnect (this, &FPwin::finishedLoading, this, &FPwin::onPermissionDenied);
+    QTimer::singleShot (100, this, [=]() {
+        showWarningBar ("<center><b><big>" + tr ("Some file(s) could not be opened!") + "</big></b></center>\n"
+                        + "<center>" + tr ("You may not have the permission to read.") + "</center>");
+    });
 }
 /*************************/
 void FPwin::onOpeningUneditable()
 {
     disconnect (this, &FPwin::finishedLoading, this, &FPwin::onOpeningUneditable);
-    QTimer::singleShot (100, this, [=]() { // TabWidget has a 50-ms timer
+    QTimer::singleShot (100, this, [=]() {
         this->showWarningBar ("<center><b><big>" + tr ("Uneditable file(s)!") + "</big></b></center>\n"
                               + "<center>" + tr ("Non-text files or files with huge lines cannot be edited.") + "</center>");
     });
@@ -2059,7 +2073,17 @@ void FPwin::onOpeningUneditable()
 /*************************/
 void FPwin::showWarningBar (const QString& message)
 {
-    closeWarningBar();
+    /* don't close and show the same warning bar */
+    if (QLayoutItem *item = ui->verticalLayout->itemAt (ui->verticalLayout->count() - 1))
+    {
+        if (WarningBar *wb = qobject_cast<WarningBar*>(item->widget()))
+        {
+            if (wb->getMessage() == message)
+                return;
+            ui->verticalLayout->removeWidget (item->widget());
+            delete wb;
+        }
+    }
 
     WarningBar *bar = new WarningBar (message, iconMode_);
     ui->verticalLayout->insertWidget (ui->verticalLayout->count(), bar); // at end
@@ -2517,6 +2541,7 @@ bool FPwin::saveFile (bool keepSyntax)
         textEdit->document()->setModified (false);
         textEdit->setFileName (fname);
         textEdit->setSize (fInfo.size());
+        textEdit->setLastModified (fInfo.lastModified());
         ui->actionReload->setDisabled (false);
         setTitle (fname);
         QString tip (fInfo.absolutePath() + "/");
@@ -2722,6 +2747,7 @@ void FPwin::tabSwitch (int index)
     QString fname = textEdit->getFileName();
     bool modified (textEdit->document()->isModified());
 
+    QFileInfo info;
     QString shownName;
     if (fname.isEmpty())
     {
@@ -2731,7 +2757,15 @@ void FPwin::tabSwitch (int index)
             shownName = tr ("Untitled");
     }
     else
+    {
+        info.setFile (fname);
         shownName = fname.section ('/', -1);
+        if (!QFile::exists (fname))
+            showWarningBar ("<center><b><big>" + tr ("The file has been removed.") + "</big></b></center>");
+        else if (textEdit->getLastModified() != info.lastModified())
+            showWarningBar ("<center><b><big>" + tr ("This file has been modified elsewhere or in another way!") + "</big></b></center>\n"
+                            + "<center>" + tr ("Please be careful about either reloading or saving this document!") + "</center>");
+    }
     if (modified)
         shownName.prepend ("*");
     shownName.replace ("\n", " ");
@@ -2768,7 +2802,7 @@ void FPwin::tabSwitch (int index)
     ui->actionCut->setEnabled (!readOnly && textIsSelected);
     ui->actionDelete->setEnabled (!readOnly && textIsSelected);
 
-    if (isScriptLang (textEdit->getProg()) && QFileInfo (fname).isExecutable())
+    if (isScriptLang (textEdit->getProg()) && info.isExecutable())
     {
         Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
         ui->actionRun->setVisible (config.getExecuteScripts());
@@ -2885,6 +2919,27 @@ void FPwin::changeEvent (QEvent *event)
         }
     }
     QWidget::changeEvent (event);
+}
+/*************************/
+bool FPwin::event (QEvent *event)
+{
+    if (event->type() == QEvent::ActivationChange && isActiveWindow())
+    {
+        if (TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget()))
+        {
+            TextEdit *textEdit = tabPage->textEdit();
+            QString fname = textEdit->getFileName();
+            if (!fname.isEmpty())
+            {
+                if (!QFile::exists (fname))
+                    showWarningBar ("<center><b><big>" + tr ("The file has been removed.") + "</big></b></center>");
+                else if (textEdit->getLastModified() != QFileInfo (fname).lastModified())
+                    showWarningBar ("<center><b><big>" + tr ("This file has been modified elsewhere or in another way!") + "</big></b></center>\n"
+                                    + "<center>" + tr ("Please be careful about either reloading or saving this document!") + "</center>");
+            }
+        }
+    }
+    return QMainWindow::event (event);
 }
 /*************************/
 void FPwin::showHideSearch()
@@ -4088,6 +4143,7 @@ void FPwin::autoSave()
                 thisTextEdit->document()->setModified (false);
                 QFileInfo fInfo (fname);
                 thisTextEdit->setSize (fInfo.size());
+                thisTextEdit->setLastModified (fInfo.lastModified());
                 setTitle (fname, (indx == index ? -1 : indx));
                 config.addRecentFile (fname); // recently saved also means recently opened
                 /* uninstall and reinstall the syntax highlgihter if the programming language is changed */

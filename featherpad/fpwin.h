@@ -175,6 +175,7 @@ private slots:
                   bool uneditable, // This doc should be uneditable?
                   bool multiple); // Multiple files are being loaded?
     void onOpeningHugeFiles();
+    void onPermissionDenied();
     void onOpeningUneditable();
     void autoSave();
     void pauseAutoSaving (bool pause);
@@ -205,6 +206,7 @@ private:
     void dropEvent (QDropEvent *event);
     void dropTab (QString str);
     void changeEvent (QEvent *event);
+    bool event (QEvent *event);
     QTextDocument::FindFlags getSearchFlags() const;
     void enableWidgets (bool enable) const;
     void updateShortcuts (bool disable, bool page = true);

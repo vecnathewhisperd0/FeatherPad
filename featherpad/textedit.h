@@ -22,6 +22,7 @@
 
 #include <QPlainTextEdit>
 #include <QMimeData>
+#include <QDateTime>
 #include <QSyntaxHighlighter>
 
 namespace FeatherPad {
@@ -83,6 +84,13 @@ public:
     }
     void setSize (qint64 size) {
         size_ = size;
+    }
+
+    QDateTime getLastModified() const {
+        return lastModified_;
+    }
+    void setLastModified (const QDateTime& m) {
+        lastModified_ = m;
     }
 
     int getWordNumber() const {
@@ -237,6 +245,7 @@ private:
      ***** All needed information on a page *****
      ********************************************/
     qint64 size_; // file size for limiting syntax highlighting (the file may be removed)
+    QDateTime lastModified_; // the last modification time for knowing about changes.
     int wordNumber_; // the calculated number of words (-1 if not counted yet)
     QString searchedText_; // the text that is being searched in the documnet
     QString replaceTitle_; // the title of the Replacement dock (can change)

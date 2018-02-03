@@ -38,7 +38,7 @@ Loading::~Loading() {}
 /*************************/
 void Loading::run()
 {
-    if (!QFile::exists (fname_))
+    if (!QFile::exists (fname_)) // doesn't happen here
     {
         emit completed();
         return;

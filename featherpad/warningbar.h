@@ -33,6 +33,7 @@ class WarningBar : public QFrame
     Q_OBJECT
 public:
     WarningBar (const QString& message, ICONMODE iconMode = OWN, QWidget *parent = Q_NULLPTR) : QFrame (parent) {
+        message_ = message;
         QLabel *warningLabel = new QLabel (message);
         warningLabel->setWordWrap (true);
         QHBoxLayout *l = new QHBoxLayout;
@@ -57,8 +58,15 @@ public:
         connect (b, &QAbstractButton::clicked, [=]{emit closeButtonPressed();});
     }
 
+    QString getMessage() const {
+        return message_;
+    }
+
 signals:
     void closeButtonPressed();
+
+private:
+    QString message_;
 };
 
 }
