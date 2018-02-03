@@ -2764,7 +2764,7 @@ void FPwin::tabSwitch (int index)
             showWarningBar ("<center><b><big>" + tr ("The file has been removed.") + "</big></b></center>");
         else if (textEdit->getLastModified() != info.lastModified())
             showWarningBar ("<center><b><big>" + tr ("This file has been modified elsewhere or in another way!") + "</big></b></center>\n"
-                            + "<center>" + tr ("Please be careful about either reloading or saving this document!") + "</center>");
+                            + "<center>" + tr ("Please be careful about reloading or saving this document!") + "</center>");
     }
     if (modified)
         shownName.prepend ("*");
@@ -2935,7 +2935,7 @@ bool FPwin::event (QEvent *event)
                     showWarningBar ("<center><b><big>" + tr ("The file has been removed.") + "</big></b></center>");
                 else if (textEdit->getLastModified() != QFileInfo (fname).lastModified())
                     showWarningBar ("<center><b><big>" + tr ("This file has been modified elsewhere or in another way!") + "</big></b></center>\n"
-                                    + "<center>" + tr ("Please be careful about either reloading or saving this document!") + "</center>");
+                                    + "<center>" + tr ("Please be careful about reloading or saving this document!") + "</center>");
             }
         }
     }

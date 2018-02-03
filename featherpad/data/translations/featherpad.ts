@@ -1128,7 +1128,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="2767"/>
         <location filename="../../fpwin.cpp" line="2938"/>
-        <source>Please be careful about either reloading or saving this document!</source>
+        <source>Please be careful about reloading or saving this document!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
