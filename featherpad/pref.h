@@ -62,6 +62,7 @@ private slots:
     void prefMenubar (int checked);
     void prefSearchbar (int checked);
     void prefStatusbar (int checked);
+    void prefStatusCursor (int checked);
     void prefFont (int checked);
     void prefWrap (int checked);
     void prefIndent (int checked);

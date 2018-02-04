@@ -125,6 +125,9 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
     ui->statusBox->setChecked (config.getShowStatusbar());
     connect (ui->statusBox, &QCheckBox::stateChanged, this, &PrefDialog::prefStatusbar);
 
+    ui->statusCursorsBox->setChecked (config.getShowCursorPos());
+    connect (ui->statusCursorsBox, &QCheckBox::stateChanged, this, &PrefDialog::prefStatusCursor);
+
     // no ccombo onnection because of mouse wheel; config is set at closeEvent() instead
     ui->tabCombo->setCurrentIndex (config.getTabPosition());
 
@@ -606,6 +609,52 @@ void PrefDialog::prefStatusbar (int checked)
         config.setShowStatusbar (false);
         for (int i = 0; i < singleton->Wins.count(); ++i)
             singleton->Wins.at (i)->ui->actionDoc->setVisible (true);
+    }
+}
+/*************************/
+void PrefDialog::prefStatusCursor (int checked)
+{
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    Config& config = singleton->getConfig();
+    if (checked == Qt::Checked)
+    {
+        config.setShowCursorPos (true);
+        for (int i = 0; i < singleton->Wins.count(); ++i)
+        {
+            FPwin *win = singleton->Wins.at (i);
+            int count = win->ui->tabWidget->count();
+            if (count > 0 && win->ui->statusBar->isVisible())
+            {
+                win->addCursorPosLabel();
+                win->showCursorPos();
+                for (int j = 0; j < count; ++j)
+                {
+                    TextEdit *textEdit = qobject_cast< TabPage *>(win->ui->tabWidget->widget (j))->textEdit();
+                    connect (textEdit, &QPlainTextEdit::cursorPositionChanged, win, &FPwin::showCursorPos);
+                }
+            }
+        }
+    }
+    else if (checked == Qt::Unchecked)
+    {
+        config.setShowCursorPos (false);
+        for (int i = 0; i < singleton->Wins.count(); ++i)
+        {
+            FPwin *win = singleton->Wins.at (i);
+            if (QLabel *posLabel = win->ui->statusBar->findChild<QLabel *>("posLabel"))
+            {
+                int count = win->ui->tabWidget->count();
+                if (count > 0 && win->ui->statusBar->isVisible())
+                {
+                    for (int j = 0; j < count; ++j)
+                    {
+                        TextEdit *textEdit = qobject_cast< TabPage *>(win->ui->tabWidget->widget (j))->textEdit();
+                        disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, win, &FPwin::showCursorPos);
+                    }
+                }
+                posLabel->deleteLater();
+            }
+        }
     }
 }
 /*************************/

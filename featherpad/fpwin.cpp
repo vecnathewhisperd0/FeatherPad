@@ -74,6 +74,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
 
     /* status bar */
     QLabel *statusLabel = new QLabel();
+    statusLabel->setObjectName ("statusLabel");
     statusLabel->setIndent (2);
     statusLabel->setMinimumWidth (100);
     statusLabel->setTextInteractionFlags (Qt::TextSelectableByMouse);
@@ -433,6 +434,8 @@ void FPwin::applyConfigOnStarting()
 
     if (!config.getShowStatusbar())
         ui->statusBar->hide();
+    else if (config.getShowCursorPos())
+        addCursorPosLabel();
 
     if (config.getTabPosition() != 0)
         ui->tabWidget->setTabPosition ((QTabWidget::TabPosition) config.getTabPosition());
@@ -647,6 +650,18 @@ void FPwin::applyConfigOnStarting()
 
     if (config.getAutoSave())
         startAutoSaving (true, config.getAutoSaveInterval());
+}
+/*************************/
+void FPwin::addCursorPosLabel()
+{
+    if (ui->statusBar->findChild<QLabel *>("posLabel"))
+        return;
+    QLabel *posLabel = new QLabel();
+    posLabel->setObjectName ("posLabel");
+    posLabel->setText ("<b>" + tr ("Position:") + "</b>");
+    posLabel->setIndent (2);
+    posLabel->setTextInteractionFlags (Qt::TextSelectableByMouse);
+    ui->statusBar->addPermanentWidget (posLabel);
 }
 /*************************/
 // We want all dialogs to be window-modal as far as possible. However there is a problem:
@@ -1223,18 +1238,23 @@ TabPage* FPwin::createEmptyTab (bool setCurrent)
     if (ui->statusBar->isVisible()
         || config.getShowStatusbar()) // when the main window is being created, isVisible() isn't set yet
     {
+        int showCurPos = config.getShowCursorPos();
         if (setCurrent)
         {
             if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>())
                 wordButton->setVisible (false);
-            QLabel *statusLabel = ui->statusBar->findChild<QLabel *>();
+            QLabel *statusLabel = ui->statusBar->findChild<QLabel *>("statusLabel");
             statusLabel->setText ("<b>" + tr ("Encoding") + ":</b> <i>UTF-8</i>&nbsp;&nbsp;&nbsp;&nbsp;<b>"
                                         + tr ("Lines") + ":</b> <i>1</i>&nbsp;&nbsp;&nbsp;&nbsp;<b>"
                                         + tr ("Sel. Chars") + ":</b> <i>0</i>&nbsp;&nbsp;&nbsp;&nbsp;<b>"
                                         + tr ("Words") + ":</b> <i>0</i>");
+            if (showCurPos)
+                showCursorPos();
         }
         connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::statusMsgWithLineCount);
         connect (textEdit, &QPlainTextEdit::selectionChanged, this, &FPwin::statusMsg);
+        if (showCurPos)
+            connect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::showCursorPos);
     }
     connect (textEdit->document(), &QTextDocument::undoAvailable, ui->actionUndo, &QAction::setEnabled);
     connect (textEdit->document(), &QTextDocument::redoAvailable, ui->actionRedo, &QAction::setEnabled);
@@ -2276,7 +2296,7 @@ void FPwin::enforceEncoding (QAction*)
         textEdit->setEncoding (checkToEncoding());
         if (ui->statusBar->isVisible())
         {
-            QLabel *statusLabel = ui->statusBar->findChild<QLabel *>();
+            QLabel *statusLabel = ui->statusBar->findChild<QLabel *>("statusLabel");
             QString str = statusLabel->text();
             QString encodStr = tr ("Encoding");
             // the next info is about lines; there's no syntax info
@@ -2575,7 +2595,7 @@ bool FPwin::saveFile (bool keepSyntax)
 
                 if (ui->statusBar->isVisible())
                 { // correct the statusbar text just by replacing the old syntax info
-                    QLabel *statusLabel = ui->statusBar->findChild<QLabel *>();
+                    QLabel *statusLabel = ui->statusBar->findChild<QLabel *>("statusLabel");
                     QString str = statusLabel->text();
                     QString syntaxStr = tr ("Syntax");
                     int i = str.indexOf (syntaxStr);
@@ -2830,11 +2850,12 @@ void FPwin::tabSwitch (int index)
         {
             if (wordButton)
                 wordButton->setVisible (false);
-            QLabel *statusLabel = ui->statusBar->findChild<QLabel *>();
+            QLabel *statusLabel = ui->statusBar->findChild<QLabel *>("statusLabel");
             statusLabel->setText (QString ("%1 <i>%2</i>")
                                   .arg (statusLabel->text())
                                   .arg (textEdit->getWordNumber()));
         }
+        showCursorPos();
     }
 
     /* al last, set the title of Replacment dock */
@@ -3206,6 +3227,7 @@ const QString FPwin::checkToEncoding() const
 /*************************/
 void FPwin::docProp()
 {
+    bool showCurPos = static_cast<FPsingleton*>(qApp)->getConfig().getShowCursorPos();
     if (ui->statusBar->isVisible())
     {
         for (int i = 0; i < ui->tabWidget->count(); ++i)
@@ -3213,6 +3235,9 @@ void FPwin::docProp()
             TextEdit *thisTextEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (i))->textEdit();
             disconnect (thisTextEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::statusMsgWithLineCount);
             disconnect (thisTextEdit, &QPlainTextEdit::selectionChanged, this, &FPwin::statusMsg);
+            if (showCurPos)
+                disconnect (thisTextEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::showCursorPos);
+            /* don't delete the cursor position label because the statusbar might be shown later */
         }
         ui->statusBar->setVisible (false);
         return;
@@ -3228,9 +3253,16 @@ void FPwin::docProp()
         TextEdit *thisTextEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (i))->textEdit();
         connect (thisTextEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::statusMsgWithLineCount);
         connect (thisTextEdit, &QPlainTextEdit::selectionChanged, this, &FPwin::statusMsg);
+        if (showCurPos)
+            connect (thisTextEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::showCursorPos);
     }
 
     ui->statusBar->setVisible (true);
+    if (showCurPos)
+    {
+        addCursorPosLabel();
+        showCursorPos();
+    }
     if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>())
         wordButton->setVisible (true);
     updateWordInfo();
@@ -3244,7 +3276,7 @@ void FPwin::statusMsgWithLineCount (const int lines)
     if (qobject_cast<TextEdit*>(QObject::sender()) && QObject::sender() != textEdit)
         return;
 
-    QLabel *statusLabel = ui->statusBar->findChild<QLabel *>();
+    QLabel *statusLabel = ui->statusBar->findChild<QLabel *>("statusLabel");
 
     /* the order: Encoding -> Syntax -> Lines -> Sel. Chars -> Words */
     QString encodStr = "<b>" + tr ("Encoding") + QString (":</b> <i>%1</i>").arg (textEdit->getEncoding());
@@ -3262,7 +3294,7 @@ void FPwin::statusMsgWithLineCount (const int lines)
 // Change the status bar text when the selection changes.
 void FPwin::statusMsg()
 {
-    QLabel *statusLabel = ui->statusBar->findChild<QLabel *>();
+    QLabel *statusLabel = ui->statusBar->findChild<QLabel *>("statusLabel");
     int sel = qobject_cast< TabPage *>(ui->tabWidget->currentWidget())->textEdit()
               ->textCursor().selectedText().size();
     QString str = statusLabel->text();
@@ -3281,6 +3313,24 @@ void FPwin::statusMsg()
     statusLabel->setText (str);
 }
 /*************************/
+void FPwin::showCursorPos()
+{
+    QLabel *posLabel = ui->statusBar->findChild<QLabel *>("posLabel");
+    if (!posLabel) return;
+
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
+    if (!tabPage) return;
+
+    int pos = tabPage->textEdit()->textCursor().position();
+    QString charN;
+    charN.setNum (pos); charN = "<i> " + charN + "</i>";
+    QString str = posLabel->text();
+    QString scursorStr = "<b>" + tr ("Position:") + "</b>";
+    int i = scursorStr.count();
+    str.replace (i, str.count() - i, charN);
+    posLabel->setText (str);
+}
+/*************************/
 void FPwin::updateWordInfo (int /*position*/, int charsRemoved, int charsAdded)
 {
     QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>();
@@ -3294,7 +3344,7 @@ void FPwin::updateWordInfo (int /*position*/, int charsRemoved, int charsAdded)
 
     if (wordButton->isVisible())
     {
-        QLabel *statusLabel = ui->statusBar->findChild<QLabel *>();
+        QLabel *statusLabel = ui->statusBar->findChild<QLabel *>("statusLabel");
         int words = textEdit->getWordNumber();
         if (words == -1)
         {
@@ -3471,6 +3521,7 @@ void FPwin::detachTab()
     bool spin = false;
     bool ln = false;
     bool status = false;
+    bool statusCurPos = false;
     if (!ui->actionSyntax->isChecked())
         hl = false;
     if (ui->spinBox->isVisible())
@@ -3478,15 +3529,24 @@ void FPwin::detachTab()
     if (ui->actionLineNumbers->isChecked())
         ln = true;
     if (ui->statusBar->isVisible())
+    {
         status = true;
+        if (ui->statusBar->findChild<QLabel *>("posLabel"))
+            statusCurPos = true;
+    }
 
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
     TextEdit *textEdit = tabPage->textEdit();
 
     disconnect (textEdit, &TextEdit::updateRect, this ,&FPwin::hlighting);
     disconnect (textEdit, &QPlainTextEdit::textChanged, this ,&FPwin::hlight);
-    disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::statusMsgWithLineCount);
-    disconnect (textEdit, &QPlainTextEdit::selectionChanged, this, &FPwin::statusMsg);
+    if (status)
+    {
+        disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::statusMsgWithLineCount);
+        disconnect (textEdit, &QPlainTextEdit::selectionChanged, this, &FPwin::statusMsg);
+        if (statusCurPos)
+            disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::showCursorPos);
+    }
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCut, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionDelete, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCopy, &QAction::setEnabled);
@@ -3615,7 +3675,7 @@ void FPwin::detachTab()
         {
             if (QToolButton *wordButton = dropTarget->ui->statusBar->findChild<QToolButton *>())
                 wordButton->setVisible (false);
-            QLabel *statusLabel = dropTarget->ui->statusBar->findChild<QLabel *>();
+            QLabel *statusLabel = dropTarget->ui->statusBar->findChild<QLabel *>("statusLabel");
             statusLabel->setText (QString ("%1 <i>%2</i>")
                                   .arg (statusLabel->text())
                                   .arg (textEdit->getWordNumber()));
@@ -3623,6 +3683,12 @@ void FPwin::detachTab()
         }
         connect (textEdit, &QPlainTextEdit::blockCountChanged, dropTarget, &FPwin::statusMsgWithLineCount);
         connect (textEdit, &QPlainTextEdit::selectionChanged, dropTarget, &FPwin::statusMsg);
+        if (statusCurPos)
+        {
+            dropTarget->addCursorPosLabel();
+            dropTarget->showCursorPos();
+            connect (textEdit, &QPlainTextEdit::cursorPositionChanged, dropTarget, &FPwin::showCursorPos);
+        }
     }
     if (textEdit->lineWrapMode() == QPlainTextEdit::NoWrap)
         dropTarget->ui->actionWrap->setChecked (false);
@@ -3702,8 +3768,13 @@ void FPwin::dropTab (QString str)
 
     disconnect (textEdit, &TextEdit::updateRect, dragSource ,&FPwin::hlighting);
     disconnect (textEdit, &QPlainTextEdit::textChanged, dragSource ,&FPwin::hlight);
-    disconnect (textEdit, &QPlainTextEdit::blockCountChanged, dragSource, &FPwin::statusMsgWithLineCount);
-    disconnect (textEdit, &QPlainTextEdit::selectionChanged, dragSource, &FPwin::statusMsg);
+    if (dragSource->ui->statusBar->isVisible())
+    {
+        disconnect (textEdit, &QPlainTextEdit::blockCountChanged, dragSource, &FPwin::statusMsgWithLineCount);
+        disconnect (textEdit, &QPlainTextEdit::selectionChanged, dragSource, &FPwin::statusMsg);
+        if (dragSource->ui->statusBar->findChild<QLabel *>("posLabel"))
+            disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, dragSource, &FPwin::showCursorPos);
+    }
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, dragSource->ui->actionCut, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, dragSource->ui->actionDelete, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, dragSource->ui->actionCopy, &QAction::setEnabled);
@@ -3839,6 +3910,11 @@ void FPwin::dropTab (QString str)
     {
         connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::statusMsgWithLineCount);
         connect (textEdit, &QPlainTextEdit::selectionChanged, this, &FPwin::statusMsg);
+        if (ui->statusBar->findChild<QLabel *>("posLabel"))
+        {
+            showCursorPos();
+            connect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::showCursorPos);
+        }
         if (textEdit->getWordNumber() != -1)
             connect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::updateWordInfo);
     }
@@ -4163,7 +4239,7 @@ void FPwin::autoSave()
 
                     if (indx == index && ui->statusBar->isVisible())
                     { // correct the statusbar text just by replacing the old syntax info
-                        QLabel *statusLabel = ui->statusBar->findChild<QLabel *>();
+                        QLabel *statusLabel = ui->statusBar->findChild<QLabel *>("statusLabel");
                         QString str = statusLabel->text();
                         QString syntaxStr = tr ("Syntax");
                         int i = str.indexOf (syntaxStr);

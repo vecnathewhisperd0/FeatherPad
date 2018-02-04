@@ -12,6 +12,7 @@ V0.7.1
  * Add a new tab on double clicking an empty space of the tabbar.
  * Added a warning about the lack of permission to read.
  * Show warnings on focusing the window or changing the tab when a file is modified in another way or removed.
+ * An option for showing the cursor position on the statusbar (disabled by default).
 
 V0.7
 ---------

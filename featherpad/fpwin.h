@@ -83,6 +83,8 @@ public:
         return (sidePane_ != nullptr);
     }
 
+    void addCursorPosLabel();
+
     void showCrashWarning();
     void updateCustomizableShortcuts (bool disable = false);
 
@@ -97,6 +99,7 @@ public slots:
     void newTab();
     void statusMsg();
     void statusMsgWithLineCount (const int lines);
+    void showCursorPos();
     void updateWordInfo (int position = -1, int charsRemoved = 0, int charsAdded = 0);
 
 private slots:
