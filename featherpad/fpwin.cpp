@@ -3321,7 +3321,7 @@ void FPwin::showCursorPos()
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
     if (!tabPage) return;
 
-    int pos = tabPage->textEdit()->textCursor().columnNumber();
+    int pos = tabPage->textEdit()->textCursor().positionInBlock();
     QString charN;
     charN.setNum (pos); charN = "<i> " + charN + "</i>";
     QString str = posLabel->text();
