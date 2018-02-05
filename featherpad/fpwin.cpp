@@ -2651,6 +2651,9 @@ bool FPwin::saveFile (bool keepSyntax)
         { // uninstall and reinstall the syntax highlgihter if the programming language is changed
             QString prevLan = textEdit->getProg();
             setProgLang (textEdit);
+            if (textEdit->getLang() == textEdit->getProg())
+                textEdit->setLang (QString()); // not enforced because it's the real syntax
+            showLang (textEdit);
             if (prevLan != textEdit->getProg())
             {
                 if (ui->statusBar->isVisible()
@@ -2659,9 +2662,13 @@ bool FPwin::saveFile (bool keepSyntax)
                     disconnect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::updateWordInfo);
                 }
 
-                syntaxHighlighting (textEdit, false);
-                if (ui->actionSyntax->isChecked())
-                    syntaxHighlighting (textEdit);
+                /* restart the syntax highlighting only when the language isn't forced */
+                if (textEdit->getLang().isEmpty())
+                {
+                    syntaxHighlighting (textEdit, false);
+                    if (ui->actionSyntax->isChecked())
+                        syntaxHighlighting (textEdit);
+                }
 
                 if (ui->statusBar->isVisible())
                 { // correct the statusbar text just by replacing the old syntax info
@@ -3410,7 +3417,14 @@ void FPwin::showLang (TextEdit *textEdit)
     QString lang = textEdit->getLang().isEmpty() ? textEdit->getProg()
                                                  : textEdit->getLang();
     if (lang.isEmpty())
+    {
         langButton->setText (tr ("Normal"));
+        if (QActionGroup *aGroup = ui->statusBar->findChild<QActionGroup *>())
+        {
+            if (QAction *action = aGroup->checkedAction())
+                action->setChecked (false);
+        }
+    }
     else
     {
         langButton->setText (lang);
@@ -3427,14 +3441,19 @@ void FPwin::setLang (QAction *action)
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
     if (!tabPage) return;
 
-    ui->actionSyntax->setChecked (true);
     TextEdit *textEdit = tabPage->textEdit();
     QString lang = action->text();
     lang.remove ('&'); // because of KAcceleratorManager
     langButton->setText (lang);
-    textEdit->setLang (lang);
-    syntaxHighlighting (textEdit, false);
-    syntaxHighlighting (textEdit, true, lang);
+    if (textEdit->getProg() == lang)
+        textEdit->setLang (QString()); // not enforced because it's the real syntax
+    else
+        textEdit->setLang (lang);
+    if (ui->actionSyntax->isChecked())
+    {
+        syntaxHighlighting (textEdit, false);
+        syntaxHighlighting (textEdit, true, lang);
+    }
 }
 /*************************/
 void FPwin::updateWordInfo (int /*position*/, int charsRemoved, int charsAdded)
@@ -4331,6 +4350,9 @@ void FPwin::autoSave()
                 /* uninstall and reinstall the syntax highlgihter if the programming language is changed */
                 QString prevLan = thisTextEdit->getProg();
                 setProgLang (thisTextEdit);
+                if (thisTextEdit->getLang() == thisTextEdit->getProg())
+                    thisTextEdit->setLang (QString()); // not enforced because it's the real syntax
+                showLang (thisTextEdit);
                 if (prevLan != thisTextEdit->getProg())
                 {
                     if (indx == index && ui->statusBar->isVisible()
@@ -4339,9 +4361,13 @@ void FPwin::autoSave()
                         disconnect (thisTextEdit->document(), &QTextDocument::contentsChange, this, &FPwin::updateWordInfo);
                     }
 
-                    syntaxHighlighting (thisTextEdit, false);
-                    if (ui->actionSyntax->isChecked())
-                        syntaxHighlighting (thisTextEdit);
+                    /* restart the syntax highlighting only when the language isn't forced */
+                    if (thisTextEdit->getLang().isEmpty())
+                    {
+                        syntaxHighlighting (thisTextEdit, false);
+                        if (ui->actionSyntax->isChecked())
+                            syntaxHighlighting (thisTextEdit);
+                    }
 
                     if (indx == index && ui->statusBar->isVisible())
                     { // correct the statusbar text just by replacing the old syntax info
