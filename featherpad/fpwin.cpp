@@ -2076,9 +2076,9 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
                 wordButton->setVisible (true);
             if (text.isEmpty())
                 updateWordInfo();
-            if (config.getShowLangSelector() && config.getSyntaxByDefault())
-                showLang (textEdit);
         }
+        if (config.getShowLangSelector() && config.getSyntaxByDefault())
+            showLang (textEdit);
         encodingToCheck (charset);
         ui->actionReload->setEnabled (true);
         textEdit->setFocus(); // the text may have been opened in this (empty) tab
