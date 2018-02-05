@@ -2651,20 +2651,23 @@ bool FPwin::saveFile (bool keepSyntax)
         { // uninstall and reinstall the syntax highlgihter if the programming language is changed
             QString prevLan = textEdit->getProg();
             setProgLang (textEdit);
-            if (textEdit->getLang() == textEdit->getProg())
-                textEdit->setLang (QString()); // not enforced because it's the real syntax
-            showLang (textEdit);
             if (prevLan != textEdit->getProg())
             {
+                if (config.getShowLangSelector() && config.getSyntaxByDefault())
+                {
+                    if (textEdit->getLang() == textEdit->getProg())
+                        textEdit->setLang (QString()); // not enforced because it's the real syntax
+                    showLang (textEdit);
+                }
+
                 if (ui->statusBar->isVisible()
                     && textEdit->getWordNumber() != -1)
                 { // we want to change the statusbar text below
                     disconnect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::updateWordInfo);
                 }
 
-                /* restart the syntax highlighting only when the language isn't forced */
                 if (textEdit->getLang().isEmpty())
-                {
+                { // restart the syntax highlighting only when the language isn't forced
                     syntaxHighlighting (textEdit, false);
                     if (ui->actionSyntax->isChecked())
                         syntaxHighlighting (textEdit);
@@ -4350,20 +4353,23 @@ void FPwin::autoSave()
                 /* uninstall and reinstall the syntax highlgihter if the programming language is changed */
                 QString prevLan = thisTextEdit->getProg();
                 setProgLang (thisTextEdit);
-                if (thisTextEdit->getLang() == thisTextEdit->getProg())
-                    thisTextEdit->setLang (QString()); // not enforced because it's the real syntax
-                showLang (thisTextEdit);
                 if (prevLan != thisTextEdit->getProg())
                 {
+                    if (config.getShowLangSelector() && config.getSyntaxByDefault())
+                    {
+                        if (thisTextEdit->getLang() == thisTextEdit->getProg())
+                            thisTextEdit->setLang (QString()); // not enforced because it's the real syntax
+                        showLang (thisTextEdit);
+                    }
+
                     if (indx == index && ui->statusBar->isVisible()
                         && thisTextEdit->getWordNumber() != -1)
                     { // we want to change the statusbar text below
                         disconnect (thisTextEdit->document(), &QTextDocument::contentsChange, this, &FPwin::updateWordInfo);
                     }
 
-                    /* restart the syntax highlighting only when the language isn't forced */
                     if (thisTextEdit->getLang().isEmpty())
-                    {
+                    { // restart the syntax highlighting only when the language isn't forced
                         syntaxHighlighting (thisTextEdit, false);
                         if (ui->actionSyntax->isChecked())
                             syntaxHighlighting (thisTextEdit);

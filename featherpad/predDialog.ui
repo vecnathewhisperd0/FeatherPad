@@ -812,7 +812,7 @@ will be shown by a popup dialog.</string>
       <string>Close</string>
      </property>
      <property name="icon">
-      <iconset theme="edit-delete">
+      <iconset theme="dialog-close">
        <normaloff>.</normaloff>.</iconset>
      </property>
      <property name="default">
