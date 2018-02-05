@@ -98,6 +98,7 @@ private:
     void prefTabPosition();
     void prefRecentFilesKind();
     void prefApplyAutoSave();
+    void prefApplySyntax();
     void showPrompt (QString str = QString(), bool temporary = false);
 
     Ui::PrefDialog *ui;

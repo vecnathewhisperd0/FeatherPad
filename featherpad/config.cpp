@@ -33,6 +33,7 @@ Config::Config():
     hideSearchbar_ (false),
     showStatusbar_ (false),
     showCursorPos_ (false),
+    showLangSelector_ (false),
     sidePaneMode_ (false),
     remFont_ (true),
     wrapByDefault_ (true),
@@ -126,6 +127,9 @@ void Config::readConfig()
 
     if (settings.value ("showCursorPos").toBool())
         showCursorPos_ = true; // false by default
+
+    if (settings.value ("showLangSelector").toBool())
+        showLangSelector_ = true; // false by default
 
     if (settings.value ("sidePaneMode").toBool())
         sidePaneMode_ = true; // false by default
@@ -278,6 +282,7 @@ void Config::writeConfig()
     settings.setValue ("hideSearchbar", hideSearchbar_);
     settings.setValue ("showStatusbar", showStatusbar_);
     settings.setValue ("showCursorPos", showCursorPos_);
+    settings.setValue ("showLangSelector", showLangSelector_);
     settings.setValue ("sidePaneMode", sidePaneMode_);
     settings.setValue ("tabPosition", tabPosition_);
     settings.setValue ("tabWrapAround", tabWrapAround_);

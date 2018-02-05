@@ -103,35 +103,42 @@ public:
     QString getSearchedText() const {
         return searchedText_;
     }
-    void setSearchedText (QString text) {
+    void setSearchedText (const QString &text) {
         searchedText_ = text;
     }
 
     QString getReplaceTitle() const {
         return replaceTitle_;
     }
-    void setReplaceTitle (QString title) {
+    void setReplaceTitle (const QString &title) {
         replaceTitle_ = title;
     }
 
     QString getFileName() const {
         return fileName_;
     }
-    void setFileName (QString name) {
+    void setFileName (const QString &name) {
         fileName_ = name;
     }
 
     QString getProg() const {
         return prog_;
     }
-    void setProg (QString prog) {
+    void setProg (const QString &prog) {
         prog_ = prog;
+    }
+
+    QString getLang() const {
+        return lang_;
+    }
+    void setLang (const QString &lang) {
+        lang_ = lang;
     }
 
     QString getEncoding() const {
         return encoding_;
     }
-    void setEncoding (QString encoding) {
+    void setEncoding (const QString &encoding) {
         encoding_ = encoding;
     }
 
@@ -251,6 +258,7 @@ private:
     QString replaceTitle_; // the title of the Replacement dock (can change)
     QString fileName_; // opened file
     QString prog_; // programming language (for syntax highlighting)
+    QString lang_; // selected (enforced) programming language (for syntax highlighting)
     QString encoding_; // text encoding (UTF-8 by default)
     /*
        Highlighting order: (1) current line;

@@ -79,6 +79,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     statusLabel->setMinimumWidth (100);
     statusLabel->setTextInteractionFlags (Qt::TextSelectableByMouse);
     QToolButton *wordButton = new QToolButton();
+    wordButton->setObjectName ("wordButton");
     wordButton->setFocusPolicy (Qt::NoFocus);
     wordButton->setAutoRaise (true);
     wordButton->setToolButtonStyle (Qt::ToolButtonIconOnly);
@@ -434,8 +435,13 @@ void FPwin::applyConfigOnStarting()
 
     if (!config.getShowStatusbar())
         ui->statusBar->hide();
-    else if (config.getShowCursorPos())
-        addCursorPosLabel();
+    else
+    {
+        if (config.getShowCursorPos())
+            addCursorPosLabel();
+        if (config.getShowLangSelector() && config.getSyntaxByDefault())
+            addLangButton();
+    }
 
     if (config.getTabPosition() != 0)
         ui->tabWidget->setTabPosition ((QTabWidget::TabPosition) config.getTabPosition());
@@ -527,7 +533,7 @@ void FPwin::applyConfigOnStarting()
             if (icn.isNull())
                 icn = QIcon (":icons/arrow-down-double.svg");
             ui->toolButtonAll->setIcon (icn);
-            if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>())
+            if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>("wordButton"))
             {
                 icn = QIcon::fromTheme ("view-refresh");
                 if (!icn.isNull())
@@ -662,6 +668,64 @@ void FPwin::addCursorPosLabel()
     posLabel->setIndent (2);
     posLabel->setTextInteractionFlags (Qt::TextSelectableByMouse);
     ui->statusBar->addPermanentWidget (posLabel);
+}
+/*************************/
+void FPwin::addLangButton()
+{
+    if (ui->statusBar->findChild<QLabel *>("langButton"))
+        return;
+
+    static QStringList langList;
+    if (langList.isEmpty())
+    {
+        langList << "c" << "changelog" << "cmake" << "config" << "cpp"
+                 << "css" << "desktop" << "diff" << "gtkrc" << "html"
+                 << "javascript" << "log" << "lua" << "m3u" << "markdown"
+                 << "makefile" << "perl" << "php" << "python" << "qmake"
+                 << "qml" << "ruby" << "sh" << "sourceslist" << "troff"
+                 << "theme" << "url" << "xml";
+    }
+
+    QToolButton *langButton = new QToolButton();
+    langButton->setObjectName ("langButton");
+    langButton->setFocusPolicy (Qt::NoFocus);
+    langButton->setAutoRaise (true);
+    langButton->setToolButtonStyle (Qt::ToolButtonTextOnly);
+    langButton->setText (tr ("Normal"));
+    langButton->setPopupMode (QToolButton::InstantPopup);
+
+    QMenu *menu = new QMenu (langButton);
+    QActionGroup *aGroup = new QActionGroup (langButton);
+    QAction *action;
+    for (int i = 0; i < langList.count(); ++i)
+    {
+        QString lang = langList.at (i);
+        action = menu->addAction (lang);
+        action->setCheckable (true);
+        action->setActionGroup (aGroup);
+        langs.insert (lang, action);
+    }
+    langButton->setMenu (menu);
+
+    ui->statusBar->insertPermanentWidget (2, langButton);
+    connect (aGroup, &QActionGroup::triggered, this, &FPwin::setLang);
+}
+/*************************/
+void FPwin::removeLangButton()
+{
+    langs.clear();
+    if (QToolButton *langButton = ui->statusBar->findChild<QToolButton *>("langButton"))
+        delete langButton;
+    for (int i = 0; i < ui->tabWidget->count(); ++i)
+    {
+        TextEdit *textEdit = qobject_cast<TabPage*>(ui->tabWidget->widget (i))->textEdit();
+        if (!textEdit->getLang().isEmpty())
+        {
+            textEdit->setLang (QString()); // remove the enforced syntax
+            syntaxHighlighting (textEdit, false);
+            syntaxHighlighting (textEdit);
+        }
+    }
 }
 /*************************/
 // We want all dialogs to be window-modal as far as possible. However there is a problem:
@@ -1241,7 +1305,7 @@ TabPage* FPwin::createEmptyTab (bool setCurrent)
         int showCurPos = config.getShowCursorPos();
         if (setCurrent)
         {
-            if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>())
+            if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>("wordButton"))
                 wordButton->setVisible (false);
             QLabel *statusLabel = ui->statusBar->findChild<QLabel *>("statusLabel");
             statusLabel->setText ("<b>" + tr ("Encoding") + ":</b> <i>UTF-8</i>&nbsp;&nbsp;&nbsp;&nbsp;<b>"
@@ -2008,10 +2072,12 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
         if (ui->statusBar->isVisible())
         {
             statusMsgWithLineCount (textEdit->document()->blockCount());
-            if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>())
+            if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>("wordButton"))
                 wordButton->setVisible (true);
             if (text.isEmpty())
                 updateWordInfo();
+            if (config.getShowLangSelector() && config.getSyntaxByDefault())
+                showLang (textEdit);
         }
         encodingToCheck (charset);
         ui->actionReload->setEnabled (true);
@@ -2286,6 +2352,7 @@ void FPwin::enforceEncoding (QAction*)
             encodingToCheck (textEdit->getEncoding());
             return;
         }
+        textEdit->setLang (QString()); // remove the enforced syntax
         loadText (fname, true, true,
                   false, textEdit->isUneditable(), false);
     }
@@ -2320,10 +2387,13 @@ void FPwin::reload()
     if (savePrompt (index, false) != SAVED) return;
 
     TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
+    textEdit->setLang (QString()); // remove the enforced syntax
     QString fname = textEdit->getFileName();
     if (!fname.isEmpty())
+    {
         loadText (fname, false, true,
                   textEdit->getSaveCursor());
+    }
 }
 /*************************/
 // This is for both "Save" and "Save As"
@@ -2822,11 +2892,10 @@ void FPwin::tabSwitch (int index)
     ui->actionCut->setEnabled (!readOnly && textIsSelected);
     ui->actionDelete->setEnabled (!readOnly && textIsSelected);
 
+    Config config = static_cast<FPsingleton*>(qApp)->getConfig();
+
     if (isScriptLang (textEdit->getProg()) && info.isExecutable())
-    {
-        Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
         ui->actionRun->setVisible (config.getExecuteScripts());
-    }
     else
         ui->actionRun->setVisible (false);
 
@@ -2838,7 +2907,7 @@ void FPwin::tabSwitch (int index)
     if (ui->statusBar->isVisible())
     {
         statusMsgWithLineCount (textEdit->document()->blockCount());
-        QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>();
+        QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>("wordButton");
         if (textEdit->getWordNumber() == -1)
         {
             if (wordButton)
@@ -2856,6 +2925,8 @@ void FPwin::tabSwitch (int index)
                                   .arg (textEdit->getWordNumber()));
         }
         showCursorPos();
+        if (config.getShowLangSelector() && config.getSyntaxByDefault())
+            showLang (textEdit);
     }
 
     /* al last, set the title of Replacment dock */
@@ -3263,7 +3334,7 @@ void FPwin::docProp()
         addCursorPosLabel();
         showCursorPos();
     }
-    if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>())
+    if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>("wordButton"))
         wordButton->setVisible (true);
     updateWordInfo();
 }
@@ -3331,9 +3402,44 @@ void FPwin::showCursorPos()
     posLabel->setText (str);
 }
 /*************************/
+void FPwin::showLang (TextEdit *textEdit)
+{
+    QToolButton *langButton = ui->statusBar->findChild<QToolButton *>("langButton");
+    if (!langButton) return;
+
+    QString lang = textEdit->getLang().isEmpty() ? textEdit->getProg()
+                                                 : textEdit->getLang();
+    if (lang.isEmpty())
+        langButton->setText (tr ("Normal"));
+    else
+    {
+        langButton->setText (lang);
+        if (QAction *action = langs.value (lang))
+            action->setChecked (true);
+    }
+}
+/*************************/
+void FPwin::setLang (QAction *action)
+{
+    QToolButton *langButton = ui->statusBar->findChild<QToolButton *>("langButton");
+    if (!langButton) return;
+
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
+    if (!tabPage) return;
+
+    ui->actionSyntax->setChecked (true);
+    TextEdit *textEdit = tabPage->textEdit();
+    QString lang = action->text();
+    lang.remove ('&'); // because of KAcceleratorManager
+    langButton->setText (lang);
+    textEdit->setLang (lang);
+    syntaxHighlighting (textEdit, false);
+    syntaxHighlighting (textEdit, true, lang);
+}
+/*************************/
 void FPwin::updateWordInfo (int /*position*/, int charsRemoved, int charsAdded)
 {
-    QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>();
+    QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>("wordButton");
     if (!wordButton) return;
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
@@ -3668,12 +3774,12 @@ void FPwin::detachTab()
         dropTarget->statusMsgWithLineCount (textEdit->document()->blockCount());
         if (textEdit->getWordNumber() == -1)
         {
-            if (QToolButton *wordButton = dropTarget->ui->statusBar->findChild<QToolButton *>())
+            if (QToolButton *wordButton = dropTarget->ui->statusBar->findChild<QToolButton *>("wordButton"))
                 wordButton->setVisible (true);
         }
         else
         {
-            if (QToolButton *wordButton = dropTarget->ui->statusBar->findChild<QToolButton *>())
+            if (QToolButton *wordButton = dropTarget->ui->statusBar->findChild<QToolButton *>("wordButton"))
                 wordButton->setVisible (false);
             QLabel *statusLabel = dropTarget->ui->statusBar->findChild<QLabel *>("statusLabel");
             statusLabel->setText (QString ("%1 <i>%2</i>")
@@ -4379,7 +4485,7 @@ void FPwin::helpDoc()
     if (ui->statusBar->isVisible())
     {
         statusMsgWithLineCount (textEdit->document()->blockCount());
-        if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>())
+        if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>("wordButton"))
             wordButton->setVisible (true);
     }
     encodingToCheck ("UTF-8");

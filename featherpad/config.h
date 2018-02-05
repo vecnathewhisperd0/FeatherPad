@@ -194,6 +194,13 @@ public:
         showCursorPos_ = show;
     }
 
+    bool getShowLangSelector() const {
+        return showLangSelector_;
+    }
+    void setShowLangSelector (bool show) {
+        showLangSelector_ = show;
+    }
+
     bool getSidePaneMode() const {
         return sidePaneMode_;
     }
@@ -410,10 +417,10 @@ private:
     bool isValidShortCut (const QVariant v);
     void readCursorPos();
 
-    bool remSize_, remSplitterPos_, iconless_, sysIcon_, noToolbar_, noMenubar_, hideSearchbar_, showStatusbar_, showCursorPos_, sidePaneMode_, remFont_,
-         wrapByDefault_, indentByDefault_, autoBracket_, lineByDefault_, syntaxByDefault_, showWhiteSpace_, showEndings_, isMaxed_, isFull_,
-         darkColScheme_, tabWrapAround_, hideSingleTab_, executeScripts_, appendEmptyLine_, openInWindows_, nativeDialog_, inertialScrolling_,
-         autoSave_,
+    bool remSize_, remSplitterPos_, iconless_, sysIcon_, noToolbar_, noMenubar_, hideSearchbar_, showStatusbar_, showCursorPos_, showLangSelector_,
+         sidePaneMode_, remFont_, wrapByDefault_, indentByDefault_, autoBracket_, lineByDefault_, syntaxByDefault_, showWhiteSpace_, showEndings_,
+         isMaxed_, isFull_, darkColScheme_, tabWrapAround_, hideSingleTab_, executeScripts_, appendEmptyLine_, openInWindows_, nativeDialog_,
+         inertialScrolling_, autoSave_,
          scrollJumpWorkaround_; // Should a workaround for Qt5's "scroll jump" bug be applied?
     int tabPosition_, maxSHSize_, lightBgColorValue_, darkBgColorValue_, recentFilesNumber_;
     int curRecentFilesNumber_; // the start value of recentFilesNumber_ -- fixed during a session

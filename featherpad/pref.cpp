@@ -168,6 +168,9 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
     ui->syntaxBox->setChecked (config.getSyntaxByDefault());
     connect (ui->syntaxBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSyntax);
 
+    ui->enforceSyntaxBox->setChecked (config.getShowLangSelector());
+    ui->enforceSyntaxBox->setEnabled (config.getSyntaxByDefault());
+
     ui->whiteSpaceBox->setChecked (config.getShowWhiteSpace());
     connect (ui->whiteSpaceBox, &QCheckBox::stateChanged, this, &PrefDialog::prefWhiteSpace);
 
@@ -389,6 +392,7 @@ void PrefDialog::onClosing()
     prefTabPosition();
     prefRecentFilesKind();
     prefApplyAutoSave();
+    prefApplySyntax();
 }
 /*************************/
 void PrefDialog::showPrompt (QString str, bool temporary)
@@ -768,11 +772,36 @@ void PrefDialog::prefLine (int checked)
 /*************************/
 void PrefDialog::prefSyntax (int checked)
 {
-    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    /* only set the state of the syntax enforcing checkbox */
     if (checked == Qt::Checked)
-        config.setSyntaxByDefault (true);
+        ui->enforceSyntaxBox->setEnabled (true);
     else if (checked == Qt::Unchecked)
-        config.setSyntaxByDefault (false);
+        ui->enforceSyntaxBox->setEnabled (false);
+}
+/*************************/
+void PrefDialog::prefApplySyntax()
+{
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    Config& config = singleton->getConfig();
+    if ((!config.getShowLangSelector() || !config.getSyntaxByDefault())
+        && (ui->enforceSyntaxBox->isChecked() && ui->syntaxBox->isChecked()))
+    {
+        for (int i = 0; i < singleton->Wins.count(); ++i)
+        {
+            FPwin *win = singleton->Wins.at (i);
+            win->addLangButton();
+            if (TabPage *tabPage = qobject_cast<TabPage*>(win->ui->tabWidget->currentWidget()))
+                win->showLang (tabPage->textEdit());
+        }
+    }
+    else if (config.getShowLangSelector() && config.getSyntaxByDefault()
+             && (!ui->enforceSyntaxBox->isChecked() || ! ui->syntaxBox->isChecked()))
+    {
+        for (int i = 0; i < singleton->Wins.count(); ++i)
+            singleton->Wins.at (i)->removeLangButton();
+    }
+    config.setSyntaxByDefault (ui->syntaxBox->isChecked());
+    config.setShowLangSelector (ui->enforceSyntaxBox->isChecked());
 }
 /*************************/
 void PrefDialog::prefWhiteSpace (int checked)

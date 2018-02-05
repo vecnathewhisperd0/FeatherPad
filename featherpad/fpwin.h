@@ -84,6 +84,9 @@ public:
     }
 
     void addCursorPosLabel();
+    void addLangButton();
+    void removeLangButton();
+    void showLang (TextEdit *textEdit);
 
     void showCrashWarning();
     void updateCustomizableShortcuts (bool disable = false);
@@ -182,6 +185,7 @@ private slots:
     void onOpeningUneditable();
     void autoSave();
     void pauseAutoSaving (bool pause);
+    void setLang (QAction *action);
 
 public:
     QWidget *dummyWidget; // Bypasses KDE's demand for a new window.
@@ -216,7 +220,7 @@ private:
     QTextCursor finding (const QString str, const QTextCursor& start, QTextDocument::FindFlags flags = 0,
                          const int end = 0) const;
     void setProgLang (TextEdit *textEdit);
-    void syntaxHighlighting (TextEdit *textEdit, bool highlight = true);
+    void syntaxHighlighting (TextEdit *textEdit, bool highlight = true, const QString &lang = QString());
     void encodingToCheck (const QString& encoding);
     const QString checkToEncoding() const;
     void applyConfigOnStarting();
@@ -248,6 +252,7 @@ private:
     QMetaObject::Connection lambdaConnection_; // Captures a lambda connection to disconnect it later.
     SidePane *sidePane_;
     QHash<QListWidgetItem*, TabPage*> sideItems_; // For fast tab switching.
+    QHash<QString, QAction*> langs; // All programming languages (to be enforced by the user).
     // Auto-saving:
     QTimer *autoSaver_;
     QElapsedTimer autoSaverPause_;

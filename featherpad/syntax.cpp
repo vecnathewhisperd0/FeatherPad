@@ -38,8 +38,8 @@ void FPwin::toggleSyntaxHighlighting()
 
     for (int i = 0; i < count; ++i)
     {
-        syntaxHighlighting (qobject_cast< TabPage *>(ui->tabWidget->widget (i))->textEdit(),
-                            ui->actionSyntax->isChecked());
+        TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (i))->textEdit();
+        syntaxHighlighting (textEdit, ui->actionSyntax->isChecked(), textEdit->getLang());
     }
 }
 /*************************/
@@ -218,7 +218,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
     textEdit->setProg (progLan);
 }
 /*************************/
-void FPwin::syntaxHighlighting (TextEdit *textEdit, bool highlight)
+void FPwin::syntaxHighlighting (TextEdit *textEdit, bool highlight, const QString &lang)
 {
     if (textEdit == nullptr
         || textEdit->isUneditable()) // has huge lines or isn't a text
@@ -228,11 +228,15 @@ void FPwin::syntaxHighlighting (TextEdit *textEdit, bool highlight)
 
     if (highlight)
     {
-        QString progLan = textEdit->getProg();
-        if (progLan.isEmpty()
-            || progLan == "help") // used for marking the help doc
+        QString progLan = lang;
+        if (progLan.isEmpty())
         {
-            return;
+            progLan = textEdit->getProg();
+            if (progLan.isEmpty()
+                || progLan == "help") // used for marking the help doc
+            {
+                return;
+            }
         }
 
         Config config = static_cast<FPsingleton*>(qApp)->getConfig();
