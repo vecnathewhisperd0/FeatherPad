@@ -1796,18 +1796,18 @@ tom opstart af en session.</translation>
     <message>
         <location filename="../../pref.cpp" line="222"/>
         <location filename="../../pref.cpp" line="228"/>
-        <location filename="../../pref.cpp" line="1028"/>
-        <location filename="../../pref.cpp" line="1033"/>
-        <location filename="../../pref.cpp" line="1042"/>
+        <location filename="../../pref.cpp" line="1030"/>
+        <location filename="../../pref.cpp" line="1035"/>
+        <location filename="../../pref.cpp" line="1044"/>
         <source>files</source>
         <translation>filer</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="222"/>
         <location filename="../../pref.cpp" line="228"/>
-        <location filename="../../pref.cpp" line="1028"/>
-        <location filename="../../pref.cpp" line="1033"/>
-        <location filename="../../pref.cpp" line="1042"/>
+        <location filename="../../pref.cpp" line="1030"/>
+        <location filename="../../pref.cpp" line="1035"/>
+        <location filename="../../pref.cpp" line="1044"/>
         <source>file</source>
         <translation>fil</translation>
     </message>
@@ -1818,7 +1818,7 @@ tom opstart af en session.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="330"/>
-        <location filename="../../pref.cpp" line="1132"/>
+        <location filename="../../pref.cpp" line="1134"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Advarsel: Tvetydig genvej registreret!</translation>
     </message>
@@ -1833,22 +1833,22 @@ tom opstart af en session.</translation>
         <translation>Vinduet skal genåbnes før ændringerne træder i kraft.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1057"/>
+        <location filename="../../pref.cpp" line="1059"/>
         <source>&amp;Recently Opened</source>
         <translation>&amp;Seneste åbnede</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1058"/>
+        <location filename="../../pref.cpp" line="1060"/>
         <source>Recently &amp;Modified</source>
         <translation>Seneste &amp;ændrede</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1122"/>
+        <location filename="../../pref.cpp" line="1124"/>
         <source>The typed shortcut was not valid.</source>
         <translation>Den indtastede genvej var ikke gyldig.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1124"/>
+        <location filename="../../pref.cpp" line="1126"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Den indtastede genvej var reserveret.</translation>
     </message>

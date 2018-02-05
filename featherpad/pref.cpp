@@ -592,6 +592,8 @@ void PrefDialog::prefStatusbar (int checked)
                         TextEdit *thisTextEdit = qobject_cast< TabPage *>(win->ui->tabWidget->widget (j))->textEdit();
                         connect (thisTextEdit, &QPlainTextEdit::blockCountChanged, win, &FPwin::statusMsgWithLineCount);
                         connect (thisTextEdit, &QPlainTextEdit::selectionChanged, win, &FPwin::statusMsg);
+                        if (showCurPos)
+                            connect (thisTextEdit, &QPlainTextEdit::cursorPositionChanged, win, &FPwin::showCursorPos);
                     }
                     win->ui->statusBar->setVisible (true);
                     if (showCurPos)
@@ -599,7 +601,7 @@ void PrefDialog::prefStatusbar (int checked)
                         win->addCursorPosLabel();
                         win->showCursorPos();
                     }
-                    if (QToolButton *wordButton = win->ui->statusBar->findChild<QToolButton *>())
+                    if (QToolButton *wordButton = win->ui->statusBar->findChild<QToolButton *>("wordButton"))
                     {
                         wordButton->setVisible (true);
                         if (textEdit->getWordNumber() != -1 // when words are already counted

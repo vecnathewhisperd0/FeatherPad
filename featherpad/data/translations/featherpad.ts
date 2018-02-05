@@ -1737,18 +1737,18 @@ empty startup of a session.</source>
     <message>
         <location filename="../../pref.cpp" line="222"/>
         <location filename="../../pref.cpp" line="228"/>
-        <location filename="../../pref.cpp" line="1028"/>
-        <location filename="../../pref.cpp" line="1033"/>
-        <location filename="../../pref.cpp" line="1042"/>
+        <location filename="../../pref.cpp" line="1030"/>
+        <location filename="../../pref.cpp" line="1035"/>
+        <location filename="../../pref.cpp" line="1044"/>
         <source>files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="222"/>
         <location filename="../../pref.cpp" line="228"/>
-        <location filename="../../pref.cpp" line="1028"/>
-        <location filename="../../pref.cpp" line="1033"/>
-        <location filename="../../pref.cpp" line="1042"/>
+        <location filename="../../pref.cpp" line="1030"/>
+        <location filename="../../pref.cpp" line="1035"/>
+        <location filename="../../pref.cpp" line="1044"/>
         <source>file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1759,7 +1759,7 @@ empty startup of a session.</source>
     </message>
     <message>
         <location filename="../../pref.cpp" line="330"/>
-        <location filename="../../pref.cpp" line="1132"/>
+        <location filename="../../pref.cpp" line="1134"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1774,22 +1774,22 @@ empty startup of a session.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1057"/>
+        <location filename="../../pref.cpp" line="1059"/>
         <source>&amp;Recently Opened</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1058"/>
+        <location filename="../../pref.cpp" line="1060"/>
         <source>Recently &amp;Modified</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1122"/>
+        <location filename="../../pref.cpp" line="1124"/>
         <source>The typed shortcut was not valid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1124"/>
+        <location filename="../../pref.cpp" line="1126"/>
         <source>The typed shortcut was reserved.</source>
         <translation type="unfinished"></translation>
     </message>
