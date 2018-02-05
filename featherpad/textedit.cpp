@@ -713,7 +713,7 @@ static void fillBackground (QPainter *p, const QRectF &rect, QBrush brush, const
         }
     }
     else
-        p->setBrushOrigin(rect.topLeft());
+        p->setBrushOrigin (rect.topLeft());
     p->fillRect (rect, brush);
     p->restore();
 }
@@ -756,9 +756,9 @@ void TextEdit::paintEvent (QPaintEvent *event)
         {
             /* take care of RTL */
             bool rtl (block.text().isRightToLeft());
+            QTextOption opt = document()->defaultTextOption();
             if (rtl)
             {
-                QTextOption opt = document()->defaultTextOption();
                 opt.setAlignment (Qt::AlignRight);
                 opt.setTextDirection (Qt::RightToLeft);
                 layout->setTextOption (opt);
@@ -833,7 +833,28 @@ void TextEdit::paintEvent (QPaintEvent *event)
                 painter.drawText (r.adjusted (margin, 0, 0, 0), Qt::AlignTop | Qt::TextWordWrap, placeholderText());
             }
             else
+            {
+                painter.save();
+                if (opt.flags() & QTextOption::ShowLineAndParagraphSeparators)
+                {
+                    /* Use alpha with the painter to gray out the paragraph separators and
+                       document terminators. The real text will be formatted by the highlgihter. */
+                    QColor col;
+                    if (darkScheme)
+                    {
+                        col = Qt::white;
+                        col.setAlpha (107);
+                    }
+                    else
+                    {
+                        col = Qt::black;
+                        col.setAlpha (97);
+                    }
+                    painter.setPen (col);
+                }
                 layout->draw (&painter, offset, selections, er);
+                painter.restore();
+            }
             if ((drawCursor && !drawCursorAsBlock)
                 || (editable && context.cursorPosition < -1
                     && !layout->preeditAreaText().isEmpty()))

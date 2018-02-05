@@ -157,14 +157,13 @@ private:
     QRegExp commentStartExpression;
     QRegExp commentEndExpression;
 
+    QTextCharFormat neutralFormat; // The format before highlighting.
     QTextCharFormat commentFormat;
     QTextCharFormat quoteFormat; // Usually for double quote.
     QTextCharFormat altQuoteFormat; // Usually for single quote.
     QTextCharFormat urlFormat;
     QTextCharFormat blockQuoteFormat;
     QTextCharFormat codeBlockFormat;
-    /* Used when there is a need to mark text or undo fomatting. */
-    QTextCharFormat neutralFormat;
     QTextCharFormat whiteSpaceFormat; // For whitespaces.
     QTextCharFormat translucentFormat;
     QTextCharFormat JSRegexFormat;

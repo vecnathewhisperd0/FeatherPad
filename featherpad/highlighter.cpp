@@ -184,6 +184,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     QColor Faded, translucent;
     if (!darkColorScheme)
     {
+        neutralFormat.setForeground (Qt::black);
         Blue = Qt::blue;
         DarkBlue = Qt::darkBlue;
         Red = Qt::red;
@@ -199,6 +200,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     }
     else
     {
+        neutralFormat.setForeground (Qt::white);
         Blue = QColor (85, 227, 255);
         DarkBlue = QColor (65, 154, 255);
         Red = QColor (255, 120, 120);
@@ -214,7 +216,6 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     }
     DarkGreenAlt = DarkGreen.lighter (101); // almost identical
 
-    neutralFormat.setForeground (QBrush());
     whiteSpaceFormat.setForeground (Faded);
     translucentFormat.setForeground (translucent);
     translucentFormat.setFontItalic (true);
@@ -529,7 +530,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         /* example:
          * May 19 02:01:44 debian sudo:
          *   blue  green  magenta bold */
-        QTextCharFormat logFormat;
+        QTextCharFormat logFormat = neutralFormat;
         logFormat.setFontWeight (QFont::Bold);
         rule.pattern = QRegExp ("^[A-Za-z]{3}\\s+\\d{1,2}\\s{1}\\d{2}:\\d{2}:\\d{2}\\s+[A-Za-z0-9_\\[\\]\\s]+(?=\\s*:)");
         rule.format = logFormat;
@@ -581,7 +582,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         highlightingRules.append (rule);
 
         /* hh:mm:ss,ttt */
-        srtFormat.setForeground (QBrush());
+        srtFormat = neutralFormat;
         srtFormat.setFontItalic (true);
         rule.pattern = QRegExp ("^\\d+$|^\\d{2}:\\d{2}:\\d{2},\\d{3}\\s-->\\s\\d{2}:\\d{2}:\\d{2},\\d{3}$");
         rule.format = srtFormat;
@@ -631,7 +632,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = desktopFormat;
         highlightingRules.append (rule);
 
-        desktopFormat.setForeground (QBrush());
+        desktopFormat = neutralFormat;
         desktopFormat.setFontWeight (QFont::Bold);
         /* [...] */
         rule.pattern = QRegExp ("^\\[.*\\]$");
@@ -654,7 +655,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     {
         if (progLan == "sourceslist")
         {
-            QTextCharFormat slFormat;
+            QTextCharFormat slFormat = neutralFormat;
             slFormat.setFontWeight (QFont::Bold);
             rule.pattern = QRegExp ("\\bdeb(?=\\s+)|\\bdeb-src(?=\\s+)");
             rule.format = slFormat;
@@ -689,7 +690,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         quoteMark = QRegExp ("`"); // inline code is almost like a single-line quote
         blockQuoteFormat.setForeground (DarkGreen);
         codeBlockFormat.setForeground (DarkRed);
-        QTextCharFormat markdownFormat;
+        QTextCharFormat markdownFormat = neutralFormat;
 
         /*
            The bold and italic rules should come first.
@@ -797,7 +798,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     }
     else if (progLan == "m3u")
     {
-        QTextCharFormat plFormat;
+        QTextCharFormat plFormat = neutralFormat;
         plFormat.setFontWeight (QFont::Bold);
         rule.pattern = QRegExp ("^#EXTM3U\\b");
         rule.format = plFormat;
@@ -816,7 +817,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = plFormat;
         highlightingRules.append (rule);
 
-        plFormat.setForeground (QBrush());
+        plFormat = neutralFormat;
         rule.pattern = QRegExp ("^#EXTINF\\s*:");
         rule.format = plFormat;
         highlightingRules.append (rule);
@@ -2363,7 +2364,7 @@ void Highlighter::debControlFormatting (const QString &text)
         /* parentheses and brackets */
         exp = QRegExp ("\\([^\\(\\)\\[\\]]+\\)|\\[[^\\(\\)\\[\\]]+\\]");
         int index = indx;
-        debFormat.setForeground (QBrush());
+        debFormat = neutralFormat;
         debFormat.setFontItalic (true);
         while ((index = text.indexOf (exp, index)) > -1)
         {
@@ -2403,6 +2404,11 @@ void Highlighter::debControlFormatting (const QString &text)
 void Highlighter::highlightBlock (const QString &text)
 {
     if (progLan.isEmpty()) return;
+
+    /* If the paragraph separators are shown, the unformatted text
+       will be grayed out. So, we should restore its real color here.
+       This is also safe when the paragraph separators are hidden. */
+    setFormat(0, text.size(), neutralFormat);
 
     bool rehighlightNextBlock = false;
     int oldOpenNests = 0; QSet<int> oldOpenQuotes; // to be used in SH_CmndSubstVar()

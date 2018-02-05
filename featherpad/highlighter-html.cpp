@@ -358,9 +358,7 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
             matched = cssStartExp.matchedLength();
 
         /* starting from here, clear all html formats... */
-        QTextCharFormat neutral;
-        neutral.setForeground (QBrush());
-        setFormat (cssIndex + matched, text.length() - cssIndex - matched, neutral);
+        setFormat (cssIndex + matched, text.length() - cssIndex - matched, neutralFormat);
         setCurrentBlockState (0);
 
         /* ... and apply the css formats */;
@@ -424,7 +422,7 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
                   + cssEndExp.matchedLength();
             /* if the css block ends at this line, format
                the rest of the line as an html code again */
-            setFormat (cssEndIndex, text.length() - cssEndIndex, neutral);
+            setFormat (cssEndIndex, text.length() - cssEndIndex, neutralFormat);
             setCurrentBlockState (0);
             progLan = "html";
             htmlBrackets (text, cssEndIndex);
@@ -494,9 +492,7 @@ void Highlighter::htmlJavascript (const QString &text)
             matched = javaStartExp.matchedLength();
 
         /* starting from here, clear all html formats... */
-        QTextCharFormat neutral;
-        neutral.setForeground (QBrush());
-        setFormat (javaIndex + matched, text.length() - javaIndex - matched, neutral);
+        setFormat (javaIndex + matched, text.length() - javaIndex - matched, neutralFormat);
         setCurrentBlockState (0);
 
         /* ... and apply the javascript formats */
@@ -587,7 +583,7 @@ void Highlighter::htmlJavascript (const QString &text)
                   + javaEndExp.matchedLength();
             /* if the javascript block ends at this line,
                format the rest of the line as an html code again */
-            setFormat (javaEndIndex, text.length() - javaEndIndex, neutral);
+            setFormat (javaEndIndex, text.length() - javaEndIndex, neutralFormat);
             setCurrentBlockState (0);
             progLan = "html";
             htmlBrackets (text, javaEndIndex);
