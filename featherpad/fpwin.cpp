@@ -439,9 +439,9 @@ void FPwin::applyConfigOnStarting()
     {
         if (config.getShowCursorPos())
             addCursorPosLabel();
-        if (config.getShowLangSelector() && config.getSyntaxByDefault())
-            addLangButton();
     }
+    if (config.getShowLangSelector() && config.getSyntaxByDefault())
+        addLangButton();
 
     if (config.getTabPosition() != 0)
         ui->tabWidget->setTabPosition ((QTabWidget::TabPosition) config.getTabPosition());
@@ -2925,9 +2925,9 @@ void FPwin::tabSwitch (int index)
                                   .arg (textEdit->getWordNumber()));
         }
         showCursorPos();
-        if (config.getShowLangSelector() && config.getSyntaxByDefault())
-            showLang (textEdit);
     }
+    if (config.getShowLangSelector() && config.getSyntaxByDefault())
+        showLang (textEdit);
 
     /* al last, set the title of Replacment dock */
     if (ui->dockReplace->isVisible())

@@ -571,6 +571,7 @@ void PrefDialog::prefStatusbar (int checked)
 {
     FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
     Config& config = singleton->getConfig();
+    bool showCurPos = config.getShowCursorPos();
     if (checked == Qt::Checked)
     {
         config.setShowStatusbar (true);
@@ -593,6 +594,11 @@ void PrefDialog::prefStatusbar (int checked)
                         connect (thisTextEdit, &QPlainTextEdit::selectionChanged, win, &FPwin::statusMsg);
                     }
                     win->ui->statusBar->setVisible (true);
+                    if (showCurPos)
+                    {
+                        win->addCursorPosLabel();
+                        win->showCursorPos();
+                    }
                     if (QToolButton *wordButton = win->ui->statusBar->findChild<QToolButton *>())
                     {
                         wordButton->setVisible (true);

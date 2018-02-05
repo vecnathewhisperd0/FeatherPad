@@ -1798,18 +1798,18 @@ okaze de senenhava startigo de sesio.</translation>
     <message>
         <location filename="../../pref.cpp" line="222"/>
         <location filename="../../pref.cpp" line="228"/>
-        <location filename="../../pref.cpp" line="1022"/>
-        <location filename="../../pref.cpp" line="1027"/>
-        <location filename="../../pref.cpp" line="1036"/>
+        <location filename="../../pref.cpp" line="1028"/>
+        <location filename="../../pref.cpp" line="1033"/>
+        <location filename="../../pref.cpp" line="1042"/>
         <source>files</source>
         <translation>dosieroj</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="222"/>
         <location filename="../../pref.cpp" line="228"/>
-        <location filename="../../pref.cpp" line="1022"/>
-        <location filename="../../pref.cpp" line="1027"/>
-        <location filename="../../pref.cpp" line="1036"/>
+        <location filename="../../pref.cpp" line="1028"/>
+        <location filename="../../pref.cpp" line="1033"/>
+        <location filename="../../pref.cpp" line="1042"/>
         <source>file</source>
         <translation>dosiero</translation>
     </message>
@@ -1820,7 +1820,7 @@ okaze de senenhava startigo de sesio.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="330"/>
-        <location filename="../../pref.cpp" line="1126"/>
+        <location filename="../../pref.cpp" line="1132"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Averto: Ambigua fulmoklavo estas detektita!</translation>
     </message>
@@ -1835,22 +1835,22 @@ okaze de senenhava startigo de sesio.</translation>
         <translation>Remalfermado de la fenestro necesas por ke la ŝanĝoj efektiviĝu.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1051"/>
+        <location filename="../../pref.cpp" line="1057"/>
         <source>&amp;Recently Opened</source>
         <translation>Lastatempe Malfermita&amp;j</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1052"/>
+        <location filename="../../pref.cpp" line="1058"/>
         <source>Recently &amp;Modified</source>
         <translation>Lastatempe Mod&amp;ifitaj</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1116"/>
+        <location filename="../../pref.cpp" line="1122"/>
         <source>The typed shortcut was not valid.</source>
         <translation>La fulmoklavo tajpita ne estis valida.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1118"/>
+        <location filename="../../pref.cpp" line="1124"/>
         <source>The typed shortcut was reserved.</source>
         <translation>La fulmoklavo tajpita estis rezervita.</translation>
     </message>

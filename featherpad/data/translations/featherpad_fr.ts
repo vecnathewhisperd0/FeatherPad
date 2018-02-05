@@ -1795,18 +1795,18 @@ d&apos;une session.</translation>
     <message>
         <location filename="../../pref.cpp" line="222"/>
         <location filename="../../pref.cpp" line="228"/>
-        <location filename="../../pref.cpp" line="1022"/>
-        <location filename="../../pref.cpp" line="1027"/>
-        <location filename="../../pref.cpp" line="1036"/>
+        <location filename="../../pref.cpp" line="1028"/>
+        <location filename="../../pref.cpp" line="1033"/>
+        <location filename="../../pref.cpp" line="1042"/>
         <source>files</source>
         <translation>fichiers</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="222"/>
         <location filename="../../pref.cpp" line="228"/>
-        <location filename="../../pref.cpp" line="1022"/>
-        <location filename="../../pref.cpp" line="1027"/>
-        <location filename="../../pref.cpp" line="1036"/>
+        <location filename="../../pref.cpp" line="1028"/>
+        <location filename="../../pref.cpp" line="1033"/>
+        <location filename="../../pref.cpp" line="1042"/>
         <source>file</source>
         <translation>fichier</translation>
     </message>
@@ -1817,7 +1817,7 @@ d&apos;une session.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="330"/>
-        <location filename="../../pref.cpp" line="1126"/>
+        <location filename="../../pref.cpp" line="1132"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Attention: raccourci ambigu détecté!</translation>
     </message>
@@ -1832,22 +1832,22 @@ d&apos;une session.</translation>
         <translation>La réouverture de la fenêtre est nécessaire pour valider les changements.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1051"/>
+        <location filename="../../pref.cpp" line="1057"/>
         <source>&amp;Recently Opened</source>
         <translation>&amp;Récemment ouvert</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1052"/>
+        <location filename="../../pref.cpp" line="1058"/>
         <source>Recently &amp;Modified</source>
         <translation>Récemment &amp;Modifié</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1116"/>
+        <location filename="../../pref.cpp" line="1122"/>
         <source>The typed shortcut was not valid.</source>
         <translation>Le raccourci entré est invalide.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1118"/>
+        <location filename="../../pref.cpp" line="1124"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Le raccourci entré est déjà réservé.</translation>
     </message>
