@@ -184,7 +184,8 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     QColor Faded, translucent;
     if (!darkColorScheme)
     {
-        neutralFormat.setForeground (Qt::black);
+        mainFormat.setForeground (Qt::black);
+        neutralFormat.setForeground (QColor (1, 1, 1));
         Blue = Qt::blue;
         DarkBlue = Qt::darkBlue;
         Red = Qt::red;
@@ -200,7 +201,8 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     }
     else
     {
-        neutralFormat.setForeground (Qt::white);
+        mainFormat.setForeground (Qt::white);
+        neutralFormat.setForeground (QColor (254, 254, 254));
         Blue = QColor (85, 227, 255);
         DarkBlue = QColor (65, 154, 255);
         Red = QColor (255, 120, 120);
@@ -2408,7 +2410,7 @@ void Highlighter::highlightBlock (const QString &text)
     /* If the paragraph separators are shown, the unformatted text
        will be grayed out. So, we should restore its real color here.
        This is also safe when the paragraph separators are hidden. */
-    setFormat(0, text.size(), neutralFormat);
+    setFormat(0, text.size(), mainFormat);
 
     bool rehighlightNextBlock = false;
     int oldOpenNests = 0; QSet<int> oldOpenQuotes; // to be used in SH_CmndSubstVar()
