@@ -912,40 +912,40 @@ void TextEdit::paintEvent (QPaintEvent *event)
                         painter.restore();
                     }
                 }
-                if (vLineDistance_ >= 10 && !rtl
-                    && QFontInfo (document()->defaultFont()).fixedPitch())
+            }
+            if (vLineDistance_ >= 10 && !rtl
+                && QFontInfo (document()->defaultFont()).fixedPitch())
+            {
+                painter.save();
+                QColor col;
+                if (darkScheme)
                 {
-                    painter.save();
-                    QColor col;
-                    if (darkScheme)
-                    {
-                        col = QColor (65, 154, 255);
-                        col.setAlpha (90);
-                    }
-                    else
-                    {
-                        col = Qt::blue;
-                        col.setAlpha (70);
-                    }
-                    painter.setPen (col);
-                    QTextCursor cur = textCursor();
-                    cur.setPosition (block.position());
-                    QFontMetricsF fm = QFontMetricsF (document()->defaultFont());
-                    qreal rulerSpace = fm.width (' ') * (qreal)vLineDistance_;
-                    int yTop = qRound (r.topLeft().y());
-                    int yBottom =  qRound (r.height() >= (qreal)2 * fm.lineSpacing()
-                                           ? yTop + fm.height()
-                                           : r.bottomLeft().y() - (qreal)1);
-                    qreal rightMost = er.right();
-                    qreal x = (qreal)(cursorRect (cur).right());
-                    x += rulerSpace;
-                    while (x <= rightMost)
-                    {
-                        painter.drawLine (QLine (qRound (x), yTop, qRound (x), yBottom));
-                        x += rulerSpace;
-                    }
-                    painter.restore();
+                    col = QColor (65, 154, 255);
+                    col.setAlpha (90);
                 }
+                else
+                {
+                    col = Qt::blue;
+                    col.setAlpha (70);
+                }
+                painter.setPen (col);
+                QTextCursor cur = textCursor();
+                cur.setPosition (block.position());
+                QFontMetricsF fm = QFontMetricsF (document()->defaultFont());
+                qreal rulerSpace = fm.width (' ') * (qreal)vLineDistance_;
+                int yTop = qRound (r.topLeft().y());
+                int yBottom =  qRound (r.height() >= (qreal)2 * fm.lineSpacing()
+                                       ? yTop + fm.height()
+                                       : r.bottomLeft().y() - (qreal)1);
+                qreal rightMost = er.right();
+                qreal x = (qreal)(cursorRect (cur).right());
+                x += rulerSpace;
+                while (x <= rightMost)
+                {
+                    painter.drawLine (QLine (qRound (x), yTop, qRound (x), yBottom));
+                    x += rulerSpace;
+                }
+                painter.restore();
             }
         }
 
