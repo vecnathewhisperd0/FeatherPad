@@ -1486,39 +1486,52 @@ kiam la sintakso estas markita.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="443"/>
+        <location filename="../../predDialog.ui" line="454"/>
+        <source>The vertical position lines will be drawn only if
+the editor font has a fixed pitch (like Monospace).</source>
+        <translation>La vertikalaj poziciaj linioj estus desegnitaj nur se
+la redaktila tiparo havus fiksitan larĝon (kiel Monospace).</translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="447"/>
+        <source>Show vertical lines starting from this position:</source>
+        <translation>Montru vertikalajn liniojn komence de ĉ tiu pozicio:</translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="468"/>
         <source>Also show line and document ends</source>
         <translation>Ankaŭ montru la liniajn kaj dokumentan fonojn</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="491"/>
+        <location filename="../../predDialog.ui" line="516"/>
         <source>Some text editors cannot open a document
 whose last line is not empty.</source>
         <translation>Iuj tekst-redaktiloj ne povas malfermi
 dokumenton, kies fina linio ne estas malplena.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="495"/>
+        <location filename="../../predDialog.ui" line="520"/>
         <source>Ensure an empty last line on saving</source>
         <translation>Garantiu finan linion malplenan konservante</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="506"/>
+        <location filename="../../predDialog.ui" line="531"/>
         <source>Inertial scrolling with mouse wheel</source>
         <translation>Inercia rulumado per la musrado</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="528"/>
+        <location filename="../../predDialog.ui" line="553"/>
         <source>Files</source>
         <translation>Dosieroj</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="534"/>
+        <location filename="../../predDialog.ui" line="559"/>
         <source>File Management</source>
         <translation>Dosieradministrado</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="658"/>
-        <location filename="../../predDialog.ui" line="677"/>
+        <location filename="../../predDialog.ui" line="683"/>
+        <location filename="../../predDialog.ui" line="702"/>
         <source>This can be any starting command with
 arguments, for example, &quot;xterm -hold&quot;
 for running the process in XTerm.
@@ -1541,32 +1554,32 @@ emulatoro, dialogo ekaperus montranta la
 eligajn kaj erarajn mesaĝojn.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="670"/>
+        <location filename="../../predDialog.ui" line="695"/>
         <source>Start with this command: </source>
         <translation>Startigu kun ĉi tiu komando: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="689"/>
+        <location filename="../../predDialog.ui" line="714"/>
         <source>Command + Arguments</source>
         <translation>Komando + Operando</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="584"/>
+        <location filename="../../predDialog.ui" line="609"/>
         <source>Show recentl&amp;y modified files</source>
         <translation>Montru la lastatempe mo&amp;difitajn dosierojn</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="594"/>
+        <location filename="../../predDialog.ui" line="619"/>
         <source>Show recentl&amp;y opened files</source>
         <translation>Montru la lastatempe mal&amp;fermitajn dosierojn</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="715"/>
+        <location filename="../../predDialog.ui" line="740"/>
         <source>Save changes to opened files every:</source>
         <translation>Konservi la ŝanĝojn al la malfermitaj dosieroj ĉiun:</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="801"/>
+        <location filename="../../predDialog.ui" line="826"/>
         <source>Help</source>
         <translation>Helpo</translation>
     </message>
@@ -1638,12 +1651,12 @@ fenestron al alia per ŝovmetado.</translation>
         <translation>Marku la sin&amp;takson defaŭlte</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="453"/>
+        <location filename="../../predDialog.ui" line="478"/>
         <source>Dark c&amp;olor scheme</source>
         <translation>Malluma kolo&amp;rskemo</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="484"/>
+        <location filename="../../predDialog.ui" line="509"/>
         <source>Background color value: </source>
         <translation>La kolorvaloro de la fono: </translation>
     </message>
@@ -1653,19 +1666,19 @@ fenestron al alia per ŝovmetado.</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="513"/>
+        <location filename="../../predDialog.ui" line="538"/>
         <source>This is not a complete fix but
 prevents annoying scroll jumps.</source>
         <translation>Ĉi tio ne estas kompleta solvo sed detenas
 ĝenantajn saltojn komence de rulumado.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="517"/>
+        <location filename="../../predDialog.ui" line="542"/>
         <source>Workaround for &amp;Qt5&apos;s scroll jump bug</source>
         <translation>Proviza korekto por la ruluma salto ĉe &amp;Qt5</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="625"/>
+        <location filename="../../predDialog.ui" line="650"/>
         <source>This only includes executable files written
 in script languages like Shell and Python.
 
@@ -1684,13 +1697,13 @@ aŭ per ĝia fulmoklavo Ctrl+E. Tiam, la procezo povus esti
 ĉesigita per la fulmoklavo Ctrl+Alt+E.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="450"/>
+        <location filename="../../predDialog.ui" line="475"/>
         <source>Needs window reopening to take effect.</source>
         <translation>Remalfermado de la fenestro necesas.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="460"/>
-        <location filename="../../predDialog.ui" line="474"/>
+        <location filename="../../predDialog.ui" line="485"/>
+        <location filename="../../predDialog.ui" line="499"/>
         <source>The color value of the background.
 255 means white while 0 means black.
 
@@ -1709,13 +1722,13 @@ Remalfermado de la fenestro necesas por
 ke ĉi tio efektivĝu.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="635"/>
+        <location filename="../../predDialog.ui" line="660"/>
         <source>Run executable scripts</source>
         <translation>Plenumu ekzekveblajn skriptojn</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="540"/>
-        <location filename="../../predDialog.ui" line="554"/>
+        <location filename="../../predDialog.ui" line="565"/>
+        <location filename="../../predDialog.ui" line="579"/>
         <source>The maximum number of recently modified or
 opened files FeatherPad shows. The default
 is 10.
@@ -1728,20 +1741,20 @@ La defaŭlto estas 10.
 Restartigo de la aplikaĵo necesas.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="502"/>
+        <location filename="../../predDialog.ui" line="527"/>
         <source>Should the mouse wheel scrolling be inertial
 if the cursor is inside the text view?</source>
         <translation>Ĉu la musrada rulumado estu inercia kiam
 la kursoro estas interne de la tekst-vido?</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="547"/>
+        <location filename="../../predDialog.ui" line="572"/>
         <source>Number of recent files: </source>
         <translation>Nombro de la lastatempaj dosieroj: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="601"/>
-        <location filename="../../predDialog.ui" line="613"/>
+        <location filename="../../predDialog.ui" line="626"/>
+        <location filename="../../predDialog.ui" line="638"/>
         <source>The maximum number of recently modified or
 opened files FeatherPad should open with an
 empty startup of a session.</source>
@@ -1750,107 +1763,107 @@ aŭ malfermitaj dosieroj, kiujn FeatherPad malfermu
 okaze de senenhava startigo de sesio.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="606"/>
+        <location filename="../../predDialog.ui" line="631"/>
         <source>Start with recent files: </source>
         <translation>Startu kun lastatempaj dosieroj: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="712"/>
-        <location filename="../../predDialog.ui" line="722"/>
+        <location filename="../../predDialog.ui" line="737"/>
+        <location filename="../../predDialog.ui" line="747"/>
         <source>Only for files that exist and can be saved.</source>
         <translation>Nur por la dosieroj ekzistantaj kaj konserveblaj.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="725"/>
+        <location filename="../../predDialog.ui" line="750"/>
         <source> min</source>
         <translation> min</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="742"/>
+        <location filename="../../predDialog.ui" line="767"/>
         <source>Shortcuts</source>
         <translation>Fulmoklavoj</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="761"/>
+        <location filename="../../predDialog.ui" line="786"/>
         <source>Action</source>
         <translation>Ago</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="766"/>
+        <location filename="../../predDialog.ui" line="791"/>
         <source>Shortcut</source>
         <translation>Fulmoklavo</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="774"/>
+        <location filename="../../predDialog.ui" line="799"/>
         <source>Restore default shortcuts.</source>
         <translation>Restaŭri defaŭltajn fulmoklavojn.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="777"/>
+        <location filename="../../predDialog.ui" line="802"/>
         <source>Default</source>
         <translation>Defaŭlto</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="812"/>
+        <location filename="../../predDialog.ui" line="837"/>
         <source>Close</source>
         <translation>Fermi</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="222"/>
-        <location filename="../../pref.cpp" line="228"/>
-        <location filename="../../pref.cpp" line="1030"/>
-        <location filename="../../pref.cpp" line="1035"/>
-        <location filename="../../pref.cpp" line="1044"/>
+        <location filename="../../pref.cpp" line="230"/>
+        <location filename="../../pref.cpp" line="236"/>
+        <location filename="../../pref.cpp" line="1066"/>
+        <location filename="../../pref.cpp" line="1071"/>
+        <location filename="../../pref.cpp" line="1080"/>
         <source>files</source>
         <translation>dosieroj</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="222"/>
-        <location filename="../../pref.cpp" line="228"/>
-        <location filename="../../pref.cpp" line="1030"/>
-        <location filename="../../pref.cpp" line="1035"/>
-        <location filename="../../pref.cpp" line="1044"/>
+        <location filename="../../pref.cpp" line="230"/>
+        <location filename="../../pref.cpp" line="236"/>
+        <location filename="../../pref.cpp" line="1066"/>
+        <location filename="../../pref.cpp" line="1071"/>
+        <location filename="../../pref.cpp" line="1080"/>
         <source>file</source>
         <translation>dosiero</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="229"/>
+        <location filename="../../pref.cpp" line="237"/>
         <source>No file</source>
         <translation>Neniu dosiero</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="330"/>
-        <location filename="../../pref.cpp" line="1134"/>
+        <location filename="../../pref.cpp" line="338"/>
+        <location filename="../../pref.cpp" line="1170"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Averto: Ambigua fulmoklavo estas detektita!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="431"/>
+        <location filename="../../pref.cpp" line="439"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Restartigo de la aplikaĵo necesas por ke la ŝanĝoj efektiviĝu.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="440"/>
+        <location filename="../../pref.cpp" line="450"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Remalfermado de la fenestro necesas por ke la ŝanĝoj efektiviĝu.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1059"/>
+        <location filename="../../pref.cpp" line="1095"/>
         <source>&amp;Recently Opened</source>
         <translation>Lastatempe Malfermita&amp;j</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1060"/>
+        <location filename="../../pref.cpp" line="1096"/>
         <source>Recently &amp;Modified</source>
         <translation>Lastatempe Mod&amp;ifitaj</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1124"/>
+        <location filename="../../pref.cpp" line="1160"/>
         <source>The typed shortcut was not valid.</source>
         <translation>La fulmoklavo tajpita ne estis valida.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1126"/>
+        <location filename="../../pref.cpp" line="1162"/>
         <source>The typed shortcut was reserved.</source>
         <translation>La fulmoklavo tajpita estis rezervita.</translation>
     </message>

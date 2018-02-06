@@ -251,6 +251,7 @@ void FPwin::syntaxHighlighting (TextEdit *textEdit, bool highlight, const QStrin
             QTextCursor end = textEdit->cursorForPosition (Point);
 
             textEdit->setDrawIndetLines (config.getShowWhiteSpace());
+            textEdit->setVLineDistance (config.getVLineDistance());
             Highlighter *highlighter = new Highlighter (textEdit->document(), progLan, start, end,
                                                         textEdit->hasDarkScheme(),
                                                         config.getShowWhiteSpace(),
@@ -288,6 +289,7 @@ void FPwin::syntaxHighlighting (TextEdit *textEdit, bool highlight, const QStrin
         textEdit->setExtraSelections (es);
 
         textEdit->setDrawIndetLines (false);
+        textEdit->setVLineDistance (0);
 
         textEdit->setHighlighter (nullptr); // for consistency
         delete highlighter; highlighter = nullptr;

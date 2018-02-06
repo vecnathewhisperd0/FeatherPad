@@ -70,6 +70,8 @@ private slots:
     void prefLine (int checked);
     void prefSyntax (int checked);
     void prefWhiteSpace (int checked);
+    void prefVLine (int checked);
+    void prefVLineDistance (int value);
     void prefEndings (int checked);
     void prefDarkColScheme (int checked);
     void prefColValue (int value);
@@ -104,7 +106,7 @@ private:
     Ui::PrefDialog *ui;
     QWidget * parent_;
     bool darkBg_, sysIcons_, iconless_, showWhiteSpace_, showEndings_;
-    int darkColValue_, lightColValue_, recentNumber_;
+    int vLineDistance_, darkColValue_, lightColValue_, recentNumber_;
     QHash<QString, QString> shortcuts_, newShortcuts_, defaultShortcuts_;
     QString prevtMsg_;
     QTimer *promptTimer_;

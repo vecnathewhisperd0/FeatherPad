@@ -278,6 +278,13 @@ public:
         showEndings_ = show;
     }
 
+    int getVLineDistance() const {
+        return vLineDistance_;
+    }
+    void setVLineDistance (int distance) {
+        vLineDistance_ = distance;
+    }
+
     int getMaxSHSize() const {
         return maxSHSize_;
     }
@@ -417,14 +424,31 @@ private:
     bool isValidShortCut (const QVariant v);
     void readCursorPos();
 
-    bool remSize_, remSplitterPos_, iconless_, sysIcon_, noToolbar_, noMenubar_, hideSearchbar_, showStatusbar_, showCursorPos_, showLangSelector_,
-         sidePaneMode_, remFont_, wrapByDefault_, indentByDefault_, autoBracket_, lineByDefault_, syntaxByDefault_, showWhiteSpace_, showEndings_,
-         isMaxed_, isFull_, darkColScheme_, tabWrapAround_, hideSingleTab_, executeScripts_, appendEmptyLine_, openInWindows_, nativeDialog_,
-         inertialScrolling_, autoSave_,
+    bool remSize_, remSplitterPos_,
+         iconless_, sysIcon_,
+         noToolbar_, noMenubar_,
+         hideSearchbar_,
+         showStatusbar_, showCursorPos_, showLangSelector_,
+         sidePaneMode_,
+         remFont_, wrapByDefault_, indentByDefault_, autoBracket_, lineByDefault_,
+         syntaxByDefault_, showWhiteSpace_, showEndings_,
+         isMaxed_, isFull_,
+         darkColScheme_,
+         tabWrapAround_, hideSingleTab_,
+         executeScripts_,
+         appendEmptyLine_,
+         openInWindows_,
+         nativeDialog_,
+         inertialScrolling_,
+         autoSave_,
          scrollJumpWorkaround_; // Should a workaround for Qt5's "scroll jump" bug be applied?
-    int tabPosition_, maxSHSize_, lightBgColorValue_, darkBgColorValue_, recentFilesNumber_;
-    int curRecentFilesNumber_; // the start value of recentFilesNumber_ -- fixed during a session
-    int autoSaveInterval_;
+    int vLineDistance_,
+        tabPosition_,
+        maxSHSize_,
+        lightBgColorValue_, darkBgColorValue_,
+        recentFilesNumber_,
+        curRecentFilesNumber_, // the start value of recentFilesNumber_ -- fixed during a session
+        autoSaveInterval_;
     QSize winSize_, startSize_;
     int splitterPos_;
     QFont font_;

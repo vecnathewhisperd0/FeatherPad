@@ -14,6 +14,7 @@ V0.7.1
  * Show warnings on focusing the window or changing the tab when a file is modified in another way or removed.
  * An option for showing the cursor position on the statusbar (disabled by default).
  * Support syntax override (disabled by default).
+ * An option for vertical position lines.
 
 V0.7
 ---------

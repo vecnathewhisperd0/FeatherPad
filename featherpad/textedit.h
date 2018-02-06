@@ -65,6 +65,10 @@ public:
         drawIndetLines = draw;
     }
 
+    void setVLineDistance (int distance) {
+        vLineDistance_ = distance;
+    }
+
     void setAutoBracket (bool autoB) {
         autoBracket = autoB;
     }
@@ -245,6 +249,7 @@ private:
     bool autoBracket;
     bool scrollJumpWorkaround; // for working around Qt5's scroll jump bug
     bool darkScheme;
+    int vLineDistance_;
     QColor lineHColor;
     int resizeTimerId, updateTimerId; // for not wasting CPU's time
     int Dy;

@@ -84,6 +84,7 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
     recentNumber_ = config.getRecentFilesNumber();
     showWhiteSpace_ = config.getShowWhiteSpace();
     showEndings_ = config.getShowEndings();
+    vLineDistance_ = config.getVLineDistance();
 
     /**************
      *** Window ***
@@ -173,6 +174,13 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
 
     ui->whiteSpaceBox->setChecked (config.getShowWhiteSpace());
     connect (ui->whiteSpaceBox, &QCheckBox::stateChanged, this, &PrefDialog::prefWhiteSpace);
+
+    ui->vLineBox->setChecked (vLineDistance_ >= 10);
+    connect (ui->vLineBox, &QCheckBox::stateChanged, this, &PrefDialog::prefVLine);
+    ui->vLineSpin->setEnabled (vLineDistance_ >= 10);
+    ui->vLineSpin->setValue (qAbs (vLineDistance_));
+    connect (ui->vLineSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+             this, &PrefDialog::prefVLineDistance);
 
     ui->endingsBox->setChecked (config.getShowEndings());
     connect (ui->endingsBox, &QCheckBox::stateChanged, this, &PrefDialog::prefEndings);
@@ -435,7 +443,9 @@ void PrefDialog::showPrompt (QString str, bool temporary)
              || (darkBg_ && darkColValue_ != config.getDarkBgColorValue())
              || (!darkBg_ && lightColValue_ != config.getLightBgColorValue())
              || showWhiteSpace_ != config.getShowWhiteSpace()
-             || showEndings_ != config.getShowEndings())
+             || showEndings_ != config.getShowEndings()
+             || (vLineDistance_ * config.getVLineDistance() < 0
+                 || (vLineDistance_ > 0 && vLineDistance_ != config.getVLineDistance())))
     {
         ui->promptLabel->setText ("<b>" + tr ("Window reopening is needed for changes to take effect.") + "</b>");
         ui->promptLabel->setStyleSheet (style);
@@ -820,6 +830,32 @@ void PrefDialog::prefWhiteSpace (int checked)
     else if (checked == Qt::Unchecked)
         config.setShowWhiteSpace (false);
 
+    showPrompt();
+}
+/*************************/
+void PrefDialog::prefVLine (int checked)
+{
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    int dsitance = qMax (qMin (ui->vLineSpin->value(), 999), 10);
+    if (checked == Qt::Checked)
+    {
+        config.setVLineDistance (dsitance);
+        ui->vLineSpin->setEnabled (true);
+    }
+    else if (checked == Qt::Unchecked)
+    {
+        config.setVLineDistance (-1 * dsitance);
+        ui->vLineSpin->setEnabled (false);
+    }
+
+    showPrompt();
+}
+/*************************/
+void PrefDialog::prefVLineDistance (int value)
+{
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    int dsitance = qMax (qMin (value, 999), 10);
+    config.setVLineDistance (dsitance);
     showPrompt();
 }
 /*************************/
