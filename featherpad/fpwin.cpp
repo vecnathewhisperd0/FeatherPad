@@ -679,11 +679,11 @@ void FPwin::addLangButton()
     if (langList.isEmpty())
     {
         langList << "c" << "changelog" << "cmake" << "config" << "cpp"
-                 << "css" << "desktop" << "diff" << "gtkrc" << "html"
-                 << "javascript" << "log" << "lua" << "m3u" << "markdown"
-                 << "makefile" << "perl" << "php" << "python" << "qmake"
-                 << "qml" << "ruby" << "sh" << "sourceslist" << "troff"
-                 << "theme" << "url" << "xml";
+                 << "css" << "deb" << "desktop" << "diff" << "gtkrc"
+                 << "html" << "javascript" << "log" << "lua" << "m3u"
+                 << "markdown" << "makefile" << "perl" << "php" << "python"
+                 << "qmake" << "qml" << "ruby" << "sh" << "sourceslist"
+                 << "troff" << "theme" << "url" << "xml";
     }
 
     QToolButton *langButton = new QToolButton();
