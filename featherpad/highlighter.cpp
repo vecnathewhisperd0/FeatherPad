@@ -614,7 +614,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     }
     else if (progLan == "desktop" || progLan == "config" || progLan == "theme")
     {
-        QTextCharFormat desktopFormat;
+        QTextCharFormat desktopFormat = neutralFormat;
         if (progLan == "config")
         {
             desktopFormat.setFontWeight (QFont::Bold);
