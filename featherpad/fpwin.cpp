@@ -179,6 +179,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     connect (ui->actionCut, &QAction::triggered, this, &FPwin::cutText);
     connect (ui->actionCopy, &QAction::triggered, this, &FPwin::copyText);
     connect (ui->actionPaste, &QAction::triggered, this, &FPwin::pasteText);
+    connect (ui->actionDate, &QAction::triggered, this, &FPwin::insertDate);
     connect (ui->actionDelete, &QAction::triggered, this, &FPwin::deleteText);
     connect (ui->actionSelectAll, &QAction::triggered, this, &FPwin::selectAllText);
 
@@ -494,6 +495,7 @@ void FPwin::applyConfigOnStarting()
             ui->actionCut->setIcon (QIcon::fromTheme ("edit-cut"));
             ui->actionCopy->setIcon (QIcon::fromTheme ("edit-copy"));
             ui->actionPaste->setIcon (QIcon::fromTheme ("edit-paste"));
+            ui->actionDate->setIcon (QIcon::fromTheme ("clock"));
             ui->actionDelete->setIcon (QIcon::fromTheme ("edit-delete"));
             ui->actionSelectAll->setIcon (QIcon::fromTheme ("edit-select-all"));
             ui->actionReload->setIcon (QIcon::fromTheme ("view-refresh"));
@@ -582,6 +584,7 @@ void FPwin::applyConfigOnStarting()
             ui->actionCut->setIcon (QIcon (":icons/edit-cut.svg"));
             ui->actionCopy->setIcon (QIcon (":icons/edit-copy.svg"));
             ui->actionPaste->setIcon (QIcon (":icons/edit-paste.svg"));
+            ui->actionDate->setIcon (QIcon (":icons/document-open-recent.svg"));
             ui->actionDelete->setIcon (QIcon (":icons/edit-delete.svg"));
             ui->actionSelectAll->setIcon (QIcon (":icons/edit-select-all.svg"));
             ui->actionReload->setIcon (QIcon (":icons/view-refresh.svg"));
@@ -631,7 +634,7 @@ void FPwin::applyConfigOnStarting()
     if (!config.hasReservedShortcuts())
     { // this is here, and not in "singleton.cpp", just to simplify translation
         QStringList reserved;
-        reserved << tr ("Ctrl+Shift+Z") << tr ("Ctrl+Z") << tr ("Ctrl+X") << tr ("Ctrl+C") << tr ("Ctrl+V") << tr ("Ctrl+A")
+        reserved << tr ("Ctrl+Shift+Z") << tr ("Ctrl+Z") << tr ("Ctrl+X") << tr ("Ctrl+C") << tr ("Ctrl+V") << tr ("Ctrl+A") << tr ("Ctrl+Shift+V")
                  << tr ("F3") << tr ("F4") << tr ("F5") << tr ("F6")
                  << tr ("F7") << tr ("F8") << tr ("F9")
                  << tr ("F11") << tr ("Ctrl+Shift+W")
@@ -1115,6 +1118,7 @@ void FPwin::enableWidgets (bool enable) const
         ui->actionCut->setEnabled (false);
         ui->actionCopy->setEnabled (false);
         ui->actionPaste->setEnabled (false);
+        ui->actionDate->setEnabled (false);
         ui->actionDelete->setEnabled (false);
     }
 }
@@ -1202,6 +1206,7 @@ void FPwin::updateShortcuts (bool disable, bool page)
         ui->actionCut->setShortcut (QKeySequence());
         ui->actionCopy->setShortcut (QKeySequence());
         ui->actionPaste->setShortcut (QKeySequence());
+        ui->actionDate->setShortcut (QKeySequence());
         ui->actionSelectAll->setShortcut (QKeySequence());
 
         ui->toolButtonNext->setShortcut (QKeySequence());
@@ -1220,6 +1225,7 @@ void FPwin::updateShortcuts (bool disable, bool page)
         ui->actionCut->setShortcut (QKeySequence (tr ("Ctrl+X")));
         ui->actionCopy->setShortcut (QKeySequence (tr ("Ctrl+C")));
         ui->actionPaste->setShortcut (QKeySequence (tr ("Ctrl+V")));
+        ui->actionDate->setShortcut (QKeySequence (tr ("Ctrl+Shift+V")));
         ui->actionSelectAll->setShortcut (QKeySequence (tr ("Ctrl+A")));
 
         ui->toolButtonNext->setShortcut (QKeySequence (tr ("F7")));
@@ -1268,6 +1274,7 @@ TabPage* FPwin::createEmptyTab (bool setCurrent)
     textEdit->setScrollJumpWorkaround (config.getScrollJumpWorkaround());
     textEdit->setEditorFont (config.getFont());
     textEdit->setInertialScrolling (config.getInertialScrolling());
+    textEdit->setDateFormat (config.getDateFormat());
 
     int index = ui->tabWidget->currentIndex();
     if (index == -1) enableWidgets (true);
@@ -2062,6 +2069,7 @@ void FPwin::addText (const QString text, const QString fileName, const QString c
                 ui->actionSaveAs->setDisabled (true);
             ui->actionCut->setDisabled (true);
             ui->actionPaste->setDisabled (true);
+            ui->actionDate->setDisabled (true);
             ui->actionDelete->setDisabled (true);
         }
         disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCut, &QAction::setEnabled);
@@ -2746,6 +2754,18 @@ void FPwin::pasteText()
         tabPage->textEdit()->paste();
 }
 /*************************/
+void FPwin::insertDate()
+{
+    if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget()))
+    {
+        Config config = static_cast<FPsingleton*>(qApp)->getConfig();
+        QString format  = config.getDateFormat();
+        tabPage->textEdit()->insertPlainText (QDateTime::currentDateTime().toString (format.isEmpty()
+                                                  ? "MMM dd, yyyy, hh:mm:ss"
+                                                  : format));
+    }
+}
+/*************************/
 void FPwin::deleteText()
 {
     if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget()))
@@ -2791,6 +2811,7 @@ void FPwin::makeEditable()
     ui->actionEdit->setVisible (false);
 
     ui->actionPaste->setEnabled (true);
+    ui->actionDate->setEnabled (true);
     ui->actionCopy->setEnabled (textIsSelected);
     ui->actionCut->setEnabled (textIsSelected);
     ui->actionDelete->setEnabled (textIsSelected);
@@ -2900,6 +2921,7 @@ void FPwin::tabSwitch (int index)
         ui->actionSaveAs->setEnabled (!textEdit->isUneditable());
     }
     ui->actionPaste->setEnabled (!readOnly);
+    ui->actionDate->setEnabled (!readOnly);
     bool textIsSelected = textEdit->textCursor().hasSelection();
     ui->actionCopy->setEnabled (textIsSelected);
     ui->actionCut->setEnabled (!readOnly && textIsSelected);
@@ -4509,6 +4531,7 @@ void FPwin::helpDoc()
                                              "background-color: rgb(0, 60, 110);}");
     ui->actionCut->setDisabled (true);
     ui->actionPaste->setDisabled (true);
+    ui->actionDate->setDisabled (true);
     ui->actionDelete->setDisabled (true);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCut, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionDelete, &QAction::setEnabled);

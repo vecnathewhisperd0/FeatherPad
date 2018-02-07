@@ -123,6 +123,7 @@ private slots:
     void cutText();
     void copyText();
     void pasteText();
+    void insertDate();
     void deleteText();
     void selectAllText();
     void makeEditable();

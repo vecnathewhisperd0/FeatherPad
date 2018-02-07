@@ -21,6 +21,7 @@
 #include <QTimer>
 #include <QDateTime>
 #include <QPainter>
+#include <QMenu>
 #include "textedit.h"
 #include "vscrollbar.h"
 
@@ -126,6 +127,9 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     connect (this, &QPlainTextEdit::updateRequest, this, &TextEdit::onUpdateRequesting);
     connect (this, &QPlainTextEdit::cursorPositionChanged, this, &TextEdit::updateBracketMatching);
     connect (this, &QPlainTextEdit::selectionChanged, this, &TextEdit::onSelectionChanged);
+
+    setContextMenuPolicy (Qt::CustomContextMenu);
+    connect (this, &QWidget::customContextMenuRequested, this, &TextEdit::showContextMenu);
 }
 /*************************/
 void TextEdit::setEditorFont (const QFont &f)
@@ -1086,6 +1090,18 @@ void TextEdit::showEvent (QShowEvent *event)
     }
     Dy = 1;
     updateTimerId = startTimer (UPDATE_INTERVAL);
+}
+/*************************/
+void TextEdit::showContextMenu (const QPoint &p)
+{
+    QMenu *menu = createStandardContextMenu (p);
+    menu->addSeparator();
+    QAction *action = menu->addAction (tr ("Paste Date and Time"));
+    connect (action, &QAction::triggered, action, [this] {
+        insertPlainText (QDateTime::currentDateTime().toString (dateFormat_.isEmpty() ? "MMM dd, yyyy, hh:mm:ss" : dateFormat_));
+    });
+    menu->exec (mapToGlobal (p));
+    delete menu;
 }
 
 }

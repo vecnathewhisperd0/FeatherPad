@@ -209,6 +209,8 @@ void Config::readConfig()
     /* don't let the dark bg be lighter than #323232 */
     darkBgColorValue_ = qBound (0, settings.value ("darkBgColorValue", 15).toInt(), 50);
 
+    dateFormat_ = settings.value ("dateFormat").toString();
+
     if (settings.value ("executeScripts").toBool())
         executeScripts_ = true; // false by default
     executeCommand_ = settings.value ("executeCommand").toString();
@@ -322,6 +324,7 @@ void Config::writeConfig()
     settings.setValue ("maxSHSize", maxSHSize_);
 
     settings.setValue ("lightBgColorValue", lightBgColorValue_);
+    settings.setValue ("dateFormat", dateFormat_);
     settings.setValue ("darkBgColorValue", darkBgColorValue_);
     settings.setValue ("executeScripts", executeScripts_);
     settings.setValue ("appendEmptyLine", appendEmptyLine_);

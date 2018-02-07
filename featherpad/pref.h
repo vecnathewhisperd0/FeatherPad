@@ -101,6 +101,7 @@ private:
     void prefRecentFilesKind();
     void prefApplyAutoSave();
     void prefApplySyntax();
+    void prefApplyDateFormat();
     void showPrompt (QString str = QString(), bool temporary = false);
 
     Ui::PrefDialog *ui;

@@ -155,8 +155,10 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
 
     ui->fontBox->setChecked (config.getRemFont());
     connect (ui->fontBox, &QCheckBox::stateChanged, this, &PrefDialog::prefFont);
+
     ui->wrapBox->setChecked (config.getWrapByDefault());
     connect (ui->wrapBox, &QCheckBox::stateChanged, this, &PrefDialog::prefWrap);
+
     ui->indentBox->setChecked (config.getIndentByDefault());
     connect (ui->indentBox, &QCheckBox::stateChanged, this, &PrefDialog::prefIndent);
 
@@ -201,6 +203,8 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
     }
     connect (ui->colorValueSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
              this, &PrefDialog::prefColValue);
+
+    ui->dateEdit->setText (config.getDateFormat());
 
     ui->lastLineBox->setChecked (config.getAppendEmptyLine());
     connect (ui->lastLineBox, &QCheckBox::stateChanged, this, &PrefDialog::prefAppendEmptyLine);
@@ -401,6 +405,7 @@ void PrefDialog::onClosing()
     prefRecentFilesKind();
     prefApplyAutoSave();
     prefApplySyntax();
+    prefApplyDateFormat();
 }
 /*************************/
 void PrefDialog::showPrompt (QString str, bool temporary)
@@ -742,11 +747,10 @@ void PrefDialog::prefAutoBracket (int checked)
         for (int i = 0; i < singleton->Wins.count(); ++i)
         {
             int count = singleton->Wins.at (i)->ui->tabWidget->count();
-            if (count > 0)
+            for (int j = 0; j < count; ++j)
             {
-                for (int j = 0; j < count; ++j)
-                    qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
-                                             ->textEdit()->setAutoBracket (true);
+                qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
+                        ->textEdit()->setAutoBracket (true);
             }
         }
     }
@@ -756,11 +760,10 @@ void PrefDialog::prefAutoBracket (int checked)
         for (int i = 0; i < singleton->Wins.count(); ++i)
         {
             int count = singleton->Wins.at (i)->ui->tabWidget->count();
-            if (count > 0)
+            for (int j = 0; j < count; ++j)
             {
-                for (int j = 0; j < count; ++j)
-                    qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
-                                             ->textEdit()->setAutoBracket (false);
+                qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
+                        ->textEdit()->setAutoBracket (false);
             }
         }
     }
@@ -820,6 +823,27 @@ void PrefDialog::prefApplySyntax()
     }
     config.setSyntaxByDefault (ui->syntaxBox->isChecked());
     config.setShowLangSelector (ui->enforceSyntaxBox->isChecked());
+}
+/*************************/
+void PrefDialog::prefApplyDateFormat()
+{
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    Config& config = singleton->getConfig();
+    QString format = ui->dateEdit->text();
+    /* if "\n" is typed in the line-edit, interpret
+       it as a newline because we're on Linux */
+    if (!format.isEmpty())
+        format.replace ("\\n", "\n");
+    config.setDateFormat (format);
+    for (int i = 0; i < singleton->Wins.count(); ++i)
+    {
+        int count = singleton->Wins.at (i)->ui->tabWidget->count();
+        for (int j = 0; j < count; ++j)
+        {
+            qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
+                    ->textEdit()->setDateFormat (format);
+        }
+    }
 }
 /*************************/
 void PrefDialog::prefWhiteSpace (int checked)
@@ -926,11 +950,10 @@ void PrefDialog::prefScrollJumpWorkaround (int checked)
         for (int i = 0; i < singleton->Wins.count(); ++i)
         {
             int count = singleton->Wins.at (i)->ui->tabWidget->count();
-            if (count > 0)
+            for (int j = 0; j < count; ++j)
             {
-                for (int j = 0; j < count; ++j)
-                    qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
-                                             ->textEdit()->setScrollJumpWorkaround (true);
+                qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
+                        ->textEdit()->setScrollJumpWorkaround (true);
             }
         }
     }
@@ -940,11 +963,10 @@ void PrefDialog::prefScrollJumpWorkaround (int checked)
         for (int i = 0; i < singleton->Wins.count(); ++i)
         {
             int count = singleton->Wins.at (i)->ui->tabWidget->count();
-            if (count > 0)
+            for (int j = 0; j < count; ++j)
             {
-                for (int j = 0; j < count; ++j)
-                    qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
-                                             ->textEdit()->setScrollJumpWorkaround (false);
+                qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
+                        ->textEdit()->setScrollJumpWorkaround (false);
             }
         }
     }

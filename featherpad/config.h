@@ -114,6 +114,13 @@ public:
         darkBgColorValue_ = darkness;
     }
 
+    QString getDateFormat() const {
+        return dateFormat_;
+    }
+    void setDateFormat (const QString &format) {
+        dateFormat_ = format;
+    }
+
     int getRecentFilesNumber() const {
         return recentFilesNumber_;
     }
@@ -218,7 +225,7 @@ public:
     QFont getFont() const {
         return font_;
     }
-    void setFont (QFont font) {
+    void setFont (const QFont &font) {
         font_ = font;
     }
 
@@ -449,6 +456,7 @@ private:
         recentFilesNumber_,
         curRecentFilesNumber_, // the start value of recentFilesNumber_ -- fixed during a session
         autoSaveInterval_;
+    QString dateFormat_;
     QSize winSize_, startSize_;
     int splitterPos_;
     QFont font_;

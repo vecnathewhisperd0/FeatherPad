@@ -69,6 +69,10 @@ public:
         vLineDistance_ = distance;
     }
 
+    void setDateFormat (const QString &format) {
+        dateFormat_ = format;
+    }
+
     void setAutoBracket (bool autoB) {
         autoBracket = autoB;
     }
@@ -237,6 +241,7 @@ private slots:
     void onUpdateRequesting (const QRect&, int dy);
     void onSelectionChanged();
     void scrollWithInertia();
+    void showContextMenu (const QPoint &p);
 
 private:
     QString computeIndentation (const QTextCursor &cur) const;
@@ -250,6 +255,7 @@ private:
     bool scrollJumpWorkaround; // for working around Qt5's scroll jump bug
     bool darkScheme;
     int vLineDistance_;
+    QString dateFormat_;
     QColor lineHColor;
     int resizeTimerId, updateTimerId; // for not wasting CPU's time
     int Dy;

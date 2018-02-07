@@ -17,6 +17,7 @@ V0.7.1
  * An option for vertical position lines.
  * Don't Activate the window repeatedly on opening multiple files because, otherwise, the input might be blocked.
  * Fixed a mistake in localization that didn't let Simplified Chinese be detected.
+ * Added a configurable date and time pasting.
 
 V0.7
 ---------

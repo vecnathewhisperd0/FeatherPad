@@ -197,6 +197,8 @@
     <addaction name="actionDelete"/>
     <addaction name="separator"/>
     <addaction name="actionSelectAll"/>
+    <addaction name="separator"/>
+    <addaction name="actionDate"/>
    </widget>
    <widget class="QMenu" name="menuOptions">
     <property name="title">
@@ -1104,6 +1106,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+P</string>
+   </property>
+  </action>
+  <action name="actionDate">
+   <property name="text">
+    <string>Pate Date and Time</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+V</string>
    </property>
   </action>
  </widget>
