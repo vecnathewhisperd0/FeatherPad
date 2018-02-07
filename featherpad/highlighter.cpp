@@ -858,10 +858,10 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     {
         rule.pattern = QRegExp ("^\\s*#.*"); // only at start
     }
-    else if (progLan == "deb")
+    /*else if (progLan == "deb")
     {
         rule.pattern = QRegExp ("^#[^\\s:]+:(?=\\s*)");
-    }
+    }*/
     else if (progLan == "m3u")
     {
         rule.pattern = QRegExp ("^\\s+#|^#(?!(EXTM3U|EXTINF))");

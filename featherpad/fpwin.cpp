@@ -1364,8 +1364,11 @@ TabPage* FPwin::createEmptyTab (bool setCurrent)
         setWindowState (windowState() & (~Qt::WindowMinimized | Qt::WindowActive));*/
     if (static_cast<FPsingleton*>(qApp)->isX11() && isWindowShaded (winId()))
         unshadeWindow (winId());
-    activateWindow();
-    raise();
+    if (setCurrent)
+    {
+        activateWindow();
+        raise();
+    }
 
     return tabPage;
 }
