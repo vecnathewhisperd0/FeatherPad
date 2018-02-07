@@ -95,6 +95,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
         else if (fname.endsWith (".desktop") || fname.endsWith (".desktop.in") || fname.endsWith (".directory"))
              progLan = "desktop";
         else if (fname.endsWith (".conf") || fname.endsWith (".ini") || fname.endsWith (".kvconfig")
+                 || fname.endsWith (".service") || fname.endsWith (".mount") || fname.endsWith (".timer") // systemd related
                  || fname.endsWith (".pls", Qt::CaseInsensitive))
              progLan = "config";
         else if (fname.endsWith (".js"))
