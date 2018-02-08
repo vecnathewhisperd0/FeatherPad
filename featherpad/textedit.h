@@ -203,11 +203,16 @@ signals:
 
 protected:
     void keyPressEvent (QKeyEvent *event);
+    void keyReleaseEvent (QKeyEvent *event);
     void wheelEvent (QWheelEvent *event);
     void resizeEvent (QResizeEvent *event);
     void timerEvent (QTimerEvent *event);
     void paintEvent (QPaintEvent *event); // only for working around the RTL bug
     void showEvent (QShowEvent *event);
+    void mouseMoveEvent (QMouseEvent *event);
+    void mousePressEvent (QMouseEvent *event);
+    void mouseReleaseEvent (QMouseEvent *event);
+    bool event(QEvent *event);
 
     /* we want to pass dropping of files to
        the main widget with a custom signal */
@@ -245,6 +250,7 @@ private slots:
 
 private:
     QString computeIndentation (const QTextCursor &cur) const;
+    QString getUrl (const QPoint &pos) const;
 
     int prevAnchor, prevPos; // used only for bracket matching
     QWidget *lineNumberArea;
@@ -294,6 +300,10 @@ private:
     QTimer *scrollTimer_;
     QWheelEvent *wheelEvent_;
     QList<scollData> queuedScrollSteps_;
+    /**********************
+     ***** Hyperlinks *****
+     **********************/
+    QPoint pressPoint_;
 };
 /*************************/
 class LineNumberArea : public QWidget

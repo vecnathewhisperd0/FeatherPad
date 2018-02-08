@@ -445,6 +445,10 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.pattern = QRegExp ("^\\s+\\*\\s+");
         rule.format = asteriskFormat;
         highlightingRules.append (rule);
+
+        rule.pattern = QRegExp ("\\b[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
+        rule.format = urlFormat;
+        highlightingRules.append (rule);
     }
     else if (progLan == "sh" || progLan == "makefile" || progLan == "cmake"
              || progLan == "perl" || progLan == "ruby")

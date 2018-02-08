@@ -2019,7 +2019,7 @@ windows will be included in the saved session.</source>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="1099"/>
+        <location filename="../../textedit.cpp" line="1122"/>
         <source>Paste Date and Time</source>
         <translation type="unfinished"></translation>
     </message>

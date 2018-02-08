@@ -1,4 +1,4 @@
-V0.7.1
+V0.8
 ---------
  * Close the warning-bar when the text is scrolled.
  * Fixed the workaround for the RTL bug in QPlainTextEdit (it included an odd line and the indentation lines were disabled for RTL).
@@ -18,6 +18,7 @@ V0.7.1
  * Don't Activate the window repeatedly on opening multiple files because, otherwise, the input might be blocked.
  * Fixed a mistake in localization that didn't let Simplified Chinese be detected.
  * Added a configurable date and time pasting.
+ * Open hyperlinks of highlighted texts by left-clikcing them while the Ctrl key is pressed.
 
 V0.7
 ---------

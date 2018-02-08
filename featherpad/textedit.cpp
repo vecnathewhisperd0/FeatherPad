@@ -22,6 +22,7 @@
 #include <QDateTime>
 #include <QPainter>
 #include <QMenu>
+#include <QDesktopServices>
 #include "textedit.h"
 #include "vscrollbar.h"
 
@@ -45,6 +46,7 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     wheelEvent_ = nullptr;
     scrollTimer_ = nullptr;
 
+    setMouseTracking (true);
     //document()->setUseDesignMetrics (true);
 
     /* set the backgound color and ensure enough contrast
@@ -267,6 +269,19 @@ static inline bool isOnlySpaces (const QString &str)
 
 void TextEdit::keyPressEvent (QKeyEvent *event)
 {
+    /* first, deal with hyperlinks */
+    if (highlighter_ && event->key() == Qt::Key_Control && event->modifiers() == Qt::ControlModifier)
+    {
+        if (getUrl (mapFromGlobal (QCursor::pos())).isEmpty())
+            viewport()->setCursor (Qt::IBeamCursor);
+        else
+            viewport()->setCursor (Qt::PointingHandCursor);
+        QPlainTextEdit::keyPressEvent (event);
+        return;
+    }
+    if (highlighter_ && (event->modifiers() & Qt::ControlModifier) && event->key() != Qt::Key_Control)
+        viewport()->setCursor (Qt::IBeamCursor);
+
     if (isReadOnly())
     {
         QPlainTextEdit::keyPressEvent (event);
@@ -568,6 +583,14 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
     }
 
     QPlainTextEdit::keyPressEvent (event);
+}
+/*************************/
+void TextEdit::keyReleaseEvent (QKeyEvent *event)
+{
+    /* deal with hyperlinks */
+    if (highlighter_ && event->key() == Qt::Key_Control)
+        viewport()->setCursor (Qt::IBeamCursor);
+    QPlainTextEdit::keyReleaseEvent (event);
 }
 /*************************/
 // A workaround for Qt5's scroll jump bug
@@ -1102,6 +1125,86 @@ void TextEdit::showContextMenu (const QPoint &p)
     });
     menu->exec (mapToGlobal (p));
     delete menu;
+}
+
+/*****************************************************
+***** The following functions are for hyperlinks *****
+******************************************************/
+
+QString TextEdit::getUrl (const QPoint &pos) const
+{
+    static const QRegExp urlPattern = QRegExp ("\\b[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)]+");
+
+    QString url;
+    int cursorPos = cursorForPosition (pos).position();
+    QTextBlock block = document()->findBlock (cursorPos);
+    QString text = block.text();
+    if (text.length() <= 10000) // otherwise, too long
+    {
+        int cursorIndex = cursorPos - block.position();
+        int indx = urlPattern.lastIndexIn (text, cursorIndex);
+        if (indx > -1 && indx + urlPattern.matchedLength() > cursorIndex)
+            url = urlPattern.cap();
+    }
+    return url;
+}
+/*************************/
+void TextEdit::mouseMoveEvent (QMouseEvent *event)
+{
+    QPlainTextEdit::mouseMoveEvent (event);
+    if (!highlighter_) return;
+    if (!(qApp->keyboardModifiers() & Qt::ControlModifier))
+    {
+        viewport()->setCursor (Qt::IBeamCursor);
+        return;
+    }
+
+    if (getUrl (event->pos()).isEmpty())
+        viewport()->setCursor (Qt::IBeamCursor);
+    else
+        viewport()->setCursor (Qt::PointingHandCursor);
+}
+/*************************/
+void TextEdit::mousePressEvent (QMouseEvent *event)
+{
+    QPlainTextEdit::mousePressEvent (event);
+    if (!highlighter_
+        || !(event->button() & Qt::LeftButton
+        || !(qApp->keyboardModifiers() & Qt::ControlModifier)))
+    {
+        return;
+    }
+    pressPoint_ = event->pos();
+}
+/*************************/
+void TextEdit::mouseReleaseEvent (QMouseEvent *event)
+{
+    QPlainTextEdit::mouseReleaseEvent (event);
+    if (!highlighter_
+         || !(event->button() & Qt::LeftButton)
+         || !(qApp->keyboardModifiers() & Qt::ControlModifier))
+    {
+        return;
+    }
+
+    QString str = getUrl(event->pos());
+    if (!str.isEmpty()
+        && cursorForPosition (event->pos()) == cursorForPosition (pressPoint_))
+    {
+        QUrl url (str);
+        if (url.isRelative()) // treat relative URLs as local paths
+            url = QUrl::fromUserInput (str, "/");
+        QDesktopServices::openUrl (url);
+    }
+    pressPoint_ = QPoint();
+}
+/*************************/
+bool TextEdit::event (QEvent *event)
+{
+    /* this is needed when the desktop is changed and restored */
+    if (highlighter_ && event->type() == QEvent::WindowDeactivate)
+        viewport()->setCursor (Qt::IBeamCursor);
+    return QPlainTextEdit::event (event);
 }
 
 }
