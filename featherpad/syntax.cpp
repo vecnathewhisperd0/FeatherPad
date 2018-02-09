@@ -56,10 +56,9 @@ void FPwin::setProgLang (TextEdit *textEdit)
     QString progLan;
 
     /* first check some endings */
-    QRegExp rx ("*.*");
-    rx.setPatternSyntax (QRegExp::Wildcard);
     QString baseName = fname.section ('/', -1);
-    if (rx.exactMatch (baseName))
+    QRegularExpressionMatch match = QRegularExpression ("\\A(?:[^/]+\\.[^/\\.]+)\\z").match (baseName);
+    if (match.hasMatch())
     {
         if (fname.endsWith (".cpp") || fname.endsWith (".h"))
             progLan = "cpp";

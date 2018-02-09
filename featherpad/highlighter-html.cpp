@@ -240,20 +240,22 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
             htmlAttributeFormat.setForeground (Brown);
             QRegExp attExp = QRegExp ("[A-Za-z0-9_\\-]+(?=\\s*\\=)");
             int attIndex = attExp.indexIn (text, braIndex);
-            while (format (attIndex) == quoteFormat
-                   || format (attIndex) == altQuoteFormat)
+            QTextCharFormat fi = format (attIndex);
+            while (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat)
             {
                 attIndex = attExp.indexIn (text, attIndex + attExp.matchedLength());
+                fi = format (attIndex);
             }
             while (attIndex >= braIndex && attIndex < endLimit)
             {
                 int length = attExp.matchedLength();
                 setFormat (attIndex, length, htmlAttributeFormat);
                 attIndex = attExp.indexIn (text, attIndex + length);
-                while (format (attIndex) == quoteFormat
-                       || format (attIndex) == altQuoteFormat)
+                fi = format (attIndex);
+                while (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat)
                 {
                     attIndex = attExp.indexIn (text, attIndex + attExp.matchedLength());
+                    fi = format (attIndex);
                 }
             }
         }
@@ -328,7 +330,7 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
         fi = format (cssIndex);
         while (cssIndex >= 0
                && (fi == commentFormat
-                   || fi == quoteFormat || fi == altQuoteFormat))
+                   || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
         {
             cssIndex = cssStartExp.indexIn (text, cssIndex + cssStartExp.matchedLength());
             fi = format (cssIndex);
@@ -340,7 +342,7 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
         fi = format (cssIndex);
         while (cssIndex >= 0
                && (fi == commentFormat || fi == urlFormat
-                   || fi == quoteFormat || fi == altQuoteFormat))
+                   || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
         {
             cssIndex = braEndExp.indexIn (text, cssIndex + 1);
             fi = format (cssIndex);
@@ -399,7 +401,7 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
 
         fi = format (cssEndIndex);
         while (cssEndIndex > -1
-               && (fi == quoteFormat || fi == altQuoteFormat
+               && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                    || fi == commentFormat || fi == urlFormat))
         {
             cssEndIndex = cssEndExp.indexIn (text, cssEndIndex + cssEndExp.matchedLength());
@@ -433,7 +435,7 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
         fi = format (cssIndex);
         while (cssIndex >= 0
                && (fi == commentFormat || fi == urlFormat
-                   || fi == quoteFormat || fi == altQuoteFormat))
+                   || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
         {
             cssIndex = cssStartExp.indexIn (text, cssIndex + cssStartExp.matchedLength());
             fi = format (cssIndex);
@@ -476,7 +478,7 @@ void Highlighter::htmlJavascript (const QString &text)
         fi = format (javaIndex);
         while (javaIndex >= 0
                && (fi == commentFormat || fi == urlFormat
-                   || fi == quoteFormat || fi == altQuoteFormat))
+                   || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
         {
             javaIndex = javaStartExp.indexIn (text, javaIndex + javaStartExp.matchedLength());
             fi = format (javaIndex);
@@ -517,7 +519,7 @@ void Highlighter::htmlJavascript (const QString &text)
                 {
                     fi = format (index);
                     while (index >= 0
-                           && (fi == quoteFormat || fi == altQuoteFormat
+                           && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                                || fi == commentFormat || fi == urlFormat))
                     {
                         index = expression.indexIn (text, index + expression.matchedLength());
@@ -535,7 +537,7 @@ void Highlighter::htmlJavascript (const QString &text)
                     {
                         fi = format (index);
                         while (index >= 0
-                               && (fi == quoteFormat || fi == altQuoteFormat
+                               && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                                    || fi == commentFormat || fi == urlFormat
                                    || fi == JSRegexFormat))
                         {
@@ -559,7 +561,7 @@ void Highlighter::htmlJavascript (const QString &text)
 
         fi = format (javaEndIndex);
         while (javaEndIndex > -1
-               && (fi == quoteFormat || fi == altQuoteFormat
+               && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                    || fi == commentFormat || fi == urlFormat
                    || fi == JSRegexFormat))
         {
@@ -595,7 +597,7 @@ void Highlighter::htmlJavascript (const QString &text)
         fi = format (javaEndIndex);
         while (javaIndex > -1
                && (fi == commentFormat || fi == urlFormat
-                   || fi == quoteFormat || fi == altQuoteFormat))
+                   || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
         {
             javaIndex = javaStartExp.indexIn (text, javaIndex + javaStartExp.matchedLength());
             fi = format (javaEndIndex);

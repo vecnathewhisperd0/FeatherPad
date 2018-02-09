@@ -24,6 +24,8 @@ namespace FeatherPad {
 // multi/single-line quote highlighting for bash.
 void Highlighter::SH_MultiLineQuote (const QString &text)
 {
+    static const QRegularExpression urlPattern ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
+
     int index = 0;
     QRegExp quoteExpression = QRegExp ("\"|\'");
     int initialState = currentBlockState();
@@ -47,8 +49,8 @@ void Highlighter::SH_MultiLineQuote (const QString &text)
     int hereDocDelimPos = -1;
     if (!curData->labelInfo().isEmpty()) // the label is delimStr
     {
-        QRegExp delim = QRegExp ("<<(?:\\s*)([\\\\]{,1}[A-Za-z0-9_]+)|<<(?:\\s*)(\'[A-Za-z0-9_]+\')|<<(?:\\s*)(\"[A-Za-z0-9_]+\")");
-        hereDocDelimPos = delim.indexIn (text);
+        QRegularExpression delim ("<<(?:\\s*)(\\\\{0,1}[A-Za-z0-9_]+)|<<(?:\\s*)(\'[A-Za-z0-9_]+\')|<<(?:\\s*)(\"[A-Za-z0-9_]+\")");
+        hereDocDelimPos = text.indexOf (delim);
     }
 
     /* find the start quote */
@@ -137,6 +139,15 @@ void Highlighter::SH_MultiLineQuote (const QString &text)
         else
             setFormat (index, quoteLength, altQuoteFormat);
 
+        QString str = text.mid (index, quoteLength);
+        int urlIndex = 0;
+        QRegularExpressionMatch match;
+        while ((urlIndex = str.indexOf (urlPattern, urlIndex, &match)) > -1)
+        {
+             setFormat (urlIndex + index, match.capturedLength(), urlInsideQuoteFormat);
+             urlIndex += match.capturedLength();
+        }
+
         /* the next quote may be different */
         quoteExpression = QRegExp ("\"|\'");
         index = quoteExpression.indexIn (text, index + quoteLength);
@@ -160,7 +171,8 @@ bool Highlighter::SH_SkipQuote (const QString &text, const int pos, bool isStart
     return (fi == neutralFormat // not needed
             || fi == commentFormat
             || fi == quoteFormat
-            || fi == altQuoteFormat);
+            || fi == altQuoteFormat
+            || fi == urlInsideQuoteFormat);
 }
 /*************************/
 // Formats the text inside a command substitution variable character by character,
@@ -199,10 +211,10 @@ int Highlighter::formatInsideCommand (const QString &text,
                     ++ indx;
                 else
                 {
-                    QRegExp singleQuoteExp ("\'");
-                    int end = singleQuoteExp.indexIn (text, indx + 1);
+                    QRegularExpression singleQuoteExp ("\'");
+                    int end = text.indexOf (singleQuoteExp, indx + 1);
                     while (isEscapedQuote (text, end, false))
-                        end = singleQuoteExp.indexIn (text, end + 1);
+                        end = text.indexOf (singleQuoteExp, end + 1);
                     if (end == -1)
                     {
                         setFormat (indx, text.length() - indx, altQuoteFormat);
@@ -392,10 +404,10 @@ bool Highlighter::SH_CmndSubstVar (const QString &text,
         if (prevState == SH_SingleQuoteState
             || prevState == SH_MixedSingleQuoteState)
         {
-            QRegExp quoteExpression = QRegExp ("\'");
-            end = quoteExpression.indexIn (text);
+            QRegularExpression quoteExpression ("\'");
+            end = text.indexOf (quoteExpression);
             while (isEscapedQuote (text, end, false))
-                end = quoteExpression.indexIn (text, end + 1);
+                end = text.indexOf (quoteExpression, end + 1);
             if (end == -1)
             {
                 setFormat (0, text.length(), altQuoteFormat);
@@ -424,7 +436,7 @@ bool Highlighter::SH_CmndSubstVar (const QString &text,
     {
         if (N == 0)
         { // search for the first code block (after the previous one is closed)
-            int start = QRegExp ("\\$\\(").indexIn (text, indx);
+            int start = text.indexOf (QRegularExpression ("\\$\\("), indx);
             if (start == -1 || format (start) == commentFormat)
                 goto FINISH;
             else

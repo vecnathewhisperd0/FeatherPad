@@ -192,7 +192,7 @@ void SessionDialog::reallySaveSession()
     /* there's always an opened file here */
     allItems_ << ui->lineEdit->text();
     allItems_.removeDuplicates();
-    QRegExp exp (ui->filterLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard);
+    QRegularExpression exp (ui->filterLineEdit->text(), QRegularExpression::CaseInsensitiveOption);
     if (allItems_.filter (exp).contains (ui->lineEdit->text()))
         ui->listWidget->addItem (ui->lineEdit->text());
     onEmptinessChanged (false);
@@ -445,7 +445,7 @@ void SessionDialog::reallyRenameSession()
            with all items that have the same name */
         if (!ui->filterLineEdit->text().isEmpty())
         {
-            QRegExp exp (ui->filterLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard);
+            QRegularExpression exp (ui->filterLineEdit->text(), QRegularExpression::CaseInsensitiveOption);
             if (!allItems_.filter (exp).contains (rename_.newName))
                 isFiltered = true;
         }
@@ -483,7 +483,7 @@ void SessionDialog::reallyApplyFilter()
         sel << items.at (i)->text();
     /* then, clear the current list and add the filtered one */
     ui->listWidget->clear();
-    QRegExp exp (ui->filterLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard);
+    QRegularExpression exp (ui->filterLineEdit->text(), QRegularExpression::CaseInsensitiveOption);
     QStringList filtered = allItems_.filter (exp);
     ui->listWidget->addItems (filtered);
     /* finally, restore the selection as far as possible */

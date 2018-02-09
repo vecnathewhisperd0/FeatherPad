@@ -21,6 +21,7 @@
 #define HIGHLIGHTER_H
 
 #include <QSyntaxHighlighter>
+#include <QRegularExpression>
 
 namespace FeatherPad {
 
@@ -162,6 +163,7 @@ private:
     QTextCharFormat commentFormat;
     QTextCharFormat quoteFormat; // Usually for double quote.
     QTextCharFormat altQuoteFormat; // Usually for single quote.
+    QTextCharFormat urlInsideQuoteFormat;
     QTextCharFormat urlFormat;
     QTextCharFormat blockQuoteFormat;
     QTextCharFormat codeBlockFormat;

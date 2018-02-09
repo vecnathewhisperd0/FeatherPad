@@ -3502,7 +3502,7 @@ void FPwin::updateWordInfo (int /*position*/, int charsRemoved, int charsAdded)
         if (words == -1)
         {
             words = textEdit->toPlainText()
-                    .split (QRegExp("(\\s|\\n|\\r)+"), QString::SkipEmptyParts)
+                    .split (QRegularExpression ("(\\s|\\n|\\r)+"), QString::SkipEmptyParts)
                     .count();
             textEdit->setWordNumber (words);
         }

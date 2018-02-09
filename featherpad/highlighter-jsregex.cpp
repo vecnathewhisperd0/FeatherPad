@@ -124,7 +124,8 @@ bool Highlighter::isInsideJSRegex (const QString &text, const int index)
     while ((pos = exp.indexIn (text, pos + 1)) >= 0)
     {
         /* skip formatted comments and quotes */
-        if (format (pos) == commentFormat || format (pos) == quoteFormat || format (pos) == altQuoteFormat)
+        QTextCharFormat fi = format (pos);
+        if (fi == commentFormat || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat)
             continue;
 
         ++N;
@@ -169,7 +170,7 @@ void Highlighter::multiLineJSRegex (const QString &text, const int index)
         while (startIndex >= 0
                && (isEscapedJSRegex (text, startIndex)
                    || fi == commentFormat
-                   || fi == quoteFormat || fi == altQuoteFormat))
+                   || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
         {
             startIndex = startExp.indexIn (text, startIndex + 1);
             fi = format (startIndex);
@@ -210,7 +211,7 @@ void Highlighter::multiLineJSRegex (const QString &text, const int index)
         while (startIndex >= 0
                && (isEscapedJSRegex (text, startIndex)
                    || fi == commentFormat
-                   || fi == quoteFormat || fi == altQuoteFormat))
+                   || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
         {
             startIndex = startExp.indexIn (text, startIndex + 1);
             fi = format (startIndex);

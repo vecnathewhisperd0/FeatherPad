@@ -24,6 +24,9 @@ Q_DECLARE_METATYPE(QTextBlock)
 
 namespace FeatherPad {
 
+static const QRegularExpression urlPattern ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
+static const QRegularExpression notePattern ("\\b(NOTE|TODO|FIXME|WARNING)\\b");
+
 TextBlockData::~TextBlockData()
 {
     while (!allParentheses.isEmpty())
@@ -224,7 +227,10 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
     quoteFormat.setForeground (DarkGreen);
     altQuoteFormat.setForeground (DarkGreen);
+    urlInsideQuoteFormat.setForeground (DarkGreen);
     altQuoteFormat.setFontItalic (true);
+    urlInsideQuoteFormat.setFontItalic (true);
+    urlInsideQuoteFormat.setFontUnderline (true);
     /*quoteStartExpression = QRegExp ("\"([^\"'])");
     quoteEndExpression = QRegExp ("([^\"'])\"");*/
     JSRegexFormat.setForeground (DarkRed);
@@ -355,6 +361,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     /* these can also be used inside multiline comments */
     urlFormat.setFontUnderline (true);
     urlFormat.setForeground (Blue);
+    urlFormat.setFontItalic (true);
 
     if (progLan == "c" || progLan == "cpp")
     {
@@ -910,6 +917,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     else if (progLan == "markdown")
     {
         quoteFormat.setForeground (DarkRed); // not a quote but a code block
+        urlInsideQuoteFormat.setForeground (DarkRed);
         commentStartExpression = QRegExp ("<!--");
         commentEndExpression = QRegExp ("-->");
     }
@@ -1175,11 +1183,9 @@ bool Highlighter::isMLCommented (const QString &text, const int index, int comSt
     while ((pos = commentExpression.indexIn (text, pos + 1)) >= 0)
     {
         /* skip formatted quotations */
-        if (format (pos) == quoteFormat
-            || format (pos) == altQuoteFormat)
-        {
+        QTextCharFormat fi = format (pos);
+        if (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat)
             continue;
-        }
 
         ++N;
 
@@ -1215,9 +1221,6 @@ void Highlighter::pythonMLComment (const QString &text, const int indx)
 {
     if (progLan != "python") return;
 
-    QRegExp urlPattern = QRegExp ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
-    QRegExp notePattern = QRegExp ("\\b(NOTE|TODO|FIXME|WARNING)\\b");
-    int pIndex = 0;
     QTextCharFormat noteFormat;
     noteFormat.setFontWeight (QFont::Bold);
     noteFormat.setFontItalic (true);
@@ -1237,10 +1240,11 @@ void Highlighter::pythonMLComment (const QString &text, const int indx)
     {
         index = commentStartExpression.indexIn (text, indx);
 
-        while (format (index) == quoteFormat
-               || format (index) == altQuoteFormat)
+        QTextCharFormat fi = format (index);
+        while (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat)
         {
             index = commentStartExpression.indexIn (text, index + 3);
+            fi = format (index);
         }
         while (format (index) == commentFormat)
             index = commentStartExpression.indexIn (text, index + 3);
@@ -1326,30 +1330,30 @@ void Highlighter::pythonMLComment (const QString &text, const int indx)
 
         /* format urls and email addresses inside the comment */
         QString str = text.mid (index, quoteLength);
-        int indx = 0;
-        while ((pIndex = str.indexOf (urlPattern, indx)) > -1)
+        int pIndex = 0;
+        QRegularExpressionMatch match;
+        while ((pIndex = str.indexOf (urlPattern, pIndex, &match)) > -1)
         {
-            int ml = urlPattern.matchedLength();
-            setFormat (pIndex + index, ml, urlFormat);
-            indx = indx + ml;
+            setFormat (pIndex + index, match.capturedLength(), urlFormat);
+            pIndex += match.capturedLength();
         }
         /* format note patterns too */
-        indx = 0;
-        while ((pIndex = str.indexOf (notePattern, indx)) > -1)
+        pIndex = 0;
+        while ((pIndex = str.indexOf (notePattern, pIndex, &match)) > -1)
         {
-            int ml = notePattern.matchedLength();
-            if (format (pIndex) != urlFormat)
-              setFormat (pIndex + index, ml, noteFormat);
-            indx = indx + ml;
+            if (format (pIndex + index) != urlFormat)
+                setFormat (pIndex + index, match.capturedLength(), noteFormat);
+            pIndex += match.capturedLength();
         }
 
         /* the next quote may be different */
         commentStartExpression = QRegExp ("\"\"\"|\'\'\'");
         index = commentStartExpression.indexIn (text, index + quoteLength);
-        while (format (index) == quoteFormat
-               || format (index) == altQuoteFormat)
+        QTextCharFormat fi = format (index);
+        while (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat)
         {
             index = commentStartExpression.indexIn (text, index + 3);
+            fi = format (index);
         }
         while (format (index) == commentFormat)
             index = commentStartExpression.indexIn (text, index + 3);
@@ -1612,28 +1616,24 @@ void Highlighter::singleLineComment (const QString &text, const int start)
 
                 /* also format urls and email addresses inside the comment */
                 QString str = text.mid (startIndex, l - startIndex);
-                QRegExp urlPattern = QRegExp ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
-                QRegExp notePattern = QRegExp ("\\b(NOTE|TODO|FIXME|WARNING)\\b");
                 QTextCharFormat noteFormat;
                 noteFormat.setFontWeight (QFont::Bold);
                 noteFormat.setFontItalic (true);
                 noteFormat.setForeground (DarkRed);
-                int indx = 0;
                 int pIndex = 0;
-                while ((pIndex = str.indexOf (urlPattern, indx)) > -1)
+                QRegularExpressionMatch match;
+                while ((pIndex = str.indexOf (urlPattern, pIndex, &match)) > -1)
                 {
-                    int ml = urlPattern.matchedLength();
-                    setFormat (pIndex + startIndex, ml, urlFormat);
-                    indx = indx + ml;
+                    setFormat (pIndex + startIndex, match.capturedLength(), urlFormat);
+                    pIndex += match.capturedLength();
                 }
                 /* format note patterns too */
-                indx = 0;
-                while ((pIndex = str.indexOf (notePattern, indx)) > -1)
+                pIndex = 0;
+                while ((pIndex = str.indexOf (notePattern, pIndex, &match)) > -1)
                 {
-                    int ml = notePattern.matchedLength();
-                    if (format (pIndex) != urlFormat)
-                      setFormat (pIndex + startIndex, ml, noteFormat);
-                    indx = indx + ml;
+                    if (format (pIndex + startIndex) != urlFormat)
+                        setFormat (pIndex + startIndex, match.capturedLength(), noteFormat);
+                    pIndex += match.capturedLength();
                 }
                 /* take care of next-line comments with languages, for which
                    no highlighting function is called after singleLineComment()
@@ -1666,10 +1666,7 @@ void Highlighter::multiLineComment (const QString &text,
     bool hugeText = (progLan == "css" && text.length() > 50000);
 
     bool commentBeforeBrace = false; // in css, not as: "{...
-    QRegExp urlPattern = QRegExp ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
-    QRegExp notePattern = QRegExp ("\\b(NOTE|TODO|FIXME|WARNING)\\b");
     int startIndex = index;
-    int pIndex = 0;
     QTextCharFormat noteFormat;
     noteFormat.setFontWeight (QFont::Bold);
     noteFormat.setFontItalic (true);
@@ -1684,10 +1681,11 @@ void Highlighter::multiLineComment (const QString &text,
         if (format (startIndex) == commentFormat || format (startIndex) == urlFormat)
             startIndex = -1;
         /* skip quotations (usually all formatted to this point) */
-        while (format (startIndex) == quoteFormat
-               || format (startIndex) == altQuoteFormat)
+        QTextCharFormat fi = format (startIndex);
+        while (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat)
         {
             startIndex = commentStartExp.indexIn (text, startIndex + 1);
+            fi = format (startIndex);
         }
         if (startIndex >= 0 && startIndex < cssIndx)
             commentBeforeBrace = true;
@@ -1741,10 +1739,11 @@ void Highlighter::multiLineComment (const QString &text,
                                               startIndex + commentStartExp.matchedLength());
 
         /* skip quotations */
-        while (format (endIndex) == quoteFormat
-               || format (endIndex) == altQuoteFormat)
+        QTextCharFormat fi = format (endIndex);
+        while (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat)
         {
             endIndex = commentEndExp.indexIn (text, endIndex + 1);
+            fi = format (endIndex);
         }
 
         /* if there's a comment end ... */
@@ -1791,21 +1790,20 @@ void Highlighter::multiLineComment (const QString &text,
 
             /* format urls and email addresses inside the comment */
             QString str = text.mid (startIndex, commentLength);
-            int indx = 0;
-            while ((pIndex = str.indexOf (urlPattern, indx)) > -1)
+            int pIndex = 0;
+            QRegularExpressionMatch match;
+            while ((pIndex = str.indexOf (urlPattern, pIndex, &match)) > -1)
             {
-                int ml = urlPattern.matchedLength();
-                setFormat (pIndex + startIndex, ml, urlFormat);
-                indx = indx + ml;
+                setFormat (pIndex + startIndex, match.capturedLength(), urlFormat);
+                pIndex += match.capturedLength();
             }
             /* format note patterns too */
-            indx = 0;
-            while ((pIndex = str.indexOf (notePattern, indx)) > -1)
+            pIndex = 0;
+            while ((pIndex = str.indexOf (notePattern, pIndex, &match)) > -1)
             {
-                int ml = notePattern.matchedLength();
-                if (format (pIndex) != urlFormat)
-                    setFormat (pIndex + startIndex, ml, noteFormat);
-                indx = indx + ml;
+                if (format (pIndex + startIndex) != urlFormat)
+                    setFormat (pIndex + startIndex, match.capturedLength(), noteFormat);
+                pIndex += match.capturedLength();
             }
         }
 
@@ -1820,11 +1818,14 @@ void Highlighter::multiLineComment (const QString &text,
                 {
                     QRegExp expression (rule.pattern);
                     int INDX = expression.indexIn (text, badIndex);
-                    while (format (INDX) == quoteFormat
-                           || format (INDX) == altQuoteFormat
+                    fi = format (INDX);
+                    while (fi == quoteFormat
+                           || fi == altQuoteFormat
+                           || fi == urlInsideQuoteFormat
                            || isMLCommented (text, INDX, commState))
                     {
                         INDX = expression.indexIn (text, INDX + 1);
+                        fi = format (INDX);
                     }
                     if (INDX >= 0)
                         setFormat (INDX, text.length() - INDX, commentFormat);
@@ -1836,10 +1837,11 @@ void Highlighter::multiLineComment (const QString &text,
         /* skip single-line comments and quotations again */
         if (format (startIndex) == commentFormat || format (startIndex) == urlFormat)
             startIndex = -1;
-        while (format (startIndex) == quoteFormat
-               || format (startIndex) == altQuoteFormat)
+        fi = format (startIndex);
+        while (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat)
         {
             startIndex = commentStartExp.indexIn (text, startIndex + 1);
+            fi = format (startIndex);
         }
     }
 
@@ -2007,8 +2009,21 @@ void Highlighter::multiLineQuote (const QString &text, const int start, int comS
             quoteLength = endIndex - index
                           + quoteExpression.matchedLength(); // 1
         if (isQuotation)
+        {
             setFormat (index, quoteLength, quoteExpression == quoteMark ? quoteFormat
                                                                         : altQuoteFormat);
+            /* URLs should be formatted in a different way inside quotes because,
+               otherwise, there would be no difference between URLs inside quotes and
+               those inside comments and so, they couldn't be escaped correctly when needed. */
+            QString str = text.mid (index, quoteLength);
+            int urlIndex = 0;
+            QRegularExpressionMatch match;
+            while ((urlIndex = str.indexOf (urlPattern, urlIndex, &match)) > -1)
+            {
+                 setFormat (urlIndex + index, match.capturedLength(), urlInsideQuoteFormat);
+                 urlIndex += match.capturedLength();
+            }
+        }
 
         /* the next quote may be different */
         if (mixedQuotes)
@@ -2042,7 +2057,7 @@ void Highlighter::setFormatWithoutOverwrite (int start,
                && (fi == oldFormat
                    /* skip comments and quotes */
                    || fi == commentFormat || fi == urlFormat
-                   || fi == quoteFormat || fi == altQuoteFormat))
+                   || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
         {
             ++ index;
             fi = format (index);
@@ -2054,7 +2069,7 @@ void Highlighter::setFormatWithoutOverwrite (int start,
             while (indx < start + count
                    && fi != oldFormat
                    && fi != commentFormat && fi != urlFormat
-                   && fi != quoteFormat && fi != altQuoteFormat)
+                   && fi != quoteFormat && fi != altQuoteFormat && fi != urlInsideQuoteFormat)
             {
                 ++ indx;
                 fi = format (indx);
@@ -2186,15 +2201,15 @@ bool Highlighter::isHereDocument (const QString &text)
     delimFormat.setFontWeight (QFont::Bold);
     QString delimStr;
     /* Kate uses something like "<<(?:\\s*)([\\\\]{,1}[^\\s]+)" */
-    QRegExp delim;
+    QRegularExpression delim;
     if (progLan == "sh" || progLan == "makefile" || progLan == "cmake")
-        delim = QRegExp ("<<(?:\\s*)([\\\\]{,1}[A-Za-z0-9_]+)|<<(?:\\s*)(\'[A-Za-z0-9_]+\')|<<(?:\\s*)(\"[A-Za-z0-9_]+\")");
+        delim.setPattern ("<<(?:\\s*)(\\\\{0,1}[A-Za-z0-9_]+)|<<(?:\\s*)(\'[A-Za-z0-9_]+\')|<<(?:\\s*)(\"[A-Za-z0-9_]+\")");
     else if (progLan == "perl") // without space after "<<" and with ";" at the end
-        delim = QRegExp ("<<([A-Za-z0-9_]+)(?:;)|<<(\'[A-Za-z0-9_]+\')(?:;)|<<(\"[A-Za-z0-9_]+\")(?:;)");
+        delim.setPattern ("<<([A-Za-z0-9_]+)(?:;)|<<(\'[A-Za-z0-9_]+\')(?:;)|<<(\"[A-Za-z0-9_]+\")(?:;)");
     else if (progLan == "ruby")
-        delim = QRegExp ("<<(?:-|~){,1}([A-Za-z0-9_]+)|<<(\'[A-Za-z0-9_]+\')|<<(\"[A-Za-z0-9_]+\")");
+        delim.setPattern ("<<(?:-|~){0,1}([A-Za-z0-9_]+)|<<(\'[A-Za-z0-9_]+\')|<<(\"[A-Za-z0-9_]+\")");
     else // FIXME: No language.
-        delim = QRegExp ("<<([A-Za-z0-9_]+)|<<(\'[A-Za-z0-9_]+\')|<<(\"[A-Za-z0-9_]+\")");
+        delim.setPattern ("<<([A-Za-z0-9_]+)|<<(\'[A-Za-z0-9_]+\')|<<(\"[A-Za-z0-9_]+\")");
     QRegExp comment = (progLan == "sh" || progLan == "makefile" || progLan == "cmake")
                         ? QRegExp ("^#.*|\\s+#.*")
                         : QRegExp ("#.*");
@@ -2202,20 +2217,21 @@ bool Highlighter::isHereDocument (const QString &text)
     int pos = 0;
 
     /* format the start delimiter */
+    QRegularExpressionMatch match;
     int prevState = previousBlockState();
     if ((!prevBlock.isValid()
          || (prevState >= 0 && prevState < endState))
-        && (pos = delim.indexIn (text)) >= 0
+        && (pos = text.indexOf (delim, 0, &match)) >= 0
         && !isQuoted (text, pos, true) // escaping start double quote before "$("
         /* the whole line isn't commented out */
         && (insideCommentPos == -1 || pos < insideCommentPos
             || isQuoted (text, insideCommentPos, true)))
     {
         int i = 1;
-        while ((delimStr = delim.cap (i)).isEmpty() && i <= 3)
+        while ((delimStr = match.captured (i)).isEmpty() && i <= 3)
         {
             ++i;
-            delimStr = delim.cap (i);
+            delimStr = match.captured (i);
         }
         /* remove quotes */
         if (delimStr.contains ('\''))
@@ -2396,12 +2412,11 @@ void Highlighter::debControlFormatting (const QString &text)
         /* non-commented URLs */
         debFormat.setForeground (DarkGreenAlt);
         debFormat.setFontUnderline (true);
-        exp = QRegExp ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
-        while ((indx = text.indexOf (exp, indx)) > -1)
+        QRegularExpressionMatch match;
+        while ((indx = text.indexOf (urlPattern, indx, &match)) > -1)
         {
-            int ml = exp.matchedLength();
-            setFormat (indx, ml, debFormat);
-            indx = indx + ml;
+            setFormat (indx, match.capturedLength(), debFormat);
+            indx += match.capturedLength();
         }
     }
 }
@@ -2616,7 +2631,7 @@ void Highlighter::highlightBlock (const QString &text)
             {
                 fi = format (index);
                 while (index >= 0
-                       && (fi == quoteFormat || fi == altQuoteFormat
+                       && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                            || fi == commentFormat || fi == urlFormat
                            || fi == JSRegexFormat))
                 {
@@ -2639,6 +2654,7 @@ void Highlighter::highlightBlock (const QString &text)
                            || format (index + l - 1) == urlFormat
                            || format (index + l - 1) == quoteFormat
                            || format (index + l - 1) == altQuoteFormat
+                           || format (index + l - 1) == urlInsideQuoteFormat
                            || format (index + l - 1) == JSRegexFormat*/)
                     {
                         -- l;
@@ -2651,7 +2667,7 @@ void Highlighter::highlightBlock (const QString &text)
                 {
                     fi = format (index);
                     while (index >= 0
-                           && (fi == quoteFormat || fi == altQuoteFormat
+                           && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                                || fi == commentFormat || fi == urlFormat
                                || fi == JSRegexFormat))
                     {
@@ -2671,7 +2687,7 @@ void Highlighter::highlightBlock (const QString &text)
     index = text.indexOf ('(');
     fi = format (index);
     while (index >= 0
-           && (fi == quoteFormat || fi == altQuoteFormat
+           && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                || fi == commentFormat || fi == urlFormat
                || fi == JSRegexFormat))
     {
@@ -2688,7 +2704,7 @@ void Highlighter::highlightBlock (const QString &text)
         index = text.indexOf ('(', index + 1);
         fi = format (index);
         while (index >= 0
-               && (fi == quoteFormat || fi == altQuoteFormat
+               && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                    || fi == commentFormat || fi == urlFormat
                    || fi == JSRegexFormat))
         {
@@ -2701,7 +2717,7 @@ void Highlighter::highlightBlock (const QString &text)
     index = text.indexOf (')');
     fi = format (index);
     while (index >= 0
-           && (fi == quoteFormat || fi == altQuoteFormat
+           && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                || fi == commentFormat || fi == urlFormat
                || fi == JSRegexFormat))
     {
@@ -2718,7 +2734,7 @@ void Highlighter::highlightBlock (const QString &text)
         index = text.indexOf (')', index +1);
         fi = format (index);
         while (index >= 0
-               && (fi == quoteFormat || fi == altQuoteFormat
+               && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                    || fi == commentFormat || fi == urlFormat
                    || fi == JSRegexFormat))
         {
@@ -2731,7 +2747,7 @@ void Highlighter::highlightBlock (const QString &text)
     index = text.indexOf ('{');
     fi = format (index);
     while (index >= 0
-           && (fi == quoteFormat || fi == altQuoteFormat
+           && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                || fi == commentFormat || fi == urlFormat
                || fi == JSRegexFormat))
     {
@@ -2748,7 +2764,7 @@ void Highlighter::highlightBlock (const QString &text)
         index = text.indexOf ('{', index + 1);
         fi = format (index);
         while (index >= 0
-               && (fi == quoteFormat || fi == altQuoteFormat
+               && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                    || fi == commentFormat || fi == urlFormat
                    || fi == JSRegexFormat))
         {
@@ -2761,7 +2777,7 @@ void Highlighter::highlightBlock (const QString &text)
     index = text.indexOf ('}');
     fi = format (index);
     while (index >= 0
-           && (fi == quoteFormat || fi == altQuoteFormat
+           && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                || fi == commentFormat || fi == urlFormat
                || fi == JSRegexFormat))
     {
@@ -2778,7 +2794,7 @@ void Highlighter::highlightBlock (const QString &text)
         index = text.indexOf ('}', index +1);
         fi = format (index);
         while (index >= 0
-               && (fi == quoteFormat || fi == altQuoteFormat
+               && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                    || fi == commentFormat || fi == urlFormat
                    || fi == JSRegexFormat))
         {
@@ -2791,7 +2807,7 @@ void Highlighter::highlightBlock (const QString &text)
     index = text.indexOf ('[');
     fi = format (index);
     while (index >= 0
-           && (fi == quoteFormat || fi == altQuoteFormat
+           && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                || fi == commentFormat || fi == urlFormat
                || fi == JSRegexFormat))
     {
@@ -2808,7 +2824,7 @@ void Highlighter::highlightBlock (const QString &text)
         index = text.indexOf ('[', index + 1);
         fi = format (index);
         while (index >= 0
-               && (fi == quoteFormat || fi == altQuoteFormat
+               && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                    || fi == commentFormat || fi == urlFormat
                    || fi == JSRegexFormat))
         {
@@ -2821,7 +2837,7 @@ void Highlighter::highlightBlock (const QString &text)
     index = text.indexOf (']');
     fi = format (index);
     while (index >= 0
-           && (fi == quoteFormat || fi == altQuoteFormat
+           && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                || fi == commentFormat || fi == urlFormat
                || fi == JSRegexFormat))
     {
@@ -2838,7 +2854,7 @@ void Highlighter::highlightBlock (const QString &text)
         index = text.indexOf (']', index +1);
         fi = format (index);
         while (index >= 0
-               && (fi == quoteFormat || fi == altQuoteFormat
+               && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                    || fi == commentFormat || fi == urlFormat
                    || fi == JSRegexFormat))
         {

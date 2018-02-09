@@ -23,6 +23,7 @@
 #include <QPainter>
 #include <QMenu>
 #include <QDesktopServices>
+#include <QRegularExpression>
 #include "textedit.h"
 #include "vscrollbar.h"
 
@@ -898,46 +899,42 @@ void TextEdit::paintEvent (QPaintEvent *event)
             /* indentation and position lines should be drawn after selections */
             if (drawIndetLines)
             {
-                QRegExp exp = QRegExp ("\\s+");
-                if (exp.indexIn (block.text()) == 0)
+                QRegularExpressionMatch match;
+                if (block.text().indexOf (QRegularExpression ("\\s+"), 0, &match) == 0)
                 {
-                    QRegExp exp = QRegExp ("\\s+");
-                    if (exp.indexIn (block.text()) == 0)
+                    painter.save();
+                    painter.setOpacity (0.18);
+                    QTextCursor cur = textCursor();
+                    cur.setPosition (match.capturedLength() + block.position());
+                    QFontMetricsF fm = QFontMetricsF (document()->defaultFont());
+                    int yTop = qRound (r.topLeft().y());
+                    int yBottom =  qRound (r.height() >= (qreal)2 * fm.lineSpacing()
+                                               ? yTop + fm.height()
+                                               : r.bottomLeft().y() - (qreal)1);
+                    qreal tabWidth = (qreal)fm.width ("    ");
+                    if (rtl)
                     {
-                        painter.save();
-                        painter.setOpacity (0.18);
-                        QTextCursor cur = textCursor();
-                        cur.setPosition (exp.matchedLength() + block.position());
-                        QFontMetricsF fm = QFontMetricsF (document()->defaultFont());
-                        int yTop = qRound (r.topLeft().y());
-                        int yBottom =  qRound (r.height() >= (qreal)2 * fm.lineSpacing()
-                                                   ? yTop + fm.height()
-                                                   : r.bottomLeft().y() - (qreal)1);
-                        qreal tabWidth = (qreal)fm.width ("    ");
-                        if (rtl)
+                        qreal leftMost = cursorRect (cur).left();
+                        qreal x = r.topRight().x();
+                        x -= tabWidth;
+                        while (x >= leftMost)
                         {
-                            qreal leftMost = cursorRect (cur).left();
-                            qreal x = r.topRight().x();
+                            painter.drawLine (QLine (qRound (x), yTop, qRound (x), yBottom));
                             x -= tabWidth;
-                            while (x >= leftMost)
-                            {
-                                painter.drawLine (QLine (qRound (x), yTop, qRound (x), yBottom));
-                                x -= tabWidth;
-                            }
                         }
-                        else
-                        {
-                            qreal rightMost = cursorRect (cur).right();
-                            qreal x = r.topLeft().x();
-                            x += tabWidth;
-                            while (x <= rightMost)
-                            {
-                                painter.drawLine (QLine (qRound (x), yTop, qRound (x), yBottom));
-                                x += tabWidth;
-                            }
-                        }
-                        painter.restore();
                     }
+                    else
+                    {
+                        qreal rightMost = cursorRect (cur).right();
+                        qreal x = r.topLeft().x();
+                        x += tabWidth;
+                        while (x <= rightMost)
+                        {
+                            painter.drawLine (QLine (qRound (x), yTop, qRound (x), yBottom));
+                            x += tabWidth;
+                        }
+                    }
+                    painter.restore();
                 }
             }
             if (vLineDistance_ >= 10 && !rtl
@@ -1133,7 +1130,7 @@ void TextEdit::showContextMenu (const QPoint &p)
 
 QString TextEdit::getUrl (const QPoint &pos) const
 {
-    static const QRegExp urlPattern = QRegExp ("\\b[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)]+");
+    static const QRegularExpression urlPattern ("\\b[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)]+");
 
     QString url;
     int cursorPos = cursorForPosition (pos).position();
@@ -1142,9 +1139,10 @@ QString TextEdit::getUrl (const QPoint &pos) const
     if (text.length() <= 10000) // otherwise, too long
     {
         int cursorIndex = cursorPos - block.position();
-        int indx = urlPattern.lastIndexIn (text, cursorIndex);
-        if (indx > -1 && indx + urlPattern.matchedLength() > cursorIndex)
-            url = urlPattern.cap();
+        QRegularExpressionMatch match;
+        int indx = text.lastIndexOf (urlPattern, cursorIndex, &match);
+        if (indx > -1 && indx + match.capturedLength() > cursorIndex)
+            url = match.captured();
     }
     return url;
 }

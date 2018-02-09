@@ -23,6 +23,7 @@
 #include <QMessageBox>
 #include <QAbstractButton>
 #include <QGridLayout>
+#include <QRegularExpression>
 
 namespace FeatherPad {
 
@@ -53,7 +54,7 @@ public:
                 int tw = 0;
                 QString t (text);
                 /* we suppose that <p> isn't used inside the text */
-                t.remove (QRegExp ("</{,1}center>|</{,1}b>|</{,1}i>|</{,1}p>|</a>|<a\\s+href\\s*=\\s*[A-Za-z0-9_%@:'\\.\\?\\=]+>"));
+                t.remove (QRegularExpression ("</{0,1}center>|</{0,1}b>|</{0,1}i>|</{0,1}p>|</a>|<a\\s+href\\s*=\\s*[A-Za-z0-9_%@:'\\.\\?\\=]+>"));
                 t.replace ("<br>", "\n");
                 QStringList l = t.split ('\n'); // deal with newlines
                 for (int i = 0; i < l.size(); i++)
