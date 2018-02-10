@@ -251,13 +251,13 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         functionFormat.setFontItalic (true);
         functionFormat.setForeground (Blue);
         /* before parentheses... */
-        rule.pattern = QRegExp ("\\b[A-Za-z0-9_]+(?=\\s*\\()");
+        rule.pattern.setPattern ("\\b[A-Za-z0-9_]+(?=\\s*\\()");
         rule.format = functionFormat;
         highlightingRules.append (rule);
         /* ... but make exception for what comes after "#define" */
         if (progLan == "c" || progLan == "cpp")
         {
-            rule.pattern = QRegExp ("^\\s*#\\s*define\\s+[^\"\']" // may contain slash but no quote
+            rule.pattern.setPattern ("^\\s*#\\s*define\\s+[^\"\']" // may contain slash but no quote
                                     "+(?=\\s*\\()");
             rule.format = neutralFormat;
             highlightingRules.append (rule);
@@ -266,7 +266,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         { // built-in functions
             functionFormat.setFontWeight (QFont::Bold);
             functionFormat.setForeground (Qt::magenta);
-            rule.pattern = QRegExp ("\\b(abs|add|all|append|any|as_integer_ratio|ascii|basestring|bin|bit_length|bool|bytearray|bytes|callable|c\\.conjugate|capitalize|center|chr|classmethod|clear|cmp|compile|complex|count|critical|debug|decode|delattr|dict|difference_update|dir|discard|divmod|encode|endswith|enumerate|error|eval|expandtabs|exception|exec|execfile|extend|file|filter|find|float|format|fromhex|fromkeys|frozenset|get|getattr|globals|hasattr|hash|has_key|help|hex|id|index|info|input|insert|int|intersection_update|isalnum|isalpha|isdecimal|isdigit|isinstance|islower|isnumeric|isspace|issubclass|istitle|items|iter|iteritems|iterkeys|itervalues|isupper|is_integer|join|keys|len|list|ljust|locals|log|long|lower|lstrip|map|max|memoryview|min|next|object|oct|open|ord|partition|pop|popitem|pow|print|property|range|raw_input|read|reduce|reload|remove|replace|repr|reverse|reversed|rfind|rindex|rjust|rpartition|round|rsplit|rstrip|run|seek|set|setattr|slice|sort|sorted|split|splitlines|staticmethod|startswith|str|strip|sum|super|symmetric_difference_update|swapcase|title|translate|tuple|type|unichr|unicode|update|upper|values|vars|viewitems|viewkeys|viewvalues|warning|write|xrange|zip|zfill|(__(abs|add|and|cmp|coerce|complex|contains|delattr|delete|delitem|delslice|div|divmod|enter|eq|exit|float|floordiv|ge|get|getattr|getattribute|getitem|getslice|gt|hex|iadd|iand|idiv|ifloordiv|ilshift|invert|imod|import|imul|init|instancecheck|index|int|ior|ipow|irshift|isub|iter|itruediv|ixor|le|len|long|lshift|lt|missing|mod|mul|neg|nonzero|oct|or|pos|pow|radd|rand|rdiv|rdivmod|reversed|rfloordiv|rlshift|rmod|rmul|ror|rpow|rshift|rsub|rrshift|rtruediv|rxor|set|setattr|setitem|setslice|sub|subclasses|subclasscheck|truediv|unicode|xor)__))(?=\\s*\\()");
+            rule.pattern.setPattern ("\\b(abs|add|all|append|any|as_integer_ratio|ascii|basestring|bin|bit_length|bool|bytearray|bytes|callable|c\\.conjugate|capitalize|center|chr|classmethod|clear|cmp|compile|complex|count|critical|debug|decode|delattr|dict|difference_update|dir|discard|divmod|encode|endswith|enumerate|error|eval|expandtabs|exception|exec|execfile|extend|file|filter|find|float|format|fromhex|fromkeys|frozenset|get|getattr|globals|hasattr|hash|has_key|help|hex|id|index|info|input|insert|int|intersection_update|isalnum|isalpha|isdecimal|isdigit|isinstance|islower|isnumeric|isspace|issubclass|istitle|items|iter|iteritems|iterkeys|itervalues|isupper|is_integer|join|keys|len|list|ljust|locals|log|long|lower|lstrip|map|max|memoryview|min|next|object|oct|open|ord|partition|pop|popitem|pow|print|property|range|raw_input|read|reduce|reload|remove|replace|repr|reverse|reversed|rfind|rindex|rjust|rpartition|round|rsplit|rstrip|run|seek|set|setattr|slice|sort|sorted|split|splitlines|staticmethod|startswith|str|strip|sum|super|symmetric_difference_update|swapcase|title|translate|tuple|type|unichr|unicode|update|upper|values|vars|viewitems|viewkeys|viewvalues|warning|write|xrange|zip|zfill|(__(abs|add|and|cmp|coerce|complex|contains|delattr|delete|delitem|delslice|div|divmod|enter|eq|exit|float|floordiv|ge|get|getattr|getattribute|getitem|getslice|gt|hex|iadd|iand|idiv|ifloordiv|ilshift|invert|imod|import|imul|init|instancecheck|index|int|ior|ipow|irshift|isub|iter|itruediv|ixor|le|len|long|lshift|lt|missing|mod|mul|neg|nonzero|oct|or|pos|pow|radd|rand|rdiv|rdivmod|reversed|rfloordiv|rlshift|rmod|rmul|ror|rpow|rshift|rsub|rrshift|rtruediv|rxor|set|setattr|setitem|setslice|sub|subclasses|subclasscheck|truediv|unicode|xor)__))(?=\\s*\\()");
             rule.format = functionFormat;
             highlightingRules.append (rule);
         }
@@ -284,30 +284,30 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         if (progLan == "cmake")
         {
             keywordFormat.setForeground (Brown);
-            rule.pattern = QRegExp ("\\$\\{\\s*[A-Za-z0-9_.+/\\?#\\-:]*\\s*\\}");
+            rule.pattern.setPattern ("\\$\\{\\s*[A-Za-z0-9_.+/\\?#\\-:]*\\s*\\}");
             rule.format = keywordFormat;
             highlightingRules.append (rule);
 
             keywordFormat.setForeground (DarkBlue);
-            rule.pattern = QRegExp ("((^\\s*|[\\(\\);&`\\|]+\\s*)((if|then|elif|else|fi|while|do|done|esac)\\s+)*)(CMAKE_ARGC|CMAKE_ARGV0|CMAKE_AR|CMAKE_BINARY_DIR|CMAKE_BUILD_TOOL|CMAKE_CACHEFILE_DIR|CMAKE_CACHE_MAJOR_VERSION|CMAKE_CACHE_MINOR_VERSION|CMAKE_CACHE_PATCH_VERSION|CMAKE_CFG_INTDIR|CMAKE_COMMAND|CMAKE_CROSSCOMPILING|CMAKE_CTEST_COMMAND|CMAKE_CURRENT_BINARY_DIR|CMAKE_CURRENT_LIST_DIR|CMAKE_CURRENT_LIST_FILE|CMAKE_CURRENT_LIST_LINE|CMAKE_CURRENT_SOURCE_DIR|CMAKE_DL_LIBS|CMAKE_EDIT_COMMAND|CMAKE_EXECUTABLE_SUFFIX|CMAKE_EXTRA_GENERATOR|CMAKE_EXTRA_SHARED_LIBRARY_SUFFIXES|CMAKE_GENERATOR|CMAKE_GENERATOR_TOOLSET|CMAKE_HOME_DIRECTORY|CMAKE_IMPORT_LIBRARY_PREFIX|CMAKE_IMPORT_LIBRARY_SUFFIX|CMAKE_JOB_POOL_COMPILE|CMAKE_JOB_POOL_LINK|CMAKE_LINK_LIBRARY_SUFFIX|CMAKE_MAJOR_VERSION|CMAKE_MAKE_PROGRAM|CMAKE_MINIMUM_REQUIRED_VERSION|CMAKE_MINOR_VERSION|CMAKE_PARENT_LIST_FILE|CMAKE_PATCH_VERSION|CMAKE_PROJECT_NAME|CMAKE_RANLIB|CMAKE_ROOT|CMAKE_SCRIPT_MODE_FILE|CMAKE_SHARED_LIBRARY_PREFIX|CMAKE_SHARED_LIBRARY_SUFFIX|CMAKE_SHARED_MODULE_PREFIX|CMAKE_SHARED_MODULE_SUFFIX|CMAKE_SIZEOF_VOID_P|CMAKE_SKIP_INSTALL_RULES|CMAKE_SKIP_RPATH|CMAKE_SOURCE_DIR|CMAKE_STANDARD_LIBRARIES|CMAKE_STATIC_LIBRARY_PREFIX|CMAKE_STATIC_LIBRARY_SUFFIX|CMAKE_TOOLCHAIN_FILE|CMAKE_TWEAK_VERSION|CMAKE_VERBOSE_MAKEFILE|CMAKE_VERSION|CMAKE_VS_DEVENV_COMMAND|CMAKE_VS_INTEL_Fortran_PROJECT_VERSION|CMAKE_VS_MSBUILD_COMMAND|CMAKE_VS_MSDEV_COMMAND|CMAKE_VS_PLATFORM_TOOLSETCMAKE_XCODE_PLATFORM_TOOLSET|PROJECT_BINARY_DIR|PROJECT_NAME|PROJECT_SOURCE_DIR|PROJECT_VERSION|PROJECT_VERSION_MAJOR|PROJECT_VERSION_MINOR|PROJECT_VERSION_PATCH|PROJECT_VERSION_TWEAK|BUILD_SHARED_LIBS|CMAKE_ABSOLUTE_DESTINATION_FILES|CMAKE_APPBUNDLE_PATH|CMAKE_AUTOMOC_RELAXED_MODE|CMAKE_BACKWARDS_COMPATIBILITY|CMAKE_BUILD_TYPE|CMAKE_COLOR_MAKEFILE|CMAKE_CONFIGURATION_TYPES|CMAKE_DEBUG_TARGET_PROPERTIES|CMAKE_ERROR_DEPRECATED|CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION|CMAKE_SYSROOT|CMAKE_FIND_LIBRARY_PREFIXES|CMAKE_FIND_LIBRARY_SUFFIXES|CMAKE_FIND_NO_INSTALL_PREFIX|CMAKE_FIND_PACKAGE_WARN_NO_MODULE|CMAKE_FIND_ROOT_PATH|CMAKE_FIND_ROOT_PATH_MODE_INCLUDE|CMAKE_FIND_ROOT_PATH_MODE_LIBRARY|CMAKE_FIND_ROOT_PATH_MODE_PACKAGE|CMAKE_FIND_ROOT_PATH_MODE_PROGRAM|CMAKE_FRAMEWORK_PATH|CMAKE_IGNORE_PATH|CMAKE_INCLUDE_PATH|CMAKE_INCLUDE_DIRECTORIES_BEFORE|CMAKE_INCLUDE_DIRECTORIES_PROJECT_BEFORE|CMAKE_INSTALL_DEFAULT_COMPONENT_NAME|CMAKE_INSTALL_PREFIX|CMAKE_LIBRARY_PATH|CMAKE_MFC_FLAG|CMAKE_MODULE_PATH|CMAKE_NOT_USING_CONFIG_FLAGS|CMAKE_PREFIX_PATH|CMAKE_PROGRAM_PATH|CMAKE_SKIP_INSTALL_ALL_DEPENDENCY|CMAKE_STAGING_PREFIX|CMAKE_SYSTEM_IGNORE_PATH|CMAKE_SYSTEM_INCLUDE_PATH|CMAKE_SYSTEM_LIBRARY_PATH|CMAKE_SYSTEM_PREFIX_PATH|CMAKE_SYSTEM_PROGRAM_PATH|CMAKE_USER_MAKE_RULES_OVERRIDE|CMAKE_WARN_DEPRECATED|CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION|APPLE|BORLAND|CMAKE_CL_64|CMAKE_COMPILER_2005|CMAKE_HOST_APPLE|CMAKE_HOST_SYSTEM_NAME|CMAKE_HOST_SYSTEM_PROCESSOR|CMAKE_HOST_SYSTEM|CMAKE_HOST_SYSTEM_VERSION|CMAKE_HOST_UNIX|CMAKE_HOST_WIN32|CMAKE_LIBRARY_ARCHITECTURE_REGEX|CMAKE_LIBRARY_ARCHITECTURE|CMAKE_OBJECT_PATH_MAX|CMAKE_SYSTEM_NAME|CMAKE_SYSTEM_PROCESSOR|CMAKE_SYSTEM|CMAKE_SYSTEM_VERSION|CYGWIN|ENV|MSVC10|MSVC11|MSVC12|MSVC60|MSVC70|MSVC71|MSVC80|MSVC90|MSVC_IDE|MSVC|MSVC_VERSION|UNIX|WIN32|XCODE_VERSION|CMAKE_ARCHIVE_OUTPUT_DIRECTORY|CMAKE_AUTOMOC_MOC_OPTIONS|CMAKE_AUTOMOC|CMAKE_AUTORCC|CMAKE_AUTORCC_OPTIONS|CMAKE_AUTOUIC|CMAKE_AUTOUIC_OPTIONS|CMAKE_BUILD_WITH_INSTALL_RPATH|CMAKE_DEBUG_POSTFIX|CMAKE_EXE_LINKER_FLAGS|CMAKE_Fortran_FORMAT|CMAKE_Fortran_MODULE_DIRECTORY|CMAKE_GNUtoMS|CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE|CMAKE_INCLUDE_CURRENT_DIR|CMAKE_INSTALL_NAME_DIR|CMAKE_INSTALL_RPATH|CMAKE_INSTALL_RPATH_USE_LINK_PATH|CMAKE_LIBRARY_OUTPUT_DIRECTORY|CMAKE_LIBRARY_PATH_FLAG|CMAKE_LINK_DEF_FILE_FLAG|CMAKE_LINK_DEPENDS_NO_SHARED|CMAKE_LINK_INTERFACE_LIBRARIES|CMAKE_LINK_LIBRARY_FILE_FLAG|CMAKE_LINK_LIBRARY_FLAG|CMAKE_MACOSX_BUNDLE|CMAKE_MACOSX_RPATH|CMAKE_MODULE_LINKER_FLAGS|CMAKE_NO_BUILTIN_CHRPATH|CMAKE_NO_SYSTEM_FROM_IMPORTED|CMAKE_OSX_ARCHITECTURES|CMAKE_OSX_DEPLOYMENT_TARGET|CMAKE_OSX_SYSROOT|CMAKE_PDB_OUTPUT_DIRECTORY|CMAKE_POSITION_INDEPENDENT_CODE|CMAKE_RUNTIME_OUTPUT_DIRECTORY|CMAKE_SHARED_LINKER_FLAGS|CMAKE_SKIP_BUILD_RPATH|CMAKE_SKIP_INSTALL_RPATH|CMAKE_STATIC_LINKER_FLAGS|CMAKE_TRY_COMPILE_CONFIGURATION|CMAKE_USE_RELATIVE_PATHS|CMAKE_VISIBILITY_INLINES_HIDDEN|CMAKE_WIN32_EXECUTABLE|EXECUTABLE_OUTPUT_PATH|LIBRARY_OUTPUT_PATH|CMAKE_Fortran_MODDIR_DEFAULT|CMAKE_Fortran_MODDIR_FLAG|CMAKE_Fortran_MODOUT_FLAG|CMAKE_INTERNAL_PLATFORM_ABI)(?!(\\.|-|@|#|\\$))\\b");
+            rule.pattern.setPattern ("((^\\s*|[\\(\\);&`\\|]+\\s*)((if|then|elif|else|fi|while|do|done|esac)\\s+)*)(CMAKE_ARGC|CMAKE_ARGV0|CMAKE_AR|CMAKE_BINARY_DIR|CMAKE_BUILD_TOOL|CMAKE_CACHEFILE_DIR|CMAKE_CACHE_MAJOR_VERSION|CMAKE_CACHE_MINOR_VERSION|CMAKE_CACHE_PATCH_VERSION|CMAKE_CFG_INTDIR|CMAKE_COMMAND|CMAKE_CROSSCOMPILING|CMAKE_CTEST_COMMAND|CMAKE_CURRENT_BINARY_DIR|CMAKE_CURRENT_LIST_DIR|CMAKE_CURRENT_LIST_FILE|CMAKE_CURRENT_LIST_LINE|CMAKE_CURRENT_SOURCE_DIR|CMAKE_DL_LIBS|CMAKE_EDIT_COMMAND|CMAKE_EXECUTABLE_SUFFIX|CMAKE_EXTRA_GENERATOR|CMAKE_EXTRA_SHARED_LIBRARY_SUFFIXES|CMAKE_GENERATOR|CMAKE_GENERATOR_TOOLSET|CMAKE_HOME_DIRECTORY|CMAKE_IMPORT_LIBRARY_PREFIX|CMAKE_IMPORT_LIBRARY_SUFFIX|CMAKE_JOB_POOL_COMPILE|CMAKE_JOB_POOL_LINK|CMAKE_LINK_LIBRARY_SUFFIX|CMAKE_MAJOR_VERSION|CMAKE_MAKE_PROGRAM|CMAKE_MINIMUM_REQUIRED_VERSION|CMAKE_MINOR_VERSION|CMAKE_PARENT_LIST_FILE|CMAKE_PATCH_VERSION|CMAKE_PROJECT_NAME|CMAKE_RANLIB|CMAKE_ROOT|CMAKE_SCRIPT_MODE_FILE|CMAKE_SHARED_LIBRARY_PREFIX|CMAKE_SHARED_LIBRARY_SUFFIX|CMAKE_SHARED_MODULE_PREFIX|CMAKE_SHARED_MODULE_SUFFIX|CMAKE_SIZEOF_VOID_P|CMAKE_SKIP_INSTALL_RULES|CMAKE_SKIP_RPATH|CMAKE_SOURCE_DIR|CMAKE_STANDARD_LIBRARIES|CMAKE_STATIC_LIBRARY_PREFIX|CMAKE_STATIC_LIBRARY_SUFFIX|CMAKE_TOOLCHAIN_FILE|CMAKE_TWEAK_VERSION|CMAKE_VERBOSE_MAKEFILE|CMAKE_VERSION|CMAKE_VS_DEVENV_COMMAND|CMAKE_VS_INTEL_Fortran_PROJECT_VERSION|CMAKE_VS_MSBUILD_COMMAND|CMAKE_VS_MSDEV_COMMAND|CMAKE_VS_PLATFORM_TOOLSETCMAKE_XCODE_PLATFORM_TOOLSET|PROJECT_BINARY_DIR|PROJECT_NAME|PROJECT_SOURCE_DIR|PROJECT_VERSION|PROJECT_VERSION_MAJOR|PROJECT_VERSION_MINOR|PROJECT_VERSION_PATCH|PROJECT_VERSION_TWEAK|BUILD_SHARED_LIBS|CMAKE_ABSOLUTE_DESTINATION_FILES|CMAKE_APPBUNDLE_PATH|CMAKE_AUTOMOC_RELAXED_MODE|CMAKE_BACKWARDS_COMPATIBILITY|CMAKE_BUILD_TYPE|CMAKE_COLOR_MAKEFILE|CMAKE_CONFIGURATION_TYPES|CMAKE_DEBUG_TARGET_PROPERTIES|CMAKE_ERROR_DEPRECATED|CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION|CMAKE_SYSROOT|CMAKE_FIND_LIBRARY_PREFIXES|CMAKE_FIND_LIBRARY_SUFFIXES|CMAKE_FIND_NO_INSTALL_PREFIX|CMAKE_FIND_PACKAGE_WARN_NO_MODULE|CMAKE_FIND_ROOT_PATH|CMAKE_FIND_ROOT_PATH_MODE_INCLUDE|CMAKE_FIND_ROOT_PATH_MODE_LIBRARY|CMAKE_FIND_ROOT_PATH_MODE_PACKAGE|CMAKE_FIND_ROOT_PATH_MODE_PROGRAM|CMAKE_FRAMEWORK_PATH|CMAKE_IGNORE_PATH|CMAKE_INCLUDE_PATH|CMAKE_INCLUDE_DIRECTORIES_BEFORE|CMAKE_INCLUDE_DIRECTORIES_PROJECT_BEFORE|CMAKE_INSTALL_DEFAULT_COMPONENT_NAME|CMAKE_INSTALL_PREFIX|CMAKE_LIBRARY_PATH|CMAKE_MFC_FLAG|CMAKE_MODULE_PATH|CMAKE_NOT_USING_CONFIG_FLAGS|CMAKE_PREFIX_PATH|CMAKE_PROGRAM_PATH|CMAKE_SKIP_INSTALL_ALL_DEPENDENCY|CMAKE_STAGING_PREFIX|CMAKE_SYSTEM_IGNORE_PATH|CMAKE_SYSTEM_INCLUDE_PATH|CMAKE_SYSTEM_LIBRARY_PATH|CMAKE_SYSTEM_PREFIX_PATH|CMAKE_SYSTEM_PROGRAM_PATH|CMAKE_USER_MAKE_RULES_OVERRIDE|CMAKE_WARN_DEPRECATED|CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION|APPLE|BORLAND|CMAKE_CL_64|CMAKE_COMPILER_2005|CMAKE_HOST_APPLE|CMAKE_HOST_SYSTEM_NAME|CMAKE_HOST_SYSTEM_PROCESSOR|CMAKE_HOST_SYSTEM|CMAKE_HOST_SYSTEM_VERSION|CMAKE_HOST_UNIX|CMAKE_HOST_WIN32|CMAKE_LIBRARY_ARCHITECTURE_REGEX|CMAKE_LIBRARY_ARCHITECTURE|CMAKE_OBJECT_PATH_MAX|CMAKE_SYSTEM_NAME|CMAKE_SYSTEM_PROCESSOR|CMAKE_SYSTEM|CMAKE_SYSTEM_VERSION|CYGWIN|ENV|MSVC10|MSVC11|MSVC12|MSVC60|MSVC70|MSVC71|MSVC80|MSVC90|MSVC_IDE|MSVC|MSVC_VERSION|UNIX|WIN32|XCODE_VERSION|CMAKE_ARCHIVE_OUTPUT_DIRECTORY|CMAKE_AUTOMOC_MOC_OPTIONS|CMAKE_AUTOMOC|CMAKE_AUTORCC|CMAKE_AUTORCC_OPTIONS|CMAKE_AUTOUIC|CMAKE_AUTOUIC_OPTIONS|CMAKE_BUILD_WITH_INSTALL_RPATH|CMAKE_DEBUG_POSTFIX|CMAKE_EXE_LINKER_FLAGS|CMAKE_Fortran_FORMAT|CMAKE_Fortran_MODULE_DIRECTORY|CMAKE_GNUtoMS|CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE|CMAKE_INCLUDE_CURRENT_DIR|CMAKE_INSTALL_NAME_DIR|CMAKE_INSTALL_RPATH|CMAKE_INSTALL_RPATH_USE_LINK_PATH|CMAKE_LIBRARY_OUTPUT_DIRECTORY|CMAKE_LIBRARY_PATH_FLAG|CMAKE_LINK_DEF_FILE_FLAG|CMAKE_LINK_DEPENDS_NO_SHARED|CMAKE_LINK_INTERFACE_LIBRARIES|CMAKE_LINK_LIBRARY_FILE_FLAG|CMAKE_LINK_LIBRARY_FLAG|CMAKE_MACOSX_BUNDLE|CMAKE_MACOSX_RPATH|CMAKE_MODULE_LINKER_FLAGS|CMAKE_NO_BUILTIN_CHRPATH|CMAKE_NO_SYSTEM_FROM_IMPORTED|CMAKE_OSX_ARCHITECTURES|CMAKE_OSX_DEPLOYMENT_TARGET|CMAKE_OSX_SYSROOT|CMAKE_PDB_OUTPUT_DIRECTORY|CMAKE_POSITION_INDEPENDENT_CODE|CMAKE_RUNTIME_OUTPUT_DIRECTORY|CMAKE_SHARED_LINKER_FLAGS|CMAKE_SKIP_BUILD_RPATH|CMAKE_SKIP_INSTALL_RPATH|CMAKE_STATIC_LINKER_FLAGS|CMAKE_TRY_COMPILE_CONFIGURATION|CMAKE_USE_RELATIVE_PATHS|CMAKE_VISIBILITY_INLINES_HIDDEN|CMAKE_WIN32_EXECUTABLE|EXECUTABLE_OUTPUT_PATH|LIBRARY_OUTPUT_PATH|CMAKE_Fortran_MODDIR_DEFAULT|CMAKE_Fortran_MODDIR_FLAG|CMAKE_Fortran_MODOUT_FLAG|CMAKE_INTERNAL_PLATFORM_ABI)(?!(\\.|-|@|#|\\$))\\b");
             rule.format = keywordFormat;
             highlightingRules.append (rule);
 
-            rule.pattern = QRegExp ("((^\\s*|[\\(\\);&`\\|]+\\s*)((if|then|elif|else|fi|while|do|done|esac)\\s+)*)[A-Za-z0-9_]+(_BINARY_DIR|_SOURCE_DIR|_VERSION|_VERSION_MAJOR|_VERSION_MINOR|_VERSION_PATCH|_VERSION_TWEAK)(?!(\\.|-|@|#|\\$))\\b");
+            rule.pattern.setPattern ("((^\\s*|[\\(\\);&`\\|]+\\s*)((if|then|elif|else|fi|while|do|done|esac)\\s+)*)[A-Za-z0-9_]+(_BINARY_DIR|_SOURCE_DIR|_VERSION|_VERSION_MAJOR|_VERSION_MINOR|_VERSION_PATCH|_VERSION_TWEAK)(?!(\\.|-|@|#|\\$))\\b");
             highlightingRules.append (rule);
 
-            rule.pattern = QRegExp ("((^\\s*|[\\(\\);&`\\|]+\\s*)((if|then|elif|else|fi|while|do|done|esac)\\s+)*)(CMAKE_DISABLE_FIND_PACKAGE_|CMAKE_EXE_LINKER_FLAGS_|CMAKE_MAP_IMPORTED_CONFIG_|CMAKE_MODULE_LINKER_FLAGS_|CMAKE_PDB_OUTPUT_DIRECTORY_|CMAKE_SHARED_LINKER_FLAGS_|CMAKE_STATIC_LINKER_FLAGS_|CMAKE_COMPILER_IS_GNU)[A-Za-z0-9_]+(?!(\\.|-|@|#|\\$))\\b");
+            rule.pattern.setPattern ("((^\\s*|[\\(\\);&`\\|]+\\s*)((if|then|elif|else|fi|while|do|done|esac)\\s+)*)(CMAKE_DISABLE_FIND_PACKAGE_|CMAKE_EXE_LINKER_FLAGS_|CMAKE_MAP_IMPORTED_CONFIG_|CMAKE_MODULE_LINKER_FLAGS_|CMAKE_PDB_OUTPUT_DIRECTORY_|CMAKE_SHARED_LINKER_FLAGS_|CMAKE_STATIC_LINKER_FLAGS_|CMAKE_COMPILER_IS_GNU)[A-Za-z0-9_]+(?!(\\.|-|@|#|\\$))\\b");
             highlightingRules.append (rule);
 
-            rule.pattern = QRegExp ("((^\\s*|[\\(\\);&`\\|]+\\s*)((if|then|elif|else|fi|while|do|done|esac)\\s+)*)(CMAKE_)[A-Za-z0-9_]+(_POSTFIX|_VISIBILITY_PRESET|_ARCHIVE_APPEND|_ARCHIVE_CREATE|_ARCHIVE_FINISH|_COMPILE_OBJECT|_COMPILER_ABI|_COMPILER_ID|_COMPILER_LOADED|_COMPILER|_COMPILER_EXTERNAL_TOOLCHAIN|_COMPILER_TARGET|_COMPILER_VERSION|_CREATE_SHARED_LIBRARY|_CREATE_SHARED_MODULE|_CREATE_STATIC_LIBRARY|_FLAGS_DEBUG|_FLAGS_MINSIZEREL|_FLAGS_RELEASE|_FLAGS_RELWITHDEBINFO|_FLAGS|_IGNORE_EXTENSIONS|_IMPLICIT_INCLUDE_DIRECTORIES|_IMPLICIT_LINK_DIRECTORIES|_IMPLICIT_LINK_FRAMEWOR)(?!(\\.|-|@|#|\\$))\\b");
+            rule.pattern.setPattern ("((^\\s*|[\\(\\);&`\\|]+\\s*)((if|then|elif|else|fi|while|do|done|esac)\\s+)*)(CMAKE_)[A-Za-z0-9_]+(_POSTFIX|_VISIBILITY_PRESET|_ARCHIVE_APPEND|_ARCHIVE_CREATE|_ARCHIVE_FINISH|_COMPILE_OBJECT|_COMPILER_ABI|_COMPILER_ID|_COMPILER_LOADED|_COMPILER|_COMPILER_EXTERNAL_TOOLCHAIN|_COMPILER_TARGET|_COMPILER_VERSION|_CREATE_SHARED_LIBRARY|_CREATE_SHARED_MODULE|_CREATE_STATIC_LIBRARY|_FLAGS_DEBUG|_FLAGS_MINSIZEREL|_FLAGS_RELEASE|_FLAGS_RELWITHDEBINFO|_FLAGS|_IGNORE_EXTENSIONS|_IMPLICIT_INCLUDE_DIRECTORIES|_IMPLICIT_LINK_DIRECTORIES|_IMPLICIT_LINK_FRAMEWOR)(?!(\\.|-|@|#|\\$))\\b");
             highlightingRules.append (rule);
 
-            rule.pattern = QRegExp ("((^\\s*|[\\(\\);&`\\|]+\\s*)((if|then|elif|else|fi|while|do|done|esac)\\s+)*)(CMAKE_PROJECT_)[A-Za-z0-9_]+(_INCLUDE)(?!(\\.|-|@|#|\\$))\\b");
+            rule.pattern.setPattern ("((^\\s*|[\\(\\);&`\\|]+\\s*)((if|then|elif|else|fi|while|do|done|esac)\\s+)*)(CMAKE_PROJECT_)[A-Za-z0-9_]+(_INCLUDE)(?!(\\.|-|@|#|\\$))\\b");
             highlightingRules.append (rule);
         }
         keywordFormat.setFontWeight (QFont::Bold);
         keywordFormat.setForeground (Qt::magenta);
-        rule.pattern = QRegExp ("((^\\s*|[\\(\\);&`\\|]+\\s*)((if|then|elif|else|fi|while|do|done|esac)\\s+)*)(adduser|addgroup|apropos|apt-get|aspell|awk|basename|bash|bc|bzip2|cal|cat|cd|cfdisk|chgrp|chmod|chown|chroot|chkconfig|cksum|clear|cmake|cmp|comm|cp|cron|crontab|csplit|cut|date|dc|dd|ddrescue|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|dpkg|du|egrep|eject|env|ethtool|expect|expand|expr|fdformat|fdisk|fgrep|file|find|fmt|fold|format|free|fsck|ftp|function|fuser|gawk|git|grep|groups|gzip|head|hostname|id|ifconfig|ifdown|ifup|import|install|join|kdialog|kill|killall|less|ln|locate|logname|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|make|man|mkdir|mkfifo|mkisofs|mknod|more|mount|mtools|mv|mmv|netstat|nice|nl|nohup|nslookup|open|op|passwd|paste|pathchk|ping|pkill|popd|pr|printcap|printenv|ps|pwd|qarma|qmake(-qt[3-9])*|quota|quotacheck|quotactl|ram|rcp|readarray|reboot|rename|renice|remsync|rev|rm|rmdir|rsync|screen|scp|sdiff|sed|seq|sftp|shutdown|sleep|slocate|sort|split|ssh|strace|su|sudo|sum|symlink|sync|tail|tar|tee|time|touch|top|traceroute|tr|tsort|tty|type|ulimit|umount|uname|unexpand|uniq|units|unshar|useradd|usermod|users|uuencode|uudecode|vdir|vi|vmstat|watch|wc|whereis|which|who|whoami|Wget|write|xargs|yad|yes|zenity)(?!\\.)(?!-)(?!(\\.|-|@|#|\\$))\\b");
+        rule.pattern.setPattern ("((^\\s*|[\\(\\);&`\\|]+\\s*)((if|then|elif|else|fi|while|do|done|esac)\\s+)*)(adduser|addgroup|apropos|apt-get|aspell|awk|basename|bash|bc|bzip2|cal|cat|cd|cfdisk|chgrp|chmod|chown|chroot|chkconfig|cksum|clear|cmake|cmp|comm|cp|cron|crontab|csplit|cut|date|dc|dd|ddrescue|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|dpkg|du|egrep|eject|env|ethtool|expect|expand|expr|fdformat|fdisk|fgrep|file|find|fmt|fold|format|free|fsck|ftp|function|fuser|gawk|git|grep|groups|gzip|head|hostname|id|ifconfig|ifdown|ifup|import|install|join|kdialog|kill|killall|less|ln|locate|logname|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|make|man|mkdir|mkfifo|mkisofs|mknod|more|mount|mtools|mv|mmv|netstat|nice|nl|nohup|nslookup|open|op|passwd|paste|pathchk|ping|pkill|popd|pr|printcap|printenv|ps|pwd|qarma|qmake(-qt[3-9])*|quota|quotacheck|quotactl|ram|rcp|readarray|reboot|rename|renice|remsync|rev|rm|rmdir|rsync|screen|scp|sdiff|sed|seq|sftp|shutdown|sleep|slocate|sort|split|ssh|strace|su|sudo|sum|symlink|sync|tail|tar|tee|time|touch|top|traceroute|tr|tsort|tty|type|ulimit|umount|uname|unexpand|uniq|units|unshar|useradd|usermod|users|uuencode|uudecode|vdir|vi|vmstat|watch|wc|whereis|which|who|whoami|Wget|write|xargs|yad|yes|zenity)(?!\\.)(?!-)(?!(\\.|-|@|#|\\$))\\b");
         rule.format = keywordFormat;
         highlightingRules.append (rule);
     }
@@ -322,7 +322,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     const QStringList keywordPatterns = keywords (Lang);
     for (const QString &pattern : keywordPatterns)
     {
-        rule.pattern = QRegExp (pattern);
+        rule.pattern.setPattern (pattern);
         rule.format = keywordFormat;
         highlightingRules.append (rule);
     }
@@ -332,12 +332,12 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         QTextCharFormat qmakeFormat;
         /* qmake test functions */
         qmakeFormat.setForeground (DarkMagenta);
-        rule.pattern = QRegExp ("\\b(cache|CONFIG|contains|count|debug|defined|equals|error|eval|exists|export|files|for|greaterThan|if|include|infile|isActiveConfig|isEmpty|isEqual|lessThan|load|log|message|mkpath|packagesExist|prepareRecursiveTarget|qtCompileTest|qtHaveModule|requires|system|touch|unset|warning|write_file)(?=\\s*\\()");
+        rule.pattern.setPattern ("\\b(cache|CONFIG|contains|count|debug|defined|equals|error|eval|exists|export|files|for|greaterThan|if|include|infile|isActiveConfig|isEmpty|isEqual|lessThan|load|log|message|mkpath|packagesExist|prepareRecursiveTarget|qtCompileTest|qtHaveModule|requires|system|touch|unset|warning|write_file)(?=\\s*\\()");
         rule.format = qmakeFormat;
         highlightingRules.append (rule);
         /* qmake paths */
         qmakeFormat.setForeground (Blue);
-        rule.pattern = QRegExp ("\\${1,2}([A-Za-z0-9_]+|\\[[A-Za-z0-9_]+\\]|\\([A-Za-z0-9_]+\\))");
+        rule.pattern.setPattern ("\\${1,2}([A-Za-z0-9_]+|\\[[A-Za-z0-9_]+\\]|\\([A-Za-z0-9_]+\\))");
         rule.format = qmakeFormat;
         highlightingRules.append (rule);
     }
@@ -345,7 +345,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     const QStringList typePatterns = types();
     for (const QString &pattern : typePatterns)
     {
-        rule.pattern = QRegExp (pattern);
+        rule.pattern.setPattern (pattern);
         rule.format = typeFormat;
         highlightingRules.append (rule);
     }
@@ -371,9 +371,9 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         cFormat.setFontWeight (QFont::Bold);
         cFormat.setForeground (DarkMagenta);
         if (progLan == "cpp")
-            rule.pattern = QRegExp ("\\bQ[A-Za-z]+(?!(\\.|-|@|#|\\$))\\b");
+            rule.pattern.setPattern ("\\bQ[A-Za-z]+(?!(\\.|-|@|#|\\$))\\b");
         else
-            rule.pattern = QRegExp ("\\bG[A-Za-z]+(?!(\\.|-|@|#|\\$))\\b");
+            rule.pattern.setPattern ("\\bG[A-Za-z]+(?!(\\.|-|@|#|\\$))\\b");
         rule.format = cFormat;
         highlightingRules.append (rule);
 
@@ -381,20 +381,20 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         if (progLan == "cpp")
         {
             cFormat.setFontItalic (true);
-            rule.pattern = QRegExp ("\\bq(App)(?!(\\@|#|\\$))\\b|\\bq(Abs|Bound|Critical|Debug|Fatal|FuzzyCompare|InstallMsgHandler|MacVersion|Max|Min|Round64|Round|Version|Warning|getenv|putenv|rand|srand|tTrId|_check_ptr|t_set_sequence_auto_mnemonic|t_symbian_exception2Error|t_symbian_exception2LeaveL|t_symbian_throwIfError)(?!(\\.|-|@|#|\\$))\\b");
+            rule.pattern.setPattern ("\\bq(App)(?!(\\@|#|\\$))\\b|\\bq(Abs|Bound|Critical|Debug|Fatal|FuzzyCompare|InstallMsgHandler|MacVersion|Max|Min|Round64|Round|Version|Warning|getenv|putenv|rand|srand|tTrId|_check_ptr|t_set_sequence_auto_mnemonic|t_symbian_exception2Error|t_symbian_exception2LeaveL|t_symbian_throwIfError)(?!(\\.|-|@|#|\\$))\\b");
             rule.format = cFormat;
             highlightingRules.append (rule);
             cFormat.setFontItalic (false);
 
             cFormat.setForeground (Qt::magenta);
-            rule.pattern = QRegExp ("\\bQt\\s*::\\s*(white|black|red|darkRed|green|darkGreen|blue|darkBlue|cyan|darkCyan|magenta|darkMagenta|yellow|darkYellow|gray|darkGray|lightGray|transparent|color0|color1)(?!(\\.|-|@|#|\\$))\\b");
+            rule.pattern.setPattern ("\\bQt\\s*::\\s*(white|black|red|darkRed|green|darkGreen|blue|darkBlue|cyan|darkCyan|magenta|darkMagenta|yellow|darkYellow|gray|darkGray|lightGray|transparent|color0|color1)(?!(\\.|-|@|#|\\$))\\b");
             rule.format = cFormat;
             highlightingRules.append (rule);
         }
 
         /* preprocess */
         cFormat.setForeground (Blue);
-        rule.pattern = QRegExp ("^\\s*#\\s*include\\s|^\\s*#\\s*ifdef\\s|^\\s*#\\s*elif\\s|^\\s*#\\s*ifndef\\s|^\\s*#\\s*endif\\b|^\\s*#\\s*define\\s|^\\s*#\\s*undef\\s|^\\s*#\\s*error\\s|^\\s*#\\s*if\\s|^\\s*#\\s*else(?!(\\.|-|@|#|\\$))\\b");
+        rule.pattern.setPattern ("^\\s*#\\s*include\\s|^\\s*#\\s*ifdef\\s|^\\s*#\\s*elif\\s|^\\s*#\\s*ifndef\\s|^\\s*#\\s*endif\\b|^\\s*#\\s*define\\s|^\\s*#\\s*undef\\s|^\\s*#\\s*error\\s|^\\s*#\\s*if\\s|^\\s*#\\s*else(?!(\\.|-|@|#|\\$))\\b");
         rule.format = cFormat;
         highlightingRules.append (rule);
     }
@@ -403,7 +403,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         QTextCharFormat pFormat;
         pFormat.setFontWeight (QFont::Bold);
         pFormat.setForeground (DarkMagenta);
-        rule.pattern = QRegExp ("\\bself(?!(@|\\$))\\b");
+        rule.pattern.setPattern ("\\bself(?!(@|\\$))\\b");
         rule.format = pFormat;
         highlightingRules.append (rule);
     }
@@ -412,7 +412,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         QTextCharFormat qmlFormat;
         qmlFormat.setFontWeight (QFont::Bold);
         qmlFormat.setForeground (DarkMagenta);
-        rule.pattern = QRegExp ("\\b(Qt[A-Za-z]+|Accessible|AnchorAnimation|AnchorChanges|AnimatedImage|AnimatedSprite|Animation|AnimationController|Animator|Behavior|BorderImage|Canvas|CanvasGradient|CanvasImageData|CanvasPixelArray|ColorAnimation|Column|Context2D|DoubleValidator|Drag|DragEvent|DropArea|EnterKey|Flickable|Flipable|Flow|FocusScope|FontLoader|FontMetrics|Gradient|GradientStop|Grid|GridMesh|GridView|Image|IntValidator|Item|ItemGrabResult|KeyEvent|KeyNavigation|Keys|LayoutMirroring|ListView|Loader|Matrix4x4|MouseArea|MouseEvent|MultiPointTouchArea|NumberAnimation|OpacityAnimator|OpenGLInfo|ParallelAnimation|ParentAnimation|ParentChange|Path|PathAnimation|PathArc|PathAttribute|PathCubic|PathCurve|PathElement|PathInterpolator|PathLine|PathPercent|PathQuad|PathSvg|PathView|PauseAnimation|PinchArea|PinchEvent|Positioner|PropertyAction|PropertyAnimation|PropertyChanges|Rectangle|RegExpValidator|Repeater|Rotation|RotationAnimation|RotationAnimator|Row|Scale|ScaleAnimator|ScriptAction|SequentialAnimation|ShaderEffect|ShaderEffectSource|Shortcut|SmoothedAnimation|SpringAnimation|Sprite|SpriteSequence|State|StateChangeScript|StateGroup|SystemPalette|Text|TextEdit|TextInput|TextMetrics|TouchPoint|Transform|Transition|Translate|UniformAnimator|Vector3dAnimation|ViewTransition|WheelEvent|XAnimator|YAnimator|CloseEvent|ColorDialog|ColumnLayout|Dialog|FileDialog|FontDialog|GridLayout|Layout|MessageDialog|RowLayout|StackLayout|LocalStorage|Screen|SignalSpy|TestCase|Window|XmlListModel|XmlRole|Action|ApplicationWindow|BusyIndicator|Button|Calendar|CheckBox|ComboBox|ExclusiveGroup|GroupBox|Label|Menu|MenuBar|MenuItem|MenuSeparator|ProgressBar|RadioButton|ScrollView|Slider|SpinBox|SplitView|Stack|StackView|StackViewDelegate|StatusBar|Switch|Tab|TabView|TableView|TableViewColumn|TextArea|TextField|ToolBar|ToolButton|TreeView|Affector|Age|AngleDirection|Attractor|CumulativeDirection|CustomParticle|Direction|EllipseShape|Emitter|Friction|Gravity|GroupGoal|ImageParticle|ItemParticle|LineShape|MaskShape|Particle|ParticleGroup|ParticlePainter|ParticleSystem|PointDirection|RectangleShape|Shape|SpriteGoal|TargetDirection|TrailEmitter|Turbulence|Wander|Timer)(?!(\\-|@|#|\\$))\\b");
+        rule.pattern.setPattern ("\\b(Qt[A-Za-z]+|Accessible|AnchorAnimation|AnchorChanges|AnimatedImage|AnimatedSprite|Animation|AnimationController|Animator|Behavior|BorderImage|Canvas|CanvasGradient|CanvasImageData|CanvasPixelArray|ColorAnimation|Column|Context2D|DoubleValidator|Drag|DragEvent|DropArea|EnterKey|Flickable|Flipable|Flow|FocusScope|FontLoader|FontMetrics|Gradient|GradientStop|Grid|GridMesh|GridView|Image|IntValidator|Item|ItemGrabResult|KeyEvent|KeyNavigation|Keys|LayoutMirroring|ListView|Loader|Matrix4x4|MouseArea|MouseEvent|MultiPointTouchArea|NumberAnimation|OpacityAnimator|OpenGLInfo|ParallelAnimation|ParentAnimation|ParentChange|Path|PathAnimation|PathArc|PathAttribute|PathCubic|PathCurve|PathElement|PathInterpolator|PathLine|PathPercent|PathQuad|PathSvg|PathView|PauseAnimation|PinchArea|PinchEvent|Positioner|PropertyAction|PropertyAnimation|PropertyChanges|Rectangle|RegExpValidator|Repeater|Rotation|RotationAnimation|RotationAnimator|Row|Scale|ScaleAnimator|ScriptAction|SequentialAnimation|ShaderEffect|ShaderEffectSource|Shortcut|SmoothedAnimation|SpringAnimation|Sprite|SpriteSequence|State|StateChangeScript|StateGroup|SystemPalette|Text|TextEdit|TextInput|TextMetrics|TouchPoint|Transform|Transition|Translate|UniformAnimator|Vector3dAnimation|ViewTransition|WheelEvent|XAnimator|YAnimator|CloseEvent|ColorDialog|ColumnLayout|Dialog|FileDialog|FontDialog|GridLayout|Layout|MessageDialog|RowLayout|StackLayout|LocalStorage|Screen|SignalSpy|TestCase|Window|XmlListModel|XmlRole|Action|ApplicationWindow|BusyIndicator|Button|Calendar|CheckBox|ComboBox|ExclusiveGroup|GroupBox|Label|Menu|MenuBar|MenuItem|MenuSeparator|ProgressBar|RadioButton|ScrollView|Slider|SpinBox|SplitView|Stack|StackView|StackViewDelegate|StatusBar|Switch|Tab|TabView|TableView|TableViewColumn|TextArea|TextField|ToolBar|ToolButton|TreeView|Affector|Age|AngleDirection|Attractor|CumulativeDirection|CustomParticle|Direction|EllipseShape|Emitter|Friction|Gravity|GroupGoal|ImageParticle|ItemParticle|LineShape|MaskShape|Particle|ParticleGroup|ParticlePainter|ParticleSystem|PointDirection|RectangleShape|Shape|SpriteGoal|TargetDirection|TrailEmitter|Turbulence|Wander|Timer)(?!(\\-|@|#|\\$))\\b");
         rule.format = qmlFormat;
         highlightingRules.append (rule);
     }
@@ -422,7 +422,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         xmlElementFormat.setFontWeight (QFont::Bold);
         xmlElementFormat.setForeground (Violet);
         /* after </ or before /> */
-        rule.pattern = QRegExp ("\\s*</?[A-Za-z0-9_\\-:]+|\\s*<!(DOCTYPE|ENTITY)\\s|\\s*/?>");
+        rule.pattern.setPattern ("\\s*</?[A-Za-z0-9_\\-:]+|\\s*<!(DOCTYPE|ENTITY)\\s|\\s*/?>");
         rule.format = xmlElementFormat;
         highlightingRules.append (rule);
 
@@ -430,30 +430,30 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         xmlAttributeFormat.setFontItalic (true);
         xmlAttributeFormat.setForeground (Blue);
         /* before = */
-        rule.pattern = QRegExp ("\\b[A-Za-z0-9_\\-:]+(?=\\s*\\=)");
+        rule.pattern.setPattern ("\\b[A-Za-z0-9_\\-:]+(?=\\s*\\=)");
         rule.format = xmlAttributeFormat;
         highlightingRules.append (rule);
 
         /* <?xml ... ?> */
-        rule.pattern = QRegExp ("^\\s*<\\?xml\\s+(?=.*\\?>)|\\s*\\?>");
+        rule.pattern.setPattern ("^\\s*<\\?xml\\s+(?=.*\\?>)|\\s*\\?>");
         rule.format = keywordFormat;
         highlightingRules.append (rule);
     }
     else if (progLan == "changelog")
     {
         /* before colon */
-        rule.pattern = QRegExp ("^\\s+\\*\\s+[^:]+:");
+        rule.pattern.setPattern ("^\\s+\\*\\s+[^:]+:");
         rule.format = keywordFormat;
         highlightingRules.append (rule);
 
         QTextCharFormat asteriskFormat;
         asteriskFormat.setForeground (DarkMagenta);
         /* the first asterisk */
-        rule.pattern = QRegExp ("^\\s+\\*\\s+");
+        rule.pattern.setPattern ("^\\s+\\*\\s+");
         rule.format = asteriskFormat;
         highlightingRules.append (rule);
 
-        rule.pattern = QRegExp ("\\b[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
+        rule.pattern.setPattern ("\\b[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
         rule.format = urlFormat;
         highlightingRules.append (rule);
     }
@@ -462,9 +462,9 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     {
         /* # is the sh comment sign when it doesn't follow a character */
         if (progLan == "sh" || progLan == "makefile" || progLan == "cmake")
-            rule.pattern = QRegExp ("^#.*|\\s+#.*");
+            rule.pattern.setPattern ("^#.*|\\s+#.*");
         else
-            rule.pattern = QRegExp ("#.*");
+            rule.pattern.setPattern ("#.*");
         rule.format = commentFormat;
         highlightingRules.append (rule);
 
@@ -473,22 +473,22 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         if (progLan == "sh" || progLan == "makefile" || progLan == "cmake")
         {
             /* make parentheses and ; neutral as they were in keyword patterns */
-            rule.pattern = QRegExp ("[\\(\\);]");
+            rule.pattern.setPattern ("[\\(\\);]");
             rule.format = neutralFormat;
             highlightingRules.append (rule);
 
             shFormat.setForeground (Blue);
             /* words before = */
              if (progLan == "sh")
-                 rule.pattern = QRegExp ("\\b[A-Za-z0-9_]+(?=\\=)");
+                 rule.pattern.setPattern ("\\b[A-Za-z0-9_]+(?=\\=)");
              else
-                 rule.pattern = QRegExp ("\\b[A-Za-z0-9_]+\\s*(?=\\+{,1}\\=)");
+                 rule.pattern.setPattern ("\\b[A-Za-z0-9_]+\\s*(?=\\+{0,1}\\=)");
             rule.format = shFormat;
             highlightingRules.append (rule);
 
             /* but don't format a word before =
                if it follows a dash */
-            rule.pattern = QRegExp ("-+[^\\s\\\"\\\']+(?=\\=)");
+            rule.pattern.setPattern ("-+[^\\s\\\"\\\']+(?=\\=)");
             rule.format = neutralFormat;
             highlightingRules.append (rule);
         }
@@ -497,14 +497,14 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         {
             shFormat.setForeground (DarkYellow);
             /* automake/autoconf variables */
-            rule.pattern = QRegExp ("@[A-Za-z0-9_-]+@|^[a-zA-Z0-9_-]+\\s*(?=:)");
+            rule.pattern.setPattern ("@[A-Za-z0-9_-]+@|^[a-zA-Z0-9_-]+\\s*(?=:)");
             rule.format = shFormat;
             highlightingRules.append (rule);
         }
 
         shFormat.setForeground (DarkMagenta);
         /* operators */
-        rule.pattern = QRegExp ("[=\\+\\-*/%<>&`\\|~\\^\\!,]|\\s+-eq\\s+|\\s+-ne\\s+|\\s+-gt\\s+|\\s+-ge\\s+|\\s+-lt\\s+|\\s+-le\\s+|\\s+-z\\s+");
+        rule.pattern.setPattern ("[=\\+\\-*/%<>&`\\|~\\^\\!,]|\\s+-eq\\s+|\\s+-ne\\s+|\\s+-gt\\s+|\\s+-ge\\s+|\\s+-lt\\s+|\\s+-le\\s+|\\s+-z\\s+");
         rule.format = shFormat;
         highlightingRules.append (rule);
 
@@ -512,7 +512,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         {
             shFormat.setFontWeight (QFont::Bold);
             /* brackets */
-            rule.pattern = QRegExp ("\\s+\\[{1,2}\\s+|^\\[{1,2}\\s+|\\s+\\]{1,2}\\s+|\\s+\\]{1,2}$|\\s+\\]{1,2}\\s*(?=;)");
+            rule.pattern.setPattern ("\\s+\\[{1,2}\\s+|^\\[{1,2}\\s+|\\s+\\]{1,2}\\s+|\\s+\\]{1,2}$|\\s+\\]{1,2}\\s*(?=;)");
             rule.format = shFormat;
             highlightingRules.append (rule);
         }
@@ -521,20 +521,20 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     {
         QTextCharFormat diffMinusFormat;
         diffMinusFormat.setForeground (Red);
-        rule.pattern = QRegExp ("^\\-\\s*.*");
+        rule.pattern.setPattern ("^\\-\\s*.*");
         rule.format = diffMinusFormat;
         highlightingRules.append (rule);
 
         QTextCharFormat diffPlusFormat;
         diffPlusFormat.setForeground (Blue);
-        rule.pattern = QRegExp ("^\\+\\s*.*");
+        rule.pattern.setPattern ("^\\+\\s*.*");
         rule.format = diffPlusFormat;
         highlightingRules.append (rule);
 
         QTextCharFormat diffLinesFormat;
         diffLinesFormat.setFontWeight (QFont::Bold);
         diffLinesFormat.setForeground (DarkGreenAlt);
-        rule.pattern = QRegExp ("^@{2}[\\d,\\-\\+\\s]+@{2}");
+        rule.pattern.setPattern ("^@{2}[\\d,\\-\\+\\s]+@{2}");
         rule.format = diffLinesFormat;
         highlightingRules.append (rule);
     }
@@ -545,41 +545,41 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
          *   blue  green  magenta bold */
         QTextCharFormat logFormat = neutralFormat;
         logFormat.setFontWeight (QFont::Bold);
-        rule.pattern = QRegExp ("^[A-Za-z]{3}\\s+\\d{1,2}\\s{1}\\d{2}:\\d{2}:\\d{2}\\s+[A-Za-z0-9_\\[\\]\\s]+(?=\\s*:)");
+        rule.pattern.setPattern ("^[A-Za-z]{3}\\s+\\d{1,2}\\s{1}\\d{2}:\\d{2}:\\d{2}\\s+[A-Za-z0-9_\\[\\]\\s]+(?=\\s*:)");
         rule.format = logFormat;
         highlightingRules.append (rule);
 
         QTextCharFormat logFormat1;
         logFormat1.setForeground (Qt::magenta);
-        rule.pattern = QRegExp ("^[A-Za-z]{3}\\s+\\d{1,2}\\s{1}\\d{2}:\\d{2}:\\d{2}\\s+[A-Za-z]+");
+        rule.pattern.setPattern ("^[A-Za-z]{3}\\s+\\d{1,2}\\s{1}\\d{2}:\\d{2}:\\d{2}\\s+[A-Za-z]+");
         rule.format = logFormat1;
         highlightingRules.append (rule);
 
         QTextCharFormat logDateFormat;
         logDateFormat.setFontWeight (QFont::Bold);
         logDateFormat.setForeground (Blue);
-        rule.pattern = QRegExp ("^[A-Za-z]{3}\\s+\\d{1,2}(?=\\s{1}\\d{2}:\\d{2}:\\d{2})");
+        rule.pattern.setPattern ("^[A-Za-z]{3}\\s+\\d{1,2}(?=\\s{1}\\d{2}:\\d{2}:\\d{2})");
         rule.format = logDateFormat;
         highlightingRules.append (rule);
 
         QTextCharFormat logTimeFormat;
         logTimeFormat.setFontWeight (QFont::Bold);
         logTimeFormat.setForeground (DarkGreenAlt);
-        rule.pattern = QRegExp ("\\s{1}\\d{2}:\\d{2}:\\d{2}\\b");
+        rule.pattern.setPattern ("\\s{1}\\d{2}:\\d{2}:\\d{2}\\b");
         rule.format = logTimeFormat;
         highlightingRules.append (rule);
 
         QTextCharFormat logInOutFormat;
         logInOutFormat.setFontWeight (QFont::Bold);
         logInOutFormat.setForeground (Brown);
-        rule.pattern = QRegExp ("\\s+IN(?=\\s*\\=)|\\s+OUT(?=\\s*\\=)");
+        rule.pattern.setPattern ("\\s+IN(?=\\s*\\=)|\\s+OUT(?=\\s*\\=)");
         rule.format = logInOutFormat;
         highlightingRules.append (rule);
 
         QTextCharFormat logRootFormat;
         logRootFormat.setFontWeight (QFont::Bold);
         logRootFormat.setForeground (Red);
-        rule.pattern = QRegExp ("\\broot\\b");
+        rule.pattern.setPattern ("\\broot\\b");
         rule.format = logRootFormat;
         highlightingRules.append (rule);
     }
@@ -590,38 +590,38 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
         /* <...> */
         srtFormat.setForeground (Violet);
-        rule.pattern = QRegExp ("</?[A-Za-z0-9_#\\s\"\\=]+>");
+        rule.pattern.setPattern ("</?[A-Za-z0-9_#\\s\"\\=]+>");
         rule.format = srtFormat;
         highlightingRules.append (rule);
 
         /* hh:mm:ss,ttt */
         srtFormat = neutralFormat;
         srtFormat.setFontItalic (true);
-        rule.pattern = QRegExp ("^\\d+$|^\\d{2}:\\d{2}:\\d{2},\\d{3}\\s-->\\s\\d{2}:\\d{2}:\\d{2},\\d{3}$");
+        rule.pattern.setPattern ("^\\d+$|^\\d{2}:\\d{2}:\\d{2},\\d{3}\\s-->\\s\\d{2}:\\d{2}:\\d{2},\\d{3}$");
         rule.format = srtFormat;
         highlightingRules.append (rule);
 
         /* subtitle line */
         srtFormat.setForeground (Red);
-        rule.pattern = QRegExp ("^\\d+$");
+        rule.pattern.setPattern ("^\\d+$");
         rule.format = srtFormat;
         highlightingRules.append (rule);
 
         /* mm */
         srtFormat.setForeground (DarkGreenAlt);
-        rule.pattern = QRegExp ("\\d{2}(?=:\\d{2},\\d{3}\\s-->\\s\\d{2}:\\d{2}:\\d{2},\\d{3}$)|\\d{2}(?=:\\d{2},\\d{3}$)");
+        rule.pattern.setPattern ("\\d{2}(?=:\\d{2},\\d{3}\\s-->\\s\\d{2}:\\d{2}:\\d{2},\\d{3}$)|\\d{2}(?=:\\d{2},\\d{3}$)");
         rule.format = srtFormat;
         highlightingRules.append (rule);
 
         /* hh */
         srtFormat.setForeground (Blue);
-        rule.pattern = QRegExp ("^\\d{2}(?=:\\d{2}:\\d{2},\\d{3}\\s-->\\s\\d{2}:\\d{2}:\\d{2},\\d{3}$)|\\s\\d{2}(?=:\\d{2}:\\d{2},\\d{3}$)");
+        rule.pattern.setPattern ("^\\d{2}(?=:\\d{2}:\\d{2},\\d{3}\\s-->\\s\\d{2}:\\d{2}:\\d{2},\\d{3}$)|\\s\\d{2}(?=:\\d{2}:\\d{2},\\d{3}$)");
         rule.format = srtFormat;
         highlightingRules.append (rule);
 
         /* ss */
         srtFormat.setForeground (Brown);
-        rule.pattern = QRegExp ("\\d{2}(?=,\\d{3}\\s-->\\s\\d{2}:\\d{2}:\\d{2},\\d{3}$)|\\d{2}(?=,\\d{3}$)");
+        rule.pattern.setPattern ("\\d{2}(?=,\\d{3}\\s-->\\s\\d{2}:\\d{2}:\\d{2},\\d{3}$)|\\d{2}(?=,\\d{3}$)");
         rule.format = srtFormat;
         highlightingRules.append (rule);
     }
@@ -633,34 +633,39 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
             desktopFormat.setFontWeight (QFont::Bold);
             desktopFormat.setFontItalic (true);
             /* color values */
-            rule.pattern = QRegExp ("#([A-Fa-f0-9]{3}){,2}(?![A-Za-z0-9_]+)|#([A-Fa-f0-9]{3}){2}[A-Fa-f0-9]{2}(?![A-Za-z0-9_]+)");
+            rule.pattern.setPattern ("#([A-Fa-f0-9]{3}){0,2}(?![A-Za-z0-9_]+)|#([A-Fa-f0-9]{3}){2}[A-Fa-f0-9]{2}(?![A-Za-z0-9_]+)");
             rule.format = desktopFormat;
             highlightingRules.append (rule);
             desktopFormat.setFontItalic (false);
             desktopFormat.setFontWeight (QFont::Normal);
+
+            /* URLs */
+            rule.pattern = urlPattern;
+            rule.format = urlFormat;
+            highlightingRules.append (rule);
         }
 
         desktopFormat.setForeground (DarkMagenta);
-        rule.pattern = QRegExp ("^[^\\=]+=|^[^\\=]+\\[.*\\]=|;|/|%|\\+|-");
+        rule.pattern.setPattern ("^[^\\=]+=|^[^\\=]+\\[.*\\]=|;|/|%|\\+|-");
         rule.format = desktopFormat;
         highlightingRules.append (rule);
 
         desktopFormat = neutralFormat;
         desktopFormat.setFontWeight (QFont::Bold);
         /* [...] */
-        rule.pattern = QRegExp ("^\\[.*\\]$");
+        rule.pattern.setPattern ("^\\[.*\\]$");
         rule.format = desktopFormat;
         highlightingRules.append (rule);
 
         desktopFormat.setForeground (Blue);
         /* [...] and before = (like ...[en]=)*/
-        rule.pattern = QRegExp ("^[^\\=]+\\[.*\\](?=\\s*\\=)");
+        rule.pattern.setPattern ("^[^\\=]+\\[.*\\](?=\\s*\\=)");
         rule.format = desktopFormat;
         highlightingRules.append (rule);
 
         desktopFormat.setForeground (DarkGreenAlt);
         /* before = and [] */
-        rule.pattern = QRegExp ("^[^\\=\\[]+(?=(\\[.*\\])*\\s*\\=)");
+        rule.pattern.setPattern ("^[^\\=\\[]+(?=(\\[.*\\])*\\s*\\=)");
         rule.format = desktopFormat;
         highlightingRules.append (rule);
     }
@@ -670,16 +675,16 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         {
             QTextCharFormat slFormat = neutralFormat;
             slFormat.setFontWeight (QFont::Bold);
-            rule.pattern = QRegExp ("\\bdeb(?=\\s+)|\\bdeb-src(?=\\s+)");
+            rule.pattern.setPattern ("\\bdeb(?=\\s+)|\\bdeb-src(?=\\s+)");
             rule.format = slFormat;
             highlightingRules.append (rule);
 
             slFormat.setFontItalic (true);
-            rule.pattern = QRegExp ("\\bstable\\b|\\btesting\\b|\\bunstable\\b|\\bsid\\b|\\bexperimental\\b");
+            rule.pattern.setPattern ("\\bstable\\b|\\btesting\\b|\\bunstable\\b|\\bsid\\b|\\bexperimental\\b");
             rule.format = slFormat;
             highlightingRules.append (rule);
         }
-        rule.pattern = QRegExp ("\\b[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)]+");
+        rule.pattern.setPattern ("\\b[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)]+");
         rule.format = urlFormat;
         highlightingRules.append (rule);
     }
@@ -689,12 +694,12 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         gtkrcFormat.setFontWeight (QFont::Bold);
         /* color value format (#xyz) */
         /*gtkrcFormat.setForeground (DarkGreenAlt);
-        rule.pattern = QRegExp ("#([A-Fa-f0-9]{3}){,2}(?![A-Za-z0-9_]+)|#([A-Fa-f0-9]{3}){2}[A-Fa-f0-9]{2}(?![A-Za-z0-9_]+)");
+        rule.pattern.setPattern ("#([A-Fa-f0-9]{3}){0,2}(?![A-Za-z0-9_]+)|#([A-Fa-f0-9]{3}){2}[A-Fa-f0-9]{2}(?![A-Za-z0-9_]+)");
         rule.format = gtkrcFormat;
         highlightingRules.append (rule);*/
 
         gtkrcFormat.setForeground (Blue);
-        rule.pattern = QRegExp ("(fg|bg|base|text)(\\[NORMAL\\]|\\[PRELIGHT\\]|\\[ACTIVE\\]|\\[SELECTED\\]|\\[INSENSITIVE\\])");
+        rule.pattern.setPattern ("(fg|bg|base|text)(\\[NORMAL\\]|\\[PRELIGHT\\]|\\[ACTIVE\\]|\\[SELECTED\\]|\\[INSENSITIVE\\])");
         rule.format = gtkrcFormat;
         highlightingRules.append (rule);
     }
@@ -717,41 +722,41 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
         /* italic */
         markdownFormat.setFontItalic (true);
-        rule.pattern = QRegExp ("(^|\\s)\\*[^\\*_]+\\*(?!(\\w|\\*))"
-                                "|"
-                                "(^|\\s)_[^\\*_]+_(?!(\\w|\\*))");
+        rule.pattern.setPattern ("(^|\\s)\\*[^\\*_]+\\*(?!(\\w|\\*))"
+                                 "|"
+                                 "(^|\\s)_[^\\*_]+_(?!(\\w|\\*))");
         rule.format = markdownFormat;
         highlightingRules.append (rule);
         markdownFormat.setFontItalic (false);
 
         /* bold */
         markdownFormat.setFontWeight (QFont::Bold);
-        rule.pattern = QRegExp ("(^|\\s)\\*{2}[^\\*_]+\\*{2}(?!(\\w|\\*))"
-                                "|"
-                                "(^|\\s)_{2}[^\\*_]+_{2}(?!(\\w|\\*))");
+        rule.pattern.setPattern ("(^|\\s)\\*{2}[^\\*_]+\\*{2}(?!(\\w|\\*))"
+                                 "|"
+                                 "(^|\\s)_{2}[^\\*_]+_{2}(?!(\\w|\\*))");
         rule.format = markdownFormat;
         highlightingRules.append (rule);
 
         /* lists */
         markdownFormat.setForeground (DarkBlue);
-        rule.pattern = QRegExp ("^ {,3}(\\*|\\+|\\-|\\d+\\.|\\d+\\))\\s+");
+        rule.pattern.setPattern ("^ {0,3}(\\*|\\+|\\-|\\d+\\.|\\d+\\))\\s+");
         rule.format = markdownFormat;
         highlightingRules.append (rule);
 
         /* footnotes */
         markdownFormat.setFontItalic (true);
-        rule.pattern = QRegExp ("\\[\\^[^\\]]+\\]");
+        rule.pattern.setPattern ("\\[\\^[^\\]]+\\]");
         rule.format = markdownFormat;
         highlightingRules.append (rule);
         markdownFormat.setFontItalic (false);
 
         /* horizontal rules */
         markdownFormat.setForeground (DarkMagenta);
-        rule.pattern = QRegExp ("^ {,3}(\\* {,2}){3,}\\s*$"
-                                "|"
-                                "^ {,3}(- {,2}){3,}\\s*$"
-                                "|"
-                                "^ {,3}(\\= {,2}){3,}\\s*$");
+        rule.pattern.setPattern ("^ {0,3}(\\* {0,2}){3,}\\s*$"
+                                 "|"
+                                 "^ {0,3}(- {0,2}){3,}\\s*$"
+                                 "|"
+                                 "^ {0,3}(\\= {0,2}){3,}\\s*$");
         rule.format = markdownFormat;
         highlightingRules.append (rule);
 
@@ -762,13 +767,13 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
            [link text]: http://example.com
            <http://example.com>
         */
-        rule.pattern = QRegExp ("\\[[^\\]\\^]*\\]\\s*\\[[^\\]\\s]*\\]"
-                                "|"
-                                "\\[[^\\]\\^]*\\]\\s*\\(\\s*[^\\)\\(\\s]+(\\s+\\\".*\\\")*\\s*\\)"
-                                "|"
-                                "\\[[^\\]\\^]*\\]:\\s+\\s*[^\\)\\(\\s]+(\\s+\\\".*\\\")*"
-                                "|"
-                                "<([A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+)>");
+        rule.pattern.setPattern ("\\[[^\\]\\^]*\\]\\s*\\[[^\\]\\s]*\\]"
+                                 "|"
+                                 "\\[[^\\]\\^]*\\]\\s*\\(\\s*[^\\)\\(\\s]+(\\s+\\\".*\\\")*\\s*\\)"
+                                 "|"
+                                 "\\[[^\\]\\^]*\\]:\\s+\\s*[^\\)\\(\\s]+(\\s+\\\".*\\\")*"
+                                 "|"
+                                 "<([A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+)>");
         rule.format = urlFormat;
         highlightingRules.append (rule);
 
@@ -781,21 +786,21 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         markdownFormat.setFontWeight (QFont::Normal);
         markdownFormat.setForeground (Violet);
         markdownFormat.setFontUnderline (true);
-        rule.pattern = QRegExp ("\\!\\[[^\\]\\^]*\\]\\s*"
-                                "(\\(\\s*[^\\)\\(\\s]+(\\s+\\\".*\\\")*\\s*\\)|\\s*\\[[^\\]]*\\])");
+        rule.pattern.setPattern ("\\!\\[[^\\]\\^]*\\]\\s*"
+                                 "(\\(\\s*[^\\)\\(\\s]+(\\s+\\\".*\\\")*\\s*\\)|\\s*\\[[^\\]]*\\])");
         rule.format = markdownFormat;
         highlightingRules.append (rule);
         markdownFormat.setFontUnderline (false);
 
         /* code blocks */
-        rule.pattern = QRegExp ("^( {4,}|\\s*\\t+\\s*).*");
+        rule.pattern.setPattern ("^( {4,}|\\s*\\t+\\s*).*");
         rule.format = codeBlockFormat;
         highlightingRules.append (rule);
 
         /* headings */
         markdownFormat.setFontWeight (QFont::Bold);
         markdownFormat.setForeground (Blue);
-        rule.pattern = QRegExp ("^#+\\s+.*");
+        rule.pattern.setPattern ("^#+\\s+.*");
         rule.format = markdownFormat;
         highlightingRules.append (rule);
     }
@@ -805,7 +810,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         luaFormat.setFontWeight (QFont::Bold);
         luaFormat.setFontItalic (true);
         luaFormat.setForeground (DarkMagenta);
-        rule.pattern = QRegExp ("\\bos(?=\\.)");
+        rule.pattern.setPattern ("\\bos(?=\\.)");
         rule.format = luaFormat;
         highlightingRules.append (rule);
     }
@@ -813,37 +818,37 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     {
         QTextCharFormat plFormat = neutralFormat;
         plFormat.setFontWeight (QFont::Bold);
-        rule.pattern = QRegExp ("^#EXTM3U\\b");
+        rule.pattern.setPattern ("^#EXTM3U\\b");
         rule.format = plFormat;
         highlightingRules.append (rule);
 
         /* after "," */
         plFormat.setFontWeight (QFont::Normal);
         plFormat.setForeground (DarkRed);
-        rule.pattern = QRegExp ("^#EXTINF\\s*:\\s*-*\\d+\\s*,.*|^#EXTINF\\s*:\\s*,.*");
+        rule.pattern.setPattern ("^#EXTINF\\s*:\\s*-*\\d+\\s*,.*|^#EXTINF\\s*:\\s*,.*");
         rule.format = plFormat;
         highlightingRules.append (rule);
 
         /* before "," and after "EXTINF:" */
         plFormat.setForeground (DarkYellow);
-        rule.pattern = QRegExp ("^#EXTINF\\s*:\\s*-*\\d+\\b");
+        rule.pattern.setPattern ("^#EXTINF\\s*:\\s*-*\\d+\\b");
         rule.format = plFormat;
         highlightingRules.append (rule);
 
         plFormat = neutralFormat;
-        rule.pattern = QRegExp ("^#EXTINF\\s*:");
+        rule.pattern.setPattern ("^#EXTINF\\s*:");
         rule.format = plFormat;
         highlightingRules.append (rule);
 
         plFormat.setForeground (DarkGreen);
-        rule.pattern = QRegExp ("^#EXTINF\\b");
+        rule.pattern.setPattern ("^#EXTINF\\b");
         rule.format = plFormat;
         highlightingRules.append (rule);
     }
 
     if (showWhiteSpace)
     {
-        rule.pattern = QRegExp ("\\s+");
+        rule.pattern.setPattern ("\\s+");
         rule.format = whiteSpaceFormat;
         highlightingRules.append (rule);
     }
@@ -853,35 +858,35 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
      ************/
 
     /* single line comments */
-    rule.pattern = QRegExp();
+    rule.pattern.setPattern (QString());
     if (progLan == "c" || progLan == "cpp" || Lang == "javascript"
         || progLan == "qml" || progLan == "php")
     {
-        rule.pattern = QRegExp ("//.*"); // why had I set it to QRegExp ("//(?!\\*).*")?
+        rule.pattern.setPattern ("//.*"); // why had I set it to QRegExp ("//(?!\\*).*")?
     }
     else if (progLan == "python"
              || progLan == "sourceslist" || progLan == "qmake"
              || progLan == "gtkrc")
     {
-        rule.pattern = QRegExp ("#.*"); // or "#[^\n]*"
+        rule.pattern.setPattern ("#.*"); // or "#[^\n]*"
     }
     else if (progLan == "desktop" || progLan == "config")
     {
-        rule.pattern = QRegExp ("^\\s*#.*"); // only at start
+        rule.pattern.setPattern ("^\\s*#.*"); // only at start
     }
     /*else if (progLan == "deb")
     {
-        rule.pattern = QRegExp ("^#[^\\s:]+:(?=\\s*)");
+        rule.pattern.setPattern ("^#[^\\s:]+:(?=\\s*)");
     }*/
     else if (progLan == "m3u")
     {
-        rule.pattern = QRegExp ("^\\s+#|^#(?!(EXTM3U|EXTINF))");
+        rule.pattern.setPattern ("^\\s+#|^#(?!(EXTM3U|EXTINF))");
     }
     else if (progLan == "lua")
-        rule.pattern = QRegExp ("--(?!\\[).*");
+        rule.pattern.setPattern ("--(?!\\[).*");
     else if (progLan == "troff")
-        rule.pattern = QRegExp ("\\\\\"|\\.\\s*\\\\\"");
-    if (!rule.pattern.isEmpty())
+        rule.pattern.setPattern ("\\\\\"|\\.\\s*\\\\\"");
+    if (!rule.pattern.pattern().isEmpty())
     {
         rule.format = commentFormat;
         highlightingRules.append (rule);
@@ -1596,17 +1601,16 @@ void Highlighter::singleLineComment (const QString &text, const int start)
         if (rule.format == commentFormat)
         {
             int startIndex = qMax (start, 0);
-            QRegExp expression (rule.pattern);
             if (previousBlockState() == nextLineCommentState)
                 startIndex = 0;
             else
             {
-                startIndex = expression.indexIn (text, startIndex);
+                startIndex = text.indexOf (rule.pattern, startIndex);
                 /* skip quoted comments */
                 while (startIndex > -1
                        && (isQuoted (text, startIndex) || isInsideJSRegex (text, startIndex)))
                 {
-                    startIndex = expression.indexIn (text, startIndex + 1);
+                    startIndex = text.indexOf (rule.pattern, startIndex + 1);
                 }
             }
             if (startIndex > -1)
@@ -1816,15 +1820,14 @@ void Highlighter::multiLineComment (const QString &text,
             {
                 if (rule.format == commentFormat)
                 {
-                    QRegExp expression (rule.pattern);
-                    int INDX = expression.indexIn (text, badIndex);
+                    int INDX = text.indexOf (rule.pattern, badIndex);
                     fi = format (INDX);
                     while (fi == quoteFormat
                            || fi == altQuoteFormat
                            || fi == urlInsideQuoteFormat
                            || isMLCommented (text, INDX, commState))
                     {
-                        INDX = expression.indexIn (text, INDX + 1);
+                        INDX = text.indexOf (rule.pattern, INDX + 1);
                         fi = format (INDX);
                     }
                     if (INDX >= 0)
@@ -2200,7 +2203,7 @@ bool Highlighter::isHereDocument (const QString &text)
     QTextCharFormat delimFormat = blockFormat;
     delimFormat.setFontWeight (QFont::Bold);
     QString delimStr;
-    /* Kate uses something like "<<(?:\\s*)([\\\\]{,1}[^\\s]+)" */
+    /* Kate uses something like "<<(?:\\s*)([\\\\]{0,1}[^\\s]+)" */
     QRegularExpression delim;
     if (progLan == "sh" || progLan == "makefile" || progLan == "cmake")
         delim.setPattern ("<<(?:\\s*)(\\\\{0,1}[A-Za-z0-9_]+)|<<(?:\\s*)(\'[A-Za-z0-9_]+\')|<<(?:\\s*)(\"[A-Za-z0-9_]+\")");
@@ -2323,13 +2326,12 @@ bool Highlighter::isHereDocument (const QString &text)
             {
                 if (rule.format == whiteSpaceFormat)
                 {
-                    QRegExp expression (rule.pattern);
-                    int index = expression.indexIn (text);
+                    QRegularExpressionMatch match;
+                    int index = text.indexOf (rule.pattern, 0, &match);
                     while (index >= 0)
                     {
-                        int length = expression.matchedLength();
-                        setFormat (index, length, rule.format);
-                        index = expression.indexIn (text, index + length);
+                        setFormat (index, match.capturedLength(), rule.format);
+                        index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
                     }
                 }
             }
@@ -2561,8 +2563,8 @@ void Highlighter::highlightBlock (const QString &text)
             data->insertHighlightInfo (true); // completely highlighted
             for (const HighlightingRule &rule : static_cast<const QVector<HighlightingRule>&>(highlightingRules))
             {
-                QRegExp expression (rule.pattern);
-                index = expression.indexIn (text);
+                QRegularExpressionMatch match;
+                index = text.indexOf (rule.pattern, 0, &match);
                 if (rule.format != whiteSpaceFormat)
                 {
                     fi = format (index);
@@ -2571,15 +2573,14 @@ void Highlighter::highlightBlock (const QString &text)
                                || fi == commentFormat || fi == urlFormat
                                || fi.fontWeight() == QFont::Bold || fi.fontItalic()))
                     {
-                        index = expression.indexIn (text, index + expression.matchedLength());
+                        index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
                         fi = format (index);
                     }
                 }
                 while (index >= 0)
                 {
-                    int length = expression.matchedLength();
-                    setFormat (index, length, rule.format);
-                    index = expression.indexIn (text, index + length);
+                    setFormat (index, match.capturedLength(), rule.format);
+                    index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
                     if (rule.format != whiteSpaceFormat)
                     {
                         fi = format (index);
@@ -2588,7 +2589,7 @@ void Highlighter::highlightBlock (const QString &text)
                                    || fi == commentFormat || fi == urlFormat
                                    || fi.fontWeight() == QFont::Bold || fi.fontItalic()))
                         {
-                            index = expression.indexIn (text, index + expression.matchedLength());
+                            index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
                             fi = format (index);
                         }
                     }
@@ -2624,8 +2625,8 @@ void Highlighter::highlightBlock (const QString &text)
             if (rule.format == commentFormat)
                 continue;
 
-            QRegExp expression (rule.pattern);
-            index = expression.indexIn (text);
+            QRegularExpressionMatch match;
+            index = text.indexOf (rule.pattern, 0, &match);
             /* skip quotes and all comments */
             if (rule.format != whiteSpaceFormat)
             {
@@ -2635,14 +2636,14 @@ void Highlighter::highlightBlock (const QString &text)
                            || fi == commentFormat || fi == urlFormat
                            || fi == JSRegexFormat))
                 {
-                    index = expression.indexIn (text, index + expression.matchedLength());
+                    index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
                     fi = format (index);
                 }
             }
 
             while (index >= 0)
             {
-                int length = expression.matchedLength();
+                int length = match.capturedLength();
                 int l = length;
                 /* In c/c++, the neutral pattern after "#define" may contain
                    a (double-)slash but it's always good to check whether a
@@ -2661,7 +2662,7 @@ void Highlighter::highlightBlock (const QString &text)
                     }
                 }
                 setFormat (index, l, rule.format);
-                index = expression.indexIn (text, index + length);
+                index = text.indexOf (rule.pattern, index + length, &match);
 
                 if (rule.format != whiteSpaceFormat)
                 {
@@ -2671,7 +2672,7 @@ void Highlighter::highlightBlock (const QString &text)
                                || fi == commentFormat || fi == urlFormat
                                || fi == JSRegexFormat))
                     {
-                        index = expression.indexIn (text, index + expression.matchedLength());
+                        index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
                         fi = format (index);
                     }
                 }

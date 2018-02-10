@@ -139,6 +139,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
         progLan = "gtkrc";
     else if (baseName == "control")
         progLan = "deb";
+    else if (baseName == "mirrorlist")
+        progLan = "config";
 
     if (progLan.isEmpty()) // now, check mime types
     {

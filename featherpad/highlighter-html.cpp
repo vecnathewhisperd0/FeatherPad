@@ -282,13 +282,12 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
         {
             if (rule.format == whiteSpaceFormat)
             {
-                QRegExp expression (rule.pattern);
-                int index = expression.indexIn (text, start);
+                QRegularExpressionMatch match;
+                int index = text.indexOf (rule.pattern, start, &match);
                 while (index >= 0)
                 {
-                    int length = expression.matchedLength();
-                    setFormat (index, length, rule.format);
-                    index = expression.indexIn (text, index + length);
+                    setFormat (index, match.capturedLength(), rule.format);
+                    index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
                 }
             }
         }
@@ -377,13 +376,12 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
             { // CSS doesn't have any main formatting except for witesapces
                 if (rule.format == whiteSpaceFormat)
                 {
-                    QRegExp expression (rule.pattern);
-                    int index = expression.indexIn (text, start);
+                    QRegularExpressionMatch match;
+                    int index = text.indexOf (rule.pattern, start, &match);
                     while (index >= 0)
                     {
-                        int length = expression.matchedLength();
-                        setFormat (index, length, rule.format);
-                        index = expression.indexIn (text, index + length);
+                        setFormat (index, match.capturedLength(), rule.format);
+                        index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
                     }
                 }
             }
@@ -513,8 +511,8 @@ void Highlighter::htmlJavascript (const QString &text)
                 if (rule.format == commentFormat)
                     continue;
 
-                QRegExp expression (rule.pattern);
-                int index = expression.indexIn (text, javaIndex + matched);
+                QRegularExpressionMatch match;
+                int index = text.indexOf (rule.pattern, javaIndex + matched, &match);
                 if (rule.format != whiteSpaceFormat)
                 {
                     fi = format (index);
@@ -522,16 +520,15 @@ void Highlighter::htmlJavascript (const QString &text)
                            && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                                || fi == commentFormat || fi == urlFormat))
                     {
-                        index = expression.indexIn (text, index + expression.matchedLength());
+                        index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
                         fi = format (index);
                     }
                 }
 
                 while (index >= 0)
                 {
-                    int length = expression.matchedLength();
-                    setFormat (index, length, rule.format);
-                    index = expression.indexIn (text, index + length);
+                    setFormat (index, match.capturedLength(), rule.format);
+                    index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
 
                     if (rule.format != whiteSpaceFormat)
                     {
@@ -541,7 +538,7 @@ void Highlighter::htmlJavascript (const QString &text)
                                    || fi == commentFormat || fi == urlFormat
                                    || fi == JSRegexFormat))
                         {
-                            index = expression.indexIn (text, index + expression.matchedLength());
+                            index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
                             fi = format (index);
                         }
                     }
