@@ -95,6 +95,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
              progLan = "desktop";
         else if (fname.endsWith (".conf") || fname.endsWith (".ini") || fname.endsWith (".kvconfig")
                  || fname.endsWith (".service") || fname.endsWith (".mount") || fname.endsWith (".timer") // systemd related
+                 || baseName == "sources.list" || baseName == "sources.list.save"
                  || fname.endsWith (".pls", Qt::CaseInsensitive))
              progLan = "config";
         else if (fname.endsWith (".js"))
@@ -121,8 +122,6 @@ void FPwin::setProgLang (TextEdit *textEdit)
             progLan = "html";
         else if (fname.endsWith (".markdown") || fname.endsWith (".md") || fname.endsWith (".mkd"))
             progLan = "markdown";
-        else if (baseName == "sources.list" || baseName == "sources.list.save")
-            progLan = "sourceslist";
         else if (baseName.startsWith ("makefile.", Qt::CaseInsensitive) && !baseName.endsWith (".txt", Qt::CaseInsensitive))
             progLan = "makefile";
         else if (baseName.compare ("CMakeLists.txt", Qt::CaseInsensitive) == 0)

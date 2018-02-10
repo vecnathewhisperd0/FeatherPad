@@ -669,21 +669,8 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = desktopFormat;
         highlightingRules.append (rule);
     }
-    else if (progLan == "url" || progLan == "sourceslist")
+    else if (progLan == "url")
     {
-        if (progLan == "sourceslist")
-        {
-            QTextCharFormat slFormat = neutralFormat;
-            slFormat.setFontWeight (QFont::Bold);
-            rule.pattern.setPattern ("\\bdeb(?=\\s+)|\\bdeb-src(?=\\s+)");
-            rule.format = slFormat;
-            highlightingRules.append (rule);
-
-            slFormat.setFontItalic (true);
-            rule.pattern.setPattern ("\\bstable\\b|\\btesting\\b|\\bunstable\\b|\\bsid\\b|\\bexperimental\\b");
-            rule.format = slFormat;
-            highlightingRules.append (rule);
-        }
         rule.pattern.setPattern ("\\b[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)]+");
         rule.format = urlFormat;
         highlightingRules.append (rule);
@@ -865,7 +852,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.pattern.setPattern ("//.*"); // why had I set it to QRegExp ("//(?!\\*).*")?
     }
     else if (progLan == "python"
-             || progLan == "sourceslist" || progLan == "qmake"
+             || progLan == "qmake"
              || progLan == "gtkrc")
     {
         rule.pattern.setPattern ("#.*"); // or "#[^\n]*"

@@ -685,8 +685,8 @@ void FPwin::addLangButton()
                  << "css" << "deb" << "desktop" << "diff" << "gtkrc"
                  << "html" << "javascript" << "log" << "lua" << "m3u"
                  << "markdown" << "makefile" << "perl" << "php" << "python"
-                 << "qmake" << "qml" << "ruby" << "sh" << "sourceslist"
-                 << "troff" << "theme" << "url" << "xml";
+                 << "qmake" << "qml" << "ruby" << "sh" << "troff"
+                 << "theme" << "url" << "xml";
     }
 
     QToolButton *langButton = new QToolButton();
