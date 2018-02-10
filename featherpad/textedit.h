@@ -250,7 +250,7 @@ private slots:
 
 private:
     QString computeIndentation (const QTextCursor &cur) const;
-    QString getUrl (const QPoint &pos) const;
+    QString getUrl (const int pos) const;
 
     int prevAnchor, prevPos; // used only for bracket matching
     QWidget *lineNumberArea;

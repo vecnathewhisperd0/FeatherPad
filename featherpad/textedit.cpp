@@ -24,6 +24,7 @@
 #include <QMenu>
 #include <QDesktopServices>
 #include <QRegularExpression>
+#include <QClipboard>
 #include "textedit.h"
 #include "vscrollbar.h"
 
@@ -273,7 +274,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
     /* first, deal with hyperlinks */
     if (highlighter_ && event->key() == Qt::Key_Control && event->modifiers() == Qt::ControlModifier)
     {
-        if (getUrl (mapFromGlobal (QCursor::pos())).isEmpty())
+        if (getUrl (cursorForPosition (viewport()->mapFromGlobal (QCursor::pos())).position()).isEmpty())
             viewport()->setCursor (Qt::IBeamCursor);
         else
             viewport()->setCursor (Qt::PointingHandCursor);
@@ -1114,10 +1115,36 @@ void TextEdit::showEvent (QShowEvent *event)
 /*************************/
 void TextEdit::showContextMenu (const QPoint &p)
 {
+    /* put the cursor at the right-click position if it has no selection */
+    if (!textCursor().hasSelection())
+        setTextCursor (cursorForPosition (p));
+
     QMenu *menu = createStandardContextMenu (p);
+    if (!menu->actions().isEmpty())
+    {
+        QString str = getUrl (textCursor().position());
+        if (!str.isEmpty())
+        {
+            QAction *sep = menu->insertSeparator (menu->actions().first());
+            QAction *openLink = new QAction (tr ("Open Link"), menu);
+            menu->insertAction (sep, openLink);
+            connect (openLink, &QAction::triggered, [str] {
+                QUrl url (str);
+                if (url.isRelative())
+                    url = QUrl::fromUserInput (str, "/");
+                QDesktopServices::openUrl (url);
+            });
+            QAction *copyLink = new QAction (tr ("Copy Link"), menu);
+            menu->insertAction (sep, copyLink);
+            connect (copyLink, &QAction::triggered, [str] {
+                QApplication::clipboard()->setText (str);
+            });
+
+        }
+    }
     menu->addSeparator();
     QAction *action = menu->addAction (tr ("Paste Date and Time"));
-    connect (action, &QAction::triggered, action, [this] {
+    connect (action, &QAction::triggered, [this] {
         insertPlainText (QDateTime::currentDateTime().toString (dateFormat_.isEmpty() ? "MMM dd, yyyy, hh:mm:ss" : dateFormat_));
     });
     menu->exec (mapToGlobal (p));
@@ -1128,17 +1155,16 @@ void TextEdit::showContextMenu (const QPoint &p)
 ***** The following functions are for hyperlinks *****
 ******************************************************/
 
-QString TextEdit::getUrl (const QPoint &pos) const
+QString TextEdit::getUrl (const int pos) const
 {
     static const QRegularExpression urlPattern ("\\b[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)]+");
 
     QString url;
-    int cursorPos = cursorForPosition (pos).position();
-    QTextBlock block = document()->findBlock (cursorPos);
+    QTextBlock block = document()->findBlock (pos);
     QString text = block.text();
     if (text.length() <= 10000) // otherwise, too long
     {
-        int cursorIndex = cursorPos - block.position();
+        int cursorIndex = pos - block.position();
         QRegularExpressionMatch match;
         int indx = text.lastIndexOf (urlPattern, cursorIndex, &match);
         if (indx > -1 && indx + match.capturedLength() > cursorIndex)
@@ -1157,7 +1183,7 @@ void TextEdit::mouseMoveEvent (QMouseEvent *event)
         return;
     }
 
-    if (getUrl (event->pos()).isEmpty())
+    if (getUrl (cursorForPosition (event->pos()).position()).isEmpty())
         viewport()->setCursor (Qt::IBeamCursor);
     else
         viewport()->setCursor (Qt::PointingHandCursor);
@@ -1167,8 +1193,8 @@ void TextEdit::mousePressEvent (QMouseEvent *event)
 {
     QPlainTextEdit::mousePressEvent (event);
     if (!highlighter_
-        || !(event->button() & Qt::LeftButton
-        || !(qApp->keyboardModifiers() & Qt::ControlModifier)))
+        || !(event->button() & Qt::LeftButton)
+        || !(qApp->keyboardModifiers() & Qt::ControlModifier))
     {
         return;
     }
@@ -1179,18 +1205,18 @@ void TextEdit::mouseReleaseEvent (QMouseEvent *event)
 {
     QPlainTextEdit::mouseReleaseEvent (event);
     if (!highlighter_
-         || !(event->button() & Qt::LeftButton)
-         || !(qApp->keyboardModifiers() & Qt::ControlModifier))
+        || !(event->button() & Qt::LeftButton)
+        || !(qApp->keyboardModifiers() & Qt::ControlModifier))
     {
         return;
     }
 
-    QString str = getUrl(event->pos());
-    if (!str.isEmpty()
-        && cursorForPosition (event->pos()) == cursorForPosition (pressPoint_))
+    QTextCursor cur = cursorForPosition (event->pos());
+    QString str = getUrl (cur.position());
+    if (!str.isEmpty() && cur == cursorForPosition (pressPoint_))
     {
         QUrl url (str);
-        if (url.isRelative()) // treat relative URLs as local paths
+        if (url.isRelative()) // treat relative URLs as local paths (not needed here)
             url = QUrl::fromUserInput (str, "/");
         QDesktopServices::openUrl (url);
     }

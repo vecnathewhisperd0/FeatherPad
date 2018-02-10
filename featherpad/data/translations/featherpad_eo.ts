@@ -2087,7 +2087,17 @@ fenestroj estos inkluzivitaj de la konservota sesio.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="1119"/>
+        <location filename="../../textedit.cpp" line="1129"/>
+        <source>Open Link</source>
+        <translation>Malfermu la Ligilon</translation>
+    </message>
+    <message>
+        <location filename="../../textedit.cpp" line="1137"/>
+        <source>Copy Link</source>
+        <translation>Kopiu la Ligilon</translation>
+    </message>
+    <message>
+        <location filename="../../textedit.cpp" line="1146"/>
         <source>Paste Date and Time</source>
         <translation>Algluu la Daton kaj Tempon</translation>
     </message>

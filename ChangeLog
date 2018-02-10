@@ -18,7 +18,8 @@ V0.8
  * Don't Activate the window repeatedly on opening multiple files because, otherwise, the input might be blocked.
  * Fixed a mistake in localization that didn't let Simplified Chinese be detected.
  * Added a configurable date and time pasting.
- * Open hyperlinks of highlighted texts by left-clikcing them while the Ctrl key is pressed.
+ * Open hyperlinks of highlighted texts by left-clikcing them while the Ctrl key is pressed and also with an item in the context menu.
+ * Put the cursor at the right-click position if it has no selection.
 
 V0.7
 ---------
