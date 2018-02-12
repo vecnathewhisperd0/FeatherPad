@@ -521,7 +521,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="1113"/>
-        <source>Pate Date and Time</source>
+        <source>Paste Date and Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
