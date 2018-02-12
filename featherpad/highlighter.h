@@ -119,7 +119,7 @@ private:
     void singleLineComment (const QString &text, const int start);
     void multiLineComment (const QString &text,
                            const int index, const int cssIndx,
-                           const QRegExp &commentStartExp, const QRegExp &commentEndExp,
+                           const QRegularExpression &commentStartExp, const QRegularExpression &commentEndExp,
                            const int commState,
                            const QTextCharFormat &comFormat);
     bool textEndsWithBackSlash (const QString &text);
@@ -155,8 +155,8 @@ private:
     QVector<HighlightingRule> highlightingRules;
 
     /* Multiline comments: */
-    QRegExp commentStartExpression;
-    QRegExp commentEndExpression;
+    QRegularExpression commentStartExpression;
+    QRegularExpression commentEndExpression;
 
     QTextCharFormat mainFormat; // The format before highlighting.
     QTextCharFormat neutralFormat; // When a color near that of mainFormat is needed.

@@ -32,7 +32,7 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
 
     int braIndex = start;
     int indx = 0;
-    QRegExp braStartExp = QRegExp ("<(?!\\!)/{,1}[A-Za-z0-9_\\-]+");
+    QRegExp braStartExp = QRegExp ("<(?!\\!)/{0,1}[A-Za-z0-9_\\-]+");
     QRegExp braEndExp = QRegExp (">");
     QRegExp styleExp = QRegExp ("<(style|STYLE)$|<(style|STYLE)\\s+[^>]*");
     bool isStyle (false);
@@ -238,23 +238,37 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
             QTextCharFormat htmlAttributeFormat;
             htmlAttributeFormat.setFontItalic (true);
             htmlAttributeFormat.setForeground (Brown);
-            QRegExp attExp = QRegExp ("[A-Za-z0-9_\\-]+(?=\\s*\\=)");
-            int attIndex = attExp.indexIn (text, braIndex);
+            QRegularExpressionMatch attMatch;
+            QRegularExpression attExp ("[A-Za-z0-9_\\-]+(?=\\s*\\=)");
+            int attIndex = text.indexOf (attExp, braIndex, &attMatch);
             QTextCharFormat fi = format (attIndex);
             while (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat)
             {
-                attIndex = attExp.indexIn (text, attIndex + attExp.matchedLength());
+                attIndex += attMatch.capturedLength();
+                fi = format (attIndex);
+                while (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat)
+                {
+                    ++ attIndex;
+                    fi = format (attIndex);
+                }
+                attIndex = text.indexOf (attExp, attIndex, &attMatch);
                 fi = format (attIndex);
             }
             while (attIndex >= braIndex && attIndex < endLimit)
             {
-                int length = attExp.matchedLength();
-                setFormat (attIndex, length, htmlAttributeFormat);
-                attIndex = attExp.indexIn (text, attIndex + length);
+                setFormat (attIndex, attMatch.capturedLength(), htmlAttributeFormat);
+                attIndex = text.indexOf(attExp, attIndex + attMatch.capturedLength(), &attMatch);
                 fi = format (attIndex);
                 while (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat)
                 {
-                    attIndex = attExp.indexIn (text, attIndex + attExp.matchedLength());
+                    attIndex += attMatch.capturedLength();
+                    fi = format (attIndex);
+                    while (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat)
+                    {
+                        ++ attIndex;
+                        fi = format (attIndex);
+                    }
+                    attIndex = text.indexOf (attExp, attIndex, &attMatch);
                     fi = format (attIndex);
                 }
             }
@@ -305,8 +319,8 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
     QRegExp braEndExp = QRegExp (">");
 
     /* switch to css temporarily */
-    commentStartExpression = QRegExp ("/\\*");
-    commentEndExpression = QRegExp ("\\*/");
+    commentStartExpression.setPattern ("/\\*");
+    commentEndExpression.setPattern ("\\*/");
     progLan = "css";
 
     bool wasCSS (false);
@@ -443,8 +457,8 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
 
     /* revert to html */
     progLan = "html";
-    commentStartExpression = QRegExp ("<!--");
-    commentEndExpression = QRegExp ("-->");
+    commentStartExpression.setPattern ("<!--");
+    commentEndExpression.setPattern ("-->");
 }
 /*************************/
 void Highlighter::htmlJavascript (const QString &text)
@@ -457,8 +471,8 @@ void Highlighter::htmlJavascript (const QString &text)
     QRegExp javaEndExp = QRegExp ("</(script|SCRIPT)\\s*>");
 
     /* switch to javascript temporarily */
-    commentStartExpression = QRegExp ("/\\*");
-    commentEndExpression = QRegExp ("\\*/");
+    commentStartExpression.setPattern ("/\\*");
+    commentEndExpression.setPattern ("\\*/");
     progLan = "javascript";
 
     bool wasJavascript (false);
@@ -603,8 +617,8 @@ void Highlighter::htmlJavascript (const QString &text)
 
     /* revert to html */
     progLan = "html";
-    commentStartExpression = QRegExp ("<!--");
-    commentEndExpression = QRegExp ("-->");
+    commentStartExpression.setPattern ("<!--");
+    commentEndExpression.setPattern ("-->");
 }
 
 }
