@@ -2396,7 +2396,7 @@ void Highlighter::debControlFormatting (const QString &text)
         int index = indx;
         debFormat = neutralFormat;
         debFormat.setFontItalic (true);
-        while ((index = text.indexOf (exp, index)) > -1)
+        while ((index = text.indexOf (exp, index, &expMatch)) > -1)
         {
             int ml = expMatch.capturedLength();
             setFormat (index, ml, neutralFormat);
