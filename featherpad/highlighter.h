@@ -174,7 +174,7 @@ private:
     /* Programming language: */
     QString progLan;
 
-    QRegExp quoteMark;
+    QRegularExpression quoteMark;
     QColor Blue, DarkBlue, Red, DarkRed, Verda, DarkGreen, DarkGreenAlt, DarkMagenta, Violet, Brown, DarkYellow;
 
     /* The start and end cursors of the visible text: */

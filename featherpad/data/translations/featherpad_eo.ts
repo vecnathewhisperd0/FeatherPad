@@ -1447,108 +1447,108 @@ Iuj labortablaj medioj, kiel KDE kaj LXQt, provizas dosierdialogojn.</translatio
         <translation>Indiĝena dosierdialogo</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="321"/>
+        <location filename="../../predDialog.ui" line="354"/>
         <source>Uncheck for Monospace 9.</source>
         <translation>Malmarku por Monospace 9.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="324"/>
+        <location filename="../../predDialog.ui" line="357"/>
         <source>Remember &amp;font</source>
         <translation>Memoru la ti&amp;paron</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="345"/>
+        <location filename="../../predDialog.ui" line="378"/>
         <source>This covers parentheses, braces, brackets and quotes.</source>
         <translation>Ĉi tio pritraktas la rondan, rektan kaj kunigan
 krampojn kaj ankaŭ la citmarkojn.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="348"/>
+        <location filename="../../predDialog.ui" line="381"/>
         <source>Auto-&amp;bracket</source>
         <translation>&amp;Aŭtomata enkrampigo</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="385"/>
+        <location filename="../../predDialog.ui" line="418"/>
         <source>Never highlight syntax for files &gt; </source>
         <translation>Ne marku la sintakson por la dosieroj &gt; </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="421"/>
+        <location filename="../../predDialog.ui" line="454"/>
         <source>This creates a menu button on the
 status bar for changing the syntax.</source>
         <translation>Ĉi tio estigas menubutonon sur la
 statusbreto por ŝanĝi la sintakson.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="425"/>
+        <location filename="../../predDialog.ui" line="458"/>
         <source>Support syntax override</source>
         <translation>Ebligu ŝanĝi la sintakson</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="432"/>
+        <location filename="../../predDialog.ui" line="465"/>
         <source>Show spaces, tabs and tab lines
 when the syntax is highlighted.</source>
         <translation>Montru spacojn, tabojn, kaj tabliniojn
 kiam la sintakso estas markita.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="436"/>
+        <location filename="../../predDialog.ui" line="469"/>
         <source>Show whitespaces with syntax highlighting</source>
         <translation>Montru la blankspacojn markante la sintakson</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="443"/>
-        <location filename="../../predDialog.ui" line="454"/>
+        <location filename="../../predDialog.ui" line="476"/>
+        <location filename="../../predDialog.ui" line="487"/>
         <source>The vertical position lines will be drawn only if
 the editor font has a fixed pitch (like Monospace).</source>
         <translation>La vertikalaj poziciaj linioj estus desegnitaj nur se
 la redaktila tiparo havus fiksitan larĝon (kiel Monospace).</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="447"/>
+        <location filename="../../predDialog.ui" line="480"/>
         <source>Show vertical lines starting from this position:</source>
         <translation>Montru vertikalajn liniojn komence de ĉ tiu pozicio:</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="468"/>
+        <location filename="../../predDialog.ui" line="501"/>
         <source>Also show line and document ends</source>
         <translation>Ankaŭ montru la liniajn kaj dokumentan fonojn</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="524"/>
+        <location filename="../../predDialog.ui" line="557"/>
         <source>Date and time format:</source>
         <translation>Datoprezento:</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="549"/>
+        <location filename="../../predDialog.ui" line="582"/>
         <source>Some text editors cannot open a document
 whose last line is not empty.</source>
         <translation>Iuj tekst-redaktiloj ne povas malfermi
 dokumenton, kies fina linio ne estas malplena.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="553"/>
+        <location filename="../../predDialog.ui" line="586"/>
         <source>Ensure an empty last line on saving</source>
         <translation>Garantiu finan linion malplenan konservante</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="564"/>
+        <location filename="../../predDialog.ui" line="597"/>
         <source>Inertial scrolling with mouse wheel</source>
         <translation>Inercia rulumado per la musrado</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="586"/>
+        <location filename="../../predDialog.ui" line="623"/>
         <source>Files</source>
         <translation>Dosieroj</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="592"/>
+        <location filename="../../predDialog.ui" line="629"/>
         <source>File Management</source>
         <translation>Dosieradministrado</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="716"/>
-        <location filename="../../predDialog.ui" line="735"/>
+        <location filename="../../predDialog.ui" line="753"/>
+        <location filename="../../predDialog.ui" line="772"/>
         <source>This can be any starting command with
 arguments, for example, &quot;xterm -hold&quot;
 for running the process in XTerm.
@@ -1571,32 +1571,32 @@ emulatoro, dialogo ekaperus montranta la
 eligajn kaj erarajn mesaĝojn.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="728"/>
+        <location filename="../../predDialog.ui" line="765"/>
         <source>Start with this command: </source>
         <translation>Startigu kun ĉi tiu komando: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="747"/>
+        <location filename="../../predDialog.ui" line="784"/>
         <source>Command + Arguments</source>
         <translation>Komando + Operando</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="642"/>
+        <location filename="../../predDialog.ui" line="679"/>
         <source>Show recentl&amp;y modified files</source>
         <translation>Montru la lastatempe mo&amp;difitajn dosierojn</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="652"/>
+        <location filename="../../predDialog.ui" line="689"/>
         <source>Show recentl&amp;y opened files</source>
         <translation>Montru la lastatempe mal&amp;fermitajn dosierojn</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="773"/>
+        <location filename="../../predDialog.ui" line="810"/>
         <source>Save changes to opened files every:</source>
         <translation>Konservi la ŝanĝojn al la malfermitaj dosieroj ĉiun:</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="859"/>
+        <location filename="../../predDialog.ui" line="896"/>
         <source>Help</source>
         <translation>Helpo</translation>
     </message>
@@ -1643,59 +1643,59 @@ fenestron al alia per ŝovmetado.</translation>
         <translation>Teksto</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="315"/>
+        <location filename="../../predDialog.ui" line="348"/>
         <source>Text Editor</source>
         <translation>Tekstredaktilo</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="331"/>
+        <location filename="../../predDialog.ui" line="364"/>
         <source>&amp;Wrap lines by default</source>
         <translation>Ĉir&amp;kaŭfermu la liniojn defaŭlte</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="338"/>
+        <location filename="../../predDialog.ui" line="371"/>
         <source>Auto-&amp;indent by default</source>
         <translation>Mem-al&amp;ineu defaŭlte</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="355"/>
+        <location filename="../../predDialog.ui" line="388"/>
         <source>Always show line &amp;numbers</source>
         <translation>Ĉiam vidigu la lini-numero&amp;jn</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="362"/>
+        <location filename="../../predDialog.ui" line="395"/>
         <source>Highlight s&amp;yntax by default</source>
         <translation>Marku la sin&amp;takson defaŭlte</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="478"/>
+        <location filename="../../predDialog.ui" line="511"/>
         <source>Dark c&amp;olor scheme</source>
         <translation>Malluma kolo&amp;rskemo</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="509"/>
+        <location filename="../../predDialog.ui" line="542"/>
         <source>Background color value: </source>
         <translation>La kolorvaloro de la fono: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="392"/>
+        <location filename="../../predDialog.ui" line="425"/>
         <source> MiB</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="571"/>
+        <location filename="../../predDialog.ui" line="604"/>
         <source>This is not a complete fix but
 prevents annoying scroll jumps.</source>
         <translation>Ĉi tio ne estas kompleta solvo sed detenas
 ĝenantajn saltojn komence de rulumado.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="575"/>
+        <location filename="../../predDialog.ui" line="608"/>
         <source>Workaround for &amp;Qt5&apos;s scroll jump bug</source>
         <translation>Proviza korekto por la ruluma salto ĉe &amp;Qt5</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="683"/>
+        <location filename="../../predDialog.ui" line="720"/>
         <source>This only includes executable files written
 in script languages like Shell and Python.
 
@@ -1714,13 +1714,13 @@ aŭ per ĝia fulmoklavo Ctrl+E. Tiam, la procezo povus esti
 ĉesigita per la fulmoklavo Ctrl+Alt+E.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="475"/>
+        <location filename="../../predDialog.ui" line="508"/>
         <source>Needs window reopening to take effect.</source>
         <translation>Remalfermado de la fenestro necesas.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="485"/>
-        <location filename="../../predDialog.ui" line="499"/>
+        <location filename="../../predDialog.ui" line="518"/>
+        <location filename="../../predDialog.ui" line="532"/>
         <source>The color value of the background.
 255 means white while 0 means black.
 
@@ -1739,13 +1739,13 @@ Remalfermado de la fenestro necesas por
 ke ĉi tio efektivĝu.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="693"/>
+        <location filename="../../predDialog.ui" line="730"/>
         <source>Run executable scripts</source>
         <translation>Plenumu ekzekveblajn skriptojn</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="598"/>
-        <location filename="../../predDialog.ui" line="612"/>
+        <location filename="../../predDialog.ui" line="635"/>
+        <location filename="../../predDialog.ui" line="649"/>
         <source>The maximum number of recently modified or
 opened files FeatherPad shows. The default
 is 10.
@@ -1758,8 +1758,8 @@ La defaŭlto estas 10.
 Restartigo de la aplikaĵo necesas.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="516"/>
-        <location filename="../../predDialog.ui" line="531"/>
+        <location filename="../../predDialog.ui" line="549"/>
+        <location filename="../../predDialog.ui" line="564"/>
         <source>Used for pasting the date and time.
 
 Takes effect after closing this dialog.
@@ -1774,20 +1774,20 @@ Lasu ĉi tion malplena por:
 MMM dd, yyyy, hh:mm:ss</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="560"/>
+        <location filename="../../predDialog.ui" line="593"/>
         <source>Should the mouse wheel scrolling be inertial
 if the cursor is inside the text view?</source>
         <translation>Ĉu la musrada rulumado estu inercia kiam
 la kursoro estas interne de la tekst-vido?</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="605"/>
+        <location filename="../../predDialog.ui" line="642"/>
         <source>Number of recent files: </source>
         <translation>Nombro de la lastatempaj dosieroj: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="659"/>
-        <location filename="../../predDialog.ui" line="671"/>
+        <location filename="../../predDialog.ui" line="696"/>
+        <location filename="../../predDialog.ui" line="708"/>
         <source>The maximum number of recently modified or
 opened files FeatherPad should open with an
 empty startup of a session.</source>
@@ -1796,48 +1796,48 @@ aŭ malfermitaj dosieroj, kiujn FeatherPad malfermu
 okaze de senenhava startigo de sesio.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="664"/>
+        <location filename="../../predDialog.ui" line="701"/>
         <source>Start with recent files: </source>
         <translation>Startu kun lastatempaj dosieroj: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="770"/>
-        <location filename="../../predDialog.ui" line="780"/>
+        <location filename="../../predDialog.ui" line="807"/>
+        <location filename="../../predDialog.ui" line="817"/>
         <source>Only for files that exist and can be saved.</source>
         <translation>Nur por la dosieroj ekzistantaj kaj konserveblaj.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="783"/>
+        <location filename="../../predDialog.ui" line="820"/>
         <source> min</source>
         <translation> min</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="800"/>
+        <location filename="../../predDialog.ui" line="837"/>
         <source>Shortcuts</source>
         <translation>Fulmoklavoj</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="819"/>
+        <location filename="../../predDialog.ui" line="856"/>
         <source>Action</source>
         <translation>Ago</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="824"/>
+        <location filename="../../predDialog.ui" line="861"/>
         <source>Shortcut</source>
         <translation>Fulmoklavo</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="832"/>
+        <location filename="../../predDialog.ui" line="869"/>
         <source>Restore default shortcuts.</source>
         <translation>Restaŭri defaŭltajn fulmoklavojn.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="835"/>
+        <location filename="../../predDialog.ui" line="872"/>
         <source>Default</source>
         <translation>Defaŭlto</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="870"/>
+        <location filename="../../predDialog.ui" line="907"/>
         <source>Close</source>
         <translation>Fermi</translation>
     </message>

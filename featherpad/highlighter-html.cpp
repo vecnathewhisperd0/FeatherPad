@@ -32,9 +32,11 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
 
     int braIndex = start;
     int indx = 0;
-    QRegExp braStartExp = QRegExp ("<(?!\\!)/{0,1}[A-Za-z0-9_\\-]+");
-    QRegExp braEndExp = QRegExp (">");
-    QRegExp styleExp = QRegExp ("<(style|STYLE)$|<(style|STYLE)\\s+[^>]*");
+    QRegularExpressionMatch startMatch;
+    QRegularExpression braStartExp ("<(?!\\!)/{0,1}[A-Za-z0-9_\\-]+");
+    QRegularExpressionMatch endMatch;
+    QRegularExpression braEndExp (">");
+    QRegularExpression styleExp ("<(style|STYLE)$|<(style|STYLE)\\s+[^>]*");
     bool isStyle (false);
     QTextCharFormat htmlBraFormat;
     htmlBraFormat.setFontWeight (QFont::Bold);
@@ -45,14 +47,14 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
         || (prevState != singleQuoteState && prevState != doubleQuoteState
             && (prevState < htmlBracketState || prevState > htmlStyleSingleQuoteState)))
     {
-        braIndex = braStartExp.indexIn (text, start);
+        braIndex = text.indexOf (braStartExp, start, &startMatch);
         while (format (braIndex) == commentFormat || format (braIndex) == urlFormat)
-            braIndex = braStartExp.indexIn (text, braIndex + 1);
+            braIndex = text.indexOf (braStartExp, braIndex + 1, &startMatch);
         if (braIndex > -1)
         {
-            indx = styleExp.indexIn (text, start);
+            indx = text.indexOf (styleExp, start);
             while (format (indx) == commentFormat || format (indx) == urlFormat)
-                indx = styleExp.indexIn (text, indx + 1);
+                indx = text.indexOf (styleExp, indx + 1);
             isStyle = indx > -1 && braIndex == indx;
         }
     }
@@ -82,13 +84,14 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
             && (prevState == singleQuoteState || prevState == doubleQuoteState
                 || (prevState >= htmlBracketState && prevState <= htmlStyleSingleQuoteState)))
         {
-            braEndIndex = braEndExp.indexIn (text, 0);
+            braEndIndex = text.indexOf (braEndExp, 0, &endMatch);
         }
         else
         {
-            matched = braStartExp.matchedLength();
-            braEndIndex = braEndExp.indexIn (text,
-                                             braIndex + matched);
+            matched = startMatch.capturedLength();
+            braEndIndex = text.indexOf (braEndExp,
+                                        braIndex + matched,
+                                        &endMatch);
         }
 
         int len;
@@ -103,13 +106,13 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
         else
         {
             len = braEndIndex - braIndex
-                  + braEndExp.matchedLength();
+                  + endMatch.capturedLength();
         }
 
         if (matched > 0)
             setFormat (braIndex, matched, htmlBraFormat);
         if (braEndIndex > -1)
-            setFormat (braEndIndex, braEndExp.matchedLength(), htmlBraFormat);
+            setFormat (braEndIndex, endMatch.capturedLength(), htmlBraFormat);
 
 
         int endLimit;
@@ -123,7 +126,8 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
          ***************************/
 
         int quoteIndex = braIndex;
-        QRegExp quoteExpression = QRegExp ("\"|\'");
+        QRegularExpressionMatch quoteMatch;
+        QRegularExpression quoteExpression ("\"|\'");
         int quote = doubleQuoteState;
 
         /* find the start quote */
@@ -133,13 +137,13 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
                 && prevState != htmlStyleSingleQuoteState
                 && prevState != htmlStyleDoubleQuoteState))
         {
-            quoteIndex = quoteExpression.indexIn (text, braIndex);
+            quoteIndex = text.indexOf (quoteExpression, braIndex);
 
             /* if the start quote is found... */
             if (quoteIndex >= braIndex && quoteIndex <= endLimit)
             {
                 /* ... distinguish between double and single quotes */
-                if (quoteIndex == quoteMark.indexIn (text, quoteIndex))
+                if (quoteIndex == text.indexOf (quoteMark, quoteIndex))
                 {
                     quoteExpression = quoteMark;
                     quote = currentBlockState() == htmlStyleState ? htmlStyleDoubleQuoteState
@@ -147,7 +151,7 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
                 }
                 else
                 {
-                    quoteExpression = QRegExp ("\'");
+                    quoteExpression.setPattern ("\'");
                     quote = currentBlockState() == htmlStyleState ? htmlStyleSingleQuoteState
                                                                   : singleQuoteState;
                 }
@@ -161,17 +165,17 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
             if (quote == doubleQuoteState || quote == htmlStyleDoubleQuoteState)
                 quoteExpression = quoteMark;
             else
-                quoteExpression = QRegExp ("\'");
+                quoteExpression.setPattern ("\'");
         }
 
         while (quoteIndex >= braIndex && quoteIndex <= endLimit)
         {
             /* if the search is continued... */
-            if (quoteExpression == QRegExp ("\"|\'"))
+            if (quoteExpression.pattern() == "\"|\'")
             {
                 /* ... distinguish between double and single quotes
                    again because the quote mark may have changed */
-                if (quoteIndex == quoteMark.indexIn (text, quoteIndex))
+                if (quoteIndex == text.indexOf (quoteMark, quoteIndex))
                 {
                     quoteExpression = quoteMark;
                     quote = currentBlockState() == htmlStyleState ? htmlStyleDoubleQuoteState
@@ -179,20 +183,20 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
                 }
                 else
                 {
-                    quoteExpression = QRegExp ("\'");
+                    quoteExpression.setPattern ("\'");
                     quote = currentBlockState() == htmlStyleState ? htmlStyleSingleQuoteState
                                                                   : singleQuoteState;
                 }
             }
 
-            int quoteEndIndex = quoteExpression.indexIn (text, quoteIndex + 1);
+            int quoteEndIndex = text.indexOf (quoteExpression, quoteIndex + 1, &quoteMatch);
             if (quoteIndex == braIndex
                 && (prevState == doubleQuoteState
                     || prevState == singleQuoteState
                     || prevState == htmlStyleSingleQuoteState
                     || prevState == htmlStyleDoubleQuoteState))
             {
-                quoteEndIndex = quoteExpression.indexIn (text, braIndex);
+                quoteEndIndex = text.indexOf (quoteExpression, braIndex, &quoteMatch);
             }
 
             int Matched = 0;
@@ -205,7 +209,7 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
                 if (quoteEndIndex > endLimit)
                     quoteEndIndex = endLimit;
                 else
-                    Matched = quoteExpression.matchedLength();
+                    Matched = quoteMatch.capturedLength();
             }
 
             int quoteLength;
@@ -225,8 +229,8 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
                                                                              : altQuoteFormat);
 
             /* the next quote may be different */
-            quoteExpression = QRegExp ("\"|\'");
-            quoteIndex = quoteExpression.indexIn (text, quoteIndex + quoteLength);
+            quoteExpression.setPattern ("\"|\'");
+            quoteIndex = text.indexOf (quoteExpression, quoteIndex + quoteLength);
         }
 
         /*******************************
@@ -275,14 +279,14 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
         }
 
         indx = braIndex + len;
-        braIndex = braStartExp.indexIn (text, braIndex + len);
+        braIndex = text.indexOf (braStartExp, braIndex + len, &startMatch);
         while (format (braIndex) == commentFormat || format (braIndex) == urlFormat)
-            braIndex = braStartExp.indexIn (text, braIndex + 1);
+            braIndex = text.indexOf (braStartExp, braIndex + 1, &startMatch);
         if (braIndex > -1)
         {
-            indx = styleExp.indexIn (text, indx);
+            indx = text.indexOf (styleExp, indx);
             while (format (indx) == commentFormat || format (indx) == urlFormat)
-                indx = styleExp.indexIn (text, indx + 1);
+                indx = text.indexOf (styleExp, indx + 1);
             isStyle = indx > -1 && braIndex == indx;
         }
         else isStyle = false;
@@ -314,9 +318,12 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
 
     int cssIndex = start;
 
-    QRegExp cssStartExp = QRegExp ("<(style|STYLE)>|<(style|STYLE)\\s+[^>]*>");
-    QRegExp cssEndExp = QRegExp ("</(style|STYLE)\\s*>");
-    QRegExp braEndExp = QRegExp (">");
+    QRegularExpressionMatch startMatch;
+    QRegularExpression cssStartExp ("<(style|STYLE)>|<(style|STYLE)\\s+[^>]*>");
+    QRegularExpressionMatch endMatch;
+    QRegularExpression cssEndExp ("</(style|STYLE)\\s*>");
+    QRegularExpressionMatch braMatch;
+    QRegularExpression braEndExp (">");
 
     /* switch to css temporarily */
     commentStartExpression.setPattern ("/\\*");
@@ -339,29 +346,29 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
     int matched = 0;
     if ((!wasCSS || start > 0)  && !wasStyle)
     {
-        cssIndex = cssStartExp.indexIn (text, start);
+        cssIndex = text.indexOf (cssStartExp, start, &startMatch);
         fi = format (cssIndex);
         while (cssIndex >= 0
                && (fi == commentFormat
                    || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
         {
-            cssIndex = cssStartExp.indexIn (text, cssIndex + cssStartExp.matchedLength());
+            cssIndex = text.indexOf (cssStartExp, cssIndex + startMatch.capturedLength(), &startMatch);
             fi = format (cssIndex);
         }
     }
     else if (wasStyle)
     {
-        cssIndex = braEndExp.indexIn (text, start);
+        cssIndex = text.indexOf (braEndExp, start, &braMatch);
         fi = format (cssIndex);
         while (cssIndex >= 0
                && (fi == commentFormat || fi == urlFormat
                    || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
         {
-            cssIndex = braEndExp.indexIn (text, cssIndex + 1);
+            cssIndex = text.indexOf (braEndExp, cssIndex + 1, &braMatch);
             fi = format (cssIndex);
         }
         if (cssIndex > -1)
-            matched = braEndExp.matchedLength(); // 1
+            matched = braMatch.capturedLength(); // 1
     }
     TextBlockData *curData = static_cast<TextBlockData *>(currentBlock().userData());
     int bn = currentBlock().blockNumber();
@@ -370,7 +377,7 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
     {
         /* single-line style bracket (<style ...>) */
         if (matched == 0 && (!wasCSS || cssIndex > 0))
-            matched = cssStartExp.matchedLength();
+            matched = startMatch.capturedLength();
 
         /* starting from here, clear all html formats... */
         setFormat (cssIndex + matched, text.length() - cssIndex - matched, neutralFormat);
@@ -404,11 +411,12 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
         /* now, search for the end of the css block */
         int cssEndIndex;
         if (cssIndex == 0 && wasCSS)
-            cssEndIndex = cssEndExp.indexIn (text, 0);
+            cssEndIndex = text.indexOf (cssEndExp, 0, &endMatch);
         else
         {
-            cssEndIndex = cssEndExp.indexIn (text,
-                                               cssIndex + matched);
+            cssEndIndex = text.indexOf (cssEndExp,
+                                        cssIndex + matched,
+                                        &endMatch);
         }
 
         fi = format (cssEndIndex);
@@ -416,7 +424,7 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
                && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                    || fi == commentFormat || fi == urlFormat))
         {
-            cssEndIndex = cssEndExp.indexIn (text, cssEndIndex + cssEndExp.matchedLength());
+            cssEndIndex = text.indexOf (cssEndExp, cssEndIndex + endMatch.capturedLength(), &endMatch);
             fi = format (cssEndIndex);
         }
 
@@ -433,7 +441,7 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
         else
         {
             len = cssEndIndex - cssIndex
-                  + cssEndExp.matchedLength();
+                  + endMatch.capturedLength();
             /* if the css block ends at this line, format
                the rest of the line as an html code again */
             setFormat (cssEndIndex, text.length() - cssEndIndex, neutralFormat);
@@ -443,13 +451,13 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
             progLan = "css";
         }
 
-        cssIndex = cssStartExp.indexIn (text, cssIndex + len);
+        cssIndex = text.indexOf (cssStartExp, cssIndex + len, &startMatch);
         fi = format (cssIndex);
         while (cssIndex >= 0
                && (fi == commentFormat || fi == urlFormat
                    || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
         {
-            cssIndex = cssStartExp.indexIn (text, cssIndex + cssStartExp.matchedLength());
+            cssIndex = text.indexOf (cssStartExp, cssIndex + startMatch.capturedLength(), &startMatch);
             fi = format (cssIndex);
         }
         matched = 0; // single-line style bracket (<style ...>)
@@ -467,8 +475,10 @@ void Highlighter::htmlJavascript (const QString &text)
 
     int javaIndex = 0;
 
-    QRegExp javaStartExp = QRegExp ("<(script|SCRIPT)\\s+(language|LANGUAGE)\\s*\\=\\s*\"\\s*JavaScript\\s*\"[A-Za-z0-9_\\.\"\\s\\=]*>");
-    QRegExp javaEndExp = QRegExp ("</(script|SCRIPT)\\s*>");
+    QRegularExpressionMatch startMatch;
+    QRegularExpression javaStartExp ("<(script|SCRIPT)\\s+(language|LANGUAGE)\\s*\\=\\s*\"\\s*JavaScript\\s*\"[A-Za-z0-9_\\.\"\\s\\=]*>");
+    QRegularExpressionMatch endMatch;
+    QRegularExpression javaEndExp ("</(script|SCRIPT)\\s*>");
 
     /* switch to javascript temporarily */
     commentStartExpression.setPattern ("/\\*");
@@ -485,14 +495,14 @@ void Highlighter::htmlJavascript (const QString &text)
 
     QTextCharFormat fi;
     if (!wasJavascript)
-    {
-        javaIndex = javaStartExp.indexIn (text);
+    {;
+        javaIndex = text.indexOf (javaStartExp, 0, &startMatch);
         fi = format (javaIndex);
         while (javaIndex >= 0
                && (fi == commentFormat || fi == urlFormat
                    || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
         {
-            javaIndex = javaStartExp.indexIn (text, javaIndex + javaStartExp.matchedLength());
+            javaIndex = text.indexOf (javaStartExp, javaIndex + startMatch.capturedLength(), &startMatch);
             fi = format (javaIndex);
         }
     }
@@ -503,7 +513,7 @@ void Highlighter::htmlJavascript (const QString &text)
     while (javaIndex >= 0)
     {
         if (!wasJavascript || javaIndex > 0)
-            matched = javaStartExp.matchedLength();
+            matched = startMatch.capturedLength();
 
         /* starting from here, clear all html formats... */
         setFormat (javaIndex + matched, text.length() - javaIndex - matched, neutralFormat);
@@ -563,11 +573,12 @@ void Highlighter::htmlJavascript (const QString &text)
         /* now, search for the end of the javascript block */
         int javaEndIndex;
         if (javaIndex == 0 && wasJavascript)
-            javaEndIndex = javaEndExp.indexIn (text, 0);
+            javaEndIndex = text.indexOf (javaEndExp, 0, &endMatch);
         else
         {
-            javaEndIndex = javaEndExp.indexIn (text,
-                                               javaIndex + matched);
+            javaEndIndex = text.indexOf (javaEndExp,
+                                         javaIndex + matched,
+                                         &endMatch);
         }
 
         fi = format (javaEndIndex);
@@ -576,7 +587,7 @@ void Highlighter::htmlJavascript (const QString &text)
                    || fi == commentFormat || fi == urlFormat
                    || fi == JSRegexFormat))
         {
-            javaEndIndex = javaEndExp.indexIn (text, javaEndIndex + javaEndExp.matchedLength());
+            javaEndIndex = text.indexOf (javaEndExp, javaEndIndex + endMatch.capturedLength(), &endMatch);
             fi = format (javaEndIndex);
         }
 
@@ -593,7 +604,7 @@ void Highlighter::htmlJavascript (const QString &text)
         else
         {
             len = javaEndIndex - javaIndex
-                  + javaEndExp.matchedLength();
+                  + endMatch.capturedLength();
             /* if the javascript block ends at this line,
                format the rest of the line as an html code again */
             setFormat (javaEndIndex, text.length() - javaEndIndex, neutralFormat);
@@ -604,13 +615,13 @@ void Highlighter::htmlJavascript (const QString &text)
             progLan = "javascript";
         }
 
-        javaIndex = javaStartExp.indexIn (text, javaIndex + len);
+        javaIndex = text.indexOf (javaStartExp, javaIndex + len, &startMatch);
         fi = format (javaEndIndex);
         while (javaIndex > -1
                && (fi == commentFormat || fi == urlFormat
                    || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
         {
-            javaIndex = javaStartExp.indexIn (text, javaIndex + javaStartExp.matchedLength());
+            javaIndex = text.indexOf (javaStartExp, javaIndex + startMatch.capturedLength(), &startMatch);
             fi = format (javaEndIndex);
         }
     }

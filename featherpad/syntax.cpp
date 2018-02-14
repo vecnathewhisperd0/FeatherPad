@@ -334,8 +334,6 @@ void FPwin::formatTextRect (QRect rect) const
         TextEdit *textEdit = tabPage->textEdit();
         Highlighter *highlighter = qobject_cast< Highlighter *>(textEdit->getHighlighter());
         if (highlighter == nullptr) return;
-        QString progLan = textEdit->getProg();
-        if (progLan.isEmpty()) return;
 
         QPoint Point (0, 0);
         QTextCursor start = textEdit->cursorForPosition (Point);

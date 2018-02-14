@@ -181,7 +181,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     endCursor = end;
     progLan = lang;
 
-    quoteMark = QRegExp ("\""); // the standard quote mark
+    quoteMark.setPattern ("\""); // the standard quote mark
 
     HighlightingRule rule;
     QColor Faded, translucent;
@@ -231,8 +231,8 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     altQuoteFormat.setFontItalic (true);
     urlInsideQuoteFormat.setFontItalic (true);
     urlInsideQuoteFormat.setFontUnderline (true);
-    /*quoteStartExpression = QRegExp ("\"([^\"'])");
-    quoteEndExpression = QRegExp ("([^\"'])\"");*/
+    /*quoteStartExpression.setPattern ("\"([^\"'])");
+    quoteEndExpression.setPattern ("([^\"'])\"");*/
     JSRegexFormat.setForeground (DarkRed);
 
     /*************
@@ -692,7 +692,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     }
     else if (progLan == "markdown")
     {
-        quoteMark = QRegExp ("`"); // inline code is almost like a single-line quote
+        quoteMark.setPattern ("`"); // inline code is almost like a single-line quote
         blockQuoteFormat.setForeground (DarkGreen);
         codeBlockFormat.setForeground (DarkRed);
         QTextCharFormat markdownFormat = neutralFormat;
@@ -849,7 +849,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     if (progLan == "c" || progLan == "cpp" || Lang == "javascript"
         || progLan == "qml" || progLan == "php")
     {
-        rule.pattern.setPattern ("//.*"); // why had I set it to QRegExp ("//(?!\\*).*")?
+        rule.pattern.setPattern ("//.*"); // why had I set it to ("//(?!\\*).*")?
     }
     else if (progLan == "python"
              || progLan == "qmake"
@@ -952,8 +952,8 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
     if (progLan == "html" || progLan == "xml")
         return false;
 
-    if (pos != quoteMark.indexIn (text, pos)
-        && (progLan == "markdown" || pos != QRegExp ("\'").indexIn (text, pos)))
+    if (pos != text.indexOf (quoteMark, pos)
+        && (progLan == "markdown" || pos != text.indexOf (QRegularExpression ("\'"), pos)))
     {
         return false;
     }
@@ -962,10 +962,12 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
     if ((currentBlockState() >= endState || currentBlockState() < -1)
         && currentBlockState() % 2 == 0)
     {
-        QRegExp delimPart = QRegExp ("<<\\s*");
-        QRegExp delimPart1 = QRegExp ("<<(?:\\s*)(\'[A-Za-z0-9_]+)|<<(?:\\s*)(\"[A-Za-z0-9_]+)");
-        if (text.lastIndexOf (delimPart, pos) == pos - delimPart.matchedLength()
-            || text.lastIndexOf (delimPart1, pos) == pos - delimPart1.matchedLength())
+        QRegularExpressionMatch match;
+        QRegularExpression delimPart ("<<\\s*");
+        QRegularExpressionMatch match1;
+        QRegularExpression delimPart1 ("<<(?:\\s*)(\'[A-Za-z0-9_]+)|<<(?:\\s*)(\"[A-Za-z0-9_]+)");
+        if (text.lastIndexOf (delimPart, pos, &match) == pos - match.capturedLength()
+            || text.lastIndexOf (delimPart1, pos, &match1) == pos - match1.capturedLength())
         {
             return true;
         }
@@ -979,28 +981,28 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
         return false;
     }
 
-    if (isStartQuote && skipCommandSign && pos == quoteMark.indexIn (text, pos)
-        && QRegExp("[^\"]*\\$\\(").indexIn (text, pos) == pos + 1)
+    if (isStartQuote && skipCommandSign && pos == text.indexOf (quoteMark, pos)
+        && text.indexOf (QRegularExpression ("[^\"]*\\$\\("), pos)== pos + 1)
     {
         return true;
     }
 
     /* in Perl, $' has a (deprecated?) meaning */
     if (isStartQuote // otherwise undetectable
-        && progLan == "perl" && pos >= 1 && pos - 1 == QRegExp ("\\$").indexIn (text, pos - 1))
+        && progLan == "perl" && pos >= 1 && pos - 1 == text.indexOf (QRegularExpression ("\\$"), pos - 1))
     {
         return true;
     }
 
     int i = 0;
-    while (pos - i >= 1 && pos - i - 1 == QRegExp ("\\\\").indexIn (text, pos - i - 1))
+    while (pos - i >= 1 && pos - i - 1 == text.indexOf (QRegularExpression ("\\\\"), pos - i - 1))
         ++i;
     /* only an odd number of backslashes means that the quote is escaped */
     if (
         i % 2 != 0
             /* for perl, only double quote can be escaped? */
         && (/*(progLan == "perl"
-             && pos == quoteMark.indexIn (text, pos)) ||*/
+             && pos == text.indexOf (quoteMark, pos)) ||*/
             /* for these languages, both single and double quotes can be escaped */
             progLan == "cpp" || progLan == "c"
             || progLan == "python"
@@ -1010,7 +1012,7 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
             || progLan == "markdown"
             /* however, in Bash, single quote can be escaped only at start */
             || ((progLan == "sh" || progLan == "makefile" || progLan == "cmake")
-                && (isStartQuote || pos == quoteMark.indexIn (text, pos))))
+                && (isStartQuote || pos == text.indexOf (quoteMark, pos))))
        )
     {
         return true;
@@ -1039,9 +1041,9 @@ bool Highlighter::isQuoted (const QString &text, const int index,
     {
         mixedQuotes = true;
     }
-    QRegExp quoteExpression;
+    QRegularExpression quoteExpression;
     if (mixedQuotes)
-        quoteExpression = QRegExp ("\"|\'");
+        quoteExpression.setPattern ("\"|\'");
     else
         quoteExpression = quoteMark;
     int prevState = previousBlockState();
@@ -1066,7 +1068,7 @@ bool Highlighter::isQuoted (const QString &text, const int index,
                 quoteExpression = quoteMark;
                 if (skipCommandSign)
                 {
-                    if (QRegExp("[^\"]*\\$\\(").indexIn (text, 0) == 0)
+                    if (text.indexOf (QRegularExpression ("[^\"]*\\$\\("), 0) == 0)
                     {
                         N = 0;
                         res = false;
@@ -1090,11 +1092,11 @@ bool Highlighter::isQuoted (const QString &text, const int index,
                 }
             }
             else
-                quoteExpression = QRegExp ("\'");
+                quoteExpression.setPattern ("\'");
         }
     }
 
-    while ((pos = quoteExpression.indexIn (text, pos + 1)) >= 0)
+    while ((pos = text.indexOf (quoteExpression, pos + 1)) >= 0)
     {
         /* skip formatted comments */
         if (format (pos) == commentFormat) continue;
@@ -1124,21 +1126,22 @@ bool Highlighter::isQuoted (const QString &text, const int index,
         {
             if (N % 2 != 0)
             { // each quote neutralizes the other until it's closed
-                if (pos == quoteMark.indexIn (text, pos))
+                if (pos == text.indexOf (quoteMark, pos))
                     quoteExpression = quoteMark;
                 else
-                    quoteExpression = QRegExp ("\'");
+                    quoteExpression.setPattern ("\'");
             }
             else
-                quoteExpression = QRegExp ("\"|\'");
+                quoteExpression.setPattern ("\"|\'");
         }
     }
 
     return res;
 }
 /*************************/
-// Checks if a start quote is inside a multiline comment (may give an incorrect result
-// with other characters and works only with real comments whose state is "comState").
+// Checks if a start quote or a start single-line comment sign is inside a multiline comment
+// (may give an incorrect result with other characters and works only with real comments
+// whose state is "comState").
 bool Highlighter::isMLCommented (const QString &text, const int index, int comState)
 {
     if (commentStartExpression.pattern().isEmpty()) return false;
@@ -1156,6 +1159,7 @@ bool Highlighter::isMLCommented (const QString &text, const int index, int comSt
     bool res = false;
     int pos = -1;
     int N;
+    QRegularExpressionMatch commentMatch;
     QRegularExpression commentExpression;
     if (prevState != comState)
     {
@@ -1169,7 +1173,7 @@ bool Highlighter::isMLCommented (const QString &text, const int index, int comSt
         commentExpression = commentEndExpression;
     }
 
-    while ((pos = text.indexOf (commentExpression, pos + 1)) >= 0)
+    while ((pos = text.indexOf (commentExpression, pos + 1, &commentMatch)) >= 0)
     {
         /* skip formatted quotations */
         QTextCharFormat fi = format (pos);
@@ -1178,11 +1182,11 @@ bool Highlighter::isMLCommented (const QString &text, const int index, int comSt
 
         ++N;
 
-        if (index <= pos + 1) /* all multiline comments have more than
-                                 one character and this trick is needed
-                                 for knowing if double slashes follow an
-                                 asterisk, for example, because QRegExp
-                                 lacks "lookbehind" */
+        /* All (or most) multiline comments have more than one character
+           and this trick is needed for knowing if a double slash follows
+           an asterisk without using "lookbehind", for example. */
+        //if (index < pos + (N % 2 == 0 ? commentMatch.capturedLength() : 0))
+        if (index <= pos + 1)
         {
             if (N % 2 == 0) res = true;
             else res = false;
@@ -1230,7 +1234,7 @@ void Highlighter::pythonMLComment (const QString &text, const int indx)
         index = text.indexOf (commentStartExpression, indx);
 
         QTextCharFormat fi = format (index);
-        while ((index > 0 && isQuoted (text, index - 1))
+        while ((index > 0 && isQuoted (text, index - 1)) // because two quotes may follow an end quote
                || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat) // not needed
         {
             index = text.indexOf (commentStartExpression, index + 3);
@@ -1243,7 +1247,7 @@ void Highlighter::pythonMLComment (const QString &text, const int indx)
         if (index >= indx)
         {
             /* ... distinguish between double and single quotes */
-            if (index == QRegExp ("\"\"\"").indexIn (text, index))
+            if (index == text.indexOf (QRegularExpression ("\"\"\""), index))
             {
                 commentStartExpression.setPattern ("\"\"\"");
                 quote = pyDoubleQuoteState;
@@ -1273,7 +1277,7 @@ void Highlighter::pythonMLComment (const QString &text, const int indx)
         {
             /* ... distinguish between double and single quotes
                again because the quote mark may have changed... */
-            if (index == quoteMark.indexIn (text, index))
+            if (index == text.indexOf (quoteMark, index))
             {
                 commentStartExpression.setPattern ("\"\"\"");
                 quote = pyDoubleQuoteState;
@@ -1298,12 +1302,12 @@ void Highlighter::pythonMLComment (const QString &text, const int indx)
         }
 
         /* check if the quote is escaped */
-        while ((endIndex >= 1 && endIndex  - 1 == QRegExp ("\\\\").indexIn (text, endIndex - 1)
+        while ((endIndex >= 1 && endIndex  - 1 == text.indexOf (QRegularExpression ("\\\\"), endIndex - 1)
                 /* backslash shouldn't be escaped itself */
-                && (endIndex < 2 || endIndex  - 2 != QRegExp ("\\\\").indexIn (text, endIndex - 2)))
+                && (endIndex < 2 || endIndex  - 2 != text.indexOf (QRegularExpression ("\\\\"), endIndex - 2)))
                    /* also consider ^' and ^" */
-                   || ((endIndex >= 1 && endIndex  - 1 == QRegExp ("\\^").indexIn (text, endIndex - 1))
-                       && (endIndex < 2 || endIndex  - 2 != QRegExp ("\\\\").indexIn (text, endIndex - 2))))
+                   || ((endIndex >= 1 && endIndex  - 1 == text.indexOf (QRegularExpression ("\\^"), endIndex - 1))
+                       && (endIndex < 2 || endIndex  - 2 != text.indexOf (QRegularExpression ("\\\\"), endIndex - 2))))
         {
             endIndex = text.indexOf (commentStartExpression, endIndex + 3, &startMatch);
         }
@@ -1883,9 +1887,10 @@ void Highlighter::multiLineQuote (const QString &text, const int start, int comS
     {
         mixedQuotes = true;
     }
-    QRegExp quoteExpression;
+    QRegularExpressionMatch quoteMatch;
+    QRegularExpression quoteExpression;
     if (mixedQuotes)
-        quoteExpression = QRegExp ("\"|\'");
+        quoteExpression.setPattern ("\"|\'");
     else
         quoteExpression = quoteMark;
     int quote = doubleQuoteState;
@@ -1896,16 +1901,16 @@ void Highlighter::multiLineQuote (const QString &text, const int start, int comS
          && prevState != singleQuoteState)
         || index > 0)
     {
-        index = quoteExpression.indexIn (text, index);
+        index = text.indexOf (quoteExpression, index);
         /* skip escaped start quotes and all comments */
         while (isEscapedQuote (text, index, true)
                || isInsideJSRegex (text, index)
                || isMLCommented (text, index, comState)) // multiline
         {
-            index = quoteExpression.indexIn (text, index + 1);
+            index = text.indexOf (quoteExpression, index + 1);
         }
         while (format (index) == commentFormat || format (index) == urlFormat) // single-line and Python
-            index = quoteExpression.indexIn (text, index + 1);
+            index = text.indexOf (quoteExpression, index + 1);
 
         /* if the start quote is found... */
         if (index >= 0)
@@ -1913,14 +1918,14 @@ void Highlighter::multiLineQuote (const QString &text, const int start, int comS
             if (mixedQuotes)
             {
                 /* ... distinguish between double and single quotes */
-                if (index == quoteMark.indexIn (text, index))
+                if (index == text.indexOf (quoteMark, index))
                 {
                     quoteExpression = quoteMark;
                     quote = doubleQuoteState;
                 }
                 else
                 {
-                    quoteExpression = QRegExp ("\'");
+                    quoteExpression.setPattern ("\'");
                     quote = singleQuoteState;
                 }
             }
@@ -1936,43 +1941,43 @@ void Highlighter::multiLineQuote (const QString &text, const int start, int comS
             if (quote == doubleQuoteState)
                 quoteExpression = quoteMark;
             else
-                quoteExpression = QRegExp ("\'");
+                quoteExpression.setPattern ("\'");
         }
     }
 
     while (index >= 0)
     {
         /* if the search is continued... */
-        if (quoteExpression == QRegExp ("\"|\'"))
+        if (quoteExpression.pattern() == "\"|\'")
         {
             /* ... distinguish between double and single quotes
                again because the quote mark may have changed */
-            if (index == quoteMark.indexIn (text, index))
+            if (index == text.indexOf (quoteMark, index))
             {
                 quoteExpression = quoteMark;
                 quote = doubleQuoteState;
             }
             else
             {
-                quoteExpression = QRegExp ("\'");
+                quoteExpression.setPattern ("\'");
                 quote = singleQuoteState;
             }
         }
 
         /* search for the end quote from the start quote */
-        int endIndex = quoteExpression.indexIn (text, index + 1);
+        int endIndex = text.indexOf (quoteExpression, index + 1, &quoteMatch);
 
         /* but if there's no start quote ... */
         if (index == 0
             && (prevState == doubleQuoteState || prevState == singleQuoteState))
         {
             /* ... search for the end quote from the line start */
-            endIndex = quoteExpression.indexIn (text, 0);
+            endIndex = text.indexOf (quoteExpression, 0, &quoteMatch);
         }
 
         /* check if the quote is escaped */
         while (isEscapedQuote (text, endIndex, false))
-            endIndex = quoteExpression.indexIn (text, endIndex + 1);
+            endIndex = text.indexOf (quoteExpression, endIndex + 1, &quoteMatch);
 
         bool isQuotation = true;
         if (endIndex == -1)
@@ -1981,10 +1986,10 @@ void Highlighter::multiLineQuote (const QString &text, const int start, int comS
             {
                 /* in c and cpp, multiline double quotes need backslash
                    and there's no multiline single quote */
-                if (quoteExpression == QRegExp ("\'")
+                if (quoteExpression.pattern() == "\'"
                     || (quoteExpression == quoteMark && !textEndsWithBackSlash (text)))
                 {
-                    endIndex = text.size() + 1; // quoteExpression.matchedLength() is -1 here
+                    endIndex = text.size() + 1; // quoteMatch.capturedLength() is -1 here
                 }
             }
             else if (progLan == "markdown")
@@ -2006,7 +2011,7 @@ void Highlighter::multiLineQuote (const QString &text, const int start, int comS
         }
         else
             quoteLength = endIndex - index
-                          + quoteExpression.matchedLength(); // 1
+                          + quoteMatch.capturedLength(); // 1
         if (isQuotation)
         {
             setFormat (index, quoteLength, quoteExpression == quoteMark ? quoteFormat
@@ -2026,18 +2031,18 @@ void Highlighter::multiLineQuote (const QString &text, const int start, int comS
 
         /* the next quote may be different */
         if (mixedQuotes)
-            quoteExpression = QRegExp ("\"|\'");
-        index = quoteExpression.indexIn (text, index + quoteLength);
+            quoteExpression.setPattern ("\"|\'");
+        index = text.indexOf (quoteExpression, index + quoteLength);
 
         /* skip escaped start quotes and all comments */
         while (isEscapedQuote (text, index, true)
                || isInsideJSRegex (text, index)
                || isMLCommented (text, index, comState))
         {
-            index = quoteExpression.indexIn (text, index + 1);
+            index = text.indexOf (quoteExpression, index + 1);
         }
         while (format (index) == commentFormat || format (index) == urlFormat)
-            index = quoteExpression.indexIn (text, index + 1);
+            index = text.indexOf (quoteExpression, index + 1);
     }
 }
 /*************************/
@@ -2087,7 +2092,8 @@ void Highlighter::xmlQuotes (const QString &text)
     int index = 0;
     /* mixed quotes aren't really needed here
        but they're harmless and easy to handle */
-    QRegExp quoteExpression = QRegExp ("\"|\'");
+    QRegularExpressionMatch quoteMatch;
+    QRegularExpression quoteExpression ("\"|\'");
     int quote = doubleQuoteState;
 
     /* find the start quote */
@@ -2095,26 +2101,26 @@ void Highlighter::xmlQuotes (const QString &text)
     if (prevState != doubleQuoteState
         && prevState != singleQuoteState)
     {
-        index = quoteExpression.indexIn (text);
+        index = text.indexOf (quoteExpression);
         /* skip all comments */
         while (format (index) == commentFormat || format (index) == urlFormat)
-            index = quoteExpression.indexIn (text, index + 1);
+            index = text.indexOf (quoteExpression, index + 1);
         /* skip all values (that are formatted by multiLineComment()) */
         while (format (index) == neutralFormat)
-            index = quoteExpression.indexIn (text, index + 1);
+            index = text.indexOf (quoteExpression, index + 1);
 
         /* if the start quote is found... */
         if (index >= 0)
         {
             /* ... distinguish between double and single quotes */
-            if (index == quoteMark.indexIn (text, index))
+            if (index == text.indexOf (quoteMark, index))
             {
                 quoteExpression = quoteMark;
                 quote = doubleQuoteState;
             }
             else
             {
-                quoteExpression = QRegExp ("\'");
+                quoteExpression.setPattern ("\'");
                 quote = singleQuoteState;
             }
         }
@@ -2127,37 +2133,37 @@ void Highlighter::xmlQuotes (const QString &text)
         if (quote == doubleQuoteState)
             quoteExpression = quoteMark;
         else
-            quoteExpression = QRegExp ("\'");
+            quoteExpression.setPattern ("\'");
     }
 
     while (index >= 0)
     {
         /* if the search is continued... */
-        if (quoteExpression == QRegExp ("\"|\'"))
+        if (quoteExpression.pattern() == "\"|\'")
         {
             /* ... distinguish between double and single quotes
                again because the quote mark may have changed */
-            if (index == quoteMark.indexIn (text, index))
+            if (index == text.indexOf (quoteMark, index))
             {
                 quoteExpression = quoteMark;
                 quote = doubleQuoteState;
             }
             else
             {
-                quoteExpression = QRegExp ("\'");
+                quoteExpression.setPattern ("\'");
                 quote = singleQuoteState;
             }
         }
 
         /* search for the end quote from the start quote */
-        int endIndex = quoteExpression.indexIn (text, index + 1);
+        int endIndex = text.indexOf (quoteExpression, index + 1, &quoteMatch);
 
         /* but if there's no start quote ... */
         if (index == 0
             && (prevState == doubleQuoteState || prevState == singleQuoteState))
         {
             /* ... search for the end quote from the line start */
-            endIndex = quoteExpression.indexIn (text, 0);
+            endIndex = text.indexOf (quoteExpression, 0, &quoteMatch);
         }
 
         int quoteLength;
@@ -2168,20 +2174,20 @@ void Highlighter::xmlQuotes (const QString &text)
         }
         else
             quoteLength = endIndex - index
-                          + quoteExpression.matchedLength(); // 1
+                          + quoteMatch.capturedLength(); // 1
         setFormat (index, quoteLength, quoteExpression == quoteMark ? quoteFormat
                                                                     : altQuoteFormat);
 
         /* the next quote may be different */
-        quoteExpression = QRegExp ("\"|\'");
-        index = quoteExpression.indexIn (text, index + quoteLength);
+        quoteExpression.setPattern ("\"|\'");
+        index = text.indexOf (quoteExpression, index + quoteLength);
 
         /* skip all values */
         while (format (index) == neutralFormat)
-            index = quoteExpression.indexIn (text, index + 1);
+            index = text.indexOf (quoteExpression, index + 1);
         /* skip all comments */
         while (format (index) == commentFormat || format (index) == urlFormat)
-            index = quoteExpression.indexIn (text, index + 1);
+            index = text.indexOf (quoteExpression, index + 1);
     }
 }
 /*************************/
@@ -2276,13 +2282,14 @@ bool Highlighter::isHereDocument (const QString &text)
         int l = 0;
         if (progLan == "perl" || progLan == "ruby")
         {
-            QRegExp r = QRegExp ("\\s*" + delimStr + "(?=(\\W+|$))");
-            if (r.indexIn (text) == 0)
-                l = r.matchedLength();
+            QRegularExpressionMatch rMatch;
+            QRegularExpression r ("\\s*" + delimStr + "(?=(\\W+|$))");
+            if (text.indexOf (r, 0, &rMatch) == 0)
+                l = rMatch.capturedLength();
         }
         else if (text == delimStr
                  || (text.startsWith (delimStr)
-                     && text.indexOf (QRegExp ("\\W+")) == delimStr.length()))
+                     && text.indexOf (QRegularExpression ("\\W+")) == delimStr.length()))
         {
             l = delimStr.length();
         }
@@ -2345,19 +2352,20 @@ void Highlighter::debControlFormatting (const QString &text)
 {
     if (text.isEmpty()) return;
     bool formatFurther (false);
-    QRegExp exp;
+    QRegularExpressionMatch expMatch;
+    QRegularExpression exp;
     int indx = 0;
     QTextCharFormat debFormat;
-    if (QRegExp ("^[^\\s:]+:(?=\\s*)").indexIn (text) == 0)
+    if (text.indexOf (QRegularExpression ("^[^\\s:]+:(?=\\s*)")) == 0)
     {
         formatFurther = true;
-        exp = QRegExp ("^[^\\s:]+(?=:)");
-        if (exp.indexIn (text) == 0)
+        exp.setPattern ("^[^\\s:]+(?=:)");
+        if (text.indexOf (exp, 0, &expMatch) == 0)
         {
             /* before ":" */
             debFormat.setFontWeight (QFont::Bold);
             debFormat.setForeground (DarkBlue);
-            setFormat (0, exp.matchedLength(), debFormat);
+            setFormat (0, expMatch.capturedLength(), debFormat);
 
             /* ":" */
             debFormat.setForeground (DarkMagenta);
@@ -2374,7 +2382,7 @@ void Highlighter::debControlFormatting (const QString &text)
             }
         }
     }
-    else if (QRegExp ("^\\s+").indexIn (text) == 0)
+    else if (text.indexOf (QRegularExpression ("^\\s+")) == 0)
     {
         formatFurther = true;
         debFormat.setForeground (DarkGreenAlt);
@@ -2384,19 +2392,19 @@ void Highlighter::debControlFormatting (const QString &text)
     if (formatFurther)
     {
         /* parentheses and brackets */
-        exp = QRegExp ("\\([^\\(\\)\\[\\]]+\\)|\\[[^\\(\\)\\[\\]]+\\]");
+        exp.setPattern ("\\([^\\(\\)\\[\\]]+\\)|\\[[^\\(\\)\\[\\]]+\\]");
         int index = indx;
         debFormat = neutralFormat;
         debFormat.setFontItalic (true);
         while ((index = text.indexOf (exp, index)) > -1)
         {
-            int ml = exp.matchedLength();
+            int ml = expMatch.capturedLength();
             setFormat (index, ml, neutralFormat);
             if (ml > 2)
             {
                 setFormat (index + 1, ml - 2 , debFormat);
 
-                QRegExp rel = QRegExp ("<|>|\\=|~");
+                QRegularExpression rel ("<|>|\\=|~");
                 int i = index;
                 while ((i = text.indexOf (rel, i)) > -1 && i < index + ml - 1)
                 {

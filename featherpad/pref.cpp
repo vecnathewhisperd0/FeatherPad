@@ -379,7 +379,7 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
         w->setWhatsThis (w->toolTip().replace ('\n', ' ').replace ("  ", "\n\n"));
     }
 
-    resize (minimumSize());
+    resize (sizeHint() + QSize (style()->pixelMetric(QStyle::PM_ScrollBarExtent), 0));
 }
 /*************************/
 PrefDialog::~PrefDialog()

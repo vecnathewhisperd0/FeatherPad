@@ -38,7 +38,8 @@ bool Highlighter::isEscapedJSRegex (const QString &text, const int pos)
         return true;
     }
 
-    static QRegExp keys;
+    QRegularExpressionMatch keyMatch;
+    static QRegularExpression keys;
 
     int i = pos - 1;
     while (i >= 0 && (text.at (i) == ' ' || text.at (i) == '\t'))
@@ -48,8 +49,8 @@ bool Highlighter::isEscapedJSRegex (const QString &text, const int pos)
         QTextBlock prev = currentBlock().previous();
         if (!prev.isValid()) return false;
         QString txt = prev.text();
-        QRegExp nonSpace ("[^\\s]+");
-        while (nonSpace.indexIn (txt, 0) == -1)
+        QRegularExpression nonSpace ("[^\\s]+");
+        while (txt.indexOf (nonSpace, 0) == -1)
         {
             prev.setUserState (updateState); // update the next line if this one changes
             prev = prev.previous();
@@ -71,12 +72,12 @@ bool Highlighter::isEscapedJSRegex (const QString &text, const int pos)
             if (ch.isLetterOrNumber() || ch == '_'
                 || ch == ')' || ch == ']') // as with Kate
             { // a regex isn't escaped if it follows a JavaScript keyword
-                if (keys.isEmpty())
-                    keys = QRegExp (keywords (progLan).join ('|'));
+                if (keys.pattern().isEmpty())
+                    keys.setPattern (keywords (progLan).join ('|'));
                 int len = qMin (12, last + 1);
                 QString str = txt.mid (last - len + 1, len);
                 int j;
-                if ((j = keys.lastIndexIn (str)) > -1 && j + keys.matchedLength() == len)
+                if ((j = str.lastIndexOf (keys, -1, &keyMatch)) > -1 && j + keyMatch.capturedLength() == len)
                     return false;
                 return true;
             }
@@ -88,12 +89,12 @@ bool Highlighter::isEscapedJSRegex (const QString &text, const int pos)
         if (format (i) != JSRegexFormat && (ch.isLetterOrNumber() || ch == '_'
                                             || ch == ')' || ch == ']')) // as with Kate
         { // a regex isn't escaped if it follows a JavaScript keyword
-            if (keys.isEmpty())
-                keys = QRegExp (keywords (progLan).join ('|'));
+            if (keys.pattern().isEmpty())
+                keys.setPattern (keywords (progLan).join ('|'));
             int len = qMin (12, i + 1);
             QString str = text.mid (i - len + 1, len);
             int j;
-            if ((j = keys.lastIndexIn (str)) > -1 && j + keys.matchedLength() == len)
+            if ((j = str.lastIndexOf (keys, -1, &keyMatch)) > -1 && j + keyMatch.capturedLength() == len)
                 return false;
             return true;
         }
@@ -108,7 +109,7 @@ bool Highlighter::isInsideJSRegex (const QString &text, const int index)
     if (index < 0) return false;
     if (progLan != "javascript") return false;
 
-    QRegExp exp ("/");
+    QRegularExpression exp ("/");
     bool res = false;
     int pos = -1;
     int N;
@@ -121,7 +122,7 @@ bool Highlighter::isInsideJSRegex (const QString &text, const int index)
         res = true;
     }
 
-    while ((pos = exp.indexIn (text, pos + 1)) >= 0)
+    while ((pos = text.indexOf (exp, pos + 1)) >= 0)
     {
         /* skip formatted comments and quotes */
         QTextCharFormat fi = format (pos);
@@ -157,14 +158,16 @@ void Highlighter::multiLineJSRegex (const QString &text, const int index)
     if (progLan != "javascript") return;
 
     int startIndex = index;
-    QRegExp startExp ("/");
-    QRegExp endExp ("/[A-Za-z0-9_]*");
+    QRegularExpressionMatch startMatch;
+    QRegularExpression startExp ("/");
+    QRegularExpressionMatch endMatch;
+    QRegularExpression endExp ("/[A-Za-z0-9_]*");
     QTextCharFormat fi;
 
     int prevState = previousBlockState();
     if (prevState != JSRegexState || startIndex > 0)
     {
-        startIndex = startExp.indexIn (text, startIndex);
+        startIndex = text.indexOf (startExp, startIndex, &startMatch);
         /* skip comments and quotations (all formatted to this point) */
         fi = format (startIndex);
         while (startIndex >= 0
@@ -172,7 +175,7 @@ void Highlighter::multiLineJSRegex (const QString &text, const int index)
                    || fi == commentFormat
                    || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
         {
-            startIndex = startExp.indexIn (text, startIndex + 1);
+            startIndex = text.indexOf (startExp, startIndex + 1, &startMatch);
             fi = format (startIndex);
         }
     }
@@ -184,12 +187,12 @@ void Highlighter::multiLineJSRegex (const QString &text, const int index)
            and the search for the end sign has just begun,
            search for the end sign from the line start */
         if (prevState == JSRegexState && startIndex == 0)
-            endIndex = endExp.indexIn (text, 0);
+            endIndex = text.indexOf (endExp, 0, &endMatch);
         else
-            endIndex = endExp.indexIn (text, startIndex + startExp.matchedLength());
+            endIndex = text.indexOf (endExp, startIndex + startMatch.capturedLength(), &endMatch);
 
         while (isEscapedChar (text, endIndex))
-            endIndex = endExp.indexIn (text, endIndex + 1);
+            endIndex = text.indexOf (endExp, endIndex + 1, &endMatch);
 
         int len;
         if (endIndex == -1)
@@ -200,11 +203,11 @@ void Highlighter::multiLineJSRegex (const QString &text, const int index)
         else
         {
             len = endIndex - startIndex
-                  + endExp.matchedLength();
+                  + endMatch.capturedLength();
         }
         setFormat (startIndex, len, JSRegexFormat);
 
-        startIndex = startExp.indexIn (text, startIndex + len);
+        startIndex = text.indexOf (startExp, startIndex + len, &startMatch);
 
         /* skip comments and quotations again */
         fi = format (startIndex);
@@ -213,7 +216,7 @@ void Highlighter::multiLineJSRegex (const QString &text, const int index)
                    || fi == commentFormat
                    || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
         {
-            startIndex = startExp.indexIn (text, startIndex + 1);
+            startIndex = text.indexOf (startExp, startIndex + 1, &startMatch);
             fi = format (startIndex);
         }
     }

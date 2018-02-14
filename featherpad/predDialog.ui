@@ -310,179 +310,212 @@ Some desktop environments, like KDE and LXQt, provide files dialogs.</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_4">
        <item row="0" column="0">
-        <widget class="QGroupBox" name="textGoupBox">
-         <property name="title">
-          <string>Text Editor</string>
+        <widget class="QScrollArea" name="textScrollArea">
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
          </property>
-         <layout class="QGridLayout" name="gridLayout_3" columnminimumwidth="1,0,0,0">
-          <item row="0" column="0" colspan="3">
-           <widget class="QCheckBox" name="fontBox">
-            <property name="toolTip">
-             <string>Uncheck for Monospace 9.</string>
-            </property>
-            <property name="text">
-             <string>Remember &amp;font</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0" colspan="3">
-           <widget class="QCheckBox" name="wrapBox">
-            <property name="text">
-             <string>&amp;Wrap lines by default</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0" colspan="3">
-           <widget class="QCheckBox" name="indentBox">
-            <property name="text">
-             <string>Auto-&amp;indent by default</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0" colspan="3">
-           <widget class="QCheckBox" name="autoBracketBox">
-            <property name="toolTip">
-             <string>This covers parentheses, braces, brackets and quotes.</string>
-            </property>
-            <property name="text">
-             <string>Auto-&amp;bracket</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0" colspan="3">
-           <widget class="QCheckBox" name="lineBox">
-            <property name="text">
-             <string>Always show line &amp;numbers</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="0" colspan="3">
-           <widget class="QCheckBox" name="syntaxBox">
-            <property name="text">
-             <string>Highlight s&amp;yntax by default</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="0">
-           <spacer name="horizontalSpacer_3">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>22</width>
-              <height>5</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="6" column="1">
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>Never highlight syntax for files &gt; </string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="2">
-           <widget class="QSpinBox" name="spinBox">
-            <property name="suffix">
-             <string> MiB</string>
-            </property>
-            <property name="minimum">
-             <number>1</number>
-            </property>
-            <property name="maximum">
-             <number>10</number>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="3">
-           <spacer name="horizontalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::MinimumExpanding</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>50</width>
-              <height>5</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="7" column="1" colspan="2">
-           <widget class="QCheckBox" name="enforceSyntaxBox">
-            <property name="toolTip">
-             <string>This creates a menu button on the
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="scrollAreaWidgetContents">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>504</width>
+            <height>496</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QGroupBox" name="textGoupBox">
+             <property name="title">
+              <string>Text Editor</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_3" columnminimumwidth="1,0,0,0">
+              <item row="0" column="0" colspan="3">
+               <widget class="QCheckBox" name="fontBox">
+                <property name="toolTip">
+                 <string>Uncheck for Monospace 9.</string>
+                </property>
+                <property name="text">
+                 <string>Remember &amp;font</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0" colspan="3">
+               <widget class="QCheckBox" name="wrapBox">
+                <property name="text">
+                 <string>&amp;Wrap lines by default</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0" colspan="3">
+               <widget class="QCheckBox" name="indentBox">
+                <property name="text">
+                 <string>Auto-&amp;indent by default</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0" colspan="3">
+               <widget class="QCheckBox" name="autoBracketBox">
+                <property name="toolTip">
+                 <string>This covers parentheses, braces, brackets and quotes.</string>
+                </property>
+                <property name="text">
+                 <string>Auto-&amp;bracket</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0" colspan="3">
+               <widget class="QCheckBox" name="lineBox">
+                <property name="text">
+                 <string>Always show line &amp;numbers</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0" colspan="3">
+               <widget class="QCheckBox" name="syntaxBox">
+                <property name="text">
+                 <string>Highlight s&amp;yntax by default</string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="0">
+               <spacer name="horizontalSpacer_3">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>22</width>
+                  <height>5</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="6" column="1">
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Never highlight syntax for files &gt; </string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="2">
+               <widget class="QSpinBox" name="spinBox">
+                <property name="suffix">
+                 <string> MiB</string>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>10</number>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="3">
+               <spacer name="horizontalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::MinimumExpanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>50</width>
+                  <height>5</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="7" column="1" colspan="2">
+               <widget class="QCheckBox" name="enforceSyntaxBox">
+                <property name="toolTip">
+                 <string>This creates a menu button on the
 status bar for changing the syntax.</string>
-            </property>
-            <property name="text">
-             <string>Support syntax override</string>
-            </property>
-           </widget>
-          </item>
-          <item row="8" column="1" colspan="2">
-           <widget class="QCheckBox" name="whiteSpaceBox">
-            <property name="toolTip">
-             <string>Show spaces, tabs and tab lines
+                </property>
+                <property name="text">
+                 <string>Support syntax override</string>
+                </property>
+               </widget>
+              </item>
+              <item row="8" column="1" colspan="2">
+               <widget class="QCheckBox" name="whiteSpaceBox">
+                <property name="toolTip">
+                 <string>Show spaces, tabs and tab lines
 when the syntax is highlighted.</string>
-            </property>
-            <property name="text">
-             <string>Show whitespaces with syntax highlighting</string>
-            </property>
-           </widget>
-          </item>
-          <item row="9" column="1">
-           <widget class="QCheckBox" name="vLineBox">
-            <property name="toolTip">
-             <string>The vertical position lines will be drawn only if
+                </property>
+                <property name="text">
+                 <string>Show whitespaces with syntax highlighting</string>
+                </property>
+               </widget>
+              </item>
+              <item row="9" column="1">
+               <widget class="QCheckBox" name="vLineBox">
+                <property name="toolTip">
+                 <string>The vertical position lines will be drawn only if
 the editor font has a fixed pitch (like Monospace).</string>
-            </property>
-            <property name="text">
-             <string>Show vertical lines starting from this position:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="9" column="2">
-           <widget class="QSpinBox" name="vLineSpin">
-            <property name="toolTip">
-             <string>The vertical position lines will be drawn only if
+                </property>
+                <property name="text">
+                 <string>Show vertical lines starting from this position:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="9" column="2">
+               <widget class="QSpinBox" name="vLineSpin">
+                <property name="toolTip">
+                 <string>The vertical position lines will be drawn only if
 the editor font has a fixed pitch (like Monospace).</string>
-            </property>
-            <property name="minimum">
-             <number>10</number>
-            </property>
-            <property name="maximum">
-             <number>999</number>
-            </property>
-           </widget>
-          </item>
-          <item row="10" column="1" colspan="2">
-           <widget class="QCheckBox" name="endingsBox">
-            <property name="text">
-             <string>Also show line and document ends</string>
-            </property>
-           </widget>
-          </item>
-          <item row="11" column="0" colspan="3">
-           <widget class="QCheckBox" name="colBox">
-            <property name="toolTip">
-             <string>Needs window reopening to take effect.</string>
-            </property>
-            <property name="text">
-             <string>Dark c&amp;olor scheme</string>
-            </property>
-           </widget>
-          </item>
-          <item row="12" column="2">
-           <widget class="QSpinBox" name="colorValueSpin">
-            <property name="toolTip">
-             <string>The color value of the background.
+                </property>
+                <property name="minimum">
+                 <number>10</number>
+                </property>
+                <property name="maximum">
+                 <number>999</number>
+                </property>
+               </widget>
+              </item>
+              <item row="10" column="1" colspan="2">
+               <widget class="QCheckBox" name="endingsBox">
+                <property name="text">
+                 <string>Also show line and document ends</string>
+                </property>
+               </widget>
+              </item>
+              <item row="11" column="0" colspan="3">
+               <widget class="QCheckBox" name="colBox">
+                <property name="toolTip">
+                 <string>Needs window reopening to take effect.</string>
+                </property>
+                <property name="text">
+                 <string>Dark c&amp;olor scheme</string>
+                </property>
+               </widget>
+              </item>
+              <item row="12" column="2">
+               <widget class="QSpinBox" name="colorValueSpin">
+                <property name="toolTip">
+                 <string>The color value of the background.
 255 means white while 0 means black.
 
 For the light background, it can be
@@ -490,13 +523,13 @@ between 230 and 255; for the dark
 background, between 0 and 50.
 
 Needs window reopening to take effect.</string>
-            </property>
-           </widget>
-          </item>
-          <item row="12" column="1">
-           <widget class="QLabel" name="colorValueLabel">
-            <property name="toolTip">
-             <string>The color value of the background.
+                </property>
+               </widget>
+              </item>
+              <item row="12" column="1">
+               <widget class="QLabel" name="colorValueLabel">
+                <property name="toolTip">
+                 <string>The color value of the background.
 255 means white while 0 means black.
 
 For the light background, it can be
@@ -504,79 +537,83 @@ between 230 and 255; for the dark
 background, between 0 and 50.
 
 Needs window reopening to take effect.</string>
-            </property>
-            <property name="text">
-             <string>Background color value: </string>
-            </property>
-           </widget>
-          </item>
-          <item row="13" column="0" colspan="2">
-           <widget class="QLabel" name="dateLabel">
-            <property name="toolTip">
-             <string>Used for pasting the date and time.
+                </property>
+                <property name="text">
+                 <string>Background color value: </string>
+                </property>
+               </widget>
+              </item>
+              <item row="13" column="0" colspan="2">
+               <widget class="QLabel" name="dateLabel">
+                <property name="toolTip">
+                 <string>Used for pasting the date and time.
 
 Takes effect after closing this dialog.
 
 Leave empty for:
 MMM dd, yyyy, hh:mm:ss</string>
-            </property>
-            <property name="text">
-             <string>Date and time format:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="13" column="2" colspan="2">
-           <widget class="QLineEdit" name="dateEdit">
-            <property name="toolTip">
-             <string>Used for pasting the date and time.
+                </property>
+                <property name="text">
+                 <string>Date and time format:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="13" column="2" colspan="2">
+               <widget class="QLineEdit" name="dateEdit">
+                <property name="toolTip">
+                 <string>Used for pasting the date and time.
 
 Takes effect after closing this dialog.
 
 Leave empty for:
 MMM dd, yyyy, hh:mm:ss</string>
-            </property>
-            <property name="placeholderText">
-             <string notr="true">MMM dd, yyyy, hh:mm:ss</string>
-            </property>
-            <property name="clearButtonEnabled">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="14" column="0" colspan="3">
-           <widget class="QCheckBox" name="lastLineBox">
-            <property name="toolTip">
-             <string>Some text editors cannot open a document
+                </property>
+                <property name="placeholderText">
+                 <string notr="true">MMM dd, yyyy, hh:mm:ss</string>
+                </property>
+                <property name="clearButtonEnabled">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="14" column="0" colspan="3">
+               <widget class="QCheckBox" name="lastLineBox">
+                <property name="toolTip">
+                 <string>Some text editors cannot open a document
 whose last line is not empty.</string>
-            </property>
-            <property name="text">
-             <string>Ensure an empty last line on saving</string>
-            </property>
-           </widget>
-          </item>
-          <item row="15" column="0" colspan="2">
-           <widget class="QCheckBox" name="inertiaBox">
-            <property name="toolTip">
-             <string>Should the mouse wheel scrolling be inertial
+                </property>
+                <property name="text">
+                 <string>Ensure an empty last line on saving</string>
+                </property>
+               </widget>
+              </item>
+              <item row="15" column="0" colspan="2">
+               <widget class="QCheckBox" name="inertiaBox">
+                <property name="toolTip">
+                 <string>Should the mouse wheel scrolling be inertial
 if the cursor is inside the text view?</string>
-            </property>
-            <property name="text">
-             <string>Inertial scrolling with mouse wheel</string>
-            </property>
-           </widget>
-          </item>
-          <item row="16" column="0" colspan="3">
-           <widget class="QCheckBox" name="scrollBox">
-            <property name="toolTip">
-             <string>This is not a complete fix but
+                </property>
+                <property name="text">
+                 <string>Inertial scrolling with mouse wheel</string>
+                </property>
+               </widget>
+              </item>
+              <item row="16" column="0" colspan="3">
+               <widget class="QCheckBox" name="scrollBox">
+                <property name="toolTip">
+                 <string>This is not a complete fix but
 prevents annoying scroll jumps.</string>
-            </property>
-            <property name="text">
-             <string>Workaround for &amp;Qt5's scroll jump bug</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+                </property>
+                <property name="text">
+                 <string>Workaround for &amp;Qt5's scroll jump bug</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
         </widget>
        </item>
       </layout>

@@ -27,7 +27,8 @@ void Highlighter::SH_MultiLineQuote (const QString &text)
     static const QRegularExpression urlPattern ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
 
     int index = 0;
-    QRegExp quoteExpression = QRegExp ("\"|\'");
+    QRegularExpressionMatch quoteMatch;
+    QRegularExpression quoteExpression ("\"|\'");
     int initialState = currentBlockState();
     int prevState = previousBlockState();
 
@@ -56,10 +57,10 @@ void Highlighter::SH_MultiLineQuote (const QString &text)
     /* find the start quote */
     if (!wasQuoted)
     {
-        index = quoteExpression.indexIn (text);
+        index = text.indexOf (quoteExpression);
         /* skip escaped start quotes and all comments */
         while (SH_SkipQuote (text, index, true))
-            index = quoteExpression.indexIn (text, index + 1);
+            index = text.indexOf (quoteExpression, index + 1);
 
         /* check if the first quote is after the here-doc start delimiter */
         if (index >= 0 && hereDocDelimPos > -1 && index > hereDocDelimPos)
@@ -69,10 +70,10 @@ void Highlighter::SH_MultiLineQuote (const QString &text)
         if (index >= 0)
         {
             /* ... distinguish between double and single quotes */
-            if (index == quoteMark.indexIn (text, index))
+            if (index == text.indexOf (quoteMark, index))
                 quoteExpression = quoteMark;
             else
-                quoteExpression = QRegExp ("\'");
+                quoteExpression.setPattern ("\'");
         }
     }
     else // but if we're inside a quotation
@@ -82,20 +83,20 @@ void Highlighter::SH_MultiLineQuote (const QString &text)
         if (wasDQuoted)
             quoteExpression = quoteMark;
         else
-            quoteExpression = QRegExp ("\'");
+            quoteExpression.setPattern ("\'");
     }
 
     while (index >= 0)
     {
         /* if the search is continued... */
-        if (quoteExpression == QRegExp ("\"|\'"))
+        if (quoteExpression.pattern() == "\"|\'")
         {
             /* ... distinguish between double and single quotes
                again because the quote mark may have changed */
-            if (index == quoteMark.indexIn (text, index))
+            if (index == text.indexOf (quoteMark, index))
                 quoteExpression = quoteMark;
             else
-                quoteExpression = QRegExp ("\'");
+                quoteExpression.setPattern ("\'");
         }
 
         int endIndex;
@@ -103,14 +104,14 @@ void Highlighter::SH_MultiLineQuote (const QString &text)
         if (index == 0 && wasQuoted)
         {
             /* ... search for the end quote from the line start */
-            endIndex = quoteExpression.indexIn (text, 0);
+            endIndex = text.indexOf (quoteExpression, 0, &quoteMatch);
         }
         else // otherwise, search for the end quote from the start quote
-            endIndex = quoteExpression.indexIn (text, index + 1);
+            endIndex = text.indexOf (quoteExpression, index + 1, &quoteMatch);
 
         /* check if the end quote is escaped */
         while (SH_SkipQuote (text, endIndex, false))
-            endIndex = quoteExpression.indexIn (text, endIndex + 1);
+            endIndex = text.indexOf (quoteExpression, endIndex + 1, &quoteMatch);
 
         int quoteLength;
         if (endIndex == -1)
@@ -132,7 +133,7 @@ void Highlighter::SH_MultiLineQuote (const QString &text)
         else
         {
             quoteLength = endIndex - index
-                          + quoteExpression.matchedLength(); // 1
+                          + quoteMatch.capturedLength(); // 1
         }
         if (quoteExpression == quoteMark)
             setFormatWithoutOverwrite (index, quoteLength, quoteFormat, neutralFormat);
@@ -141,20 +142,20 @@ void Highlighter::SH_MultiLineQuote (const QString &text)
 
         QString str = text.mid (index, quoteLength);
         int urlIndex = 0;
-        QRegularExpressionMatch match;
-        while ((urlIndex = str.indexOf (urlPattern, urlIndex, &match)) > -1)
+        QRegularExpressionMatch urlMatch;
+        while ((urlIndex = str.indexOf (urlPattern, urlIndex, &urlMatch)) > -1)
         {
-             setFormat (urlIndex + index, match.capturedLength(), urlInsideQuoteFormat);
-             urlIndex += match.capturedLength();
+             setFormat (urlIndex + index, urlMatch.capturedLength(), urlInsideQuoteFormat);
+             urlIndex += urlMatch.capturedLength();
         }
 
         /* the next quote may be different */
-        quoteExpression = QRegExp ("\"|\'");
-        index = quoteExpression.indexIn (text, index + quoteLength);
+        quoteExpression.setPattern ("\"|\'");
+        index = text.indexOf (quoteExpression, index + quoteLength);
 
         /* skip escaped start quotes and all comments */
         while (SH_SkipQuote (text, index, true))
-            index = quoteExpression.indexIn (text, index + 1);
+            index = text.indexOf (quoteExpression, index + 1);
 
         /* check if the first quote is after the here-doc start delimiter */
         if (hereDocDelimPos > -1 && index > hereDocDelimPos)

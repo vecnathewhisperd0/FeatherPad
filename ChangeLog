@@ -20,6 +20,7 @@ V0.8
  * Added a configurable date and time pasting.
  * Open hyperlinks of highlighted texts by left-clikcing them while the Ctrl key is pressed and also with an item in the context menu.
  * Put the cursor at the right-click position if it has no selection.
+ * Replaced QRegExp with QRegularExpression.
 
 V0.7
 ---------
