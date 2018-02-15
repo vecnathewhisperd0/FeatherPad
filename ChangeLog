@@ -21,6 +21,7 @@ V0.8
  * Open hyperlinks of highlighted texts by left-clikcing them while the Ctrl key is pressed and also with an item in the context menu.
  * Put the cursor at the right-click position if it has no selection.
  * Replaced QRegExp with QRegularExpression.
+ * Added an option for removing trailing spaces on saving.
 
 V0.7
 ---------

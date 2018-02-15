@@ -209,6 +209,9 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
     ui->lastLineBox->setChecked (config.getAppendEmptyLine());
     connect (ui->lastLineBox, &QCheckBox::stateChanged, this, &PrefDialog::prefAppendEmptyLine);
 
+    ui->trailingSpacesBox->setChecked (config.getRemoveTrailingSpaces());
+    connect (ui->trailingSpacesBox, &QCheckBox::stateChanged, this, &PrefDialog::prefRemoveTrailingSpaces);
+
     ui->scrollBox->setChecked (config.getScrollJumpWorkaround());
     connect (ui->scrollBox, &QCheckBox::stateChanged, this, &PrefDialog::prefScrollJumpWorkaround);
 
@@ -938,6 +941,16 @@ void PrefDialog::prefAppendEmptyLine (int checked)
         config.setAppendEmptyLine (true);
     else if (checked == Qt::Unchecked)
         config.setAppendEmptyLine (false);
+}
+/*************************/
+void PrefDialog::prefRemoveTrailingSpaces (int checked)
+{
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    Config& config = singleton->getConfig();
+    if (checked == Qt::Checked)
+        config.setRemoveTrailingSpaces (true);
+    else if (checked == Qt::Unchecked)
+        config.setRemoveTrailingSpaces (false);
 }
 /*************************/
 void PrefDialog::prefScrollJumpWorkaround (int checked)

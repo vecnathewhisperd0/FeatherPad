@@ -326,6 +326,13 @@ public:
         appendEmptyLine_ = append;
     }
 
+    bool getRemoveTrailingSpaces() const {
+        return removeTrailingSpaces_;
+    }
+    void setRemoveTrailingSpaces (bool remove) {
+        removeTrailingSpaces_ = remove;
+    }
+
     bool getOpenInWindows() const {
         return openInWindows_;
     }
@@ -444,6 +451,7 @@ private:
          tabWrapAround_, hideSingleTab_,
          executeScripts_,
          appendEmptyLine_,
+         removeTrailingSpaces_,
          openInWindows_,
          nativeDialog_,
          inertialScrolling_,

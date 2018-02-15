@@ -2407,6 +2407,18 @@ void FPwin::reload()
     }
 }
 /*************************/
+static inline int trailingSpaces (const QString &str)
+{
+    int i = 0;
+    while (i < str.length())
+    {
+        if (!str.at (str.length() - 1 - i).isSpace())
+            return i;
+        ++i;
+    }
+    return i;
+}
+/*************************/
 // This is for both "Save" and "Save As"
 bool FPwin::saveFile (bool keepSyntax)
 {
@@ -2555,12 +2567,35 @@ bool FPwin::saveFile (bool keepSyntax)
         updateShortcuts (false);
     }
 
+    if (config.getRemoveTrailingSpaces())
+    {
+        /* using text blocks directly is the fastest
+           and lightest way of removing trailing spaces */
+        if (QGuiApplication::overrideCursor() == nullptr)
+            waitToMakeBusy();
+        QTextBlock block = textEdit->document()->firstBlock();
+        QTextCursor tmpCur = textEdit->textCursor();
+        tmpCur.beginEditBlock();
+        while (block.isValid())
+        {
+            if (const int num = trailingSpaces (block.text()))
+            {
+                tmpCur.setPosition (block.position() + block.text().length());
+                tmpCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, num);
+                tmpCur.removeSelectedText();
+            }
+            block = block.next();
+        }
+        tmpCur.endEditBlock();
+        unbusy();
+    }
+
     if (config.getAppendEmptyLine()
         && !textEdit->document()->lastBlock().text().isEmpty())
     {
         QTextCursor tmpCur = textEdit->textCursor();
         tmpCur.beginEditBlock();
-        tmpCur.movePosition(QTextCursor::End);
+        tmpCur.movePosition (QTextCursor::End);
         tmpCur.insertBlock();
         tmpCur.endEditBlock();
     }
@@ -4366,6 +4401,37 @@ void FPwin::autoSave()
             QString fname = thisTextEdit->getFileName();
             if (fname.isEmpty() || !QFile::exists (fname))
                 continue;
+            /* make changes to the document if needed */
+            if (config.getRemoveTrailingSpaces())
+            {
+                if (QGuiApplication::overrideCursor() == nullptr)
+                    waitToMakeBusy();
+                QTextBlock block = thisTextEdit->document()->firstBlock();
+                QTextCursor tmpCur = thisTextEdit->textCursor();
+                tmpCur.beginEditBlock();
+                while (block.isValid())
+                {
+                    if (const int num = trailingSpaces (block.text()))
+                    {
+                        tmpCur.setPosition (block.position() + block.text().length());
+                        tmpCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, num);
+                        tmpCur.removeSelectedText();
+                    }
+                    block = block.next();
+                }
+                tmpCur.endEditBlock();
+                unbusy();
+            }
+            if (config.getAppendEmptyLine()
+                && !thisTextEdit->document()->lastBlock().text().isEmpty())
+            {
+                QTextCursor tmpCur = thisTextEdit->textCursor();
+                tmpCur.beginEditBlock();
+                tmpCur.movePosition (QTextCursor::End);
+                tmpCur.insertBlock();
+                tmpCur.endEditBlock();
+            }
+
             QTextDocumentWriter writer (fname, "plaintext");
             if (writer.write (thisTextEdit->document()))
             {

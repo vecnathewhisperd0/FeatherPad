@@ -50,6 +50,7 @@ Config::Config():
     hideSingleTab_ (false),
     executeScripts_ (false),
     appendEmptyLine_ (true),
+    removeTrailingSpaces_ (false),
     openInWindows_ (false),
     nativeDialog_ (false),
     inertialScrolling_ (false),
@@ -219,6 +220,9 @@ void Config::readConfig()
     if (v.isValid()) // true by default
         appendEmptyLine_ = v.toBool();
 
+    if (settings.value ("removeTrailingSpaces").toBool())
+        removeTrailingSpaces_ = true; // false by default
+
     recentFilesNumber_ = qBound (1, settings.value ("recentFilesNumber", 10).toInt(), 20);
     curRecentFilesNumber_ = recentFilesNumber_; // fixed
     recentFiles_ = settings.value ("recentFiles").toStringList();
@@ -328,6 +332,7 @@ void Config::writeConfig()
     settings.setValue ("darkBgColorValue", darkBgColorValue_);
     settings.setValue ("executeScripts", executeScripts_);
     settings.setValue ("appendEmptyLine", appendEmptyLine_);
+    settings.setValue ("removeTrailingSpaces", removeTrailingSpaces_);
 
     settings.setValue ("vLineDistance", vLineDistance_);
 

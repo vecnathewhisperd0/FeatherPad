@@ -1185,8 +1185,7 @@ bool Highlighter::isMLCommented (const QString &text, const int index, int comSt
         /* All (or most) multiline comments have more than one character
            and this trick is needed for knowing if a double slash follows
            an asterisk without using "lookbehind", for example. */
-        //if (index < pos + (N % 2 == 0 ? commentMatch.capturedLength() : 0))
-        if (index <= pos + 1)
+        if (index < pos + (N % 2 == 0 ? commentMatch.capturedLength() : 0))
         {
             if (N % 2 == 0) res = true;
             else res = false;
