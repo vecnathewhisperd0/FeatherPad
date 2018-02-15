@@ -634,16 +634,22 @@ void FPwin::applyConfigOnStarting()
     if (!config.hasReservedShortcuts())
     { // this is here, and not in "singleton.cpp", just to simplify translation
         QStringList reserved;
-        reserved << tr ("Ctrl+Shift+Z") << tr ("Ctrl+Z") << tr ("Ctrl+X") << tr ("Ctrl+C") << tr ("Ctrl+V") << tr ("Ctrl+A") << tr ("Ctrl+Shift+V")
+                    /* QPLainTextEdit */
+        reserved << tr ("Ctrl+Shift+Z") << tr ("Ctrl+Z") << tr ("Ctrl+X") << tr ("Ctrl+C") << tr ("Ctrl+V") << tr ("Ctrl+A")
+                 << tr ("Shift+Ins") << tr ("Shift+Del") << tr ("Ctrl+Ins") << tr ("Ctrl+Left") << tr ("Ctrl+Right")
+                 << tr ("Ctrl+Up") << tr ("Ctrl+Down") << tr ("Ctrl+Home") << tr ("Ctrl+End")
+
+                    /* search and replacement */
                  << tr ("F3") << tr ("F4") << tr ("F5") << tr ("F6")
                  << tr ("F7") << tr ("F8") << tr ("F9")
                  << tr ("F11") << tr ("Ctrl+Shift+W")
-                 << tr ("Ctrl+=") << tr ("Ctrl++") << tr ("Ctrl+-") << tr ("Ctrl+0")
-                 << tr ("Ctrl+Alt+E")
-                 << tr ("Shift+Enter") << tr ("Ctrl+Tab") << tr ("Ctrl+Meta+Tab")
-                 << tr ("Alt+Right") << tr ("Alt+Left") << tr ("Alt+Down")  << tr ("Alt+Up")
-                 << tr ("Ctrl+Shift+J")
-                 << tr ("Ctrl+K"); // used by LineEdit
+
+                 << tr ("Ctrl+=") << tr ("Ctrl++") << tr ("Ctrl+-") << tr ("Ctrl+0") // zooming
+                 << tr ("Ctrl+Alt+E") // exiting a process
+                 << tr ("Shift+Enter") << tr ("Ctrl+Tab") << tr ("Ctrl+Meta+Tab") // text tabulation
+                 << tr ("Alt+Right") << tr ("Alt+Left") << tr ("Alt+Down")  << tr ("Alt+Up") // tab switching
+                 << tr ("Ctrl+Shift+J") // select text on jumping (not an action)
+                 << tr ("Ctrl+K"); // used by LineEdit as well as QPlainTextEdit
         config.setReservedShortcuts (reserved);
         config.readShortcuts();
     }
@@ -1155,6 +1161,10 @@ void FPwin::updateCustomizableShortcuts (bool disable)
         ui->actionSession->setShortcut (QKeySequence());
 
         ui->actionSidePane->setShortcut (QKeySequence());
+
+        ui->actionUndo->setShortcut (QKeySequence());
+        ui->actionRedo->setShortcut (QKeySequence());
+        ui->actionDate->setShortcut (QKeySequence());
     }
     else
     {
@@ -1188,6 +1198,10 @@ void FPwin::updateCustomizableShortcuts (bool disable)
         ui->actionSession->setShortcut (keys.contains ("actionSession") ? ca.value ("actionSession") : QKeySequence (tr ("Ctrl+M")));
 
         ui->actionSidePane->setShortcut (keys.contains ("actionSidePane") ? ca.value ("actionSidePane") : QKeySequence (tr ("Ctrl+Alt+P")));
+
+        ui->actionUndo->setShortcut (keys.contains ("actionUndo") ? ca.value ("actionUndo") : QKeySequence (tr ("Ctrl+Z")));
+        ui->actionRedo->setShortcut (keys.contains ("actionRedo") ? ca.value ("actionRedo") : QKeySequence (tr ("Ctrl+Shift+Z")));
+        ui->actionDate->setShortcut (keys.contains ("actionDate") ? ca.value ("actionDate") : QKeySequence (tr ("Ctrl+Shift+V")));
     }
 }
 /*************************/
@@ -1201,12 +1215,9 @@ void FPwin::updateShortcuts (bool disable, bool page)
 {
     if (disable)
     {
-        ui->actionUndo->setShortcut (QKeySequence());
-        ui->actionRedo->setShortcut (QKeySequence());
         ui->actionCut->setShortcut (QKeySequence());
         ui->actionCopy->setShortcut (QKeySequence());
         ui->actionPaste->setShortcut (QKeySequence());
-        ui->actionDate->setShortcut (QKeySequence());
         ui->actionSelectAll->setShortcut (QKeySequence());
 
         ui->toolButtonNext->setShortcut (QKeySequence());
@@ -1220,12 +1231,9 @@ void FPwin::updateShortcuts (bool disable, bool page)
     }
     else
     {
-        ui->actionUndo->setShortcut (QKeySequence (tr ("Ctrl+Z")));
-        ui->actionRedo->setShortcut (QKeySequence (tr ("Ctrl+Shift+Z")));
         ui->actionCut->setShortcut (QKeySequence (tr ("Ctrl+X")));
         ui->actionCopy->setShortcut (QKeySequence (tr ("Ctrl+C")));
         ui->actionPaste->setShortcut (QKeySequence (tr ("Ctrl+V")));
-        ui->actionDate->setShortcut (QKeySequence (tr ("Ctrl+Shift+V")));
         ui->actionSelectAll->setShortcut (QKeySequence (tr ("Ctrl+A")));
 
         ui->toolButtonNext->setShortcut (QKeySequence (tr ("F7")));
@@ -4297,6 +4305,10 @@ void FPwin::prefDialog()
         defaultShortcuts.insert ("actionRun", tr ("Ctrl+E"));
         defaultShortcuts.insert ("actionSession", tr ("Ctrl+M"));
         defaultShortcuts.insert ("actionSidePane", tr ("Ctrl+Alt+P"));
+
+        defaultShortcuts.insert ("actionUndo", tr ("Ctrl+Z"));
+        defaultShortcuts.insert ("actionRedo", tr ("Ctrl+Shift+Z"));
+        defaultShortcuts.insert ("actionDate", tr ("Ctrl+Shift+V"));
     }
 
     updateShortcuts (true);

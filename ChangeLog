@@ -22,6 +22,8 @@ V0.8
  * Put the cursor at the right-click position if it has no selection.
  * Replaced QRegExp with QRegularExpression.
  * Added an option for removing trailing spaces on saving.
+ * Added Undo/Redo to custom shortcuts, although their default shortcuts are hard-coded in Qt.
+ * Don't show the shortcuts strings of the editor context menu because they can be misleading.
 
 V0.7
 ---------

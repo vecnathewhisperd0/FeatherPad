@@ -1120,12 +1120,21 @@ void TextEdit::showContextMenu (const QPoint &p)
         setTextCursor (cursorForPosition (p));
 
     QMenu *menu = createStandardContextMenu (p);
-    if (!menu->actions().isEmpty())
+    const QList<QAction*> actions = menu->actions();
+    if (!actions.isEmpty())
     {
+        for (QAction* const thisAction : actions)
+        { // remove the shortcut strings because shortcuts may change
+            QString txt = thisAction->text();
+            if (!txt.isEmpty())
+                txt = txt.split ('\t').first();
+            if (!txt.isEmpty())
+                thisAction->setText(txt);
+        }
         QString str = getUrl (textCursor().position());
         if (!str.isEmpty())
         {
-            QAction *sep = menu->insertSeparator (menu->actions().first());
+            QAction *sep = menu->insertSeparator (actions.first());
             QAction *openLink = new QAction (tr ("Open Link"), menu);
             menu->insertAction (sep, openLink);
             connect (openLink, &QAction::triggered, [str] {
@@ -1141,12 +1150,15 @@ void TextEdit::showContextMenu (const QPoint &p)
             });
 
         }
+        menu->addSeparator();
     }
-    menu->addSeparator();
-    QAction *action = menu->addAction (tr ("Paste Date and Time"));
-    connect (action, &QAction::triggered, [this] {
-        insertPlainText (QDateTime::currentDateTime().toString (dateFormat_.isEmpty() ? "MMM dd, yyyy, hh:mm:ss" : dateFormat_));
-    });
+    if (!isReadOnly())
+    {
+        QAction *action = menu->addAction (tr ("Paste Date and Time"));
+        connect (action, &QAction::triggered, [this] {
+            insertPlainText (QDateTime::currentDateTime().toString (dateFormat_.isEmpty() ? "MMM dd, yyyy, hh:mm:ss" : dateFormat_));
+        });
+    }
     menu->exec (mapToGlobal (p));
     delete menu;
 }

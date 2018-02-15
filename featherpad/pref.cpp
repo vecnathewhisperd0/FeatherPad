@@ -285,6 +285,10 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
         OBJECT_NAMES.insert (win->ui->actionRun->text().remove ("&"), "actionRun");
         OBJECT_NAMES.insert (win->ui->actionSession->text().remove ("&"), "actionSession");
         OBJECT_NAMES.insert (win->ui->actionSidePane->text().remove ("&"), "actionSidePane");
+
+        OBJECT_NAMES.insert (win->ui->actionUndo->text().remove ("&"), "actionUndo");
+        OBJECT_NAMES.insert (win->ui->actionRedo->text().remove ("&"), "actionRedo");
+        OBJECT_NAMES.insert (win->ui->actionDate->text().remove ("&"), "actionDate");
     }
 
     QHash<QString, QString> ca = config.customShortcutActions();
@@ -336,6 +340,13 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
                        keys.contains ("actionSession") ? ca.value ("actionSession") : defaultShortcuts_.value ("actionSession"));
     shortcuts_.insert (win->ui->actionSidePane->text().remove ("&"),
                        keys.contains ("actionSidePane") ? ca.value ("actionSidePane") : defaultShortcuts_.value ("actionSidePane"));
+
+    shortcuts_.insert (win->ui->actionUndo->text().remove ("&"),
+                       keys.contains ("actionUndo") ? ca.value ("actionUndo") : defaultShortcuts_.value ("actionUndo"));
+    shortcuts_.insert (win->ui->actionRedo->text().remove ("&"),
+                       keys.contains ("actionRedo") ? ca.value ("actionRedo") : defaultShortcuts_.value ("actionRedo"));
+    shortcuts_.insert (win->ui->actionDate->text().remove ("&"),
+                       keys.contains ("actionDate") ? ca.value ("actionDate") : defaultShortcuts_.value ("actionDate"));
 
     QList<QString> val = shortcuts_.values();
     for (int i = 0; i < val.size(); ++i)
@@ -1189,7 +1200,10 @@ void PrefDialog::onShortcutChange (QTableWidgetItem *item)
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
     QString txt = item->text();
     QString desc = ui->tableWidget->item (ui->tableWidget->currentRow(), 0)->text();
-    if (txt.isEmpty() || !txt.contains ("+") || config.reservedShortcuts().contains (txt))
+    if (txt.isEmpty() || !txt.contains ("+")
+        || (config.reservedShortcuts().contains (txt)
+            /* unless its (hard-coded) default shortcut is typed */
+            && defaultShortcuts_.value (OBJECT_NAMES.value (desc)) != txt))
     {
         if (txt.isEmpty() || !txt.contains ("+"))
             showPrompt (tr ("The typed shortcut was not valid."), true);
