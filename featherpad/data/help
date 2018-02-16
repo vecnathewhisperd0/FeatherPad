@@ -16,13 +16,15 @@ If there is more that one tab, each one will have a right-click menu for closing
 
 If a file is opened in a tab, the right-click menu of that tab will also contain two items for copying the name and path of the file.
 
+For users' comfort, double clicking on an empty area of tha tab-bar creates a new tab.
+
 ***********************
 *   File Management   *
 ***********************
 
 If there is a FeatherPad window on the current virtual desktop or viewport, so that more than half of its width as well as its height is visible, files will be opened as new tabs in it; otherwise, a new window will be created. Also when the window on the current desktop/viewport has a modal dialog, another window is created.
 
-In this way, FeatherPad is aware of virtual desktops under most Linux desktop environments. However, there are exceptions (like Enlightenment). 
+In this way, FeatherPad is aware of virtual desktops under most Linux desktop environments. However, there are exceptions (like Enlightenment).
 
 Files are always opened after the active tab unless it is empty, in which case the first file will be opened in it. If a single file is opened, its tab will be activated but in the case of multiple files, the active tab will not change.
 
@@ -49,6 +51,10 @@ Although the side-pane mode does not have the features provided by tabs -- for e
 *******************************************
 
 FeatherPad tries to guess encodings as well as programming languages (for syntax highlighting) when opening files. Although it often guesses encodings right, there is no exact way for that. Therefore, there are some encodings in the Options menu. If you choose one, the text could be saved with it by using the item "Save with Encoding" on the File menu. By default, all texts are saved with UTF-8.
+
+The programming language is detected based on the mime type or file name and its syntax will be highlighted if the syntax highlighting is enabled and if it is supported for the language in question. There is an optiion in the Preferences dialog that, if enabled, will add a language button to the status bar for overriding the original syntax or lack of it. Reloading a document restores its original syntax.
+
+When the syntax is highlighted, there are also options for showing whitespaces and vertical lines. Also, it will be possible to open document hyperlinks by right clicking them and activating the related menu-item or by pressing the Control key, moving the cursor over them, and clicking them while the cursor is like a pointing hand.
 
 *******************************
 *   Searching and Replacing   *
@@ -107,34 +113,35 @@ The same holds for RTL (right-to-left) texts but with right and left reversed.
 *   Useful Keyboard Shortcuts   *
 *********************************
 
-Ctrl+H          This help
-Ctrl+L          Show/hide line numbers
-Ctrl+W          Toggle wrapping state
-Ctrl+I          Toggle auto-indentation
-Ctrl+Shift+H    Toggle syntax highlighting
-Ctrl+Shift+R    Refresh (reload file)
-Ctrl+J          Jump to line
-Ctrl+Shift+J    Select text to line (the Jump bar should be visible)
-Ctrl+F          Focus/hide search bar (it hides only a focused search bar)
-F3              Forward search (also Enter can be pressed in the search entry)
-F4              Backward search
-F5              Match case
-F6              Whole word
-Ctrl+R          'Replace' window
-F7              Forward replacement
-F8              Backward replacement
-F9              Replace all
-Ctrl+K          Clear the text of an entry when it is focused
-Ctrl+Shift+P    Preferences
-Ctrl+Shift+D    Document statistics (on the statusbar)
-Ctrl+Shift+Q    Close tab
-Ctrl+T          Detach tab
-Alt+Right       Next tab (Alt+Left for RTL)
-Alt+Left        Previous tab (Alt+Right for RTL)
-Alt+Up          Last tab
-Alt+Down        First tab
-Ctrl+P          Print
-Ctrl+E          Edit uneditable documents
+Ctrl+H           This help
+Ctrl+L           Show/hide line numbers
+Ctrl+W           Toggle wrapping state
+Ctrl+I           Toggle auto-indentation
+Ctrl+Shift+H     Toggle syntax highlighting
+Ctrl+Shift+R     Refresh (reload file)
+Ctrl+J           Jump to line
+Ctrl+Shift+J     Select text to line (the Jump bar should be visible)
+Ctrl+F           Focus/hide search bar (it hides only a focused search bar)
+F3               Forward search (also Enter can be pressed in the search entry)
+F4               Backward search
+F5               Match case
+F6               Whole word
+Ctrl+R           Replacement dock
+F7               Forward replacement
+F8               Backward replacement
+F9               Replace all
+Ctrl+K           Clear the text of an entry when it is focused
+Ctrl+Shift+P     Preferences
+Ctrl+Shift+D     Document statistics (on the statusbar)
+Ctrl+Shift+Q     Close tab
+Ctrl+Shift+V     Paste date and time
+Ctrl+T           Detach tab
+Alt+Right        Next tab (Alt+Left for RTL)
+Alt+Left         Previous tab (Alt+Right for RTL)
+Alt+Up           Last tab
+Alt+Down         First tab
+Ctrl+P           Print
+Ctrl+E           Edit uneditable documents
 
 Extra Shortcuts:
 =================
@@ -145,8 +152,10 @@ Ctrl+-           Zoom out (also Ctrl + mouse wheel)
 Ctrl+0           Reset zooming
 Ctrl+E           Execute this file (only if this is enabled in Preferences)
 Ctrl+Alt+E       Exit (kill) the above process immediately
+Ctrl+K           Delete to the end of the line when the editor is focused
+Ctrl+Right/Left  Move the cursor one word to the right/left
 Ctrl+Tab         4-space text tabulation
 Ctrl+Meta+Tab    2-space text tabulation
 Shift+Enter      Insert newline with the non-letter prefix of the current line (to write code comments easily)
 
-The remaining shortcuts are standard. All shortcuts, except for the extra ones above, can be found on menus or as tooltips.
+The remaining shortcuts are standard. All shortcuts, except for the extra ones above, can be found on menus or as tooltips. Many of them can be customized in the Preferences dialog.

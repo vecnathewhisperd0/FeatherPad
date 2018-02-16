@@ -1174,7 +1174,7 @@ QString TextEdit::getUrl (const int pos) const
     QString url;
     QTextBlock block = document()->findBlock (pos);
     QString text = block.text();
-    if (text.length() <= 10000) // otherwise, too long
+    if (text.length() <= 50000) // otherwise, too long
     {
         int cursorIndex = pos - block.position();
         QRegularExpressionMatch match;
@@ -1204,13 +1204,12 @@ void TextEdit::mouseMoveEvent (QMouseEvent *event)
 void TextEdit::mousePressEvent (QMouseEvent *event)
 {
     QPlainTextEdit::mousePressEvent (event);
-    if (!highlighter_
-        || !(event->button() & Qt::LeftButton)
-        || !(qApp->keyboardModifiers() & Qt::ControlModifier))
+    if (highlighter_
+        && (event->button() & Qt::LeftButton)
+        && (qApp->keyboardModifiers() & Qt::ControlModifier))
     {
-        return;
+        pressPoint_ = event->pos();
     }
-    pressPoint_ = event->pos();
 }
 /*************************/
 void TextEdit::mouseReleaseEvent (QMouseEvent *event)
@@ -1218,7 +1217,9 @@ void TextEdit::mouseReleaseEvent (QMouseEvent *event)
     QPlainTextEdit::mouseReleaseEvent (event);
     if (!highlighter_
         || !(event->button() & Qt::LeftButton)
-        || !(qApp->keyboardModifiers() & Qt::ControlModifier))
+        || !(qApp->keyboardModifiers() & Qt::ControlModifier)
+        /* another key may also be pressed (-> keyPressEvent) */
+        || viewport()->cursor().shape() != Qt::PointingHandCursor)
     {
         return;
     }
@@ -1237,9 +1238,12 @@ void TextEdit::mouseReleaseEvent (QMouseEvent *event)
 /*************************/
 bool TextEdit::event (QEvent *event)
 {
-    /* this is needed when the desktop is changed and restored */
-    if (highlighter_ && event->type() == QEvent::WindowDeactivate)
+    if (highlighter_
+        && ((event->type() == QEvent::WindowDeactivate && hasFocus()) // another window is activated
+             || event->type() == QEvent::FocusOut)) // another widget has been focused
+    {
         viewport()->setCursor (Qt::IBeamCursor);
+    }
     return QPlainTextEdit::event (event);
 }
 

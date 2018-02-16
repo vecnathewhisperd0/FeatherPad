@@ -2177,6 +2177,15 @@ void Highlighter::xmlQuotes (const QString &text)
         setFormat (index, quoteLength, quoteExpression == quoteMark ? quoteFormat
                                                                     : altQuoteFormat);
 
+        QString str = text.mid (index, quoteLength);
+        int urlIndex = 0;
+        QRegularExpressionMatch urlMatch;
+        while ((urlIndex = str.indexOf (urlPattern, urlIndex, &urlMatch)) > -1)
+        {
+             setFormat (urlIndex + index, urlMatch.capturedLength(), urlInsideQuoteFormat);
+             urlIndex += urlMatch.capturedLength();
+        }
+
         /* the next quote may be different */
         quoteExpression.setPattern ("\"|\'");
         index = text.indexOf (quoteExpression, index + quoteLength);
