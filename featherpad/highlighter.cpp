@@ -695,38 +695,12 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         quoteMark.setPattern ("`"); // inline code is almost like a single-line quote
         blockQuoteFormat.setForeground (DarkGreen);
         codeBlockFormat.setForeground (DarkRed);
-        QTextCharFormat markdownFormat = neutralFormat;
-
-        /*
-           The bold and italic rules should come first.
-           For both, we suppose that:
-
-           (1) The string doesn't contain '*' or '_'.
-           (2) Either the string starts the line or a space comes before it.
-           (3) Either the string ends the line or a non-word character other
-               than '*' comes after it.
-        */
-
-        /* italic */
-        markdownFormat.setFontItalic (true);
-        rule.pattern.setPattern ("(^|\\s)\\*[^\\*_]+\\*(?!(\\w|\\*))"
-                                 "|"
-                                 "(^|\\s)_[^\\*_]+_(?!(\\w|\\*))");
-        rule.format = markdownFormat;
-        highlightingRules.append (rule);
-        markdownFormat.setFontItalic (false);
-
-        /* bold */
-        markdownFormat.setFontWeight (QFont::Bold);
-        rule.pattern.setPattern ("(^|\\s)\\*{2}[^\\*_]+\\*{2}(?!(\\w|\\*))"
-                                 "|"
-                                 "(^|\\s)_{2}[^\\*_]+_{2}(?!(\\w|\\*))");
-        rule.format = markdownFormat;
-        highlightingRules.append (rule);
+        QTextCharFormat markdownFormat;
 
         /* lists */
+        markdownFormat.setFontWeight (QFont::Bold);
         markdownFormat.setForeground (DarkBlue);
-        rule.pattern.setPattern ("^ {0,3}(\\*|\\+|\\-|\\d+\\.|\\d+\\))\\s+");
+        rule.pattern.setPattern ("^ {0,3}((\\*\\s+){1,}|(\\+\\s+){1,}|(\\-\\s+){1,}|\\d+\\.\\s+|\\d+\\)\\s+)");
         rule.format = markdownFormat;
         highlightingRules.append (rule);
 
@@ -2356,6 +2330,74 @@ bool Highlighter::isHereDocument (const QString &text)
     return false;
 }
 /*************************/
+void Highlighter::markDownFonts (const QString &text)
+{
+    QTextCharFormat boldFormat = neutralFormat;
+    boldFormat.setFontWeight (QFont::Bold);
+
+    QTextCharFormat italicFormat = neutralFormat;
+    italicFormat.setFontItalic (true);
+
+    QTextCharFormat boldItalicFormat = italicFormat;
+    boldItalicFormat.setFontWeight (QFont::Bold);
+
+    /* NOTE: Apparently, all browsers use expressions similar to the following ones.
+             However, these patterns aren't logical. For example, escaping an asterisk
+             isn't always equivalent to its removal with regard to boldness/italicity.
+             It also seems that five successive asterisks are ignored at start. */
+
+    QRegularExpressionMatch italicMatch;
+    const QRegularExpression italicExp ("(?<!\\\\|\\*{4})\\*([^*]|(?:(?<!\\*)\\*\\*))+\\*|(?<!\\\\|_{4})_([^_]|(?:(?<!_)__))+_"); // allow double asterisks inside
+
+    QRegularExpressionMatch boldcMatch;
+    //const QRegularExpression boldExp ("\\*\\*(?!\\*)(?:(?!\\*\\*).)+\\*\\*|__(?:(?!__).)+__}");
+    const QRegularExpression boldExp ("(?<!\\\\|\\*{3})\\*\\*([^*]|(?:(?<!\\*)\\*))+\\*\\*|(?<!\\\\|_{3})__([^_]|(?:(?<!_)_))+__"); // allow single asterisks inside
+
+    const QRegularExpression boldItalicExp ("(?<!\\\\|\\*{2})\\*{3}([^*]|(?:(?<!\\*)\\*))+\\*{3}|(?<!\\\\|_{2})_{3}([^_]|(?:(?<!_)_))+_{3}");
+
+    QRegularExpressionMatch expMatch;
+    const QRegularExpression exp (boldExp.pattern() + "|" + italicExp.pattern() + "|" + boldItalicExp.pattern());
+
+    int index = 0;
+    while ((index = text.indexOf (exp, index, &expMatch)) > -1)
+    {
+        if (format (index) == mainFormat && format (index + expMatch.capturedLength() - 1) == mainFormat)
+        {
+            if (index == text.indexOf (boldItalicExp, index))
+            {
+                setFormatWithoutOverwrite (index, expMatch.capturedLength(), boldItalicFormat, whiteSpaceFormat);
+            }
+            else if (index == text.indexOf (boldExp, index, &boldcMatch) && boldcMatch.capturedLength() == expMatch.capturedLength())
+            {
+                setFormatWithoutOverwrite (index, expMatch.capturedLength(), boldFormat, whiteSpaceFormat);
+                /* also format italic bold strings */
+                QString str = text.mid (index + 2, expMatch.capturedLength() - 4);
+                int indx = 0;
+                while ((indx = str.indexOf (italicExp, indx, &italicMatch)) > -1)
+                {
+                    setFormatWithoutOverwrite (index + 2 + indx, italicMatch.capturedLength(), boldItalicFormat, whiteSpaceFormat);
+                    indx += italicMatch.capturedLength();
+                }
+            }
+            else
+            {
+                setFormatWithoutOverwrite (index, expMatch.capturedLength(), italicFormat, whiteSpaceFormat);
+                /* also format bold italic strings */
+                QString str = text.mid (index + 1, expMatch.capturedLength() - 2);
+                int indx = 0;
+                while ((indx = str.indexOf (boldExp, indx, &boldcMatch)) > -1)
+                {
+                    setFormatWithoutOverwrite (index + 1 + indx, boldcMatch.capturedLength(), boldItalicFormat, whiteSpaceFormat);
+                    indx += boldcMatch.capturedLength();
+                }
+
+            }
+            index += expMatch.capturedLength();
+        }
+        else ++index;
+    }
+}
+/*************************/
 void Highlighter::debControlFormatting (const QString &text)
 {
     if (text.isEmpty()) return;
@@ -2584,8 +2626,7 @@ void Highlighter::highlightBlock (const QString &text)
                     fi = format (index);
                     while (index >= 0
                            && (fi == blockQuoteFormat || fi == codeBlockFormat // the same as quoteFormat (for `...`)
-                               || fi == commentFormat || fi == urlFormat
-                               || fi.fontWeight() == QFont::Bold || fi.fontItalic()))
+                               || fi == commentFormat || fi == urlFormat))
                     {
                         index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
                         fi = format (index);
@@ -2600,8 +2641,7 @@ void Highlighter::highlightBlock (const QString &text)
                         fi = format (index);
                         while (index >= 0
                                && (fi == blockQuoteFormat || fi == codeBlockFormat
-                                   || fi == commentFormat || fi == urlFormat
-                                   || fi.fontWeight() == QFont::Bold || fi.fontItalic()))
+                                   || fi == commentFormat || fi == urlFormat))
                         {
                             index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
                             fi = format (index);
@@ -2609,6 +2649,7 @@ void Highlighter::highlightBlock (const QString &text)
                     }
                 }
             }
+            markDownFonts (text);
         }
         /* go to braces matching */
     }

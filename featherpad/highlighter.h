@@ -141,6 +141,7 @@ private:
                           TextBlockData *currentBlockData,
                           int oldOpenNests, const QSet<int> &oldOpenQuotes);
 
+    void markDownFonts (const QString &text);
     void debControlFormatting (const QString &text);
 
     bool isEscapedJSRegex (const QString &text, const int pos);

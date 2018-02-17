@@ -1,4 +1,6 @@
-# ABOUT:
+# FeatherPad
+
+## Overview
 
 FeatherPad (by Pedram Pourang, a.k.a. Tsu Jan <tsujan2000@gmail.com>) is a lightweight Qt5 plain-text editor for Linux. It is independent of any desktop environment and has:
 
@@ -20,9 +22,7 @@ FeatherPad (by Pedram Pourang, a.k.a. Tsu Jan <tsujan2000@gmail.com>) is a light
 
 Please see INSTALL for instructions on compilation, installation and translation!
 
-FeatherPad was written in GTK+ at first, then ported to Qt with more features. Its homepage is:
-
-https://github.com/tsujan/FeatherPad.
+FeatherPad was written in GTK+ at first, then ported to Qt with more features. Its homepage is <https://github.com/tsujan/FeatherPad>.
 
 # Screenshots:
 
