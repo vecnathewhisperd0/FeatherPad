@@ -44,11 +44,16 @@ public:
         emit QPlainTextEdit::updateRequest (rect(), 1);
     }
 
-    void setEditorFont (const QFont &f);
+    void setEditorFont (const QFont &f, bool setDefault = true);
+    void adjustScrollbars();
 
     void lineNumberAreaPaintEvent (QPaintEvent *event);
     int lineNumberAreaWidth();
     void showLineNumbers (bool show);
+
+    QFont getDefaultFont() const {
+        return font_;
+    }
 
     QTextEdit::ExtraSelection currentLineSelection() {
         return currentLine;
@@ -236,9 +241,6 @@ protected:
             QPlainTextEdit::insertFromMimeData (source);
     }
 
-public slots:
-    void adjustScrollbars();
-
 private slots:
     void updateLineNumberAreaWidth (int newBlockCount);
     void highlightCurrentLine();
@@ -265,6 +267,8 @@ private:
     QColor lineHColor;
     int resizeTimerId, updateTimerId; // for not wasting CPU's time
     int Dy;
+    QPoint pressPoint_; // used internally for hyperlinks
+    QFont font_; // used internally for keeping track of the unzoomed font
     /********************************************
      ***** All needed information on a page *****
      ********************************************/
@@ -300,10 +304,6 @@ private:
     QTimer *scrollTimer_;
     QWheelEvent *wheelEvent_;
     QList<scollData> queuedScrollSteps_;
-    /**********************
-     ***** Hyperlinks *****
-     **********************/
-    QPoint pressPoint_;
 };
 /*************************/
 class LineNumberArea : public QWidget

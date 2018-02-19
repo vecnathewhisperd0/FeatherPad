@@ -1442,7 +1442,6 @@ void FPwin::zoomOut()
     {
         TextEdit *textEdit = tabPage->textEdit();
         textEdit->zooming (-1.f);
-        reformat (textEdit);
     }
 }
 /*************************/
@@ -1450,16 +1449,8 @@ void FPwin::zoomZero()
 {
     if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget()))
     {
-        Config config = static_cast<FPsingleton*>(qApp)->getConfig();
         TextEdit *textEdit = tabPage->textEdit();
-        textEdit->setEditorFont (config.getFont());
-
-        /* due to a Qt bug, this is needed for the
-       scrollbar range to be updated correctly */
-        textEdit->adjustScrollbars();
-
-        /* this may be a zoom-out */
-        reformat (textEdit);
+        textEdit->zooming (0.f);
     }
 }
 /*************************/
@@ -3032,7 +3023,7 @@ void FPwin::fontDialog()
 
     TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
 
-    QFont currentFont = textEdit->document()->defaultFont();
+    QFont currentFont = textEdit->getDefaultFont();
     QFontDialog fd (currentFont, this);
     //fd.setOption (QFontDialog::DontUseNativeDialog);
     fd.setWindowModality (Qt::WindowModal);

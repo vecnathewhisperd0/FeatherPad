@@ -24,7 +24,7 @@ Please see INSTALL for instructions on compilation, installation and translation
 
 FeatherPad was written in GTK+ at first, then ported to Qt with more features. Its homepage is <https://github.com/tsujan/FeatherPad>.
 
-# Screenshots:
+## Screenshots:
 
 ![Tabs](screenshots/Tabs.png?raw=true "Tabs")
 ![Side-Pane](screenshots/Side-Pane.png?raw=true "Side-Pane")

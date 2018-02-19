@@ -722,7 +722,7 @@ void PrefDialog::prefFont (int checked)
         if (FPwin *win = static_cast<FPwin *>(parent_))
         {
             if (TabPage *tabPage = qobject_cast<TabPage*>(win->ui->tabWidget->currentWidget()))
-                config.setFont (tabPage->textEdit()->document()->defaultFont());
+                config.setFont (tabPage->textEdit()->getDefaultFont());
         }
     }
     else if (checked == Qt::Unchecked)

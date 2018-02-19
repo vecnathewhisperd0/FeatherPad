@@ -136,8 +136,10 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     connect (this, &QWidget::customContextMenuRequested, this, &TextEdit::showContextMenu);
 }
 /*************************/
-void TextEdit::setEditorFont (const QFont &f)
+void TextEdit::setEditorFont (const QFont &f, bool setDefault)
 {
+    if (setDefault)
+        font_ = f;
     setFont (f);
     viewport()->setFont (f); // needed when whitespaces are shown
     lineNumberArea->setFont (f);
@@ -878,7 +880,7 @@ void TextEdit::paintEvent (QPaintEvent *event)
                     else
                     {
                         col = Qt::black;
-                        col.setAlpha (97);
+                        col.setAlpha (95);
                     }
                     painter.setPen (col);
                 }
@@ -1078,16 +1080,24 @@ void TextEdit::onSelectionChanged()
 /*************************/
 void TextEdit::zooming (float range)
 {
-    if (range == 0.f) return;
     QFont f = document()->defaultFont();
-    const float newSize = f.pointSizeF() + range;
-    if (newSize <= 0) return;
-    f.setPointSizeF (newSize);
-    setEditorFont (f);
+    if (range == 0.f) // means unzooming
+    {
+        setEditorFont (font_, false);
+        if (font_.pointSizeF() < f.pointSizeF())
+            zoomedOut (this); // ses the explanation below
+    }
+    else
+    {
+        const float newSize = f.pointSizeF() + range;
+        if (newSize <= 0) return;
+        f.setPointSizeF (newSize);
+        setEditorFont (f, false);
 
-    /* if this is a zoom-out, the text will need
-       to be formatted and/or highlighted again */
-    if (range < 0) emit zoomedOut (this);
+        /* if this is a zoom-out, the text will need
+           to be formatted and/or highlighted again */
+        if (range < 0) emit zoomedOut (this);
+    }
 
     /* due to a Qt bug, this is needed for the
        scrollbar range to be updated correctly */

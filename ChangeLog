@@ -24,6 +24,7 @@ V0.8
  * Added an option for removing trailing spaces on saving.
  * Added Undo/Redo to custom shortcuts, although their default shortcuts are hard-coded in Qt.
  * Don't show the shortcut strings of the editor context menu because they can be misleading.
+ * Fixed an old bug in font setting when the document was zoomed.
 
 V0.7
 ---------
