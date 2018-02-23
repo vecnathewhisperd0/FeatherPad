@@ -2144,12 +2144,12 @@ fenestroj estos inkluzivitaj de la konservota sesio.</translation>
         <translation>Malfermu la Ligilon</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1156"/>
+        <location filename="../../textedit.cpp" line="1158"/>
         <source>Copy Link</source>
         <translation>Kopiu la Ligilon</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1167"/>
+        <location filename="../../textedit.cpp" line="1169"/>
         <source>Paste Date and Time</source>
         <translation>Algluu la Daton kaj Tempon</translation>
     </message>

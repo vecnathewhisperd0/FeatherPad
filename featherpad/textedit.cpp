@@ -1153,6 +1153,8 @@ void TextEdit::showContextMenu (const QPoint &p)
                     url = QUrl::fromUserInput (str, "/");
                 QDesktopServices::openUrl (url);
             });
+            if (str.startsWith ("mailto:")) // see getUrl()
+                str.remove (0, 7);
             QAction *copyLink = new QAction (tr ("Copy Link"), menu);
             menu->insertAction (sep, copyLink);
             connect (copyLink, &QAction::triggered, [str] {
@@ -1179,7 +1181,7 @@ void TextEdit::showContextMenu (const QPoint &p)
 
 QString TextEdit::getUrl (const int pos) const
 {
-    static const QRegularExpression urlPattern ("\\b[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)]+");
+    static const QRegularExpression urlPattern ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)\\[\\]]+|([A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+)");
 
     QString url;
     QTextBlock block = document()->findBlock (pos);
@@ -1190,7 +1192,11 @@ QString TextEdit::getUrl (const int pos) const
         QRegularExpressionMatch match;
         int indx = text.lastIndexOf (urlPattern, cursorIndex, &match);
         if (indx > -1 && indx + match.capturedLength() > cursorIndex)
+        {
             url = match.captured();
+            if (!match.captured (1).isEmpty()) // handle email
+                url = "mailto:" + url;
+        }
     }
     return url;
 }

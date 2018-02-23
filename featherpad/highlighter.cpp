@@ -24,7 +24,7 @@ Q_DECLARE_METATYPE(QTextBlock)
 
 namespace FeatherPad {
 
-static const QRegularExpression urlPattern ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
+static const QRegularExpression urlPattern ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)\\[\\]]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
 static const QRegularExpression notePattern ("\\b(NOTE|TODO|FIXME|WARNING)\\b");
 
 TextBlockData::~TextBlockData()
@@ -671,7 +671,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     }
     else if (progLan == "url")
     {
-        rule.pattern.setPattern ("\\b[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)]+");
+        rule.pattern.setPattern ("\\b[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)\\[\\]]+");
         rule.format = urlFormat;
         highlightingRules.append (rule);
     }
@@ -734,7 +734,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
                                  "|"
                                  "\\[[^\\]\\^]*\\]:\\s+\\s*[^\\)\\(\\s]+(\\s+\\\".*\\\")*"
                                  "|"
-                                 "<([A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+)>");
+                                 "<([A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)\\[\\]]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+)>");
         rule.format = urlFormat;
         highlightingRules.append (rule);
 

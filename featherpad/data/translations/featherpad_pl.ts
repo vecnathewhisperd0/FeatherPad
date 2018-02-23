@@ -2110,12 +2110,12 @@ oknach zostaną uwzględnione w zapisanej sesji.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1156"/>
+        <location filename="../../textedit.cpp" line="1158"/>
         <source>Copy Link</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1167"/>
+        <location filename="../../textedit.cpp" line="1169"/>
         <source>Paste Date and Time</source>
         <translation type="unfinished"></translation>
     </message>
