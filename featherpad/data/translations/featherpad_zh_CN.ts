@@ -525,7 +525,7 @@
     <message>
         <location filename="../../fp.ui" line="1113"/>
         <source>Paste Date and Time</source>
-        <translation type="unfinished"></translation>
+        <translation>粘贴日期与时间</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1116"/>
@@ -894,7 +894,7 @@
         <location filename="../../fpwin.cpp" line="3427"/>
         <location filename="../../fpwin.cpp" line="3441"/>
         <source>Sel. Chars</source>
-        <translation>选择字符集</translation>
+        <translation>选区</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1329"/>
@@ -963,47 +963,47 @@
     <message>
         <location filename="../../fpwin.cpp" line="639"/>
         <source>Shift+Ins</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="639"/>
         <source>Shift+Del</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="639"/>
         <source>Ctrl+Ins</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="639"/>
         <source>Ctrl+Left</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="639"/>
         <source>Ctrl+Right</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="640"/>
         <source>Ctrl+Up</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="640"/>
         <source>Ctrl+Down</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="640"/>
         <source>Ctrl+Home</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="640"/>
         <source>Ctrl+End</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="643"/>
@@ -1551,7 +1551,7 @@ the editor font has a fixed pitch (like Monospace).</source>
     <message>
         <location filename="../../predDialog.ui" line="557"/>
         <source>Date and time format:</source>
-        <translation type="unfinished"></translation>
+        <translation>日期与时间格式:</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="582"/>
@@ -1567,7 +1567,7 @@ whose last line is not empty.</source>
     <message>
         <location filename="../../predDialog.ui" line="593"/>
         <source>Remove trailing spaces on saving</source>
-        <translation type="unfinished"></translation>
+        <translation>保存时移除结尾空白</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="604"/>
@@ -1788,7 +1788,8 @@ Takes effect after closing this dialog.
 
 Leave empty for:
 MMM dd, yyyy, hh:mm:ss</source>
-        <translation type="unfinished"></translation>
+        <translation>用于粘贴日期与时间，在关闭此对话框后生效。
+默认格式为：MMM dd, yyyy, hh:mm:ss</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="600"/>
@@ -2104,17 +2105,17 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../textedit.cpp" line="1148"/>
         <source>Open Link</source>
-        <translation type="unfinished"></translation>
+        <translation>打开链接</translation>
     </message>
     <message>
         <location filename="../../textedit.cpp" line="1158"/>
         <source>Copy Link</source>
-        <translation type="unfinished"></translation>
+        <translation>复制链接</translation>
     </message>
     <message>
         <location filename="../../textedit.cpp" line="1169"/>
         <source>Paste Date and Time</source>
-        <translation type="unfinished"></translation>
+        <translation>粘贴日期与时间</translation>
     </message>
 </context>
 <context>
