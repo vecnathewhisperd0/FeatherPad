@@ -412,23 +412,16 @@ Some desktop environments, like KDE and LXQt, provide files dialogs.</string>
                 </property>
                </spacer>
               </item>
-              <item row="6" column="1">
-               <widget class="QLabel" name="label">
+
+
+              <item row="6" column="1" colspan="2">
+               <widget class="QCheckBox" name="enforceSyntaxBox">
+                <property name="toolTip">
+                 <string>This creates a menu button on the
+status bar for changing the syntax.</string>
+                </property>
                 <property name="text">
-                 <string>Never highlight syntax for files &gt; </string>
-                </property>
-               </widget>
-              </item>
-              <item row="6" column="2">
-               <widget class="QSpinBox" name="spinBox">
-                <property name="suffix">
-                 <string> MiB</string>
-                </property>
-                <property name="minimum">
-                 <number>1</number>
-                </property>
-                <property name="maximum">
-                 <number>10</number>
+                 <string>Support syntax override</string>
                 </property>
                </widget>
               </item>
@@ -448,29 +441,46 @@ Some desktop environments, like KDE and LXQt, provide files dialogs.</string>
                 </property>
                </spacer>
               </item>
-              <item row="7" column="1" colspan="2">
-               <widget class="QCheckBox" name="enforceSyntaxBox">
-                <property name="toolTip">
-                 <string>This creates a menu button on the
-status bar for changing the syntax.</string>
-                </property>
+              <item row="7" column="0" colspan="2">
+               <widget class="QLabel" name="label">
                 <property name="text">
-                 <string>Support syntax override</string>
+                 <string>Never highlight syntax for files &gt; </string>
                 </property>
                </widget>
               </item>
-              <item row="8" column="1" colspan="2">
+              <item row="7" column="2">
+               <widget class="QSpinBox" name="spinBox">
+                <property name="suffix">
+                 <string> MiB</string>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>10</number>
+                </property>
+               </widget>
+              </item>
+              <item row="8" column="0" colspan="3">
                <widget class="QCheckBox" name="whiteSpaceBox">
                 <property name="toolTip">
                  <string>Show spaces, tabs and tab lines
 when the syntax is highlighted.</string>
                 </property>
                 <property name="text">
-                 <string>Show whitespaces with syntax highlighting</string>
+                 <string>Show whitespaces</string>
                 </property>
                </widget>
               </item>
-              <item row="9" column="1">
+
+              <item row="9" column="0" colspan="3">
+               <widget class="QCheckBox" name="endingsBox">
+                <property name="text">
+                 <string>Also show line and document ends</string>
+                </property>
+               </widget>
+              </item>
+              <item row="10" column="0" colspan="2">
                <widget class="QCheckBox" name="vLineBox">
                 <property name="toolTip">
                  <string>The vertical position lines will be drawn only if
@@ -481,7 +491,7 @@ the editor font has a fixed pitch (like Monospace).</string>
                 </property>
                </widget>
               </item>
-              <item row="9" column="2">
+              <item row="10" column="2">
                <widget class="QSpinBox" name="vLineSpin">
                 <property name="toolTip">
                  <string>The vertical position lines will be drawn only if
@@ -492,13 +502,6 @@ the editor font has a fixed pitch (like Monospace).</string>
                 </property>
                 <property name="maximum">
                  <number>999</number>
-                </property>
-               </widget>
-              </item>
-              <item row="10" column="1" colspan="2">
-               <widget class="QCheckBox" name="endingsBox">
-                <property name="text">
-                 <string>Also show line and document ends</string>
                 </property>
                </widget>
               </item>

@@ -25,6 +25,8 @@ V0.8
  * Added Undo/Redo to custom shortcuts, although their default shortcuts are hard-coded in Qt.
  * Don't show the shortcut strings of the editor context menu because they can be misleading.
  * Fixed an old bug in font setting when the document was zoomed.
+ * Show whitespaces or line/document ends with normal texts too (by using the URL syntax highlighting).
+ * Never show the horizontal scrollbar on wrapping (when whitespaces are visible).
 
 V0.7
 ---------

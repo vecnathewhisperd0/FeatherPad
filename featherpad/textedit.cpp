@@ -42,6 +42,7 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     scrollJumpWorkaround = false;
     drawIndetLines = false;
     saveCursor_ = false;
+    normalAsUrl_ = false;
     vLineDistance_ = 0;
 
     inertialScrolling_ = false;

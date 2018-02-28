@@ -84,9 +84,7 @@ public:
     }
 
     void addCursorPosLabel();
-    void addLangButton();
-    void removeLangButton();
-    void showLang (TextEdit *textEdit);
+    void setupLangButton (bool add, bool normalAsUrl);
 
     void showCrashWarning();
     void updateCustomizableShortcuts (bool disable = false);
@@ -199,7 +197,7 @@ private:
       DISCARDED
     };
 
-    TabPage *createEmptyTab(bool setCurrent);
+    TabPage *createEmptyTab(bool setCurrent, bool allowNormalHighlighter = true);
     bool hasAnotherDialog();
     void deleteTabPage (int tabIndex);
     void loadText (const QString fileName, bool enforceEncod, bool reload,
@@ -242,6 +240,8 @@ private:
     void disconnectLambda();
     void changeTab (QListWidgetItem *current, QListWidgetItem*);
     void toggleSidePane();
+    void showLang (TextEdit *textEdit);
+    void handleNormalAsUrl (TextEdit *textEdit);
 
     QActionGroup *aGroup_;
     QString lastFile_; // The last opened or saved file (for file dialogs).

@@ -54,7 +54,7 @@ FeatherPad tries to guess encodings as well as programming languages (for syntax
 
 The programming language is detected based on the mime type or file name and its syntax will be highlighted if the syntax highlighting is enabled and if it is supported for the language in question. There is an optiion in the Preferences dialog that, if enabled, will add a language button to the status bar for overriding the original syntax or lack of it. Reloading a document restores its original syntax.
 
-When the syntax is highlighted, there are also options for showing whitespaces and vertical lines. Also, it will be possible to open document hyperlinks by right clicking them and activating the related menu-item or by pressing the Control key, moving the cursor over them, and clicking them while the cursor is like a pointing hand.
+There are also options for showing whitespaces and vertical position lines with all documents. If, at least, one of them is enabled, it will be possible to open hyperlinks by right clicking them and activating the related menu-item or by pressing the Control key, moving the cursor over them, and clicking them while the cursor is like a pointing hand.
 
 *******************************
 *   Searching and Replacing   *

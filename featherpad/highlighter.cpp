@@ -166,6 +166,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
             flags |= QTextOption::ShowTabsAndSpaces;
         if (showEndings)
             flags |= QTextOption::ShowLineAndParagraphSeparators
+                     | QTextOption::AddSpaceForLineAndParagraphSeparators // never show the horizontal scrollbar on wrapping
 #if QT_VERSION >= 0x050700
                      | QTextOption::ShowDocumentTerminator
 #endif
@@ -671,7 +672,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     }
     else if (progLan == "url")
     {
-        rule.pattern.setPattern ("\\b[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)\\[\\]]+");
+        rule.pattern.setPattern (urlPattern.pattern());
         rule.format = urlFormat;
         highlightingRules.append (rule);
     }
@@ -896,6 +897,7 @@ Highlighter::~Highlighter()
         QTextOption opt =  doc->defaultTextOption();
         opt.setFlags (opt.flags() & ~QTextOption::ShowTabsAndSpaces
                                   & ~QTextOption::ShowLineAndParagraphSeparators
+                                  & ~QTextOption::AddSpaceForLineAndParagraphSeparators
 #if QT_VERSION >= 0x050700
                                   & ~QTextOption::ShowDocumentTerminator
 #endif

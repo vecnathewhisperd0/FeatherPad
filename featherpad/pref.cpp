@@ -818,23 +818,23 @@ void PrefDialog::prefApplySyntax()
 {
     FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
     Config& config = singleton->getConfig();
-    if ((!config.getShowLangSelector() || !config.getSyntaxByDefault())
-        && (ui->enforceSyntaxBox->isChecked() && ui->syntaxBox->isChecked()))
+    bool OldNormalAsUrl (showWhiteSpace_ || showEndings_ || vLineDistance_ > 0);
+    bool normalAsUrl (ui->whiteSpaceBox->isChecked() || ui->endingsBox->isChecked() || ui->vLineBox->isChecked());
+    bool langBtnExists (config.getShowLangSelector() && config.getSyntaxByDefault());
+    bool addLnagBtn (!langBtnExists && ui->enforceSyntaxBox->isChecked() && ui->syntaxBox->isChecked());
+    bool removeLangBtn (langBtnExists && (!ui->enforceSyntaxBox->isChecked() || ! ui->syntaxBox->isChecked()));
+    for (int i = 0; i < singleton->Wins.count(); ++i)
     {
-        for (int i = 0; i < singleton->Wins.count(); ++i)
-        {
-            FPwin *win = singleton->Wins.at (i);
-            win->addLangButton();
-            if (TabPage *tabPage = qobject_cast<TabPage*>(win->ui->tabWidget->currentWidget()))
-                win->showLang (tabPage->textEdit());
-        }
+        FPwin *win = singleton->Wins.at (i);
+        /* add or remove all language buttons based on the new settings */
+        if (addLnagBtn)
+            win->setupLangButton (true, normalAsUrl);
+        else if (removeLangBtn)
+            win->setupLangButton (false, normalAsUrl);
+        else if (langBtnExists && normalAsUrl != OldNormalAsUrl)
+            win->setupLangButton (true, normalAsUrl); // just add/remove the url action
     }
-    else if (config.getShowLangSelector() && config.getSyntaxByDefault()
-             && (!ui->enforceSyntaxBox->isChecked() || ! ui->syntaxBox->isChecked()))
-    {
-        for (int i = 0; i < singleton->Wins.count(); ++i)
-            singleton->Wins.at (i)->removeLangButton();
-    }
+
     config.setSyntaxByDefault (ui->syntaxBox->isChecked());
     config.setShowLangSelector (ui->enforceSyntaxBox->isChecked());
 }

@@ -233,11 +233,22 @@ void FPwin::syntaxHighlighting (TextEdit *textEdit, bool highlight, const QStrin
         if (progLan.isEmpty())
         {
             progLan = textEdit->getProg();
-            if (progLan.isEmpty()
-                || progLan == "help") // used for marking the help doc
+            if (progLan.isEmpty())
             {
-                return;
+                if (textEdit->getNormalAsUrl()) // normal as url
+                    progLan = "url";
+                else
+                    return;
             }
+            else if (progLan == "help") // used for marking the help doc
+                return;
+        }
+        else if (progLan == "normal")
+        { // treat it as a normal text (a url text if there's a default highlighter)
+            if (textEdit->getNormalAsUrl())
+                progLan = "url";
+            else
+                return;
         }
 
         Config config = static_cast<FPsingleton*>(qApp)->getConfig();
@@ -258,17 +269,19 @@ void FPwin::syntaxHighlighting (TextEdit *textEdit, bool highlight, const QStrin
                                                         config.getShowWhiteSpace(),
                                                         config.getShowEndings());
             textEdit->setHighlighter (highlighter);
-
-            QCoreApplication::processEvents(); // it's necessary to wait until the text is completely loaded
         }
-        matchBrackets(); // in case the cursor is beside a bracket when the text is loaded
-        connect (textEdit, &TextEdit::updateBracketMatching, this, &FPwin::matchBrackets);
-        /* visible text may change on block removal */
-        connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
-        connect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
-        connect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
-        /* this is needed when the whole visible text is pasted */
-        connect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::formatOnTextChange);
+        /* if the highlighter is created just now, it's necessary to wait
+           until the text is completely loaded but not if textEdit is deleted */
+        QTimer::singleShot (0, textEdit, [this, textEdit]() {
+            matchBrackets(); // in case the cursor is beside a bracket when the text is loaded
+            connect (textEdit, &TextEdit::updateBracketMatching, this, &FPwin::matchBrackets);
+            /* visible text may change on block removal */
+            connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
+            connect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
+            connect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
+            /* this is needed when the whole visible text is pasted */
+            connect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::formatOnTextChange);
+        });
     }
     else if (Highlighter *highlighter = qobject_cast< Highlighter *>(textEdit->getHighlighter()))
     {
