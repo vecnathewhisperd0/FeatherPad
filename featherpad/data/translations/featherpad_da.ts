@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
 <TS version="2.1" language="da">
 <context>
@@ -525,7 +524,7 @@
     <message>
         <location filename="../../fp.ui" line="1113"/>
         <source>Paste Date and Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Indsæt dato og klokkeslæt</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1116"/>
@@ -963,47 +962,47 @@
     <message>
         <location filename="../../fpwin.cpp" line="644"/>
         <source>Shift+Ins</source>
-        <translation type="unfinished"></translation>
+        <translation>Skift+Ins</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="644"/>
         <source>Shift+Del</source>
-        <translation type="unfinished"></translation>
+        <translation>Skift+Del</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="644"/>
         <source>Ctrl+Ins</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Ins</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="644"/>
         <source>Ctrl+Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Venstre</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="644"/>
         <source>Ctrl+Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Højre</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="645"/>
         <source>Ctrl+Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Op</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="645"/>
         <source>Ctrl+Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Ned</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="645"/>
         <source>Ctrl+Home</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Home</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="645"/>
         <source>Ctrl+End</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+End</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="648"/>
@@ -1053,14 +1052,14 @@
         <location filename="../../fpwin.cpp" line="681"/>
         <location filename="../../fpwin.cpp" line="3590"/>
         <source>Position:</source>
-        <translation type="unfinished"></translation>
+        <translation>Placering:</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="767"/>
         <location filename="../../fpwin.cpp" line="3606"/>
         <location filename="../../fpwin.cpp" line="3624"/>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>Normal</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1640"/>
@@ -1085,12 +1084,12 @@
     <message>
         <location filename="../../fpwin.cpp" line="2278"/>
         <source>Some file(s) could not be opened!</source>
-        <translation type="unfinished"></translation>
+        <translation>Nogle fil(er) kunne ikke åbnes!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2279"/>
         <source>You may not have the permission to read.</source>
-        <translation type="unfinished"></translation>
+        <translation>Du har måske ikke tilladelsen til at læse.</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2287"/>
@@ -1197,13 +1196,13 @@
         <location filename="../../fpwin.cpp" line="3046"/>
         <location filename="../../fpwin.cpp" line="3220"/>
         <source>This file has been modified elsewhere or in another way!</source>
-        <translation type="unfinished"></translation>
+        <translation>Filen er blevet ændret et andet sted eller på en anden måde!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="3047"/>
         <location filename="../../fpwin.cpp" line="3221"/>
         <source>Please be careful about reloading or saving this document!</source>
-        <translation type="unfinished"></translation>
+        <translation>Pas venligst på med at genindlæse eller gemme dokumentet!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="3710"/>
@@ -1410,7 +1409,7 @@ vises en menuknap på værktøjslinjen.</translation>
     <message>
         <location filename="../../predDialog.ui" line="208"/>
         <source>Show cursor position on status bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis markørplacering på statuslinje</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="215"/>
@@ -1522,12 +1521,13 @@ Nogle skrivebordsmiljøer, såsom KDE og LXQt leverer fildialoger.</translation>
         <location filename="../../predDialog.ui" line="420"/>
         <source>This creates a menu button on the
 status bar for changing the syntax.</source>
-        <translation type="unfinished"></translation>
+        <translation>Det opretter en menuknap på
+statuslinjen til at skifte syntaksen.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="424"/>
         <source>Support syntax override</source>
-        <translation type="unfinished"></translation>
+        <translation>Understøt tilsidesættelse af syntaks</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="467"/>
@@ -1546,12 +1546,13 @@ når syntaksen er fremhævet.</translation>
         <location filename="../../predDialog.ui" line="497"/>
         <source>The vertical position lines will be drawn only if
 the editor font has a fixed pitch (like Monospace).</source>
-        <translation type="unfinished"></translation>
+        <translation>De lodrette placeringslinjer tegnes ku hvis editorens
+skrifttype har en fast tegnbredde (såsom Monospace).</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="490"/>
         <source>Show vertical lines starting from this position:</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis lodrette linjer startende fra denne placering:</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="479"/>
@@ -1561,7 +1562,7 @@ the editor font has a fixed pitch (like Monospace).</source>
     <message>
         <location filename="../../predDialog.ui" line="560"/>
         <source>Date and time format:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dato- og klokkeslætformat:</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="585"/>
@@ -1578,7 +1579,7 @@ hvor den sidste linje ikke er tom.</translation>
     <message>
         <location filename="../../predDialog.ui" line="596"/>
         <source>Remove trailing spaces on saving</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern efterstillede mellemrum når der gemmes</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="607"/>
@@ -1609,9 +1610,8 @@ If the script is not run in a terminal
 emulator, the output and error messages
 will be shown by a popup dialog.</source>
         <translation>Dette kan være en hvilken som helst
-startkommando med argumenter,
-f.eks. &quot;xterm -hold&quot; for at køre
-processen i XTerm.
+startkommando med argumenter, f.eks.
+&quot;xterm -hold&quot; for at køre processen i XTerm.
 
 Hvis kommandoen efterlades tom, så vil
 filen blive eksekveret direkte.
@@ -1643,7 +1643,7 @@ af en pop op-dialog.</translation>
     <message>
         <location filename="../../predDialog.ui" line="820"/>
         <source>Save changes to opened files every:</source>
-        <translation type="unfinished"></translation>
+        <translation>Gem ændringer til åbnede filer hver:</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="906"/>
@@ -1816,7 +1816,12 @@ Takes effect after closing this dialog.
 
 Leave empty for:
 MMM dd, yyyy, hh:mm:ss</source>
-        <translation type="unfinished"></translation>
+        <translation>Bruges til at indsætte datoen og klokkeslættet.
+
+Træder i kraft når dialogen lukkes.
+
+Lad være tom for:
+MMM dd, åååå, tt:mm:ss</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="603"/>
@@ -1849,12 +1854,12 @@ tom opstart af en session.</translation>
         <location filename="../../predDialog.ui" line="817"/>
         <location filename="../../predDialog.ui" line="827"/>
         <source>Only for files that exist and can be saved.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kun for filer som findes og kan gemmes.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="830"/>
         <source> min</source>
-        <translation type="unfinished"></translation>
+        <translation> min</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="847"/>
@@ -2134,17 +2139,17 @@ vinduer i den gemte session.</translation>
     <message>
         <location filename="../../textedit.cpp" line="1149"/>
         <source>Open Link</source>
-        <translation type="unfinished"></translation>
+        <translation>Åbn link</translation>
     </message>
     <message>
         <location filename="../../textedit.cpp" line="1159"/>
         <source>Copy Link</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopiér link</translation>
     </message>
     <message>
         <location filename="../../textedit.cpp" line="1170"/>
         <source>Paste Date and Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Indsæt dato og klokkeslæt</translation>
     </message>
 </context>
 <context>
