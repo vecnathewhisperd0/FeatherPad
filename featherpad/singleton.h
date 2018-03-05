@@ -21,8 +21,8 @@
 #define SINGLETON_H
 
 #include <QApplication>
-#include <QSharedMemory>
 #include <QLocalServer>
+#include <QLockFile>
 #include "fpwin.h"
 #include "config.h"
 
@@ -33,7 +33,7 @@ class FPsingleton : public QApplication
 {
     Q_OBJECT
 public:
-    FPsingleton (int &argc, char *argv[], const QString uniqueKey);
+    FPsingleton (int &argc, char **argv);
     ~FPsingleton();
 
     bool sendMessage (const QString &message);
@@ -58,9 +58,8 @@ signals:
     void messageReceived (QString message);
 
 private:
-    bool isRunning_;
     QString uniqueKey_;
-    QSharedMemory sharedMemory;
+    QLockFile *lockFile_;
     QLocalServer *localServer;
     static const int timeout = 1000;
     Config config_;

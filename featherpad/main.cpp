@@ -19,6 +19,7 @@
 
 #include "singleton.h"
 #include "x11.h"
+
 #include <signal.h>
 #include <QLibraryInfo>
 #include <QTranslator>
@@ -31,20 +32,21 @@ void handleQuitSignals (const std::vector<int>& quitSignals)
         QCoreApplication::quit();
     };
 
-    for (int sig : quitSignals )
+    for (int sig : quitSignals)
         signal (sig, handler); // handle these signals by quitting gracefully
 }
 
-int main (int argc, char *argv[])
+int main (int argc, char **argv)
 {
-    QString name = "FeatherPad";
-    QString version = "0.8";
-    QString option = QString::fromUtf8 (argv[1]);
+    const QString name = "FeatherPad";
+    const QString version = "0.8";
+    const QString option = QString::fromUtf8 (argv[1]);
     if (option == "--help" || option == "-h")
     {
         QTextStream out (stdout);
         out << "FeatherPad - Lightweight Qt5 text editor\n"\
-               "Usage:\n	featherpad [option] [file1 file2 ....]\n\n"\
+               "Usage:\n	featherpad [option] [file1 file2 ....]\n"\
+               "Or:\n	fpad [option] [file1 file2 ....]\n\n"\
                "Options:\n\n"\
                "--help or -h     Show this help and exit.\n"\
                "--version or -v  Show the version information and exit.\n"\
@@ -58,18 +60,7 @@ int main (int argc, char *argv[])
         return 0;
     }
 
-    QString homeStr = QString (qgetenv ("HOME"));
-    if (!homeStr.isEmpty())
-    {
-        QStringList homeParts = homeStr.split (QLatin1Char ('/'), QString::SkipEmptyParts);
-        if (homeParts.isEmpty())
-            homeStr = QString();
-        else
-            homeStr = QLatin1Char ('-') + homeParts.first();
-    }
-    FeatherPad::FPsingleton singleton (argc, argv, QString (qgetenv ("USER"))
-                                                   + homeStr
-                                                   + "-featherpad");
+    FeatherPad::FPsingleton singleton (argc, argv);
     singleton.setApplicationName (name);
     singleton.setApplicationVersion (version);
 

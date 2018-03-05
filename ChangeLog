@@ -27,6 +27,8 @@ V0.8
  * Fixed an old bug in font setting when the document was zoomed.
  * Show whitespaces or line/document ends with normal texts too (by using the URL syntax highlighting).
  * Never show the horizontal scrollbar on wrapping (when whitespaces are visible).
+ * Instead of QSharedMemory, use a lock file to create a single instance application because QSharedMemory not only is unsafe in case a crash happens (catching a crash is not an option) but also may persist without a crash and even after being attached and detached, resulting in an unchangeable state. Also, for whatever reason, QSharedMemory may cause random delays.
+ * Never use QCoreApplication::processEvents() because the waiting object may be deleted meanwhile.
 
 V0.7
 ---------

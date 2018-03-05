@@ -21,6 +21,8 @@
 #include <QLocalSocket>
 #include <QDialog>
 #include <QFileInfo>
+#include <QStandardPaths>
+#include <QCryptographicHash>
 #if defined Q_WS_X11 || defined Q_OS_LINUX || defined Q_OS_FREEBSD
 #include <QX11Info>
 #endif
@@ -29,10 +31,9 @@
 
 namespace FeatherPad {
 
-FPsingleton::FPsingleton (int &argc, char *argv[], const QString uniqueKey)
-             : QApplication (argc, argv), uniqueKey_ (uniqueKey)
+FPsingleton::FPsingleton (int &argc, char **argv) : QApplication (argc, argv)
 {
-  // For now, the lack of x11 is seen as wayland.
+    // For now, the lack of x11 is seen as wayland.
 #if defined Q_WS_X11 || defined Q_OS_LINUX || defined Q_OS_FREEBSD
 #if QT_VERSION < 0x050200
     isX11_ = true;
@@ -49,19 +50,18 @@ FPsingleton::FPsingleton (int &argc, char *argv[], const QString uniqueKey)
     if (config_.getIconless())
         setAttribute (Qt::AA_DontShowIconsInMenus);
 
-    sharedMemory.setKey (uniqueKey_);
-    if (sharedMemory.attach())
-        isRunning_ = true;
-    else
-    {
-        isRunning_ = false;
-        // create shared memory
-        if (!sharedMemory.create (1))
-        {
-            qDebug ("Unable to create a single instance.");
-            return;
-        }
-        // create local server and listen to incomming messages from other instances
+    /* Instead of QSharedMemory, a lock file is used for creating a single instance because
+       QSharedMemory not only would be unsafe with a crash but also might persist without a
+       crash and even after being attached and detached, resulting in an unchangeable state. */
+    QByteArray user = qgetenv ("USER");
+    uniqueKey_ = "featherpad-" + QString::fromLocal8Bit (user) + QLatin1Char ('-')
+                 + QCryptographicHash::hash (user, QCryptographicHash::Sha1).toHex();
+    QString lockFilePath = QStandardPaths::writableLocation (QStandardPaths::TempLocation)
+                           + "/" + uniqueKey_ + ".lock";
+    lockFile_ = new QLockFile (lockFilePath);
+
+    if (lockFile_->tryLock())
+    { // create a local server and listen to incomming messages from other instances
         localServer = new QLocalServer (this);
         connect (localServer, &QLocalServer::newConnection, this, &FPsingleton::receiveMessage);
         if (!localServer->listen (uniqueKey_))
@@ -72,17 +72,27 @@ FPsingleton::FPsingleton (int &argc, char *argv[], const QString uniqueKey)
                 qDebug ("Unable to remove server instance (from a previous crash).");
         }
     }
+    else
+    {
+        delete lockFile_; lockFile_ = nullptr;
+        localServer = nullptr;
+    }
 }
 /*************************/
 FPsingleton::~FPsingleton()
 {
+    if (lockFile_)
+    {
+        lockFile_->unlock();
+        delete lockFile_;
+    }
     config_.writeConfig();
 }
 /*************************/
 void FPsingleton::receiveMessage()
 {
     QLocalSocket *localSocket = localServer->nextPendingConnection();
-    if (!localSocket->waitForReadyRead (timeout))
+    if (!localSocket || !localSocket->waitForReadyRead (timeout))
     {
         qDebug ("%s", (const char *) localSocket->errorString().toLatin1());
         return;
@@ -93,9 +103,10 @@ void FPsingleton::receiveMessage()
     localSocket->disconnectFromServer();
 }
 /*************************/
+// A new instance will be started only if this function returns false.
 bool FPsingleton::sendMessage (const QString &message)
 {
-    if (!isRunning_)
+    if (localServer != nullptr) // no other instance was running
         return false;
     QLocalSocket localSocket (this);
     localSocket.connectToServer (uniqueKey_, QIODevice::WriteOnly);
@@ -160,7 +171,8 @@ void FPsingleton::handleMessage (const QString& message)
 {
     /* get all parts of the message */
     QStringList sl = message.split ("\n\r");
-    if (sl.at (1) == "--win" || sl.at (1) == "-w")
+    if (sl.size() < 2 // impossible
+        || sl.at (1) == "--win" || sl.at (1) == "-w")
     {
         newWin (message);
         return;
@@ -204,8 +216,7 @@ void FPsingleton::handleMessage (const QString& message)
                         /* first, pretend to KDE that a new window is created
                            (without this, the next new window would open on a wrong desktop) */
                         Wins.at (i)->dummyWidget->showMinimized();
-                        QCoreApplication::processEvents();
-                        Wins.at (i)->dummyWidget->close();
+                        QTimer::singleShot (0, Wins.at (i)->dummyWidget, SLOT (close()));
                     }
 
                     /* and then, open tab(s) in the current FeatherPad window... */
