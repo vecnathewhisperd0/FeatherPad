@@ -807,6 +807,48 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = plFormat;
         highlightingRules.append (rule);
     }
+    else if (progLan == "scss")
+    {
+        /* scss supports nested css blocks but, instead of making its highlighting complex,
+           we format it without considering that and so, without syntax error, but with keywords() */
+
+        QTextCharFormat scssFormat;
+
+        /* definitions (starting with @) */
+        scssFormat.setForeground (Brown);
+        rule.pattern.setPattern ("\\s*@[A-Za-z-]+\\s+|;\\s*@[A-Za-z-]+\\s+");
+        rule.format = scssFormat;
+        highlightingRules.append (rule);
+
+        /* numbers */
+        scssFormat.setFontItalic (true);
+        rule.pattern.setPattern ("(-|\\+){0,1}\\b\\d*\\.{0,1}\\d+%*");
+        rule.format = scssFormat;
+        highlightingRules.append (rule);
+
+        /* colors */
+        scssFormat.setForeground (Verda);
+        scssFormat.setFontWeight (QFont::Bold);
+        rule.pattern.setPattern ("#([A-Fa-f0-9]{3}){0,2}(?![A-Za-z0-9_]+)|#([A-Fa-f0-9]{3}){2}[A-Fa-f0-9]{2}(?![A-Za-z0-9_]+)");
+        rule.format = scssFormat;
+        highlightingRules.append (rule);
+
+
+        /* before :...; */
+        scssFormat.setForeground (Blue);
+        scssFormat.setFontItalic (false);
+        /* exclude note patterns artificially */
+        rule.pattern.setPattern ("[A-Za-z0-9_\\-]+(?<!\\bNOTE|\\bTODO|\\bFIXME|\\bWARNING)(?=\\s*:.*;*)");
+        rule.format = scssFormat;
+        highlightingRules.append (rule);
+        scssFormat.setFontWeight (QFont::Normal);
+
+        /* variables ($...) */
+        scssFormat.setFontItalic (true);
+        rule.pattern.setPattern ("\\$[A-Za-z0-9_\\-]+");
+        rule.format = scssFormat;
+        highlightingRules.append (rule);
+    }
 
     if (showWhiteSpace)
     {
@@ -822,7 +864,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     /* single line comments */
     rule.pattern.setPattern (QString());
     if (progLan == "c" || progLan == "cpp" || Lang == "javascript"
-        || progLan == "qml" || progLan == "php")
+        || progLan == "qml" || progLan == "php" || progLan == "scss")
     {
         rule.pattern.setPattern ("//.*"); // why had I set it to ("//(?!\\*).*")?
     }
@@ -856,7 +898,8 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
     /* multiline comments */
     if (progLan == "c" || progLan == "cpp" || progLan == "javascript"
-        || progLan == "qml" || progLan == "php" || progLan == "css")
+        || progLan == "qml" || progLan == "php"
+        || progLan == "css" || progLan == "scss")
     {
         commentStartExpression.setPattern ("/\\*");
         commentEndExpression.setPattern ("\\*/");
@@ -1013,7 +1056,7 @@ bool Highlighter::isQuoted (const QString &text, const int index,
         || progLan == "python" || progLan == "sh"
         || progLan == "makefile" || progLan == "cmake"
         || progLan == "lua" || progLan == "perl" || progLan == "xml"
-        || progLan == "ruby" || progLan == "html" || progLan == "javascript")
+        || progLan == "ruby" || progLan == "html" || progLan == "javascript" || progLan == "scss")
     {
         mixedQuotes = true;
     }
@@ -1637,7 +1680,7 @@ void Highlighter::multiLineComment (const QString &text,
 
     /* CSS can have huge lines, which will take
        a lot of CPU time if they're formatted completely. */
-    bool hugeText = (progLan == "css" && text.length() > 50000);
+    bool hugeText = ((progLan == "css" || progLan == "scss" ) && text.length() > 50000);
 
     bool commentBeforeBrace = false; // in css, not as: "{...
     int startIndex = index;
@@ -1858,7 +1901,7 @@ void Highlighter::multiLineQuote (const QString &text, const int start, int comS
         /*|| progLan == "sh"*/ // bash uses SH_MultiLineQuote()
         || progLan == "makefile" || progLan == "cmake"
         || progLan == "lua" || progLan == "perl"
-        || progLan == "ruby" || progLan == "javascript")
+        || progLan == "ruby" || progLan == "javascript" || progLan == "scss")
     {
         mixedQuotes = true;
     }

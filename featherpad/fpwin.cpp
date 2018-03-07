@@ -693,8 +693,8 @@ void FPwin::setupLangButton (bool add, bool normalAsUrl)
                  << "css" << "deb" << "desktop" << "diff" << "gtkrc"
                  << "html" << "javascript" << "log" << "lua" << "m3u"
                  << "markdown" << "makefile" << "perl" << "php" << "python"
-                 << "qmake" << "qml" << "ruby" << "sh" << "troff"
-                 << "theme" << "xml";
+                 << "qmake" << "qml" << "ruby" << "scss" << "sh"
+                 << "troff" << "theme" << "xml";
         if (!normalAsUrl)
             langList.append ("url");
         langList.sort();

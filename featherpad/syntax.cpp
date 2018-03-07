@@ -91,6 +91,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
             progLan = "xml";
         else if (fname.endsWith (".css") || fname.endsWith (".qss"))
             progLan = "css";
+        else if (fname.endsWith (".scss"))
+            progLan = "scss";
         else if (fname.endsWith (".desktop") || fname.endsWith (".desktop.in") || fname.endsWith (".directory"))
              progLan = "desktop";
         else if (fname.endsWith (".conf") || fname.endsWith (".ini") || fname.endsWith (".kvconfig")
@@ -180,6 +182,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
             progLan = "xml";
         else if (mime == "text/css")
             progLan = "css";
+        else if (mime == "text/x-scss")
+            progLan = "scss";
         else if (mime == "text/x-changelog")
             progLan = "changelog";
         else if (mime == "application/x-desktop")

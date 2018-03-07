@@ -140,6 +140,10 @@ QStringList Highlighter::keywords (const QString &lang)
                         << "\\b(php_user_filter|print|private|protected|public|return)(?!(#|\\$))\\b"
                         << "\\b(static|switch|throw|true|try)(?!(#|\\$))\\b"
                         << "\\b(unset|use|var|while|xor)(?!(#|\\$))\\b";
+    else if (lang == "scss") // taken from http://sass-lang.com/documentation/Sass/Script/Functions.html
+        keywordPatterns << "\\b(none|null)(?!(\\.|-|@|#|\\$))\\b"
+                        << "\\b(abs|adjust-color|adjust-hue|alpha|append|blue|call|ceil|change-color|comparable|complement|content-exists|darken|desaturate|feature-exists|floor|function-exists|get-function|global-variable-exists|grayscale|green|hsl|hsla|hue|ie-hex-str|if|index|inspect|invert|is-bracketed|is-superselector|join|keywords|length|lighten|lightness|list-separator|map-get|map-has-key|map-keys|map-merge|map-remove|map-values|max|min|mixin-exists|mix|nth|opacify|percentage|quote|random|red|rgb|rgba|round|scale-color|saturate|saturation|selector-nest|selector-append|selector-extend|selector-parse|selector-replace|selector-unify|set-nth|simple-selectors|str-index|str-insert|str-length|str-slice|to-lower-case|to-upper-case|transparentize|type-of|unit|unitless|unquote|variable-exists|zip)(?=\\()"
+                        << "\\bunique-id\\(\\s*\\)";
 
     return keywordPatterns;
 }
