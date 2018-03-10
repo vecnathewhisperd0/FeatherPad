@@ -1849,7 +1849,25 @@ void Highlighter::multiLineComment (const QString &text,
                         fi = format (INDX);
                     }
                     if (INDX >= 0)
+                    {
                         setFormat (INDX, text.length() - INDX, commentFormat);
+                        /* URLs and notes were cleared too */
+                        QString str = text.mid (INDX, text.length() - INDX);
+                        int pIndex = 0;
+                        QRegularExpressionMatch urlMatch;
+                        while ((pIndex = str.indexOf (urlPattern, pIndex, &urlMatch)) > -1)
+                        {
+                            setFormat (pIndex + INDX, urlMatch.capturedLength(), urlFormat);
+                            pIndex += urlMatch.capturedLength();
+                        }
+                        pIndex = 0;
+                        while ((pIndex = str.indexOf (notePattern, pIndex, &urlMatch)) > -1)
+                        {
+                            if (format (pIndex + INDX) != urlFormat)
+                                setFormat (pIndex + INDX, urlMatch.capturedLength(), noteFormat);
+                            pIndex += urlMatch.capturedLength();
+                        }
+                    }
                     break;
                 }
             }
