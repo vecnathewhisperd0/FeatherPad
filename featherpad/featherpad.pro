@@ -60,7 +60,8 @@ HEADERS += singleton.h \
 
 FORMS += fp.ui \
          predDialog.ui \
-         sessionDialog.ui
+         sessionDialog.ui \
+         about.ui
 
 RESOURCES += data/fp.qrc
 

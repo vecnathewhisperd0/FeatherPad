@@ -19,6 +19,7 @@
 
 #include "singleton.h"
 #include "ui_fp.h"
+#include "ui_about.h"
 #include "encoding.h"
 #include "filedialog.h"
 #include "messagebox.h"
@@ -4639,15 +4640,31 @@ void FPwin::aboutDialog()
 
     if (hasAnotherDialog()) return;
     updateShortcuts (true);
-    MessageBox msgBox (this);
-    msgBox.setText (QString ("<center><b><big>%1 %2</big></b></center><br>").arg (qApp->applicationName()).arg (qApp->applicationVersion()));
-    msgBox.setInformativeText ("<center> " + tr ("A lightweight, tabbed, plain-text editor") + " </center>\n<center> "
-                               + tr ("based on Qt5") + " </center><br><center> "
-                               + tr ("Author")+": <a href='mailto:tsujan2000@gmail.com?Subject=My%20Subject'>Pedram Pourang ("
-                               + tr ("aka.") + " Tsu Jan)</a> </center><p></p>");
-    msgBox.setStandardButtons (QMessageBox::Ok);
-    msgBox.changeButtonText (QMessageBox::Ok, tr ("Ok"));
-    msgBox.setWindowModality (Qt::WindowModal);
+
+    class AboutDialog : public QDialog {
+    public:
+        explicit AboutDialog (QWidget* parent = nullptr, Qt::WindowFlags f = 0) : QDialog (parent, f) {
+            aboutUi.setupUi (this);
+            aboutUi.textLabel->setOpenExternalLinks (true);
+        }
+        void setTabTexts (const QString& first, const QString& sec) {
+            aboutUi.tabWidget->setTabText (0, first);
+            aboutUi.tabWidget->setTabText (1, sec);
+        }
+        void setMainIcon (const QIcon& icn) {
+            aboutUi.iconLabel->setPixmap (icn.pixmap (64, 64));
+        }
+        void settMainTitle (const QString& title) {
+            aboutUi.titleLabel->setText (title);
+        }
+        void setMainText (const QString& txt) {
+            aboutUi.textLabel->setText (txt);
+        }
+    private:
+        Ui::AboutDialog aboutUi;
+    };
+
+    AboutDialog dialog (this);
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
     QIcon FPIcon;
     if (config.getSysIcon())
@@ -4658,9 +4675,16 @@ void FPwin::aboutDialog()
     }
     else
         FPIcon = QIcon (":icons/featherpad.svg");
-    msgBox.setIconPixmap (FPIcon.pixmap (64, 64));
-    msgBox.setWindowTitle (tr ("About FeatherPad"));
-    msgBox.exec();
+    dialog.setMainIcon (FPIcon);
+    dialog.settMainTitle (QString ("<center><b><big>%1 %2</big></b></center><br>").arg (qApp->applicationName()).arg (qApp->applicationVersion()));
+    dialog.setMainText ("<center> " + tr ("A lightweight, tabbed, plain-text editor") + " </center>\n<center> "
+                        + tr ("based on Qt5") + " </center><br><center> "
+                        + tr ("Author")+": <a href='mailto:tsujan2000@gmail.com?Subject=My%20Subject'>Pedram Pourang ("
+                        + tr ("aka.") + " Tsu Jan)</a> </center><p></p>");
+    dialog.setTabTexts (tr ("About FeatherPad"), tr ("Translators"));
+    dialog.setWindowTitle (tr ("About FeatherPad"));
+    dialog.setWindowModality (Qt::WindowModal);
+    dialog.exec();
     updateShortcuts (false);
 }
 /*************************/
