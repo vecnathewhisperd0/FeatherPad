@@ -2,6 +2,14 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ru">
 <context>
+    <name>FeatherPad::AboutDialog</name>
+    <message>
+        <location filename="../../about.ui" line="121"/>
+        <source>License</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FeatherPad::FPwin</name>
     <message>
         <location filename="../../fpwin.cpp" line="349"/>

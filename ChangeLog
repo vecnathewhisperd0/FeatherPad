@@ -30,7 +30,7 @@ V0.8
  * Instead of QSharedMemory, use a lock file to create a single instance application because QSharedMemory not only is unsafe in case a crash happens (catching a crash is not an option) but also may persist without a crash and even after being attached and detached, resulting in an unchangeable state. Also, for whatever reason, QSharedMemory may cause random delays.
  * Never use QCoreApplication::processEvents() because the waiting object may be deleted meanwhile.
  * Support scss (without syntax error but with its keywords).
- * Added translators' names/links to About dialog.
+ * Added translators' names/links to About dialog. Also added the license info.
 
 V0.7
 ---------
