@@ -19,6 +19,7 @@
 
 #include <QGridLayout>
 #include "tabpage.h"
+#include "svgicons.h"
 
 namespace FeatherPad {
 
@@ -31,9 +32,12 @@ TabPage::TabPage (ICONMODE iconMode, int bgColorValue,
     searchBar_ = new SearchBar (this, iconMode == NONE, searchShortcuts);
 
     QIcon icnNext, icnPrev;
+    QIcon icnWhole = symbolicIcon::icon (":icons/whole.svg");
+    QIcon icnCase = symbolicIcon::icon (":icons/case.svg");
     switch (iconMode) {
     case OWN:
-        searchBar_->setSearchIcons (QIcon (":icons/go-down.svg"), QIcon (":icons/go-up.svg"));
+        searchBar_->setSearchIcons (symbolicIcon::icon (":icons/go-down.svg"), symbolicIcon::icon (":icons/go-up.svg"),
+                                    icnWhole, icnCase);
         break;
     case SYSTEM:
         icnNext = QIcon::fromTheme ("go-down");
@@ -42,7 +46,7 @@ TabPage::TabPage (ICONMODE iconMode, int bgColorValue,
         icnPrev = QIcon::fromTheme ("go-up");
         if (icnPrev.isNull())
             icnPrev = QIcon (":icons/go-up.svg");
-        searchBar_->setSearchIcons (icnNext, icnPrev);
+        searchBar_->setSearchIcons (icnNext, icnPrev, icnWhole, icnCase);
         break;
     case NONE:
     default:

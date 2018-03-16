@@ -34,7 +34,8 @@ SOURCES += main.cpp \
            tabpage.cpp \
            searchbar.cpp \
            session.cpp \
-           sidepane.cpp
+           sidepane.cpp \
+           svgicons.cpp
 
 HEADERS += singleton.h \
            fpwin.h \
@@ -56,7 +57,8 @@ HEADERS += singleton.h \
            session.h \
            warningbar.h \
            utils.h \
-           sidepane.h
+           sidepane.h \
+           svgicons.h
 
 FORMS += fp.ui \
          predDialog.ui \

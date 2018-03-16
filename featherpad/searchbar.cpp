@@ -33,6 +33,7 @@ SearchBar::SearchBar(QWidget *parent,
     lineEdit_ = new LineEdit (this);
     lineEdit_->setMinimumWidth (150);
     lineEdit_->setPlaceholderText (tr ("Search..."));
+    //lineEdit_->setSizePolicy (QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     shortcuts_ = shortcuts;
     QString nxtShortcut, prevShortcut, csShortcut, wholeShortcut;
     if (shortcuts.size() >= 4)
@@ -59,39 +60,50 @@ SearchBar::SearchBar(QWidget *parent,
     toolButton_nxt_->setToolTip (tr ("Next") + " (" + nxtShortcut + ")");
     toolButton_prv_->setToolTip (tr ("Previous") + " (" + prevShortcut + ")");
 
-    pushButton_case_ = new QPushButton (this);
-    pushButton_case_->setText (tr ("Match Case"));
-    pushButton_case_->setShortcut (QKeySequence (csShortcut));
-    pushButton_case_->setToolTip (csShortcut);
-    pushButton_case_->setCheckable (true);
-    pushButton_case_->setFocusPolicy (Qt::NoFocus);
+    button_case_ = new QToolButton (this);
+    if (hasText)
+    {
+        button_case_->setText (tr ("Match Case"));
+        button_case_->setToolTip (csShortcut);
+    }
+    else
+        button_case_->setToolTip (tr ("Match Case") + " (" + csShortcut + ")");
+    button_case_->setShortcut (QKeySequence (csShortcut));
+    button_case_->setCheckable (true);
+    button_case_->setFocusPolicy (Qt::NoFocus);
 
-    pushButton_whole_ = new QPushButton (this);
-    pushButton_whole_->setText (tr ("Whole Word"));
-    pushButton_whole_->setShortcut (QKeySequence (wholeShortcut));
-    pushButton_whole_->setToolTip (wholeShortcut);
-    pushButton_whole_->setCheckable (true);
-    pushButton_whole_->setFocusPolicy (Qt::NoFocus);
+    button_whole_ = new QToolButton (this);
+    if (hasText)
+    {
+        button_whole_->setText (tr ("Whole Word"));
+        button_whole_->setToolTip (wholeShortcut);
+    }
+    else
+        button_whole_->setToolTip (tr ("Whole Word") + " (" + wholeShortcut + ")");
+    button_whole_->setShortcut (QKeySequence (wholeShortcut));
+    button_whole_->setCheckable (true);
+    button_whole_->setFocusPolicy (Qt::NoFocus);
 
     /* there are shortcuts for forward/backward search */
     toolButton_nxt_->setFocusPolicy (Qt::NoFocus);
     toolButton_prv_->setFocusPolicy (Qt::NoFocus);
 
     QGridLayout *mainGrid = new QGridLayout;
-    mainGrid->setHorizontalSpacing (1);
+    mainGrid->setHorizontalSpacing (3);
     mainGrid->setContentsMargins (2, 0, 2, 0);
     mainGrid->addWidget (lineEdit_, 0, 0);
     mainGrid->addWidget (toolButton_nxt_, 0, 1);
     mainGrid->addWidget (toolButton_prv_, 0, 2);
-    mainGrid->addWidget (pushButton_case_, 0, 3);
-    mainGrid->addWidget (pushButton_whole_, 0, 4);
+    mainGrid->addItem (new QSpacerItem (6, 3), 0, 3);
+    mainGrid->addWidget (button_case_, 0, 4);
+    mainGrid->addWidget (button_whole_, 0, 5);
     setLayout (mainGrid);
 
     connect (lineEdit_, &QLineEdit::returnPressed, this, &SearchBar::findForward);
     connect (toolButton_nxt_, &QAbstractButton::clicked, this, &SearchBar::findForward);
     connect (toolButton_prv_, &QAbstractButton::clicked, this, &SearchBar::findBackward);
-    connect (pushButton_case_, &QAbstractButton::clicked, this, &SearchBar::searchFlagChanged);
-    connect (pushButton_whole_, &QAbstractButton::clicked, this, &SearchBar::searchFlagChanged);
+    connect (button_case_, &QAbstractButton::clicked, this, &SearchBar::searchFlagChanged);
+    connect (button_whole_, &QAbstractButton::clicked, this, &SearchBar::searchFlagChanged);
 }
 /*************************/
 void SearchBar::focusLineEdit()
@@ -127,12 +139,12 @@ void SearchBar::findBackward()
 /*************************/
 bool SearchBar::matchCase() const
 {
-    return pushButton_case_->isChecked();
+    return button_case_->isChecked();
 }
 /*************************/
 bool SearchBar::matchWhole() const
 {
-    return pushButton_whole_->isChecked();
+    return button_whole_->isChecked();
 }
 /*************************/
 // Used only in a workaround (-> FPwin::updateShortcuts())
@@ -142,22 +154,25 @@ void SearchBar::updateShortcuts (bool disable)
     {
         toolButton_nxt_->setShortcut (QKeySequence());
         toolButton_prv_->setShortcut (QKeySequence());
-        pushButton_case_->setShortcut (QKeySequence());
-        pushButton_whole_->setShortcut (QKeySequence());
+        button_case_->setShortcut (QKeySequence());
+        button_whole_->setShortcut (QKeySequence());
     }
     else if (shortcuts_.size() >= 4)
     {
         toolButton_nxt_->setShortcut (QKeySequence (shortcuts_.at (0)));
         toolButton_prv_->setShortcut (QKeySequence (shortcuts_.at (1)));
-        pushButton_case_->setShortcut (QKeySequence (shortcuts_.at (2)));
-        pushButton_whole_->setShortcut (QKeySequence (shortcuts_.at (3)));
+        button_case_->setShortcut (QKeySequence (shortcuts_.at (2)));
+        button_whole_->setShortcut (QKeySequence (shortcuts_.at (3)));
     }
 }
 /*************************/
-void SearchBar::setSearchIcons (QIcon iconNext, QIcon iconPrev)
+void SearchBar::setSearchIcons (const QIcon& iconNext, const QIcon& iconPrev,
+                                const QIcon& wholeIcon, const QIcon& caseIcon)
 {
     toolButton_nxt_->setIcon (iconNext);
     toolButton_prv_->setIcon (iconPrev);
+    button_whole_->setIcon (wholeIcon);
+    button_case_->setIcon (caseIcon);
 }
 
 }

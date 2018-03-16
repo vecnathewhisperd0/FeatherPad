@@ -31,6 +31,8 @@ V0.8
  * Never use QCoreApplication::processEvents() because the waiting object may be deleted meanwhile.
  * Support scss (without syntax error but with its keywords).
  * Added translators' names/links to About dialog. Also added the license info.
+ * Handle "&quot;", "&gt;" and "&lt;", especially in XML.
+ * Support hard-coded symbolic icons that change their colors appropriately (adapted from Cantata).
 
 V0.7
 ---------

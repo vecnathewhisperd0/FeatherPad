@@ -44,7 +44,8 @@ public:
     bool matchWhole() const;
 
     void updateShortcuts (bool disable);
-    void setSearchIcons (QIcon iconNext, QIcon iconPrev);
+    void setSearchIcons (const QIcon& iconNext, const QIcon& iconPrev,
+                         const QIcon& wholeIcon, const QIcon& caseIcon);
 
 signals:
     void searchFlagChanged();
@@ -57,8 +58,8 @@ private:
     QPointer<LineEdit> lineEdit_;
     QPointer<QToolButton> toolButton_nxt_;
     QPointer<QToolButton> toolButton_prv_;
-    QPointer<QPushButton> pushButton_case_;
-    QPointer<QPushButton> pushButton_whole_;
+    QPointer<QToolButton> button_case_;
+    QPointer<QToolButton> button_whole_;
     QStringList shortcuts_;
 };
 

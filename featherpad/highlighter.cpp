@@ -24,7 +24,7 @@ Q_DECLARE_METATYPE(QTextBlock)
 
 namespace FeatherPad {
 
-static const QRegularExpression urlPattern ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)\\[\\]]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
+static const QRegularExpression urlPattern ("[A-Za-z0-9_]+://((?!&quot;|&gt;|&lt;)[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)\\[\\]])+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
 static const QRegularExpression notePattern ("\\b(NOTE|TODO|FIXME|WARNING)\\b");
 
 TextBlockData::~TextBlockData()
@@ -423,7 +423,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         xmlElementFormat.setFontWeight (QFont::Bold);
         xmlElementFormat.setForeground (Violet);
         /* after </ or before /> */
-        rule.pattern.setPattern ("\\s*</?[A-Za-z0-9_\\-:]+|\\s*<!(DOCTYPE|ENTITY)\\s|\\s*/?>");
+        rule.pattern.setPattern ("\\s*(<|&lt;)/?[A-Za-z0-9_\\-:]+|\\s*(<|&lt;)!(DOCTYPE|ENTITY)\\s|\\s*/?(>|&gt;)");
         rule.format = xmlElementFormat;
         highlightingRules.append (rule);
 
@@ -431,7 +431,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         xmlAttributeFormat.setFontItalic (true);
         xmlAttributeFormat.setForeground (Blue);
         /* before = */
-        rule.pattern.setPattern ("\\b[A-Za-z0-9_\\-:]+(?=\\s*\\=)");
+        rule.pattern.setPattern ("\\s+[A-Za-z0-9_\\-:]+(?=\\s*\\=\\s*(\"|&quot;))");
         rule.format = xmlAttributeFormat;
         highlightingRules.append (rule);
 
@@ -1055,7 +1055,8 @@ bool Highlighter::isQuoted (const QString &text, const int index,
     if (progLan == "c" || progLan == "cpp"
         || progLan == "python" || progLan == "sh"
         || progLan == "makefile" || progLan == "cmake"
-        || progLan == "lua" || progLan == "perl" || progLan == "xml"
+        || progLan == "lua" || progLan == "perl"
+        || progLan == "xml" // never used with xml; otherwise, we should consider "&quot;"
         || progLan == "ruby" || progLan == "html" || progLan == "javascript" || progLan == "scss")
     {
         mixedQuotes = true;
@@ -2120,8 +2121,8 @@ void Highlighter::setFormatWithoutOverwrite (int start,
     }
 }
 /*************************/
-// XML quotes are handled as multiline quotes for
-// possible XML doc mistakes to be seen easily.
+// XML quotes are handled as multiline quotes for possible XML doc mistakes
+// to be seen easily and also because the double quote can be written as "&quot;".
 // This comes after values are formatted.
 void Highlighter::xmlQuotes (const QString &text)
 {
@@ -2129,7 +2130,8 @@ void Highlighter::xmlQuotes (const QString &text)
     /* mixed quotes aren't really needed here
        but they're harmless and easy to handle */
     QRegularExpressionMatch quoteMatch;
-    QRegularExpression quoteExpression ("\"|\'");
+    QRegularExpression quoteExpression ("\"|&quot;|\'");
+    QRegularExpression doubleQuote ("\"|&quot;");
     int quote = doubleQuoteState;
 
     /* find the start quote */
@@ -2149,9 +2151,9 @@ void Highlighter::xmlQuotes (const QString &text)
         if (index >= 0)
         {
             /* ... distinguish between double and single quotes */
-            if (index == text.indexOf (quoteMark, index))
+            if (index == text.indexOf (doubleQuote, index))
             {
-                quoteExpression = quoteMark;
+                quoteExpression = doubleQuote;
                 quote = doubleQuoteState;
             }
             else
@@ -2167,7 +2169,7 @@ void Highlighter::xmlQuotes (const QString &text)
            by checking the previous line */
         quote = prevState;
         if (quote == doubleQuoteState)
-            quoteExpression = quoteMark;
+            quoteExpression = doubleQuote;
         else
             quoteExpression.setPattern ("\'");
     }
@@ -2175,13 +2177,13 @@ void Highlighter::xmlQuotes (const QString &text)
     while (index >= 0)
     {
         /* if the search is continued... */
-        if (quoteExpression.pattern() == "\"|\'")
+        if (quoteExpression.pattern() == "\"|&quot;|\'")
         {
             /* ... distinguish between double and single quotes
                again because the quote mark may have changed */
-            if (index == text.indexOf (quoteMark, index))
+            if (index == text.indexOf (doubleQuote, index))
             {
-                quoteExpression = quoteMark;
+                quoteExpression = doubleQuote;
                 quote = doubleQuoteState;
             }
             else
@@ -2211,8 +2213,8 @@ void Highlighter::xmlQuotes (const QString &text)
         else
             quoteLength = endIndex - index
                           + quoteMatch.capturedLength(); // 1
-        setFormat (index, quoteLength, quoteExpression == quoteMark ? quoteFormat
-                                                                    : altQuoteFormat);
+        setFormat (index, quoteLength, quoteExpression == doubleQuote ? quoteFormat
+                                                                      : altQuoteFormat);
 
         QString str = text.mid (index, quoteLength);
         int urlIndex = 0;
@@ -2224,7 +2226,7 @@ void Highlighter::xmlQuotes (const QString &text)
         }
 
         /* the next quote may be different */
-        quoteExpression.setPattern ("\"|\'");
+        quoteExpression.setPattern ("\"|&quot;|\'");
         index = text.indexOf (quoteExpression, index + quoteLength);
 
         /* skip all values */
@@ -2627,7 +2629,7 @@ void Highlighter::highlightBlock (const QString &text)
     if (progLan == "xml")
     {
         /* value is handled as a kind of comment */
-        multiLineComment (text, 0, -1, QRegularExpression (">"), QRegularExpression ("<"), xmlValueState, neutralFormat);
+        multiLineComment (text, 0, -1, QRegularExpression ("(>|&gt;)"), QRegularExpression ("(<|&lt;)"), xmlValueState, neutralFormat);
         /* multiline quotes as signs of errors in the xml doc */
         xmlQuotes (text);
     }

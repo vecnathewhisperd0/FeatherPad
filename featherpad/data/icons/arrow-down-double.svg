@@ -1,6 +1,10 @@
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-<g style="fill:#c76b00" id="g840" transform="translate(0,-0.5)">
-<path style="color-interpolation-filters:linearRGB" id="path829" d="M 2,7 8,12.133691 14,7 V 9.8490552 L 8,15 2,9.8490552 Z"/>
-<path style="color-interpolation-filters:linearRGB" id="path817" d="M 2,2 8,7.1336906 14,2 V 4.8490552 L 8,10 2,4.8490552 Z"/>
-</g>
+<defs id="defs1">
+<style type="text/css" id="current-color-scheme">
+.ColorScheme-Text {
+color:#000;
+}
+</style>
+</defs>
+<path style="fill:currentColor;fill-opacity:1;stroke:none" id="path4" d="m 2.7188,2.5 l -.7188,.748 6,6.252 1.875,-1.9531 4.125,-4.2988 -.7188,-.748 -4.125,4.2988 -1.1562,1.2363 -1.1562,-1.2363 -4.125,-4.2988 z  m 0,4 l -.7188,.748 6,6.252 1.875,-1.9531 4.125,-4.2988 -.7188,-.748 -4.125,4.2988 -1.1562,1.2363 -1.1562,-1.2363 -4.125,-4.2988 z " class="ColorScheme-Text"/>
 </svg>

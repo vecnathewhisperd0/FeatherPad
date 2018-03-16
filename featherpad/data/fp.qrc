@@ -3,6 +3,7 @@
     <file>icons/application-exit.svg</file>
     <file>icons/application-menu.svg</file>
     <file>icons/arrow-down-double.svg</file>
+    <file>icons/case.svg</file>
     <file>icons/document-edit.svg</file>
     <file>icons/document-new.svg</file>
     <file>icons/document-open.svg</file>
@@ -36,6 +37,7 @@
     <file>icons/tab.svg</file>
     <file>icons/tab-close-other.svg</file>
     <file>icons/view-refresh.svg</file>
+    <file>icons/whole.svg</file>
     <file>icons/window-close.svg</file>
   </qresource>
 </RCC>

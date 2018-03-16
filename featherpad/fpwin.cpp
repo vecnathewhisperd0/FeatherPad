@@ -27,6 +27,7 @@
 #include "session.h"
 #include "loading.h"
 #include "warningbar.h"
+#include "svgicons.h"
 
 #include <QFontDialog>
 #include <QPrintDialog>
@@ -86,7 +87,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     wordButton->setToolButtonStyle (Qt::ToolButtonIconOnly);
     wordButton->setIconSize (QSize (16, 16));
     wordButton->setMaximumHeight (16);
-    wordButton->setIcon (QIcon (":icons/view-refresh.svg"));
+    wordButton->setIcon (symbolicIcon::icon (":icons/view-refresh.svg"));
     //wordButton->setText (tr ("Refresh"));
     wordButton->setToolTip (tr ("Calculate number of words\n(For huge texts, this may be CPU-intensive.)"));
     connect (wordButton, &QAbstractButton::clicked, [=]{updateWordInfo();});
@@ -526,7 +527,7 @@ void FPwin::applyConfigOnStarting()
             ui->actionCloseOther->setIcon (icn);
             icn = QIcon::fromTheme ("application-menu");
             if (icn.isNull())
-                icn = QIcon (":icons/application-menu.svg");
+                icn = symbolicIcon::icon (":icons/application-menu.svg");
             ui->actionMenu->setIcon (icn);
             /* ... and the following buttons don't have text, so we don't risk */
             icn = QIcon::fromTheme ("go-down");
@@ -539,7 +540,7 @@ void FPwin::applyConfigOnStarting()
             ui->toolButtonPrv->setIcon (icn);
             icn = QIcon::fromTheme ("arrow-down-double");
             if (icn.isNull())
-                icn = QIcon (":icons/arrow-down-double.svg");
+                icn = symbolicIcon::icon (":icons/arrow-down-double.svg");
             ui->toolButtonAll->setIcon (icn);
             if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>("wordButton"))
             {
@@ -576,61 +577,61 @@ void FPwin::applyConfigOnStarting()
         {
             iconMode_ = OWN;
 
-            ui->actionNew->setIcon (QIcon (":icons/document-new.svg"));
-            ui->actionOpen->setIcon (QIcon (":icons/document-open.svg"));
-            ui->menuOpenRecently->setIcon (QIcon (":icons/document-open-recent.svg"));
-            ui->actionClearRecent->setIcon (QIcon (":icons/edit-clear.svg"));
-            ui->actionSave->setIcon (QIcon (":icons/document-save.svg"));
-            ui->actionSaveAs->setIcon (QIcon (":icons/document-save-as.svg"));
-            ui->actionSaveCodec->setIcon (QIcon (":icons/document-save-as.svg"));
-            ui->actionPrint->setIcon (QIcon (":icons/document-print.svg"));
-            ui->actionDoc->setIcon (QIcon (":icons/document-properties.svg"));
-            ui->actionUndo->setIcon (QIcon (":icons/edit-undo.svg"));
-            ui->actionRedo->setIcon (QIcon (":icons/edit-redo.svg"));
-            ui->actionCut->setIcon (QIcon (":icons/edit-cut.svg"));
-            ui->actionCopy->setIcon (QIcon (":icons/edit-copy.svg"));
-            ui->actionPaste->setIcon (QIcon (":icons/edit-paste.svg"));
-            ui->actionDate->setIcon (QIcon (":icons/document-open-recent.svg"));
+            ui->actionNew->setIcon (symbolicIcon::icon (":icons/document-new.svg"));
+            ui->actionOpen->setIcon (symbolicIcon::icon (":icons/document-open.svg"));
+            ui->menuOpenRecently->setIcon (symbolicIcon::icon (":icons/document-open-recent.svg"));
+            ui->actionClearRecent->setIcon (symbolicIcon::icon (":icons/edit-clear.svg"));
+            ui->actionSave->setIcon (symbolicIcon::icon (":icons/document-save.svg"));
+            ui->actionSaveAs->setIcon (symbolicIcon::icon (":icons/document-save-as.svg"));
+            ui->actionSaveCodec->setIcon (symbolicIcon::icon (":icons/document-save-as.svg"));
+            ui->actionPrint->setIcon (symbolicIcon::icon (":icons/document-print.svg"));
+            ui->actionDoc->setIcon (symbolicIcon::icon (":icons/document-properties.svg"));
+            ui->actionUndo->setIcon (symbolicIcon::icon (":icons/edit-undo.svg"));
+            ui->actionRedo->setIcon (symbolicIcon::icon (":icons/edit-redo.svg"));
+            ui->actionCut->setIcon (symbolicIcon::icon (":icons/edit-cut.svg"));
+            ui->actionCopy->setIcon (symbolicIcon::icon (":icons/edit-copy.svg"));
+            ui->actionPaste->setIcon (symbolicIcon::icon (":icons/edit-paste.svg"));
+            ui->actionDate->setIcon (symbolicIcon::icon (":icons/document-open-recent.svg"));
             ui->actionDelete->setIcon (QIcon (":icons/edit-delete.svg"));
-            ui->actionSelectAll->setIcon (QIcon (":icons/edit-select-all.svg"));
-            ui->actionReload->setIcon (QIcon (":icons/view-refresh.svg"));
-            ui->actionFind->setIcon (QIcon (":icons/edit-find.svg"));
-            ui->actionReplace->setIcon (QIcon (":icons/edit-find-replace.svg"));
+            ui->actionSelectAll->setIcon (symbolicIcon::icon (":icons/edit-select-all.svg"));
+            ui->actionReload->setIcon (symbolicIcon::icon (":icons/view-refresh.svg"));
+            ui->actionFind->setIcon (symbolicIcon::icon (":icons/edit-find.svg"));
+            ui->actionReplace->setIcon (symbolicIcon::icon (":icons/edit-find-replace.svg"));
             ui->actionClose->setIcon (QIcon (":icons/window-close.svg"));
             ui->actionQuit->setIcon (QIcon (":icons/application-exit.svg"));
-            ui->actionFont->setIcon (QIcon (":icons/preferences-desktop-font.svg"));
-            ui->actionPreferences->setIcon (QIcon (":icons/preferences-system.svg"));
-            ui->actionHelp->setIcon (QIcon (":icons/help-contents.svg"));
-            ui->actionAbout->setIcon (QIcon (":icons/help-about.svg"));
-            ui->actionJump->setIcon (QIcon (":icons/go-jump.svg"));
-            ui->actionEdit->setIcon (QIcon (":icons/document-edit.svg"));
-            ui->actionRun->setIcon (QIcon (":icons/system-run.svg"));
-            ui->actionCopyName->setIcon (QIcon (":icons/edit-copy.svg"));
-            ui->actionCopyPath->setIcon (QIcon (":icons/edit-copy.svg"));
+            ui->actionFont->setIcon (symbolicIcon::icon (":icons/preferences-desktop-font.svg"));
+            ui->actionPreferences->setIcon (symbolicIcon::icon (":icons/preferences-system.svg"));
+            ui->actionHelp->setIcon (symbolicIcon::icon (":icons/help-contents.svg"));
+            ui->actionAbout->setIcon (symbolicIcon::icon (":icons/help-about.svg"));
+            ui->actionJump->setIcon (symbolicIcon::icon (":icons/go-jump.svg"));
+            ui->actionEdit->setIcon (symbolicIcon::icon (":icons/document-edit.svg"));
+            ui->actionRun->setIcon (symbolicIcon::icon (":icons/system-run.svg"));
+            ui->actionCopyName->setIcon (symbolicIcon::icon (":icons/edit-copy.svg"));
+            ui->actionCopyPath->setIcon (symbolicIcon::icon (":icons/edit-copy.svg"));
 
             ui->actionCloseOther->setIcon (QIcon (":icons/tab-close-other.svg"));
-            ui->actionMenu->setIcon (QIcon (":icons/application-menu.svg"));
+            ui->actionMenu->setIcon (symbolicIcon::icon (":icons/application-menu.svg"));
 
-            ui->toolButtonNext->setIcon (QIcon (":icons/go-down.svg"));
-            ui->toolButtonPrv->setIcon (QIcon (":icons/go-up.svg"));
-            ui->toolButtonAll->setIcon (QIcon (":icons/arrow-down-double.svg"));
+            ui->toolButtonNext->setIcon (symbolicIcon::icon (":icons/go-down.svg"));
+            ui->toolButtonPrv->setIcon (symbolicIcon::icon (":icons/go-up.svg"));
+            ui->toolButtonAll->setIcon (symbolicIcon::icon (":icons/arrow-down-double.svg"));
 
             if (rtl)
             {
-                ui->actionCloseRight->setIcon (QIcon (":icons/go-previous.svg"));
-                ui->actionCloseLeft->setIcon (QIcon (":icons/go-next.svg"));
-                ui->actionRightTab->setIcon (QIcon (":icons/go-previous.svg"));
-                ui->actionLeftTab->setIcon (QIcon (":icons/go-next.svg"));
+                ui->actionCloseRight->setIcon (symbolicIcon::icon (":icons/go-previous.svg"));
+                ui->actionCloseLeft->setIcon (symbolicIcon::icon (":icons/go-next.svg"));
+                ui->actionRightTab->setIcon (symbolicIcon::icon (":icons/go-previous.svg"));
+                ui->actionLeftTab->setIcon (symbolicIcon::icon (":icons/go-next.svg"));
 
                 ui->actionRightTab->setShortcut (QKeySequence (tr ("Alt+Left")));
                 ui->actionLeftTab->setShortcut (QKeySequence (tr ("Alt+Right")));
             }
             else
             {
-                ui->actionCloseRight->setIcon (QIcon (":icons/go-next.svg"));
-                ui->actionCloseLeft->setIcon (QIcon (":icons/go-previous.svg"));
-                ui->actionRightTab->setIcon (QIcon (":icons/go-next.svg"));
-                ui->actionLeftTab->setIcon (QIcon (":icons/go-previous.svg"));
+                ui->actionCloseRight->setIcon (symbolicIcon::icon (":icons/go-next.svg"));
+                ui->actionCloseLeft->setIcon (symbolicIcon::icon (":icons/go-previous.svg"));
+                ui->actionRightTab->setIcon (symbolicIcon::icon (":icons/go-next.svg"));
+                ui->actionLeftTab->setIcon (symbolicIcon::icon (":icons/go-previous.svg"));
             }
 
             setWindowIcon (QIcon (":icons/featherpad.svg"));
