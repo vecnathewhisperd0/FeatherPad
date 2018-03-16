@@ -6,7 +6,7 @@
     <message>
         <location filename="../../about.ui" line="121"/>
         <source>License</source>
-        <translation type="unfinished"></translation>
+        <translation>Licens</translation>
     </message>
 </context>
 <context>
@@ -1233,7 +1233,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="4684"/>
         <source>Translators</source>
-        <translation type="unfinished"></translation>
+        <translation>Oversættere</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="4680"/>
