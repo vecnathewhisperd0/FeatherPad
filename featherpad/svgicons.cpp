@@ -57,7 +57,7 @@ public:
         if (mode == QIcon::Selected)
             col = QApplication::palette().highlightedText().color();
         else
-            col = QApplication::palette().text().color();
+            col = QApplication::palette().windowText().color();
         QString key = fileName
                       + "-" + QString::number (rect.width())
                       + "-" + QString::number (rect.height())
@@ -113,7 +113,7 @@ public:
                 intensity = qMin (255, intensity + 91);
             }
             else if (intensity <= 128)
-              intensity -= 51;
+                intensity -= 51;
             for (int y = 0; y < im.height(); ++y)
             {
                 QRgb *scanLine = (QRgb*)im.scanLine (y);
