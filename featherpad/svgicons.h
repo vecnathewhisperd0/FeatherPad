@@ -24,7 +24,6 @@
 
 namespace FeatherPad {
 namespace symbolicIcon {
-
     QIcon icon (const QString& fileName);
 }
 }
