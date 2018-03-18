@@ -54,7 +54,25 @@ public:
         Q_UNUSED (state)
 
         QColor col;
-        if (mode == QIcon::Selected)
+        if (mode == QIcon::Disabled)
+        {
+            /* We don't use translucency with disabled icons because Kvantum already has it.
+               The method used in QCommonStyle::generatedIconPixmap() doesn't always work either.
+               Instead, we choose a disabled color that's good enough everywhere. */
+            QColor wt = QApplication::palette().windowText().color();
+            int v = wt.value();
+            /* because of an old Qt bug, QColor::lighter() and QColor::darker()
+               don't work with black and white, respectively */
+            if (v == 0)
+                col = QColor (120, 120, 120);
+            else if (v == 255)
+                col = QColor (150, 150, 150);
+            else if (v < 130)
+                col = wt.lighter();
+            else
+                col = wt.darker();
+        }
+        else if (mode == QIcon::Selected)
             col = QApplication::palette().highlightedText().color();
         else
             col = QApplication::palette().windowText().color();
@@ -81,51 +99,6 @@ public:
                 renderer.render (&p, QRect (0, 0, rect.width(), rect.height()));
             }
             QPixmapCache::insert (key, pix);
-        }
-        if (mode == QIcon::Disabled)
-        {
-            /* this part is taken from Qt -> QCommonStyle::generatedIconPixmap()
-               because it correctly grays out disabled icons */
-            QImage im = pix.toImage().convertToFormat (QImage::Format_ARGB32);
-            QColor bg = QApplication::palette().color (QPalette::Disabled, QPalette::Window);
-            int red = bg.red();
-            int green = bg.green();
-            int blue = bg.blue();
-            uchar reds[256], greens[256], blues[256];
-            for (int i = 0; i < 128; ++i)
-            {
-                reds[i]   = uchar ((red   * (i<<1)) >> 8);
-                greens[i] = uchar ((green * (i<<1)) >> 8);
-                blues[i]  = uchar ((blue  * (i<<1)) >> 8);
-            }
-            for (int i = 0; i < 128; ++i)
-            {
-                reds[i+128]   = uchar (qMin (red   + (i << 1), 255));
-                greens[i+128] = uchar (qMin (green + (i << 1), 255));
-                blues[i+128]  = uchar (qMin (blue  + (i << 1), 255));
-            }
-            int intensity = (77 * red + 150 * green + 28 * blue) / 255; // 30% red, 59% green, 11% blue
-            const int factor = 191;
-            if ((red - factor > green && red - factor > blue)
-                || (green - factor > red && green - factor > blue)
-                || (blue - factor > red && blue - factor > green))
-            {
-                intensity = qMin (255, intensity + 91);
-            }
-            else if (intensity <= 128)
-                intensity -= 51;
-            for (int y = 0; y < im.height(); ++y)
-            {
-                QRgb *scanLine = (QRgb*)im.scanLine (y);
-                for (int x = 0; x < im.width(); ++x)
-                {
-                    QRgb pixel = *scanLine;
-                    uint ci = uint (qGray (pixel) / 3 + (130 - intensity / 3));
-                    *scanLine = qRgba (reds[ci], greens[ci], blues[ci], qAlpha (pixel));
-                    ++scanLine;
-                }
-            }
-            pix = QPixmap::fromImage (im);
         }
         painter->drawPixmap (rect.topLeft(), pix);
     }

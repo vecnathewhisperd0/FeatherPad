@@ -33,6 +33,7 @@ V0.8
  * Added translators' names/links to About dialog. Also added the license info.
  * Handle "&quot;", "&gt;" and "&lt;", especially in XML.
  * Support hard-coded symbolic icons that change their colors appropriately (adapted from Cantata).
+ * Don't let QPlainTextEdit's built-in undo/redo shortcuts cause a scroll jump when there's nothing to do (such scroll jumps are a Qt bug, in my opinion).
 
 V0.7
 ---------

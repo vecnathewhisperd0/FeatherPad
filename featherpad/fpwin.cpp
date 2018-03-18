@@ -2983,18 +2983,7 @@ void FPwin::undoing()
     if (index == -1) return;
 
     TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
-
-    /* remove green highlights */
-    textEdit->setGreenSel (QList<QTextEdit::ExtraSelection>());
-    if (textEdit->getSearchedText().isEmpty()) // hlight() won't be called
-    {
-        QList<QTextEdit::ExtraSelection> es;
-        if (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible())
-            es.prepend (textEdit->currentLineSelection());
-        es.append (textEdit->getRedSel());
-        textEdit->setExtraSelections (es);
-    }
-
+    textEdit->removeGreenHighlights(); // always remove replacing highlights before undoing
     textEdit->undo();
 }
 /*************************/

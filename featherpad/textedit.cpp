@@ -259,6 +259,18 @@ QString TextEdit::computeIndentation (const QTextCursor &cur) const
     return str;
 }
 /*************************/
+void TextEdit::removeGreenHighlights()
+{
+    setGreenSel (QList<QTextEdit::ExtraSelection>());
+    if (getSearchedText().isEmpty()) // FPwin::hlight() won't be called
+    {
+        QList<QTextEdit::ExtraSelection> es;
+        es.prepend (currentLineSelection());
+        es.append (getRedSel());
+        setExtraSelections (es);
+    }
+}
+/*************************/
 static inline bool isOnlySpaces (const QString &str)
 {
     int i = 0;
@@ -274,18 +286,53 @@ static inline bool isOnlySpaces (const QString &str)
 
 void TextEdit::keyPressEvent (QKeyEvent *event)
 {
-    /* first, deal with hyperlinks */
-    if (highlighter_ && event->key() == Qt::Key_Control && event->modifiers() == Qt::ControlModifier)
+    /* first, deal with spacial cases of pressing Ctrl */
+    if (event->modifiers() & Qt::ControlModifier)
     {
-        if (getUrl (cursorForPosition (viewport()->mapFromGlobal (QCursor::pos())).position()).isEmpty())
-            viewport()->setCursor (Qt::IBeamCursor);
-        else
-            viewport()->setCursor (Qt::PointingHandCursor);
-        QPlainTextEdit::keyPressEvent (event);
-        return;
+        if (event->modifiers() == Qt::ControlModifier) // no other modifier is pressed
+        {
+            /* deal with hyperlinks */
+            if (event->key() == Qt::Key_Control) // no other key is pressed either
+            {
+                if (highlighter_)
+                {
+                    if (getUrl (cursorForPosition (viewport()->mapFromGlobal (QCursor::pos())).position()).isEmpty())
+                        viewport()->setCursor (Qt::IBeamCursor);
+                    else
+                        viewport()->setCursor (Qt::PointingHandCursor);
+                    QPlainTextEdit::keyPressEvent (event);
+                    return;
+                }
+            }
+            /* handle undoing */
+            else if (!isReadOnly() && event->key() == Qt::Key_Z)
+            {
+                /* QWidgetTextControl::undo() callls ensureCursorVisible() even when there's nothing to undo.
+                   Users may press Ctrl+Z just to know whether a documnet is in its original state and
+                   a scroll jump can confuse them when there's nothing to undo. */
+                if (!document()->isUndoAvailable())
+                {
+                    event->accept();
+                    return;
+                }
+                /* always remove replacing highlights before undoing */
+                removeGreenHighlights();
+            }
+        }
+        if (event->key() != Qt::Key_Control) // another modifier/key is pressed
+        {
+            if (highlighter_)
+                viewport()->setCursor (Qt::IBeamCursor);
+            /* QWidgetTextControl::redo() callls ensureCursorVisible() even when there's nothing to redo.
+               That may cause a scroll jump, which can be confusing when nothing else has happened. */
+            if (!isReadOnly() && (event->modifiers() & Qt::ShiftModifier) && event->key() == Qt::Key_Z
+                && !document()->isRedoAvailable())
+            {
+                event->accept();
+                return;
+            }
+        }
     }
-    if (highlighter_ && (event->modifiers() & Qt::ControlModifier) && event->key() != Qt::Key_Control)
-        viewport()->setCursor (Qt::IBeamCursor);
 
     if (isReadOnly())
     {

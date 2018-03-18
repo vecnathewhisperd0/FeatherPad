@@ -51,6 +51,8 @@ public:
     int lineNumberAreaWidth();
     void showLineNumbers (bool show);
 
+    void removeGreenHighlights();
+
     QFont getDefaultFont() const {
         return font_;
     }
