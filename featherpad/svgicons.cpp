@@ -56,21 +56,15 @@ public:
         QColor col;
         if (mode == QIcon::Disabled)
         {
-            /* We don't use translucency with disabled icons because Kvantum already has it.
-               The method used in QCommonStyle::generatedIconPixmap() doesn't always work either.
+            /* With disabled icons, neither reducing the painter opacity nor the method
+               used in QCommonStyle::generatedIconPixmap() works fine with all styles.
                Instead, we choose a disabled color that's good enough everywhere. */
-            QColor wt = QApplication::palette().windowText().color();
-            int v = wt.value();
-            /* because of an old Qt bug, QColor::lighter() and QColor::darker()
-               don't work with black and white, respectively */
-            if (v == 0)
-                col = QColor (120, 120, 120);
-            else if (v == 255)
-                col = QColor (150, 150, 150);
-            else if (v < 130)
-                col = wt.lighter();
+            int g = qGray (QApplication::palette().windowText().color().rgb());
+            if (g < 130)
+                g += 120;
             else
-                col = wt.darker();
+                g -= 110;
+            col = QColor (g, g, g);
         }
         else if (mode == QIcon::Selected)
             col = QApplication::palette().highlightedText().color();
