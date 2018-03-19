@@ -69,7 +69,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
 
     sidePane_ = nullptr;
 
-    /* JumpTo bar*/
+    /* "Jump to" bar */
     ui->spinBox->hide();
     ui->label->hide();
     ui->checkBox->hide();
@@ -86,9 +86,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     wordButton->setAutoRaise (true);
     wordButton->setToolButtonStyle (Qt::ToolButtonIconOnly);
     wordButton->setIconSize (QSize (16, 16));
-    wordButton->setMaximumHeight (16);
     wordButton->setIcon (symbolicIcon::icon (":icons/view-refresh.svg"));
-    //wordButton->setText (tr ("Refresh"));
     wordButton->setToolTip (tr ("Calculate number of words\n(For huge texts, this may be CPU-intensive.)"));
     connect (wordButton, &QAbstractButton::clicked, [=]{updateWordInfo();});
     ui->statusBar->addWidget (statusLabel);
@@ -523,7 +521,7 @@ void FPwin::applyConfigOnStarting()
             /* these icons may not exist in some themes... */
             QIcon icn = QIcon::fromTheme ("tab-close-other");
             if (icn.isNull())
-                icn = QIcon (":icons/tab-close-other.svg");
+                icn = symbolicIcon::icon (":icons/tab-close-other.svg");
             ui->actionCloseOther->setIcon (icn);
             icn = QIcon::fromTheme ("application-menu");
             if (icn.isNull())
@@ -609,7 +607,7 @@ void FPwin::applyConfigOnStarting()
             ui->actionCopyName->setIcon (symbolicIcon::icon (":icons/edit-copy.svg"));
             ui->actionCopyPath->setIcon (symbolicIcon::icon (":icons/edit-copy.svg"));
 
-            ui->actionCloseOther->setIcon (QIcon (":icons/tab-close-other.svg"));
+            ui->actionCloseOther->setIcon (symbolicIcon::icon (":icons/tab-close-other.svg"));
             ui->actionMenu->setIcon (symbolicIcon::icon (":icons/application-menu.svg"));
 
             ui->toolButtonNext->setIcon (symbolicIcon::icon (":icons/go-down.svg"));

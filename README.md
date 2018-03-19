@@ -24,7 +24,9 @@ Please see INSTALL for instructions on compilation, installation and translation
 
 FeatherPad was written in GTK+ at first, then ported to Qt with more features. Its homepage is <https://github.com/tsujan/FeatherPad>.
 
-## Screenshots:
+## Screenshots
+
+The active Qt widget style determines the look and feel of every Qt application. The following screenshots are taken with a Kvantum theme and the dark color scheme of FeatherPad:
 
 ![Tabs](screenshots/Tabs.png?raw=true "Tabs")
 ![Side-Pane](screenshots/Side-Pane.png?raw=true "Side-Pane")
