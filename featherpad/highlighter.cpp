@@ -24,7 +24,8 @@ Q_DECLARE_METATYPE(QTextBlock)
 
 namespace FeatherPad {
 
-static const QRegularExpression urlPattern ("[A-Za-z0-9_]+://((?!&quot;|&gt;|&lt;)[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)\\[\\]])+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
+/* NOTE: It is supposed that a URL does not end with punctuation marks. */
+static const QRegularExpression urlPattern ("[A-Za-z0-9_]+://((?!&quot;|&gt;|&lt;)[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)\\[\\]])+(?<!\\.|\\?|:)|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+(?<!\\.)");
 static const QRegularExpression notePattern ("\\b(NOTE|TODO|FIXME|WARNING)\\b");
 
 TextBlockData::~TextBlockData()

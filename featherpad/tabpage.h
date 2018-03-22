@@ -32,7 +32,7 @@ class TabPage : public QWidget
     Q_OBJECT
 public:
     TabPage (ICONMODE iconMode = OWN, int bgColorValue = 255,
-             const QStringList &searchShortcuts = QStringList(),
+             const QStringList& searchShortcuts = QStringList(),
              QWidget *parent = 0);
 
     QPointer<TextEdit> textEdit() const {

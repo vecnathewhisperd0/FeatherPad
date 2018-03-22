@@ -24,7 +24,7 @@
 namespace FeatherPad {
 
 TabPage::TabPage (ICONMODE iconMode, int bgColorValue,
-                  const QStringList &searchShortcuts,
+                  const QStringList& searchShortcuts,
                   QWidget *parent)
     : QWidget (parent)
 {
