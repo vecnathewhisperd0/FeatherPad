@@ -91,7 +91,7 @@ static bool findBackward (const QTextDocument *txtdoc, const QString str,
 // This method extends the searchable strings to those with line breaks.
 // It also corrects the behavior of Qt's backward search and can set an
 // end limit to the forward search.
-QTextCursor FPwin::finding (const QString str, const QTextCursor& start, QTextDocument::FindFlags flags,
+QTextCursor FPwin::finding (const QString& str, const QTextCursor& start, QTextDocument::FindFlags flags,
                             const int end) const
 {
     /* let's be consistent first */

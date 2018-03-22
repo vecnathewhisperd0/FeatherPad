@@ -26,7 +26,7 @@ namespace FeatherPad {
 
 SearchBar::SearchBar(QWidget *parent,
                      bool hasText,
-                     const QStringList &shortcuts,
+                     const QStringList& shortcuts,
                      Qt::WindowFlags f)
     : QFrame (parent, f)
 {

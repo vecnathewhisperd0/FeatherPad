@@ -32,7 +32,7 @@ class SearchBar : public QFrame
 public:
     SearchBar (QWidget *parent = 0,
                bool hasText = false,
-               const QStringList &shortcuts = QStringList(),
+               const QStringList& shortcuts = QStringList(),
                Qt::WindowFlags f = Qt::WindowFlags());
 
     void focusLineEdit();

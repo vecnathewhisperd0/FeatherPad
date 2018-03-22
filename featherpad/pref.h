@@ -82,7 +82,7 @@ private slots:
     void prefHideSingleTab (int checked);
     void prefMaxSHSize (int value);
     void prefExecute (int checked);
-    void prefCommand (QString command);
+    void prefCommand (const QString& command);
     void prefRecentFilesNumber (int value);
     void prefOpenRecentFile (int value);
     void prefOpenInWindows (int checked);
@@ -103,7 +103,7 @@ private:
     void prefApplyAutoSave();
     void prefApplySyntax();
     void prefApplyDateFormat();
-    void showPrompt (QString str = QString(), bool temporary = false);
+    void showPrompt (const QString& str = QString(), bool temporary = false);
 
     Ui::PrefDialog *ui;
     QWidget * parent_;

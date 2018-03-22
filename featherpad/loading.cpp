@@ -24,7 +24,7 @@
 
 namespace FeatherPad {
 
-Loading::Loading (QString fname, QString charset, bool reload,
+Loading::Loading (const QString& fname, const QString& charset, bool reload,
                   bool saveCursor, bool forceUneditable, bool multiple) :
     fname_ (fname),
     charset_ (charset),

@@ -1957,7 +1957,7 @@ void FPwin::unbusy()
         QGuiApplication::restoreOverrideCursor();
 }
 /*************************/
-void FPwin::loadText (const QString fileName, bool enforceEncod, bool reload,
+void FPwin::loadText (const QString& fileName, bool enforceEncod, bool reload,
                       bool saveCursor, bool enforceUneditable, bool multiple)
 {
     if (loadingProcesses_ == 0)
@@ -1978,7 +1978,7 @@ void FPwin::loadText (const QString fileName, bool enforceEncod, bool reload,
 }
 /*************************/
 // When multiple files are being loaded, we don't change the current tab.
-void FPwin::addText (const QString text, const QString fileName, const QString charset,
+void FPwin::addText (const QString& text, const QString& fileName, const QString& charset,
                      bool enforceEncod, bool reload, bool saveCursor,
                      bool uneditable,
                      bool multiple)
@@ -4017,7 +4017,7 @@ void FPwin::detachTab()
     dropTarget->raise();
 }
 /*************************/
-void FPwin::dropTab (QString str)
+void FPwin::dropTab (const QString& str)
 {
     QStringList list = str.split ("+", QString::SkipEmptyParts);
     if (list.count() != 2)

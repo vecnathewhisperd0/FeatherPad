@@ -223,7 +223,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
     textEdit->setProg (progLan);
 }
 /*************************/
-void FPwin::syntaxHighlighting (TextEdit *textEdit, bool highlight, const QString &lang)
+void FPwin::syntaxHighlighting (TextEdit *textEdit, bool highlight, const QString& lang)
 {
     if (textEdit == nullptr
         || textEdit->isUneditable()) // has huge lines or isn't a text

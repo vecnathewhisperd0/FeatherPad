@@ -28,14 +28,14 @@ class Loading : public QThread {
     Q_OBJECT
 
 public:
-    Loading (QString fname, QString charset, bool reload,
+    Loading (const QString& fname, const QString& charset, bool reload,
              bool saveCursor, bool forceUneditable, bool multiple);
     ~Loading();
 
 signals:
-    void completed (const QString text = QString(),
-                    const QString fname = QString(),
-                    const QString charset = QString(),
+    void completed (const QString& text = QString(),
+                    const QString& fname = QString(),
+                    const QString& charset = QString(),
                     bool enforceEncod = false,
                     bool reload = false,
                     bool saveCursor = false,

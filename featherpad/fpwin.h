@@ -175,7 +175,7 @@ private slots:
     void aboutDialog();
     void helpDoc();
     void matchBrackets();
-    void addText (const QString text, const QString fileName, const QString charset,
+    void addText (const QString& text, const QString& fileName, const QString& charset,
                   bool enforceEncod, bool reload, bool saveCursor,
                   bool uneditable, // This doc should be uneditable?
                   bool multiple); // Multiple files are being loaded?
@@ -200,7 +200,7 @@ private:
     TabPage *createEmptyTab(bool setCurrent, bool allowNormalHighlighter = true);
     bool hasAnotherDialog();
     void deleteTabPage (int tabIndex);
-    void loadText (const QString fileName, bool enforceEncod, bool reload,
+    void loadText (const QString& fileName, bool enforceEncod, bool reload,
                    bool saveCursor = false, bool enforceUneditable = false, bool multiple = false);
     bool alreadyOpen (TabPage *tabPage) const;
     void setTitle (const QString& fileName, int tabIndex = -1);
@@ -210,16 +210,16 @@ private:
     bool closeTabs (int first, int last);
     void dragEnterEvent (QDragEnterEvent *event);
     void dropEvent (QDropEvent *event);
-    void dropTab (QString str);
+    void dropTab (const QString& str);
     void changeEvent (QEvent *event);
     bool event (QEvent *event);
     QTextDocument::FindFlags getSearchFlags() const;
     void enableWidgets (bool enable) const;
     void updateShortcuts (bool disable, bool page = true);
-    QTextCursor finding (const QString str, const QTextCursor& start, QTextDocument::FindFlags flags = 0,
+    QTextCursor finding (const QString& str, const QTextCursor& start, QTextDocument::FindFlags flags = 0,
                          const int end = 0) const;
     void setProgLang (TextEdit *textEdit);
-    void syntaxHighlighting (TextEdit *textEdit, bool highlight = true, const QString &lang = QString());
+    void syntaxHighlighting (TextEdit *textEdit, bool highlight = true, const QString& lang = QString());
     void encodingToCheck (const QString& encoding);
     const QString checkToEncoding() const;
     void applyConfigOnStarting();

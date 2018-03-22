@@ -69,7 +69,7 @@ private:
     };
 
     void showPrompt (PROMPT prompt);
-    void showPrompt (QString message);
+    void showPrompt (const QString& message);
     void onEmptinessChanged (bool empty);
 
     Ui::SessionDialog *ui;

@@ -564,7 +564,7 @@ bool validateUTF8 (const QByteArray byteArray)
     return true;
 }
 /*************************/
-const QString detectCharset (const QByteArray byteArray)
+const QString detectCharset (const QByteArray &byteArray)
 {
     const char* text = byteArray.constData();
     uint8_t c = *text;

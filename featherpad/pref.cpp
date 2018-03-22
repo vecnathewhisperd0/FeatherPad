@@ -422,7 +422,7 @@ void PrefDialog::onClosing()
     prefApplyDateFormat();
 }
 /*************************/
-void PrefDialog::showPrompt (QString str, bool temporary)
+void PrefDialog::showPrompt (const QString& str, bool temporary)
 {
     static const QString style ("QLabel {background-color: #7d0000; color: white; border-radius: 3px; margin: 2px; padding: 5px;}");
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
@@ -1099,7 +1099,7 @@ void PrefDialog::prefExecute (int checked)
     }
 }
 /*************************/
-void PrefDialog::prefCommand (QString command)
+void PrefDialog::prefCommand (const QString& command)
 {
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
     config.setExecuteCommand (command);

@@ -275,7 +275,7 @@ void SessionDialog::showPromptPage()
     QTimer::singleShot (0, ui->confirmBtn, SLOT (setFocus()));
 }
 /*************************/
-void SessionDialog::showPrompt (QString message)
+void SessionDialog::showPrompt (const QString& message)
 {
     disconnect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::removeAll);
     disconnect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::removeSelected);

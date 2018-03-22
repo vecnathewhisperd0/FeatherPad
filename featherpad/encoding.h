@@ -5,7 +5,7 @@
 
 namespace FeatherPad {
 
-const QString detectCharset (const QByteArray byteArray);
+const QString detectCharset (const QByteArray& byteArray);
 
 }
 
