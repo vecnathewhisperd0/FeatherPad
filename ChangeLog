@@ -21,7 +21,7 @@ V0.8
  * Open hyperlinks of highlighted texts by left-clikcing them while the Ctrl key is pressed and also with an item in the context menu.
  * Put the cursor at the right-click position if it has no selection.
  * Replaced QRegExp with QRegularExpression.
- * Added an option for removing trailing spaces on saving.
+ * Added an option for removing trailing spaces on saving (Markdown's trailing double spaces are taken care of).
  * Added Undo/Redo to custom shortcuts, although their default shortcuts are hard-coded in Qt.
  * Don't show the shortcut strings of the editor context menu because they can be misleading.
  * Fixed an old bug in font setting when the document was zoomed.

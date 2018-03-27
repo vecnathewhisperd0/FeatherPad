@@ -2702,7 +2702,10 @@ bool FPwin::saveFile (bool keepSyntax)
             if (const int num = trailingSpaces (block.text()))
             {
                 tmpCur.setPosition (block.position() + block.text().length());
-                tmpCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, num);
+                if (num > 1 && textEdit->getProg() == "markdown") // md sees two trailing spaces as a new line
+                    tmpCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, num - 2);
+                else
+                    tmpCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, num);
                 tmpCur.removeSelectedText();
             }
             block = block.next();
@@ -4528,7 +4531,10 @@ void FPwin::autoSave()
                     if (const int num = trailingSpaces (block.text()))
                     {
                         tmpCur.setPosition (block.position() + block.text().length());
-                        tmpCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, num);
+                        if (num > 1 && thisTextEdit->getProg() == "markdown")
+                            tmpCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, num - 2);
+                        else
+                            tmpCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, num);
                         tmpCur.removeSelectedText();
                     }
                     block = block.next();
