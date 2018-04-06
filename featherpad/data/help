@@ -95,7 +95,9 @@ For fast mouse wheel scrolling, put the cursor on the scrollbar. If it is inside
 *   Text Tabbing   *
 ********************
 
-The (selected multi-line) text can be tabbed by the Tab key and untabbed by Shift+Tab. If Ctrl+Tab is used, the tabulation will be done by 4 spaces instead of a tab. With Ctrl+Meta+Tab, the text will be tabbed by 2 spaces.
+The (selected multi-line) text can be tabbed by the Tab key and untabbed by Shift+Tab. If Ctrl+Tab is used, the tabulation will be done by 4 spaces instead of a tab (or the number of spaces that is set by the user in the related option of the Preferences dialog). With Ctrl+Meta+Tab, the text will be tabbed by 2 spaces.
+
+It is better to use text tabbing only for indentation and never alongside spaces; otherwise, text lines might have different indentations with different text editors.
 
 ********************
 *   Auto-Bracket   *
@@ -154,7 +156,7 @@ Ctrl+E           Execute this file (only if this is enabled in Preferences)
 Ctrl+Alt+E       Exit (kill) the above process immediately
 Ctrl+K           Delete to the end of the line when the editor is focused
 Ctrl+Right/Left  Move the cursor one word to the right/left
-Ctrl+Tab         4-space text tabulation
+Ctrl+Tab         4-space text tabulation (can be changed in Preferences)
 Ctrl+Meta+Tab    2-space text tabulation
 Shift+Enter      Insert newline with the non-letter prefix of the current line (to write code comments easily)
 
