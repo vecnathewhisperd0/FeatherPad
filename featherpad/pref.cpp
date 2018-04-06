@@ -85,6 +85,7 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
     showWhiteSpace_ = config.getShowWhiteSpace();
     showEndings_ = config.getShowEndings();
     vLineDistance_ = config.getVLineDistance();
+    textTabSize_ = config.getTextTab().size();
 
     /**************
      *** Window ***
@@ -221,6 +222,10 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
 
     ui->inertiaBox->setChecked (config.getInertialScrolling());
     connect (ui->inertiaBox, &QCheckBox::stateChanged, this, &PrefDialog::prefInertialScrolling);
+
+    ui->textTabSpin->setValue (textTabSize_);
+    connect (ui->textTabSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+             this, &PrefDialog::prefTextTabSize);
 
     /*************
      *** Files ***
@@ -420,12 +425,13 @@ void PrefDialog::onClosing()
     prefApplyAutoSave();
     prefApplySyntax();
     prefApplyDateFormat();
+    prefTextTab();
 }
 /*************************/
 void PrefDialog::showPrompt (const QString& str, bool temporary)
 {
     static const QString style ("QLabel {background-color: #7d0000; color: white; border-radius: 3px; margin: 2px; padding: 5px;}");
-    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    Config config = static_cast<FPsingleton*>(qApp)->getConfig();
     if (!str.isEmpty())
     { // show the provided message
         ui->promptLabel->setText ("<b>" + str + "</b>");
@@ -463,6 +469,7 @@ void PrefDialog::showPrompt (const QString& str, bool temporary)
              || (!darkBg_ && lightColValue_ != config.getLightBgColorValue())
              || showWhiteSpace_ != config.getShowWhiteSpace()
              || showEndings_ != config.getShowEndings()
+             || textTabSize_ != config.getTextTab().size()
              || (vLineDistance_ * config.getVLineDistance() < 0
                  || (vLineDistance_ > 0 && vLineDistance_ != config.getVLineDistance())))
     {
@@ -1321,6 +1328,26 @@ void PrefDialog::prefApplyAutoSave()
         for (int i = 0; i < singleton->Wins.count(); ++i)
             singleton->Wins.at (i)->startAutoSaving (as, interval);
     }
+}
+/*************************/
+void PrefDialog::prefTextTabSize (int value)
+{
+    if (value >= 2 && value <= 10)
+    {
+        textTabSize_ = value;
+        showPrompt();
+    }
+}
+/*************************/
+void PrefDialog::prefTextTab()
+{ // textTabSize_ is updated but the config isn't
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    if (textTabSize_ == config.getTextTab().size())
+        return;
+    QString textTab;
+    for (int i = 0; i < textTabSize_; ++i)
+        textTab += " ";
+    config.setTextTab (textTab);
 }
 
 }

@@ -95,6 +95,8 @@ private slots:
     void defaultSortcuts();
     void onShortcutChange (QTableWidgetItem *item);
     void prefAutoSave (int checked);
+    void prefTextTabSize (int value);
+    void prefTextTab();
 
 private:
     void closeEvent (QCloseEvent *event);
@@ -108,7 +110,7 @@ private:
     Ui::PrefDialog *ui;
     QWidget * parent_;
     bool darkBg_, sysIcons_, iconless_, showWhiteSpace_, showEndings_;
-    int vLineDistance_, darkColValue_, lightColValue_, recentNumber_;
+    int vLineDistance_, darkColValue_, lightColValue_, recentNumber_, textTabSize_;
     QHash<QString, QString> shortcuts_, newShortcuts_, defaultShortcuts_;
     QString prevtMsg_;
     QTimer *promptTimer_;

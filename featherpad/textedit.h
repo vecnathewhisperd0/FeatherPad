@@ -57,6 +57,13 @@ public:
         return font_;
     }
 
+    QString getTextTab_() const {
+        return textTab_;
+    }
+    void setTtextTab (const QString& textTab) {
+        textTab_ = textTab;
+    }
+
     QTextEdit::ExtraSelection currentLineSelection() {
         return currentLine;
     }
@@ -278,6 +285,7 @@ private:
     int Dy;
     QPoint pressPoint_; // used internally for hyperlinks
     QFont font_; // used internally for keeping track of the unzoomed font
+    QString textTab_; // text tab in terms of spaces
     /********************************************
      ***** All needed information on a page *****
      ********************************************/

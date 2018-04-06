@@ -39,7 +39,7 @@ void handleQuitSignals (const std::vector<int>& quitSignals)
 int main (int argc, char **argv)
 {
     const QString name = "FeatherPad";
-    const QString version = "0.8";
+    const QString version = "0.8.1";
     const QString option = QString::fromUtf8 (argv[1]);
     if (option == "--help" || option == "-h")
     {

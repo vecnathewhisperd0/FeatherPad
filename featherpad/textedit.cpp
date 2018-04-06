@@ -49,6 +49,8 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     wheelEvent_ = nullptr;
     scrollTimer_ = nullptr;
 
+    textTab_ = "    "; // the default text tab is four spaces
+
     setMouseTracking (true);
     //document()->setUseDesignMetrics (true);
 
@@ -148,7 +150,7 @@ void TextEdit::setEditorFont (const QFont &f, bool setDefault)
     /* we want consistent tabs */
     QFontMetricsF metrics (f);
     QTextOption opt = document()->defaultTextOption();
-    opt.setTabStop (metrics.width ("    "));
+    opt.setTabStop (metrics.width (textTab_));
     document()->setDefaultTextOption (opt);
 }
 /*************************/
@@ -556,7 +558,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                     if (event->modifiers() & Qt::MetaModifier)
                         cursor.insertText ("  ");
                     else
-                        cursor.insertText ("    ");
+                        cursor.insertText (textTab_);
                 }
                 else
                     cursor.insertText ("\t");
@@ -572,7 +574,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
             if (event->modifiers() & Qt::MetaModifier)
                 cursor.insertText ("  ");
             else
-                cursor.insertText ("    ");
+                cursor.insertText (textTab_);
             event->accept();
             return;
         }
@@ -598,8 +600,8 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
             cursor.movePosition (QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
             QString selTxt = cursor.selectedText();
             if (selTxt == " ")
-            { // remove 4 successive ordinary spaces at most
-                for (int i = 0; i < 3; ++i)
+            { // remove 4 successive ordinary spaces at most (with usual tabs)
+                for (int i = 0; i < textTab_.size() - 1; ++i)
                 {
                     if (cursor.atBlockEnd())
                         break;
@@ -962,7 +964,7 @@ void TextEdit::paintEvent (QPaintEvent *event)
                     int yBottom =  qRound (r.height() >= (qreal)2 * fm.lineSpacing()
                                                ? yTop + fm.height()
                                                : r.bottomLeft().y() - (qreal)1);
-                    qreal tabWidth = (qreal)fm.width ("    ");
+                    qreal tabWidth = (qreal)fm.width (textTab_);
                     if (rtl)
                     {
                         qreal leftMost = cursorRect (cur).left();

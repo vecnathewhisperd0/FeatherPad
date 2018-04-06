@@ -4,11 +4,11 @@
 
 First install build dependencies. In Debian-based systems, they are:
 
-* g++ >= 5
-* libx11-dev and libxext-dev (for X11)
-* qtbase5-dev and libqt5x11extras5-dev (for Qt5)
-* libqt5svg5 (for showing own icons)
-* qttools5-dev-tools (for localization)
+ * g++ >= 5
+ * libx11-dev and libxext-dev (for X11)
+ * qtbase5-dev and libqt5x11extras5-dev (for Qt5)
+ * libqt5svg5 (for showing own icons)
+ * qttools5-dev-tools (for localization)
 
 In Arch-based systems, the required package are:
 
@@ -18,7 +18,7 @@ In Arch-based systems, the required package are:
  * qt5-svg (for showing own icons)
  * qt5-tools (for localization)
 
-In RPM based systems (tested on Fedora27).
+And in RPM-based systems:
 
  * gcc-c++ >= 5
  * libX11-devel and libXext-devel (for X11)
@@ -26,15 +26,14 @@ In RPM based systems (tested on Fedora27).
  * qt5-qtsvg-devel (for showing own icons)
  * qt5-qttools-devel (for localization)
 
-
-Then open a terminal inside this folder and issue the following commands:
+Then, open a terminal inside this folder and issue the following commands:
 
 	qmake && make
 	sudo make install
 
 If your default Qt installation is not Qt5, put the full path of Qt5 qmake in the first command but before that, put the full path of Qt5's "lrelease" binary into 'featherpad/featherpad.pro' (only one place).
 
-Afterward, you could use this command for cleaning the source directory:
+Afterward, you could use this command to clean the source directory:
 
 	make distclean
 

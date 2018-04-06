@@ -236,6 +236,10 @@ void Config::readConfig()
 
     autoSaveInterval_ = qBound (1, settings.value ("autoSaveInterval", 1).toInt(), 60);
 
+    int textTabSize = qBound (2, settings.value ("textTabSize", 4).toInt(), 10);
+    for (int i = 0; i < textTabSize; ++i)
+        textTab_ += " ";
+
     settings.endGroup();
 }
 /*************************/
@@ -348,6 +352,8 @@ void Config::writeConfig()
     settings.setValue ("recentOpened", recentOpened_);
 
     settings.setValue ("autoSaveInterval", autoSaveInterval_);
+
+    settings.setValue ("textTabSize", textTab_.size());
 
     settings.endGroup();
 
