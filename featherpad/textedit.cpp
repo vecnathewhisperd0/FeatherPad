@@ -1216,6 +1216,18 @@ void TextEdit::showContextMenu (const QPoint &p)
     }
     if (!isReadOnly())
     {
+        if (textCursor().hasSelection())
+        {
+            QAction *upperCase = menu->addAction (tr ("To Upper Case"));
+            connect (upperCase, &QAction::triggered, [this] {
+                insertPlainText (locale().toUpper (textCursor().selectedText()));
+            });
+            QAction *lowerCase = menu->addAction (tr ("To Lower Case"));
+            connect (lowerCase, &QAction::triggered, [this] {
+                insertPlainText (locale().toLower (textCursor().selectedText()));
+            });
+            menu->addSeparator();
+        }
         QAction *action = menu->addAction (tr ("Paste Date and Time"));
         connect (action, &QAction::triggered, [this] {
             insertPlainText (QDateTime::currentDateTime().toString (dateFormat_.isEmpty() ? "MMM dd, yyyy, hh:mm:ss" : dateFormat_));

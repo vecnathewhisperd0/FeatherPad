@@ -124,6 +124,8 @@ private slots:
     void insertDate();
     void deleteText();
     void selectAllText();
+    void upperCase();
+    void lowerCase();
     void makeEditable();
     void undoing();
     void redoing();

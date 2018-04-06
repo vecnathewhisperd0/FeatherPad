@@ -198,6 +198,9 @@
     <addaction name="separator"/>
     <addaction name="actionSelectAll"/>
     <addaction name="separator"/>
+    <addaction name="actionUpperCase"/>
+    <addaction name="actionLowerCase"/>
+    <addaction name="separator"/>
     <addaction name="actionDate"/>
    </widget>
    <widget class="QMenu" name="menuOptions">
@@ -1114,6 +1117,28 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+V</string>
+   </property>
+  </action>
+  <action name="actionUpperCase">
+   <property name="text">
+    <string>To Upper Case</string>
+   </property>
+   <property name="toolTip">
+    <string>To Upper Case</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+U</string>
+   </property>
+  </action>
+  <action name="actionLowerCase">
+   <property name="text">
+    <string>To Lower Case</string>
+   </property>
+   <property name="toolTip">
+    <string>To Lower Case</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+L</string>
    </property>
   </action>
  </widget>

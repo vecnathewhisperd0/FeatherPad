@@ -291,6 +291,9 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
         OBJECT_NAMES.insert (win->ui->actionSession->text().remove ("&"), "actionSession");
         OBJECT_NAMES.insert (win->ui->actionSidePane->text().remove ("&"), "actionSidePane");
 
+        OBJECT_NAMES.insert (win->ui->actionUpperCase->text().remove ("&"), "actionUpperCase");
+        OBJECT_NAMES.insert (win->ui->actionLowerCase->text().remove ("&"), "actionLowerCase");
+
         OBJECT_NAMES.insert (win->ui->actionUndo->text().remove ("&"), "actionUndo");
         OBJECT_NAMES.insert (win->ui->actionRedo->text().remove ("&"), "actionRedo");
         OBJECT_NAMES.insert (win->ui->actionDate->text().remove ("&"), "actionDate");
@@ -345,6 +348,11 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
                        keys.contains ("actionSession") ? ca.value ("actionSession") : defaultShortcuts_.value ("actionSession"));
     shortcuts_.insert (win->ui->actionSidePane->text().remove ("&"),
                        keys.contains ("actionSidePane") ? ca.value ("actionSidePane") : defaultShortcuts_.value ("actionSidePane"));
+
+    shortcuts_.insert (win->ui->actionUpperCase->text().remove ("&"),
+                       keys.contains ("actionUpperCase") ? ca.value ("actionUpperCase") : defaultShortcuts_.value ("actionUpperCase"));
+    shortcuts_.insert (win->ui->actionLowerCase->text().remove ("&"),
+                       keys.contains ("actionLowerCase") ? ca.value ("actionLowerCase") : defaultShortcuts_.value ("actionLowerCase"));
 
     shortcuts_.insert (win->ui->actionUndo->text().remove ("&"),
                        keys.contains ("actionUndo") ? ca.value ("actionUndo") : defaultShortcuts_.value ("actionUndo"));
