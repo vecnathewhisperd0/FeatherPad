@@ -18,6 +18,15 @@ In Arch-based systems, the required package are:
  * qt5-svg (for showing own icons)
  * qt5-tools (for localization)
 
+In RPM based systems (tested on Fedora27).
+
+ * gcc-c++ >= 5
+ * libX11-devel and libXext-devel (for X11)
+ * qt5-qtbase-devel and qt5-qtx11extras-devel (for Qt5)
+ * qt5-qtsvg-devel (for showing own icons)
+ * qt5-qttools-devel (for localization)
+
+
 Then open a terminal inside this folder and issue the following commands:
 
 	qmake && make
