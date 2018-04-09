@@ -42,12 +42,13 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     scrollJumpWorkaround = false;
     drawIndetLines = false;
     saveCursor_ = false;
-    normalAsUrl_ = false;
     vLineDistance_ = 0;
 
     inertialScrolling_ = false;
     wheelEvent_ = nullptr;
     scrollTimer_ = nullptr;
+
+    prog_ = "url"; // the default language
 
     textTab_ = "    "; // the default text tab is four spaces
 

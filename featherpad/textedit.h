@@ -144,7 +144,8 @@ public:
     }
 
     QString getProg() const {
-        return normalAsUrl_ && prog_ == "url" ? QString() : prog_;
+        return prog_.isEmpty() ? "url" // impossible; just a precaution
+                               : prog_;
     }
     void setProg (const QString &prog) {
         prog_ = prog;
@@ -155,13 +156,6 @@ public:
     }
     void setLang (const QString &lang) {
         lang_ = lang;
-    }
-
-    bool getNormalAsUrl() const {
-        return normalAsUrl_;
-    }
-    void setNormalAsUrl (bool normalAsUrl) {
-        normalAsUrl_ = normalAsUrl;
     }
 
     QString getEncoding() const {
@@ -295,9 +289,8 @@ private:
     QString searchedText_; // the text that is being searched in the documnet
     QString replaceTitle_; // the title of the Replacement dock (can change)
     QString fileName_; // opened file
-    QString prog_; // programming language (for syntax highlighting)
-    bool normalAsUrl_; // treat normal text as if it has a URL syntax
-    QString lang_; // selected (enforced) programming language (for syntax highlighting)
+    QString prog_; // real programming language (never empty; defaults to "url")
+    QString lang_; // selected (enforced) programming language (empty if nothing's enforced)
     QString encoding_; // text encoding (UTF-8 by default)
     /*
        Highlighting order: (1) current line;

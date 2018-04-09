@@ -52,9 +52,13 @@ Although the side-pane mode does not have the features provided by tabs -- for e
 
 FeatherPad tries to guess encodings as well as programming languages (for syntax highlighting) when opening files. Although it often guesses encodings right, there is no exact way for that. Therefore, there are some encodings in the Options menu. If you choose one, the text could be saved with it by using the item "Save with Encoding" on the File menu. By default, all texts are saved with UTF-8.
 
-The programming language is detected based on the mime type or file name and its syntax will be highlighted if the syntax highlighting is enabled and if it is supported for the language in question. There is an optiion in the Preferences dialog that, if enabled, will add a language button to the status bar for overriding the original syntax or lack of it. Reloading a document restores its original syntax.
+The programming language is detected based on the mime type or file name and its syntax will be highlighted if the syntax highlighting is enabled and supports the language in question.
 
-There are also options for showing whitespaces and vertical position lines with all documents. If, at least, one of them is enabled, it will be possible to open hyperlinks by right clicking them and activating the related menu-item or by pressing the Control key, moving the cursor over them, and clicking them while the cursor is like a pointing hand.
+If the text has no programming language or its syntax is not supported, only its hyperlinks/URLs will be highlighted and it will be possible to open them by right clicking them and activating the related menu-item or by pressing the Control key, moving the cursor over them, and clicking them while the cursor is like a pointing hand.
+
+Also, there is an optiion in the Preferences dialog that, if enabled and checked, will add a language button to the status bar for overriding the original syntax or lack of it. Reloading a document restores its original syntax.
+
+There are also options for showing whitespaces (spaces, line ends and the document end) and vertical position lines when syntax highlighting is enabled (by default or temporarily).
 
 *******************************
 *   Searching and Replacing   *

@@ -43,6 +43,7 @@ void FPwin::toggleSyntaxHighlighting()
     }
 }
 /*************************/
+// Never returns an empty string; falls back to "url".
 void FPwin::setProgLang (TextEdit *textEdit)
 {
     if (textEdit == nullptr) return;
@@ -108,8 +109,6 @@ void FPwin::setProgLang (TextEdit *textEdit)
             progLan = "log";
         else if (fname.endsWith (".php"))
             progLan = "php";
-        else if (fname.endsWith (".url"))
-             progLan = "url";
         else if (fname.endsWith (".diff") || fname.endsWith (".patch"))
             progLan = "diff";
         else if (fname.endsWith (".srt"))
@@ -198,8 +197,6 @@ void FPwin::setProgLang (TextEdit *textEdit)
             progLan = "log";
         else if (mime == "application/x-php" || mime == "text/x-php")
             progLan = "php";
-        else if (mime == "application/x-mswinurl")
-            progLan = "url";
         else if (mime == "application/x-theme")
             progLan = "theme";
         else if (mime == "text/x-diff" || mime == "text/x-patch")
@@ -208,16 +205,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
             progLan = "html";
         else if (mime == "audio/x-mpegurl")
             progLan = "m3u";
-        /* start checking contents */
-        /*else
-        {
-            QString firstBlock = textEdit->document()->firstBlock().text();
-            if (firstBlock.startsWith ("<html>")
-                || firstBlock.startsWith ("<!DOCTYPE html"))
-            {
-                highlighter = new Highlighter (textEdit->document(), "html");
-            }
-        }*/
+        else // fall back to the default language
+            progLan = "url";
     }
 
     textEdit->setProg (progLan);
@@ -233,26 +222,13 @@ void FPwin::syntaxHighlighting (TextEdit *textEdit, bool highlight, const QStrin
 
     if (highlight)
     {
-        QString progLan = lang;
+        QString progLan = lang; // first try the enforced language
         if (progLan.isEmpty())
-        {
             progLan = textEdit->getProg();
-            if (progLan.isEmpty())
-            {
-                if (textEdit->getNormalAsUrl()) // normal as url
-                    progLan = "url";
-                else
-                    return;
-            }
-            else if (progLan == "help") // used for marking the help doc
-                return;
-        }
-        else if (progLan == "normal")
-        { // treat it as a normal text (a url text if there's a default highlighter)
-            if (textEdit->getNormalAsUrl())
-                progLan = "url";
-            else
-                return;
+        if (progLan == "help" // used for marking the help doc
+            || progLan.isEmpty()) // impossible; just a precaution
+        {
+            return;
         }
 
         Config config = static_cast<FPsingleton*>(qApp)->getConfig();
@@ -309,7 +285,7 @@ void FPwin::syntaxHighlighting (TextEdit *textEdit, bool highlight, const QStrin
         textEdit->setDrawIndetLines (false);
         textEdit->setVLineDistance (0);
 
-        textEdit->setHighlighter (nullptr); // for consistency
+        textEdit->setHighlighter (nullptr);
         delete highlighter; highlighter = nullptr;
     }
 }

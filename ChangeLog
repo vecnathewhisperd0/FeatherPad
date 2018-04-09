@@ -2,6 +2,8 @@ V0.8.1
 ---------
  * Added an option for the text tab size in terms of spaces.
  * Added "To Upper Case" and "To Lower Case".
+ * Always fall back to the URL highlighter (forget the previous conditions). In this way, not only the behavior is more logical but also the code is much simpler.
+ * Disable the language button for documents that are made uneditable because of their contents.
 
 V0.8
 ---------

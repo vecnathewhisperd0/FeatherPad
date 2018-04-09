@@ -445,12 +445,7 @@ void FPwin::applyConfigOnStarting()
             addCursorPosLabel();
     }
     if (config.getShowLangSelector() && config.getSyntaxByDefault())
-    {
-        setupLangButton (true,
-                         config.getShowWhiteSpace()
-                         || config.getShowEndings()
-                         || config.getVLineDistance() > 0);
-    }
+        addRemoveLangBtn (true);
 
     if (config.getTabPosition() != 0)
         ui->tabWidget->setTabPosition ((QTabWidget::TabPosition) config.getTabPosition());
@@ -687,28 +682,29 @@ void FPwin::addCursorPosLabel()
     ui->statusBar->addPermanentWidget (posLabel);
 }
 /*************************/
-void FPwin::setupLangButton (bool add, bool normalAsUrl)
+void FPwin::addRemoveLangBtn (bool add)
 {
     static QStringList langList;
     if (langList.isEmpty())
-    {
+    { // no "url" for the language button
         langList << "c" << "changelog" << "cmake" << "config" << "cpp"
                  << "css" << "deb" << "desktop" << "diff" << "gtkrc"
                  << "html" << "javascript" << "log" << "lua" << "m3u"
                  << "markdown" << "makefile" << "perl" << "php" << "python"
                  << "qmake" << "qml" << "ruby" << "scss" << "sh"
                  << "troff" << "theme" << "xml";
-        if (!normalAsUrl)
-            langList.append ("url");
         langList.sort();
     }
 
+    QToolButton *langButton = ui->statusBar->findChild<QToolButton *>("langButton");
     if (!add)
-    { // remove the language button (normalAsUrl plays no role)
-        langs.clear();
-        langList.clear();
-        if (QToolButton *langButton = ui->statusBar->findChild<QToolButton *>("langButton"))
-            delete langButton;
+    {
+        langs_.clear();
+        if (langButton)
+        {
+            delete langButton; // deletes the menu and its actions
+            langButton = nullptr;
+        }
 
         for (int i = 0; i < ui->tabWidget->count(); ++i)
         {
@@ -722,132 +718,47 @@ void FPwin::setupLangButton (bool add, bool normalAsUrl)
                     syntaxHighlighting (textEdit);
                 }
             }
-            textEdit->setNormalAsUrl (normalAsUrl);
-            handleNormalAsUrl (textEdit);
         }
     }
-    else
+    else if (!langButton
+             && langs_.isEmpty()) // not needed; we clear it on removing the button
     {
-        QToolButton *langButton = ui->statusBar->findChild<QToolButton *>("langButton");
-        if (langButton)
-        { // just add or remove the url action
-            if (normalAsUrl && langs.contains ("url"))
-            {
-                if (QAction *urlAction = langs.take ("url"))
-                {
-                    if (QMenu *menu = langButton->findChild<QMenu *>())
-                        menu->removeAction (urlAction);
-                    delete urlAction;
-                    if (!langList.isEmpty())
-                        langList.removeAll ("url");
-                }
-            }
-            else if (!normalAsUrl && !langs.contains ("url"))
-            {
-                QMenu *menu = langButton->findChild<QMenu *>();
-                QActionGroup *aGroup = langButton->findChild<QActionGroup *>();
-                if (menu && aGroup)
-                {
-                    QAction *urlAction = new QAction ("url", menu);
-                    QList<QAction*> allActions = menu->actions();
-                    menu->insertAction (allActions.size() <= 1
-                                            ? nullptr
-                                            /* before the separator and "Normal" */
-                                            : allActions.at (allActions.size() - 2), urlAction);
-                    urlAction->setCheckable (true);
-                    urlAction->setActionGroup (aGroup);
-                    langs.insert ("url", urlAction);
-                    if (!langList.isEmpty())
-                    {
-                        langList.append ("url");
-                        langList.sort();
-                    }
-                }
-            }
-        }
-        else
-        { // add the language button
-            QString normal = tr ("Normal");
-            langButton = new QToolButton();
-            langButton->setObjectName ("langButton");
-            langButton->setFocusPolicy (Qt::NoFocus);
-            langButton->setAutoRaise (true);
-            langButton->setToolButtonStyle (Qt::ToolButtonTextOnly);
-            langButton->setText (normal);
-            langButton->setPopupMode (QToolButton::InstantPopup);
+        QString normal = tr ("Normal");
+        langButton = new QToolButton();
+        langButton->setObjectName ("langButton");
+        langButton->setFocusPolicy (Qt::NoFocus);
+        langButton->setAutoRaise (true);
+        langButton->setToolButtonStyle (Qt::ToolButtonTextOnly);
+        langButton->setText (normal);
+        langButton->setPopupMode (QToolButton::InstantPopup);
 
-            QMenu *menu = new QMenu (langButton);
-            QActionGroup *aGroup = new QActionGroup (langButton);
-            QAction *action;
-            for (int i = 0; i < langList.count(); ++i)
-            {
-                QString lang = langList.at (i);
-                action = menu->addAction (lang);
-                action->setCheckable (true);
-                action->setActionGroup (aGroup);
-                langs.insert (lang, action);
-            }
-            menu->addSeparator();
-            action = menu->addAction (normal);
+        QMenu *menu = new QMenu (langButton);
+        QActionGroup *aGroup = new QActionGroup (langButton);
+        QAction *action;
+        for (int i = 0; i < langList.count(); ++i)
+        {
+            QString lang = langList.at (i);
+            action = menu->addAction (lang);
             action->setCheckable (true);
             action->setActionGroup (aGroup);
-            langs.insert (normal, action);
-
-            langButton->setMenu (menu);
-
-            ui->statusBar->insertPermanentWidget (2, langButton);
-            connect (aGroup, &QActionGroup::triggered, this, &FPwin::setLang);
+            langs_.insert (lang, action);
         }
+        menu->addSeparator();
+        action = menu->addAction (normal);
+        action->setCheckable (true);
+        action->setActionGroup (aGroup);
+        langs_.insert (normal, action);
 
-        for (int i = 0; i < ui->tabWidget->count(); ++i)
-        { // in case this is called from outside c-tor
-            TextEdit *textEdit = qobject_cast<TabPage*>(ui->tabWidget->widget (i))->textEdit();
-            textEdit->setNormalAsUrl (normalAsUrl);
-            handleNormalAsUrl (textEdit);
-        }
-    }
+        langButton->setMenu (menu);
 
-    /* correct the language button and statusbar message (if this is called from outside c-tor) */
-    if (TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget()))
-    {
-        TextEdit *textEdit = tabPage->textEdit();
-        showLang (textEdit);
-        /* the statusbar message should be changed only for url texts */
-        if (ui->statusBar->isVisible()
-            && ((normalAsUrl && textEdit->getProg().isEmpty()) || textEdit->getProg() == "url"))
-        {
-            statusMsgWithLineCount (textEdit->document()->blockCount());
-            if (textEdit->getWordNumber() == -1)
-            {
-                if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>("wordButton"))
-                    wordButton->setVisible (true);
-            }
-            else
-            {
-                if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>("wordButton"))
-                    wordButton->setVisible (false);
-                QLabel *statusLabel = ui->statusBar->findChild<QLabel *>("statusLabel");
-                statusLabel->setText (QString ("%1 <i>%2</i>")
-                                      .arg (statusLabel->text())
-                                      .arg (textEdit->getWordNumber()));
-            }
-        }
+        ui->statusBar->insertPermanentWidget (2, langButton);
+        connect (aGroup, &QActionGroup::triggered, this, &FPwin::enforceLang);
+
+        /* set the language of the button if this is called from outside c-tor
+           (otherwise, tabswitch() will do it) */
+        if (TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget()))
+            updateLangBtn (tabPage->textEdit());
     }
-}
-/*************************/
-void FPwin::handleNormalAsUrl (TextEdit *textEdit)
-{
-    if (!ui->actionSyntax->isChecked() || !textEdit->getProg().isEmpty())
-        return;
-    if (textEdit->getNormalAsUrl())
-    {
-        if (!textEdit->getHighlighter())
-            syntaxHighlighting (textEdit);
-        else if (textEdit->getLang() == "url")
-            textEdit->setLang (QString()); // "url" may have been enforced
-    }
-    else if (!textEdit->getNormalAsUrl() && textEdit->getHighlighter() && textEdit->getLang().isEmpty())
-        syntaxHighlighting (textEdit, false);
 }
 /*************************/
 // We want all dialogs to be window-modal as far as possible. However there is a problem:
@@ -1407,15 +1318,8 @@ TabPage* FPwin::createEmptyTab (bool setCurrent, bool allowNormalHighlighter)
     textEdit->setInertialScrolling (config.getInertialScrolling());
     textEdit->setDateFormat (config.getDateFormat());
 
-    /* the (url) syntax highlighter will be created at tabSwitch() */
-    if (config.getShowWhiteSpace()
-        || config.getShowEndings()
-        || config.getVLineDistance() > 0)
-    {
-        textEdit->setNormalAsUrl (true);
-        if (allowNormalHighlighter)
-            syntaxHighlighting (textEdit);
-    }
+    if (allowNormalHighlighter && ui->actionSyntax->isChecked())
+        syntaxHighlighting (textEdit); // the default (url) syntax highlighter
 
     int index = ui->tabWidget->currentIndex();
     if (index == -1) enableWidgets (true);
@@ -2055,6 +1959,8 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
     }
     textEdit->setSaveCursor (saveCursor);
 
+    textEdit->setLang (QString()); // remove the enforced syntax
+
     /* uninstall the syntax highlgihter to reinstall it below (when the text is reloaded,
        its encoding is enforced, or a new tab with normal as url was opened here) */
     if (textEdit->getHighlighter())
@@ -2230,7 +2136,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
                 updateWordInfo();
         }
         if (config.getShowLangSelector() && config.getSyntaxByDefault())
-            showLang (textEdit);
+            updateLangBtn (textEdit);
         encodingToCheck (charset);
         ui->actionReload->setEnabled (true);
         textEdit->setFocus(); // the text may have been opened in this (empty) tab
@@ -2504,7 +2410,6 @@ void FPwin::enforceEncoding (QAction*)
             encodingToCheck (textEdit->getEncoding());
             return;
         }
-        textEdit->setLang (QString()); // remove the enforced syntax
         loadText (fname, true, true,
                   false, textEdit->isUneditable(), false);
     }
@@ -2539,7 +2444,6 @@ void FPwin::reload()
     if (savePrompt (index, false) != SAVED) return;
 
     TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
-    textEdit->setLang (QString()); // remove the enforced syntax
     QString fname = textEdit->getFileName();
     if (!fname.isEmpty())
     {
@@ -2847,7 +2751,7 @@ bool FPwin::saveFile (bool keepSyntax)
                 {
                     if (textEdit->getLang() == textEdit->getProg())
                         textEdit->setLang (QString()); // not enforced because it's the real syntax
-                    showLang (textEdit);
+                    updateLangBtn (textEdit);
                 }
 
                 if (ui->statusBar->isVisible()
@@ -2869,7 +2773,7 @@ bool FPwin::saveFile (bool keepSyntax)
                     QString str = statusLabel->text();
                     QString syntaxStr = tr ("Syntax");
                     int i = str.indexOf (syntaxStr);
-                    if (i == -1) // there was no language before saving (prevLan.isEmpty())
+                    if (i == -1) // there was no real language before saving (prevLan was "url")
                     {
                         QString lineStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
                         int j = str.indexOf (lineStr);
@@ -2879,7 +2783,7 @@ bool FPwin::saveFile (bool keepSyntax)
                     }
                     else
                     {
-                        if (textEdit->getProg().isEmpty()) // there's no language after saving
+                        if (textEdit->getProg() == "url") // there's no real language after saving
                         {
                             syntaxStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Syntax");
                             QString lineStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
@@ -3162,7 +3066,7 @@ void FPwin::tabSwitch (int index)
         showCursorPos();
     }
     if (config.getShowLangSelector() && config.getSyntaxByDefault())
-        showLang (textEdit);
+        updateLangBtn (textEdit);
 
     /* al last, set the title of Replacment dock */
     if (ui->dockReplace->isVisible())
@@ -3587,7 +3491,7 @@ void FPwin::statusMsgWithLineCount (const int lines)
     /* the order: Encoding -> Syntax -> Lines -> Sel. Chars -> Words */
     QString encodStr = "<b>" + tr ("Encoding") + QString (":</b> <i>%1</i>").arg (textEdit->getEncoding());
     QString syntaxStr;
-    if (!textEdit->getProg().isEmpty() && textEdit->getProg() != "help")
+    if (textEdit->getProg() != "help" && textEdit->getProg() != "url")
         syntaxStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Syntax") + QString (":</b> <i>%1</i>").arg (textEdit->getProg());
     QString lineStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines") + QString (":</b> <i>%1</i>").arg (lines);
     QString selStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Sel. Chars")
@@ -3637,23 +3541,27 @@ void FPwin::showCursorPos()
     posLabel->setText (str);
 }
 /*************************/
-void FPwin::showLang (TextEdit *textEdit)
+void FPwin::updateLangBtn (TextEdit *textEdit)
 {
     QToolButton *langButton = ui->statusBar->findChild<QToolButton *>("langButton");
     if (!langButton) return;
 
-    langButton->setEnabled (textEdit->getProg() != "help");
+    langButton->setEnabled (!textEdit->isUneditable() && textEdit->getProg() != "help");
 
     QString lang = textEdit->getLang().isEmpty() ? textEdit->getProg()
                                                  : textEdit->getLang();
-    if (lang.isEmpty() || lang == "normal" || lang == "help")
+    QAction *action = langs_.value (lang);
+    if (!action) // it's "help", "url" or a bug (some language isn't included)
+    {
         lang = tr ("Normal");
+        action = langs_.value (lang); // "Normal" is the last action
+    }
     langButton->setText (lang);
-    if (QAction *action = langs.value (lang))
+    if (action) // always the case
         action->setChecked (true);
 }
 /*************************/
-void FPwin::setLang (QAction *action)
+void FPwin::enforceLang (QAction *action)
 {
     QToolButton *langButton = ui->statusBar->findChild<QToolButton *>("langButton");
     if (!langButton) return;
@@ -3666,15 +3574,9 @@ void FPwin::setLang (QAction *action)
     lang.remove ('&'); // because of KAcceleratorManager
     langButton->setText (lang);
     if (lang == tr ("Normal"))
-    {
-        lang = "normal";
-        if (textEdit->getProg().isEmpty())
-            textEdit->setLang (QString());
-        else
-            textEdit->setLang ("normal");
-    }
-    else if (textEdit->getProg() == lang)
-        textEdit->setLang (QString()); // not enforced because it's the real syntax
+        lang = "url"; // the default highlighter
+    if (textEdit->getProg() == lang || textEdit->getProg() == "help")
+        textEdit->setLang (QString()); // not enforced
     else
         textEdit->setLang (lang);
     if (ui->actionSyntax->isChecked())
@@ -4633,7 +4535,7 @@ void FPwin::autoSave()
                     {
                         if (thisTextEdit->getLang() == thisTextEdit->getProg())
                             thisTextEdit->setLang (QString()); // not enforced because it's the real syntax
-                        showLang (thisTextEdit);
+                        updateLangBtn (thisTextEdit);
                     }
 
                     if (indx == index && ui->statusBar->isVisible()
@@ -4655,7 +4557,7 @@ void FPwin::autoSave()
                         QString str = statusLabel->text();
                         QString syntaxStr = tr ("Syntax");
                         int i = str.indexOf (syntaxStr);
-                        if (i == -1) // there was no language before saving (prevLan.isEmpty())
+                        if (i == -1) // there was no real language before saving (prevLan was "url")
                         {
                             QString lineStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
                             int j = str.indexOf (lineStr);
@@ -4665,7 +4567,7 @@ void FPwin::autoSave()
                         }
                         else
                         {
-                            if (thisTextEdit->getProg().isEmpty()) // there's no language after saving
+                            if (thisTextEdit->getProg() == "url") // there's no real language after saving
                             {
                                 syntaxStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Syntax");
                                 QString lineStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
@@ -4785,8 +4687,14 @@ void FPwin::helpDoc()
         createEmptyTab (!isLoading(), false);
         textEdit = qobject_cast<TabPage*>(ui->tabWidget->currentWidget())->textEdit();
     }
-    else if (textEdit->getHighlighter()) // in case normal is highlighted as urrl
+    else if (textEdit->getHighlighter())
         syntaxHighlighting (textEdit, false);
+
+    if (!textEdit->getLang().isEmpty())
+    { // remove the enforced syntax, if any
+        textEdit->setLang (QString());
+        updateLangBtn (textEdit);
+    }
 
     QByteArray data = helpFile.readAll();
     helpFile.close();

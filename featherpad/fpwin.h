@@ -84,7 +84,7 @@ public:
     }
 
     void addCursorPosLabel();
-    void setupLangButton (bool add, bool normalAsUrl);
+    void addRemoveLangBtn (bool add);
 
     void showCrashWarning();
     void updateCustomizableShortcuts (bool disable = false);
@@ -186,7 +186,7 @@ private slots:
     void onOpeningUneditable();
     void autoSave();
     void pauseAutoSaving (bool pause);
-    void setLang (QAction *action);
+    void enforceLang (QAction *action);
 
 public:
     QWidget *dummyWidget; // Bypasses KDE's demand for a new window.
@@ -242,8 +242,7 @@ private:
     void disconnectLambda();
     void changeTab (QListWidgetItem *current, QListWidgetItem*);
     void toggleSidePane();
-    void showLang (TextEdit *textEdit);
-    void handleNormalAsUrl (TextEdit *textEdit);
+    void updateLangBtn (TextEdit *textEdit);
 
     QActionGroup *aGroup_;
     QString lastFile_; // The last opened or saved file (for file dialogs).
@@ -255,7 +254,7 @@ private:
     QMetaObject::Connection lambdaConnection_; // Captures a lambda connection to disconnect it later.
     SidePane *sidePane_;
     QHash<QListWidgetItem*, TabPage*> sideItems_; // For fast tab switching.
-    QHash<QString, QAction*> langs; // All programming languages (to be enforced by the user).
+    QHash<QString, QAction*> langs_; // All programming languages (to be enforced by the user).
     // Auto-saving:
     QTimer *autoSaver_;
     QElapsedTimer autoSaverPause_;
