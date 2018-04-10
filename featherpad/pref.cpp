@@ -243,12 +243,8 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
     connect (ui->recentSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
              this, &PrefDialog::prefRecentFilesNumber);
 
-    ui->openRecentSpin->setValue (config.getOpenRecentFiles());
-    ui->openRecentSpin->setMaximum (config.getRecentFilesNumber());
-    ui->openRecentSpin->setSuffix(" " + (ui->openRecentSpin->value() > 1 ? tr ("files") : tr ("file")));
-    ui->openRecentSpin->setSpecialValueText (tr ("No file"));
-    connect (ui->openRecentSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-             this, &PrefDialog::prefOpenRecentFile);
+    ui->lastFilesBox->setChecked (config.getSaveLastFilesList());
+    connect (ui->lastFilesBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSaveLastFilesList);
 
     ui->openedButton->setChecked (config.getRecentOpened());
     // no QButtonGroup connection because we want to see if we should clear the recent list at the end
@@ -1120,19 +1116,16 @@ void PrefDialog::prefRecentFilesNumber (int value)
     config.setRecentFilesNumber (value); // doesn't take effect until the next session
     ui->recentSpin->setSuffix(" " + (value > 1 ? tr ("files") : tr ("file")));
 
-    /* also correct the maximum value of openRecentSpin
-       (its value will be corrected automatically if needed) */
-    ui->openRecentSpin->setMaximum (value);
-    ui->openRecentSpin->setSuffix(" " + (ui->openRecentSpin->value() > 1 ? tr ("files") : tr ("file")));
-
     showPrompt();
 }
 /*************************/
-void PrefDialog::prefOpenRecentFile (int value)
+void PrefDialog::prefSaveLastFilesList (int checked)
 {
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
-    config.setOpenRecentFiles (value);
-    ui->openRecentSpin->setSuffix(" " + (value > 1 ? tr ("files") : tr ("file")));
+    if (checked == Qt::Checked)
+        config.setSaveLastFilesList (true);
+    else if (checked == Qt::Unchecked)
+        config.setSaveLastFilesList (false);
 }
 /*************************/
 void PrefDialog::prefRecentFilesKind()

@@ -84,7 +84,7 @@ private slots:
     void prefExecute (int checked);
     void prefCommand (const QString& command);
     void prefRecentFilesNumber (int value);
-    void prefOpenRecentFile (int value);
+    void prefSaveLastFilesList (int checked);
     void prefOpenInWindows (int checked);
     void prefNativeDialog (int checked);
     void prefSidePaneMode (int checked);

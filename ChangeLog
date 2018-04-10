@@ -4,6 +4,7 @@ V0.8.1
  * Added "To Upper Case" and "To Lower Case".
  * Always fall back to the URL highlighter (forget the previous conditions). In this way, not only the behavior is more logical but also the code is much simpler.
  * Disable the language button for documents that are made uneditable because of their contents.
+ * Open the files of the last window instead of starting with all recent files (if the related option is checked).
 
 V0.8
 ---------

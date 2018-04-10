@@ -322,7 +322,7 @@ public:
     QString getExecuteCommand() const {
         return executeCommand_;
     }
-    void setExecuteCommand (QString commnad) {
+    void setExecuteCommand (const QString& commnad) {
         executeCommand_ = commnad;
     }
 
@@ -354,13 +354,6 @@ public:
         nativeDialog_ = native;
     }
 
-    int getOpenRecentFiles() const {
-        return openRecentFiles_;
-    }
-    void setOpenRecentFiles (int number) {
-        openRecentFiles_ = qBound (0, number, 20);
-    }
-
     bool getRecentOpened() const {
         return recentOpened_;
     }
@@ -368,15 +361,26 @@ public:
         recentOpened_ = opened;
     }
 
-    QStringList getLastFiles() const;
-
     QStringList getRecentFiles() const {
         return recentFiles_;
     }
     void clearRecentFiles() {
         recentFiles_ = QStringList();
     }
-    void addRecentFile (QString file);
+    void addRecentFile (const QString &file);
+
+    bool getSaveLastFilesList() const {
+        return saveLastFilesList_;
+    }
+    void setSaveLastFilesList (bool saveList) {
+        saveLastFilesList_ = saveList;
+    }
+    QStringList getLastFiles() const { // Used only at the session start
+        return lastFiles_;
+    }
+    void setLastFiles (const QStringList& lastFiles) {
+        lastFiles_ = lastFiles;
+    }
 
     QHash<QString, QString> customShortcutActions() const {
         return actions_;
@@ -480,6 +484,8 @@ private:
     int openRecentFiles_;
     bool recentOpened_;
     QStringList recentFiles_;
+    bool saveLastFilesList_;
+    QStringList lastFiles_;
     QHash<QString, QString> actions_;
     QStringList removedActions_, reservedShortcuts_;
     QHash<QString, QVariant> cursorPos_;

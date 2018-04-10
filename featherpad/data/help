@@ -34,7 +34,7 @@ If the opened file is a symbolic link (symlink), the context menu of its tab wil
 
 Executable script files could be run from inside FeatherPad if the corresponding option is enabled in the Preferences dialog. Then also a Run button will appear on the tool bar and the File menu whenever needed. If no terminal command is used to run them, their output and error messages will be shown by a popup dialog.
 
-FeatherPad remembers recently modified or opened files, depending on which option is enabled in the Preferences dialog. It can also open them on a session startup. However, it has a more advanced session manager, which provides the user with options for saving a session and restoring or removing saved sessions at any time and without limit.
+FeatherPad remembers recently modified or opened files, depending on which option is enabled in the Preferences dialog. It can also open the files of the last window on a session startup. However, it has a more advanced session manager, which provides the user with options for saving a session and restoring or removing saved sessions at any time and without limit.
 
 ***********************************
 *   Sessions and Side-Pane Mode   *

@@ -162,6 +162,9 @@ windows will be included in the saved session.</string>
          <property name="text">
           <string>Save only from this &amp;window</string>
          </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
       </layout>

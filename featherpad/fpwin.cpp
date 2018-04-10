@@ -291,13 +291,25 @@ FPwin::~FPwin()
 /*************************/
 void FPwin::closeEvent (QCloseEvent *event)
 {
+    /* It's better to check only once and now whether the list of last files is needed.
+       An empty string will serve as a sign to show that it's needed. */
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    Config& config = singleton->getConfig();
+    if (config.getSaveLastFilesList()
+        && singleton->Wins.count() == 1
+        && ui->tabWidget->count() > 0)
+    {
+        lastWindowFiles_ << QString();
+    }
+
     bool keep = closeTabs (-1, -1);
     if (keep)
+    {
         event->ignore();
+        lastWindowFiles_.clear(); // just a precaution; it's done at savePrompt()
+    }
     else
     {
-        FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
-        Config& config = singleton->getConfig();
         if (config.getRemSize() && windowState() == Qt::WindowNoState)
             config.setWinSize (size());
         if (sidePane_ && config.getRemSplitterPos())
@@ -305,6 +317,9 @@ void FPwin::closeEvent (QCloseEvent *event)
             QList<int> sizes = ui->splitter->sizes();
             config.setSplitterPos (qRound (100.0 * (qreal)sizes.at (0) / (qreal)(sizes.at (0) + sizes.at (1))));
         }
+        if (!lastWindowFiles_.isEmpty())
+            lastWindowFiles_.sort(); // to avoid redundant writings
+        config.setLastFiles (lastWindowFiles_);
         singleton->removeWin (this);
         event->accept();
     }
@@ -1036,6 +1051,10 @@ void FPwin::dropEvent (QDropEvent *event)
 // "tabIndex" is always the tab index and not the item row (in the side-pane).
 FPwin::DOCSTATE FPwin::savePrompt (int tabIndex, bool noToAll)
 {
+    bool addToLastFilesList (!lastWindowFiles_.isEmpty());
+    if (addToLastFilesList && lastWindowFiles_.first() == QString())  // an empty string was used as a sign
+        lastWindowFiles_.clear();
+
     DOCSTATE state = SAVED;
     TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->widget (tabIndex));
     TextEdit *textEdit = tabPage->textEdit();
@@ -1102,7 +1121,28 @@ FPwin::DOCSTATE FPwin::savePrompt (int tabIndex, bool noToAll)
         }
 
         updateShortcuts (false);
+
+        if (state == UNDECIDED)
+        { // the process is stopped; don't save any list
+            lastWindowFiles_.clear();
+            addToLastFilesList = false;
+        }
     }
+
+    if (addToLastFilesList)
+    {
+        fname = textEdit->getFileName(); // may have changed
+        if (!fname.isEmpty())
+        {
+            if (lastWindowFiles_.size() == 20) // never more than 20 files
+                lastWindowFiles_.clear();
+            else
+                lastWindowFiles_ << fname;
+        }
+        else if (lastWindowFiles_.isEmpty() && ui->tabWidget->count() > 1)
+            lastWindowFiles_ << QString(); // the list still needs to be saved
+    }
+
     return state;
 }
 /*************************/

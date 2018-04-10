@@ -246,6 +246,7 @@ private:
 
     QActionGroup *aGroup_;
     QString lastFile_; // The last opened or saved file (for file dialogs).
+    QStringList lastWindowFiles_; // The files list of the last window (if it hould be saved).
     QString txtReplace_; // The replacing text.
     int rightClicked_; // The index/row of the right-clicked tab/item.
     int loadingProcesses_; // The number of loading processes (used to prevent early closing).

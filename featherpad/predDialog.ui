@@ -720,27 +720,13 @@ Needs application restart to take effect.</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="0" colspan="2">
-           <widget class="QLabel" name="openRecentLabel">
+          <item row="3" column="0" colspan="3">
+           <widget class="QCheckBox" name="lastFilesBox">
             <property name="toolTip">
-             <string>The maximum number of recently modified or
-opened files FeatherPad should open with an
-empty startup of a session.</string>
+             <string>Only if their number is not greater than 20.</string>
             </property>
             <property name="text">
-             <string>Start with recent files: </string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="2">
-           <widget class="QSpinBox" name="openRecentSpin">
-            <property name="toolTip">
-             <string>The maximum number of recently modified or
-opened files FeatherPad should open with an
-empty startup of a session.</string>
-            </property>
-            <property name="maximum">
-             <number>10</number>
+             <string>Start with files of last window</string>
             </property>
            </widget>
           </item>

@@ -68,8 +68,8 @@ Config::Config():
     startSize_ (QSize (700, 500)),
     splitterPos_ (20), // percentage
     font_ (QFont ("Monospace", 9)),
-    openRecentFiles_ (0),
     recentOpened_ (false),
+    saveLastFilesList_ (false),
     cursorPosRetrieved_ (false) {}
 /*************************/
 Config::~Config() {}
@@ -230,9 +230,18 @@ void Config::readConfig()
     recentFiles_.removeDuplicates();
     while (recentFiles_.count() > recentFilesNumber_)
         recentFiles_.removeLast();
-    openRecentFiles_ = qBound (0, settings.value ("openRecentFiles", 0).toInt(), recentFilesNumber_);
     if (settings.value ("recentOpened").toBool())
         recentOpened_ = true; // false by default
+
+    if (settings.value ("saveLastFilesList").toBool())
+    {
+        saveLastFilesList_ = true; // false by default
+        lastFiles_ = settings.value ("lastFiles").toStringList();
+        lastFiles_.removeAll ("");
+        lastFiles_.removeDuplicates();
+        while (lastFiles_.count() > 20) // never more than 20 files
+            lastFiles_.removeLast();
+    }
 
     autoSaveInterval_ = qBound (1, settings.value ("autoSaveInterval", 1).toInt(), 60);
 
@@ -345,11 +354,23 @@ void Config::writeConfig()
     while (recentFiles_.count() > recentFilesNumber_) // recentFilesNumber_ may have decreased
         recentFiles_.removeLast();
     if (recentFiles_.isEmpty()) // don't save "@Invalid()"
-        settings.remove("recentFiles");
+        settings.remove ("recentFiles");
     else
         settings.setValue ("recentFiles", recentFiles_);
-    settings.setValue ("openRecentFiles", openRecentFiles_);
     settings.setValue ("recentOpened", recentOpened_);
+
+    settings.setValue ("saveLastFilesList", saveLastFilesList_);
+    if (saveLastFilesList_)
+    {
+        while (lastFiles_.count() > 20) // never more than 20 files
+            lastFiles_.removeLast();
+        if (lastFiles_.isEmpty()) // don't save "@Invalid()"
+            settings.remove ("lastFiles");
+        else
+            settings.setValue ("lastFiles", lastFiles_);
+    }
+    else
+        settings.remove ("lastFiles");
 
     settings.setValue ("autoSaveInterval", autoSaveInterval_);
 
@@ -407,22 +428,12 @@ void Config::writeCursorPos()
     }
 }
 /*************************/
-void Config::addRecentFile (QString file)
+void Config::addRecentFile (const QString& file)
 {
     recentFiles_.removeAll (file);
     recentFiles_.prepend (file);
     while (recentFiles_.count() > curRecentFilesNumber_)
         recentFiles_.removeLast();
-}
-/*************************/
-// Used only at the session start
-QStringList Config::getLastFiles() const
-{
-    QStringList res;
-    int n = qMin (openRecentFiles_, recentFiles_.count());
-    for (int i = 0; i < n; ++i)
-        res << recentFiles_.at (i);
-    return res;
 }
 /*************************/
 bool Config::isValidShortCut (const QVariant v)
