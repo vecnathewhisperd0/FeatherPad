@@ -1178,13 +1178,13 @@
         <location filename="../../filedialog.h" line="48"/>
         <source>Ctrl+H</source>
         <comment>Toggle showing hidden files</comment>
-        <translation></translation>
+        <translation>Afficher ou non les fichiers cachés</translation>
     </message>
     <message>
         <location filename="../../filedialog.h" line="49"/>
         <source>Alt+.</source>
         <comment>Toggle showing hidden files</comment>
-        <translation></translation>
+        <translation>Afficher ou non les fichiers cachés</translation>
     </message>
 </context>
 <context>
