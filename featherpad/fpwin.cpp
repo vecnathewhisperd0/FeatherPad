@@ -308,14 +308,7 @@ void FPwin::closeEvent (QCloseEvent *event)
             QList<int> sizes = ui->splitter->sizes();
             config.setSplitterPos (qRound (100.0 * (qreal)sizes.at (0) / (qreal)(sizes.at (0) + sizes.at (1))));
         }
-        QStringList lastFiles;
-        if (!lastWinFilesCur_.isEmpty())
-        {
-            lastFiles = lastWinFilesCur_.keys();
-            lastFiles.sort(); // to avoid redundant writings
-        }
         config.setLastFileCursorPos (lastWinFilesCur_);
-        config.setLastFiles (lastFiles);
         singleton->removeWin (this);
         event->accept();
     }

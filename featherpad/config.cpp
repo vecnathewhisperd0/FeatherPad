@@ -234,14 +234,7 @@ void Config::readConfig()
         recentOpened_ = true; // false by default
 
     if (settings.value ("saveLastFilesList").toBool())
-    {
         saveLastFilesList_ = true; // false by default
-        lastFiles_ = settings.value ("lastFiles").toStringList();
-        lastFiles_.removeAll ("");
-        lastFiles_.removeDuplicates();
-        while (lastFiles_.count() > 20) // never more than 20 files
-            lastFiles_.removeLast();
-    }
 
     autoSaveInterval_ = qBound (1, settings.value ("autoSaveInterval", 1).toInt(), 60);
 
@@ -267,6 +260,22 @@ void Config::readShortcuts()
             removedActions_ << actions.at (i);
     }
     settings.endGroup();
+}
+/*************************/
+QStringList Config::getLastFiles()
+{
+    if (!saveLastFilesList_) // it's already decided
+        return QStringList();
+
+    Settings settingsLastCur ("featherpad", "fp_last_cursor_pos");
+    lasFilesCursorPos_ = settingsLastCur.value ("cursorPositions").toHash();
+
+    QStringList lastFiles = lasFilesCursorPos_.keys();
+    lastFiles.removeAll ("");
+    lastFiles.removeDuplicates();
+    while (lastFiles.count() > 20) // never more than 20 files
+        lastFiles.removeLast();
+    return lastFiles;
 }
 /*************************/
 void Config::writeConfig()
@@ -360,17 +369,6 @@ void Config::writeConfig()
     settings.setValue ("recentOpened", recentOpened_);
 
     settings.setValue ("saveLastFilesList", saveLastFilesList_);
-    if (saveLastFilesList_)
-    {
-        while (lastFiles_.count() > 20) // never more than 20 files
-            lastFiles_.removeLast();
-        if (lastFiles_.isEmpty()) // don't save "@Invalid()"
-            settings.remove ("lastFiles");
-        else
-            settings.setValue ("lastFiles", lastFiles_);
-    }
-    else
-        settings.remove ("lastFiles");
 
     settings.setValue ("autoSaveInterval", autoSaveInterval_);
 
@@ -432,17 +430,11 @@ void Config::writeCursorPos()
     Settings settingsLastCur ("featherpad", "fp_last_cursor_pos");
     if (settingsLastCur.isWritable())
     {
-        if (!lasFilesCursorPos_.isEmpty())
+        if (saveLastFilesList_ && !lasFilesCursorPos_.isEmpty())
             settingsLastCur.setValue ("cursorPositions", lasFilesCursorPos_);
         else
             settingsLastCur.remove ("cursorPositions");
     }
-}
-/*************************/
-void Config::readLastFilesCursorPos()
-{
-    Settings settingsLastCur ("featherpad", "fp_last_cursor_pos");
-    lasFilesCursorPos_ = settingsLastCur.value ("cursorPositions").toHash();
 }
 /*************************/
 void Config::addRecentFile (const QString& file)

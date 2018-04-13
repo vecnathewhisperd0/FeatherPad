@@ -424,15 +424,9 @@ public:
     void setSaveLastFilesList (bool saveList) {
         saveLastFilesList_ = saveList;
     }
-    QStringList getLastFiles() const { // may be called only at session start
-        return lastFiles_;
-    }
-    void setLastFiles (const QStringList& lastFiles) {
-        lastFiles_ = lastFiles;
-    }
 
-    QHash<QString, QVariant> getLastFilesCursorPos() { // may be called only at session start
-        readLastFilesCursorPos();
+    QStringList getLastFiles(); // may be called only at session start and sets lasFilesCursorPos_
+    QHash<QString, QVariant> getLastFilesCursorPos() const { // is called only after getLastFiles()
         return lasFilesCursorPos_;
     }
     void setLastFileCursorPos (const QHash<QString, QVariant>& curPos) {
@@ -456,7 +450,6 @@ private:
     bool isValidShortCut (const QVariant v);
     void readCursorPos();
     void writeCursorPos();
-    void readLastFilesCursorPos();
 
     bool remSize_, remSplitterPos_,
          iconless_, sysIcon_,
@@ -494,7 +487,6 @@ private:
     bool recentOpened_;
     QStringList recentFiles_;
     bool saveLastFilesList_;
-    QStringList lastFiles_;
     QHash<QString, QString> actions_;
     QStringList removedActions_, reservedShortcuts_;
 
