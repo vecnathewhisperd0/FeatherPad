@@ -411,21 +411,38 @@ void Config::readCursorPos()
 /*************************/
 void Config::writeCursorPos()
 {
-    if (!cursorPos_.isEmpty())
+    Settings settings ("featherpad", "fp_cursor_pos");
+    if (settings.isWritable())
     {
-        /* no need to clean up the config file here because
-           it's more or less cleaned by the session dialog */
-        /*QHash<QString, QVariant>::iterator it = cursorPos_.begin();
-        while (it != cursorPos_.end())
+        if (!cursorPos_.isEmpty())
         {
-            if (!QFileInfo (it.key()).isFile())
-                it = cursorPos_.erase (it);
-            else ++it;
-        }*/
-        Settings settings ("featherpad", "fp_cursor_pos");
-        if (settings.isWritable())
+            /* no need to clean up the config file here because
+           it's more or less cleaned by the session dialog */
+            /*QHash<QString, QVariant>::iterator it = cursorPos_.begin();
+            while (it != cursorPos_.end())
+            {
+                if (!QFileInfo (it.key()).isFile())
+                    it = cursorPos_.erase (it);
+                else ++it;
+            }*/
             settings.setValue ("cursorPositions", cursorPos_);
+        }
     }
+
+    Settings settingsLastCur ("featherpad", "fp_last_cursor_pos");
+    if (settingsLastCur.isWritable())
+    {
+        if (!lasFilesCursorPos_.isEmpty())
+            settingsLastCur.setValue ("cursorPositions", lasFilesCursorPos_);
+        else
+            settingsLastCur.remove ("cursorPositions");
+    }
+}
+/*************************/
+void Config::readLastFilesCursorPos()
+{
+    Settings settingsLastCur ("featherpad", "fp_last_cursor_pos");
+    lasFilesCursorPos_ = settingsLastCur.value ("cursorPositions").toHash();
 }
 /*************************/
 void Config::addRecentFile (const QString& file)

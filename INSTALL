@@ -18,13 +18,25 @@ In Arch-based systems, the required package are:
  * qt5-svg (for showing own icons)
  * qt5-tools (for localization)
 
-And in RPM-based systems:
+In Red Hat based systems like Fedora:
 
- * gcc-c++ >= 5
- * libX11-devel and libXext-devel (for X11)
- * qt5-qtbase-devel and qt5-qtx11extras-devel (for Qt5)
- * qt5-qtsvg-devel (for showing own icons)
- * qt5-qttools-devel (for localization)
+ * gcc-c++
+ * libX11-devel
+ * libXext-devel
+ * qt5-qtx11extras-devel
+ * qt5-qtbase-devel
+ * qt5-qtsvg-devel
+ * qt5-qttools-devel
+
+And, finally, in OpenSUSE:
+
+ * gcc-c++
+ * libX11-devel
+ * libXext-devel
+ * libqt5-qtx11extras-devel
+ * libqt5-qtbase-devel
+ * libqt5-qtsvg-devel
+ * libqt5-qttools-devel
 
 Then, open a terminal inside this folder and issue the following commands:
 

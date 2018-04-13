@@ -291,25 +291,16 @@ FPwin::~FPwin()
 /*************************/
 void FPwin::closeEvent (QCloseEvent *event)
 {
-    /* It's better to check only once and now whether the list of last files is needed.
-       An empty string will serve as a sign to show that it's needed. */
-    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
-    Config& config = singleton->getConfig();
-    if (config.getSaveLastFilesList()
-        && singleton->Wins.count() == 1
-        && ui->tabWidget->count() > 0)
-    {
-        lastWindowFiles_ << QString();
-    }
-
-    bool keep = closeTabs (-1, -1);
+    bool keep = closeTabs (-1, -1, true);
     if (keep)
     {
         event->ignore();
-        lastWindowFiles_.clear(); // just a precaution; it's done at savePrompt()
+        lastWinFilesCur_.clear(); // just a precaution; it's done at closeTabs()
     }
     else
     {
+        FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+        Config& config = singleton->getConfig();
         if (config.getRemSize() && windowState() == Qt::WindowNoState)
             config.setWinSize (size());
         if (sidePane_ && config.getRemSplitterPos())
@@ -317,9 +308,14 @@ void FPwin::closeEvent (QCloseEvent *event)
             QList<int> sizes = ui->splitter->sizes();
             config.setSplitterPos (qRound (100.0 * (qreal)sizes.at (0) / (qreal)(sizes.at (0) + sizes.at (1))));
         }
-        if (!lastWindowFiles_.isEmpty())
-            lastWindowFiles_.sort(); // to avoid redundant writings
-        config.setLastFiles (lastWindowFiles_);
+        QStringList lastFiles;
+        if (!lastWinFilesCur_.isEmpty())
+        {
+            lastFiles = lastWinFilesCur_.keys();
+            lastFiles.sort(); // to avoid redundant writings
+        }
+        config.setLastFileCursorPos (lastWinFilesCur_);
+        config.setLastFiles (lastFiles);
         singleton->removeWin (this);
         event->accept();
     }
@@ -327,6 +323,7 @@ void FPwin::closeEvent (QCloseEvent *event)
 /*************************/
 void FPwin::toggleSidePane()
 {
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
     if (!sidePane_)
     {
         ui->tabWidget->tabBar()->hide();
@@ -335,7 +332,7 @@ void FPwin::toggleSidePane()
         ui->splitter->insertWidget (0, sidePane_);
         sidePane_->listWidget()->setFocus();
         int mult = size().width() / 100; // for more precision
-        int sp = static_cast<FPsingleton*>(qApp)->getConfig().getSplitterPos();
+        int sp = config.getSplitterPos();
         QList<int> sizes;
         sizes << sp * mult << (100 - sp) * mult;
         ui->splitter->setSizes (sizes);
@@ -387,15 +384,27 @@ void FPwin::toggleSidePane()
     }
     else
     {
+        QList<int> sizes = ui->splitter->sizes();
         if (!sidePane_->listWidget()->hasFocus())
+        {
+            if (sizes.size() == 2 && sizes.at (0) == 0) // with RTL too
+            { // first, ensure its visibility
+                sizes.clear();
+                int mult = size().width() / 100;
+                int sp = config.getSplitterPos();
+                sizes << sp * mult << (100 - sp) * mult;
+                ui->splitter->setSizes (sizes);
+            }
             sidePane_->listWidget()->setFocus();
+        }
         else
         {
+            if (config.getRemSplitterPos()) // remember the position also when the side-pane is removed
+                config.setSplitterPos (qRound (100.0 * (qreal)sizes.at (0) / (qreal)(sizes.at (0) + sizes.at (1))));
             sideItems_.clear();
             delete sidePane_;
             sidePane_ = nullptr;
-            bool hideSingleTab = static_cast<FPsingleton*>(qApp)->
-                                 getConfig().getHideSingleTab();
+            bool hideSingleTab = config.getHideSingleTab();
             ui->tabWidget->tabBar()->hideSingle (hideSingleTab);
             if (!hideSingleTab || ui->tabWidget->count() > 1)
                 ui->tabWidget->tabBar()->show();
@@ -812,7 +821,7 @@ bool FPwin::hasAnotherDialog()
     return res;
 }
 /*************************/
-void FPwin::deleteTabPage (int tabIndex)
+void FPwin::deleteTabPage (int tabIndex, bool saveToList)
 {
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (tabIndex));
     if (sidePane_ && !sideItems_.isEmpty())
@@ -824,14 +833,16 @@ void FPwin::deleteTabPage (int tabIndex)
         }
     }
     TextEdit *textEdit = tabPage->textEdit();
-    if (textEdit->getSaveCursor())
+    QString fileName = textEdit->getFileName();
+    if (!fileName.isEmpty())
     {
-        QString fileName = textEdit->getFileName();
-        if (!fileName.isEmpty())
+        if (textEdit->getSaveCursor())
         {
             Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
             config.saveCursorPos (fileName, textEdit->textCursor().position());
         }
+        if (saveToList && QFile::exists (fileName))
+            lastWinFilesCur_.insert (fileName,  textEdit->textCursor().position());
     }
     /* because deleting the syntax highlighter changes the text,
        it is better to disconnect contentsChange() here to prevent a crash */
@@ -848,7 +859,7 @@ void FPwin::deleteTabPage (int tabIndex)
 // If both "first" and "last" are negative, all tabs will be closed.
 // The case, when they're both greater than -1, is covered but not used anywhere.
 // Tabs/rows are always closed from right/bottom to left/top.
-bool FPwin::closeTabs (int first, int last)
+bool FPwin::closeTabs (int first, int last, bool saveFilesList)
 {
     if (!isReady()) return true;
 
@@ -894,7 +905,9 @@ bool FPwin::closeTabs (int first, int last)
         switch (state) {
         case SAVED: // close this tab and go to the next one on the left
             keep = false;
-            deleteTabPage (tabIndex);
+            if (lastWinFilesCur_.size() > 20) // never remember more than 20 files
+                saveFilesList = false;
+            deleteTabPage (tabIndex, saveFilesList);
 
             if (last > -1) // also last > 0
                 --last; // a left tab is removed
@@ -918,13 +931,16 @@ bool FPwin::closeTabs (int first, int last)
             break;
         case UNDECIDED: // stop quitting (cancel or can't save)
             keep = true;
+            lastWinFilesCur_.clear();
             break;
         case DISCARDED: // no to all: close all tabs (and quit)
             keep = false;
             while (index > first)
             {
                 if (last == 0) break;
-                deleteTabPage (tabIndex);
+                if (lastWinFilesCur_.size() > 20)
+                    saveFilesList = false;
+                deleteTabPage (tabIndex, saveFilesList);
 
                 if (last < 0)
                     index = ui->tabWidget->count() - 1;
@@ -968,6 +984,9 @@ bool FPwin::closeTabs (int first, int last)
     }
 
     pauseAutoSaving (false);
+
+    if (lastWinFilesCur_.size() > 20)
+        lastWinFilesCur_.clear();
 
     return keep;
 }
@@ -1039,7 +1058,7 @@ void FPwin::dropEvent (QDropEvent *event)
         for (const QUrl &url : urlList)
             newTabFromName (url.adjusted (QUrl::NormalizePathSegments) // KDE may give a double slash
                                .toLocalFile(),
-                            false,
+                            0,
                             multiple);
     }
 
@@ -1051,10 +1070,6 @@ void FPwin::dropEvent (QDropEvent *event)
 // "tabIndex" is always the tab index and not the item row (in the side-pane).
 FPwin::DOCSTATE FPwin::savePrompt (int tabIndex, bool noToAll)
 {
-    bool addToLastFilesList (!lastWindowFiles_.isEmpty());
-    if (addToLastFilesList && lastWindowFiles_.first() == QString())  // an empty string was used as a sign
-        lastWindowFiles_.clear();
-
     DOCSTATE state = SAVED;
     TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->widget (tabIndex));
     TextEdit *textEdit = tabPage->textEdit();
@@ -1121,28 +1136,7 @@ FPwin::DOCSTATE FPwin::savePrompt (int tabIndex, bool noToAll)
         }
 
         updateShortcuts (false);
-
-        if (state == UNDECIDED)
-        { // the process is stopped; don't save any list
-            lastWindowFiles_.clear();
-            addToLastFilesList = false;
-        }
     }
-
-    if (addToLastFilesList)
-    {
-        fname = textEdit->getFileName(); // may have changed
-        if (!fname.isEmpty())
-        {
-            if (lastWindowFiles_.size() == 20) // never more than 20 files
-                lastWindowFiles_.clear();
-            else
-                lastWindowFiles_ << fname;
-        }
-        else if (lastWindowFiles_.isEmpty() && ui->tabWidget->count() > 1)
-            lastWindowFiles_ << QString(); // the list still needs to be saved
-    }
-
     return state;
 }
 /*************************/
@@ -1918,7 +1912,7 @@ void FPwin::unbusy()
 }
 /*************************/
 void FPwin::loadText (const QString& fileName, bool enforceEncod, bool reload,
-                      bool saveCursor, bool enforceUneditable, bool multiple)
+                      int restoreCursor, bool enforceUneditable, bool multiple)
 {
     if (loadingProcesses_ == 0)
         closeWarningBar();
@@ -1926,7 +1920,7 @@ void FPwin::loadText (const QString& fileName, bool enforceEncod, bool reload,
     QString charset;
     if (enforceEncod)
         charset = checkToEncoding();
-    Loading *thread = new Loading (fileName, charset, reload, saveCursor, enforceUneditable, multiple);
+    Loading *thread = new Loading (fileName, charset, reload, restoreCursor, enforceUneditable, multiple);
     connect (thread, &Loading::completed, this, &FPwin::addText);
     connect (thread, &Loading::finished, thread, &QObject::deleteLater);
     thread->start();
@@ -1939,7 +1933,7 @@ void FPwin::loadText (const QString& fileName, bool enforceEncod, bool reload,
 /*************************/
 // When multiple files are being loaded, we don't change the current tab.
 void FPwin::addText (const QString& text, const QString& fileName, const QString& charset,
-                     bool enforceEncod, bool reload, bool saveCursor,
+                     bool enforceEncod, bool reload, int restoreCursor,
                      bool uneditable,
                      bool multiple)
 {
@@ -1997,7 +1991,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
         activateWindow();
         raise();
     }
-    textEdit->setSaveCursor (saveCursor);
+    textEdit->setSaveCursor (restoreCursor > 0);
 
     textEdit->setLang (QString()); // remove the enforced syntax
 
@@ -2074,9 +2068,10 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
         }
         textEdit->setTextCursor (cur);
     }
-    else if (saveCursor)
+    else if (restoreCursor != 0)
     {
-        QHash<QString, QVariant> cursorPos = config.savedCursorPos();
+        QHash<QString, QVariant> cursorPos = restoreCursor > 0 ? config.savedCursorPos()
+                                                               : config.getLastFilesCursorPos();
         if (cursorPos.contains (fileName))
         {
             QTextCursor cur = textEdit->textCursor();
@@ -2104,8 +2099,8 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
     if (ui->actionSyntax->isChecked())
         syntaxHighlighting (textEdit);
     setTitle (fileName, (multiple && !openInCurrentTab) ?
-                        /* the index may have changed because syntaxHighlighting() waits for
-                           all events to be processed (but it won't change from here on) */
+                        /* An Old comment not valid anymore: "The index may have changed because syntaxHighlighting()
+                           waits for all events to be processed (but it won't change from here on)." */
                         ui->tabWidget->indexOf (tabPage) : -1);
     QString tip (fInfo.absolutePath() + "/");
     QFontMetrics metrics (QToolTip::font());
@@ -2305,8 +2300,7 @@ void FPwin::closeWarningBar()
     }
 }
 /*************************/
-void FPwin::newTabFromName (const QString& fileName, bool saveCursor,
-                            bool multiple)
+void FPwin::newTabFromName (const QString& fileName, int restoreCursor, bool multiple)
 {
     if (!fileName.isEmpty()
         /* although loadText() takes care of folders, we don't want to open
@@ -2314,7 +2308,7 @@ void FPwin::newTabFromName (const QString& fileName, bool saveCursor,
         && QFileInfo (fileName).isFile())
     {
         loadText (fileName, false, false,
-                  saveCursor, false, multiple);
+                  restoreCursor, false, multiple);
     }
 }
 /*************************/
@@ -2393,7 +2387,7 @@ void FPwin::fileOpen()
         const QStringList files = dialog.selectedFiles();
         bool multiple (files.count() > 1 || isLoading());
         for (const QString &file : files)
-            newTabFromName (file, false, multiple);
+            newTabFromName (file, 0, multiple);
     }
     updateShortcuts (false);
 }
@@ -2451,7 +2445,7 @@ void FPwin::enforceEncoding (QAction*)
             return;
         }
         loadText (fname, true, true,
-                  false, textEdit->isUneditable(), false);
+                  0, textEdit->isUneditable(), false);
     }
     else
     {
@@ -2488,7 +2482,7 @@ void FPwin::reload()
     if (!fname.isEmpty())
     {
         loadText (fname, false, true,
-                  textEdit->getSaveCursor());
+                  textEdit->getSaveCursor() ? 1 : 0);
     }
 }
 /*************************/
@@ -4307,7 +4301,7 @@ void FPwin::tabContextMenu (const QPoint& p)
                         return;
                     }
                 }
-                newTabFromName (targetName, false);
+                newTabFromName (targetName, 0);
             });
         }
     }
@@ -4372,7 +4366,7 @@ void FPwin::listContextMenu (const QPoint& p)
                         return;
                     }
                 }
-                newTabFromName (targetName, false);
+                newTabFromName (targetName, 0);
             });
         }
     }

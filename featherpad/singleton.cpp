@@ -86,6 +86,10 @@ FPsingleton::~FPsingleton()
         lockFile_->unlock();
         delete lockFile_;
     }
+}
+/*************************/
+void FPsingleton::quitting()
+{
     config_.writeConfig();
 }
 /*************************/
@@ -147,14 +151,14 @@ FPwin* FPsingleton::newWin (const QString& message)
                 sli = QUrl (sli).toLocalFile();
             /* always an absolute path (works around KDE double slash bug too) */
             QFileInfo fInfo (sli);
-            fp->newTabFromName (fInfo.absoluteFilePath(), false, multiple);
+            fp->newTabFromName (fInfo.absoluteFilePath(), 0, multiple);
         }
     }
     else if (!lastFiles_.isEmpty())
     {
         bool multiple (lastFiles_.count() > 1 || fp->isLoading());
         for (int i = 0; i < lastFiles_.count(); ++i)
-            fp->newTabFromName (lastFiles_.at (i), false, multiple);
+            fp->newTabFromName (lastFiles_.at (i), -1, multiple); // restore cursor positions too
     }
 
     lastFiles_ = QStringList();
@@ -231,7 +235,7 @@ void FPsingleton::handleMessage (const QString& message)
                             if (slj.startsWith ("file://"))
                                 slj = QUrl (slj).toLocalFile();
                             QFileInfo fInfo (slj);
-                            Wins.at (i)->newTabFromName (fInfo.absoluteFilePath(), false, multiple);
+                            Wins.at (i)->newTabFromName (fInfo.absoluteFilePath(), 0, multiple);
                         }
                     }
                     found = true;
@@ -244,10 +248,6 @@ void FPsingleton::handleMessage (const QString& message)
         /* ... otherwise, make a new window */
         newWin (message);
 }
-/*************************/
-/*void FPsingleton::quitting ()
-{
-    qDebug() << "About to quit";
-}*/
+
 
 }

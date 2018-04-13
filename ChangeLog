@@ -5,6 +5,10 @@ V0.8.1
  * Always fall back to the URL highlighter (forget the previous conditions). In this way, not only the behavior is more logical but also the code is much simpler.
  * Disable the language button for documents that are made uneditable because of their contents.
  * Open the files of the last window instead of starting with all recent files (if the related option is checked).
+ * Restore cursor positions with last window files too.
+ * Remove the lock file only at the end, when the config is written, because writing may take some time with cursor positions.
+ * Remember the splitter position also when the side-pane is removed.
+ * Before focusing an existing side-pane with its toggling shortcut, ensure its visibility.
 
 V0.8
 ---------

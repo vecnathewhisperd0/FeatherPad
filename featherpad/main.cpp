@@ -105,7 +105,7 @@ int main (int argc, char **argv)
     if (singleton.sendMessage (info))
         return 0;
 
-    //QObject::connect (&singleton, SIGNAL(aboutToQuit()), &singleton, SLOT(quitting()));
+    QObject::connect (&singleton, &QCoreApplication::aboutToQuit, &singleton, &FeatherPad::FPsingleton::quitting);
     singleton.newWin (info);
     QObject::connect (&singleton, &FeatherPad::FPsingleton::messageReceived,
                       &singleton, &FeatherPad::FPsingleton::handleMessage);

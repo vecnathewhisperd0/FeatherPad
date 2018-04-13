@@ -25,11 +25,11 @@
 namespace FeatherPad {
 
 Loading::Loading (const QString& fname, const QString& charset, bool reload,
-                  bool saveCursor, bool forceUneditable, bool multiple) :
+                  int restoreCursor, bool forceUneditable, bool multiple) :
     fname_ (fname),
     charset_ (charset),
     reload_ (reload),
-    saveCursor_ (saveCursor),
+    restoreCursor_ (restoreCursor),
     forceUneditable_ (forceUneditable),
     multiple_ (multiple)
 {}
@@ -159,7 +159,7 @@ void Loading::run()
                     charset_,
                     enforced,
                     reload_,
-                    saveCursor_,
+                    restoreCursor_,
                     forceUneditable_,
                     multiple_);
 }

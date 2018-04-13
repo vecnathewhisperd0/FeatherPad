@@ -777,6 +777,7 @@ void TextEdit::timerEvent (QTimerEvent *e)
         /* we use TextEdit's rect because the last rect that
            updateRequest() provides after 50ms may be null */
         emit updateRect (rect(), Dy);
+        emit updateBracketMatching(); // the cursor may become visible
     }
 }
 /*******************************************************

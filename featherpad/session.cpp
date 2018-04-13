@@ -233,7 +233,7 @@ void SessionDialog::openSessions()
                     continue;
                 }
                 win->newTabFromName (files.at (i),
-                                     true, // to save the cursor position
+                                     1, // to save the cursor position
                                      multiple);
             }
             if (broken == files.count())

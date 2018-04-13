@@ -95,7 +95,10 @@ signals:
     void finishedLoading();
 
 public slots:
-    void newTabFromName (const QString& fileName, bool saveCursor,
+    void newTabFromName (const QString& fileName,
+                         int restoreCursor, /* == 0 : Do not restore cursor.
+                                               > 0  : Restore cursor in a session file.
+                                               < 0  : Restore cursor while opening last files with application startup. */
                          bool multiple = false);
     void newTab();
     void statusMsg();
@@ -178,7 +181,7 @@ private slots:
     void helpDoc();
     void matchBrackets();
     void addText (const QString& text, const QString& fileName, const QString& charset,
-                  bool enforceEncod, bool reload, bool saveCursor,
+                  bool enforceEncod, bool reload, int restoreCursor,
                   bool uneditable, // This doc should be uneditable?
                   bool multiple); // Multiple files are being loaded?
     void onOpeningHugeFiles();
@@ -201,15 +204,15 @@ private:
 
     TabPage *createEmptyTab(bool setCurrent, bool allowNormalHighlighter = true);
     bool hasAnotherDialog();
-    void deleteTabPage (int tabIndex);
+    void deleteTabPage (int tabIndex, bool saveToList = false);
     void loadText (const QString& fileName, bool enforceEncod, bool reload,
-                   bool saveCursor = false, bool enforceUneditable = false, bool multiple = false);
+                   int restoreCursor = 0, bool enforceUneditable = false, bool multiple = false);
     bool alreadyOpen (TabPage *tabPage) const;
     void setTitle (const QString& fileName, int tabIndex = -1);
     DOCSTATE savePrompt (int tabIndex, bool noToAll);
     bool saveFile (bool keepSyntax);
     void closeEvent (QCloseEvent *event);
-    bool closeTabs (int first, int last);
+    bool closeTabs (int first, int last, bool saveFilesList = false);
     void dragEnterEvent (QDragEnterEvent *event);
     void dropEvent (QDropEvent *event);
     void dropTab (const QString& str);
@@ -246,7 +249,7 @@ private:
 
     QActionGroup *aGroup_;
     QString lastFile_; // The last opened or saved file (for file dialogs).
-    QStringList lastWindowFiles_; // The files list of the last window (if it hould be saved).
+    QHash<QString, QVariant> lastWinFilesCur_; // The last window files and their cusrors (if restored).
     QString txtReplace_; // The replacing text.
     int rightClicked_; // The index/row of the right-clicked tab/item.
     int loadingProcesses_; // The number of loading processes (used to prevent early closing).

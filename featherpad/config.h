@@ -49,7 +49,6 @@ public:
     void readConfig();
     void readShortcuts();
     void writeConfig();
-    void writeCursorPos();
 
     bool getRemSize() const {
         return remSize_;
@@ -312,7 +311,7 @@ public:
     void setScrollJumpWorkaround (bool workaround) {
         scrollJumpWorkaround_ = workaround;
     }
-
+/*************************/
     bool getExecuteScripts() const {
         return executeScripts_;
     }
@@ -325,7 +324,7 @@ public:
     void setExecuteCommand (const QString& commnad) {
         executeCommand_ = commnad;
     }
-
+/*************************/
     bool getAppendEmptyLine() const {
         return appendEmptyLine_;
     }
@@ -353,7 +352,7 @@ public:
     void setNativeDialog (bool native) {
         nativeDialog_ = native;
     }
-
+/*************************/
     bool getRecentOpened() const {
         return recentOpened_;
     }
@@ -368,20 +367,7 @@ public:
         recentFiles_ = QStringList();
     }
     void addRecentFile (const QString &file);
-
-    bool getSaveLastFilesList() const {
-        return saveLastFilesList_;
-    }
-    void setSaveLastFilesList (bool saveList) {
-        saveLastFilesList_ = saveList;
-    }
-    QStringList getLastFiles() const { // Used only at the session start
-        return lastFiles_;
-    }
-    void setLastFiles (const QStringList& lastFiles) {
-        lastFiles_ = lastFiles;
-    }
-
+/*************************/
     QHash<QString, QString> customShortcutActions() const {
         return actions_;
     }
@@ -402,14 +388,14 @@ public:
     void setReservedShortcuts (const QStringList &s) {
         reservedShortcuts_ = s;
     }
-
+/*************************/
     bool getInertialScrolling() const {
         return inertialScrolling_;
     }
     void setInertialScrolling (bool inertial) {
         inertialScrolling_ = inertial;
     }
-
+/*************************/
     QHash<QString, QVariant> savedCursorPos() {
         readCursorPos();
         return cursorPos_;
@@ -431,7 +417,28 @@ public:
         removedCursorPos_.append (cursorPos_.keys());
         cursorPos_.clear();
     }
+/*************************/
+    bool getSaveLastFilesList() const {
+        return saveLastFilesList_;
+    }
+    void setSaveLastFilesList (bool saveList) {
+        saveLastFilesList_ = saveList;
+    }
+    QStringList getLastFiles() const { // may be called only at session start
+        return lastFiles_;
+    }
+    void setLastFiles (const QStringList& lastFiles) {
+        lastFiles_ = lastFiles;
+    }
 
+    QHash<QString, QVariant> getLastFilesCursorPos() { // may be called only at session start
+        readLastFilesCursorPos();
+        return lasFilesCursorPos_;
+    }
+    void setLastFileCursorPos (const QHash<QString, QVariant>& curPos) {
+        lasFilesCursorPos_ = curPos;
+    }
+/*************************/
     bool getAutoSave() const {
         return autoSave_;
     }
@@ -448,6 +455,8 @@ public:
 private:
     bool isValidShortCut (const QVariant v);
     void readCursorPos();
+    void writeCursorPos();
+    void readLastFilesCursorPos();
 
     bool remSize_, remSplitterPos_,
          iconless_, sysIcon_,
@@ -488,9 +497,12 @@ private:
     QStringList lastFiles_;
     QHash<QString, QString> actions_;
     QStringList removedActions_, reservedShortcuts_;
+
     QHash<QString, QVariant> cursorPos_;
     QStringList removedCursorPos_; // used only internally for the clean-up
     bool cursorPosRetrieved_; // used only internally for reading once
+
+    QHash<QString, QVariant> lasFilesCursorPos_;
 };
 
 }
