@@ -163,5 +163,6 @@ Ctrl+Right/Left  Move the cursor one word to the right/left
 Ctrl+Tab         4-space text tabulation (can be changed in Preferences)
 Ctrl+Meta+Tab    2-space text tabulation
 Shift+Enter      Insert newline with the non-letter prefix of the current line (to write code comments easily)
+Insert           Toggle overwrite mode
 
 The remaining shortcuts are standard. All shortcuts, except for the extra ones above, can be found on menus or as tooltips. Many of them can be customized in the Preferences dialog.

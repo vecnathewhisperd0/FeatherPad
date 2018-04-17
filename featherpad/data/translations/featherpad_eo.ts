@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="124"/>
+        <location filename="../../about.ui" line="128"/>
         <source>License</source>
         <translation>Licenco</translation>
     </message>
@@ -2171,27 +2171,27 @@ fenestroj estos inkluzivitaj de la konservota sesio.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="1200"/>
+        <location filename="../../textedit.cpp" line="1202"/>
         <source>Open Link</source>
         <translation>Malfermu la Ligilon</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1210"/>
+        <location filename="../../textedit.cpp" line="1212"/>
         <source>Copy Link</source>
         <translation>Kopiu la Ligilon</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1223"/>
+        <location filename="../../textedit.cpp" line="1225"/>
         <source>To Upper Case</source>
         <translation>Majuskligo</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1227"/>
+        <location filename="../../textedit.cpp" line="1229"/>
         <source>To Lower Case</source>
         <translation>Minuskligo</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1233"/>
+        <location filename="../../textedit.cpp" line="1235"/>
         <source>Paste Date and Time</source>
         <translation>Algluu la Daton kaj Tempon</translation>
     </message>

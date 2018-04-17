@@ -9,6 +9,7 @@ V0.8.1
  * Remove the lock file only at the end, when the config is written, because writing may take some time with cursor positions.
  * Remember the splitter position also when the side-pane is removed.
  * Before focusing an existing side-pane with its toggling shortcut, ensure its visibility.
+ * Added the overwrite mode, which is toggled by pressing the Insert key.
 
 V0.8
 ---------

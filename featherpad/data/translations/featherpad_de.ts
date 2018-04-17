@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1">
+<TS version="2.1" language="de">
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="124"/>
+        <location filename="../../about.ui" line="128"/>
         <source>License</source>
         <translation>Lizenz</translation>
     </message>
@@ -2167,27 +2167,27 @@ in allen Fenstern in die gespeicherte Sitzung eingeschlossen.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="1200"/>
+        <location filename="../../textedit.cpp" line="1202"/>
         <source>Open Link</source>
         <translation>Öffne Link</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1210"/>
+        <location filename="../../textedit.cpp" line="1212"/>
         <source>Copy Link</source>
         <translation>Kopiere Link</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1223"/>
+        <location filename="../../textedit.cpp" line="1225"/>
         <source>To Upper Case</source>
         <translation>Zu Großbuchstaben</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1227"/>
+        <location filename="../../textedit.cpp" line="1229"/>
         <source>To Lower Case</source>
         <translation>Zu Kleinbuchstaben</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1233"/>
+        <location filename="../../textedit.cpp" line="1235"/>
         <source>Paste Date and Time</source>
         <translation>Einfügen von Datum und Zeit</translation>
     </message>
