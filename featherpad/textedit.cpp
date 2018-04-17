@@ -904,8 +904,16 @@ void TextEdit::paintEvent (QPaintEvent *event)
                     QTextLayout::FormatRange o;
                     o.start = context.cursorPosition - blpos;
                     o.length = 1;
-                    o.format.setForeground (palette().base());
-                    o.format.setBackground (palette().text());
+                    if (darkScheme)
+                    {
+                        o.format.setForeground (Qt::black);
+                        o.format.setBackground (Qt::white);
+                    }
+                    else
+                    {
+                        o.format.setForeground (Qt::white);
+                        o.format.setBackground (Qt::black);
+                    }
                     selections.append (o);
                 }
             }
