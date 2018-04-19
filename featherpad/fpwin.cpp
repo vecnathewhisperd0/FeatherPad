@@ -487,6 +487,8 @@ void FPwin::applyConfigOnStarting()
     connect (ui->menuOpenRecently, &QMenu::aboutToShow, this, &FPwin::updateRecenMenu);
     connect (ui->actionClearRecent, &QAction::triggered, this, &FPwin::clearRecentMenu);
 
+    ui->actionSave->setEnabled (config.getSaveUnmodified()); // newTab() will be called after this
+
     if (config.getIconless())
     {
         iconMode_ = NONE;
@@ -814,7 +816,7 @@ bool FPwin::hasAnotherDialog()
     return res;
 }
 /*************************/
-void FPwin::deleteTabPage (int tabIndex, bool saveToList)
+void FPwin::deleteTabPage (int tabIndex, bool saveToList, bool closeWithLastTab)
 {
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (tabIndex));
     if (sidePane_ && !sideItems_.isEmpty())
@@ -827,15 +829,13 @@ void FPwin::deleteTabPage (int tabIndex, bool saveToList)
     }
     TextEdit *textEdit = tabPage->textEdit();
     QString fileName = textEdit->getFileName();
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
     if (!fileName.isEmpty())
     {
         if (textEdit->getSaveCursor())
-        {
-            Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
             config.saveCursorPos (fileName, textEdit->textCursor().position());
-        }
-        if (saveToList && QFile::exists (fileName))
-            lastWinFilesCur_.insert (fileName,  textEdit->textCursor().position());
+        if (saveToList && config.getSaveLastFilesList() && QFile::exists (fileName))
+            lastWinFilesCur_.insert (fileName, textEdit->textCursor().position());
     }
     /* because deleting the syntax highlighter changes the text,
        it is better to disconnect contentsChange() here to prevent a crash */
@@ -844,6 +844,8 @@ void FPwin::deleteTabPage (int tabIndex, bool saveToList)
     syntaxHighlighting (textEdit, false);
     ui->tabWidget->removeTab (tabIndex);
     delete tabPage; tabPage = nullptr;
+    if (closeWithLastTab && config.getCloseWithLastTab() && ui->tabWidget->count() == 0)
+        close();
 }
 /*************************/
 // Here, "first" is the index/row, to whose right/bottom all tabs/rows are to be closed.
@@ -876,6 +878,7 @@ bool FPwin::closeTabs (int first, int last, bool saveFilesList)
     bool keep = false;
     int index, count;
     DOCSTATE state = SAVED;
+    bool closing (saveFilesList); // saveFilesList is true only with closing
     while (state == SAVED && ui->tabWidget->count() > 0)
     {
         if (QGuiApplication::overrideCursor() == nullptr)
@@ -900,7 +903,7 @@ bool FPwin::closeTabs (int first, int last, bool saveFilesList)
             keep = false;
             if (lastWinFilesCur_.size() > 20) // never remember more than 20 files
                 saveFilesList = false;
-            deleteTabPage (tabIndex, saveFilesList);
+            deleteTabPage (tabIndex, saveFilesList, !closing);
 
             if (last > -1) // also last > 0
                 --last; // a left tab is removed
@@ -933,7 +936,7 @@ bool FPwin::closeTabs (int first, int last, bool saveFilesList)
                 if (last == 0) break;
                 if (lastWinFilesCur_.size() > 20)
                     saveFilesList = false;
-                deleteTabPage (tabIndex, saveFilesList);
+                deleteTabPage (tabIndex, saveFilesList, !closing);
 
                 if (last < 0)
                     index = ui->tabWidget->count() - 1;
@@ -1401,7 +1404,8 @@ TabPage* FPwin::createEmptyTab (bool setCurrent, bool allowNormalHighlighter)
     }
     connect (textEdit->document(), &QTextDocument::undoAvailable, ui->actionUndo, &QAction::setEnabled);
     connect (textEdit->document(), &QTextDocument::redoAvailable, ui->actionRedo, &QAction::setEnabled);
-    connect (textEdit->document(), &QTextDocument::modificationChanged, ui->actionSave, &QAction::setEnabled);
+    if (!config.getSaveUnmodified())
+        connect (textEdit->document(), &QTextDocument::modificationChanged, ui->actionSave, &QAction::setEnabled);
     connect (textEdit->document(), &QTextDocument::modificationChanged, this, &FPwin::asterisk);
     connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCut, &QAction::setEnabled);
     connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionDelete, &QAction::setEnabled);
@@ -2039,14 +2043,16 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
         }
     }
 
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+
     /* set the text */
-    disconnect (textEdit->document(), &QTextDocument::modificationChanged, ui->actionSave, &QAction::setEnabled);
+    if (!config.getSaveUnmodified())
+        disconnect (textEdit->document(), &QTextDocument::modificationChanged, ui->actionSave, &QAction::setEnabled);
     disconnect (textEdit->document(), &QTextDocument::modificationChanged, this, &FPwin::asterisk);
     textEdit->setPlainText (text);
-    connect (textEdit->document(), &QTextDocument::modificationChanged, ui->actionSave, &QAction::setEnabled);
+    if (!config.getSaveUnmodified())
+        connect (textEdit->document(), &QTextDocument::modificationChanged, ui->actionSave, &QAction::setEnabled);
     connect (textEdit->document(), &QTextDocument::modificationChanged, this, &FPwin::asterisk);
-
-    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
 
     /* now, restore the cursor */
     if (reload)
@@ -2144,6 +2150,8 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
             ui->actionDelete->setDisabled (true);
             ui->actionUpperCase->setDisabled (true);
             ui->actionLowerCase->setDisabled (true);
+            if (config.getSaveUnmodified())
+                ui->actionSave->setDisabled (true);
         }
         disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCut, &QAction::setEnabled);
         disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionDelete, &QAction::setEnabled);
@@ -2957,6 +2965,8 @@ void FPwin::makeEditable()
     connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionDelete, &QAction::setEnabled);
     connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionUpperCase, &QAction::setEnabled);
     connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionLowerCase, &QAction::setEnabled);
+    if (config.getSaveUnmodified())
+        ui->actionSave->setEnabled (true);
 }
 /*************************/
 void FPwin::undoing()
@@ -3031,12 +3041,17 @@ void FPwin::tabSwitch (int index)
     /* correct the encoding menu */
     encodingToCheck (textEdit->getEncoding());
 
+    Config config = static_cast<FPsingleton*>(qApp)->getConfig();
+
     /* correct the states of some buttons */
     ui->actionUndo->setEnabled (textEdit->document()->isUndoAvailable());
     ui->actionRedo->setEnabled (textEdit->document()->isRedoAvailable());
-    ui->actionSave->setEnabled (modified);
-    ui->actionReload->setEnabled (!fname.isEmpty());
     bool readOnly = textEdit->isReadOnly();
+    if (!config.getSaveUnmodified())
+        ui->actionSave->setEnabled (modified);
+    else
+        ui->actionSave->setDisabled (readOnly || textEdit->isUneditable());
+    ui->actionReload->setEnabled (!fname.isEmpty());
     if (fname.isEmpty()
         && !modified
         && !textEdit->document()->isEmpty()) // 'Help' is an exception
@@ -3057,8 +3072,6 @@ void FPwin::tabSwitch (int index)
     ui->actionDelete->setEnabled (!readOnly && textIsSelected);
     ui->actionUpperCase->setEnabled (!readOnly && textIsSelected);
     ui->actionLowerCase->setEnabled (!readOnly && textIsSelected);
-
-    Config config = static_cast<FPsingleton*>(qApp)->getConfig();
 
     if (isScriptLang (textEdit->getProg()) && info.isExecutable())
         ui->actionRun->setVisible (config.getExecuteScripts());
@@ -3791,6 +3804,8 @@ void FPwin::detachTab()
         return;
     }
 
+    Config config = static_cast<FPsingleton*>(qApp)->getConfig();
+
     /*****************************************************
      *****          Get all necessary info.          *****
      ***** Then, remove the tab but keep its widget. *****
@@ -3847,7 +3862,8 @@ void FPwin::detachTab()
     disconnect (textEdit->document(), &QTextDocument::modificationChanged, this, &FPwin::asterisk);
     disconnect (textEdit->document(), &QTextDocument::undoAvailable, ui->actionUndo, &QAction::setEnabled);
     disconnect (textEdit->document(), &QTextDocument::redoAvailable, ui->actionRedo, &QAction::setEnabled);
-    disconnect (textEdit->document(), &QTextDocument::modificationChanged, ui->actionSave, &QAction::setEnabled);
+    if (!config.getSaveUnmodified())
+        disconnect (textEdit->document(), &QTextDocument::modificationChanged, ui->actionSave, &QAction::setEnabled);
 
     disconnect (tabPage, &TabPage::find, this, &FPwin::find);
     disconnect (tabPage, &TabPage::searchFlagChanged, this, &FPwin::searchFlagChanged);
@@ -3982,7 +3998,8 @@ void FPwin::detachTab()
     /* the remaining signals */
     connect (textEdit->document(), &QTextDocument::undoAvailable, dropTarget->ui->actionUndo, &QAction::setEnabled);
     connect (textEdit->document(), &QTextDocument::redoAvailable, dropTarget->ui->actionRedo, &QAction::setEnabled);
-    connect (textEdit->document(), &QTextDocument::modificationChanged, dropTarget->ui->actionSave, &QAction::setEnabled);
+    if (!config.getSaveUnmodified())
+        connect (textEdit->document(), &QTextDocument::modificationChanged, dropTarget->ui->actionSave, &QAction::setEnabled);
     connect (textEdit->document(), &QTextDocument::modificationChanged, dropTarget, &FPwin::asterisk);
     connect (textEdit, &QPlainTextEdit::copyAvailable, dropTarget->ui->actionCopy, &QAction::setEnabled);
 
@@ -4037,6 +4054,8 @@ void FPwin::dropTab (const QString& str)
         return;
     }
 
+    Config config = static_cast<FPsingleton*>(qApp)->getConfig();
+
     closeWarningBar();
     dragSource->closeWarningBar();
 
@@ -4079,7 +4098,8 @@ void FPwin::dropTab (const QString& str)
     disconnect (textEdit->document(), &QTextDocument::modificationChanged, dragSource, &FPwin::asterisk);
     disconnect (textEdit->document(), &QTextDocument::undoAvailable, dragSource->ui->actionUndo, &QAction::setEnabled);
     disconnect (textEdit->document(), &QTextDocument::redoAvailable, dragSource->ui->actionRedo, &QAction::setEnabled);
-    disconnect (textEdit->document(), &QTextDocument::modificationChanged, dragSource->ui->actionSave, &QAction::setEnabled);
+    if (!config.getSaveUnmodified())
+        disconnect (textEdit->document(), &QTextDocument::modificationChanged, dragSource->ui->actionSave, &QAction::setEnabled);
 
     disconnect (tabPage, &TabPage::find, dragSource, &FPwin::find);
     disconnect (tabPage, &TabPage::searchFlagChanged, dragSource, &FPwin::searchFlagChanged);
@@ -4218,7 +4238,8 @@ void FPwin::dropTab (const QString& str)
     /* the remaining signals */
     connect (textEdit->document(), &QTextDocument::undoAvailable, ui->actionUndo, &QAction::setEnabled);
     connect (textEdit->document(), &QTextDocument::redoAvailable, ui->actionRedo, &QAction::setEnabled);
-    connect (textEdit->document(), &QTextDocument::modificationChanged, ui->actionSave, &QAction::setEnabled);
+    if (!config.getSaveUnmodified())
+        connect (textEdit->document(), &QTextDocument::modificationChanged, ui->actionSave, &QAction::setEnabled);
     connect (textEdit->document(), &QTextDocument::modificationChanged, this, &FPwin::asterisk);
     connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCopy, &QAction::setEnabled);
 
@@ -4505,8 +4526,11 @@ void FPwin::autoSave()
         {
             TabPage *thisTabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (indx));
             TextEdit *thisTextEdit = thisTabPage->textEdit();
-            if (thisTextEdit->isUneditable() || !thisTextEdit->document()->isModified())
+            if (thisTextEdit->isUneditable()
+                || (!config.getSaveUnmodified() && !thisTextEdit->document()->isModified()))
+            {
                 continue;
+            }
             QString fname = thisTextEdit->getFileName();
             if (fname.isEmpty() || !QFile::exists (fname))
                 continue;

@@ -10,6 +10,8 @@ V0.8.1
  * Remember the splitter position also when the side-pane is removed.
  * Before focusing an existing side-pane with its toggling shortcut, ensure its visibility.
  * Added the overwrite mode, which is toggled by pressing the Insert key.
+ * Added an option for saving unmodified files.
+ * Added an option for closing a window on closing its last tab.
 
 V0.8
 ---------

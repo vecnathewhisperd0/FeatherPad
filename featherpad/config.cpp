@@ -56,6 +56,8 @@ Config::Config():
     inertialScrolling_ (false),
     autoSave_ (false),
     scrollJumpWorkaround_ (false),
+    saveUnmodified_ (false),
+    closeWithLastTab_ (false),
     vLineDistance_ (-80),
     tabPosition_ (0),
     maxSHSize_ (2),
@@ -152,6 +154,9 @@ void Config::readConfig()
     if (settings.value ("nativeDialog").toBool())
         nativeDialog_ = true; // false by default
 
+    if (settings.value ("closeWithLastTab").toBool())
+        closeWithLastTab_ = true; // false by default
+
     settings.endGroup();
 
     /************
@@ -201,6 +206,9 @@ void Config::readConfig()
 
     if (settings.value ("scrollJumpWorkaround").toBool())
         scrollJumpWorkaround_ = true; // false by default
+
+    if (settings.value ("saveUnmodified").toBool())
+        saveUnmodified_ = true; // false by default
 
     maxSHSize_ = qBound (1, settings.value ("maxSHSize", 2).toInt(), 10);
 
@@ -322,6 +330,7 @@ void Config::writeConfig()
     settings.setValue ("hideSingleTab", hideSingleTab_);
     settings.setValue ("openInWindows", openInWindows_);
     settings.setValue ("nativeDialog", nativeDialog_);
+    settings.setValue ("closeWithLastTab", closeWithLastTab_);
 
     settings.endGroup();
 
@@ -347,6 +356,7 @@ void Config::writeConfig()
     settings.setValue ("inertialScrolling", inertialScrolling_);
     settings.setValue ("autoSave", autoSave_);
     settings.setValue ("scrollJumpWorkaround", scrollJumpWorkaround_);
+    settings.setValue ("saveUnmodified", saveUnmodified_);
     settings.setValue ("maxSHSize", maxSHSize_);
 
     settings.setValue ("lightBgColorValue", lightBgColorValue_);

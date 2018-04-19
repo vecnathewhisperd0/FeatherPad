@@ -445,6 +445,20 @@ public:
     void setAutoSaveInterval (int i) {
         autoSaveInterval_ = i;
     }
+/*************************/
+    bool getSaveUnmodified() const {
+        return saveUnmodified_;
+    }
+    void setSaveUnmodified (bool save) {
+        saveUnmodified_ = save;
+    }
+/*************************/
+    bool getCloseWithLastTab() const {
+        return closeWithLastTab_;
+    }
+    void setCloseWithLastTab (bool close) {
+        closeWithLastTab_ = close;
+    }
 
 private:
     bool isValidShortCut (const QVariant v);
@@ -469,7 +483,9 @@ private:
          nativeDialog_,
          inertialScrolling_,
          autoSave_,
-         scrollJumpWorkaround_; // Should a workaround for Qt5's "scroll jump" bug be applied?
+         scrollJumpWorkaround_, // Should a workaround for Qt5's "scroll jump" bug be applied?
+         saveUnmodified_,
+         closeWithLastTab_;
     int vLineDistance_,
         tabPosition_,
         maxSHSize_,

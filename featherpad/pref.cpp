@@ -150,6 +150,9 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
     connect (ui->sidePaneBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSidePaneMode);
     connect (ui->sidePaneSizeBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSplitterPos);
 
+    ui->lastTabBox->setChecked (config.getCloseWithLastTab());
+    connect (ui->lastTabBox, &QCheckBox::stateChanged, this, &PrefDialog::prefCloseWithLastTab);
+
     /************
      *** Text ***
      ************/
@@ -253,6 +256,8 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
     ui->autoSaveSpin->setValue (config.getAutoSaveInterval());
     ui->autoSaveSpin->setEnabled (ui->autoSaveBox->isChecked());
     connect (ui->autoSaveBox, &QCheckBox::stateChanged, this, &PrefDialog::prefAutoSave);
+
+    ui->unmodifiedSaveBox->setChecked (config.getSaveUnmodified());
 
     /*****************
      *** Shortcuts ***
@@ -430,6 +435,7 @@ void PrefDialog::onClosing()
     prefApplySyntax();
     prefApplyDateFormat();
     prefTextTab();
+    prefSaveUnmodified();
 }
 /*************************/
 void PrefDialog::showPrompt (const QString& str, bool temporary)
@@ -1310,6 +1316,32 @@ void PrefDialog::prefAutoSave (int checked)
         ui->autoSaveSpin->setEnabled (false);
 }
 /*************************/
+void PrefDialog::prefSaveUnmodified()
+{
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    Config& config = singleton->getConfig();
+    config.setSaveUnmodified (ui->unmodifiedSaveBox->isChecked());
+    for (int i = 0; i < singleton->Wins.count(); ++i)
+    {
+        FPwin *win = singleton->Wins.at (i);
+        for (int j = 0; j < win->ui->tabWidget->count(); ++j)
+        {
+            TextEdit *textEdit = qobject_cast< TabPage *>(win->ui->tabWidget->widget (j))->textEdit();
+            if (ui->unmodifiedSaveBox->isChecked())
+            {
+                disconnect (textEdit->document(), &QTextDocument::modificationChanged, win->ui->actionSave, &QAction::setEnabled);
+                if (!textEdit->isReadOnly() && !textEdit->isUneditable())
+                    win->ui->actionSave->setEnabled (true);
+            }
+            else
+            {
+                win->ui->actionSave->setEnabled (textEdit->document()->isModified());
+                connect (textEdit->document(), &QTextDocument::modificationChanged, win->ui->actionSave, &QAction::setEnabled);
+            }
+        }
+    }
+}
+/*************************/
 void PrefDialog::prefApplyAutoSave()
 {
     FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
@@ -1343,6 +1375,15 @@ void PrefDialog::prefTextTab()
     for (int i = 0; i < textTabSize_; ++i)
         textTab += " ";
     config.setTextTab (textTab);
+}
+/*************************/
+void PrefDialog::prefCloseWithLastTab (int checked)
+{
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    if (checked == Qt::Checked)
+        config.setCloseWithLastTab (true);
+    else if (checked == Qt::Unchecked)
+        config.setCloseWithLastTab (false);
 }
 
 }

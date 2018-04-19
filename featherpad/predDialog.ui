@@ -273,6 +273,13 @@ and-drop either.</string>
            </widget>
           </item>
           <item row="14" column="0" colspan="5">
+           <widget class="QCheckBox" name="lastTabBox">
+            <property name="text">
+             <string>Close window on closing its last tab</string>
+            </property>
+           </widget>
+          </item>
+          <item row="15" column="0" colspan="5">
            <widget class="QCheckBox" name="windowBox">
             <property name="toolTip">
              <string>By default, if a FeatherPad window exists on the
@@ -286,7 +293,7 @@ report that they have multiple desktops.</string>
             </property>
            </widget>
           </item>
-          <item row="15" column="0" colspan="5">
+          <item row="16" column="0" colspan="5">
            <widget class="QCheckBox" name="nativeDialogBox">
             <property name="toolTip">
              <string>If this is checked, the file dialog provided by the current
@@ -840,6 +847,21 @@ will be shown by a popup dialog.</string>
             </property>
             <property name="maximum">
              <number>60</number>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0" colspan="3">
+           <widget class="QCheckBox" name="unmodifiedSaveBox">
+            <property name="toolTip">
+             <string>If this is checked, the Save button/menu-item could
+be used also when the opened file is not modified.
+
+This can be useful under certain circumstances,
+e.g. for changing the time stamp or removing the
+trailing spaces of a text file.</string>
+            </property>
+            <property name="text">
+             <string>Allow saving unmodified files</string>
             </property>
            </widget>
           </item>
