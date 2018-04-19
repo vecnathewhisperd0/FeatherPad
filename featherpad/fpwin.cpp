@@ -4526,11 +4526,8 @@ void FPwin::autoSave()
         {
             TabPage *thisTabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (indx));
             TextEdit *thisTextEdit = thisTabPage->textEdit();
-            if (thisTextEdit->isUneditable()
-                || (!config.getSaveUnmodified() && !thisTextEdit->document()->isModified()))
-            {
+            if (thisTextEdit->isUneditable() || !thisTextEdit->document()->isModified())
                 continue;
-            }
             QString fname = thisTextEdit->getFileName();
             if (fname.isEmpty() || !QFile::exists (fname))
                 continue;

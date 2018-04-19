@@ -917,9 +917,9 @@
         <location filename="../../fpwin.cpp" line="2824"/>
         <location filename="../../fpwin.cpp" line="2831"/>
         <location filename="../../fpwin.cpp" line="3536"/>
-        <location filename="../../fpwin.cpp" line="4613"/>
-        <location filename="../../fpwin.cpp" line="4624"/>
-        <location filename="../../fpwin.cpp" line="4631"/>
+        <location filename="../../fpwin.cpp" line="4610"/>
+        <location filename="../../fpwin.cpp" line="4621"/>
+        <location filename="../../fpwin.cpp" line="4628"/>
         <source>Lines</source>
         <translation>Linjer</translation>
     </message>
@@ -1207,7 +1207,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="354"/>
         <location filename="../../fpwin.cpp" line="3018"/>
-        <location filename="../../fpwin.cpp" line="4789"/>
+        <location filename="../../fpwin.cpp" line="4786"/>
         <source>Help</source>
         <translation>Hjælp</translation>
     </message>
@@ -1216,9 +1216,9 @@
         <location filename="../../fpwin.cpp" line="2815"/>
         <location filename="../../fpwin.cpp" line="2823"/>
         <location filename="../../fpwin.cpp" line="3535"/>
-        <location filename="../../fpwin.cpp" line="4609"/>
-        <location filename="../../fpwin.cpp" line="4615"/>
-        <location filename="../../fpwin.cpp" line="4623"/>
+        <location filename="../../fpwin.cpp" line="4606"/>
+        <location filename="../../fpwin.cpp" line="4612"/>
+        <location filename="../../fpwin.cpp" line="4620"/>
         <source>Syntax</source>
         <translation>Syntaks</translation>
     </message>
@@ -1257,33 +1257,33 @@
         <translation>Åbn mål her</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4694"/>
+        <location filename="../../fpwin.cpp" line="4691"/>
         <source>Translators</source>
         <translation>Oversættere</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4690"/>
+        <location filename="../../fpwin.cpp" line="4687"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translation>Et letvægts tekstredigeringsprogram med faneblade</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4691"/>
+        <location filename="../../fpwin.cpp" line="4688"/>
         <source>based on Qt5</source>
         <translation>baseret på Qt5</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4692"/>
+        <location filename="../../fpwin.cpp" line="4689"/>
         <source>Author</source>
         <translation>Forfatter</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4693"/>
+        <location filename="../../fpwin.cpp" line="4690"/>
         <source>aka.</source>
         <translation>også kendt som</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4694"/>
-        <location filename="../../fpwin.cpp" line="4695"/>
+        <location filename="../../fpwin.cpp" line="4691"/>
+        <location filename="../../fpwin.cpp" line="4692"/>
         <source>About FeatherPad</source>
         <translation>Om FeatherPad</translation>
     </message>
