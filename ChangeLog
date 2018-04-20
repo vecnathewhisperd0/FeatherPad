@@ -12,6 +12,7 @@ V0.8.1
  * Added the overwrite mode, which is toggled by pressing the Insert key.
  * Added an option for saving unmodified files.
  * Added an option for closing a window on closing its last tab.
+ * Fixed a regression in recognizing special files (started when QRegExp was replaced by QRegularExpression).
 
 V0.8
 ---------
