@@ -22,6 +22,7 @@
 
 #include <QPointer>
 #include <QPushButton>
+#include <QComboBox>
 #include "lineedit.h"
 
 namespace FeatherPad {
@@ -52,10 +53,12 @@ signals:
     void find (bool forward);
 
 private:
+    void searchStarted();
     void findForward();
     void findBackward();
 
     QPointer<LineEdit> lineEdit_;
+    QPointer<QComboBox> combo_;
     QPointer<QToolButton> toolButton_nxt_;
     QPointer<QToolButton> toolButton_prv_;
     QPointer<QToolButton> button_case_;

@@ -149,20 +149,24 @@ Alt+Down         First tab
 Ctrl+P           Print
 Ctrl+E           Edit uneditable documents
 
-Extra Shortcuts:
-=================
+Extra (Hidden) Shortcuts:
+==========================
 F11              (Un-)Fullscreen
-Ctrl+Shift+W     Resize window to fixed size (700x500 by default but can be set in Preferences)
+Ctrl+Shift+W     Resize window to fixed size (700x500 by default
+                 but can be set in Preferences)
 Ctrl+=           Zoom in (also Ctrl++ or Ctrl + mouse wheel)
 Ctrl+-           Zoom out (also Ctrl + mouse wheel)
 Ctrl+0           Reset zooming
-Ctrl+E           Execute this file (only if this is enabled in Preferences)
+Ctrl+E           Execute this file (only if enabled in Preferences)
 Ctrl+Alt+E       Exit (kill) the above process immediately
 Ctrl+K           Delete to the end of the line when the editor is focused
 Ctrl+Right/Left  Move the cursor one word to the right/left
 Ctrl+Tab         4-space text tabulation (can be changed in Preferences)
 Ctrl+Meta+Tab    2-space text tabulation
-Shift+Enter      Insert newline with the non-letter prefix of the current line (to write code comments easily)
+Shift+Ctrl+Up    Move line(s) upward
+Shift+Ctrl+Down  Move line(s) downward
+Shift+Enter      Insert newline with the non-letter prefix of the current line
+                 (to write code comments easily)
 Insert           Toggle overwrite mode
 
-The remaining shortcuts are standard. All shortcuts, except for the extra ones above, can be found on menus or as tooltips. Many of them can be customized in the Preferences dialog.
+The remaining shortcuts are standard. All shortcuts, except for the extra ones above, can be found on menus or as tooltips and many of them can be customized in the Preferences dialog.

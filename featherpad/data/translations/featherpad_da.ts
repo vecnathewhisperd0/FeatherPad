@@ -2004,31 +2004,31 @@ trailing spaces of a text file.</source>
 <context>
     <name>FeatherPad::SearchBar</name>
     <message>
-        <location filename="../../searchbar.cpp" line="35"/>
+        <location filename="../../searchbar.cpp" line="36"/>
         <source>Search...</source>
         <translation>Søg...</translation>
     </message>
     <message>
-        <location filename="../../searchbar.cpp" line="66"/>
-        <location filename="../../searchbar.cpp" line="70"/>
+        <location filename="../../searchbar.cpp" line="73"/>
+        <location filename="../../searchbar.cpp" line="77"/>
         <source>Match Case</source>
         <translation>Forskel på store og små bogstaver</translation>
     </message>
     <message>
-        <location filename="../../searchbar.cpp" line="78"/>
-        <location filename="../../searchbar.cpp" line="82"/>
+        <location filename="../../searchbar.cpp" line="85"/>
+        <location filename="../../searchbar.cpp" line="89"/>
         <source>Whole Word</source>
         <translation>Hele ord</translation>
     </message>
     <message>
-        <location filename="../../searchbar.cpp" line="55"/>
-        <location filename="../../searchbar.cpp" line="60"/>
+        <location filename="../../searchbar.cpp" line="62"/>
+        <location filename="../../searchbar.cpp" line="67"/>
         <source>Next</source>
         <translation>Næste</translation>
     </message>
     <message>
-        <location filename="../../searchbar.cpp" line="56"/>
-        <location filename="../../searchbar.cpp" line="61"/>
+        <location filename="../../searchbar.cpp" line="63"/>
+        <location filename="../../searchbar.cpp" line="68"/>
         <source>Previous</source>
         <translation>Forrige</translation>
     </message>
@@ -2189,27 +2189,27 @@ vinduer i den gemte session.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="1210"/>
+        <location filename="../../textedit.cpp" line="1326"/>
         <source>Open Link</source>
         <translation>Åbn link</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1220"/>
+        <location filename="../../textedit.cpp" line="1336"/>
         <source>Copy Link</source>
         <translation>Kopiér link</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1233"/>
+        <location filename="../../textedit.cpp" line="1349"/>
         <source>To Upper Case</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1237"/>
+        <location filename="../../textedit.cpp" line="1353"/>
         <source>To Lower Case</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1243"/>
+        <location filename="../../textedit.cpp" line="1359"/>
         <source>Paste Date and Time</source>
         <translation>Indsæt dato og klokkeslæt</translation>
     </message>

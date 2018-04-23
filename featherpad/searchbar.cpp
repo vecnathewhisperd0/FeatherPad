@@ -19,6 +19,7 @@
 
 #include <QGridLayout>
 #include <QToolButton>
+#include <QCompleter>
 #include "searchbar.h"
 
 namespace FeatherPad {
@@ -30,10 +31,16 @@ SearchBar::SearchBar(QWidget *parent,
                      Qt::WindowFlags f)
     : QFrame (parent, f)
 {
-    lineEdit_ = new LineEdit (this);
+    lineEdit_ = new LineEdit();
     lineEdit_->setMinimumWidth (150);
     lineEdit_->setPlaceholderText (tr ("Search..."));
     //lineEdit_->setSizePolicy (QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+    combo_ = new QComboBox (this);
+    combo_->setLineEdit (lineEdit_);
+    combo_->setInsertPolicy (QComboBox::NoInsert);
+    combo_->setMaxCount (40); // more than this would be confusing
+    combo_->setCompleter (nullptr); // disable auto-completion to keep history
+
     shortcuts_ = shortcuts;
     QString nxtShortcut, prevShortcut, csShortcut, wholeShortcut;
     if (shortcuts.size() >= 4)
@@ -91,7 +98,7 @@ SearchBar::SearchBar(QWidget *parent,
     QGridLayout *mainGrid = new QGridLayout;
     mainGrid->setHorizontalSpacing (3);
     mainGrid->setContentsMargins (2, 0, 2, 0);
-    mainGrid->addWidget (lineEdit_, 0, 0);
+    mainGrid->addWidget (combo_, 0, 0);
     mainGrid->addWidget (toolButton_nxt_, 0, 1);
     mainGrid->addWidget (toolButton_prv_, 0, 2);
     mainGrid->addItem (new QSpacerItem (6, 3), 0, 3);
@@ -104,6 +111,20 @@ SearchBar::SearchBar(QWidget *parent,
     connect (toolButton_prv_, &QAbstractButton::clicked, this, &SearchBar::findBackward);
     connect (button_case_, &QAbstractButton::clicked, this, &SearchBar::searchFlagChanged);
     connect (button_whole_, &QAbstractButton::clicked, this, &SearchBar::searchFlagChanged);
+}
+/*************************/
+void SearchBar::searchStarted()
+{
+    const QString txt = lineEdit_->text();
+    if (txt.isEmpty()) return;
+    int index = combo_->findText (txt, Qt::MatchExactly);
+    if (index != 0)
+    {
+        if (index > 0)
+            combo_->removeItem (index);
+        combo_->insertItem (0, txt);
+    }
+    combo_->setCurrentIndex (0);
 }
 /*************************/
 void SearchBar::focusLineEdit()
@@ -129,11 +150,13 @@ void SearchBar::clearSearchEntry()
 /*************************/
 void SearchBar::findForward()
 {
+    searchStarted();
     emit find (true);
 }
 /*************************/
 void SearchBar::findBackward()
 {
+    searchStarted();
     emit find (false);
 }
 /*************************/
