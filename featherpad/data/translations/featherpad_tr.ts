@@ -40,7 +40,7 @@
     <message>
         <location filename="../../fp.ui" line="111"/>
         <source>Select Text</source>
-        <translation>Metni Seç</translation>
+        <translation>&amp;Metni Seç</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="114"/>
@@ -445,6 +445,7 @@
     <message>
         <location filename="../../fp.ui" line="770"/>
         <source>Enforce UTF-8</source>
+        <translatorcomment>RAPOR 8: Seems to be unused</translatorcomment>
         <translation>UTF-8&apos;e Zorla</translation>
     </message>
     <message>
@@ -514,7 +515,7 @@
         <location filename="../../fp.ui" line="1100"/>
         <source>Sa&amp;ve/Restore Session</source>
         <translatorcomment>RAPOR 1 : Message seems to be unused.</translatorcomment>
-        <translation>Lorem Ipsum 1</translation>
+        <translation>Oturumu Kaydet / Geri Yükle</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1103"/>
@@ -643,7 +644,7 @@
     <message>
         <location filename="../../fp.ui" line="239"/>
         <source>Ea&amp;st Asian</source>
-        <translation>&amp;Uzakdoğu Asya</translation>
+        <translation>Uzakdoğu &amp;Asya</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="331"/>
@@ -667,7 +668,7 @@
     <message>
         <location filename="../../fp.ui" line="754"/>
         <source>Windows Arabic (&amp;CP1256)</source>
-        <translation>Windows &amp;Arapçası (CP1256)</translation>
+        <translation>&amp;Windows Arapçası (CP1256)</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="762"/>
@@ -856,7 +857,7 @@
         <location filename="../../fpwin.cpp" line="476"/>
         <source>&amp;Recently Opened</source>
         <translatorcomment>RAPOR 3 : Only used at initial launch (if recent file criterium is &quot;recently opened&quot;). After changing the criterium from &quot;recently opened&quot; to &quot;recently modified&quot;, and then again back to &quot;recently opened&quot; in the Preferences dialog, then this message is never used again. Instead, duplicate of this message in the PrefDialog is used from then on.</translatorcomment>
-        <translation>&amp;Son Açılanlar</translation>
+        <translation>&amp;Son Açılan Belgeler</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="497"/>
@@ -1369,7 +1370,7 @@
     <message>
         <location filename="../../predDialog.ui" line="42"/>
         <source>Remember window &amp;size on closing</source>
-        <translation>Kapanıştaki pencere &amp;boyutlarını hatırla</translation>
+        <translation>Kapanıştaki pencere boyutlarını &amp;hatırla</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="49"/>
@@ -1410,7 +1411,7 @@ fakat sekmeler yoktur.</translation>
     <message>
         <location filename="../../predDialog.ui" line="141"/>
         <source>Remember splitter position</source>
-        <translation>Ayraç konumunu hatırla</translation>
+        <translation>Ay&amp;raç konumunu hatırla</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="161"/>
@@ -1447,7 +1448,7 @@ bir menü düğmesi peydahlanır.</translation>
     <message>
         <location filename="../../predDialog.ui" line="187"/>
         <source>Do not show &amp;menubar</source>
-        <translation>&amp;Menü çubuğunu kaldır</translation>
+        <translation>Men&amp;ü çubuğunu kaldır</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="194"/>
@@ -1457,12 +1458,12 @@ bir menü düğmesi peydahlanır.</translation>
     <message>
         <location filename="../../predDialog.ui" line="201"/>
         <source>Always show st&amp;atus bar</source>
-        <translation>&amp;Durum çubuğunu daima göster</translation>
+        <translation>D&amp;urum çubuğunu daima göster</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="208"/>
         <source>Show cursor position on status bar</source>
-        <translation>Durum çubuğunda imleç konumunu göster</translation>
+        <translation>Durum &amp;çubuğunda imleç konumunu göster</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="215"/>
@@ -1514,7 +1515,7 @@ Fare tekeriyle sekme gezinimi bundan etkilenmez.</translation>
     <message>
         <location filename="../../predDialog.ui" line="278"/>
         <source>Close window on closing its last tab</source>
-        <translation type="unfinished"></translation>
+        <translation>So&amp;n sekmeyi kapatınca pencereyi de kapat</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="285"/>
@@ -1533,7 +1534,7 @@ kullanıldığını bildirmeyebilirler.</translation>
     <message>
         <location filename="../../predDialog.ui" line="292"/>
         <source>Always open in separate windows</source>
-        <translation>Dosyaları dai&amp;ma ayrı pencerelerde aç</translation>
+        <translation>D&amp;osyaları daima ayrı pencerelerde aç</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="299"/>
@@ -1641,12 +1642,12 @@ boş olmayan belgeleri açamıyorlar.</translation>
     <message>
         <location filename="../../predDialog.ui" line="623"/>
         <source>Remove trailing spaces on saving</source>
-        <translation>Kaydederken en sondaki boşlukları kır&amp;p</translation>
+        <translation>Kaydederken en sondaki bo&amp;şlukları kırp</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="634"/>
         <source>Inertial scrolling with mouse wheel</source>
-        <translation>&amp;Fare tekeriyle ataletli kaydırma yap</translation>
+        <translation>Fare tekeriyle &amp;ataletli kaydırma yap</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="660"/>
@@ -1704,7 +1705,7 @@ bir diyalog balonuyla gösterilir.</translation>
     <message>
         <location filename="../../predDialog.ui" line="716"/>
         <source>Show recentl&amp;y modified files</source>
-        <translation>Son &amp;değiştirilen dosyaları göster</translation>
+        <translation>Son değiştirilen dosyaları &amp;göster</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="726"/>
@@ -1714,7 +1715,7 @@ bir diyalog balonuyla gösterilir.</translation>
     <message>
         <location filename="../../predDialog.ui" line="833"/>
         <source>Save changes to opened files every:</source>
-        <translation>&amp;Dosyaları otomatik kaydetme aralığı:</translation>
+        <translation>Dosyaları &amp;otomatik kaydetme aralığı:</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="934"/>
@@ -1727,8 +1728,8 @@ bir diyalog balonuyla gösterilir.</translation>
 use system icons!
 
 Needs application restart to take effect.</source>
-        <translation>FetherPad&apos;in sistem simgelerini
-kullanması için boş bırakın!
+        <translation>FeatherPad&apos;in sistem simgelerini
+kullanması için boş bırakın.
 
 Uygulama tekrar başlatılınca etkinleşir.</translation>
     </message>
@@ -1740,7 +1741,7 @@ Uygulama tekrar başlatılınca etkinleşir.</translation>
     <message>
         <location filename="../../predDialog.ui" line="154"/>
         <source>&amp;Use own icons</source>
-        <translation>&amp;Kendi simgelerini kullan</translation>
+        <translation>K&amp;endi simgelerini kullan</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="265"/>
@@ -1791,7 +1792,7 @@ diğeriyle birleştirebilme imkanını da kaybedersiniz.</translation>
     <message>
         <location filename="../../predDialog.ui" line="518"/>
         <source>Dark c&amp;olor scheme</source>
-        <translation>&amp;Koyu renk tarzı</translation>
+        <translation>Koyu renk &amp;tarzı</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="549"/>
@@ -1935,12 +1936,16 @@ be used also when the opened file is not modified.
 This can be useful under certain circumstances,
 e.g. for changing the time stamp or removing the
 trailing spaces of a text file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seçerseniz, açılan dosyada bir değişiklik yapılmasa
+dahi [Kaydet] düğmesi veya menüden kaydedilebilir.
+
+Bazen kullanışlı olabilir. Misal, dosyanın zaman damgasını
+güncellemek veya dosya sonundaki boşlukları kırpmak için.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="864"/>
         <source>Allow saving unmodified files</source>
-        <translation type="unfinished"></translation>
+        <translation>D&amp;eğişmemiş dosyalar da kaydedilebilsin</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="875"/>
@@ -2004,7 +2009,7 @@ trailing spaces of a text file.</source>
     <message>
         <location filename="../../pref.cpp" line="1149"/>
         <source>&amp;Recently Opened</source>
-        <translation>&amp;Son Açılan Belgeler</translation>
+        <translation>&amp;Son Açılanlar</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="1150"/>
@@ -2104,7 +2109,7 @@ trailing spaces of a text file.</source>
         <location filename="../../sessionDialog.ui" line="159"/>
         <source>By default, all files that are opened in all
 windows will be included in the saved session.</source>
-        <translation>Seçmezseniz, tüm pencerelerde açılan tüm
+        <translation>Seçmezseniz, tüm pencerelerde açılmış tüm
 dosyalar kaydedilen oturuma dahil edilir.</translation>
     </message>
     <message>
