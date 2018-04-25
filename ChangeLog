@@ -16,6 +16,7 @@ V0.8.1
  * Workaround for a Qt bug in using Up/Down keys after Backspace.
  * Added shortcuts (Shift+Ctrl+Up/Down) for moving lines.
  * Added a history popup to the search bar.
+ * Set the window title to the path.
 
 V0.8
 ---------

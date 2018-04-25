@@ -1821,16 +1821,19 @@ void FPwin::setTitle (const QString& fileName, int tabIndex)
     bool isLink (false);
     QString shownName;
     if (fileName.isEmpty())
+    {
         shownName = tr ("Untitled");
+        if (tabIndex < 0)
+            setWindowTitle (shownName);
+    }
     else
     {
+        if (tabIndex < 0)
+            setWindowTitle (fileName.section ('/', 0, -2) + "/");
         isLink = QFileInfo (fileName).isSymLink();
         shownName = fileName.section ('/', -1);
         shownName.replace ("\n", " "); // no multi-line tab text
     }
-
-    if (tabIndex < 0)
-        setWindowTitle (shownName);
 
     shownName.replace ("&", "&&"); // single ampersand is for mnemonic
     ui->tabWidget->setTabText (index, shownName);
@@ -1860,14 +1863,18 @@ void FPwin::asterisk (bool modified)
                     ->textEdit()->getFileName();
     QString shownName;
     if (fname.isEmpty())
+    {
         shownName = tr ("Untitled");
+        setWindowTitle ((modified ? "*" : QString()) + shownName);
+    }
     else
+    {
         shownName = fname.section ('/', -1);
+        setWindowTitle ((modified ? "*" : QString()) + fname.section ('/', 0, -2) + "/");
+    }
     if (modified)
         shownName.prepend ("*");
     shownName.replace ("\n", " ");
-
-    setWindowTitle (shownName);
 
     shownName.replace ("&", "&&");
     ui->tabWidget->setTabText (index, shownName);
@@ -3022,7 +3029,7 @@ void FPwin::tabSwitch (int index)
     else
     {
         info.setFile (fname);
-        shownName = fname.section ('/', -1);
+        shownName = fname.section ('/', 0, -2) + "/";
         if (!QFile::exists (fname))
             showWarningBar ("<center><b><big>" + tr ("The file has been removed.") + "</big></b></center>");
         else if (textEdit->getLastModified() != info.lastModified())
@@ -3031,7 +3038,6 @@ void FPwin::tabSwitch (int index)
     }
     if (modified)
         shownName.prepend ("*");
-    shownName.replace ("\n", " ");
     setWindowTitle (shownName);
 
     /* although the window size, wrapping state or replacing text may have changed or
