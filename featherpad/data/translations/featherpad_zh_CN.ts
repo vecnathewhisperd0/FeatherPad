@@ -1040,6 +1040,36 @@
         <translation></translation>
     </message>
     <message>
+        <location filename="../../fpwin.cpp" line="662"/>
+        <source>Ctrl+Shift+Up</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="662"/>
+        <source>Ctrl+Shift+Down</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="662"/>
+        <source>Meta+Up</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="662"/>
+        <source>Meta+Down</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="662"/>
+        <source>Meta+Shift+Up</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="662"/>
+        <source>Meta+Shift+Down</source>
+        <translation></translation>
+    </message>
+    <message>
         <location filename="../../fpwin.cpp" line="665"/>
         <location filename="../../fpwin.cpp" line="1337"/>
         <source>F3</source>
@@ -2156,27 +2186,27 @@ windows will be included in the saved session.</source>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="1326"/>
+        <location filename="../../textedit.cpp" line="1365"/>
         <source>Open Link</source>
         <translation>打开链接</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1336"/>
+        <location filename="../../textedit.cpp" line="1375"/>
         <source>Copy Link</source>
         <translation>复制链接</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1349"/>
+        <location filename="../../textedit.cpp" line="1388"/>
         <source>To Upper Case</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1353"/>
+        <location filename="../../textedit.cpp" line="1392"/>
         <source>To Lower Case</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1359"/>
+        <location filename="../../textedit.cpp" line="1398"/>
         <source>Paste Date and Time</source>
         <translation>粘贴日期与时间</translation>
     </message>

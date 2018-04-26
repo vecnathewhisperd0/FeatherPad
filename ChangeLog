@@ -14,7 +14,9 @@ V0.8.1
  * Added an option for closing a window on closing its last tab.
  * Fixed a regression in recognizing special files (started when QRegExp was replaced by QRegularExpression).
  * Workaround for a Qt bug in using Up/Down keys after Backspace.
- * Added shortcuts (Shift+Ctrl+Up/Down) for moving lines.
+ * Added Ctrl+Up/Down for scrolling by one line without moving the cursor.
+ * Added Meta+Up/Down for going to the same position in the previous/next unwrapped line.
+ * Added shortcuts (Ctrl+Shift+Up/Down) for moving lines.
  * Added a history popup to the search bar.
  * Set the window title to the path.
 

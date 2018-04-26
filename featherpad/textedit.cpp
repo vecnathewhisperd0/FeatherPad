@@ -543,33 +543,72 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
     else if (event->key() == Qt::Key_Down || event->key() == Qt::Key_Up)
     {
         if (event->modifiers() == Qt::NoModifier || event->modifiers() == Qt::ShiftModifier)
-        { // Qt has a bug with Down/Up after Backspace
+        {
+            /* NOTE: Qt has a bug with Down/Up after Backspace/Enter. This is a workaround. */
             QTextCursor cursor = textCursor();
             if (!cursor.hasSelection())
-            {
-                int bPos = cursor.positionInBlock();
+            { // go to the same position in the next/previous line
+                QTextCursor tmp = cursor;
+                tmp.movePosition (QTextCursor::StartOfLine);
+                int lPos = cursor.position() - tmp.position(); // position from the line start
                 QTextCursor::MoveMode mode = (event->modifiers() == Qt::ShiftModifier
                                                   ? QTextCursor::KeepAnchor
                                                   : QTextCursor::MoveAnchor);
                 cursor.movePosition (event->key() == Qt::Key_Down
-                                         ? QTextCursor::EndOfBlock
-                                         : QTextCursor::StartOfBlock,
-                                     mode);
+                                         ? QTextCursor::EndOfLine
+                                         : QTextCursor::StartOfLine,
+                                                         mode);
                 if (cursor.movePosition (event->key() == Qt::Key_Down
-                                             ? QTextCursor::NextBlock
-                                             : QTextCursor::PreviousBlock,
+                                             ? QTextCursor::NextCharacter
+                                             : QTextCursor::PreviousCharacter,
                                          mode))
-                {
-                    QTextCursor tmp = cursor;
-                    tmp.movePosition (QTextCursor::EndOfBlock);
-                    bPos = qMin (bPos, tmp.positionInBlock());
-                    cursor.setPosition (cursor.block().position() + bPos, mode);
+                { // next/previous line or block
+                    cursor.movePosition (QTextCursor::StartOfLine, mode);
+                    tmp = cursor;
+                    tmp.movePosition (QTextCursor::EndOfLine);
+                    lPos = qMin (lPos, tmp.position() - cursor.position());
+                    cursor.setPosition (cursor.position() + lPos, mode);
                 }
                 setTextCursor (cursor);
                 ensureCursorVisible();
                 event->accept();
                 return;
             }
+        }
+        if (event->modifiers() == Qt::ControlModifier)
+        {
+            if (QScrollBar* vbar = verticalScrollBar())
+            { // scroll without changing the cursor position
+                vbar->setValue(vbar->value() + (event->key() == Qt::Key_Down ? 1 : -1));
+                event->accept();
+                return;
+            }
+        }
+        else if (event->modifiers() == Qt::MetaModifier || event->modifiers() == (Qt::ShiftModifier | Qt::MetaModifier))
+        { // go to the same position in the next/previous block
+            QTextCursor cursor = textCursor();
+            int bPos = cursor.positionInBlock();
+            QTextCursor::MoveMode mode = ((event->modifiers() & Qt::ShiftModifier)
+                                              ? QTextCursor::KeepAnchor
+                                              : QTextCursor::MoveAnchor);
+            cursor.movePosition (event->key() == Qt::Key_Down
+                                     ? QTextCursor::EndOfBlock
+                                     : QTextCursor::StartOfBlock,
+                                 mode);
+            if (cursor.movePosition (event->key() == Qt::Key_Down
+                                         ? QTextCursor::NextBlock
+                                         : QTextCursor::PreviousBlock,
+                                     mode))
+            {
+                QTextCursor tmp = cursor;
+                tmp.movePosition (QTextCursor::EndOfBlock);
+                bPos = qMin (bPos, tmp.positionInBlock());
+                cursor.setPosition (cursor.block().position() + bPos, mode);
+            }
+            setTextCursor (cursor);
+            ensureCursorVisible();
+            event->accept();
+            return;
         }
         else if (event->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier))
         { // move the line(s)

@@ -555,7 +555,7 @@
         <location filename="../../fpwin.cpp" line="1256"/>
         <location filename="../../fpwin.cpp" line="4430"/>
         <source>Ctrl+Shift+U</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+MAJ+U</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1135"/>
@@ -568,7 +568,7 @@
         <location filename="../../fpwin.cpp" line="1257"/>
         <location filename="../../fpwin.cpp" line="4431"/>
         <source>Ctrl+Shift+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+MAJ+L</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="983"/>
@@ -1033,6 +1033,36 @@
         <location filename="../../fpwin.cpp" line="662"/>
         <source>Ctrl+End</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="662"/>
+        <source>Ctrl+Shift+Up</source>
+        <translation>Ctrl+MAJ+Haut</translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="662"/>
+        <source>Ctrl+Shift+Down</source>
+        <translation>Ctrl+MAJ+Bas</translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="662"/>
+        <source>Meta+Up</source>
+        <translation>Meta+Haut</translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="662"/>
+        <source>Meta+Down</source>
+        <translation>Meta+Bas</translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="662"/>
+        <source>Meta+Shift+Up</source>
+        <translation>Meta+MAJ+Haut</translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="662"/>
+        <source>Meta+Shift+Down</source>
+        <translation>Meta+MAJ+Bas</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="665"/>
@@ -2182,27 +2212,27 @@ fenêtres seront inclus dans la session sauvegardée.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="1326"/>
+        <location filename="../../textedit.cpp" line="1365"/>
         <source>Open Link</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1336"/>
+        <location filename="../../textedit.cpp" line="1375"/>
         <source>Copy Link</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1349"/>
+        <location filename="../../textedit.cpp" line="1388"/>
         <source>To Upper Case</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1353"/>
+        <location filename="../../textedit.cpp" line="1392"/>
         <source>To Lower Case</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1359"/>
+        <location filename="../../textedit.cpp" line="1398"/>
         <source>Paste Date and Time</source>
         <translation type="unfinished"></translation>
     </message>

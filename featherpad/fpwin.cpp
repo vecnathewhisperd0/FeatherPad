@@ -659,7 +659,7 @@ void FPwin::applyConfigOnStarting()
                     /* QPLainTextEdit */
         reserved << tr ("Ctrl+Shift+Z") << tr ("Ctrl+Z") << tr ("Ctrl+X") << tr ("Ctrl+C") << tr ("Ctrl+V") << tr ("Ctrl+A")
                  << tr ("Shift+Ins") << tr ("Shift+Del") << tr ("Ctrl+Ins") << tr ("Ctrl+Left") << tr ("Ctrl+Right")
-                 << tr ("Ctrl+Up") << tr ("Ctrl+Down") << tr ("Ctrl+Home") << tr ("Ctrl+End")
+                 << tr ("Ctrl+Up") << tr ("Ctrl+Down") << tr ("Ctrl+Home") << tr ("Ctrl+End") << tr ("Ctrl+Shift+Up") << tr ("Ctrl+Shift+Down") << tr ("Meta+Up") << tr ("Meta+Down") << tr ("Meta+Shift+Up")<< tr ("Meta+Shift+Down")
 
                     /* search and replacement */
                  << tr ("F3") << tr ("F4") << tr ("F5") << tr ("F6")
