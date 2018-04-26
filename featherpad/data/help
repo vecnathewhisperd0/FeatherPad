@@ -167,7 +167,7 @@ Up/Down             Go to the same position in the previous/next wrapped line
 Shift+Up/Down       Go to the same position in the previous/next wrapped line while selecting text
 Meta+Up/Down        Go to the same position in the previous/next (real) line
 Meta+Shift+Up/Down  Go to the same position in the previous/next (real) line while selecting text
-Ctrl+Up/Down        Scroll up/down by wrapped one line without moving cursor
+Ctrl+Up/Down        Scroll up/down by one wrapped line without moving cursor
 Ctrl+Shift+Up/Down  Move line(s) upward/downward
 Shift+Enter         Insert newline with the non-letter prefix of the current line
                     (to write code comments easily)
