@@ -2262,6 +2262,16 @@ void FPwin::onOpeningUneditable()
 /*************************/
 void FPwin::showWarningBar (const QString& message)
 {
+    /* don't show the warning bar when there's a modal dialog */
+    QList<QDialog*> dialogs = findChildren<QDialog*>();
+    for (int i = 0; i < dialogs.count(); ++i)
+    {
+        if (dialogs.at (i)->objectName() != "processDialog"
+            && dialogs.at (i)->objectName() != "sessionDialog")
+        {
+            return;
+        }
+    }
     /* don't close and show the same warning bar */
     if (QLayoutItem *item = ui->verticalLayout->itemAt (ui->verticalLayout->count() - 1))
     {
@@ -2998,14 +3008,14 @@ void FPwin::changeTab (QListWidgetItem *current, QListWidgetItem* /*previous*/)
 // Change the window title and the search entry when switching tabs and...
 void FPwin::tabSwitch (int index)
 {
+    closeWarningBar();
+
     if (index == -1)
     {
         setWindowTitle ("FeatherPad[*]");
         setWindowModified (false);
         return;
     }
-
-    closeWarningBar();
 
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
     TextEdit *textEdit = tabPage->textEdit();

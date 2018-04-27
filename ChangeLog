@@ -21,6 +21,7 @@ V0.9.0
  * Added a history popup to the search bar.
  * Set the window title to the path.
  * Also open paths that point to nonexistent files (to save them later).
+ * Don't show the warning bar when there's a modal dialog.
 
 V0.8
 ---------
