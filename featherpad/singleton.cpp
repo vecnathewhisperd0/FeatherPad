@@ -147,6 +147,8 @@ FPwin* FPsingleton::newWin (const QString& message)
         for (int i = 1; i < sl.count(); ++i)
         {
             QString sli = sl.at (i);
+            if (i == 1 && (sli == "--win" || sli == "-w"))
+                continue;
             if (sli.startsWith ("file://"))
                 sli = QUrl (sli).toLocalFile();
             /* always an absolute path (works around KDE double slash bug too) */
