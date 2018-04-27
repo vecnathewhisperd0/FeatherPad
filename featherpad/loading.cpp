@@ -38,9 +38,9 @@ Loading::~Loading() {}
 /*************************/
 void Loading::run()
 {
-    if (!QFile::exists (fname_)) // doesn't happen here
+    if (!QFile::exists (fname_))
     {
-        emit completed();
+        emit completed (QString(), fname_, "UTF-8", false, false, 0, false, multiple_);
         return;
     }
 

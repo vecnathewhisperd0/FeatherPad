@@ -144,69 +144,75 @@ void FPwin::setProgLang (TextEdit *textEdit)
 
     if (progLan.isEmpty()) // now, check mime types
     {
-        QString mime;
-        if (!QFileInfo (fname).isSymLink())
-            mime = getMimeType (fname);
-        else
-            mime = getMimeType (QFileInfo (fname).symLinkTarget());
-
-        if (mime == "text/x-c++" || mime == "text/x-c++src" || mime == "text/x-c++hdr" || mime == "text/x-chdr")
-            progLan = "cpp";
-        else if (mime == "text/x-c" || mime == "text/x-csrc")
-            progLan = "c";
-        else if (mime == "application/x-shellscript" || mime == "text/x-shellscript")
-            progLan = "sh";
-        else if (mime == "application/x-ruby")
-            progLan = "ruby";
-        else if (mime == "text/x-lua")
-            progLan = "lua";
-        else if (mime == "text/x-python")
-            progLan = "python";
-        else if (mime == "application/x-perl")
-            progLan = "perl";
-        else if (mime == "text/x-makefile")
-            progLan = "makefile";
-        else if (mime == "text/x-cmake")
-            progLan = "cmake";
-        else if (mime == "application/vnd.nokia.qt.qmakeprofile")
-            progLan = "qmake";
-        else if (mime == "text/troff")
-            progLan = "troff";
-        else if (mime == "application/xml" || mime == "image/svg+xml" || mime == "application/x-designer"
-                 || mime == "application/metalink4+xml" || mime == "application/metalink+xml"
-                 || mime == "application/x-gtk-builder" || mime == "text/rdf+xml" || mime == "application/rdf+xml"
-                 || mime == "application/x-docbook+xml" || mime == "application/x-xbel" || mime == "text/feathernotes-fnx"
-                 || mime == "text/vnd.trolltech.linguist"
-                 || mime == "application/xspf+xml" || mime == "audio/x-ms-asx")
-            progLan = "xml";
-        else if (mime == "text/css")
-            progLan = "css";
-        else if (mime == "text/x-scss")
-            progLan = "scss";
-        else if (mime == "text/x-changelog")
-            progLan = "changelog";
-        else if (mime == "application/x-desktop")
-            progLan = "desktop";
-        else if (mime == "audio/x-scpls")
-            progLan = "config";
-        else if (mime == "application/javascript")
-            progLan = "javascript";
-        else if (mime == "text/x-qml")
-            progLan = "qml";
-        else if (mime == "text/x-log")
-            progLan = "log";
-        else if (mime == "application/x-php" || mime == "text/x-php")
-            progLan = "php";
-        else if (mime == "application/x-theme")
-            progLan = "theme";
-        else if (mime == "text/x-diff" || mime == "text/x-patch")
-            progLan = "diff";
-        else if (mime == "text/html" || mime == "application/xhtml+xml")
-            progLan = "html";
-        else if (mime == "audio/x-mpegurl")
-            progLan = "m3u";
-        else // fall back to the default language
+        QFileInfo fInfo (fname);
+        if (!fInfo.exists())
             progLan = "url";
+        else
+        {
+            QString mime;
+            if (!fInfo.isSymLink())
+                mime = getMimeType (fname);
+            else
+                mime = getMimeType (fInfo.symLinkTarget());
+
+            if (mime == "text/x-c++" || mime == "text/x-c++src" || mime == "text/x-c++hdr" || mime == "text/x-chdr")
+                progLan = "cpp";
+            else if (mime == "text/x-c" || mime == "text/x-csrc")
+                progLan = "c";
+            else if (mime == "application/x-shellscript" || mime == "text/x-shellscript")
+                progLan = "sh";
+            else if (mime == "application/x-ruby")
+                progLan = "ruby";
+            else if (mime == "text/x-lua")
+                progLan = "lua";
+            else if (mime == "text/x-python")
+                progLan = "python";
+            else if (mime == "application/x-perl")
+                progLan = "perl";
+            else if (mime == "text/x-makefile")
+                progLan = "makefile";
+            else if (mime == "text/x-cmake")
+                progLan = "cmake";
+            else if (mime == "application/vnd.nokia.qt.qmakeprofile")
+                progLan = "qmake";
+            else if (mime == "text/troff")
+                progLan = "troff";
+            else if (mime == "application/xml" || mime == "image/svg+xml" || mime == "application/x-designer"
+                     || mime == "application/metalink4+xml" || mime == "application/metalink+xml"
+                     || mime == "application/x-gtk-builder" || mime == "text/rdf+xml" || mime == "application/rdf+xml"
+                     || mime == "application/x-docbook+xml" || mime == "application/x-xbel" || mime == "text/feathernotes-fnx"
+                     || mime == "text/vnd.trolltech.linguist"
+                     || mime == "application/xspf+xml" || mime == "audio/x-ms-asx")
+                progLan = "xml";
+            else if (mime == "text/css")
+                progLan = "css";
+            else if (mime == "text/x-scss")
+                progLan = "scss";
+            else if (mime == "text/x-changelog")
+                progLan = "changelog";
+            else if (mime == "application/x-desktop")
+                progLan = "desktop";
+            else if (mime == "audio/x-scpls")
+                progLan = "config";
+            else if (mime == "application/javascript")
+                progLan = "javascript";
+            else if (mime == "text/x-qml")
+                progLan = "qml";
+            else if (mime == "text/x-log")
+                progLan = "log";
+            else if (mime == "application/x-php" || mime == "text/x-php")
+                progLan = "php";
+            else if (mime == "application/x-theme")
+                progLan = "theme";
+            else if (mime == "text/x-diff" || mime == "text/x-patch")
+                progLan = "diff";
+            else if (mime == "text/html" || mime == "application/xhtml+xml")
+                progLan = "html";
+            else if (mime == "audio/x-mpegurl")
+                progLan = "m3u";
+            else // fall back to the default language
+                progLan = "url";
+        }
     }
 
     textEdit->setProg (progLan);

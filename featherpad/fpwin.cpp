@@ -1070,7 +1070,7 @@ FPwin::DOCSTATE FPwin::savePrompt (int tabIndex, bool noToAll)
     TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->widget (tabIndex));
     TextEdit *textEdit = tabPage->textEdit();
     QString fname = textEdit->getFileName();
-    bool isRemoved (!fname.isEmpty() && (!QFile::exists (fname) || !QFileInfo (fname).isFile()));
+    bool isRemoved (!fname.isEmpty() && !QFile::exists (fname)); // don't check QFileInfo (fname).isFile()
     if (textEdit->document()->isModified() || isRemoved)
     {
         unbusy(); // made busy at closeTabs()
@@ -1090,7 +1090,7 @@ FPwin::DOCSTATE FPwin::savePrompt (int tabIndex, bool noToAll)
         msgBox.setIcon (QMessageBox::Question);
         msgBox.setText ("<center><b><big>" + tr ("Save changes?") + "</big></b></center>");
         if (isRemoved)
-            msgBox.setInformativeText ("<center><i>" + tr ("The file has been removed.") + "</i></center>");
+            msgBox.setInformativeText ("<center><i>" + tr ("The file does not exist.") + "</i></center>");
         else
             msgBox.setInformativeText ("<center><i>" + tr ("The document has been modified.") + "</i></center>");
         if (noToAll && ui->tabWidget->count() > 1)
@@ -2170,6 +2170,8 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
 
     if (!multiple || openInCurrentTab)
     {
+        if (!fInfo.exists()) // tabSwitch() may be called before this function
+            showWarningBar ("<center><b><big>" + tr ("The file does not exist.") + "</big></b></center>");
         if (ui->statusBar->isVisible())
         {
             statusMsgWithLineCount (textEdit->document()->blockCount());
@@ -2310,14 +2312,9 @@ void FPwin::closeWarningBar()
 /*************************/
 void FPwin::newTabFromName (const QString& fileName, int restoreCursor, bool multiple)
 {
-    if (!fileName.isEmpty()
-        /* although loadText() takes care of folders, we don't want to open
-           (a symlink to) /dev/null and then, get a prompt dialog on closing */
-        && QFileInfo (fileName).isFile())
-    {
+    if (!fileName.isEmpty())
         loadText (fileName, false, false,
                   restoreCursor, false, multiple);
-    }
 }
 /*************************/
 void FPwin::newTabFromRecent()
@@ -3012,7 +3009,7 @@ void FPwin::tabSwitch (int index)
 
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
     TextEdit *textEdit = tabPage->textEdit();
-    if (!tabPage->isSearchBarVisible())
+    if (!tabPage->isSearchBarVisible() && !sidePane_)
         textEdit->setFocus();
     QString fname = textEdit->getFileName();
     bool modified (textEdit->document()->isModified());
@@ -3031,7 +3028,7 @@ void FPwin::tabSwitch (int index)
         info.setFile (fname);
         shownName = fname.section ('/', 0, -2) + "/";
         if (!QFile::exists (fname))
-            showWarningBar ("<center><b><big>" + tr ("The file has been removed.") + "</big></b></center>");
+            showWarningBar ("<center><b><big>" + tr ("The file does not exist.") + "</big></b></center>");
         else if (textEdit->getLastModified() != info.lastModified())
             showWarningBar ("<center><b><big>" + tr ("This file has been modified elsewhere or in another way!") + "</big></b></center>\n"
                             + "<center>" + tr ("Please be careful about reloading or saving this document!") + "</center>");
@@ -3209,7 +3206,7 @@ bool FPwin::event (QEvent *event)
             if (!fname.isEmpty())
             {
                 if (!QFile::exists (fname))
-                    showWarningBar ("<center><b><big>" + tr ("The file has been removed.") + "</big></b></center>");
+                    showWarningBar ("<center><b><big>" + tr ("The file does not exist.") + "</big></b></center>");
                 else if (textEdit->getLastModified() != QFileInfo (fname).lastModified())
                     showWarningBar ("<center><b><big>" + tr ("This file has been modified elsewhere or in another way!") + "</big></b></center>\n"
                                     + "<center>" + tr ("Please be careful about reloading or saving this document!") + "</center>");
