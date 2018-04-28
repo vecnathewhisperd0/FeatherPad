@@ -25,11 +25,13 @@
 namespace FeatherPad {
 
 Loading::Loading (const QString& fname, const QString& charset, bool reload,
-                  int restoreCursor, bool forceUneditable, bool multiple) :
+                  int restoreCursor, int posInLine,
+                  bool forceUneditable, bool multiple) :
     fname_ (fname),
     charset_ (charset),
     reload_ (reload),
     restoreCursor_ (restoreCursor),
+    posInLine_ (posInLine),
     forceUneditable_ (forceUneditable),
     multiple_ (multiple)
 {}
@@ -40,7 +42,7 @@ void Loading::run()
 {
     if (!QFile::exists (fname_))
     {
-        emit completed (QString(), fname_, "UTF-8", false, false, 0, false, multiple_);
+        emit completed (QString(), fname_, "UTF-8", false, false, 0, 0, false, multiple_);
         return;
     }
 
@@ -160,6 +162,7 @@ void Loading::run()
                     enforced,
                     reload_,
                     restoreCursor_,
+                    posInLine_,
                     forceUneditable_,
                     multiple_);
 }

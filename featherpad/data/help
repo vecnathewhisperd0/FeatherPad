@@ -101,7 +101,7 @@ For fast mouse wheel scrolling, put the cursor on the scrollbar. If it is inside
 
 The (selected multi-line) text can be tabbed by the Tab key and untabbed by Shift+Tab. If Ctrl+Tab is used, the tabulation will be done by 4 spaces instead of a tab (or the number of spaces that is set by the user in the related option of the Preferences dialog). With Ctrl+Meta+Tab, the text will be tabbed by 2 spaces.
 
-It is better to use text tabbing only for indentation and never alongside spaces; otherwise, text lines might have different indentations with different text editors.
+It is better to use text tabbing only for indentation and never alongside spaces; otherwise, text lines might have different indentations with different fonts.
 
 ********************
 *   Auto-Bracket   *

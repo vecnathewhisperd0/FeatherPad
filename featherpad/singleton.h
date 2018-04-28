@@ -58,6 +58,9 @@ signals:
     void messageReceived (QString message);
 
 private:
+    void cursorInfo (const QStringList& commndList,
+                     int& lineNum, int& posInLine, int& filesListIndex);
+
     QString uniqueKey_;
     QLockFile *lockFile_;
     QLocalServer *localServer;

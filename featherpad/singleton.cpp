@@ -131,6 +131,58 @@ bool FPsingleton::sendMessage (const QString &message)
     return true;
 }
 /*************************/
+// The --win/-w command-line option is alreaady processed.
+void FPsingleton::cursorInfo (const QStringList& commndList,
+                              int& lineNum, int& posInLine, int& filesListIndex)
+{
+    if (commndList.size() >= 3)
+    {
+        if (commndList.at (1) == "+")
+        {
+            lineNum = -2; // means the end (-> FPwin::newTabFromName)
+            posInLine = 0;
+            filesListIndex = 2;
+            return;
+        }
+        if (commndList.at (1).startsWith ("+"))
+        {
+            bool ok;
+            lineNum = commndList.at (1).toInt (&ok); // "+" is included
+            if (ok)
+            {
+                if (lineNum > 0)
+                    lineNum += 1; // 1 is reserved for session files (-> FPwin::newTabFromName)
+                posInLine = 0;
+                filesListIndex = 2;
+                return;
+            }
+            else
+            {
+                QStringList l = commndList.at (1).split (",");
+                if (l.size() == 2)
+                {
+                    lineNum = l.at (0).toInt (&ok);
+                    if (ok)
+                    {
+                        posInLine = l.at (1).toInt (&ok);
+                        if (ok)
+                        {
+                            if (lineNum > 0)
+                                lineNum += 1;
+                            filesListIndex = 2;
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    lineNum = 0; // no cursor placing
+    posInLine = 0;
+    filesListIndex = 1; // 0 is reserved for the desktop number (under X11)
+}
+/*************************/
+// The --win/-w command-line option is alreaady processed.
 FPwin* FPsingleton::newWin (const QString& message)
 {
     FPwin *fp = new FPwin;
@@ -141,26 +193,27 @@ FPwin* FPsingleton::newWin (const QString& message)
 
     /* open all files in new tabs ("\n\r" was used as the splitter) */
     QStringList sl = message.split ("\n\r");
-    if (!message.isEmpty() && !sl.at (1).isEmpty())
+    if (!message.isEmpty() && sl.count() > 1 && !sl.at (1).isEmpty())
     {
-        bool multiple (sl.count() > 2 || fp->isLoading());
-        for (int i = 1; i < sl.count(); ++i)
+        int filesListIndex = 1, restoreCursor = 0, posInLine = 0;
+        cursorInfo (sl, restoreCursor, posInLine, filesListIndex);
+
+        bool multiple (sl.count() > filesListIndex + 1 || fp->isLoading());
+        for (int i = filesListIndex; i < sl.count(); ++i)
         {
             QString sli = sl.at (i);
-            if (i == 1 && (sli == "--win" || sli == "-w"))
-                continue;
             if (sli.startsWith ("file://"))
                 sli = QUrl (sli).toLocalFile();
             /* always an absolute path (works around KDE double slash bug too) */
             QFileInfo fInfo (sli);
-            fp->newTabFromName (fInfo.absoluteFilePath(), 0, multiple);
+            fp->newTabFromName (fInfo.absoluteFilePath(), restoreCursor, posInLine, multiple);
         }
     }
     else if (!lastFiles_.isEmpty())
     {
         bool multiple (lastFiles_.count() > 1 || fp->isLoading());
         for (int i = 0; i < lastFiles_.count(); ++i)
-            fp->newTabFromName (lastFiles_.at (i), -1, multiple); // restore cursor positions too
+            fp->newTabFromName (lastFiles_.at (i), -1, 0, multiple); // restore cursor positions too
     }
 
     lastFiles_ = QStringList();
@@ -177,12 +230,49 @@ void FPsingleton::handleMessage (const QString& message)
 {
     /* get all parts of the message */
     QStringList sl = message.split ("\n\r");
-    if (sl.size() < 2 // impossible
-        || sl.at (1) == "--win" || sl.at (1) == "-w")
+    if (sl.size() < 2) // impossible
     {
         newWin (message);
         return;
     }
+
+    /* process and remove the --win/-w command-line option, if any */
+    if (sl.at (1) == "--win" || sl.at (1) == "-w")
+    {
+        sl.removeAt (1);
+        newWin (sl.join ("\n\r"));
+        return;
+    }
+    if (sl.size() > 2 && (sl.at (2) == "--win" || sl.at (2) == "-w"))
+    {
+        /* check if the first option is about cursor */
+        bool ok (sl.at (1) == "+");
+        if (!ok)
+        {
+            sl.at (1).toInt (&ok);
+            if (!ok)
+            {
+                QStringList l = sl.at (1).split (",");
+                if (l.size() == 2)
+                {
+                    l.at (0).toInt (&ok);
+                    if (ok)
+                        l.at (1).toInt (&ok);
+                }
+            }
+        }
+        if (ok)
+        {
+            sl.removeAt (2);
+            newWin (sl.join ("\n\r"));
+            return;
+        }
+    }
+
+    /* get the cursor info, if any */
+    int filesListIndex = 1, restoreCursor = 0, posInLine = 0;
+    cursorInfo (sl, restoreCursor, posInLine, filesListIndex);
+
     /* get the desktop the command is issued from */
     long d = sl.at (0).toInt();
     bool found = false;
@@ -226,18 +316,18 @@ void FPsingleton::handleMessage (const QString& message)
                     }
 
                     /* and then, open tab(s) in the current FeatherPad window... */
-                    if (sl.at (1).isEmpty())
+                    if (sl.at (filesListIndex).isEmpty())
                         Wins.at (i)->newTab();
                     else
                     {
-                        bool multiple (sl.count() > 2 || Wins.at (i)->isLoading());
-                        for (int j = 1; j < sl.count(); ++j)
+                        bool multiple (sl.count() > filesListIndex + 1 || Wins.at (i)->isLoading());
+                        for (int j = filesListIndex; j < sl.count(); ++j)
                         {
                             QString slj = sl.at (j);
                             if (slj.startsWith ("file://"))
                                 slj = QUrl (slj).toLocalFile();
                             QFileInfo fInfo (slj);
-                            Wins.at (i)->newTabFromName (fInfo.absoluteFilePath(), 0, multiple);
+                            Wins.at (i)->newTabFromName (fInfo.absoluteFilePath(), restoreCursor, posInLine, multiple);
                         }
                     }
                     found = true;

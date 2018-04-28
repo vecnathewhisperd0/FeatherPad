@@ -210,6 +210,7 @@ signals:
     /* inform the main widget */
     void fileDropped (const QString& localFile,
                       int restoreCursor, // Only for connecting to FPwin::newTabFromName().
+                      int posInLine, // Only for connecting to FPwin::newTabFromName().
                       bool multiple); // Multiple files are dropped?
     void resized(); // needed by syntax highlighting
     void updateRect (const QRect &rect, int dy);
@@ -244,6 +245,7 @@ protected:
             for (const QUrl &url : urlList)
                 emit fileDropped (url.adjusted (QUrl::NormalizePathSegments) // KDE may give a double slash
                                      .toLocalFile(),
+                                  0,
                                   0,
                                   multiple);
         }

@@ -1055,6 +1055,7 @@ void FPwin::dropEvent (QDropEvent *event)
             newTabFromName (url.adjusted (QUrl::NormalizePathSegments) // KDE may give a double slash
                                .toLocalFile(),
                             0,
+                            0,
                             multiple);
     }
 
@@ -1916,7 +1917,8 @@ void FPwin::unbusy()
 }
 /*************************/
 void FPwin::loadText (const QString& fileName, bool enforceEncod, bool reload,
-                      int restoreCursor, bool enforceUneditable, bool multiple)
+                      int restoreCursor, int posInLine,
+                      bool enforceUneditable, bool multiple)
 {
     if (loadingProcesses_ == 0)
         closeWarningBar();
@@ -1924,7 +1926,9 @@ void FPwin::loadText (const QString& fileName, bool enforceEncod, bool reload,
     QString charset;
     if (enforceEncod)
         charset = checkToEncoding();
-    Loading *thread = new Loading (fileName, charset, reload, restoreCursor, enforceUneditable, multiple);
+    Loading *thread = new Loading (fileName, charset, reload,
+                                   restoreCursor, posInLine,
+                                   enforceUneditable, multiple);
     connect (thread, &Loading::completed, this, &FPwin::addText);
     connect (thread, &Loading::finished, thread, &QObject::deleteLater);
     thread->start();
@@ -1937,7 +1941,8 @@ void FPwin::loadText (const QString& fileName, bool enforceEncod, bool reload,
 /*************************/
 // When multiple files are being loaded, we don't change the current tab.
 void FPwin::addText (const QString& text, const QString& fileName, const QString& charset,
-                     bool enforceEncod, bool reload, int restoreCursor,
+                     bool enforceEncod, bool reload,
+                     int restoreCursor, int posInLine,
                      bool uneditable,
                      bool multiple)
 {
@@ -1995,7 +2000,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
         activateWindow();
         raise();
     }
-    textEdit->setSaveCursor (restoreCursor > 0);
+    textEdit->setSaveCursor (restoreCursor == 1);
 
     textEdit->setLang (QString()); // remove the enforced syntax
 
@@ -2076,15 +2081,54 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
     }
     else if (restoreCursor != 0)
     {
-        QHash<QString, QVariant> cursorPos = restoreCursor > 0 ? config.savedCursorPos()
-                                                               : config.getLastFilesCursorPos();
-        if (cursorPos.contains (fileName))
+        if (restoreCursor == 1 || restoreCursor == -1) // restore cursor from settings
+        {
+            QHash<QString, QVariant> cursorPos = restoreCursor == 1 ? config.savedCursorPos()
+                                                                    : config.getLastFilesCursorPos();
+            if (cursorPos.contains (fileName))
+            {
+                QTextCursor cur = textEdit->textCursor();
+                cur.movePosition (QTextCursor::End, QTextCursor::MoveAnchor);
+                int pos = qMin (qMax (cursorPos.value (fileName, 0).toInt(), 0), cur.position());
+                cur.setPosition (pos);
+                QTimer::singleShot (0, textEdit, [textEdit, cur]() {
+                    textEdit->setTextCursor (cur); // ensureCursorVisible() is called by this
+                });
+            }
+        }
+        else if (restoreCursor < -1) // doc end in commandline
         {
             QTextCursor cur = textEdit->textCursor();
-            cur.movePosition (QTextCursor::End, QTextCursor::MoveAnchor);
-            int pos = qMin (qMax (cursorPos.value (fileName, 0).toInt(), 0), cur.position());
-            cur.setPosition (pos);
-            textEdit->setTextCursor (cur);
+            cur.movePosition (QTextCursor::End);
+            QTimer::singleShot (0, textEdit, [textEdit, cur]() {
+                textEdit->setTextCursor (cur);
+            });
+        }
+        else// if (restoreCursor >= 2) // cursor position in commandline (2 means the first line)
+        {
+            restoreCursor -= 2; // in Qt, blocks are started from 0
+            if (restoreCursor < textEdit->document()->blockCount())
+            {
+                QTextBlock block = textEdit->document()->findBlockByNumber (restoreCursor);
+                QTextCursor cur (block);
+                QTextCursor tmp = cur;
+                tmp.movePosition (QTextCursor::EndOfBlock);
+                if (posInLine < 0 || posInLine >= tmp.positionInBlock())
+                    cur = tmp;
+                else
+                    cur.setPosition (block.position() + posInLine);
+                QTimer::singleShot (0, textEdit, [textEdit, cur]() {
+                    textEdit->setTextCursor (cur);
+                });
+            }
+            else
+            {
+                QTextCursor cur = textEdit->textCursor();
+                cur.movePosition (QTextCursor::End);
+                QTimer::singleShot (0, textEdit, [textEdit, cur]() {
+                    textEdit->setTextCursor (cur);
+                });
+            }
         }
     }
 
@@ -2320,11 +2364,12 @@ void FPwin::closeWarningBar()
     }
 }
 /*************************/
-void FPwin::newTabFromName (const QString& fileName, int restoreCursor, bool multiple)
+void FPwin::newTabFromName (const QString& fileName, int restoreCursor, int posInLine, bool multiple)
 {
     if (!fileName.isEmpty())
         loadText (fileName, false, false,
-                  restoreCursor, false, multiple);
+                  restoreCursor, posInLine,
+                  false, multiple);
 }
 /*************************/
 void FPwin::newTabFromRecent()
@@ -2402,7 +2447,7 @@ void FPwin::fileOpen()
         const QStringList files = dialog.selectedFiles();
         bool multiple (files.count() > 1 || isLoading());
         for (const QString &file : files)
-            newTabFromName (file, 0, multiple);
+            newTabFromName (file, 0, 0, multiple);
     }
     updateShortcuts (false);
 }
@@ -2460,7 +2505,8 @@ void FPwin::enforceEncoding (QAction*)
             return;
         }
         loadText (fname, true, true,
-                  0, textEdit->isUneditable(), false);
+                  0, 0,
+                  textEdit->isUneditable(), false);
     }
     else
     {
@@ -4328,7 +4374,7 @@ void FPwin::tabContextMenu (const QPoint& p)
                         return;
                     }
                 }
-                newTabFromName (targetName, 0);
+                newTabFromName (targetName, 0, 0);
             });
         }
     }
@@ -4393,7 +4439,7 @@ void FPwin::listContextMenu (const QPoint& p)
                         return;
                     }
                 }
-                newTabFromName (targetName, 0);
+                newTabFromName (targetName, 0, 0);
             });
         }
     }

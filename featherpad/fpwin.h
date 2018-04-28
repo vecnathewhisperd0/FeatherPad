@@ -96,9 +96,12 @@ signals:
 
 public slots:
     void newTabFromName (const QString& fileName,
-                         int restoreCursor, /* == 0 : Do not restore cursor.
-                                               > 0  : Restore cursor in a session file.
-                                               < 0  : Restore cursor while opening last files with application startup. */
+                         int restoreCursor, /* ==  0 : Do not restore cursor.
+                                               ==  1 : Restore cursor in a session file.
+                                               == -1 : Restore cursor while opening last files with application startup.
+                                               <  -1 : Move the cursor to the document end with command-line.
+                                               >   1 : Move the cursor to the block restoreCursor-1 with command-line. */
+                         int posInLine, // If restoreCursor > 1, this is the cursor position in the line.
                          bool multiple = false);
     void newTab();
     void statusMsg();
@@ -181,7 +184,8 @@ private slots:
     void helpDoc();
     void matchBrackets();
     void addText (const QString& text, const QString& fileName, const QString& charset,
-                  bool enforceEncod, bool reload, int restoreCursor,
+                  bool enforceEncod, bool reload,
+                  int restoreCursor, int posInLine,
                   bool uneditable, // This doc should be uneditable?
                   bool multiple); // Multiple files are being loaded?
     void onOpeningHugeFiles();
@@ -206,7 +210,8 @@ private:
     bool hasAnotherDialog();
     void deleteTabPage (int tabIndex, bool saveToList = false, bool closeWithLastTab = true);
     void loadText (const QString& fileName, bool enforceEncod, bool reload,
-                   int restoreCursor = 0, bool enforceUneditable = false, bool multiple = false);
+                   int restoreCursor = 0, int posInLine = 0,
+                   bool enforceUneditable = false, bool multiple = false);
     bool alreadyOpen (TabPage *tabPage) const;
     void setTitle (const QString& fileName, int tabIndex = -1);
     DOCSTATE savePrompt (int tabIndex, bool noToAll);
