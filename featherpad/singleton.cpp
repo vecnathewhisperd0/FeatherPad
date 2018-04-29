@@ -214,8 +214,13 @@ QStringList FPsingleton::processInfo (const QString& message,
             sl.removeFirst();
     }
 
-    if (hasCurInfo && sl.isEmpty())
-        qDebug ("FeatherPad: File path/name is missing.");
+    if (sl.isEmpty())
+    {
+        if (hasCurInfo)
+            qDebug ("FeatherPad: File path/name is missing.");
+    }
+    else if (sl.count() == 1 && sl.at (0).isEmpty())
+        sl.clear(); // no empty path/name
     return sl;
 }
 /*************************/
@@ -224,8 +229,8 @@ void FPsingleton::firstWin (const QString& message)
     int lineNum = 0, posInLine = 0;
     long d = -1;
     bool openNewWin;
-    QStringList sl = processInfo (message, d, lineNum, posInLine, &openNewWin);
-    newWin (sl, lineNum, posInLine);
+    QStringList filesList = processInfo (message, d, lineNum, posInLine, &openNewWin);
+    newWin (filesList, lineNum, posInLine);
     lastFiles_ = QStringList(); // they should be called only with the session start
 }
 /*************************/
@@ -244,7 +249,7 @@ FPwin* FPsingleton::newWin (const QStringList& filesList,
         for (int i = 0; i < filesList.count(); ++i)
         { // open all files in new tabs
             QString ithFile = filesList.at (i);
-            if (!ithFile.isEmpty())
+            if (!ithFile.isEmpty()) // always the case
             {
                 if (ithFile.startsWith ("file://"))
                     ithFile = QUrl (ithFile).toLocalFile();
@@ -322,7 +327,7 @@ void FPsingleton::handleMessage (const QString& message)
                     }
 
                     /* and then, open tab(s) in the current FeatherPad window... */
-                    if (filesList.isEmpty() || filesList.at (0).isEmpty())
+                    if (filesList.isEmpty())
                         Wins.at (i)->newTab();
                     else
                     {
