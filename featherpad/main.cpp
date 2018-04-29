@@ -54,8 +54,10 @@ int main (int argc, char **argv)
                "+                Place cursor at document end.\n"\
                "+<L>             Place cursor at start of line L (L starts from 1).\n"\
                "+<L>,<P>         Place cursor at position P of line L (P starts from 0\n"\
-               "                 but a negative value means line end).\n"
-               "\nNOTE: --win or -w can come before or after cursor option, with a space\nin between."<< endl;
+               "                 but a negative value means line end).\n"\
+               "\nNOTE1: <X> means number X without brackets.\n"\
+               "NOTE2: --win or -w can come before or after cursor option, with a space\n"\
+               "       in between." << endl;
         return 0;
     }
     else if (option == "--version" || option == "-v")
@@ -111,7 +113,7 @@ int main (int argc, char **argv)
         return 0;
 
     QObject::connect (&singleton, &QCoreApplication::aboutToQuit, &singleton, &FeatherPad::FPsingleton::quitting);
-    singleton.newWin (info);
+    singleton.firstWin (info);
     QObject::connect (&singleton, &FeatherPad::FPsingleton::messageReceived,
                       &singleton, &FeatherPad::FPsingleton::handleMessage);
 

@@ -37,7 +37,9 @@ public:
     ~FPsingleton();
 
     bool sendMessage (const QString &message);
-    FPwin* newWin (const QString &message);
+    void firstWin(const QString& message);
+    FPwin* newWin (const QStringList &filesList = QStringList(),
+                   int lineNum = 0, int posInLine = 0);
     void removeWin (FPwin *win);
 
     QList<FPwin*> Wins; // All FeatherPad windows.
@@ -58,8 +60,10 @@ signals:
     void messageReceived (QString message);
 
 private:
-    void cursorInfo (const QStringList& commndList,
-                     int& lineNum, int& posInLine, int& filesListIndex);
+    bool cursorInfo(const QString &commndOpt, int& lineNum, int& posInLine);
+    QStringList processInfo (const QString& message,
+                             long &desktop, int& lineNum, int& posInLine,
+                             bool *newWin);
 
     QString uniqueKey_;
     QLockFile *lockFile_;

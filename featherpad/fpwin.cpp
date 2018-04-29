@@ -3954,7 +3954,7 @@ void FPwin::detachTab()
      *******************************************************************/
 
     FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
-    FPwin * dropTarget = singleton->newWin ("");
+    FPwin * dropTarget = singleton->newWin();
     dropTarget->closeTabAtIndex (0);
 
     /* first, set the new info... */

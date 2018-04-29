@@ -151,7 +151,11 @@ void TextEdit::setEditorFont (const QFont &f, bool setDefault)
     /* we want consistent tabs */
     QFontMetricsF metrics (f);
     QTextOption opt = document()->defaultTextOption();
+#if QT_VERSION < 0x051000
     opt.setTabStop (metrics.width (textTab_));
+#else
+    opt.setTabStopDistance (metrics.width (textTab_));
+#endif
     document()->setDefaultTextOption (opt);
 }
 /*************************/
