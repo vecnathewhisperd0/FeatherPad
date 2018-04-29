@@ -311,6 +311,13 @@ public:
     void setScrollJumpWorkaround (bool workaround) {
         scrollJumpWorkaround_ = workaround;
     }
+
+    bool getSkipNonText() const {
+        return skipNonText_;
+    }
+    void setSkipNonText (bool skip) {
+        skipNonText_ = skip;
+    }
 /*************************/
     bool getExecuteScripts() const {
         return executeScripts_;
@@ -484,6 +491,7 @@ private:
          inertialScrolling_,
          autoSave_,
          scrollJumpWorkaround_, // Should a workaround for Qt5's "scroll jump" bug be applied?
+         skipNonText_,
          saveUnmodified_,
          closeWithLastTab_;
     int vLineDistance_,

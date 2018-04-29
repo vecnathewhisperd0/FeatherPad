@@ -219,6 +219,9 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
     ui->scrollBox->setChecked (config.getScrollJumpWorkaround());
     connect (ui->scrollBox, &QCheckBox::stateChanged, this, &PrefDialog::prefScrollJumpWorkaround);
 
+    ui->skipNonTextBox->setChecked (config.getSkipNonText());
+    connect (ui->skipNonTextBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSkipNontext);
+
     ui->spinBox->setValue (config.getMaxSHSize());
     connect (ui->spinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
              this, &PrefDialog::prefMaxSHSize);
@@ -1007,10 +1010,18 @@ void PrefDialog::prefScrollJumpWorkaround (int checked)
     }
 }
 /*************************/
+void PrefDialog::prefSkipNontext (int checked)
+{
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    if (checked == Qt::Checked)
+        config.setSkipNonText (true);
+    else if (checked == Qt::Unchecked)
+        config.setSkipNonText (false);
+}
+/*************************/
 void PrefDialog::prefTabWrapAround (int checked)
 {
-    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
-    Config& config = singleton->getConfig();
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
     if (checked == Qt::Checked)
         config.setTabWrapAround (true);
     else if (checked == Qt::Unchecked)

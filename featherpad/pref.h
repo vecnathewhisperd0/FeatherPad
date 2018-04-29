@@ -78,6 +78,7 @@ private slots:
     void prefAppendEmptyLine (int checked);
     void prefRemoveTrailingSpaces (int checked);
     void prefScrollJumpWorkaround (int checked);
+    void prefSkipNontext (int checked);
     void prefTabWrapAround (int checked);
     void prefHideSingleTab (int checked);
     void prefMaxSHSize (int value);

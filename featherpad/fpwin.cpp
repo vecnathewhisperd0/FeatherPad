@@ -34,6 +34,7 @@
 #include <QToolTip>
 #include <QDesktopWidget>
 #include <QScrollBar>
+#include <QWidgetAction>
 #include <fstream> // std::ofstream
 #include <QPrinter>
 #include <QClipboard>
@@ -1005,7 +1006,10 @@ void FPwin::copyTabFilePath()
     else
         tabPage = qobject_cast<TabPage*>(ui->tabWidget->widget (rightClicked_));
     QString str = tabPage->textEdit()->getFileName();
-    str.chop (str.section ('/', -1).count());
+    if (str.contains ("/"))
+        str.chop (str.section ('/', -1).count());
+    else if (!str.isEmpty())
+        str = QFileInfo (str).absolutePath();
     QApplication::clipboard()->setText (str);
 }
 /*************************/
@@ -1826,9 +1830,11 @@ void FPwin::setTitle (const QString& fileName, int tabIndex)
     }
     else
     {
+        QFileInfo fInfo (fileName);
         if (tabIndex < 0)
-            setWindowTitle (fileName.section ('/', 0, -2) + "/");
-        isLink = QFileInfo (fileName).isSymLink();
+            setWindowTitle ((fileName.contains ("/") ? fileName.section ('/', 0, -2)
+                                                     : fInfo.absolutePath()) + "/");
+        isLink = fInfo.isSymLink();
         shownName = fileName.section ('/', -1);
         shownName.replace ("\n", " "); // no multi-line tab text
     }
@@ -1868,7 +1874,9 @@ void FPwin::asterisk (bool modified)
     else
     {
         shownName = fname.section ('/', -1);
-        setWindowTitle ((modified ? "*" : QString()) + fname.section ('/', 0, -2) + "/");
+        setWindowTitle ((modified ? "*" : QString())
+                        + ((fname.contains ("/") ? fname.section ('/', 0, -2)
+                                                 : QFileInfo (fname).absolutePath()) + "/"));
     }
     if (modified)
         shownName.prepend ("*");
@@ -1926,6 +1934,7 @@ void FPwin::loadText (const QString& fileName, bool enforceEncod, bool reload,
     Loading *thread = new Loading (fileName, charset, reload,
                                    restoreCursor, posInLine,
                                    enforceUneditable, multiple);
+    thread->setSkipNonText (static_cast<FPsingleton*>(qApp)->getConfig().getSkipNonText());
     connect (thread, &Loading::completed, this, &FPwin::addText);
     connect (thread, &Loading::finished, thread, &QObject::deleteLater);
     thread->start();
@@ -3079,7 +3088,8 @@ void FPwin::tabSwitch (int index)
     else
     {
         info.setFile (fname);
-        shownName = fname.section ('/', 0, -2) + "/";
+        shownName = (fname.contains ("/") ? fname.section ('/', 0, -2)
+                                          : info.absolutePath()) + "/";
         if (!QFile::exists (fname))
             showWarningBar ("<center><b><big>" + tr ("The file does not exist.") + "</big></b></center>");
         else if (textEdit->getLastModified() != info.lastModified())
@@ -4334,6 +4344,12 @@ void FPwin::tabContextMenu (const QPoint& p)
     bool showMenu = false;
     if (tabNum > 1)
     {
+        QWidgetAction *labelAction = new QWidgetAction (&menu);
+        QLabel *label = new QLabel ("<center><b>" + tr ("%1 Pages").arg (tabNum) + "</b></center>");
+        labelAction->setDefaultWidget (label);
+        menu.addAction (labelAction);
+        menu.addSeparator();
+
         showMenu = true;
         if (rightClicked_ < tabNum - 1)
             menu.addAction (ui->actionCloseRight);
@@ -4396,6 +4412,12 @@ void FPwin::listContextMenu (const QPoint& p)
     menu.addAction (ui->actionClose);
     if (lw->count() > 1)
     {
+        QWidgetAction *labelAction = new QWidgetAction (&menu);
+        QLabel *label = new QLabel ("<center><b>" + tr ("%1 Pages").arg (lw->count()) + "</b></center>");
+        labelAction->setDefaultWidget (label);
+        menu.insertSeparator (ui->actionClose);
+        menu.insertAction (ui->actionClose, labelAction);
+
         menu.addSeparator();
         if (rightClicked_ < lw->count() - 1)
             menu.addAction (ui->actionCloseRight);

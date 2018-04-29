@@ -33,7 +33,8 @@ Loading::Loading (const QString& fname, const QString& charset, bool reload,
     restoreCursor_ (restoreCursor),
     posInLine_ (posInLine),
     forceUneditable_ (forceUneditable),
-    multiple_ (multiple)
+    multiple_ (multiple),
+    skipNonText_ (false)
 {}
 /*************************/
 Loading::~Loading() {}
@@ -114,7 +115,15 @@ void Loading::run()
                     if (c == '\0')
                     {
                         if (!hasNull)
+                        {
+                            if (skipNonText_)
+                            {
+                                file.close();
+                                emit completed();
+                                return;
+                            }
                             hasNull = true;
+                        }
                     }
                     else if (c == '\n' || c == '\r')
                         num = 0;
@@ -130,12 +139,23 @@ void Loading::run()
             }
             else
             { // the meaning of null characters was determined before
+                if (skipNonText_ && hasNull && charset_.isEmpty())
+                {
+                    file.close();
+                    emit completed();
+                    return;
+                }
                 while (file.read (&c, charSize) > 0)
                     data.append (c);
             }
         }
     }
     file.close();
+    if (skipNonText_ && hasNull && charset_.isEmpty())
+    {
+        emit completed();
+        return;
+    }
 
     if (charset_.isEmpty())
     {
