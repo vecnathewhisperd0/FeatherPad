@@ -901,7 +901,7 @@ bool FPwin::closeTabs (int first, int last, bool saveFilesList)
         switch (state) {
         case SAVED: // close this tab and go to the next one on the left
             keep = false;
-            if (lastWinFilesCur_.size() > 20) // never remember more than 20 files
+            if (lastWinFilesCur_.size() >= 50) // never remember more than 50 files
                 saveFilesList = false;
             deleteTabPage (tabIndex, saveFilesList, !closing);
 
@@ -934,7 +934,7 @@ bool FPwin::closeTabs (int first, int last, bool saveFilesList)
             while (index > first)
             {
                 if (last == 0) break;
-                if (lastWinFilesCur_.size() > 20)
+                if (lastWinFilesCur_.size() >= 50)
                     saveFilesList = false;
                 deleteTabPage (tabIndex, saveFilesList, !closing);
 
@@ -980,9 +980,6 @@ bool FPwin::closeTabs (int first, int last, bool saveFilesList)
     }
 
     pauseAutoSaving (false);
-
-    if (lastWinFilesCur_.size() > 20)
-        lastWinFilesCur_.clear();
 
     return keep;
 }

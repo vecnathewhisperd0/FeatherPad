@@ -730,7 +730,7 @@ Needs application restart to take effect.</string>
           <item row="3" column="0" colspan="3">
            <widget class="QCheckBox" name="lastFilesBox">
             <property name="toolTip">
-             <string>Only if their number is not greater than 20.</string>
+             <string>Only if their number is not greater than 50.</string>
             </property>
             <property name="text">
              <string>Start with files of last window</string>

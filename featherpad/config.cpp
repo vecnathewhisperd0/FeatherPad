@@ -281,7 +281,7 @@ QStringList Config::getLastFiles()
     QStringList lastFiles = lasFilesCursorPos_.keys();
     lastFiles.removeAll ("");
     lastFiles.removeDuplicates();
-    while (lastFiles.count() > 20) // never more than 20 files
+    while (lastFiles.count() > 50) // never more than 50 files
         lastFiles.removeLast();
     return lastFiles;
 }
