@@ -4415,8 +4415,8 @@ void FPwin::listContextMenu (const QPoint& p)
         QWidgetAction *labelAction = new QWidgetAction (&menu);
         QLabel *label = new QLabel ("<center><b>" + tr ("%1 Pages").arg (lw->count()) + "</b></center>");
         labelAction->setDefaultWidget (label);
-        menu.insertSeparator (ui->actionClose);
         menu.insertAction (ui->actionClose, labelAction);
+        menu.insertSeparator (ui->actionClose);
 
         menu.addSeparator();
         if (rightClicked_ < lw->count() - 1)
