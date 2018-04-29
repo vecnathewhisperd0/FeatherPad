@@ -23,6 +23,7 @@
 #include <signal.h>
 #include <QLibraryInfo>
 #include <QTranslator>
+#include <QFileInfo>
 
 void handleQuitSignals (const std::vector<int>& quitSignals)
 {
@@ -103,7 +104,16 @@ int main (int argc, char **argv)
     info += "\n\r"; // a string that can't be used in file names
     for (int i = 1; i < argc; ++i)
     {
-        info += QString::fromUtf8 (argv[i]);
+        QString str = QString::fromUtf8 (argv[i]);
+        if (str.contains ("/"))
+        {
+            if (str.startsWith ("file://"))
+                str = QUrl (str).toLocalFile();
+            /* always an absolute path (works around KDE's double slash bug too) */
+            QFileInfo fInfo (str);
+            str = fInfo.absoluteFilePath();
+        }
+        info += str;
         if (i < argc - 1)
             info += "\n\r";
     }

@@ -20,7 +20,6 @@
 #include <QDesktopWidget>
 #include <QLocalSocket>
 #include <QDialog>
-#include <QFileInfo>
 #include <QStandardPaths>
 #include <QCryptographicHash>
 #if defined Q_WS_X11 || defined Q_OS_LINUX || defined Q_OS_FREEBSD
@@ -246,18 +245,8 @@ FPwin* FPsingleton::newWin (const QStringList& filesList,
     if (!filesList.isEmpty())
     {
         bool multiple (filesList.count() > 1 || fp->isLoading());
-        for (int i = 0; i < filesList.count(); ++i)
-        { // open all files in new tabs
-            QString ithFile = filesList.at (i);
-            if (!ithFile.isEmpty()) // always the case
-            {
-                if (ithFile.startsWith ("file://"))
-                    ithFile = QUrl (ithFile).toLocalFile();
-                /* always an absolute path (works around KDE double slash bug too) */
-                QFileInfo fInfo (ithFile);
-                fp->newTabFromName (fInfo.absoluteFilePath(), lineNum, posInLine, multiple);
-            }
-        }
+        for (int i = 0; i < filesList.count(); ++i) // open all files in new tabs
+            fp->newTabFromName (filesList.at (i), lineNum, posInLine, multiple);
     }
     else if (!lastFiles_.isEmpty())
     {
@@ -333,13 +322,7 @@ void FPsingleton::handleMessage (const QString& message)
                     {
                         bool multiple (filesList.count() > 1 || Wins.at (i)->isLoading());
                         for (int j = 0; j < filesList.count(); ++j)
-                        {
-                            QString filej = filesList.at (j);
-                            if (filej.startsWith ("file://"))
-                                filej = QUrl (filej).toLocalFile();
-                            QFileInfo fInfo (filej);
-                            Wins.at (i)->newTabFromName (fInfo.absoluteFilePath(), lineNum, posInLine, multiple);
-                        }
+                            Wins.at (i)->newTabFromName (filesList.at (j), lineNum, posInLine, multiple);
                     }
                     found = true;
                     break;
