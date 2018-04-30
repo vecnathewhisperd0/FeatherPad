@@ -724,9 +724,9 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
         else if (!cursor.hasSelection() && (event->modifiers() & Qt::ControlModifier))
         {
             if (event->modifiers() & Qt::MetaModifier)
-                cursor.insertText ("  ");
+                cursor.insertText (QString ("  ").chopped (cursor.positionInBlock() % 2));
             else
-                cursor.insertText (textTab_);
+                cursor.insertText (textTab_.chopped (cursor.positionInBlock() % textTab_.count()));
             event->accept();
             return;
         }
