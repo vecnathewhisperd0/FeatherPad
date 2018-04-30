@@ -26,6 +26,7 @@ V0.9.0
  * Deal with relative paths completely.
  * Added an option to not permit opening of non-text files.
  * Added the number of pages to tab/side-item context menu.
+ * Made Ctrl+Tab and Ctrl+Meta+Tab really align the text.
 
 V0.8
 ---------

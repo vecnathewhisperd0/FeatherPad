@@ -278,6 +278,21 @@ void TextEdit::removeGreenHighlights()
     }
 }
 /*************************/
+// Finds the (remaining) spaces that should be inserted with space tabs.
+QString TextEdit::remainingSpaces (const QString& spaceTab, const QTextCursor& cursor) const
+{
+    QString res;
+    QRectF r = blockBoundingRect (cursor.block()).translated (contentOffset());
+    qreal x = (qreal)(cursorRect (cursor).right()) - r.left();
+    QFontMetricsF fm = QFontMetricsF (document()->defaultFont());
+    qreal w = (qreal)fm.width (spaceTab);
+    int n = qRound (x) % qRound (w);
+    n /= qRound (fm.width (" "));
+    if (n < spaceTab.count()) // always the case
+        res = spaceTab.chopped (n);
+    return res;
+}
+/*************************/
 static inline bool isOnlySpaces (const QString &str)
 {
     int i = 0;
@@ -360,7 +375,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
         {
             cur.clearSelection();
             setTextCursor (cur);
-            QString blockText = cur.block().text();
+            const QString blockText = cur.block().text();
             int i = 0;
             int curBlockPos = cur.position() - cur.block().position();
             while (i < curBlockPos)
@@ -705,12 +720,20 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
             cursor.movePosition (QTextCursor::StartOfBlock);
             for (int i = 0; i <= newLines; ++i)
             {
+                /* skip all spaces to align the real text */
+                int n = 0;
+                const QString blockText = cursor.block().text();
+                while (n < blockText.count())
+                {
+                    if (blockText.at (n).isSpace())
+                        ++n;
+                    else break;
+                }
+                cursor.setPosition (cursor.block().position() + n);
                 if (event->modifiers() & Qt::ControlModifier)
                 {
-                    if (event->modifiers() & Qt::MetaModifier)
-                        cursor.insertText ("  ");
-                    else
-                        cursor.insertText (textTab_);
+                    cursor.insertText (remainingSpaces (event->modifiers() & Qt::MetaModifier
+                                                        ? "  " : textTab_, cursor));
                 }
                 else
                     cursor.insertText ("\t");
@@ -721,12 +744,11 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
             event->accept();
             return;
         }
-        else if (!cursor.hasSelection() && (event->modifiers() & Qt::ControlModifier))
+        else if (event->modifiers() & Qt::ControlModifier)
         {
-            if (event->modifiers() & Qt::MetaModifier)
-                cursor.insertText (QString ("  ").chopped (cursor.positionInBlock() % 2));
-            else
-                cursor.insertText (textTab_.chopped (cursor.positionInBlock() % textTab_.count()));
+            cursor.removeSelectedText();
+            cursor.insertText (remainingSpaces (event->modifiers() & Qt::MetaModifier
+                                                ? "  " : textTab_, cursor));
             event->accept();
             return;
         }
