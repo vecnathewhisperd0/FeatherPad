@@ -266,6 +266,7 @@ private:
     QString computeIndentation (const QTextCursor &cur) const;
     QString getUrl (const int pos) const;
     QString remainingSpaces (const QString& spaceTab, const QTextCursor& cursor) const;
+    QTextCursor backTabCursor(const QTextCursor& cursor) const;
 
     int prevAnchor, prevPos; // used only for bracket matching
     QWidget *lineNumberArea;

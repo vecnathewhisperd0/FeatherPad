@@ -119,35 +119,35 @@ The same holds for RTL (right-to-left) texts but with right and left reversed.
 *   Useful Keyboard Shortcuts   *
 *********************************
 
-Ctrl+H           This help
-Ctrl+L           Show/hide line numbers
-Ctrl+W           Toggle wrapping state
-Ctrl+I           Toggle auto-indentation
-Ctrl+Shift+H     Toggle syntax highlighting
-Ctrl+Shift+R     Refresh (reload file)
-Ctrl+J           Jump to line
-Ctrl+Shift+J     Select text to line (the Jump bar should be visible)
-Ctrl+F           Focus/hide search bar (it hides only a focused search bar)
-F3               Forward search (also Enter can be pressed in the search entry)
-F4               Backward search
-F5               Match case
-F6               Whole word
-Ctrl+R           Replacement dock
-F7               Forward replacement
-F8               Backward replacement
-F9               Replace all
-Ctrl+K           Clear the text of an entry when it is focused
-Ctrl+Shift+P     Preferences
-Ctrl+Shift+D     Document statistics (on the statusbar)
-Ctrl+Shift+Q     Close tab
-Ctrl+Shift+V     Paste date and time
-Ctrl+T           Detach tab
-Alt+Right        Next tab (Alt+Left for RTL)
-Alt+Left         Previous tab (Alt+Right for RTL)
-Alt+Up           Last tab
-Alt+Down         First tab
-Ctrl+P           Print
-Ctrl+E           Edit uneditable documents
+Ctrl+H          This help
+Ctrl+L          Show/hide line numbers
+Ctrl+W          Toggle wrapping state
+Ctrl+I          Toggle auto-indentation
+Ctrl+Shift+H    Toggle syntax highlighting
+Ctrl+Shift+R    Refresh (reload file)
+Ctrl+J          Jump to line
+Ctrl+Shift+J    Select text to line (the Jump bar should be visible)
+Ctrl+F          Focus/hide search bar (it hides only a focused search bar)
+F3              Forward search (also Enter can be pressed in the search entry)
+F4              Backward search
+F5              Match case
+F6              Whole word
+Ctrl+R          Replacement dock
+F7              Forward replacement
+F8              Backward replacement
+F9              Replace all
+Ctrl+K          Clear the text of an entry when it is focused
+Ctrl+Shift+P    Preferences
+Ctrl+Shift+D    Document statistics (on the statusbar)
+Ctrl+Shift+Q    Close tab
+Ctrl+Shift+V    Paste date and time
+Ctrl+T          Detach tab
+Alt+Right       Next tab (Alt+Left for RTL)
+Alt+Left        Previous tab (Alt+Right for RTL)
+Alt+Up          Last tab
+Alt+Down        First tab
+Ctrl+P          Print
+Ctrl+E          Edit uneditable documents
 
 Extra (Hidden) Shortcuts:
 ==========================

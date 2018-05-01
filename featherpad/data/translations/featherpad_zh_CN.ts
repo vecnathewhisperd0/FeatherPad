@@ -2203,27 +2203,27 @@ windows will be included in the saved session.</source>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="1381"/>
+        <location filename="../../textedit.cpp" line="1412"/>
         <source>Open Link</source>
         <translation>打开链接</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1391"/>
+        <location filename="../../textedit.cpp" line="1422"/>
         <source>Copy Link</source>
         <translation>复制链接</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1404"/>
+        <location filename="../../textedit.cpp" line="1435"/>
         <source>To Upper Case</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1408"/>
+        <location filename="../../textedit.cpp" line="1439"/>
         <source>To Lower Case</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1414"/>
+        <location filename="../../textedit.cpp" line="1445"/>
         <source>Paste Date and Time</source>
         <translation>粘贴日期与时间</translation>
     </message>

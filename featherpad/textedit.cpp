@@ -278,19 +278,77 @@ void TextEdit::removeGreenHighlights()
     }
 }
 /*************************/
-// Finds the (remaining) spaces that should be inserted with space tabs.
+// Finds the (remaining) spaces that should be inserted with Ctrl+Tab.
 QString TextEdit::remainingSpaces (const QString& spaceTab, const QTextCursor& cursor) const
 {
-    QString res;
-    QRectF r = blockBoundingRect (cursor.block()).translated (contentOffset());
-    qreal x = (qreal)(cursorRect (cursor).right()) - r.left();
+    QTextCursor tmp = cursor;
+    QString txt = cursor.block().text().left (cursor.positionInBlock());
     QFontMetricsF fm = QFontMetricsF (document()->defaultFont());
-    qreal w = (qreal)fm.width (spaceTab);
-    int n = qRound (x) % qRound (w);
-    n /= qRound (fm.width (" "));
-    if (n < spaceTab.count()) // always the case
-        res = spaceTab.chopped (n);
+    qreal spaceL = fm.width (" ");
+    int n = 0, i = 0;
+    while ((i = txt.indexOf("\t", i)) != -1)
+    { // find tab widths in terms of spaces
+        tmp.setPosition (tmp.block().position() + i);
+        qreal x = (qreal)(cursorRect (tmp).right());
+        tmp.setPosition (tmp.position() + 1);
+        x = (qreal)(cursorRect (tmp).right()) - x;
+        n += qMax (qRound (x / spaceL) - 1, 0);
+        ++i;
+    }
+    n += txt.count();
+    n = spaceTab.count() - n % spaceTab.count();
+    QString res;
+    for (int i = 0 ; i < n; ++i)
+        res += " ";
     return res;
+}
+/*************************/
+// Returns a cursor that selects the spaces to be removed by a backtab.
+QTextCursor TextEdit::backTabCursor (const QTextCursor& cursor) const
+{
+    QTextCursor tmp = cursor;
+    tmp.movePosition (QTextCursor::StartOfBlock);
+    /* find the start of the real text */
+    const QString blockText = cursor.block().text();
+    int indx = 0;
+    QRegularExpressionMatch match;
+    if (blockText.indexOf (QRegularExpression ("^\\s+"), 0, &match) > -1)
+        indx = match.capturedLength();
+    else
+        return tmp;
+    int txtStart = cursor.block().position() + indx;
+
+    QString txt = blockText.left (indx);
+    QFontMetricsF fm = QFontMetricsF (document()->defaultFont());
+    qreal spaceL = fm.width (" ");
+    int n = 0, i = 0;
+    while ((i = txt.indexOf("\t", i)) != -1)
+    { // find tab widths in terms of spaces
+        tmp.setPosition (tmp.block().position() + i);
+        qreal x = (qreal)(cursorRect (tmp).right());
+        tmp.setPosition (tmp.position() + 1);
+        x = (qreal)(cursorRect (tmp).right()) - x;
+        n += qMax (qRound (x / spaceL) - 1, 0);
+        ++i;
+    }
+    n += txt.count();
+    n = n % textTab_.count();
+    if (n == 0) n = textTab_.count();
+
+    tmp.setPosition (txtStart);
+    if (blockText.at (indx - 1) == " ")
+        tmp.setPosition(txtStart - n, QTextCursor::KeepAnchor);
+    else // the previous character is a tab
+    {
+        qreal x = (qreal)(cursorRect (tmp).right());
+        tmp.setPosition(txtStart - 1, QTextCursor::KeepAnchor);
+        x -= (qreal)(cursorRect (tmp).right());
+        n -= qRound (x / spaceL);
+        if (n < 0) n = 0; // impossible
+        tmp.setPosition (tmp.position() - n, QTextCursor::KeepAnchor);
+    }
+
+    return tmp;
 }
 /*************************/
 static inline bool isOnlySpaces (const QString &str)
@@ -713,20 +771,16 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
         if (newLines > 0)
         {
             cursor.beginEditBlock();
-            cursor.setPosition (qMin (cursor.anchor(), cursor.position()));
+            cursor.setPosition (qMin (cursor.anchor(), cursor.position())); // go to the first block
             cursor.movePosition (QTextCursor::StartOfBlock);
             for (int i = 0; i <= newLines; ++i)
             {
                 /* skip all spaces to align the real text */
-                int n = 0;
-                const QString blockText = cursor.block().text();
-                while (n < blockText.count())
-                {
-                    if (blockText.at (n).isSpace())
-                        ++n;
-                    else break;
-                }
-                cursor.setPosition (cursor.block().position() + n);
+                int indx = 0;
+                QRegularExpressionMatch match;
+                if (cursor.block().text().indexOf (QRegularExpression ("^\\s+"), 0, &match) > -1)
+                    indx = match.capturedLength();
+                cursor.setPosition (cursor.block().position() + indx);
                 if (event->modifiers() & Qt::ControlModifier)
                 {
                     cursor.insertText (remainingSpaces (event->modifiers() & Qt::MetaModifier
@@ -755,10 +809,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
     {
         QTextCursor cursor = textCursor();
         int newLines = cursor.selectedText().count (QChar (QChar::ParagraphSeparator));
-        if (cursor.anchor() <= cursor.position())
-            cursor.setPosition (cursor.anchor());
-        else
-            cursor.setPosition (cursor.position());
+        cursor.setPosition (qMin (cursor.anchor(), cursor.position()));
         cursor.beginEditBlock();
         cursor.movePosition (QTextCursor::StartOfBlock);
         for (int i = 0; i <= newLines; ++i)
@@ -769,28 +820,8 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                     break; // not needed
                 continue;
             }
-            cursor.movePosition (QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
-            QString selTxt = cursor.selectedText();
-            if (selTxt == " ")
-            { // remove 4 successive ordinary spaces at most (with usual tabs)
-                for (int i = 0; i < textTab_.size() - 1; ++i)
-                {
-                    if (cursor.atBlockEnd())
-                        break;
-                    cursor.movePosition (QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
-                    QString newSelTxt = cursor.selectedText();
-                    if (newSelTxt != selTxt + " ")
-                    {
-                        cursor.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor);
-                        break;
-                    }
-                    else
-                        selTxt = newSelTxt;
-                }
-                cursor.removeSelectedText();
-            }
-            else if (selTxt == "\t")
-                cursor.removeSelectedText();
+            cursor = backTabCursor (cursor);
+            cursor.removeSelectedText();
             if (!cursor.movePosition (QTextCursor::NextBlock))
                 break; // not needed
         }
