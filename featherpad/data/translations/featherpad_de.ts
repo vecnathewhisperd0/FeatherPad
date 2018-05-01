@@ -2231,27 +2231,27 @@ in allen Fenstern in die gespeicherte Sitzung eingeschlossen.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="1383"/>
+        <location filename="../../textedit.cpp" line="1381"/>
         <source>Open Link</source>
         <translation>Öffne Link</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1393"/>
+        <location filename="../../textedit.cpp" line="1391"/>
         <source>Copy Link</source>
         <translation>Kopiere Link</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1406"/>
+        <location filename="../../textedit.cpp" line="1404"/>
         <source>To Upper Case</source>
         <translation>Zu Großbuchstaben</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1410"/>
+        <location filename="../../textedit.cpp" line="1408"/>
         <source>To Lower Case</source>
         <translation>Zu Kleinbuchstaben</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1416"/>
+        <location filename="../../textedit.cpp" line="1414"/>
         <source>Paste Date and Time</source>
         <translation>Einfügen von Datum und Zeit</translation>
     </message>

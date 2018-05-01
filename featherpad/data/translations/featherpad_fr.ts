@@ -2229,27 +2229,27 @@ fenêtres seront inclus dans la session sauvegardée.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="1383"/>
+        <location filename="../../textedit.cpp" line="1381"/>
         <source>Open Link</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1393"/>
+        <location filename="../../textedit.cpp" line="1391"/>
         <source>Copy Link</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1406"/>
+        <location filename="../../textedit.cpp" line="1404"/>
         <source>To Upper Case</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1410"/>
+        <location filename="../../textedit.cpp" line="1408"/>
         <source>To Lower Case</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1416"/>
+        <location filename="../../textedit.cpp" line="1414"/>
         <source>Paste Date and Time</source>
         <translation type="unfinished"></translation>
     </message>

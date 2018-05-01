@@ -713,10 +713,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
         if (newLines > 0)
         {
             cursor.beginEditBlock();
-            if (cursor.anchor() <= cursor.position())
-                cursor.setPosition (cursor.anchor());
-            else
-                cursor.setPosition (cursor.position());
+            cursor.setPosition (qMin (cursor.anchor(), cursor.position()));
             cursor.movePosition (QTextCursor::StartOfBlock);
             for (int i = 0; i <= newLines; ++i)
             {
@@ -746,9 +743,10 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
         }
         else if (event->modifiers() & Qt::ControlModifier)
         {
-            cursor.removeSelectedText();
+            QTextCursor tmp (cursor);
+            tmp.setPosition (qMin (tmp.anchor(), tmp.position()));
             cursor.insertText (remainingSpaces (event->modifiers() & Qt::MetaModifier
-                                                ? "  " : textTab_, cursor));
+                                                ? "  " : textTab_, tmp));
             event->accept();
             return;
         }
