@@ -25,13 +25,14 @@ namespace FeatherPad {
 bool Highlighter::isEscapedJSRegex (const QString &text, const int pos)
 {
     if (pos < 0) return false;
-    if (progLan != "javascript") return false;
+    if (progLan != "javascript" && progLan != "qml")
+        return false;
 
-    /* escape "<.../>", "</...>" and the single-line comment sign ("//") */
-    if ((text.length() > pos + 1 && (text.at (pos + 1) == '>'
-                                     || text.at (pos + 1) == '/'))
-        || (pos > 0 && (text.at (pos - 1) == '<'
-                        || (text.at (pos - 1) == '/'
+    /* escape "<.../>", "</...>" (WARNING: redundant) and the single-line comment sign ("//") */
+    if ((text.length() > pos + 1 && (/*text.at (pos + 1) == '>'
+                                     ||*/ text.at (pos + 1) == '/'))
+        || (pos > 0 && (/*text.at (pos - 1) == '<'
+                        ||*/ (text.at (pos - 1) == '/'
                             /* not the end of (a previously formatted) JS regex */
                             && format (pos - 1) != JSRegexFormat))))
     {
@@ -107,7 +108,8 @@ bool Highlighter::isEscapedJSRegex (const QString &text, const int pos)
 bool Highlighter::isInsideJSRegex (const QString &text, const int index)
 {
     if (index < 0) return false;
-    if (progLan != "javascript") return false;
+    if (progLan != "javascript" && progLan != "qml")
+        return false;
 
     QRegularExpression exp ("/");
     bool res = false;
@@ -155,7 +157,8 @@ bool Highlighter::isInsideJSRegex (const QString &text, const int index)
 void Highlighter::multiLineJSRegex (const QString &text, const int index)
 {
     if (index < 0) return;
-    if (progLan != "javascript") return;
+    if (progLan != "javascript" && progLan != "qml")
+        return;
 
     int startIndex = index;
     QRegularExpressionMatch startMatch;

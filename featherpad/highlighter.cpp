@@ -2662,7 +2662,7 @@ void Highlighter::highlightBlock (const QString &text)
     if (!commentStartExpression.pattern().isEmpty() && progLan != "python")
         multiLineComment (text, 0, cssIndx, commentStartExpression, commentEndExpression, commentState, commentFormat);
 
-    /* only javascript, for now */
+    /* only javascript and qml, for now */
     multiLineJSRegex (text, 0);
 
     /************
