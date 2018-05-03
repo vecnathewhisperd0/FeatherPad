@@ -115,8 +115,6 @@ void FPwin::setProgLang (TextEdit *textEdit)
             progLan = "srt";
         else if (fname.endsWith (".theme"))
              progLan = "theme";
-        else if (fname.endsWith (".rc"))
-             progLan = "gtkrc";
         else if (fname.endsWith (".m3u", Qt::CaseInsensitive))
             progLan = "m3u";
         else if (fname.endsWith (".htm", Qt::CaseInsensitive) || fname.endsWith (".html", Qt::CaseInsensitive))
@@ -146,7 +144,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
     {
         QFileInfo fInfo (fname);
         if (!fInfo.exists())
-            progLan = "url";
+            progLan = "url"; // fall back to the default language
         else
         {
             QString mime;
@@ -182,7 +180,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
                      || mime == "application/x-gtk-builder" || mime == "text/rdf+xml" || mime == "application/rdf+xml"
                      || mime == "application/x-docbook+xml" || mime == "application/x-xbel" || mime == "text/feathernotes-fnx"
                      || mime == "text/vnd.trolltech.linguist"
-                     || mime == "application/xspf+xml" || mime == "audio/x-ms-asx")
+                     || mime == "application/xspf+xml" || mime == "audio/x-ms-asx"
+                     || mime == "application/vnd.kde.kxmlguirc")
                 progLan = "xml";
             else if (mime == "text/css")
                 progLan = "css";

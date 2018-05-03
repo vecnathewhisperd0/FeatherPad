@@ -832,7 +832,11 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
         return;
     }
     else if (event->key() == Qt::Key_Insert)
+    {
         setOverwriteMode (!overwriteMode());
+        if (!overwriteMode())
+            update(); // otherwise, a part of the thick cursor migh remain
+    }
     /* because of a bug in Qt5, the non-breaking space (ZWNJ) isn't inserted with SHIFT+SPACE */
     else if (event->key() == 0x200c)
     {
