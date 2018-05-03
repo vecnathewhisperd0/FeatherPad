@@ -1337,7 +1337,7 @@
     <message>
         <location filename="../../replace.cpp" line="243"/>
         <source>Replacements</source>
-        <translation>Zamieki</translation>
+        <translation>Zamienniki/translation>
     </message>
 </context>
 <context>
