@@ -1279,7 +1279,7 @@
         <location filename="../../fpwin.cpp" line="4348"/>
         <location filename="../../fpwin.cpp" line="4416"/>
         <source>%1 Pages</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Seiten</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="4374"/>
@@ -1536,7 +1536,7 @@ Tab Navigation mit Mausrad ist nicht betroffen.</translation>
     <message>
         <location filename="../../predDialog.ui" line="278"/>
         <source>Close window on closing its last tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Fenster beim Schließen der letzten Registerkarte schließen</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="285"/>
@@ -1952,17 +1952,17 @@ trailing spaces of a text file.</source>
     <message>
         <location filename="../../predDialog.ui" line="864"/>
         <source>Allow saving unmodified files</source>
-        <translation type="unfinished"></translation>
+        <translation>Speichern von unveränderten Dateien erlauben</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="871"/>
         <source>Show a warning instead.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige stattdessen eine Warnung.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="874"/>
         <source>Do not permit opening of non-text files</source>
-        <translation type="unfinished"></translation>
+        <translation>Öffnen von Nicht-Text-Dateien nicht zulassen</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="885"/>
