@@ -619,9 +619,9 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
     }
     else if (event->key() == Qt::Key_Down || event->key() == Qt::Key_Up)
     {
-        if (event->modifiers() == Qt::NoModifier || event->modifiers() == Qt::ShiftModifier)
+        /*if (event->modifiers() == Qt::NoModifier || event->modifiers() == Qt::ShiftModifier)
         {
-            /* NOTE: Qt has a bug with Down/Up after Backspace/Enter. This is a workaround. */
+            // NOTE: This reverses a Qt feature with Down/Up after Backspace/Enter and is commented out
             QTextCursor cursor = textCursor();
             if (!cursor.hasSelection())
             { // go to the same position in the next/previous line
@@ -646,7 +646,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                 event->accept();
                 return;
             }
-        }
+        }*/
         if (event->modifiers() == Qt::ControlModifier)
         {
             if (QScrollBar* vbar = verticalScrollBar())
@@ -835,7 +835,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
     {
         setOverwriteMode (!overwriteMode());
         if (!overwriteMode())
-            update(); // otherwise, a part of the thick cursor migh remain
+            update(); // otherwise, a part of the thick cursor might remain
     }
     /* because of a bug in Qt5, the non-breaking space (ZWNJ) isn't inserted with SHIFT+SPACE */
     else if (event->key() == 0x200c)
