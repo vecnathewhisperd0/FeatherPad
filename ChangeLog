@@ -27,6 +27,7 @@ V0.9.0
  * Added the number of pages to tab/side-item context menu.
  * Made Ctrl+Tab, Ctrl+Meta+Tab and Shift+Tab really align the text.
  * Covered regex inside QML too (with syntax highlighting).
+ * Never remove trailing spaces with diff files.
 
 V0.8
 ---------

@@ -2713,7 +2713,7 @@ bool FPwin::saveFile (bool keepSyntax)
         updateShortcuts (false);
     }
 
-    if (config.getRemoveTrailingSpaces())
+    if (config.getRemoveTrailingSpaces() && textEdit->getProg() != "diff")
     {
         /* using text blocks directly is the fastest
            and lightest way of removing trailing spaces */
@@ -4610,7 +4610,7 @@ void FPwin::autoSave()
             if (fname.isEmpty() || !QFile::exists (fname))
                 continue;
             /* make changes to the document if needed */
-            if (config.getRemoveTrailingSpaces())
+            if (config.getRemoveTrailingSpaces() && thisTextEdit->getProg() != "diff")
             {
                 if (QGuiApplication::overrideCursor() == nullptr)
                     waitToMakeBusy();
