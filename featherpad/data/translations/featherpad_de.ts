@@ -1165,7 +1165,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="2309"/>
         <source>Non-text files or files with huge lines cannot be edited.</source>
-        <translation>Nicht-Text Dateien oder Dateien mit riesiegen Zeilen können nicht bearbeitet werden. </translation>
+        <translation>Nicht-Text Dateien oder Dateien mit sehr langen Zeilen können nicht bearbeitet werden.</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2356"/>
