@@ -28,7 +28,7 @@
     <message>
         <location filename="../../fp.ui" line="71"/>
         <source>Go to line:</source>
-        <translation>Geh zur Zeile:</translation>
+        <translation>Gehe zu Zeile:</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="107"/>
@@ -85,7 +85,7 @@
     <message>
         <location filename="../../fp.ui" line="379"/>
         <source>Find:</source>
-        <translation>Finden:</translation>
+        <translation>Suchen:</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="395"/>
@@ -229,7 +229,7 @@
     <message>
         <location filename="../../fp.ui" line="561"/>
         <source>&amp;Find</source>
-        <translation>&amp;Finden</translation>
+        <translation>&amp;Suchen</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="567"/>
@@ -349,12 +349,12 @@
     <message>
         <location filename="../../fp.ui" line="656"/>
         <source>&amp;Delete</source>
-        <translation>&amp;Entfernen</translation>
+        <translation>&amp;Löschen</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="661"/>
         <source>&amp;Select All</source>
-        <translation>&amp;Alles auswählen</translation>
+        <translation>Alles &amp;markieren</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="664"/>
@@ -371,7 +371,7 @@
     <message>
         <location filename="../../fp.ui" line="677"/>
         <source>&amp;Line Numbers</source>
-        <translation>&amp;Zeilennummern</translation>
+        <translation>Zei&amp;lennummern</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="680"/>
@@ -407,7 +407,7 @@
     <message>
         <location filename="../../fp.ui" line="719"/>
         <source>&amp;Syntax Highlighting</source>
-        <translation>&amp;Syntax-Hervorhebung</translation>
+        <translation>Syntax-&amp;Hervorhebung</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="722"/>
@@ -453,12 +453,12 @@
     <message>
         <location filename="../../fp.ui" line="958"/>
         <source>&amp;Jump to</source>
-        <translation>&amp;Springe zu</translation>
+        <translation>Springe &amp;zu</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="961"/>
         <source>Show/hide jump bar</source>
-        <translation>Zeige/blende Springleiste aus</translation>
+        <translation>Zeige/blende Sprungleiste aus</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="964"/>
@@ -499,17 +499,17 @@
     <message>
         <location filename="../../fp.ui" line="1092"/>
         <source>Clear the list of recently modified files</source>
-        <translation>Zurücksetzen der Liste der kürzlich bearbeiteten Dateien</translation>
+        <translation>Liste der kürzlich bearbeiteten Dateien zurücksetzen</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1097"/>
         <source>Save/Restore Session</source>
-        <translation>Speichern/Wiederherstellen der Sitzung</translation>
+        <translation>Sitzung Speichern/Wiederherstellen</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1100"/>
         <source>Sa&amp;ve/Restore Session</source>
-        <translation>Speichern/Wiederherstellen der Sitzung</translation>
+        <translation>Sitzung Speichern/Wiederherstellen</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1103"/>
@@ -583,12 +583,12 @@
     <message>
         <location filename="../../fp.ui" line="999"/>
         <source>Close Ne&amp;xt Tabs</source>
-        <translation>&amp;Nächste Tabs schliessen</translation>
+        <translation>&amp;Nächsten Tabs schliessen</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1004"/>
         <source>Close &amp;Previous Tabs</source>
-        <translation>Vorherige Tabs &amp;schliessen</translation>
+        <translation>Vorherigen Tabs &amp;schliessen</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1032"/>
@@ -638,7 +638,7 @@
     <message>
         <location filename="../../fp.ui" line="239"/>
         <source>Ea&amp;st Asian</source>
-        <translation>&amp;Ostasiatisch</translation>
+        <translation>Ost&amp;asiatisch</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="331"/>
@@ -651,7 +651,7 @@
     <message>
         <location filename="../../fp.ui" line="564"/>
         <source>Focus/hide search bar</source>
-        <translation>Fokussiere/blende Suchleiste aus</translation>
+        <translation>Suchleiste fokussieren/ausblenden</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="572"/>
@@ -661,12 +661,12 @@
     <message>
         <location filename="../../fp.ui" line="754"/>
         <source>Windows Arabic (&amp;CP1256)</source>
-        <translation>Windows Arabicsh (&amp;CP1256)</translation>
+        <translation>Windows Arabisch (&amp;CP1256)</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="762"/>
         <source>&amp;Other</source>
-        <translation>&amp;Andere</translation>
+        <translation>A&amp;ndere</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="781"/>
