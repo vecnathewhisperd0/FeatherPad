@@ -476,7 +476,7 @@ void Highlighter::htmlJavascript (const QString &text)
     int javaIndex = 0;
 
     QRegularExpressionMatch startMatch;
-    QRegularExpression javaStartExp ("<(script|SCRIPT)\\s+(language|LANGUAGE)\\s*\\=\\s*\"\\s*JavaScript\\s*\"[A-Za-z0-9_\\.\"\\s\\=]*>");
+    QRegularExpression javaStartExp ("<(script|SCRIPT)\\s+[^<>]*(((language|LANGUAGE)\\s*\\=\\s*\"\\s*)|((TYPE|type)\\s*\\=\\s*\"\\s*(TEXT|text)/))(JavaScript|javascript)\\s*\"[^<>]*>");
     QRegularExpressionMatch endMatch;
     QRegularExpression javaEndExp ("</(script|SCRIPT)\\s*>");
 
@@ -495,7 +495,7 @@ void Highlighter::htmlJavascript (const QString &text)
 
     QTextCharFormat fi;
     if (!wasJavascript)
-    {;
+    {
         javaIndex = text.indexOf (javaStartExp, 0, &startMatch);
         fi = format (javaIndex);
         while (javaIndex >= 0
@@ -513,7 +513,11 @@ void Highlighter::htmlJavascript (const QString &text)
     while (javaIndex >= 0)
     {
         if (!wasJavascript || javaIndex > 0)
+        {
             matched = startMatch.capturedLength();
+            curData->insertLastFormattedQuote (javaIndex + matched);
+            curData->insertLastFormattedRegex (javaIndex + matched);
+        }
 
         /* starting from here, clear all html formats... */
         setFormat (javaIndex + matched, text.length() - javaIndex - matched, neutralFormat);
@@ -542,7 +546,8 @@ void Highlighter::htmlJavascript (const QString &text)
                     fi = format (index);
                     while (index >= 0
                            && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
-                               || fi == commentFormat || fi == urlFormat))
+                               || fi == commentFormat || fi == urlFormat
+                               || fi ==  JSRegexFormat))
                     {
                         index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
                         fi = format (index);

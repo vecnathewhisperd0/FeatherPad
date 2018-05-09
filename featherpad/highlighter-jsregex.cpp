@@ -28,13 +28,19 @@ bool Highlighter::isEscapedJSRegex (const QString &text, const int pos)
     if (progLan != "javascript" && progLan != "qml")
         return false;
 
-    /* escape "<.../>", "</...>" (WARNING: redundant) and the single-line comment sign ("//") */
-    if ((text.length() > pos + 1 && (/*text.at (pos + 1) == '>'
-                                     ||*/ text.at (pos + 1) == '/'))
-        || (pos > 0 && (/*text.at (pos - 1) == '<'
-                        ||*/ (text.at (pos - 1) == '/'
-                            /* not the end of (a previously formatted) JS regex */
-                            && format (pos - 1) != JSRegexFormat))))
+    if (format (pos) == quoteFormat || format (pos) == altQuoteFormat)
+        return true;
+
+    if (isMLCommented (text, pos, commentState)
+        || isMLCommented (text, pos, htmlJavaCommentState))
+    {
+        return true;
+    }
+
+    /* escape "<.../>", "</...>" and the single-line comment sign ("//") */
+    if ((text.length() > pos + 1 && ((progLan == "javascript" && text.at (pos + 1) == '>')
+                                     || text.at (pos + 1) == '/'))
+            || (pos > 0 && progLan == "javascript" && text.at (pos - 1) == '<'))
     {
         return true;
     }
@@ -89,12 +95,14 @@ bool Highlighter::isEscapedJSRegex (const QString &text, const int pos)
         QChar ch = text.at (i);
         if (format (i) != JSRegexFormat && (ch.isLetterOrNumber() || ch == '_'
                                             || ch == ')' || ch == ']')) // as with Kate
-        { // a regex isn't escaped if it follows a JavaScript keyword
+        { // a regex isn't escaped if it follows another one or a JavaScript keyword
+            int j;
+            if ((j = text.lastIndexOf (QRegularExpression("/\\w+"), i + 1, &keyMatch)) > -1 && j + keyMatch.capturedLength() == i + 1)
+                return false;
             if (keys.pattern().isEmpty())
                 keys.setPattern (keywords (progLan).join ('|'));
             int len = qMin (12, i + 1);
             QString str = text.mid (i - len + 1, len);
-            int j;
             if ((j = str.lastIndexOf (keys, -1, &keyMatch)) > -1 && j + keyMatch.capturedLength() == len)
                 return false;
             return true;
@@ -104,51 +112,95 @@ bool Highlighter::isEscapedJSRegex (const QString &text, const int pos)
     return false;
 }
 /*************************/
-// This should be used with care because it gives correct results only in special places.
+// For faster processing with very long lines, this function also highlights regex patterns.
+// (It should be used with care because it gives correct results only in special places.)
 bool Highlighter::isInsideJSRegex (const QString &text, const int index)
 {
     if (index < 0) return false;
     if (progLan != "javascript" && progLan != "qml")
         return false;
 
-    QRegularExpression exp ("/");
-    bool res = false;
     int pos = -1;
-    int N;
 
-    if (previousBlockState() != JSRegexState)
-        N = 0;
-    else
+    if (format (index) == JSRegexFormat)
+        return true;
+    if (TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData()))
     {
-        N = 1;
-        res = true;
+        pos = data->lastFormattedRegex() - 1;
+        if (index <= pos) return false;
     }
 
-    while ((pos = text.indexOf (exp, pos + 1)) >= 0)
+    QRegularExpressionMatch match;
+    QRegularExpression exp;
+    bool res = false;
+    int N;
+
+    if (pos == -1)
+    {
+        if (previousBlockState() != JSRegexState)
+        {
+            exp.setPattern ("/");
+            N = 0;
+        }
+        else
+        {
+            exp.setPattern ("/[A-Za-z0-9_]*");
+            N = 1;
+            res = true;
+        }
+    }
+    else // a new search from the last position
+    {
+        exp.setPattern ("/");
+        N = 0;
+    }
+
+    int nxtPos;
+    while ((nxtPos = text.indexOf (exp, pos + 1, &match)) >= 0)
     {
         /* skip formatted comments and quotes */
-        QTextCharFormat fi = format (pos);
-        if (fi == commentFormat || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat)
-            continue;
-
-        ++N;
-        if ((N % 2 == 0 && isEscapedChar (text, pos)) // an escaped end sign
-            || (N % 2 != 0 && isEscapedJSRegex (text, pos))) // or an escaped start sign
+        QTextCharFormat fi = format (nxtPos);
+        if (N % 2 == 0
+            && (fi == commentFormat || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
         {
-            --N;
+            pos = nxtPos;
             continue;
         }
 
-        if (index <= pos) // they may be equal, as when "//" is at the end of "/...//"
+        ++N;
+        if ((N % 2 == 0 && isEscapedChar (text, nxtPos)) // an escaped end sign
+            || (N % 2 != 0 && isEscapedJSRegex (text, nxtPos))) // or an escaped start sign
+        {
+            --N;
+            pos = nxtPos;
+            continue;
+        }
+
+        if (N % 2 == 0)
+        {
+            if (TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData()))
+                data->insertLastFormattedRegex (nxtPos + match.capturedLength());
+            pos = qMax (pos, 0);
+            setFormat (pos, nxtPos - pos + match.capturedLength(), JSRegexFormat);
+        }
+
+        if (index <= nxtPos) // they may be equal, as when "//" is at the end of "/...//"
         {
             if (N % 2 == 0) res = true;
             else res = false;
             break;
         }
 
+        if (N % 2 == 0)
+            exp.setPattern("/");
+        else
+            exp.setPattern("/[A-Za-z0-9_]*");
+
         /* "pos" might be negative next time */
         if (N % 2 == 0) res = false;
         else res = true;
+
+        pos = nxtPos;
     }
 
     return res;

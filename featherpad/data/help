@@ -170,7 +170,7 @@ Meta+Shift+Up/Down  Go to the same position in the previous/next (real) line whi
 Ctrl+Up/Down        Scroll up/down by one wrapped line without moving cursor
 Ctrl+Shift+Up/Down  Move line(s) upward/downward
 Shift+Enter         Insert newline with the non-letter prefix of the current line
-                    (to write code comments easily)
+                    (to write code comments easily, for example)
 Insert              Toggle overwrite mode
 
 The remaining shortcuts are standard. All shortcuts, except for the extra ones above, can be found on menus or as tooltips and many of them can be customized in the Preferences dialog.

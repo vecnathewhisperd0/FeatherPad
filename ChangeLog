@@ -28,6 +28,7 @@ V0.9.0
  * Made Ctrl+Tab, Ctrl+Meta+Tab and Shift+Tab really align the text.
  * Covered regex inside QML too (with syntax highlighting).
  * Never remove trailing spaces with diff files.
+ * Made highlighting of JavaScript regex faster and fixed some bugs in it.
 
 V0.8
 ---------

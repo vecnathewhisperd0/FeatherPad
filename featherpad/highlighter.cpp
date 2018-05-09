@@ -85,6 +85,16 @@ int TextBlockData::openNests() const
     return OpenNests;
 }
 /*************************/
+int TextBlockData::lastFormattedQuote() const
+{
+    return LastFormattedQuote;
+}
+/*************************/
+int TextBlockData::lastFormattedRegex() const
+{
+    return LastFormattedRegex;
+}
+/*************************/
 QSet<int> TextBlockData::openQuotes() const
 {
     return OpenQuotes;
@@ -144,6 +154,16 @@ void TextBlockData::setProperty (bool p)
 void TextBlockData::insertNestInfo (int nests)
 {
     OpenNests = nests;
+}
+/*************************/
+void TextBlockData::insertLastFormattedQuote (int last)
+{
+    LastFormattedQuote = last;
+}
+/*************************/
+void TextBlockData::insertLastFormattedRegex (int last)
+{
+    LastFormattedRegex = last;
 }
 /*************************/
 void TextBlockData::insertOpenQuotes (const QSet<int> &openQuotes)
@@ -246,8 +266,8 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
     /* may be overridden by the keywords format */
     if (progLan == "c" || progLan == "cpp"
-        || progLan == "lua" || progLan == "python"
-        || Lang == "javascript" || progLan == "qml" || progLan == "php")
+        || Lang == "javascript" || progLan == "qml"
+        || progLan == "lua" || progLan == "python" || progLan == "php")
     {
         QTextCharFormat functionFormat;
         functionFormat.setFontItalic (true);
@@ -864,8 +884,9 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
     /* single line comments */
     rule.pattern.setPattern (QString());
-    if (progLan == "c" || progLan == "cpp" || Lang == "javascript"
-        || progLan == "qml" || progLan == "php" || progLan == "scss")
+    if (progLan == "c" || progLan == "cpp"
+        || Lang == "javascript" || progLan == "qml"
+        || progLan == "php" || progLan == "scss")
     {
         rule.pattern.setPattern ("//.*"); // why had I set it to ("//(?!\\*).*")?
     }
@@ -898,9 +919,9 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     }
 
     /* multiline comments */
-    if (progLan == "c" || progLan == "cpp" || progLan == "javascript"
-        || progLan == "qml" || progLan == "php"
-        || progLan == "css" || progLan == "scss")
+    if (progLan == "c" || progLan == "cpp"
+        || progLan == "javascript" || progLan == "qml"
+        || progLan == "php" || progLan == "css" || progLan == "scss")
     {
         commentStartExpression.setPattern ("/\\*");
         commentEndExpression.setPattern ("\\*/");
@@ -1024,10 +1045,10 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
         && (/*(progLan == "perl"
              && pos == text.indexOf (quoteMark, pos)) ||*/
             /* for these languages, both single and double quotes can be escaped */
-            progLan == "cpp" || progLan == "c"
+            progLan == "c" || progLan == "cpp"
+            || progLan == "javascript" || progLan == "qml"
             || progLan == "python"
             || progLan == "perl"
-            || progLan == "javascript"
             /* markdown is an exception */
             || progLan == "markdown"
             /* however, in Bash, single quote can be escaped only at start */
@@ -1049,16 +1070,32 @@ bool Highlighter::isQuoted (const QString &text, const int index,
 {
     if (index < 0) return false;
 
-    bool res = false;
     int pos = -1;
+
+    /* with regex, the text will be formatted below to know whether
+       the regex start sign is quoted (-> isEscapedJSRegex) */
+    bool hasRegex (progLan == "javascript" || progLan == "qml");
+    if (hasRegex)
+    {
+        if (format (index) == quoteFormat || format (index) == altQuoteFormat)
+            return true;
+        if (TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData()))
+        {
+            pos = data->lastFormattedQuote() - 1;
+            if (index <= pos) return false;
+        }
+    }
+
+    bool res = false;
     int N;
     bool mixedQuotes = false;
-    if (progLan == "c" || progLan == "cpp"
+    if (hasRegex
+        || progLan == "c" || progLan == "cpp"
         || progLan == "python" || progLan == "sh"
         || progLan == "makefile" || progLan == "cmake"
         || progLan == "lua" || progLan == "perl"
         || progLan == "xml" // never used with xml; otherwise, we should consider "&quot;"
-        || progLan == "ruby" || progLan == "html" || progLan == "javascript" || progLan == "scss")
+        || progLan == "ruby" || progLan == "html" || progLan == "scss")
     {
         mixedQuotes = true;
     }
@@ -1067,72 +1104,96 @@ bool Highlighter::isQuoted (const QString &text, const int index,
         quoteExpression.setPattern ("\"|\'");
     else
         quoteExpression = quoteMark;
-    int prevState = previousBlockState();
-    if ((prevState < doubleQuoteState
-         || prevState > SH_MixedSingleQuoteState)
-        && prevState != htmlStyleSingleQuoteState
-        && prevState != htmlStyleDoubleQuoteState)
+    if (pos == -1)
     {
-        N = 0;
-    }
-    else
-    {
-        N = 1;
-        res = true;
-        if (mixedQuotes)
+        int prevState = previousBlockState();
+        if ((prevState < doubleQuoteState
+             || prevState > SH_MixedSingleQuoteState)
+                && prevState != htmlStyleSingleQuoteState
+                && prevState != htmlStyleDoubleQuoteState)
         {
-            if (prevState == doubleQuoteState
-                || prevState == SH_DoubleQuoteState
-                || prevState == SH_MixedDoubleQuoteState
-                || prevState == htmlStyleDoubleQuoteState)
+            N = 0;
+        }
+        else
+        {
+            N = 1;
+            res = true;
+            if (mixedQuotes)
             {
-                quoteExpression = quoteMark;
-                if (skipCommandSign)
+                if (prevState == doubleQuoteState
+                        || prevState == SH_DoubleQuoteState
+                        || prevState == SH_MixedDoubleQuoteState
+                        || prevState == htmlStyleDoubleQuoteState)
                 {
-                    if (text.indexOf (QRegularExpression ("[^\"]*\\$\\("), 0) == 0)
+                    quoteExpression = quoteMark;
+                    if (skipCommandSign)
                     {
-                        N = 0;
-                        res = false;
-                    }
-                    else
-                    {
-                        QTextBlock prevBlock = currentBlock().previous();
-                        if (prevBlock.isValid())
+                        if (text.indexOf (QRegularExpression ("[^\"]*\\$\\("), 0) == 0)
                         {
-                            if (TextBlockData *prevData = static_cast<TextBlockData *>(prevBlock.userData()))
+                            N = 0;
+                            res = false;
+                        }
+                        else
+                        {
+                            QTextBlock prevBlock = currentBlock().previous();
+                            if (prevBlock.isValid())
                             {
-                                int N = prevData->openNests();
-                                if (N > 0 && (prevState == doubleQuoteState || !prevData->openQuotes().contains (N)))
+                                if (TextBlockData *prevData = static_cast<TextBlockData *>(prevBlock.userData()))
                                 {
-                                    N = 0;
-                                    res = false;
+                                    int N = prevData->openNests();
+                                    if (N > 0 && (prevState == doubleQuoteState || !prevData->openQuotes().contains (N)))
+                                    {
+                                        N = 0;
+                                        res = false;
+                                    }
                                 }
                             }
                         }
                     }
                 }
+                else
+                    quoteExpression.setPattern ("\'");
             }
-            else
-                quoteExpression.setPattern ("\'");
         }
     }
+    else N = 0; // a new search from the last position
 
-    while ((pos = text.indexOf (quoteExpression, pos + 1)) >= 0)
+    int nxtPos;
+    while ((nxtPos = text.indexOf (quoteExpression, pos + 1)) >= 0)
     {
         /* skip formatted comments */
-        if (format (pos) == commentFormat) continue;
-
-        ++N;
-        if ((N % 2 == 0 // an escaped end quote...
-             && (isEscapedQuote (text, pos, false) || isInsideJSRegex (text, pos)))
-            || (N % 2 != 0 // ... or an escaped start quote in Perl or Bash
-                && (isEscapedQuote (text, pos, true, skipCommandSign) || isInsideJSRegex (text, pos))))
+        if (format (nxtPos) == commentFormat
+            || (N % 2 == 0 && hasRegex
+                && (isMLCommented (text, nxtPos, commentState)
+                    || isMLCommented (text, nxtPos, htmlJavaCommentState))))
         {
-            --N;
+            pos = nxtPos;
             continue;
         }
 
-        if (index < pos)
+        ++N;
+        if ((N % 2 == 0 // an escaped end quote...
+             && isEscapedQuote (text, nxtPos, false))
+            || (N % 2 != 0 // ... or an escaped start quote in Perl or Bash
+                && (isEscapedQuote (text, nxtPos, true, skipCommandSign) || isInsideJSRegex (text, nxtPos))))
+        {
+            --N;
+            pos = nxtPos;
+            continue;
+        }
+
+        if (N % 2 == 0 && hasRegex)
+        { // -> isEscapedJSRegex()
+            if (TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData()))
+                data->insertLastFormattedQuote (nxtPos + 1);
+            pos = qMax (pos, 0);
+            if (nxtPos == text.indexOf (quoteMark, nxtPos + 1))
+                setFormat (pos, nxtPos - pos + 1, quoteFormat);
+            else
+                setFormat (pos, nxtPos - pos + 1, altQuoteFormat);
+        }
+
+        if (index < nxtPos)
         {
             if (N % 2 == 0) res = true;
             else res = false;
@@ -1147,7 +1208,7 @@ bool Highlighter::isQuoted (const QString &text, const int index,
         {
             if (N % 2 != 0)
             { // each quote neutralizes the other until it's closed
-                if (pos == text.indexOf (quoteMark, pos))
+                if (nxtPos == text.indexOf (quoteMark, nxtPos))
                     quoteExpression = quoteMark;
                 else
                     quoteExpression.setPattern ("\'");
@@ -1155,6 +1216,7 @@ bool Highlighter::isQuoted (const QString &text, const int index,
             else
                 quoteExpression.setPattern ("\"|\'");
         }
+        pos = nxtPos;
     }
 
     return res;
@@ -1658,7 +1720,8 @@ void Highlighter::singleLineComment (const QString &text, const int start)
                    no highlighting function is called after singleLineComment()
                    and before the main formaatting in highlightBlock()
                    (only c and c++ for now) */
-                if ((progLan == "c" || progLan == "cpp")
+                if ((progLan == "c" || progLan == "cpp"
+                     || progLan == "javascript" || progLan == "qml")
                     && text.endsWith (QLatin1Char('\\')))
                 {
                     setCurrentBlockState (nextLineCommentState);
@@ -1917,11 +1980,12 @@ void Highlighter::multiLineQuote (const QString &text, const int start, int comS
     int index = start;
     bool mixedQuotes = false;
     if (progLan == "c" || progLan == "cpp"
+        || progLan == "javascript" || progLan == "qml"
         || progLan == "python"
         /*|| progLan == "sh"*/ // bash uses SH_MultiLineQuote()
         || progLan == "makefile" || progLan == "cmake"
         || progLan == "lua" || progLan == "perl"
-        || progLan == "ruby" || progLan == "javascript" || progLan == "scss")
+        || progLan == "ruby" || progLan == "scss")
     {
         mixedQuotes = true;
     }
@@ -2020,14 +2084,15 @@ void Highlighter::multiLineQuote (const QString &text, const int start, int comS
         bool isQuotation = true;
         if (endIndex == -1)
         {
-            if (progLan == "c" || progLan == "cpp")
+            if (progLan == "c" || progLan == "cpp"
+                || progLan == "javascript" || progLan == "qml")
             {
                 /* in c and cpp, multiline double quotes need backslash
                    and there's no multiline single quote */
                 if (quoteExpression.pattern() == "\'"
                     || (quoteExpression == quoteMark && !textEndsWithBackSlash (text)))
                 {
-                    endIndex = text.size() + 1; // quoteMatch.capturedLength() is -1 here
+                    endIndex = text.size() + 1; // quoteMatch.capturedLength() is 1 here
                 }
             }
             else if (progLan == "markdown")

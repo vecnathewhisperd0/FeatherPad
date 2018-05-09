@@ -49,7 +49,8 @@ struct BracketInfo
 class TextBlockData : public QTextBlockUserData
 {
 public:
-    TextBlockData() { Highlighted = false; Property = false; OpenNests = 0; }
+    TextBlockData() { Highlighted = false; Property = false; OpenNests = 0;
+                      LastFormattedQuote = 0; LastFormattedRegex = 0; }
     ~TextBlockData();
     QVector<ParenthesisInfo *> parentheses() const;
     QVector<BraceInfo *> braces() const;
@@ -58,6 +59,8 @@ public:
     bool isHighlighted() const;
     bool getProperty() const;
     int openNests() const;
+    int lastFormattedQuote() const;
+    int lastFormattedRegex() const;
     QSet<int> openQuotes() const;
     void insertInfo (ParenthesisInfo *info);
     void insertInfo (BraceInfo *info);
@@ -66,6 +69,8 @@ public:
     void insertHighlightInfo (bool highlighted);
     void setProperty (bool p);
     void insertNestInfo (int nests);
+    void insertLastFormattedQuote (int last);
+    void insertLastFormattedRegex (int last);
     void insertOpenQuotes (const QSet<int> &openQuotes);
 
 private:
@@ -78,6 +83,10 @@ private:
     /* "Nest" is a generalized bracket. This variable
        is the number of unclosed nests in a block. */
     int OpenNests;
+    /* "LastFormattedQuote" is used when quotes are formatted
+       on the fly, before they are completely formatted. */
+    int LastFormattedQuote;
+    int LastFormattedRegex;
     QSet<int> OpenQuotes; // The numbers of open double quotes of open nests.
 };
 /*************************/
