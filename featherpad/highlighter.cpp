@@ -1187,7 +1187,7 @@ bool Highlighter::isQuoted (const QString &text, const int index,
             if (TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData()))
                 data->insertLastFormattedQuote (nxtPos + 1);
             pos = qMax (pos, 0);
-            if (nxtPos == text.indexOf (quoteMark, nxtPos + 1))
+            if (nxtPos == text.indexOf (quoteMark, nxtPos))
                 setFormat (pos, nxtPos - pos + 1, quoteFormat);
             else
                 setFormat (pos, nxtPos - pos + 1, altQuoteFormat);
@@ -1720,8 +1720,7 @@ void Highlighter::singleLineComment (const QString &text, const int start)
                    no highlighting function is called after singleLineComment()
                    and before the main formaatting in highlightBlock()
                    (only c and c++ for now) */
-                if ((progLan == "c" || progLan == "cpp"
-                     || progLan == "javascript" || progLan == "qml")
+                if ((progLan == "c" || progLan == "cpp")
                     && text.endsWith (QLatin1Char('\\')))
                 {
                     setCurrentBlockState (nextLineCommentState);
