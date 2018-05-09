@@ -253,7 +253,7 @@
     <message>
         <location filename="../../fp.ui" line="583"/>
         <source>Save &amp;As</source>
-        <translation>Speihern &amp;unter</translation>
+        <translation>Speichern &amp;unter</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="586"/>
@@ -407,7 +407,7 @@
     <message>
         <location filename="../../fp.ui" line="719"/>
         <source>&amp;Syntax Highlighting</source>
-        <translation>&amp;Syntax Hervorhebung</translation>
+        <translation>&amp;Syntax-Hervorhebung</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="722"/>
@@ -453,7 +453,7 @@
     <message>
         <location filename="../../fp.ui" line="958"/>
         <source>&amp;Jump to</source>
-        <translation>&amp;Spring zu</translation>
+        <translation>&amp;Springe zu</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="961"/>
@@ -521,7 +521,7 @@
     <message>
         <location filename="../../fp.ui" line="1108"/>
         <source>Side-Pane</source>
-        <translation>Seiten-Tafel</translation>
+        <translation>Seitenleiste</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1111"/>
@@ -533,7 +533,7 @@
     <message>
         <location filename="../../fp.ui" line="1116"/>
         <source>Paste Date and Time</source>
-        <translation>Einfügen von Datum und Zeit</translation>
+        <translation>Datum und Uhrzeit einfügen</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1119"/>
@@ -559,7 +559,7 @@
         <location filename="../../fp.ui" line="1135"/>
         <location filename="../../fp.ui" line="1138"/>
         <source>To Lower Case</source>
-        <translation>Zu Kleinbuchstaben</translation>
+        <translation>Umwandeln in Kleinbuchstaben</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1141"/>
@@ -633,12 +633,12 @@
     <message>
         <location filename="../../fp.ui" line="231"/>
         <source>&amp;East European</source>
-        <translation>&amp;Ost Europäisch</translation>
+        <translation>&amp;Osteuropäisch</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="239"/>
         <source>Ea&amp;st Asian</source>
-        <translation>&amp;Ost Asiatisch</translation>
+        <translation>&amp;Ostasiatisch</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="331"/>
@@ -943,7 +943,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="814"/>
         <source>Another FeatherPad window has a modal dialog!</source>
-        <translation>Ein anderes FeatherPad Fenster hat einen Modalen Dialog!</translation>
+        <translation>Ein anderes FeatherPad-Fenster hat einen modalen Dialog!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="256"/>
@@ -1175,7 +1175,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="2357"/>
         <source>Preferably, close all FeatherPad windows and start again!</source>
-        <translation>Vorzugsweise, alle FeatherPad Fenster schliessen und neu starten!</translation>
+        <translation>Vorzugsweise, alle FeatherPad-Fenster schliessen und neu starten!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2430"/>
@@ -1301,12 +1301,12 @@
     <message>
         <location filename="../../fpwin.cpp" line="4765"/>
         <source>A lightweight, tabbed, plain-text editor</source>
-        <translation>Ein leichtgewichtiger, Tab Klartext Editor</translation>
+        <translation>Ein leichtgewichtiger Texteditor</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="4766"/>
         <source>based on Qt5</source>
-        <translation>basiert auf Qt5</translation>
+        <translation>basierend auf Qt5</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="4767"/>
@@ -1430,7 +1430,7 @@ aber ohne Tab Funktionalität.</translation>
     <message>
         <location filename="../../predDialog.ui" line="141"/>
         <source>Remember splitter position</source>
-        <translation>Splitter Position behalten</translation>
+        <translation>Splitter-Position behalten</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="161"/>
@@ -1440,13 +1440,13 @@ KDE may have a bug that disables search and
 replace shortcuts with the iconless mode.
 
 Needs application restart to take effect.</source>
-        <translation>Keine Ikonen im Hauptfenster und dessen Menüs.
+        <translation>Keine Symbole im Hauptfenster und dessen Menüs.
 
-KDE könnte einen Fehler haben der die Suche
-abschaltet und die Kurzbefehle ersetzt mit
-dem Ikonenlosem Modus.
+Unter KDE könnte einen Fehler beim Betrieb ohne Symbole
+auftreten, der die Suchen-/Ersetzen-Tastenkombinationen
+deaktiviert.
 
-Neustart der Anwendung notwendig um
+Neustart der Anwendung notwendig, um
 wirksam zu werden.</translation>
     </message>
     <message>
@@ -1457,7 +1457,7 @@ wirksam zu werden.</translation>
     <message>
         <location filename="../../predDialog.ui" line="176"/>
         <source>Do not show &amp;toolbar</source>
-        <translation>&amp;Werkzeugleiste nicht anzeigen</translation>
+        <translation>&amp;Werkzeugleiste verbergen</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="183"/>
@@ -1469,7 +1469,7 @@ erscheint ein Menüknopf auf der Werkzeugleiste.</translation>
     <message>
         <location filename="../../predDialog.ui" line="187"/>
         <source>Do not show &amp;menubar</source>
-        <translation>&amp;Menüleiste nicht anzeigen</translation>
+        <translation>&amp;Menüleiste verbergen</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="194"/>
@@ -1555,7 +1555,7 @@ nicht berichten, dass sie mehrere Arbeitsflächen haben.</translation>
     <message>
         <location filename="../../predDialog.ui" line="292"/>
         <source>Always open in separate windows</source>
-        <translation>Öffne immer in separatem Fenster</translation>
+        <translation>Immer in separatem Fenster öffenen</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="299"/>
@@ -1608,13 +1608,13 @@ Statusleiste zum Ändern der Syntax.</translation>
     <message>
         <location filename="../../predDialog.ui" line="429"/>
         <source>Support syntax override</source>
-        <translation>Unterstützung von Syntax Aufhebung</translation>
+        <translation>Freie Wahl der Syntax-Hervorhebung</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="472"/>
         <source>Show spaces, tabs and tab lines
 when the syntax is highlighted.</source>
-        <translation>Anzeigen von Leerzeichen, Tabs und Tab Zeilen
+        <translation>Anzeigen von Leerzeichen, Tabs und Einrückungslinien
 wenn die Syntax hervorgehoben ist.</translation>
     </message>
     <message>
@@ -1633,7 +1633,7 @@ bei Editor Schriftart mit einem festen Abstand. (wie Monospace).</translation>
     <message>
         <location filename="../../predDialog.ui" line="494"/>
         <source>Show vertical lines starting from this position:</source>
-        <translation>Anzeigen von vertikalen Zeilen ab dieser Position:</translation>
+        <translation>Anzeigen von vertikalen Linien ab dieser Position:</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="483"/>
@@ -1745,7 +1745,7 @@ Neustart der Anwendung notwendig um wirksam zu werden.</translation>
     <message>
         <location filename="../../predDialog.ui" line="115"/>
         <source>Start with side-pane mode</source>
-        <translation>Start mit Seiten-Tafel Modus</translation>
+        <translation>Start mit Seitenleiste</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="154"/>
@@ -2125,8 +2125,8 @@ trailing spaces of a text file.</source>
         <location filename="../../sessionDialog.ui" line="159"/>
         <source>By default, all files that are opened in all
 windows will be included in the saved session.</source>
-        <translation>Standartmäßig werden alle Dateien
-in allen Fenstern in die gespeicherte Sitzung eingeschlossen.</translation>
+        <translation>Per Voreinstellung werden alle Dateien in allen Fenstern 
+in die gespeicherte Sitzung eingeschlossen.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="163"/>
@@ -2243,17 +2243,17 @@ in allen Fenstern in die gespeicherte Sitzung eingeschlossen.</translation>
     <message>
         <location filename="../../textedit.cpp" line="1439"/>
         <source>To Upper Case</source>
-        <translation>Zu Großbuchstaben</translation>
+        <translation>Umwandeln in Großbuchstaben</translation>
     </message>
     <message>
         <location filename="../../textedit.cpp" line="1443"/>
         <source>To Lower Case</source>
-        <translation>Zu Kleinbuchstaben</translation>
+        <translation>Umwandeln in Kleinbuchstaben</translation>
     </message>
     <message>
         <location filename="../../textedit.cpp" line="1449"/>
         <source>Paste Date and Time</source>
-        <translation>Einfügen von Datum und Zeit</translation>
+        <translation>Datum und Uhrzeit einfügen</translation>
     </message>
 </context>
 <context>
