@@ -1133,7 +1133,7 @@
         <location filename="../../fpwin.cpp" line="3094"/>
         <location filename="../../fpwin.cpp" line="3272"/>
         <source>The file does not exist.</source>
-        <translation type="unfinished"></translation>
+        <translation>Böyle bir dosya yok.</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1593"/>
@@ -1289,7 +1289,7 @@
         <location filename="../../fpwin.cpp" line="4348"/>
         <location filename="../../fpwin.cpp" line="4416"/>
         <source>%1 Pages</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Sayfa</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="4374"/>
@@ -1987,12 +1987,12 @@ güncellemek veya dosya sonundaki boşlukları kırpmak için.</translation>
     <message>
         <location filename="../../predDialog.ui" line="871"/>
         <source>Show a warning instead.</source>
-        <translation type="unfinished"></translation>
+        <translation>Onun yerine bir uyarı göster.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="874"/>
         <source>Do not permit opening of non-text files</source>
-        <translation type="unfinished"></translation>
+        <translation>Metin olmayan dosyaları açma</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="885"/>
@@ -2132,7 +2132,7 @@ güncellemek veya dosya sonundaki boşlukları kırpmak için.</translation>
     <message>
         <location filename="../../sessionDialog.ui" line="69"/>
         <source>Open the selected session(s).</source>
-        <translation>Seçilen oturum(lar)ı aç</translation>
+        <translation>Seçilen oturum(lar)ı aç.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="72"/>
