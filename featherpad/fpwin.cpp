@@ -2510,6 +2510,9 @@ void FPwin::enforceEncoding (QAction*)
             encodingToCheck (textEdit->getEncoding());
             return;
         }
+        /* if the file is removed, close its tab to open a new one */
+        if (!QFile::exists (fname))
+            deleteTabPage (index, false, false);
         loadText (fname, true, true,
                   0, 0,
                   textEdit->isUneditable(), false);
@@ -2546,6 +2549,9 @@ void FPwin::reload()
 
     TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
     QString fname = textEdit->getFileName();
+    /* if the file is removed, close its tab to open a new one */
+    if (!QFile::exists (fname))
+        deleteTabPage (index, false, false);
     if (!fname.isEmpty())
     {
         loadText (fname, false, true,

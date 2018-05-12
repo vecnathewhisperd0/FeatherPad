@@ -43,7 +43,9 @@ void Loading::run()
 {
     if (!QFile::exists (fname_))
     {
-        emit completed (QString(), fname_, "UTF-8", false, false, 0, 0, false, multiple_);
+        emit completed (QString(), fname_,
+                        charset_.isEmpty() ? "UTF-8" : charset_,
+                        false, false, 0, 0, false, multiple_);
         return;
     }
 
