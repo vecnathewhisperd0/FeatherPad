@@ -23,7 +23,7 @@
         <location filename="../../fpwin.cpp" line="3092"/>
         <location filename="../../fpwin.cpp" line="3757"/>
         <source>Untitled</source>
-        <translation>Unbetitelt</translation>
+        <translation>Unbenannt</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="71"/>
@@ -34,7 +34,7 @@
         <location filename="../../fp.ui" line="107"/>
         <source>Select text from cursor to this line
 (Ctrl+Shift+J)</source>
-        <translation>Text auswählen von Cursor bis zu dieser Zeile
+        <translation>Text von Cursor bis zu dieser Zeile auswählen
 (Strg+Umschalt+J)</translation>
     </message>
     <message>
@@ -217,7 +217,7 @@
         <location filename="../../fp.ui" line="550"/>
         <location filename="../../fp.ui" line="553"/>
         <source>Reload</source>
-        <translation>Aktualisieren</translation>
+        <translation>Neu laden</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="556"/>
@@ -289,7 +289,7 @@
     <message>
         <location filename="../../fp.ui" line="607"/>
         <source>&amp;Close</source>
-        <translation>&amp;Schliessen</translation>
+        <translation>&amp;Schließen</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="610"/>
@@ -354,7 +354,7 @@
     <message>
         <location filename="../../fp.ui" line="661"/>
         <source>&amp;Select All</source>
-        <translation>Alles &amp;markieren</translation>
+        <translation>Alles a&amp;uswählen</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="664"/>
@@ -458,7 +458,7 @@
     <message>
         <location filename="../../fp.ui" line="961"/>
         <source>Show/hide jump bar</source>
-        <translation>Zeige/blende Sprungleiste aus</translation>
+        <translation>Zeige/Verstecke Sprungleiste aus</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="964"/>
@@ -481,7 +481,7 @@
     <message>
         <location filename="../../fp.ui" line="1078"/>
         <source>&amp;Run</source>
-        <translation>&amp;Start</translation>
+        <translation>&amp;Starte</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1084"/>
@@ -509,7 +509,7 @@
     <message>
         <location filename="../../fp.ui" line="1100"/>
         <source>Sa&amp;ve/Restore Session</source>
-        <translation>Sitzung Speichern/Wiederherstellen</translation>
+        <translation>Sit&amp;zung Speichern/Wiederherstellen</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1103"/>
@@ -521,7 +521,7 @@
     <message>
         <location filename="../../fp.ui" line="1108"/>
         <source>Side-Pane</source>
-        <translation>Seitenleiste</translation>
+        <translation>S&amp;eitenleiste</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1111"/>
@@ -583,12 +583,12 @@
     <message>
         <location filename="../../fp.ui" line="999"/>
         <source>Close Ne&amp;xt Tabs</source>
-        <translation>&amp;Nächsten Tabs schliessen</translation>
+        <translation>&amp;Nächsten Tabs schließen</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1004"/>
         <source>Close &amp;Previous Tabs</source>
-        <translation>Vorherigen Tabs &amp;schliessen</translation>
+        <translation>Vorherigen Tabs &amp;schließen</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1032"/>
@@ -628,7 +628,7 @@
     <message>
         <location filename="../../fp.ui" line="223"/>
         <source>&amp;Western European</source>
-        <translation>&amp;West Europäisch</translation>
+        <translation>&amp;Westeuropäisch</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="231"/>
@@ -651,7 +651,7 @@
     <message>
         <location filename="../../fp.ui" line="564"/>
         <source>Focus/hide search bar</source>
-        <translation>Suchleiste fokussieren/ausblenden</translation>
+        <translation>Suchleiste fokussieren/verstecken</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="572"/>
@@ -761,17 +761,17 @@
     <message>
         <location filename="../../fp.ui" line="1014"/>
         <source>Close &amp;Other Tabs</source>
-        <translation>&amp;Andere Tabs schliessen</translation>
+        <translation>&amp;Andere Tabs schließen</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1019"/>
         <source>&amp;Copy File Name</source>
-        <translation>&amp;Kopiere Datei Name</translation>
+        <translation>&amp;Kopiere Dateinamen</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1024"/>
         <source>Copy File &amp;Path</source>
-        <translation>Kopiere Datei &amp;Pfad</translation>
+        <translation>Kopiere Datei&amp;pfad</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1035"/>
@@ -803,7 +803,7 @@
         <location filename="../../fpwin.cpp" line="673"/>
         <location filename="../../fpwin.cpp" line="1319"/>
         <source>Alt+Down</source>
-        <translation>Alt+Unten</translation>
+        <translation>Alt+Runter</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1065"/>
@@ -815,7 +815,7 @@
         <location filename="../../fpwin.cpp" line="673"/>
         <location filename="../../fpwin.cpp" line="1318"/>
         <source>Alt+Up</source>
-        <translation>Alt+Oben</translation>
+        <translation>Alt+Hoch</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1073"/>
@@ -826,8 +826,8 @@
         <location filename="../../fpwin.cpp" line="91"/>
         <source>Calculate number of words
 (For huge texts, this may be CPU-intensive.)</source>
-        <translation>Berchne Anzahlder Worte
-(Für grosse Texte kann das CPU-intensiv sein.)</translation>
+        <translation>Berechne Anzahl der Worte
+(Für große Texte kann das CPU-intensiv sein.)</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="105"/>
@@ -859,7 +859,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="1685"/>
         <source>Close</source>
-        <translation>Schliessen</translation>
+        <translation>Schließen</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1093"/>
@@ -869,7 +869,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="815"/>
         <source>Please attend to that window or just close its dialog!</source>
-        <translation>Bitte dieses Fenster beachten oder Dialog schliessen!</translation>
+        <translation>Bitte dieses Fenster beachten oder Dialog schließen!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1097"/>
@@ -895,7 +895,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="1111"/>
         <source>No to all</source>
-        <translation>Nein zu Allen</translation>
+        <translation>Nein zu Allem</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1377"/>
@@ -921,7 +921,7 @@
         <location filename="../../fpwin.cpp" line="3609"/>
         <location filename="../../fpwin.cpp" line="3623"/>
         <source>Sel. Chars</source>
-        <translation>Ausw. Zeichen</translation>
+        <translation>Markierte Zeichen</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1398"/>
@@ -938,7 +938,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="1676"/>
         <source>Script File</source>
-        <translation>Skript Datei</translation>
+        <translation>Skript</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="814"/>
@@ -1015,12 +1015,12 @@
     <message>
         <location filename="../../fpwin.cpp" line="663"/>
         <source>Ctrl+Up</source>
-        <translation>Strg+Oben</translation>
+        <translation>Strg+Hoch</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="663"/>
         <source>Ctrl+Down</source>
-        <translation>Strg+Unten</translation>
+        <translation>Strg+Runter</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="663"/>
@@ -1035,32 +1035,32 @@
     <message>
         <location filename="../../fpwin.cpp" line="663"/>
         <source>Ctrl+Shift+Up</source>
-        <translation>Strg+Umschalt+Oben</translation>
+        <translation>Strg+Umschalt+Hoch</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="663"/>
         <source>Ctrl+Shift+Down</source>
-        <translation>Strg+Umschalt+Unten</translation>
+        <translation>Strg+Umschalt+Runter</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="663"/>
         <source>Meta+Up</source>
-        <translation>Super+Oben</translation>
+        <translation>Super+Hoch</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="663"/>
         <source>Meta+Down</source>
-        <translation>Super+Unten</translation>
+        <translation>Super+Runter</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="663"/>
         <source>Meta+Shift+Up</source>
-        <translation>Super+Umschalt+Oben</translation>
+        <translation>Super+Umschalt+Hoch</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="663"/>
         <source>Meta+Shift+Down</source>
-        <translation>Super+Umschalt+Unten</translation>
+        <translation>Super+Umschalt+Runter</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="666"/>
@@ -1110,7 +1110,7 @@
         <location filename="../../fpwin.cpp" line="699"/>
         <location filename="../../fpwin.cpp" line="3650"/>
         <source>Position:</source>
-        <translation>Position</translation>
+        <translation>Position:</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="746"/>
@@ -1135,7 +1135,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="1672"/>
         <source>Script Output</source>
-        <translation>Skript Ausgabe</translation>
+        <translation>Ausgabe des Skripts</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1688"/>
@@ -1150,7 +1150,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="2299"/>
         <source>Some file(s) could not be opened!</source>
-        <translation>Datei(en) konnte(n) nicht geöffnet werden!</translation>
+        <translation>Einige Datei(en) konnte(n) nicht geöffnet werden!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2300"/>
@@ -1170,12 +1170,12 @@
     <message>
         <location filename="../../fpwin.cpp" line="2356"/>
         <source>A previous crash detected!</source>
-        <translation>Einen vorherigen Absturz erkannt!</translation>
+        <translation>Einen vorherigen Absturz wurde erkannt!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2357"/>
         <source>Preferably, close all FeatherPad windows and start again!</source>
-        <translation>Vorzugsweise, alle FeatherPad-Fenster schliessen und neu starten!</translation>
+        <translation>Bitte alle FeatherPad-Fenster schliessen und neu starten!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2430"/>
@@ -1223,7 +1223,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="2775"/>
         <source>Do you want to use &lt;b&gt;MS Windows&lt;/b&gt; end-of-lines?</source>
-        <translation>Sollen &lt;b&gt;MS Windows&lt;/b&gt; end-of-lines benutzt werden?</translation>
+        <translation>Sollen &lt;b&gt;MS Windows&lt;/b&gt; Zeilenenden benutzt werden?</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2776"/>
@@ -1256,19 +1256,19 @@
     <message>
         <location filename="../../fpwin.cpp" line="2290"/>
         <source>Huge file(s) not opened!</source>
-        <translation>Grosse Datei(en) nicht geöffnet!</translation>
+        <translation>Große Datei(en) nicht geöffnet!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="3102"/>
         <location filename="../../fpwin.cpp" line="3280"/>
         <source>This file has been modified elsewhere or in another way!</source>
-        <translation>Diese Datei wurde anderswo oder in einer anderen weise verändert.</translation>
+        <translation>Diese Datei wurde anderswo oder in einer anderen Weise verändert!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="3103"/>
         <location filename="../../fpwin.cpp" line="3281"/>
         <source>Please be careful about reloading or saving this document!</source>
-        <translation>Bitte vorsichtig sein beim Aktualisieren oder Speichern dieses Dokumentes.</translation>
+        <translation>Vorsicht beim Aktualisieren oder Speichern dieses Dokumentes!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="3768"/>
@@ -1285,7 +1285,7 @@
         <location filename="../../fpwin.cpp" line="4380"/>
         <location filename="../../fpwin.cpp" line="4450"/>
         <source>Copy Target Path</source>
-        <translation>Ziel Pfad Kopieren</translation>
+        <translation>Zielpfad kopieren</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="4384"/>
@@ -1327,17 +1327,17 @@
     <message>
         <location filename="../../replace.cpp" line="239"/>
         <source>No Replacement</source>
-        <translation>Kein Ersatz</translation>
+        <translation>Keine Ersetzung</translation>
     </message>
     <message>
         <location filename="../../replace.cpp" line="241"/>
         <source>One Replacement</source>
-        <translation>Ein Ersatz</translation>
+        <translation>Eine Ersetzung</translation>
     </message>
     <message>
         <location filename="../../replace.cpp" line="243"/>
         <source>Replacements</source>
-        <translation>Ersatz</translation>
+        <translation>Ersetzungen</translation>
     </message>
 </context>
 <context>
@@ -1384,12 +1384,12 @@
     <message>
         <location filename="../../predDialog.ui" line="36"/>
         <source>Window Settings</source>
-        <translation>Fenster Einstellungen</translation>
+        <translation>Fenstereinstellungen</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="42"/>
         <source>Remember window &amp;size on closing</source>
-        <translation>&amp;Fenstergrösse behalten beim Schliessen</translation>
+        <translation>&amp;Fenstergröße speichern beim Schließen</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="49"/>
@@ -1397,12 +1397,12 @@
         <location filename="../../predDialog.ui" line="72"/>
         <location filename="../../predDialog.ui" line="85"/>
         <source>Window frame is excluded.</source>
-        <translation>Fenster rahmen ist ausgenommen.</translation>
+        <translation>Fenster-Dekoration ist ausgenommen.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="52"/>
         <source>Start with this size: </source>
-        <translation>Start mit dieser Grösse: </translation>
+        <translation>Start mit dieser Größe: </translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="65"/>
@@ -1420,7 +1420,7 @@
         <source>Most suitable with sessions
 but without tab functionality.</source>
         <translation>Am geeignetsten mit Sitzungen
-aber ohne Tab Funktionalität.</translation>
+aber ohne Tabfunktionalität.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="138"/>
@@ -1430,7 +1430,7 @@ aber ohne Tab Funktionalität.</translation>
     <message>
         <location filename="../../predDialog.ui" line="141"/>
         <source>Remember splitter position</source>
-        <translation>Splitter-Position behalten</translation>
+        <translation>Splitter-Position speichern</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="161"/>
@@ -1452,7 +1452,7 @@ wirksam zu werden.</translation>
     <message>
         <location filename="../../predDialog.ui" line="169"/>
         <source>&amp;Iconless mode</source>
-        <translation>&amp;Ikonenloser Modus</translation>
+        <translation>&amp;Keine Symbole anzeigen</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="176"/>
@@ -1474,7 +1474,7 @@ erscheint ein Menüknopf auf der Werkzeugleiste.</translation>
     <message>
         <location filename="../../predDialog.ui" line="194"/>
         <source>Hide search &amp;bar by default</source>
-        <translation>&amp;Ausblenden der Suchleiste standardmässig</translation>
+        <translation>&amp;Automatisches Ausblenden der Suchleiste</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="201"/>
@@ -1490,12 +1490,12 @@ erscheint ein Menüknopf auf der Werkzeugleiste.</translation>
         <location filename="../../predDialog.ui" line="215"/>
         <location filename="../../predDialog.ui" line="225"/>
         <source>Will take effect after closing this dialog.</source>
-        <translation>Wird wirksam nach dem Schliessen dieses Dialogs.</translation>
+        <translation>Wird wirksam nach dem Schließen dieses Dialogs.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="218"/>
         <source>Tab position: </source>
-        <translation>Tab Position: </translation>
+        <translation>Tab-Position: </translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="229"/>
@@ -1531,7 +1531,7 @@ Tab Navigation mit Mausrad ist nicht betroffen.</translation>
     <message>
         <location filename="../../predDialog.ui" line="258"/>
         <source>Tab navigation wraps &amp;around</source>
-        <translation>Tab Navigation &amp;verhüllt</translation>
+        <translation>Fortl&amp;aufende Tab-Navigation</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="278"/>
@@ -1545,17 +1545,17 @@ current desktop, files will be opened in its tabs.
 
 However, some desktop environments may not
 report that they have multiple desktops.</source>
-        <translation>Standarmäßig, wenn ein FeatherPad Fenster auf
-der aktuellen Arbeitsfläche existiert,
-werden Dateien in ihren tabs geöffnet.
+        <translation>Wenn ein FeatherPad Fenster auf der aktuellen 
+Arbeitsfläche existiert, werden Dateien in ihren 
+Tabs geöffnet.
 
-Dennoch könnten einige Desktop Umgebungen
+Vorsicht: Einige Desktopumgebungen könnten 
 nicht berichten, dass sie mehrere Arbeitsflächen haben.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="292"/>
         <source>Always open in separate windows</source>
-        <translation>Immer in separatem Fenster öffenen</translation>
+        <translation>Immer in separatem Fenster öffnen</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="299"/>
@@ -1563,15 +1563,15 @@ nicht berichten, dass sie mehrere Arbeitsflächen haben.</translation>
 desktop environment will be used instead of the Qt file dialog.
 
 Some desktop environments, like KDE and LXQt, provide files dialogs.</source>
-        <translation>Wenn das ausgewählt ist, wird der Datei Dialog
-vom der aktuellen Desktop Umgebung benutzt anstelle des Qt datei Dialog.
+        <translation>Wenn ausgewählt, wird der Dateidialog der aktuellen Desktop Umgebung
+anstdelle des Qt-Dateidialogs benutzt.
 
-Manche Desktop Umgebungen, wie KDE und LXQt, bieten Datei Dialoge.</translation>
+Manche Desktopumgebungen wie KDE und LXQ bieten Dateidialoge an.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="305"/>
         <source>Native file dialog</source>
-        <translation>Ursprünglicher Datei Dialog</translation>
+        <translation>System-Dateidialog</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="361"/>
@@ -1581,7 +1581,7 @@ Manche Desktop Umgebungen, wie KDE und LXQt, bieten Datei Dialoge.</translation>
     <message>
         <location filename="../../predDialog.ui" line="364"/>
         <source>Remember &amp;font</source>
-        <translation>Schriftart &amp;behalten</translation>
+        <translation>Schriftart &amp;speichern</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="385"/>
@@ -1596,13 +1596,13 @@ Manche Desktop Umgebungen, wie KDE und LXQt, bieten Datei Dialoge.</translation>
     <message>
         <location filename="../../predDialog.ui" line="452"/>
         <source>Never highlight syntax for files &gt; </source>
-        <translation>Keine Hervorhebung der Syntax für Dateien &gt; </translation>
+        <translation>Keine Syntax-Hervorhebung für Dateien &gt; </translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="425"/>
         <source>This creates a menu button on the
 status bar for changing the syntax.</source>
-        <translation>Das erstellt einen Menü Knopf auf der
+        <translation>Erstelle einen Menü Knopf auf der
 Statusleiste zum Ändern der Syntax.</translation>
     </message>
     <message>
@@ -1615,20 +1615,20 @@ Statusleiste zum Ändern der Syntax.</translation>
         <source>Show spaces, tabs and tab lines
 when the syntax is highlighted.</source>
         <translation>Anzeigen von Leerzeichen, Tabs und Einrückungslinien
-wenn die Syntax hervorgehoben ist.</translation>
+wenn die Syntax-Erweiterung aktiv ist.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="476"/>
         <source>Show whitespaces</source>
-        <translation>Leerräume anzeigen</translation>
+        <translation>Zeige Leerzeichen, Tabulatoren und Einrückungslinien</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="490"/>
         <location filename="../../predDialog.ui" line="501"/>
         <source>The vertical position lines will be drawn only if
 the editor font has a fixed pitch (like Monospace).</source>
-        <translation>Die vertikalen Positionslinien werden nur gezeichnet
-bei Editor Schriftart mit einem festen Abstand. (wie Monospace).</translation>
+        <translation>Die vertikalen Positionslinien werden nur mit Editor-Schriftarten
+mit einem festen Abstand (wie Monospace) gezeichnet.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="494"/>
@@ -1649,18 +1649,18 @@ bei Editor Schriftart mit einem festen Abstand. (wie Monospace).</translation>
         <location filename="../../predDialog.ui" line="612"/>
         <source>Some text editors cannot open a document
 whose last line is not empty.</source>
-        <translation>Manchet Texteditoren können kein Dokument öffnen
-dessen letzte Zeile nicht leer ist.</translation>
+        <translation>Manchet Texteditoren können keine Dokumente öffnen,
+deren letzte Zeile nicht leer ist.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="616"/>
         <source>Ensure an empty last line on saving</source>
-        <translation>Gewährleisten einer leeren Zeile beim Speichern</translation>
+        <translation>Leerzeile am Textende bei Speicherung garantieren</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="623"/>
         <source>Remove trailing spaces on saving</source>
-        <translation>Entfernen von Schleifen Räumen beim Speichern</translation>
+        <translation>Entfernen von nachgestellten Leerzeichen beim Speichern</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="634"/>
@@ -1675,12 +1675,12 @@ dessen letzte Zeile nicht leer ist.</translation>
     <message>
         <location filename="../../predDialog.ui" line="666"/>
         <source>File Management</source>
-        <translation>Datei Management</translation>
+        <translation>Datei-Management</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="736"/>
         <source>Start with files of last window</source>
-        <translation>Start mit den Dateien des letzten Fensters</translation>
+        <translation>Starte mit den Dateien des letzten Fensters</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="776"/>
@@ -1705,7 +1705,7 @@ direkt ausgeführt.</translation>
     <message>
         <location filename="../../predDialog.ui" line="788"/>
         <source>Start with this command: </source>
-        <translation>Start mit diesem Befehl: </translation>
+        <translation>Starte mit diesem Befehl: </translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="807"/>
@@ -1725,7 +1725,7 @@ direkt ausgeführt.</translation>
     <message>
         <location filename="../../predDialog.ui" line="833"/>
         <source>Save changes to opened files every:</source>
-        <translation>Änderungen bei geöffneten Dateien speichern alle:</translation>
+        <translation>Änderungen geöffneter Dateien speichern alle:</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="944"/>
@@ -1738,14 +1738,14 @@ direkt ausgeführt.</translation>
 use system icons!
 
 Needs application restart to take effect.</source>
-        <translation>Abwählen wenn Featherpad System Icons benutzen soll
+        <translation>Abwählen wenn FeatherPad System Icons benutzen soll
 
 Neustart der Anwendung notwendig um wirksam zu werden.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="115"/>
         <source>Start with side-pane mode</source>
-        <translation>Start mit Seitenleiste</translation>
+        <translation>Starte mit aktiver Seitenleiste</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="154"/>
@@ -1758,14 +1758,14 @@ Neustart der Anwendung notwendig um wirksam zu werden.</translation>
 tooltip and context menu of a single tab but you could not
 merge a single tabbed window into another one by tab drag-
 and-drop either.</source>
-        <translation>Wenn das ausgewählt ist, geht nicht nur der informative
+        <translation type="unfinished">Wenn das ausgewählt ist, geht nicht nur der informative
 Werkzeug Tipp und das Kontext Menü eines einzelnen Tabs verloren,
 es kann auch kein einzel Tab Fenster in ein anderes per drag-and-drop zusammengeführt werden.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="271"/>
         <source>&amp;Do not show a single tab</source>
-        <translation>&amp;Einzeltab nicht anzeigen</translation>
+        <translation>&amp;Einzelnen Tab verbergen</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="316"/>
@@ -1775,17 +1775,17 @@ es kann auch kein einzel Tab Fenster in ein anderes per drag-and-drop zusammenge
     <message>
         <location filename="../../predDialog.ui" line="355"/>
         <source>Text Editor</source>
-        <translation>Text Editor</translation>
+        <translation>Texteditor</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="371"/>
         <source>&amp;Wrap lines by default</source>
-        <translation>&amp;Zeilenumbruch standardmäßig</translation>
+        <translation>Automatischer &amp;Zeilenumbruc</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="378"/>
         <source>Auto-&amp;indent by default</source>
-        <translation>Auto-&amp;Einrückung standartmäßig</translation>
+        <translation>Automatische &amp;Einrückung</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="395"/>
@@ -1795,7 +1795,7 @@ es kann auch kein einzel Tab Fenster in ein anderes per drag-and-drop zusammenge
     <message>
         <location filename="../../predDialog.ui" line="402"/>
         <source>Highlight s&amp;yntax by default</source>
-        <translation>&amp;Syntax hervorhebung standardmäßig</translation>
+        <translation>Automatische &amp;Syntax-Hervorhebung</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="518"/>
@@ -1810,14 +1810,14 @@ es kann auch kein einzel Tab Fenster in ein anderes per drag-and-drop zusammenge
     <message>
         <location filename="../../predDialog.ui" line="459"/>
         <source> MiB</source>
-        <translation>MiB</translation>
+        <translation> MiB</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="641"/>
         <source>This is not a complete fix but
 prevents annoying scroll jumps.</source>
-        <translation>Das ist keine vollständige reparatur
-aber es verhindert störende Scroll Sprünge.</translation>
+        <translation>Das ist keine vollständige Reparatur aber 
+es verhindert störende Sprünge beim Scrollen.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="645"/>
@@ -1834,19 +1834,20 @@ executable, the file will be executed by clicking
 the Run button, that appears on the toolbar/filemenu
 when needed, or by its shortcut Ctrl+E. Then, the
 process could be killed by Ctrl+Alt+E.</source>
-        <translation>Das beinhaltet nur ausführbare dateien geschrieben
-in Skript Sprachen wie Shell und Python.
+        <translation>Das beinhaltet nur ausführbare Dateien, die in
+Skriptsprachen wie Shell oder Python geschrieben wurden.
 
 Wenn ausgewählt und die geöffnete Datei ausführbar ist,
-wird die Datei beim Klicken des Start Knopfs ausgeführt,
-der bei Bedarf auf der Werkzeugleiste/Dateimenü erscheint,
-oder mit dem Kurzbefehl Strg+E.
-Dann kann der Prozess beendet werden mit Strg+Alt+E.</translation>
+wird die Datei beim Klicken des Start Knopfs, der bei Bedarf 
+auf der Werkzeugleiste/Dateimenü erscheint oder mit dem 
+Kurzbefehl Strg+E ausgeführt,
+.
+Der Prozess kann mit Strg+Alt+E beendet werden.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="515"/>
         <source>Needs window reopening to take effect.</source>
-        <translation>Neustart des Fensters notwendig um wirksam zu werden.</translation>
+        <translation>Neustart des Fensters notwendig, um wirksam zu werden.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="525"/>
@@ -1859,19 +1860,19 @@ between 230 and 255; for the dark
 background, between 0 and 50.
 
 Needs window reopening to take effect.</source>
-        <translation>Der Hintergrund Farbwert.
-255 bedeutet weiss während 0 schwarz bedeutet.
+        <translation>Der Farbwert des Hintergrundes.
+255 bedeutet weiß, während 0 schwarz bedeutet.
 
-Für den Hellen Hintergrund, kann es zwischen
+Gültige den hellen Hintergrund sind zwischen
 230 und 255; für den dunklen Hintergrund
 zwischen 0 und 50.
 
-Neustart des Fensters notwendig um wirksam zu werden.</translation>
+Neustart des Fensters notwendig, um wirksam zu werden.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="753"/>
         <source>Run executable scripts</source>
-        <translation>Start ausführbarer Skripte</translation>
+        <translation>Starte ausführbare Skripte</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="672"/>
@@ -1882,7 +1883,7 @@ is 10.
 
 Needs application restart to take effect.</source>
         <translation>Die maximale Anzahl von kürzlich bearbeiteten oder
-geöffneten Dateien die FeatherPad anzeigt.
+geöffneten Dateien, die FeatherPad anzeigt.
 Standard ist 10.</translation>
     </message>
     <message>
@@ -1894,9 +1895,9 @@ Takes effect after closing this dialog.
 
 Leave empty for:
 MMM dd, yyyy, hh:mm:ss</source>
-        <translation>Genutzt zum einfügen von Datum und Zeit.
+        <translation>Genutzt zum Einfügen von Datum und Uhrzeit.
 
-Wird wirksam nach dem Schliessen diese Dialogs.
+Wird wirksam nach dem Schließen diese Dialogs.
 
 Leer lassen für:
 MMM dd, yyyy, hh:mm:ss</translation>
@@ -1904,35 +1905,35 @@ MMM dd, yyyy, hh:mm:ss</translation>
     <message>
         <location filename="../../predDialog.ui" line="589"/>
         <source>Text tab size:</source>
-        <translation>Text Tab Grösse:</translation>
+        <translation>Tab Größe:</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="596"/>
         <source> spaces</source>
-        <translation> Räume</translation>
+        <translation> Leerzeichen</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="630"/>
         <source>Should the mouse wheel scrolling be inertial
 if the cursor is inside the text view?</source>
-        <translation>Sollte die Abrollfunktion des Mausrads Träge sein
+        <translation>Sollte die Abrollfunktion des Mausrads träge sein,
 wenn der Cursor innerhalb der Textansicht ist?</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="679"/>
         <source>Number of recent files: </source>
-        <translation>Anzahl von kürzlichen Dateien: </translation>
+        <translation>Anzahl von kürzlichen geöffneten Dateien: </translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="733"/>
         <source>Only if their number is not greater than 50.</source>
-        <translation>Nur wenn ihre Nummer nicht grösser als 50 ist.</translation>
+        <translation>Nur wenn ihre Zahl nicht grösser als 50 ist.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="830"/>
         <location filename="../../predDialog.ui" line="840"/>
         <source>Only for files that exist and can be saved.</source>
-        <translation>Nur für Dateien die existieren und gespeichert werden können.</translation>
+        <translation>Nur für Dateien, die existieren und gespeichert werden können.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="843"/>
@@ -1947,7 +1948,13 @@ be used also when the opened file is not modified.
 This can be useful under certain circumstances,
 e.g. for changing the time stamp or removing the
 trailing spaces of a text file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn markiert, kann der Button/Menüeintrag Speichern
+auch dann verwendet werden, wenn die geöffnete Datei
+nicht verändert wurde.
+
+Dies kann unter bestimmten Umständen zum Ändern des
+Zeitstempels oder zum Entfernen von Leerzeichen an den 
+Zeilenenden einer Textdatei sinnvoll sein.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="864"/>
@@ -1967,17 +1974,17 @@ trailing spaces of a text file.</source>
     <message>
         <location filename="../../predDialog.ui" line="885"/>
         <source>Shortcuts</source>
-        <translation>Kurzbefehle</translation>
+        <translation>Tastatur-Kurzbefehle</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="904"/>
         <source>Action</source>
-        <translation>Action</translation>
+        <translation>Aktion</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="909"/>
         <source>Shortcut</source>
-        <translation>Kurzbefehl</translation>
+        <translation>Tastatur-Kurzbefehl</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="917"/>
@@ -1992,7 +1999,7 @@ trailing spaces of a text file.</source>
     <message>
         <location filename="../../predDialog.ui" line="955"/>
         <source>Close</source>
-        <translation>Schliessen</translation>
+        <translation>Schließen</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="248"/>
@@ -2010,17 +2017,17 @@ trailing spaces of a text file.</source>
         <location filename="../../pref.cpp" line="373"/>
         <location filename="../../pref.cpp" line="1238"/>
         <source>Warning: Ambiguous shortcut detected!</source>
-        <translation>Warnung: Mehrdeutiger Kurzbefehl erkannt!</translation>
+        <translation>Warnung: Mehrdeutiger Tastatur-Kurzbefehl erkannt!</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="477"/>
         <source>Application restart is needed for changes to take effect.</source>
-        <translation>Neustart der Anwendung notwendig um wirksam zu werden.</translation>
+        <translation>Neustart der Anwendung, notwendig um wirksam zu werden.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="489"/>
         <source>Window reopening is needed for changes to take effect.</source>
-        <translation>Neustart des Fensters notwendig um wirksam zu werden.</translation>
+        <translation>Neustart des Fensters notwendig, um wirksam zu werden.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="1160"/>
@@ -2035,12 +2042,12 @@ trailing spaces of a text file.</source>
     <message>
         <location filename="../../pref.cpp" line="1228"/>
         <source>The typed shortcut was not valid.</source>
-        <translation>Der eingegebene Kurzbefehl war nicht gültig.</translation>
+        <translation>Der eingegebene Tastatur-Kurzbefehl war nicht gültig.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="1230"/>
         <source>The typed shortcut was reserved.</source>
-        <translation>Der eingegebene Kurzbefehl war reserviert.</translation>
+        <translation>Der eingegebene Tastatur-Kurzbefehl war reserviert.</translation>
     </message>
 </context>
 <context>
@@ -2054,13 +2061,13 @@ trailing spaces of a text file.</source>
         <location filename="../../searchbar.cpp" line="73"/>
         <location filename="../../searchbar.cpp" line="77"/>
         <source>Match Case</source>
-        <translation>Übereinstimmung</translation>
+        <translation>Groß/Kleinschreibung beachten</translation>
     </message>
     <message>
         <location filename="../../searchbar.cpp" line="85"/>
         <location filename="../../searchbar.cpp" line="89"/>
         <source>Whole Word</source>
-        <translation>Ganzes Wort</translation>
+        <translation>Ganzes Worte</translation>
     </message>
     <message>
         <location filename="../../searchbar.cpp" line="62"/>
@@ -2080,7 +2087,7 @@ trailing spaces of a text file.</source>
     <message>
         <location filename="../../sessionDialog.ui" line="14"/>
         <source>Session Manager</source>
-        <translation>Sitzungs Manager</translation>
+        <translation>Sitzungs-Manager</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="101"/>
@@ -2091,7 +2098,7 @@ trailing spaces of a text file.</source>
     <message>
         <location filename="../../sessionDialog.ui" line="33"/>
         <source>&lt;b&gt;Save/Restore Session&lt;/b&gt;</source>
-        <translation>Speichern/Wiederherstellen der Sitzung</translation>
+        <translation>&lt;b&gt;Speichern/Wiederherstellen der Sitzung&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="56"/>
@@ -2131,7 +2138,7 @@ in die gespeicherte Sitzung eingeschlossen.</translation>
     <message>
         <location filename="../../sessionDialog.ui" line="163"/>
         <source>Save only from this &amp;window</source>
-        <translation>Speichern nur von diesem &amp;Fenster</translation>
+        <translation>Speichern nur dieses &amp;Fensters</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="180"/>
@@ -2162,7 +2169,7 @@ in die gespeicherte Sitzung eingeschlossen.</translation>
     <message>
         <location filename="../../sessionDialog.ui" line="260"/>
         <source>&amp;Close</source>
-        <translation>&amp;Schliessen</translation>
+        <translation>&amp;Schließen</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="135"/>
@@ -2177,22 +2184,22 @@ in die gespeicherte Sitzung eingeschlossen.</translation>
     <message>
         <location filename="../../sessionDialog.ui" line="149"/>
         <source>Type a name to save session</source>
-        <translation>Namen eingeben um Sitzung zu speichern</translation>
+        <translation>Namen eingeben, um Sitzung zu speichern</translation>
     </message>
     <message>
         <location filename="../../session.cpp" line="148"/>
         <source>Nothing saved.&lt;br&gt;No file was opened.</source>
-        <translation>Nichts gespeichert.</translation>
+        <translation>Nichts gespeichert.&lt;b&gt;Keine Datei wurde geöffnet.</translation>
     </message>
     <message>
         <location filename="../../session.cpp" line="241"/>
         <source>No file exists or can be opened.</source>
-        <translation>Keine Datei vorhanden oder kann geöffnet werden.</translation>
+        <translation>Die Datei existiert nicht  oder kann nicht geöffnet werden.</translation>
     </message>
     <message>
         <location filename="../../session.cpp" line="247"/>
         <source>Not all files exist or can be opened.</source>
-        <translation>Nicht alle Dateien vorhanden oder konnten geöffnet werden.</translation>
+        <translation>Nicht alle Dateien existieren oder konnten geöffnet werden.</translation>
     </message>
     <message>
         <location filename="../../session.cpp" line="290"/>
@@ -2207,12 +2214,12 @@ in die gespeicherte Sitzung eingeschlossen.</translation>
     <message>
         <location filename="../../session.cpp" line="315"/>
         <source>Do you really want to remove the selected sessions?</source>
-        <translation>Sollen wirklich die gewählten Sitzungen entfernt werden?</translation>
+        <translation>Sollen die gewählten Sitzungen wirklich entfernt werden?</translation>
     </message>
     <message>
         <location filename="../../session.cpp" line="317"/>
         <source>Do you really want to remove the selected session?</source>
-        <translation>Soll wirklich die gewählte Sitzung entfernt werden?</translation>
+        <translation>Soll die gewählte Sitzung wirklich entfernt werden?</translation>
     </message>
     <message>
         <location filename="../../session.cpp" line="322"/>
