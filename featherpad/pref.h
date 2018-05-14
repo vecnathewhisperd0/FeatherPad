@@ -75,6 +75,7 @@ private slots:
     void prefEndings (int checked);
     void prefDarkColScheme (int checked);
     void prefColValue (int value);
+    void prefThickCursor();
     void prefAppendEmptyLine (int checked);
     void prefRemoveTrailingSpaces (int checked);
     void prefScrollJumpWorkaround (int checked);

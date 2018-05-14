@@ -92,7 +92,10 @@ public:
     }
 
     bool hasDarkScheme() const {
-        return darkScheme;
+        return (darkValue > -1);
+    }
+    int getDarkValue() const {
+        return darkValue;
     }
 
     void setScrollJumpWorkaround (bool apply){
@@ -206,6 +209,13 @@ public:
         saveCursor_ = save;
     }
 
+    bool getThickCursor() const {
+        return (cursorWidth() > 1);
+    }
+    void setThickCursor (bool thick) {
+        setCursorWidth (thick ? 2 : 1);
+    }
+
 signals:
     /* inform the main widget */
     void fileDropped (const QString& localFile,
@@ -271,11 +281,13 @@ private:
     int prevAnchor, prevPos; // used only for bracket matching
     QWidget *lineNumberArea;
     QTextEdit::ExtraSelection currentLine;
+    QRect lastCurrentLine;
+    int widestDigit;
     bool autoIndentation;
     bool drawIndetLines;
     bool autoBracket;
     bool scrollJumpWorkaround; // for working around Qt5's scroll jump bug
-    bool darkScheme;
+    int darkValue;
     int vLineDistance_;
     QString dateFormat_;
     QColor lineHColor;

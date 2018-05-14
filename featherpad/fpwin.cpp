@@ -1349,6 +1349,8 @@ TabPage* FPwin::createEmptyTab (bool setCurrent, bool allowNormalHighlighter)
     textEdit->setEditorFont (config.getFont());
     textEdit->setInertialScrolling (config.getInertialScrolling());
     textEdit->setDateFormat (config.getDateFormat());
+    if (config.getThickCursor())
+        textEdit->setThickCursor (true);
 
     if (allowNormalHighlighter && ui->actionSyntax->isChecked())
         syntaxHighlighting (textEdit); // the default (url) syntax highlighter

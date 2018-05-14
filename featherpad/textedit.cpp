@@ -58,19 +58,21 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     /* set the backgound color and ensure enough contrast
        between the selection and line highlight colors */
     QPalette p = palette();
+    bgColorValue = qBound (0, bgColorValue, 255);
     if (bgColorValue < 230 && bgColorValue > 50) // not good for a text editor
         bgColorValue = 230;
     if (bgColorValue < 230)
     {
-        darkScheme = true;
-        lineHColor = QColor (Qt::gray).darker (210); // a value of 78
+        darkValue = bgColorValue;
+        /* a quadratic equation for bgColorValue -> opacity: 0 -> 30,  27 -> 13, 50 -> 6 */
+        int opacity = qBound (1, qRound ((qreal)(bgColorValue * (202 * bgColorValue - 25004)) / (qreal)31050) + 30, 40);
+        lineHColor = QColor (255, 255, 255, opacity);
         viewport()->setStyleSheet (QString (".QWidget {"
                                             "color: white;"
                                             "background-color: rgb(%1, %1, %1);}")
                                    .arg (bgColorValue));
-        int lineHGray = qGray (lineHColor.rgb());
         QColor col = p.highlight().color();
-        if (qGray (col.rgb()) - lineHGray < 30 && col.hslSaturation() < 100)
+        if (qGray (col.rgb()) - bgColorValue < 30 && col.hslSaturation() < 100)
         {
             setStyleSheet ("QPlainTextEdit {"
                            "selection-background-color: rgb(180, 180, 180);"
@@ -79,7 +81,7 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
         else
         {
             col = p.color (QPalette::Inactive, QPalette::Highlight);
-            if (qGray (col.rgb()) - lineHGray < 30 && col.hslSaturation() < 100)
+            if (qGray (col.rgb()) - bgColorValue < 30 && col.hslSaturation() < 100)
             { // also check the inactive highlight color
                 p.setColor (QPalette::Inactive, QPalette::Highlight, p.highlight().color());
                 p.setColor (QPalette::Inactive, QPalette::HighlightedText, p.highlightedText().color());
@@ -89,15 +91,14 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     }
     else
     {
-        darkScheme = false;
-        lineHColor = QColor (Qt::gray).lighter (130); // a value of 213
+        darkValue = -1;
+        lineHColor = QColor (0, 0, 0, 8);
         viewport()->setStyleSheet (QString (".QWidget {"
                                             "color: black;"
                                             "background-color: rgb(%1, %1, %1);}")
                                    .arg (bgColorValue));
-        int lineHGray = qGray (lineHColor.rgb());
         QColor col = p.highlight().color();
-        if (lineHGray - qGray (col.rgb()) < 30 && col.hslSaturation() < 100)
+        if (bgColorValue - qGray (col.rgb()) < 30 && col.hslSaturation() < 100)
         {
             setStyleSheet ("QPlainTextEdit {"
                            "selection-background-color: rgb(100, 100, 100);"
@@ -106,7 +107,7 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
         else
         {
             col = p.color (QPalette::Inactive, QPalette::Highlight);
-            if (lineHGray - qGray (col.rgb()) < 30 && col.hslSaturation() < 100)
+            if (bgColorValue - qGray (col.rgb()) < 30 && col.hslSaturation() < 100)
             {
                 p.setColor (QPalette::Inactive, QPalette::Highlight, p.highlight().color());
                 p.setColor (QPalette::Inactive, QPalette::HighlightedText, p.highlightedText().color());
@@ -146,7 +147,6 @@ void TextEdit::setEditorFont (const QFont &f, bool setDefault)
         font_ = f;
     setFont (f);
     viewport()->setFont (f); // needed when whitespaces are shown
-    lineNumberArea->setFont (f);
     document()->setDefaultFont (f);
     /* we want consistent tabs */
     QFontMetricsF metrics (f);
@@ -157,6 +157,24 @@ void TextEdit::setEditorFont (const QFont &f, bool setDefault)
     opt.setTabStopDistance (metrics.width (textTab_));
 #endif
     document()->setDefaultTextOption (opt);
+
+    /* the line number is bold only for the current line */
+    QFont F(f);
+    if (f.bold())
+    {
+        F.setBold (false);
+        lineNumberArea->setFont (F);
+    }
+    else
+        lineNumberArea->setFont (f);
+    /* find the widest digit (used in calculating line number area width)*/
+    F.setBold (true);
+    widestDigit = 0;
+    for (int i = 0; i < 10; ++i)
+    {
+         if (QFontMetrics (F).width (QString::number (i)) > widestDigit)
+             widestDigit = i;
+    }
 }
 /*************************/
 TextEdit::~TextEdit()
@@ -195,22 +213,23 @@ void TextEdit::showLineNumbers (bool show)
             es.removeFirst();
         setExtraSelections (es);
         currentLine.cursor = QTextCursor(); // nullify currentLine
+        lastCurrentLine = QRect();
     }
 }
 /*************************/
 int TextEdit::lineNumberAreaWidth()
 {
-    int digits = 1;
+    QString digit = QString::number (widestDigit);
+    QString num = digit;
     int max = qMax (1, blockCount());
-    while (max >= 10) {
+    while (max >= 10)
+    {
         max /= 10;
-        ++digits;
+        num += digit;
     }
-
-    /* 4 = 2 + 2 (-> lineNumberAreaPaintEvent) */
-    int space = 4 + fontMetrics().width (QLatin1Char ('9')) * digits;
-
-    return space;
+    QFont f = font();
+    f.setBold (true);
+    return (4 + QFontMetrics (f).width (num)); // 4 = 2 + 2 (-> lineNumberAreaPaintEvent)
 }
 /*************************/
 void TextEdit::updateLineNumberAreaWidth (int /* newBlockCount */)
@@ -223,7 +242,22 @@ void TextEdit::updateLineNumberArea (const QRect &rect, int dy)
     if (dy)
         lineNumberArea->scroll (0, dy);
     else
-        lineNumberArea->update (0, rect.y(), lineNumberArea->width(), rect.height());
+    {
+        /* since the current line number is made bold and italic,
+           it should be updated also when the line is wrapped */
+        if (lastCurrentLine.isValid())
+            lineNumberArea->update (0, lastCurrentLine.y(), lineNumberArea->width(), lastCurrentLine.height());
+        QRect totalRect;
+        QTextCursor cur = cursorForPosition (rect.center());
+        if (rect.contains (cursorRect (cur).center()))
+        {
+            QRectF blockRect = blockBoundingGeometry (cur.block()).translated (contentOffset());
+            totalRect = rect.united (blockRect.toRect());
+        }
+        else
+            totalRect = rect;
+        lineNumberArea->update (0, totalRect.y(), lineNumberArea->width(), totalRect.height());
+    }
 
     if (rect.contains (viewport()->rect()))
         updateLineNumberAreaWidth (0);
@@ -1110,7 +1144,7 @@ void TextEdit::paintEvent (QPaintEvent *event)
                     QTextLayout::FormatRange o;
                     o.start = context.cursorPosition - blpos;
                     o.length = 1;
-                    if (darkScheme)
+                    if (darkValue > -1)
                     {
                         o.format.setForeground (Qt::black);
                         o.format.setBackground (Qt::white);
@@ -1140,7 +1174,7 @@ void TextEdit::paintEvent (QPaintEvent *event)
                     /* Use alpha with the painter to gray out the paragraph separators and
                        document terminators. The real text will be formatted by the highlgihter. */
                     QColor col;
-                    if (darkScheme)
+                    if (darkValue > -1)
                     {
                         col = Qt::white;
                         col.setAlpha (107);
@@ -1213,7 +1247,7 @@ void TextEdit::paintEvent (QPaintEvent *event)
             {
                 painter.save();
                 QColor col;
-                if (darkScheme)
+                if (darkValue > -1)
                 {
                     col = QColor (65, 154, 255);
                     col.setAlpha (90);
@@ -1279,22 +1313,64 @@ void TextEdit::highlightCurrentLine()
 void TextEdit::lineNumberAreaPaintEvent (QPaintEvent *event)
 {
     QPainter painter (lineNumberArea);
-    painter.fillRect (event->rect(), darkScheme ? Qt::lightGray : Qt::black);
-
+    QColor curLineColor;
+    if (darkValue > -1)
+    {
+        painter.fillRect (event->rect(), Qt::lightGray);
+        painter.setPen (Qt::black);
+        curLineColor = QColor (150, 0 , 0);
+    }
+    else
+    {
+        painter.fillRect (event->rect(), Qt::black);
+        painter.setPen (Qt::white);
+        curLineColor = QColor (255, 160 , 0);
+    }
 
     QTextBlock block = firstVisibleBlock();
     int blockNumber = block.blockNumber();
     int top = (int) blockBoundingGeometry (block).translated (contentOffset()).top();
     int bottom = top + (int) blockBoundingRect (block).height();
+    int curBlock = textCursor().blockNumber();
+    int h = fontMetrics().height();
+    QFont bf = font();
+    bf.setBold (true);
+    QFont f = bf;
+    f.setUnderline (true);
 
     while (block.isValid() && top <= event->rect().bottom())
     {
         if (block.isVisible() && bottom >= event->rect().top())
         {
+            if (blockNumber == curBlock)
+            {
+                lastCurrentLine = QRect (0, top, 1, top + h);
+                painter.save();
+                painter.setFont (f);
+                painter.setPen (curLineColor);
+            }
             QString number = QString::number (blockNumber + 1);
-            painter.setPen (darkScheme ? Qt::black : Qt::white);
-            painter.drawText (0, top, lineNumberArea->width() - 2, fontMetrics().height(),
+            painter.drawText (0, top, lineNumberArea->width() - 2, h,
                               Qt::AlignRight, number);
+            if (blockNumber == curBlock)
+            {
+                painter.setFont (bf);
+                int cur = cursorRect().center().y();
+                int i = 0;
+                while (top + i * h < cur)
+                    ++i;
+                if (i > 1)
+                {
+                    if (i > 2)
+                    {
+                        painter.drawText (0, top + (i - 2) * h, lineNumberArea->width() - 2, h,
+                                          Qt::AlignRight, number);
+                    }
+                    painter.drawText (0, top + (i - 1) * h, lineNumberArea->width() - 2, h,
+                                      Qt::AlignRight, "↳");
+                }
+                painter.restore();
+            }
         }
 
         block = block.next();

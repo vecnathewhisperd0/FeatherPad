@@ -208,6 +208,8 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
     connect (ui->colorValueSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
              this, &PrefDialog::prefColValue);
 
+    ui->thickCursorBox->setChecked (config.getThickCursor());
+
     ui->dateEdit->setText (config.getDateFormat());
 
     ui->lastLineBox->setChecked (config.getAppendEmptyLine());
@@ -439,6 +441,7 @@ void PrefDialog::onClosing()
     prefApplyDateFormat();
     prefTextTab();
     prefSaveUnmodified();
+    prefThickCursor();
 }
 /*************************/
 void PrefDialog::showPrompt (const QString& str, bool temporary)
@@ -956,6 +959,26 @@ void PrefDialog::prefColValue (int value)
         config.setDarkBgColorValue (value);
 
     showPrompt();
+}
+/*************************/
+void PrefDialog::prefThickCursor()
+{
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    Config& config = singleton->getConfig();
+    bool thick (ui->thickCursorBox->isChecked());
+    config.setThickCursor (thick);
+    for (int i = 0; i < singleton->Wins.count(); ++i)
+    {
+        int count = singleton->Wins.at (i)->ui->tabWidget->count();
+        for (int j = 0; j < count; ++j)
+        {
+            TextEdit *textedit = qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
+                                 ->textEdit();
+            if (j == 0 && textedit->getThickCursor() == thick)
+                return;
+            textedit->setThickCursor (thick);
+        }
+    }
 }
 /*************************/
 void PrefDialog::prefAppendEmptyLine (int checked)

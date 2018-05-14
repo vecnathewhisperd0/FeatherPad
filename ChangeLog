@@ -29,6 +29,8 @@ V0.9.0
  * Covered regex inside QML too (with syntax highlighting).
  * Never remove trailing spaces with diff files.
  * Made highlighting of JavaScript regex faster and fixed some bugs in it.
+ * Added an option for thick text cursor.
+ * Made the current line number bold and added a marker for wrapped lines. Also made the line highlighter much milder.
 
 V0.8
 ---------

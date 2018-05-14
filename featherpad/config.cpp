@@ -46,6 +46,7 @@ Config::Config():
     isMaxed_ (false),
     isFull_ (false),
     darkColScheme_ (false),
+    thickCursor_ (false),
     tabWrapAround_ (false),
     hideSingleTab_ (false),
     executeScripts_ (false),
@@ -194,6 +195,9 @@ void Config::readConfig()
 
     if (settings.value ("darkColorScheme").toBool())
         darkColScheme_ = true; // false by default
+
+    if (settings.value ("thickCursor").toBool())
+        thickCursor_ = true; // false by default
 
     if (settings.value ("inertialScrolling").toBool())
         inertialScrolling_ = true; // false by default
@@ -357,6 +361,7 @@ void Config::writeConfig()
     settings.setValue ("showWhiteSpace", showWhiteSpace_);
     settings.setValue ("showEndings", showEndings_);
     settings.setValue ("darkColorScheme", darkColScheme_);
+    settings.setValue ("thickCursor", thickCursor_);
     settings.setValue ("inertialScrolling", inertialScrolling_);
     settings.setValue ("autoSave", autoSave_);
     settings.setValue ("scrollJumpWorkaround", scrollJumpWorkaround_);

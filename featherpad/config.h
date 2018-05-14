@@ -99,6 +99,13 @@ public:
         darkColScheme_ = dark;
     }
 
+    bool getThickCursor() const {
+        return thickCursor_;
+    }
+    void setThickCursor (bool thick) {
+        thickCursor_ = thick;
+    }
+
     int getLightBgColorValue() const {
         return lightBgColorValue_;
     }
@@ -482,6 +489,7 @@ private:
          syntaxByDefault_, showWhiteSpace_, showEndings_,
          isMaxed_, isFull_,
          darkColScheme_,
+         thickCursor_,
          tabWrapAround_, hideSingleTab_,
          executeScripts_,
          appendEmptyLine_,
