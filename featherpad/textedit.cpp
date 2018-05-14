@@ -1342,11 +1342,18 @@ void TextEdit::lineNumberAreaPaintEvent (QPaintEvent *event)
     {
         if (block.isVisible() && bottom >= event->rect().top())
         {
+            int i = 0;
             if (blockNumber == curBlock)
             {
                 lastCurrentLine = QRect (0, top, 1, top + h);
+                int cur = cursorRect().center().y();
+                while (top + i * h < cur)
+                    ++i;
                 painter.save();
-                painter.setFont (f);
+                if (i > 1)
+                    painter.setFont (bf);
+                else
+                    painter.setFont (f);
                 painter.setPen (curLineColor);
             }
             QString number = QString::number (blockNumber + 1);
@@ -1354,11 +1361,6 @@ void TextEdit::lineNumberAreaPaintEvent (QPaintEvent *event)
                               Qt::AlignRight, number);
             if (blockNumber == curBlock)
             {
-                painter.setFont (bf);
-                int cur = cursorRect().center().y();
-                int i = 0;
-                while (top + i * h < cur)
-                    ++i;
                 if (i > 1)
                 {
                     if (i > 2)

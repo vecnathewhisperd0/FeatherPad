@@ -2241,27 +2241,27 @@ vinduer i den gemte session.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="1492"/>
+        <location filename="../../textedit.cpp" line="1494"/>
         <source>Open Link</source>
         <translation>Åbn link</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1502"/>
+        <location filename="../../textedit.cpp" line="1504"/>
         <source>Copy Link</source>
         <translation>Kopiér link</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1515"/>
+        <location filename="../../textedit.cpp" line="1517"/>
         <source>To Upper Case</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1519"/>
+        <location filename="../../textedit.cpp" line="1521"/>
         <source>To Lower Case</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1525"/>
+        <location filename="../../textedit.cpp" line="1527"/>
         <source>Paste Date and Time</source>
         <translation>Indsæt dato og klokkeslæt</translation>
     </message>
