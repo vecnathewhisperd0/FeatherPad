@@ -2223,27 +2223,27 @@ windows will be included in the saved session.</source>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="1494"/>
+        <location filename="../../textedit.cpp" line="1497"/>
         <source>Open Link</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1504"/>
+        <location filename="../../textedit.cpp" line="1507"/>
         <source>Copy Link</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1517"/>
+        <location filename="../../textedit.cpp" line="1520"/>
         <source>To Upper Case</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1521"/>
+        <location filename="../../textedit.cpp" line="1524"/>
         <source>To Lower Case</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1527"/>
+        <location filename="../../textedit.cpp" line="1530"/>
         <source>Paste Date and Time</source>
         <translation type="unfinished"></translation>
     </message>

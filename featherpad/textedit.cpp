@@ -92,7 +92,7 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     else
     {
         darkValue = -1;
-        lineHColor = QColor (0, 0, 0, 8);
+        lineHColor = QColor (0, 0, 0, 5);
         viewport()->setStyleSheet (QString (".QWidget {"
                                             "color: black;"
                                             "background-color: rgb(%1, %1, %1);}")
@@ -229,7 +229,7 @@ int TextEdit::lineNumberAreaWidth()
     }
     QFont f = font();
     f.setBold (true);
-    return (4 + QFontMetrics (f).width (num)); // 4 = 2 + 2 (-> lineNumberAreaPaintEvent)
+    return (6 + QFontMetrics (f).width (num)); // 6 = 3 + 3 (-> lineNumberAreaPaintEvent)
 }
 /*************************/
 void TextEdit::updateLineNumberAreaWidth (int /* newBlockCount */)
@@ -1313,18 +1313,22 @@ void TextEdit::highlightCurrentLine()
 void TextEdit::lineNumberAreaPaintEvent (QPaintEvent *event)
 {
     QPainter painter (lineNumberArea);
-    QColor curLineColor;
+    QColor currentBlockFg, currentLineBg, currentLineFg;
     if (darkValue > -1)
     {
-        painter.fillRect (event->rect(), Qt::lightGray);
+        painter.fillRect (event->rect(), QColor (200, 200 , 200));
         painter.setPen (Qt::black);
-        curLineColor = QColor (150, 0 , 0);
+        currentBlockFg = QColor (150, 0 , 0);
+        currentLineBg = QColor (140, 0 , 0);
+        currentLineFg = Qt::white;
     }
     else
     {
-        painter.fillRect (event->rect(), Qt::black);
+        painter.fillRect (event->rect(), QColor (40, 40 , 40));
         painter.setPen (Qt::white);
-        curLineColor = QColor (255, 160 , 0);
+        currentBlockFg = QColor (255, 205 , 0);
+        currentLineBg = QColor (255, 235 , 130);
+        currentLineFg = Qt::black;
     }
 
     QTextBlock block = firstVisibleBlock();
@@ -1335,44 +1339,43 @@ void TextEdit::lineNumberAreaPaintEvent (QPaintEvent *event)
     int h = fontMetrics().height();
     QFont bf = font();
     bf.setBold (true);
-    QFont f = bf;
-    f.setUnderline (true);
 
     while (block.isValid() && top <= event->rect().bottom())
     {
         if (block.isVisible() && bottom >= event->rect().top())
         {
-            int i = 0;
+            QString number = QString::number (blockNumber + 1);
             if (blockNumber == curBlock)
             {
                 lastCurrentLine = QRect (0, top, 1, top + h);
+
+                painter.save();
                 int cur = cursorRect().center().y();
+                int i = 0;
                 while (top + i * h < cur)
                     ++i;
-                painter.save();
-                if (i > 1)
+                if (i > 0) // always the case
+                {
                     painter.setFont (bf);
-                else
-                    painter.setFont (f);
-                painter.setPen (curLineColor);
+                    painter.setPen (currentLineFg);
+                    painter.fillRect (0, top + (i - 1) * h, lineNumberArea->width(), h, currentLineBg);
+                    if (i > 1)
+                    {
+                        painter.drawText (0, top + (i - 1) * h, lineNumberArea->width() - 3, h,
+                                          Qt::AlignRight, "↳");
+                        painter.setPen (currentBlockFg);
+                        if (i > 2)
+                        {
+                            painter.drawText (0, top + (i - 2) * h, lineNumberArea->width() - 3, h,
+                                              Qt::AlignRight, number);
+                        }
+                    }
+                }
             }
-            QString number = QString::number (blockNumber + 1);
-            painter.drawText (0, top, lineNumberArea->width() - 2, h,
+            painter.drawText (0, top, lineNumberArea->width() - 3, h,
                               Qt::AlignRight, number);
             if (blockNumber == curBlock)
-            {
-                if (i > 1)
-                {
-                    if (i > 2)
-                    {
-                        painter.drawText (0, top + (i - 2) * h, lineNumberArea->width() - 2, h,
-                                          Qt::AlignRight, number);
-                    }
-                    painter.drawText (0, top + (i - 1) * h, lineNumberArea->width() - 2, h,
-                                      Qt::AlignRight, "↳");
-                }
                 painter.restore();
-            }
         }
 
         block = block.next();
