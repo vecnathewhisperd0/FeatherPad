@@ -345,8 +345,14 @@ public:
     }
 
 protected:
-    void paintEvent(QPaintEvent *event) {
+    void paintEvent (QPaintEvent *event) {
         editor->lineNumberAreaPaintEvent (event);
+    }
+
+    void mouseReleaseEvent (QMouseEvent *event) {
+        if (rect().contains (event->pos()))
+            editor->centerCursor();
+        QWidget::mouseReleaseEvent (event);
     }
 
 private:
