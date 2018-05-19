@@ -64,8 +64,8 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     if (bgColorValue < 230)
     {
         darkValue = bgColorValue;
-        /* a quadratic equation for bgColorValue -> opacity: 0 -> 30,  27 -> 13, 50 -> 6 */
-        int opacity = qBound (1, qRound ((qreal)(bgColorValue * (202 * bgColorValue - 25004)) / (qreal)31050) + 30, 40);
+        /* a quadratic equation for bgColorValue -> opacity: 0 -> 20,  27 -> 8, 50 -> 2 */
+        int opacity = qBound (1, qRound ((qreal)(bgColorValue * (19 * bgColorValue - 2813)) / (qreal)5175) + 20, 30);
         lineHColor = QColor (255, 255, 255, opacity);
         viewport()->setStyleSheet (QString (".QWidget {"
                                             "color: white;"
