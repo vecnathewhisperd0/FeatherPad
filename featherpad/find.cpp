@@ -406,7 +406,7 @@ void FPwin::hlight() const
     QList<QTextEdit::ExtraSelection> es = textEdit->getGreenSel();
     QColor color = QColor (textEdit->hasDarkScheme() ? QColor (255, 255, 0,
                                                                /* a quadratic equation for darkValue -> opacity: 0 -> 90,  27 -> 75, 50 -> 65 */
-                                                               (qreal)(textEdit->getDarkValue() * (75 * textEdit->getDarkValue() - 19275)) / (qreal)31050 + 90)
+                                                               (qreal)(textEdit->getDarkValue() * (textEdit->getDarkValue() - 257)) / (qreal)414 + 90)
                                                      : Qt::yellow);
     QTextCursor found;
     /* first put a start cursor at the top left edge... */
