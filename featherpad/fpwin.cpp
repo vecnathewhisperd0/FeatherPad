@@ -198,6 +198,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
 
     connect (ui->tabWidget, &TabWidget::currentTabChanged, this, &FPwin::tabSwitch);
     connect (ui->tabWidget->tabBar(), &TabBar::tabDetached, this, &FPwin::detachTab);
+    connect (ui->tabWidget->tabBar(), &TabBar::hideTabBar, this, &FPwin::toggleSidePane);
     ui->tabWidget->tabBar()->setContextMenuPolicy (Qt::CustomContextMenu);
     connect (ui->tabWidget->tabBar(), &QWidget::customContextMenuRequested, this, &FPwin::tabContextMenu);
     connect (ui->actionCopyName, &QAction::triggered, this, &FPwin::copyTabFileName);
@@ -332,7 +333,8 @@ void FPwin::toggleSidePane()
         ui->splitter->setSizes (sizes);
         connect (sidePane_->listWidget(), &QWidget::customContextMenuRequested, this, &FPwin::listContextMenu);
         connect (sidePane_->listWidget(), &QListWidget::currentItemChanged, this, &FPwin::changeTab);
-        connect (sidePane_->listWidget(), &ListWidget::closItem, [this](QListWidgetItem* item) {
+        connect (sidePane_->listWidget(), &ListWidget::closeSidePane, this, &FPwin::toggleSidePane);
+        connect (sidePane_->listWidget(), &ListWidget::closeItem, [this](QListWidgetItem* item) {
             if (!sideItems_.isEmpty())
                 closeTabAtIndex (ui->tabWidget->indexOf (sideItems_.value (item)));
         });

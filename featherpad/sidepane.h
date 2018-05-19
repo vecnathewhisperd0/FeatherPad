@@ -38,7 +38,8 @@ public:
     QListWidgetItem *getItemFromIndex (const QModelIndex &index) const;
 
 signals:
-    void closItem (QListWidgetItem *item);
+    void closeItem (QListWidgetItem *item);
+    void closeSidePane();
     void rowsAreInserted (int start, int end);
 
 protected:

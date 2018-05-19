@@ -47,6 +47,7 @@ public:
 signals:
     void tabDetached();
     void addEmptyTab();
+    void hideTabBar();
 
 protected:
     /* from qtabbar.cpp */

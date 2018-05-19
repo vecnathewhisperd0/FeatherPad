@@ -32,6 +32,8 @@ V0.9.0
  * Added an option for thick text cursor.
  * Made the current line number bold and added a marker for wrapped lines. Also made the line highlighter much milder.
  * Center the current line on clicking inside the line number strip.
+ * Toggle side-pane by middle clicking an empty space inside it or inside the tab-bar.
+ * Put the line number strip on the right with an RTL layout.
 
 V0.8
 ---------

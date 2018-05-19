@@ -55,11 +55,11 @@ void ListWidget::mousePressEvent (QMouseEvent *event)
         if (event->button() == Qt::MidButton)
         {
             QModelIndex index = indexAt (event->pos());
-            if (QListWidgetItem *item = itemFromIndex (index))
-            { // index is checked for its validity in QListWidget::itemFromIndex()
-                emit closItem (item);
-                return;
-            }
+            if (QListWidgetItem *item = itemFromIndex (index)) // index is checked for its validity in QListWidget::itemFromIndex()
+                emit closeItem (item);
+            else
+                emit closeSidePane();
+            return;
         }
         else if (event->button() == Qt::RightButton)
             return;

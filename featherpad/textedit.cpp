@@ -92,7 +92,7 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     else
     {
         darkValue = -1;
-        lineHColor = QColor (0, 0, 0, 5);
+        lineHColor = QColor (0, 0, 0, 4);
         viewport()->setStyleSheet (QString (".QWidget {"
                                             "color: black;"
                                             "background-color: rgb(%1, %1, %1);}")
@@ -234,7 +234,10 @@ int TextEdit::lineNumberAreaWidth()
 /*************************/
 void TextEdit::updateLineNumberAreaWidth (int /* newBlockCount */)
 {
-    setViewportMargins (lineNumberAreaWidth(), 0, 0, 0);
+    if (QApplication::layoutDirection() == Qt::RightToLeft)
+        setViewportMargins (0, 0, lineNumberAreaWidth(), 0);
+    else
+        setViewportMargins (lineNumberAreaWidth(), 0, 0, 0);
 }
 /*************************/
 void TextEdit::updateLineNumberArea (const QRect &rect, int dy)
@@ -992,7 +995,8 @@ void TextEdit::resizeEvent (QResizeEvent *e)
     QPlainTextEdit::resizeEvent (e);
 
     QRect cr = contentsRect();
-    lineNumberArea->setGeometry (QRect (cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
+    lineNumberArea->setGeometry (QRect (QApplication::layoutDirection() == Qt::RightToLeft ? cr.width() - lineNumberAreaWidth() : cr.left(),
+                                        cr.top(), lineNumberAreaWidth(), cr.height()));
 
     if (resizeTimerId)
     {
@@ -1331,6 +1335,10 @@ void TextEdit::lineNumberAreaPaintEvent (QPaintEvent *event)
         currentLineFg = Qt::black;
     }
 
+    bool rtl (QApplication::layoutDirection() == Qt::RightToLeft);
+    int w = lineNumberArea->width();
+    int left = rtl ? 3 : 0;
+
     QTextBlock block = firstVisibleBlock();
     int blockNumber = block.blockNumber();
     int top = (int) blockBoundingGeometry (block).translated (contentOffset()).top();
@@ -1358,21 +1366,21 @@ void TextEdit::lineNumberAreaPaintEvent (QPaintEvent *event)
                 {
                     painter.setFont (bf);
                     painter.setPen (currentLineFg);
-                    painter.fillRect (0, top + (i - 1) * h, lineNumberArea->width(), h, currentLineBg);
+                    painter.fillRect (0, top + (i - 1) * h, w, h, currentLineBg);
                     if (i > 1)
                     {
-                        painter.drawText (0, top + (i - 1) * h, lineNumberArea->width() - 3, h,
-                                          Qt::AlignRight, "↳");
+                        painter.drawText (left, top + (i - 1) * h, w - 3, h,
+                                          Qt::AlignRight, rtl ? "↲" : "↳");
                         painter.setPen (currentBlockFg);
                         if (i > 2)
                         {
-                            painter.drawText (0, top + (i - 2) * h, lineNumberArea->width() - 3, h,
+                            painter.drawText (left, top + (i - 2) * h, w - 3, h,
                                               Qt::AlignRight, number);
                         }
                     }
                 }
             }
-            painter.drawText (0, top, lineNumberArea->width() - 3, h,
+            painter.drawText (left, top, w - 3, h,
                               Qt::AlignRight, number);
             if (blockNumber == curBlock)
                 painter.restore();

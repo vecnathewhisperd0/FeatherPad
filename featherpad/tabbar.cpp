@@ -65,6 +65,8 @@ void TabBar::mouseReleaseEvent (QMouseEvent *event)
         int index = tabAt (event->pos());
         if (index > -1)
             emit tabCloseRequested (index);
+        else
+            emit hideTabBar();
     }
 }
 /*************************/
