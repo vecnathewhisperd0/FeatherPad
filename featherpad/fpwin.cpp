@@ -610,13 +610,13 @@ void FPwin::applyConfigOnStarting()
             ui->actionCopy->setIcon (symbolicIcon::icon (":icons/edit-copy.svg"));
             ui->actionPaste->setIcon (symbolicIcon::icon (":icons/edit-paste.svg"));
             ui->actionDate->setIcon (symbolicIcon::icon (":icons/document-open-recent.svg"));
-            ui->actionDelete->setIcon (QIcon (":icons/edit-delete.svg"));
+            ui->actionDelete->setIcon (symbolicIcon::icon (":icons/edit-delete.svg"));
             ui->actionSelectAll->setIcon (symbolicIcon::icon (":icons/edit-select-all.svg"));
             ui->actionReload->setIcon (symbolicIcon::icon (":icons/view-refresh.svg"));
             ui->actionFind->setIcon (symbolicIcon::icon (":icons/edit-find.svg"));
             ui->actionReplace->setIcon (symbolicIcon::icon (":icons/edit-find-replace.svg"));
             ui->actionClose->setIcon (QIcon (":icons/window-close.svg"));
-            ui->actionQuit->setIcon (QIcon (":icons/application-exit.svg"));
+            ui->actionQuit->setIcon (symbolicIcon::icon (":icons/application-exit.svg"));
             ui->actionFont->setIcon (symbolicIcon::icon (":icons/preferences-desktop-font.svg"));
             ui->actionPreferences->setIcon (symbolicIcon::icon (":icons/preferences-system.svg"));
             ui->actionHelp->setIcon (symbolicIcon::icon (":icons/help-contents.svg"));

@@ -2212,27 +2212,27 @@ oknach zostaną uwzględnione w zapisanej sesji.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="1505"/>
+        <location filename="../../textedit.cpp" line="1506"/>
         <source>Open Link</source>
         <translation>Otwórz odnośnik</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1515"/>
+        <location filename="../../textedit.cpp" line="1516"/>
         <source>Copy Link</source>
         <translation>Kopiuj odnośnik</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1528"/>
+        <location filename="../../textedit.cpp" line="1529"/>
         <source>To Upper Case</source>
         <translation>Przekształć na wielkie litery</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1532"/>
+        <location filename="../../textedit.cpp" line="1533"/>
         <source>To Lower Case</source>
         <translation>Przekształć na małe litery</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1538"/>
+        <location filename="../../textedit.cpp" line="1539"/>
         <source>Paste Date and Time</source>
         <translation>Wklej datę i czas</translation>
     </message>

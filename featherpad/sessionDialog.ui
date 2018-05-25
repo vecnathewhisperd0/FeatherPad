@@ -101,7 +101,7 @@
           <string>&amp;Remove</string>
          </property>
          <property name="icon">
-          <iconset theme="edit-clear">
+          <iconset theme="edit-delete">
            <normaloff>.</normaloff>.</iconset>
          </property>
          <property name="shortcut">
@@ -118,7 +118,7 @@
           <string>Remove &amp;All</string>
          </property>
          <property name="icon">
-          <iconset theme="edit-delete">
+          <iconset theme="edit-clear">
            <normaloff>.</normaloff>.</iconset>
          </property>
          <property name="shortcut">
@@ -264,7 +264,7 @@ windows will be included in the saved session.</string>
   </layout>
   <action name="actionRemove">
    <property name="icon">
-    <iconset theme="edit-clear"/>
+    <iconset theme="edit-delete"/>
    </property>
    <property name="text">
     <string>&amp;Remove</string>
