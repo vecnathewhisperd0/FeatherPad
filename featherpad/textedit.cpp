@@ -373,12 +373,13 @@ QTextCursor TextEdit::backTabCursor (const QTextCursor& cursor) const
     if (n == 0) n = textTab_.count();
 
     tmp.setPosition (txtStart);
-    if (blockText.at (indx - 1) == " ")
-        tmp.setPosition(txtStart - n, QTextCursor::KeepAnchor);
+    QChar ch = blockText.at (indx - 1);
+    if (ch == QChar (QChar::Space))
+        tmp.setPosition (txtStart - n, QTextCursor::KeepAnchor);
     else // the previous character is a tab
     {
         qreal x = (qreal)(cursorRect (tmp).right());
-        tmp.setPosition(txtStart - 1, QTextCursor::KeepAnchor);
+        tmp.setPosition (txtStart - 1, QTextCursor::KeepAnchor);
         x -= (qreal)(cursorRect (tmp).right());
         n -= qRound (x / spaceL);
         if (n < 0) n = 0; // impossible
