@@ -1780,7 +1780,7 @@ es kann auch kein einzel Tab Fenster in ein anderes per drag-and-drop zusammenge
     <message>
         <location filename="../../predDialog.ui" line="371"/>
         <source>&amp;Wrap lines by default</source>
-        <translation>Automatischer &amp;Zeilenumbruc</translation>
+        <translation>Automatischer &amp;Zeilenumbruch</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="378"/>
