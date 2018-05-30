@@ -19,6 +19,7 @@
 
 #include <QApplication>
 #include <QGridLayout>
+#include <QToolTip>
 #include "sidepane.h"
 
 namespace FeatherPad {
@@ -65,6 +66,18 @@ void ListWidget::mousePressEvent (QMouseEvent *event)
             return;
     }
     QListWidget::mousePressEvent (event);
+}
+/*************************/
+void ListWidget::mouseMoveEvent (QMouseEvent *event)
+{
+    QListWidget::mouseMoveEvent (event);
+    if (event->button() == Qt::NoButton && !(event->buttons() & Qt::LeftButton))
+    {
+        if (QListWidgetItem *item = itemAt (event->pos()))
+            QToolTip::showText (event->globalPos(), item->toolTip());
+        else
+            QToolTip::hideText();
+    }
 }
 /*************************/
 QListWidgetItem *ListWidget::getItemFromIndex (const QModelIndex &index) const

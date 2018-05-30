@@ -33,7 +33,9 @@ class ListWidget : public QListWidget
 {
     Q_OBJECT
 public:
-    ListWidget (QWidget *parent = nullptr) : QListWidget (parent) {}
+    ListWidget (QWidget *parent = nullptr) : QListWidget (parent) {
+        setMouseTracking (true); // for instant tooltips
+    }
 
     QListWidgetItem *getItemFromIndex (const QModelIndex &index) const;
 
@@ -44,7 +46,8 @@ signals:
 
 protected:
     virtual QItemSelectionModel::SelectionFlags selectionCommand (const QModelIndex &index, const QEvent *event = nullptr) const;
-    void mousePressEvent (QMouseEvent *event);
+    virtual void mousePressEvent (QMouseEvent *event);
+    virtual void mouseMoveEvent (QMouseEvent *event); // for instant tooltips
 
 protected slots:
     virtual void rowsInserted (const QModelIndex &parent, int start, int end);

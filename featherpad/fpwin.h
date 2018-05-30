@@ -179,6 +179,8 @@ private slots:
     void firstTab();
     void tabContextMenu (const QPoint& p);
     void listContextMenu (const QPoint& p);
+    void changeTab (QListWidgetItem *current, QListWidgetItem*);
+    void toggleSidePane();
     void prefDialog();
     void aboutDialog();
     void helpDoc();
@@ -248,9 +250,8 @@ private:
     void showWarningBar (const QString& message);
     void closeWarningBar();
     void disconnectLambda();
-    void changeTab (QListWidgetItem *current, QListWidgetItem*);
-    void toggleSidePane();
     void updateLangBtn (TextEdit *textEdit);
+    void updateGUIForSingleTab (bool single);
 
     QActionGroup *aGroup_;
     QString lastFile_; // The last opened or saved file (for file dialogs).

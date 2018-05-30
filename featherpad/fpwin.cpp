@@ -819,6 +819,15 @@ bool FPwin::hasAnotherDialog()
     return res;
 }
 /*************************/
+void FPwin::updateGUIForSingleTab (bool single)
+{
+    ui->actionDetachTab->setEnabled (!single);
+    ui->actionRightTab->setEnabled (!single);
+    ui->actionLeftTab->setEnabled (!single);
+    ui->actionLastTab->setEnabled (!single);
+    ui->actionFirstTab->setEnabled (!single);
+}
+/*************************/
 void FPwin::deleteTabPage (int tabIndex, bool saveToList, bool closeWithLastTab)
 {
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (tabIndex));
@@ -920,13 +929,7 @@ bool FPwin::closeTabs (int first, int last, bool saveFilesList)
                 enableWidgets (false);
             }
             else if (count == 1)
-            {
-                ui->actionDetachTab->setDisabled (true);
-                ui->actionRightTab->setDisabled (true);
-                ui->actionLeftTab->setDisabled (true);
-                ui->actionLastTab->setDisabled (true);
-                ui->actionFirstTab->setDisabled (true);
-            }
+                updateGUIForSingleTab (true);
             break;
         case UNDECIDED: // stop quitting (cancel or can't save)
             keep = true;
@@ -959,13 +962,7 @@ bool FPwin::closeTabs (int first, int last, bool saveFilesList)
                     enableWidgets (false);
                 }
                 else if (count == 1)
-                {
-                    ui->actionDetachTab->setDisabled (true);
-                    ui->actionRightTab->setDisabled (true);
-                    ui->actionLeftTab->setDisabled (true);
-                    ui->actionLastTab->setDisabled (true);
-                    ui->actionFirstTab->setDisabled (true);
-                }
+                    updateGUIForSingleTab (true);
             }
             break;
         default:
@@ -1371,13 +1368,7 @@ TabPage* FPwin::createEmptyTab (bool setCurrent, bool allowNormalHighlighter)
 
     /* set all preliminary properties */
     if (index >= 0)
-    {
-        ui->actionDetachTab->setEnabled (true);
-        ui->actionRightTab->setEnabled (true);
-        ui->actionLeftTab->setEnabled (true);
-        ui->actionLastTab->setEnabled (true);
-        ui->actionFirstTab->setEnabled (true);
-    }
+        updateGUIForSingleTab (false);
     ui->tabWidget->setTabToolTip (index + 1, tr ("Unsaved"));
     if (!ui->actionWrap->isChecked())
         textEdit->setLineWrapMode (QPlainTextEdit::NoWrap);
@@ -1757,13 +1748,7 @@ void FPwin::closeTab()
     else // set focus to text-edit
     {
         if (count == 1)
-        {
-            ui->actionDetachTab->setDisabled (true);
-            ui->actionRightTab->setDisabled (true);
-            ui->actionLeftTab->setDisabled (true);
-            ui->actionLastTab->setDisabled (true);
-            ui->actionFirstTab->setDisabled (true);
-        }
+            updateGUIForSingleTab (true);
 
         if (curItem) // restore the current item
             sidePane_->listWidget()->setCurrentItem (curItem);
@@ -1800,13 +1785,7 @@ void FPwin::closeTabAtIndex (int index)
     else
     {
         if (count == 1)
-        {
-            ui->actionDetachTab->setDisabled (true);
-            ui->actionRightTab->setDisabled (true);
-            ui->actionLeftTab->setDisabled (true);
-            ui->actionLastTab->setDisabled (true);
-            ui->actionFirstTab->setDisabled (true);
-        }
+            updateGUIForSingleTab (true);
 
         if (curPage) // restore the current page
             ui->tabWidget->setCurrentWidget (curPage);
@@ -1836,8 +1815,8 @@ void FPwin::setTitle (const QString& fileName, int tabIndex)
     {
         QFileInfo fInfo (fileName);
         if (tabIndex < 0)
-            setWindowTitle ((fileName.contains ("/") ? fileName.section ('/', 0, -2)
-                                                     : fInfo.absolutePath()) + "/");
+            setWindowTitle (fileName.contains ("/") ? fileName
+                                                    : fInfo.absolutePath() + "/" + fileName);
         isLink = fInfo.isSymLink();
         shownName = fileName.section ('/', -1);
         shownName.replace ("\n", " "); // no multi-line tab text
@@ -1879,8 +1858,8 @@ void FPwin::asterisk (bool modified)
     {
         shownName = fname.section ('/', -1);
         setWindowTitle ((modified ? "*" : QString())
-                        + ((fname.contains ("/") ? fname.section ('/', 0, -2)
-                                                 : QFileInfo (fname).absolutePath()) + "/"));
+                        + (fname.contains ("/") ? fname
+                                                : QFileInfo (fname).absolutePath() + "/" + fname));
     }
     if (modified)
         shownName.prepend ("*");
@@ -3098,8 +3077,8 @@ void FPwin::tabSwitch (int index)
     else
     {
         info.setFile (fname);
-        shownName = (fname.contains ("/") ? fname.section ('/', 0, -2)
-                                          : info.absolutePath()) + "/";
+        shownName = (fname.contains ("/") ? fname
+                                          : info.absolutePath() + "/" + fname);
         if (!QFile::exists (fname))
             showWarningBar ("<center><b><big>" + tr ("The file does not exist.") + "</big></b></center>");
         else if (textEdit->getLastModified() != info.lastModified())
@@ -3950,13 +3929,7 @@ void FPwin::detachTab()
 
     ui->tabWidget->removeTab (index);
     if (ui->tabWidget->count() == 1)
-    {
-        ui->actionDetachTab->setDisabled (true);
-        ui->actionRightTab->setDisabled (true);
-        ui->actionLeftTab->setDisabled (true);
-        ui->actionLastTab->setDisabled (true);
-        ui->actionFirstTab->setDisabled (true);
-    }
+        updateGUIForSingleTab (true);
     if (sidePane_ && !sideItems_.isEmpty())
     {
         if (QListWidgetItem *wi = sideItems_.key (tabPage))
@@ -4187,13 +4160,7 @@ void FPwin::dropTab (const QString& str)
     dragSource->ui->tabWidget->removeTab (index); // there can't be a side-pane here
     int count = dragSource->ui->tabWidget->count();
     if (count == 1)
-    {
-        dragSource->ui->actionDetachTab->setDisabled (true);
-        dragSource->ui->actionRightTab->setDisabled (true);
-        dragSource->ui->actionLeftTab->setDisabled (true);
-        dragSource->ui->actionLastTab->setDisabled (true);
-        dragSource->ui->actionFirstTab->setDisabled (true);
-    }
+        dragSource->updateGUIForSingleTab (true);
 
     /***************************************************************************
      ***** The tab is dropped into this window; so insert it as a new tab. *****
@@ -4224,13 +4191,7 @@ void FPwin::dropTab (const QString& str)
     if (ui->tabWidget->count() == 0) // the tab will be inserted and switched to below
         enableWidgets (true);
     else if (ui->tabWidget->count() == 1)
-    { // tab detach and switch actions
-        ui->actionDetachTab->setEnabled (true);
-        ui->actionRightTab->setEnabled (true);
-        ui->actionLeftTab->setEnabled (true);
-        ui->actionLastTab->setEnabled (true);
-        ui->actionFirstTab->setEnabled (true);
-    }
+        updateGUIForSingleTab (true); // tab detach and switch actions
     bool isLink = lastFile_.isEmpty() ? false : QFileInfo (lastFile_).isSymLink();
     ui->tabWidget->insertTab (insertIndex, tabPage,
                               isLink ? QIcon (":icons/link.svg") : QIcon(),

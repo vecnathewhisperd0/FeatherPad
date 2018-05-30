@@ -20,7 +20,7 @@ FeatherPad (by Pedram Pourang, a.k.a. Tsu Jan <tsujan2000@gmail.com>) is a light
   * Appropriate but non-interrupting prompts; and
   * Other features that can be found in its settings, on its menus or when it is actually used.
 
-Please see INSTALL for instructions on compilation, installation and translation!
+Please see INSTALL for instructions on compilation, installation and translation! (For translations, also see below.)
 
 FeatherPad was written in GTK+ at first, then ported to Qt with more features. Its homepage is <https://github.com/tsujan/FeatherPad>.
 

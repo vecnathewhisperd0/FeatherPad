@@ -1104,6 +1104,20 @@ void TextEdit::paintEvent (QPaintEvent *event)
                 fillBackground (&painter, contentsRect, bg);
             }
 
+            if (opt.flags() & QTextOption::ShowLineAndParagraphSeparators)
+            {
+                /* "QTextFormat::FullWidthSelection" isn't respected when new-lines are shown.
+                   This is a workaround. */
+                QRectF contentsRect = r;
+                contentsRect.setWidth (qMax (r.width(), maximumWidth));
+                if (contentsRect.contains (cursorRect().center()))
+                {
+                    contentsRect.setTop (cursorRect().top() - 1);
+                    contentsRect.setBottom (cursorRect().bottom() + 1);
+                    fillBackground (&painter, contentsRect, lineHColor);
+                }
+            }
+
             QVector<QTextLayout::FormatRange> selections;
             int blpos = block.position();
             int bllen = block.length();
@@ -1306,7 +1320,9 @@ void TextEdit::highlightCurrentLine()
     if (!es.isEmpty() && !currentLine.cursor.isNull())
         es.removeFirst(); // line highlight always comes first when it exists
 
-    currentLine.format.setBackground (lineHColor);
+    currentLine.format.setBackground (document()->defaultTextOption().flags() & QTextOption::ShowLineAndParagraphSeparators
+                                      ? Qt::transparent // workaround for a Qt bug (see TextEdit::paintEvent)
+                                      : lineHColor);
     currentLine.format.setProperty (QTextFormat::FullWidthSelection, true);
     currentLine.cursor = textCursor();
     currentLine.cursor.clearSelection();

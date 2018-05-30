@@ -2,6 +2,9 @@ V0.9.1
 ---------
  * Two more symbolic icons.
  * Avoid conversion from "const char*" to "ushort".
+ * Set the window title to the whole path, including the file name.
+ * Instant tooltips for the side-pane.
+ * Workaround for a Qt bug, because of which, "FullWidthSelection" isn't respected when line ends are shown.
 
 V0.9.0
 ---------
