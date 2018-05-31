@@ -238,7 +238,8 @@ protected:
     void mouseMoveEvent (QMouseEvent *event);
     void mousePressEvent (QMouseEvent *event);
     void mouseReleaseEvent (QMouseEvent *event);
-    bool event(QEvent *event);
+    bool event (QEvent *event);
+    bool eventFilter (QObject *watched, QEvent *event);
 
     /* we want to pass dropping of files to
        the main widget with a custom signal */
@@ -349,10 +350,10 @@ protected:
         editor->lineNumberAreaPaintEvent (event);
     }
 
-    void mouseReleaseEvent (QMouseEvent *event) {
+    void mouseDoubleClickEvent (QMouseEvent *event) {
         if (rect().contains (event->pos()))
             editor->centerCursor();
-        QWidget::mouseReleaseEvent (event);
+        QWidget::mouseDoubleClickEvent (event);
     }
 
 private:

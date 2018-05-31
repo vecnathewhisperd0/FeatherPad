@@ -5,6 +5,8 @@ V0.9.1
  * Set the window title to the whole path, including the file name.
  * Instant tooltips for the side-pane.
  * Workaround for a Qt bug, because of which, "FullWidthSelection" isn't respected when line ends are shown.
+ * Scroll the view when the mouse wheel is turned on the line number strip.
+ * Center the current line on double clicking the line number strip.
 
 V0.9.0
 ---------

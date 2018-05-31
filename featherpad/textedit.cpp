@@ -131,7 +131,9 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     setVerticalScrollBar (vScrollBar);
 
     lineNumberArea = new LineNumberArea (this);
+    lineNumberArea->setToolTip (tr ("Double click to center current line"));
     lineNumberArea->hide();
+    lineNumberArea->installEventFilter (this);
 
     connect (this, &QPlainTextEdit::updateRequest, this, &TextEdit::onUpdateRequesting);
     connect (this, &QPlainTextEdit::cursorPositionChanged, this, &TextEdit::updateBracketMatching);
@@ -139,6 +141,19 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
 
     setContextMenuPolicy (Qt::CustomContextMenu);
     connect (this, &QWidget::customContextMenuRequested, this, &TextEdit::showContextMenu);
+}
+/*************************/
+bool TextEdit::eventFilter (QObject *watched, QEvent *event)
+{
+    if (watched == lineNumberArea && event->type() == QEvent::Wheel)
+    {
+        if (QWheelEvent *we = static_cast<QWheelEvent*>(event))
+        {
+            wheelEvent (we);
+            return false;
+        }
+    }
+    return QObject::eventFilter (watched, event);
 }
 /*************************/
 void TextEdit::setEditorFont (const QFont &f, bool setDefault)

@@ -2267,27 +2267,32 @@ dosyalar kaydedilen oturuma dahil edilir.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="1522"/>
+        <location filename="../../textedit.cpp" line="134"/>
+        <source>Double click to center current line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../textedit.cpp" line="1537"/>
         <source>Open Link</source>
         <translation>Bağlantıyı Aç</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1532"/>
+        <location filename="../../textedit.cpp" line="1547"/>
         <source>Copy Link</source>
         <translation>Bağlantıyı Kopyala</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1545"/>
+        <location filename="../../textedit.cpp" line="1560"/>
         <source>To Upper Case</source>
         <translation>Büyük Harfe Çevir</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1549"/>
+        <location filename="../../textedit.cpp" line="1564"/>
         <source>To Lower Case</source>
         <translation>Küçük Harfe Çevir</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1555"/>
+        <location filename="../../textedit.cpp" line="1570"/>
         <source>Paste Date and Time</source>
         <translation>Tarih-Zamanı Yapıştır</translation>
     </message>
