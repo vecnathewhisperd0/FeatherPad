@@ -303,6 +303,11 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
         OBJECT_NAMES.insert (win->ui->actionUndo->text().remove ("&"), "actionUndo");
         OBJECT_NAMES.insert (win->ui->actionRedo->text().remove ("&"), "actionRedo");
         OBJECT_NAMES.insert (win->ui->actionDate->text().remove ("&"), "actionDate");
+
+        OBJECT_NAMES.insert (win->ui->actionRightTab->text().remove ("&"), "actionRightTab");
+        OBJECT_NAMES.insert (win->ui->actionLeftTab->text().remove ("&"), "actionLeftTab");
+        OBJECT_NAMES.insert (win->ui->actionFirstTab->text().remove ("&"), "actionFirstTab");
+        OBJECT_NAMES.insert (win->ui->actionLastTab->text().remove ("&"), "actionLastTab");
     }
 
     QHash<QString, QString> ca = config.customShortcutActions();
@@ -366,6 +371,15 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
                        keys.contains ("actionRedo") ? ca.value ("actionRedo") : defaultShortcuts_.value ("actionRedo"));
     shortcuts_.insert (win->ui->actionDate->text().remove ("&"),
                        keys.contains ("actionDate") ? ca.value ("actionDate") : defaultShortcuts_.value ("actionDate"));
+
+    shortcuts_.insert (win->ui->actionRightTab->text().remove ("&"),
+                       keys.contains ("actionRightTab") ? ca.value ("actionRightTab") : defaultShortcuts_.value ("actionRightTab"));
+    shortcuts_.insert (win->ui->actionLeftTab->text().remove ("&"),
+                       keys.contains ("actionLeftTab") ? ca.value ("actionLeftTab") : defaultShortcuts_.value ("actionLeftTab"));
+    shortcuts_.insert (win->ui->actionFirstTab->text().remove ("&"),
+                       keys.contains ("actionFirstTab") ? ca.value ("actionFirstTab") : defaultShortcuts_.value ("actionFirstTab"));
+    shortcuts_.insert (win->ui->actionLastTab->text().remove ("&"),
+                       keys.contains ("actionLastTab") ? ca.value ("actionLastTab") : defaultShortcuts_.value ("actionLastTab"));
 
     QList<QString> val = shortcuts_.values();
     for (int i = 0; i < val.size(); ++i)

@@ -672,7 +672,6 @@ void FPwin::applyConfigOnStarting()
                  << tr ("Ctrl+=") << tr ("Ctrl++") << tr ("Ctrl+-") << tr ("Ctrl+0") // zooming
                  << tr ("Ctrl+Alt+E") // exiting a process
                  << tr ("Shift+Enter") << tr ("Ctrl+Tab") << tr ("Ctrl+Meta+Tab") // text tabulation
-                 << tr ("Alt+Right") << tr ("Alt+Left") << tr ("Alt+Down")  << tr ("Alt+Up") // tab switching
                  << tr ("Ctrl+Shift+J") // select text on jumping (not an action)
                  << tr ("Ctrl+K"); // used by LineEdit as well as QPlainTextEdit
         config.setReservedShortcuts (reserved);
@@ -1226,6 +1225,11 @@ void FPwin::updateCustomizableShortcuts (bool disable)
         ui->actionUndo->setShortcut (QKeySequence());
         ui->actionRedo->setShortcut (QKeySequence());
         ui->actionDate->setShortcut (QKeySequence());
+
+        ui->actionRightTab->setShortcut (QKeySequence());
+        ui->actionLeftTab->setShortcut (QKeySequence());
+        ui->actionLastTab->setShortcut (QKeySequence());
+        ui->actionFirstTab->setShortcut (QKeySequence());
     }
     else
     {
@@ -1266,6 +1270,19 @@ void FPwin::updateCustomizableShortcuts (bool disable)
         ui->actionUndo->setShortcut (keys.contains ("actionUndo") ? ca.value ("actionUndo") : QKeySequence (tr ("Ctrl+Z")));
         ui->actionRedo->setShortcut (keys.contains ("actionRedo") ? ca.value ("actionRedo") : QKeySequence (tr ("Ctrl+Shift+Z")));
         ui->actionDate->setShortcut (keys.contains ("actionDate") ? ca.value ("actionDate") : QKeySequence (tr ("Ctrl+Shift+V")));
+
+        if (QApplication::layoutDirection() == Qt::RightToLeft)
+        {
+            ui->actionRightTab->setShortcut (keys.contains ("actionRightTab") ? ca.value ("actionRightTab") : QKeySequence (tr ("Alt+Left")));
+            ui->actionLeftTab->setShortcut (keys.contains ("actionLeftTab") ? ca.value ("actionLeftTab") : QKeySequence (tr ("Alt+Right")));
+        }
+        else
+        {
+            ui->actionRightTab->setShortcut (keys.contains ("actionRightTab") ? ca.value ("actionRightTab") : QKeySequence (tr ("Alt+Right")));
+            ui->actionLeftTab->setShortcut (keys.contains ("actionLeftTab") ? ca.value ("actionLeftTab") : QKeySequence (tr ("Alt+Left")));
+        }
+        ui->actionLastTab->setShortcut (keys.contains ("actionLastTab") ? ca.value ("actionLastTab") : QKeySequence (tr ("Alt+Up")));
+        ui->actionFirstTab->setShortcut (keys.contains ("actionFirstTab") ? ca.value ("actionFirstTab") : QKeySequence (tr ("Alt+Down")));
     }
 }
 /*************************/
@@ -1287,11 +1304,6 @@ void FPwin::updateShortcuts (bool disable, bool page)
         ui->toolButtonNext->setShortcut (QKeySequence());
         ui->toolButtonPrv->setShortcut (QKeySequence());
         ui->toolButtonAll->setShortcut (QKeySequence());
-
-        ui->actionRightTab->setShortcut (QKeySequence());
-        ui->actionLeftTab->setShortcut (QKeySequence());
-        ui->actionLastTab->setShortcut (QKeySequence());
-        ui->actionFirstTab->setShortcut (QKeySequence());
     }
     else
     {
@@ -1303,19 +1315,6 @@ void FPwin::updateShortcuts (bool disable, bool page)
         ui->toolButtonNext->setShortcut (QKeySequence (tr ("F7")));
         ui->toolButtonPrv->setShortcut (QKeySequence (tr ("F8")));
         ui->toolButtonAll->setShortcut (QKeySequence (tr ("F9")));
-
-        if (QApplication::layoutDirection() == Qt::RightToLeft)
-        {
-            ui->actionRightTab->setShortcut (QKeySequence (tr ("Alt+Left")));
-            ui->actionLeftTab->setShortcut (QKeySequence (tr ("Alt+Right")));
-        }
-        else
-        {
-            ui->actionRightTab->setShortcut (QKeySequence (tr ("Alt+Right")));
-            ui->actionLeftTab->setShortcut (QKeySequence (tr ("Alt+Left")));
-        }
-        ui->actionLastTab->setShortcut (QKeySequence (tr ("Alt+Up")));
-        ui->actionFirstTab->setShortcut (QKeySequence (tr ("Alt+Down")));
     }
     updateCustomizableShortcuts (disable);
 
@@ -4476,6 +4475,19 @@ void FPwin::prefDialog()
         defaultShortcuts.insert ("actionUndo", tr ("Ctrl+Z"));
         defaultShortcuts.insert ("actionRedo", tr ("Ctrl+Shift+Z"));
         defaultShortcuts.insert ("actionDate", tr ("Ctrl+Shift+V"));
+
+        if (QApplication::layoutDirection() == Qt::RightToLeft)
+        {
+            defaultShortcuts.insert ("actionRightTab", tr ("Alt+Left"));
+            defaultShortcuts.insert ("actionLeftTab", tr ("Alt+Right"));
+        }
+        else
+        {
+            defaultShortcuts.insert ("actionRightTab", tr ("Alt+Right"));
+            defaultShortcuts.insert ("actionLeftTab", tr ("Alt+Left"));
+        }
+        defaultShortcuts.insert ("actionFirstTab", tr ("Alt+Down"));
+        defaultShortcuts.insert ("actionLastTab", tr ("Alt+Up"));
     }
 
     updateShortcuts (true);
