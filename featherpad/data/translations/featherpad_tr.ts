@@ -1356,6 +1356,11 @@
         <translatorcomment>Reminder: Must be singular for enumerated items as in &quot;7 file&quot; but NOT &quot;7 files&quot;</translatorcomment>
         <translation>Değişiklik</translation>
     </message>
+    <message>
+        <location filename="../../syntax.cpp" line="249"/>
+        <source>The size limit for syntax highlighting is exceeded.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FeatherPad::FileDialog</name>

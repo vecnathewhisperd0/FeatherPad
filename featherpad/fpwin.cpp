@@ -775,7 +775,7 @@ void FPwin::addRemoveLangBtn (bool add)
         ui->statusBar->insertPermanentWidget (2, langButton);
         connect (aGroup, &QActionGroup::triggered, this, &FPwin::enforceLang);
 
-        /* set the language of the button if this is called from outside c-tor
+        /* update the language button if this is called from outside c-tor
            (otherwise, tabswitch() will do it) */
         if (TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget()))
             updateLangBtn (tabPage->textEdit());
@@ -812,8 +812,8 @@ bool FPwin::hasAnotherDialog()
     }
     if (res)
     {
-        showWarningBar("<center><b><big>" + tr ("Another FeatherPad window has a modal dialog!") + "</big></b></center>"
-                       + "<center><i>" +tr ("Please attend to that window or just close its dialog!") + "</i></center>");
+        showWarningBar ("<center><b><big>" + tr ("Another FeatherPad window has a modal dialog!") + "</big></b></center>"
+                        + "<center><i>" +tr ("Please attend to that window or just close its dialog!") + "</i></center>");
     }
     return res;
 }
@@ -3640,7 +3640,7 @@ void FPwin::updateLangBtn (TextEdit *textEdit)
     QToolButton *langButton = ui->statusBar->findChild<QToolButton *>("langButton");
     if (!langButton) return;
 
-    langButton->setEnabled (!textEdit->isUneditable() && textEdit->getProg() != "help");
+    langButton->setEnabled (!textEdit->isUneditable() && textEdit->getHighlighter());
 
     QString lang = textEdit->getLang().isEmpty() ? textEdit->getProg()
                                                  : textEdit->getLang();

@@ -8,6 +8,8 @@ V0.9.1
  * Scroll the view when the mouse wheel is turned on the line number strip.
  * Center the current line on double clicking the line number strip.
  * Allow customizing tab switch shortcuts.
+ * Show a warning if the size limit for syntax highlighting is exceeded.
+ * Disable the language button when there is no highlighter.
 
 V0.9.0
 ---------

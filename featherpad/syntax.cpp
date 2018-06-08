@@ -41,6 +41,9 @@ void FPwin::toggleSyntaxHighlighting()
         TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (i))->textEdit();
         syntaxHighlighting (textEdit, ui->actionSyntax->isChecked(), textEdit->getLang());
     }
+
+    if (QToolButton *langButton = ui->statusBar->findChild<QToolButton *>("langButton"))
+        langButton->setEnabled (ui->actionSyntax->isChecked());
 }
 /*************************/
 // Never returns an empty string; falls back to "url".
@@ -238,7 +241,16 @@ void FPwin::syntaxHighlighting (TextEdit *textEdit, bool highlight, const QStrin
 
         Config config = static_cast<FPsingleton*>(qApp)->getConfig();
         if (textEdit->getSize() > config.getMaxSHSize()*1024*1024)
+        {
+            QTimer::singleShot (100, textEdit, [=]() {
+                if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget()))
+                {
+                    if (tabPage->textEdit() == textEdit)
+                        showWarningBar ("<center><b><big>" + tr ("The size limit for syntax highlighting is exceeded.") + "</big></b></center>");
+                }
+            });
             return;
+        }
 
         if (!qobject_cast< Highlighter *>(textEdit->getHighlighter()))
         {
