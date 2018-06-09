@@ -3729,6 +3729,13 @@ void FPwin::filePrint()
     updateShortcuts (true);
 
     TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
+
+    /* disable syntax highlighting when printing
+       because the whole document may not be highlighted */
+    bool hasHighlighter (textEdit->getHighlighter());
+    if (hasHighlighter)
+        syntaxHighlighting (textEdit, false, textEdit->getLang());
+
     QPrinter printer (QPrinter::HighResolution);
 
     /* choose an appropriate name and directory */
@@ -3750,6 +3757,9 @@ void FPwin::filePrint()
     dlg.setWindowTitle (tr ("Print Document"));
     if (dlg.exec() == QDialog::Accepted)
         textEdit->print (&printer);
+
+    if (hasHighlighter)
+        syntaxHighlighting (textEdit, true, textEdit->getLang());
 
     updateShortcuts (false);
 }
