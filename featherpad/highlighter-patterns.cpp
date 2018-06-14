@@ -154,13 +154,15 @@ QStringList Highlighter::types()
     if (progLan == "c" || progLan == "cpp")
     {
         typePatterns << "\\b(bool|char|double|float)(?!(\\.|-|@|#|\\$))\\b"
-                     << "\\b(gchar|gint|guint|guint8|gboolean)(?!(\\.|-|@|#|\\$))\\b"
+                     << "\\b(gchar|gint|guint|guint8|guint16|guint32|guint64|gboolean)(?!(\\.|-|@|#|\\$))\\b"
                      << "\\b(int|long|short)(?!(\\.|-|@|#|\\$))\\b"
-                     << "\\b(unsigned|uint32|uint32_t|uint8_t)(?!(\\.|-|@|#|\\$))\\b"
+                     << "\\b(unsigned|uint|uint8|uint16|uint32|uint64|uint8_t|uint16_t|uint32_t|uint64_t)(?!(\\.|-|@|#|\\$))\\b"
+                     << "\\b(uid_t|gid_t|mode_t)(?!(\\.|-|@|#|\\$))\\b"
                      << "\\b(void|wchar_t)(?!(\\.|-|@|#|\\$))\\b";
         if (progLan == "cpp")
             typePatterns << "\\b(qreal|qint8|quint8|qint16|quint16|qint32|quint32|qint64|quint64|qlonglong|qulonglong|qptrdiff|quintptr)(?!(\\.|-|@|#|\\$))\\b"
-                         << "\\b(uchar|uint|ulong|ushort)(?!(\\.|-|@|#|\\$))\\b";
+                         << "\\b(uchar|ulong|ushort)(?!(\\.|-|@|#|\\$))\\b"
+                         << "\\b(std::[a-z_]+)(?=\\s*\\S+)(?!(\\s*\\(|\\.|-|@|#|\\$))\\b";
     }
     else if (progLan == "qml")
     {
