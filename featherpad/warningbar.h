@@ -21,8 +21,8 @@
 #define WARNINGBAR_H
 
 #include <QEvent>
-#include <QTimer>
-#include <QHBoxLayout>
+#include <QGridLayout>
+#include <QPalette>
 #include <QLabel>
 #include <QToolButton>
 #include "utils.h"
