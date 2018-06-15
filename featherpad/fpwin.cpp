@@ -2305,25 +2305,19 @@ void FPwin::showWarningBar (const QString& message)
         }
     }
     /* don't close and show the same warning bar */
-    if (QLayoutItem *item = ui->verticalLayout->itemAt (ui->verticalLayout->count() - 1))
+    if (WarningBar *prevBar = ui->tabWidget->findChild<WarningBar *>())
     {
-        if (WarningBar *wb = qobject_cast<WarningBar*>(item->widget()))
-        {
-            if (wb->getMessage() == message)
-                return;
-            ui->verticalLayout->removeWidget (item->widget());
-            delete wb;
-        }
+        if (prevBar->getMessage() == message)
+            return;
     }
 
-    WarningBar *bar = new WarningBar (message, iconMode_);
-    ui->verticalLayout->insertWidget (ui->verticalLayout->count(), bar); // at end
-    connect (bar, &WarningBar::closeButtonPressed, [=] {
-        ui->verticalLayout->removeWidget(bar);
-        bar->deleteLater();
-    });
+    int vOffset = 0;
+    TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget());
+    if (tabPage)
+        vOffset = tabPage->height() - tabPage->textEdit()->height();
+    WarningBar *bar = new WarningBar (message, iconMode_, vOffset, ui->tabWidget);
     /* close the bar when the text is scrolled */
-    if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget()))
+    if (tabPage)
     {
         connect (tabPage->textEdit(), &QPlainTextEdit::updateRequest, bar, [=](const QRect&, int dy) {
             if (dy != 0)
@@ -2342,14 +2336,8 @@ void FPwin::showCrashWarning()
 /*************************/
 void FPwin::closeWarningBar()
 {
-    if (QLayoutItem *item = ui->verticalLayout->itemAt (ui->verticalLayout->count() - 1))
-    {
-        if (WarningBar *wb = qobject_cast<WarningBar*>(item->widget()))
-        {
-            ui->verticalLayout->removeWidget (item->widget());
-            delete wb; // delete it immediately because a modal dialog might pop up
-        }
-    }
+    if (WarningBar *wb = ui->tabWidget->findChild<WarningBar *>()) // there's only one warningbar at a time
+        delete wb; // delete it immediately because a modal dialog might pop up
 }
 /*************************/
 void FPwin::newTabFromName (const QString& fileName, int restoreCursor, int posInLine, bool multiple)

@@ -45,7 +45,7 @@ struct BracketInfo
 
 
 /* This class is for detection of matching parentheses and
-   braces, and also for highlighting of here-documents. */
+   braces, and also for highlighting of here-documents, etc. */
 class TextBlockData : public QTextBlockUserData
 {
 public:

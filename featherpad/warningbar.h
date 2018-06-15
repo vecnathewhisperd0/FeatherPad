@@ -20,7 +20,8 @@
 #ifndef WARNINGBAR_H
 #define WARNINGBAR_H
 
-#include <QFrame>
+#include <QEvent>
+#include <QTimer>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QToolButton>
@@ -28,16 +29,37 @@
 
 namespace FeatherPad {
 
-class WarningBar : public QFrame
+class WarningBar : public QWidget
 {
     Q_OBJECT
 public:
-    WarningBar (const QString& message, ICONMODE iconMode = OWN, QWidget *parent = Q_NULLPTR) : QFrame (parent) {
+    WarningBar (const QString& message, ICONMODE iconMode = OWN, const int verticalOffset = 0, QWidget *parent = Q_NULLPTR) : QWidget (parent) {
+        if (parent)
+        { // only one warning bar at a time
+            const QList<WarningBar*> warningBars = parent->findChildren<WarningBar*>();
+            for (WarningBar *wb : warningBars)
+            {
+                if (wb != this) delete wb;
+            }
+        }
+
         message_ = message;
-        QLabel *warningLabel = new QLabel (message);
-        warningLabel->setWordWrap (true);
-        QHBoxLayout *l = new QHBoxLayout;
-        l->setSpacing (5);
+        vOffset_ = verticalOffset;
+
+        /* make it like a translucent layer */
+        setAutoFillBackground (true);
+        QPalette p = palette();
+        p.setColor (foregroundRole(), Qt::white);
+        p.setColor (backgroundRole(), QColor (125, 0, 0, 200));
+        setPalette (p);
+
+        grid_ = new QGridLayout;
+        grid_->setSpacing (5);
+        grid_->setContentsMargins (0, 5, 0 ,5);
+        /* use a spacer to compress the label vertically */
+        QSpacerItem *spacer = new QSpacerItem (0, 0, QSizePolicy::Minimum, QSizePolicy::MinimumExpanding);
+        grid_->addItem (spacer, 0, 0);
+        /* add a close button */
         QToolButton *b = new QToolButton;
         b->setAutoRaise (true);
         b->setText (tr ("Close"));
@@ -51,22 +73,47 @@ public:
                                         : QIcon::fromTheme ("window-close"));
             b->setToolTip (tr ("Close"));
         }
-        l->addWidget (warningLabel, 1);
-        l->addWidget (b);
-        setLayout (l);
-        setStyleSheet ("QFrame {background-color: #7d0000; color: white; border-radius: 3px; margin: 2px; padding: 0px;}");
-        connect (b, &QAbstractButton::clicked, [=]{emit closeButtonPressed();});
+        connect (b, &QAbstractButton::clicked, [this]{deleteLater();});
+        /* add the label */
+        QLabel *warningLabel = new QLabel (message);
+        warningLabel->setWordWrap (true);
+        grid_->addWidget (warningLabel, 1, 0);
+        grid_->addWidget (b, 1, 1);
+        setLayout (grid_);
+
+        /* compress the bar vertically and show it */
+        if (parent)
+        {
+            parent->installEventFilter (this);
+            int h = grid_->itemAt (1)->heightForWidth (parent->width()) + 2 * grid_->contentsMargins().top();
+            setGeometry (QRect (0, parent->height() - h - vOffset_, parent->width(), h));
+        }
+        show();
+    }
+
+    bool eventFilter (QObject *o, QEvent *e) {
+        if (e->type() == QEvent::Resize)
+        {
+            if (QWidget *w = qobject_cast<QWidget*>(o))
+            {
+                if (w == parentWidget())
+                { // compress the bar as far as its text is shown completely
+                    int h = grid_->itemAt (1)->heightForWidth(w->width()) + 2 * grid_->contentsMargins().top();
+                    setGeometry (QRect (0, w->height() - h - vOffset_, w->width(), h));
+                }
+            }
+        }
+        return false;
     }
 
     QString getMessage() const {
         return message_;
     }
 
-signals:
-    void closeButtonPressed();
-
 private:
     QString message_;
+    int vOffset_;
+    QGridLayout *grid_;
 };
 
 }
