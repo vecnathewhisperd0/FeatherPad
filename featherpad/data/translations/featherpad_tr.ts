@@ -2307,8 +2307,8 @@ dosyalar kaydedilen oturuma dahil edilir.</translation>
 <context>
     <name>FeatherPad::WarningBar</name>
     <message>
-        <location filename="../../warningbar.h" line="68"/>
-        <location filename="../../warningbar.h" line="77"/>
+        <location filename="../../warningbar.h" line="69"/>
+        <location filename="../../warningbar.h" line="78"/>
         <source>Close</source>
         <translation>Kapat</translation>
     </message>

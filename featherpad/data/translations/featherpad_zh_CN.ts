@@ -2248,8 +2248,8 @@ windows will be included in the saved session.</source>
 <context>
     <name>FeatherPad::WarningBar</name>
     <message>
-        <location filename="../../warningbar.h" line="68"/>
-        <location filename="../../warningbar.h" line="77"/>
+        <location filename="../../warningbar.h" line="69"/>
+        <location filename="../../warningbar.h" line="78"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>

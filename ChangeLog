@@ -11,7 +11,7 @@ V0.9.1
  * Show a warning if the size limit for syntax highlighting is exceeded.
  * Disable the language button when there is no highlighter.
  * Disable syntax highlighting on printing (because the whole document may not be highlighted).
- * Draw the warning bar as a translucent layer over the tab widget instead of putting it into its layout.
+ * Draw the warning bar as a translucent layer over the tab widget instead of putting it into its layout. Also, animate its appearance.
 
 V0.9.0
 ---------

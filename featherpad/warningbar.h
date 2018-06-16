@@ -25,6 +25,7 @@
 #include <QPalette>
 #include <QLabel>
 #include <QToolButton>
+#include <QPropertyAnimation>
 #include "utils.h"
 
 namespace FeatherPad {
@@ -84,12 +85,20 @@ public:
         grid_->addWidget (b, 1, 1);
         setLayout (grid_);
 
-        /* compress the bar vertically and show it */
+        /* compress the bar vertically and show it with animation */
         if (parent)
         {
             parent->installEventFilter (this);
             int h = grid_->minimumHeightForWidth (parent->width()) + grid_->contentsMargins().bottom();
-            setGeometry (QRect (0, parent->height() - h - vOffset_, parent->width(), h));
+            QRect g (0, parent->height() - h - vOffset_, parent->width(), h);
+            setGeometry (g);
+
+            QPropertyAnimation *animation = new QPropertyAnimation (this, "geometry");
+            animation->setEasingCurve (QEasingCurve::Linear);
+            animation->setDuration (150);
+            animation->setStartValue (QRect (0, parent->height() - vOffset_, parent->width(), 0));
+            animation->setEndValue (g);
+            animation->start();
         }
         show();
     }
