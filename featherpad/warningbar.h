@@ -55,7 +55,10 @@ public:
 
         grid_ = new QGridLayout;
         grid_->setSpacing (5);
-        grid_->setContentsMargins (0, 5, 0 ,5);
+        if (layoutDirection() == Qt::RightToLeft)
+            grid_->setContentsMargins (0, 0, 5 ,5);
+        else
+            grid_->setContentsMargins (5, 0, 0 ,5); // the top margin is added when setting the geometry
         /* use a spacer to compress the label vertically */
         QSpacerItem *spacer = new QSpacerItem (0, 0, QSizePolicy::Minimum, QSizePolicy::MinimumExpanding);
         grid_->addItem (spacer, 0, 0);
@@ -85,7 +88,7 @@ public:
         if (parent)
         {
             parent->installEventFilter (this);
-            int h = grid_->itemAt (1)->heightForWidth (parent->width()) + 2 * grid_->contentsMargins().top();
+            int h = grid_->minimumHeightForWidth (parent->width()) + grid_->contentsMargins().bottom();
             setGeometry (QRect (0, parent->height() - h - vOffset_, parent->width(), h));
         }
         show();
@@ -98,7 +101,7 @@ public:
             {
                 if (w == parentWidget())
                 { // compress the bar as far as its text is shown completely
-                    int h = grid_->itemAt (1)->heightForWidth(w->width()) + 2 * grid_->contentsMargins().top();
+                    int h = grid_->minimumHeightForWidth (w->width()) + grid_->contentsMargins().bottom();
                     setGeometry (QRect (0, w->height() - h - vOffset_, w->width(), h));
                 }
             }

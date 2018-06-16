@@ -2281,8 +2281,8 @@ vinduer i den gemte session.</translation>
 <context>
     <name>FeatherPad::WarningBar</name>
     <message>
-        <location filename="../../warningbar.h" line="65"/>
-        <location filename="../../warningbar.h" line="74"/>
+        <location filename="../../warningbar.h" line="68"/>
+        <location filename="../../warningbar.h" line="77"/>
         <source>Close</source>
         <translation>Luk</translation>
     </message>
