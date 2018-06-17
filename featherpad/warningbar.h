@@ -146,6 +146,7 @@ public:
             if (!isClosing_)
             {
                 isClosing_ = true;
+                parentWidget()->removeEventFilter (this); // no movement on closing
                 animation_->stop();
                 animation_->setStartValue (geometry());
                 animation_->setEndValue (QRect (0, parentWidget()->height() - vOffset_, parentWidget()->width(), 0));

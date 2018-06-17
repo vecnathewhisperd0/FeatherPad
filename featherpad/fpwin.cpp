@@ -196,6 +196,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     connect (ui->actionUndo, &QAction::triggered, this, &FPwin::undoing);
     connect (ui->actionRedo, &QAction::triggered, this, &FPwin::redoing);
 
+    connect (ui->tabWidget, &QTabWidget::currentChanged, this, &FPwin::onTabChanged);
     connect (ui->tabWidget, &TabWidget::currentTabChanged, this, &FPwin::tabSwitch);
     connect (ui->tabWidget->tabBar(), &TabBar::tabDetached, this, &FPwin::detachTab);
     connect (ui->tabWidget->tabBar(), &TabBar::hideTabBar, this, &FPwin::toggleSidePane);
@@ -1944,6 +1945,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
             unbusy();
             ui->tabWidget->tabBar()->lockTabs (false);
             updateShortcuts (false, false);
+            closeWarningBar();
             emit finishedLoading();
         }
         return;
@@ -2201,7 +2203,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
     if (!multiple || openInCurrentTab)
     {
         if (!fInfo.exists()) // tabSwitch() may be called before this function
-            showWarningBar ("<center><b><big>" + tr ("The file does not exist.") + "</big></b></center>");
+            connect (this, &FPwin::finishedLoading, this, &FPwin::onOpeningNonexistent, Qt::UniqueConnection);
         if (ui->statusBar->isVisible())
         {
             statusMsgWithLineCount (textEdit->document()->blockCount());
@@ -2267,7 +2269,7 @@ void FPwin::disconnectLambda()
 void FPwin::onOpeningHugeFiles()
 {
     disconnect (this, &FPwin::finishedLoading, this, &FPwin::onOpeningHugeFiles);
-    QTimer::singleShot (100, this, [=]() { // TabWidget has a 50-ms timer
+    QTimer::singleShot (0, this, [=]() {
         showWarningBar ("<center><b><big>" + tr ("Huge file(s) not opened!") + "</big></b></center>\n"
                         + "<center>" + tr ("FeatherPad does not open files larger than 100 MiB.") + "</center>");
     });
@@ -2276,7 +2278,7 @@ void FPwin::onOpeningHugeFiles()
 void FPwin::onPermissionDenied()
 {
     disconnect (this, &FPwin::finishedLoading, this, &FPwin::onPermissionDenied);
-    QTimer::singleShot (100, this, [=]() {
+    QTimer::singleShot (0, this, [=]() {
         showWarningBar ("<center><b><big>" + tr ("Some file(s) could not be opened!") + "</big></b></center>\n"
                         + "<center>" + tr ("You may not have the permission to read.") + "</center>");
     });
@@ -2285,9 +2287,19 @@ void FPwin::onPermissionDenied()
 void FPwin::onOpeningUneditable()
 {
     disconnect (this, &FPwin::finishedLoading, this, &FPwin::onOpeningUneditable);
-    QTimer::singleShot (100, this, [=]() {
+    /* A timer is needed here because the scrollbar position is restored on reloading by a
+       lambda connection. Timers are also used in similar places for the sake of certainty. */
+    QTimer::singleShot (0, this, [=]() {
         this->showWarningBar ("<center><b><big>" + tr ("Uneditable file(s)!") + "</big></b></center>\n"
                               + "<center>" + tr ("Non-text files or files with huge lines cannot be edited.") + "</center>");
+    });
+}
+/*************************/
+void FPwin::onOpeningNonexistent()
+{
+    disconnect (this, &FPwin::finishedLoading, this, &FPwin::onOpeningNonexistent);
+    QTimer::singleShot (0, this, [=]() {
+        showWarningBar ("<center><b><big>" + tr ("The file does not exist.") + "</big></b></center>");
     });
 }
 /*************************/
@@ -3033,12 +3045,23 @@ void FPwin::changeTab (QListWidgetItem *current, QListWidgetItem* /*previous*/)
     ui->tabWidget->setCurrentWidget (sideItems_.value (current));
 }
 /*************************/
-// Change the window title and the search entry when switching tabs and...
+// Called immediately after changing tab (closes the warningbar if it isn't needed)
+void FPwin::onTabChanged (int index)
+{
+    if (index > -1)
+    {
+        QString fname = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit()->getFileName();
+        if (fname.isEmpty() || QFile::exists (fname))
+            closeWarningBar();
+    }
+    else closeWarningBar();
+}
+/*************************/
+// Called with a timeout after tab switching (changes the window title, sets action states, etc.)
 void FPwin::tabSwitch (int index)
 {
     if (index == -1)
     {
-        closeWarningBar();
         setWindowTitle ("FeatherPad[*]");
         setWindowModified (false);
         return;
@@ -3055,7 +3078,6 @@ void FPwin::tabSwitch (int index)
     QString shownName;
     if (fname.isEmpty())
     {
-        closeWarningBar();
         if (textEdit->getProg() == "help")
             shownName = "** " + tr ("Help") + " **";
         else
@@ -3067,12 +3089,10 @@ void FPwin::tabSwitch (int index)
         shownName = (fname.contains ("/") ? fname
                                           : info.absolutePath() + "/" + fname);
         if (!QFile::exists (fname))
-            showWarningBar ("<center><b><big>" + tr ("The file does not exist.") + "</big></b></center>");
+            onOpeningNonexistent();
         else if (textEdit->getLastModified() != info.lastModified())
             showWarningBar ("<center><b><big>" + tr ("This file has been modified elsewhere or in another way!") + "</big></b></center>\n"
                             + "<center>" + tr ("Please be careful about reloading or saving this document!") + "</center>");
-        else
-            closeWarningBar();
     }
     if (modified)
         shownName.prepend ("*");
@@ -3247,7 +3267,12 @@ bool FPwin::event (QEvent *event)
             if (!fname.isEmpty())
             {
                 if (!QFile::exists (fname))
-                    showWarningBar ("<center><b><big>" + tr ("The file does not exist.") + "</big></b></center>");
+                {
+                    if (isLoading())
+                        connect (this, &FPwin::finishedLoading, this, &FPwin::onOpeningNonexistent, Qt::UniqueConnection);
+                    else
+                        onOpeningNonexistent();
+                }
                 else if (textEdit->getLastModified() != QFileInfo (fname).lastModified())
                     showWarningBar ("<center><b><big>" + tr ("This file has been modified elsewhere or in another way!") + "</big></b></center>\n"
                                     + "<center>" + tr ("Please be careful about reloading or saving this document!") + "</center>");

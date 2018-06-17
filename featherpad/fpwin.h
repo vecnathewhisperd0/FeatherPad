@@ -135,6 +135,7 @@ private slots:
     void makeEditable();
     void undoing();
     void redoing();
+    void onTabChanged (int index);
     void tabSwitch (int index);
     void fontDialog();
     void find (bool forward);
@@ -193,6 +194,7 @@ private slots:
     void onOpeningHugeFiles();
     void onPermissionDenied();
     void onOpeningUneditable();
+    void onOpeningNonexistent();
     void autoSave();
     void pauseAutoSaving (bool pause);
     void enforceLang (QAction *action);
