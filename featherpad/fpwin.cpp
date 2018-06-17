@@ -1907,8 +1907,6 @@ void FPwin::loadText (const QString& fileName, bool enforceEncod, bool reload,
                       int restoreCursor, int posInLine,
                       bool enforceUneditable, bool multiple)
 {
-    if (loadingProcesses_ == 0)
-        closeWarningBar();
     ++ loadingProcesses_;
     QString charset;
     if (enforceEncod)
@@ -2256,6 +2254,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
         scrollToFirstItem = false;
         firstPage = nullptr;
 
+        closeWarningBar(); // here the closing animation won't be interrupted
         emit finishedLoading();
     }
 }
@@ -2307,7 +2306,7 @@ void FPwin::showWarningBar (const QString& message)
     /* don't close and show the same warning bar */
     if (WarningBar *prevBar = ui->tabWidget->findChild<WarningBar *>())
     {
-        if (prevBar->getMessage() == message)
+        if (!prevBar->isClosing() && prevBar->getMessage() == message)
             return;
     }
 
@@ -2336,8 +2335,9 @@ void FPwin::showCrashWarning()
 /*************************/
 void FPwin::closeWarningBar()
 {
-    if (WarningBar *wb = ui->tabWidget->findChild<WarningBar *>()) // there's only one warningbar at a time
-        delete wb; // delete it immediately because a modal dialog might pop up
+    const QList<WarningBar*> warningBars = ui->tabWidget->findChildren<WarningBar*>();
+    for (WarningBar *wb : warningBars)
+        wb->closeBar();
 }
 /*************************/
 void FPwin::newTabFromName (const QString& fileName, int restoreCursor, int posInLine, bool multiple)
@@ -3036,10 +3036,9 @@ void FPwin::changeTab (QListWidgetItem *current, QListWidgetItem* /*previous*/)
 // Change the window title and the search entry when switching tabs and...
 void FPwin::tabSwitch (int index)
 {
-    closeWarningBar();
-
     if (index == -1)
     {
+        closeWarningBar();
         setWindowTitle ("FeatherPad[*]");
         setWindowModified (false);
         return;
@@ -3056,6 +3055,7 @@ void FPwin::tabSwitch (int index)
     QString shownName;
     if (fname.isEmpty())
     {
+        closeWarningBar();
         if (textEdit->getProg() == "help")
             shownName = "** " + tr ("Help") + " **";
         else
@@ -3071,6 +3071,8 @@ void FPwin::tabSwitch (int index)
         else if (textEdit->getLastModified() != info.lastModified())
             showWarningBar ("<center><b><big>" + tr ("This file has been modified elsewhere or in another way!") + "</big></b></center>\n"
                             + "<center>" + tr ("Please be careful about reloading or saving this document!") + "</center>");
+        else
+            closeWarningBar();
     }
     if (modified)
         shownName.prepend ("*");

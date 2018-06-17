@@ -20,13 +20,17 @@
 #ifndef WARNINGBAR_H
 #define WARNINGBAR_H
 
+#include <QPointer>
 #include <QEvent>
+#include <QTimer>
 #include <QGridLayout>
 #include <QPalette>
 #include <QLabel>
 #include <QToolButton>
 #include <QPropertyAnimation>
 #include "utils.h"
+
+#define DURATION 150
 
 namespace FeatherPad {
 
@@ -35,17 +39,23 @@ class WarningBar : public QWidget
     Q_OBJECT
 public:
     WarningBar (const QString& message, ICONMODE iconMode = OWN, const int verticalOffset = 0, QWidget *parent = Q_NULLPTR) : QWidget (parent) {
+        int anotherBar (false);
         if (parent)
-        { // only one warning bar at a time
+        { // show only one warning bar at a time
             const QList<WarningBar*> warningBars = parent->findChildren<WarningBar*>();
             for (WarningBar *wb : warningBars)
             {
-                if (wb != this) delete wb;
+                if (wb != this)
+                {
+                    wb->closeBar();
+                    anotherBar = true;
+                }
             }
         }
 
         message_ = message;
         vOffset_ = verticalOffset;
+        isClosing_ = false;
 
         /* make it like a translucent layer */
         setAutoFillBackground (true);
@@ -77,7 +87,7 @@ public:
                                         : QIcon::fromTheme ("window-close"));
             b->setToolTip (tr ("Close"));
         }
-        connect (b, &QAbstractButton::clicked, [this]{deleteLater();});
+        connect (b, &QAbstractButton::clicked, this, &WarningBar::closeBar);
         /* add the label */
         QLabel *warningLabel = new QLabel (message);
         warningLabel->setWordWrap (true);
@@ -85,22 +95,25 @@ public:
         grid_->addWidget (b, 1, 1);
         setLayout (grid_);
 
-        /* compress the bar vertically and show it with animation */
         if (parent)
-        {
-            parent->installEventFilter (this);
-            int h = grid_->minimumHeightForWidth (parent->width()) + grid_->contentsMargins().bottom();
-            QRect g (0, parent->height() - h - vOffset_, parent->width(), h);
-            setGeometry (g);
+        { // compress the bar vertically and show it with animation
+            QTimer::singleShot (anotherBar ? DURATION + 10 : 0, this, [=]() {
+                parent->installEventFilter (this);
+                int h = grid_->minimumHeightForWidth (parent->width()) + grid_->contentsMargins().bottom();
+                QRect g (0, parent->height() - h - vOffset_, parent->width(), h);
+                setGeometry (g);
 
-            QPropertyAnimation *animation = new QPropertyAnimation (this, "geometry");
-            animation->setEasingCurve (QEasingCurve::Linear);
-            animation->setDuration (150);
-            animation->setStartValue (QRect (0, parent->height() - vOffset_, parent->width(), 0));
-            animation->setEndValue (g);
-            animation->start();
+                animation_ = new QPropertyAnimation (this, "geometry", this);
+                animation_->setEasingCurve (QEasingCurve::Linear);
+                animation_->setDuration (DURATION);
+                animation_->setStartValue (QRect (0, parent->height() - vOffset_, parent->width(), 0));
+                animation_->setEndValue (g);
+                animation_->start();
+                show();
+            });
         }
-        show();
+        else show();
+
     }
 
     bool eventFilter (QObject *o, QEvent *e) {
@@ -122,10 +135,34 @@ public:
         return message_;
     }
 
+    bool isClosing() const {
+        return isClosing_;
+    }
+
+ public slots:
+    void closeBar() {
+        if (animation_ && parentWidget())
+        {
+            if (!isClosing_)
+            {
+                isClosing_ = true;
+                animation_->stop();
+                animation_->setStartValue (geometry());
+                animation_->setEndValue (QRect (0, parentWidget()->height() - vOffset_, parentWidget()->width(), 0));
+                animation_->start();
+                connect (animation_, &QAbstractAnimation::finished, this, &QObject::deleteLater);
+            }
+        }
+        else delete this;
+    }
+
 private:
     QString message_;
     int vOffset_;
+    bool isClosing_;
     QGridLayout *grid_;
+    QPointer<QPropertyAnimation> animation_;
+
 };
 
 }
