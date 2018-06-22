@@ -23,6 +23,7 @@
 #include <QPainter>
 #include <QMenu>
 #include <QDesktopServices>
+#include <QProcess>
 #include <QRegularExpression>
 #include <QClipboard>
 #include "textedit.h"
@@ -1540,7 +1541,10 @@ void TextEdit::showContextMenu (const QPoint &p)
                 QUrl url (str);
                 if (url.isRelative())
                     url = QUrl::fromUserInput (str, "/");
-                QDesktopServices::openUrl (url);
+                /* QDesktopServices::openUrl() may resort to "xdg-open", which isn't
+                   the best choice. "gio" is always reliable, so we check it first. */
+                if (!QProcess::startDetached ("gio", QStringList() << "open" << url.toString()))
+                    QDesktopServices::openUrl (url);
             });
             if (str.startsWith ("mailto:")) // see getUrl()
                 str.remove (0, 7);
@@ -1648,7 +1652,8 @@ void TextEdit::mouseReleaseEvent (QMouseEvent *event)
         QUrl url (str);
         if (url.isRelative()) // treat relative URLs as local paths (not needed here)
             url = QUrl::fromUserInput (str, "/");
-        QDesktopServices::openUrl (url);
+        if (!QProcess::startDetached ("gio", QStringList() << "open" << url.toString()))
+            QDesktopServices::openUrl (url);
     }
     pressPoint_ = QPoint();
 }

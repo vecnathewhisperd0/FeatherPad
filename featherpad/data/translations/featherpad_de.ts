@@ -2253,32 +2253,32 @@ in die gespeicherte Sitzung eingeschlossen.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="134"/>
+        <location filename="../../textedit.cpp" line="135"/>
         <source>Double click to center current line</source>
         <translation>Doppel-Klick um die aktuelle Zeile zu zentreieren</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1537"/>
+        <location filename="../../textedit.cpp" line="1538"/>
         <source>Open Link</source>
         <translation>Öffne Link</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1547"/>
+        <location filename="../../textedit.cpp" line="1551"/>
         <source>Copy Link</source>
         <translation>Kopiere Link</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1560"/>
+        <location filename="../../textedit.cpp" line="1564"/>
         <source>To Upper Case</source>
         <translation>Umwandeln in Großbuchstaben</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1564"/>
+        <location filename="../../textedit.cpp" line="1568"/>
         <source>To Lower Case</source>
         <translation>Umwandeln in Kleinbuchstaben</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1570"/>
+        <location filename="../../textedit.cpp" line="1574"/>
         <source>Paste Date and Time</source>
         <translation>Datum und Uhrzeit einfügen</translation>
     </message>

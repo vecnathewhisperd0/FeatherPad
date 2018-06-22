@@ -2213,32 +2213,32 @@ windows will be included in the saved session.</source>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="134"/>
+        <location filename="../../textedit.cpp" line="135"/>
         <source>Double click to center current line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1537"/>
+        <location filename="../../textedit.cpp" line="1538"/>
         <source>Open Link</source>
         <translation>打开链接</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1547"/>
+        <location filename="../../textedit.cpp" line="1551"/>
         <source>Copy Link</source>
         <translation>复制链接</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1560"/>
+        <location filename="../../textedit.cpp" line="1564"/>
         <source>To Upper Case</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1564"/>
+        <location filename="../../textedit.cpp" line="1568"/>
         <source>To Lower Case</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1570"/>
+        <location filename="../../textedit.cpp" line="1574"/>
         <source>Paste Date and Time</source>
         <translation>粘贴日期与时间</translation>
     </message>

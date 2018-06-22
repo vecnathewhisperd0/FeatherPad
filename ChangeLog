@@ -12,6 +12,7 @@ V0.9.1
  * Disable the language button when there is no highlighter.
  * Disable syntax highlighting on printing (because the whole document may not be highlighted).
  * Draw the warning bar as a translucent layer over the tab widget instead of putting it into its layout. Also, animate its appearance and closing.
+ * First try "gio" for openeing hyperlinks because Qt may resort to "xdg-open", which isn't a good choice sometimes.
 
 V0.9.0
 ---------
