@@ -28,8 +28,11 @@ bool Highlighter::isEscapedJSRegex (const QString &text, const int pos)
     if (progLan != "javascript" && progLan != "qml")
         return false;
 
-    if (format (pos) == quoteFormat || format (pos) == altQuoteFormat)
+    if (format (pos) == quoteFormat || format (pos) == altQuoteFormat
+        || format (pos) == commentFormat || format (pos) == urlFormat)
+    {
         return true;
+    }
 
     if (isMLCommented (text, pos, commentState)
         || isMLCommented (text, pos, htmlJavaCommentState))
