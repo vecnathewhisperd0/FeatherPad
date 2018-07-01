@@ -1576,7 +1576,7 @@ void TextEdit::showContextMenu (const QPoint &p)
             insertPlainText (QDateTime::currentDateTime().toString (dateFormat_.isEmpty() ? "MMM dd, yyyy, hh:mm:ss" : dateFormat_));
         });
     }
-    menu->exec (mapToGlobal (p));
+    menu->exec (viewport()->mapToGlobal (p));
     delete menu;
 }
 

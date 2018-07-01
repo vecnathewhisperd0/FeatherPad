@@ -4457,7 +4457,7 @@ void FPwin::listContextMenu (const QPoint& p)
             });
         }
     }
-    menu.exec (lw->mapToGlobal (p));
+    menu.exec (lw->viewport()->mapToGlobal (p));
     rightClicked_ = -1; // reset
 }
 /*************************/
