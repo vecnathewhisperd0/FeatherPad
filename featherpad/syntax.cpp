@@ -99,7 +99,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
             progLan = "scss";
         else if (fname.endsWith (".desktop") || fname.endsWith (".desktop.in") || fname.endsWith (".directory"))
              progLan = "desktop";
-        else if (fname.endsWith (".conf") || fname.endsWith (".ini") || fname.endsWith (".kvconfig")
+        else if (fname.endsWith (".kvconfig")
                  || fname.endsWith (".service") || fname.endsWith (".mount") || fname.endsWith (".timer") // systemd related
                  || baseName == "sources.list" || baseName == "sources.list.save"
                  || fname.endsWith (".pls", Qt::CaseInsensitive))
@@ -212,6 +212,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
                 progLan = "html";
             else if (mime == "audio/x-mpegurl")
                 progLan = "m3u";
+            else if (fname.endsWith (".conf") || fname.endsWith (".ini"))
+                 progLan = "config"; // only if the mime type isn't found
             else // fall back to the default language
                 progLan = "url";
         }

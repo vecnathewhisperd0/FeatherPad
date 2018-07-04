@@ -1340,7 +1340,7 @@
         <translation>Ersetzungen</translation>
     </message>
     <message>
-        <location filename="../../syntax.cpp" line="249"/>
+        <location filename="../../syntax.cpp" line="251"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
         <translation>Das Größenlimit für die Syntaxhervorhebung ist überschritten.</translation>
     </message>

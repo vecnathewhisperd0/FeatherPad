@@ -1340,7 +1340,7 @@
         <translation>Anstataŭigoj</translation>
     </message>
     <message>
-        <location filename="../../syntax.cpp" line="249"/>
+        <location filename="../../syntax.cpp" line="251"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
         <translation>La grandeca limo por la sintaks-markado estas transpasita.</translation>
     </message>
