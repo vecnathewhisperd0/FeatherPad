@@ -90,7 +90,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
         else if (fname.endsWith (".xml", Qt::CaseInsensitive) || fname.endsWith (".svg", Qt::CaseInsensitive) || fname.endsWith (".qrc")
                  || fname.endsWith (".meta4", Qt::CaseInsensitive) || fname.endsWith (".metalink", Qt::CaseInsensitive)
                  /*|| fname.endsWith (".ui")*/ || fname.endsWith (".rdf") || fname.endsWith (".docbook") || fname.endsWith (".fnx")
-                 || fname.endsWith (".ts") || fname.endsWith (".menu")
+                 || fname.endsWith (".ts") || fname.endsWith (".menu") || fname.endsWith (".kml", Qt::CaseInsensitive)
                  || fname.endsWith (".xspf", Qt::CaseInsensitive) || fname.endsWith (".asx", Qt::CaseInsensitive))
             progLan = "xml";
         else if (fname.endsWith (".css") || fname.endsWith (".qss"))
@@ -184,7 +184,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
                      || mime == "application/x-docbook+xml" || mime == "application/x-xbel" || mime == "text/feathernotes-fnx"
                      || mime == "text/vnd.trolltech.linguist"
                      || mime == "application/xspf+xml" || mime == "audio/x-ms-asx"
-                     || mime == "application/vnd.kde.kxmlguirc")
+                     || mime == "application/vnd.kde.kxmlguirc" || mime == "application/vnd.google-earth.kml+xml")
                 progLan = "xml";
             else if (mime == "text/css")
                 progLan = "css";
