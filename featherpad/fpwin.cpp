@@ -2427,6 +2427,7 @@ void FPwin::fileOpen()
         dialog.setDirectory (path);
     else
     {
+        dialog.setDirectory (path.section ("/", 0, -2)); // it's a shame the KDE's file dialog is buggy and needs this
         dialog.selectFile (path);
         dialog.autoScroll();
     }
@@ -2620,6 +2621,7 @@ bool FPwin::saveFile (bool keepSyntax)
             dialog.setWindowTitle (tr ("Save as..."));
             dialog.setFileMode (QFileDialog::AnyFile);
             dialog.setNameFilter (filter);
+            dialog.setDirectory (fname.section ("/", 0, -2)); // workaround for KDE
             dialog.selectFile (fname);
             dialog.autoScroll();
             /*dialog.setLabelText (QFileDialog::Accept, tr ("Save"));
@@ -2651,6 +2653,7 @@ bool FPwin::saveFile (bool keepSyntax)
         dialog.setWindowTitle (tr ("Save as..."));
         dialog.setFileMode (QFileDialog::AnyFile);
         dialog.setNameFilter (filter);
+        dialog.setDirectory (fname.section ("/", 0, -2)); // workaround for KDE
         dialog.selectFile (fname);
         dialog.autoScroll();
         /*dialog.setLabelText (QFileDialog::Accept, tr ("Save"));
@@ -2680,6 +2683,7 @@ bool FPwin::saveFile (bool keepSyntax)
         dialog.setWindowTitle (tr ("Keep encoding and save as..."));
         dialog.setFileMode (QFileDialog::AnyFile);
         dialog.setNameFilter (filter);
+        dialog.setDirectory (fname.section ("/", 0, -2)); // workaround for KDE
         dialog.selectFile (fname);
         dialog.autoScroll();
         /*dialog.setLabelText (QFileDialog::Accept, tr ("Save"));

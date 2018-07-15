@@ -73,7 +73,7 @@ void TabBar::mouseReleaseEvent (QMouseEvent *event)
 void TabBar::mouseMoveEvent (QMouseEvent *event)
 {
     if (!dragStartPosition_.isNull()
-        && (event->pos() - dragStartPosition_).manhattanLength() < QApplication::startDragDistance())
+        && (event->pos() - dragStartPosition_).manhattanLength() >= QApplication::startDragDistance())
     {
       dragStarted_ = true;
     }
@@ -83,7 +83,11 @@ void TabBar::mouseMoveEvent (QMouseEvent *event)
         && !window()->geometry().contains (event->globalPos()))
     {
         int index = currentIndex();
-        if (index == -1) return;
+        if (index == -1)
+        {
+            event->accept();
+            return;
+        }
 
         QPointer<QDrag> drag = new QDrag (this);
         QMimeData *mimeData = new QMimeData;
@@ -94,16 +98,16 @@ void TabBar::mouseMoveEvent (QMouseEvent *event)
         QPixmap px = QIcon (":icons/tab.svg").pixmap (22, 22);
         drag->setPixmap (px);
         drag->setHotSpot (QPoint (px.width()/2, px.height()));
-        Qt::DropAction dragged = drag->exec (Qt::MoveAction | Qt::CopyAction);
+        Qt::DropAction dragged = drag->exec (Qt::MoveAction);
         if (dragged == Qt::IgnoreAction) // a tab is dropped outside all windows
         {
             if (count() > 1)
                 emit tabDetached();
             else
                 finishMouseMoveEvent();
-            event->accept ();
+            event->accept();
         }
-        else if (dragged == Qt::MoveAction) // a tab is dropped into another window
+        else // a tab is dropped into another window
             event->accept();
         drag->deleteLater();
     }
