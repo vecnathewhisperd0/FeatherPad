@@ -502,6 +502,7 @@ void FPwin::applyConfigOnStarting()
     }
     else
     {
+        QIcon icn;
         bool rtl (QApplication::layoutDirection() == Qt::RightToLeft);
         if (config.getSysIcon())
         {
@@ -540,7 +541,7 @@ void FPwin::applyConfigOnStarting()
             ui->actionCopyPath->setIcon (QIcon::fromTheme ("edit-copy"));
 
             /* these icons may not exist in some themes... */
-            QIcon icn = QIcon::fromTheme ("tab-close-other");
+            icn = QIcon::fromTheme ("tab-close-other");
             if (icn.isNull())
                 icn = symbolicIcon::icon (":icons/tab-close-other.svg");
             ui->actionCloseOther->setIcon (icn);
@@ -586,11 +587,6 @@ void FPwin::applyConfigOnStarting()
                 ui->actionRightTab->setIcon (QIcon::fromTheme ("go-next"));
                 ui->actionLeftTab->setIcon (QIcon::fromTheme ("go-previous"));
             }
-
-            icn = QIcon::fromTheme ("featherpad");
-            if (icn.isNull())
-                icn = QIcon (":icons/featherpad.svg");
-            setWindowIcon (icn);
         }
         else // own icons
         {
@@ -652,9 +648,12 @@ void FPwin::applyConfigOnStarting()
                 ui->actionRightTab->setIcon (symbolicIcon::icon (":icons/go-next.svg"));
                 ui->actionLeftTab->setIcon (symbolicIcon::icon (":icons/go-previous.svg"));
             }
-
-            setWindowIcon (QIcon (":icons/featherpad.svg"));
         }
+
+        icn = QIcon::fromTheme ("featherpad");
+        if (icn.isNull())
+            icn = QIcon (":icons/featherpad.svg");
+        setWindowIcon (icn);
     }
 
     if (!config.hasReservedShortcuts())
@@ -4762,15 +4761,8 @@ void FPwin::aboutDialog()
     };
 
     AboutDialog dialog (this);
-    Config config = static_cast<FPsingleton*>(qApp)->getConfig();
-    QIcon FPIcon;
-    if (config.getSysIcon())
-    {
-        FPIcon = QIcon::fromTheme ("featherpad");
-        if (FPIcon.isNull())
-            FPIcon = QIcon (":icons/featherpad.svg");
-    }
-    else
+    QIcon FPIcon = QIcon::fromTheme ("featherpad");
+    if (FPIcon.isNull())
         FPIcon = QIcon (":icons/featherpad.svg");
     dialog.setMainIcon (FPIcon);
     dialog.settMainTitle (QString ("<center><b><big>%1 %2</big></b></center><br>").arg (qApp->applicationName()).arg (qApp->applicationVersion()));
