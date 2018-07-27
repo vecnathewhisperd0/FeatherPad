@@ -1685,7 +1685,7 @@ dont la dernière ligne n&apos;est pas vide.</translation>
     <message>
         <location filename="../../predDialog.ui" line="743"/>
         <source>Start with files of last window</source>
-        <translation>Commencer avec les fichiers de la dernière fenêtre</translation>
+        <translation>Démarrer une session avec les derniers fichiers ouverts</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="783"/>
@@ -1734,7 +1734,7 @@ seront affichés dans une boîte de dialogue popup.</translation>
     <message>
         <location filename="../../predDialog.ui" line="840"/>
         <source>Save changes to opened files every:</source>
-        <translation>Enregister les modifications des fichiers ouverts tous les:</translation>
+        <translation>Enregister les modifications des fichiers ouverts toutes les:</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="951"/>
@@ -1926,7 +1926,7 @@ MMM jj, aaaa, hh:mm:ss</translation>
     <message>
         <location filename="../../predDialog.ui" line="630"/>
         <source>Thick text cursor</source>
-        <translation>Curseur de texte large</translation>
+        <translation>Curseur de texte épais</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="637"/>
