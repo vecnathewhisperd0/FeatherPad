@@ -99,7 +99,7 @@ int main (int argc, char **argv)
     singleton.installTranslator (&FPTranslator);
 
     QString info;
-    int d = singleton.isX11() ? FeatherPad::fromDesktop() : -1;
+    int d = singleton.isX11() ? static_cast<int>(FeatherPad::fromDesktop()) : -1;
     info.setNum (d);
     info += "\n\r"; // a string that can't be used in file names
     for (int i = 1; i < argc; ++i)

@@ -34,7 +34,7 @@ class TabWidget : public QTabWidget
     Q_OBJECT
 
 public:
-    TabWidget (QWidget *parent = 0);
+    TabWidget (QWidget *parent = nullptr);
     ~TabWidget();
     /* make it public */
     TabBar *tabBar() const {return tb;}

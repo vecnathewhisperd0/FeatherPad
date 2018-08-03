@@ -66,7 +66,7 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     {
         darkValue = bgColorValue;
         /* a quadratic equation for bgColorValue -> opacity: 0 -> 20,  27 -> 8, 50 -> 2 */
-        int opacity = qBound (1, qRound ((qreal)(bgColorValue * (19 * bgColorValue - 2813)) / (qreal)5175) + 20, 30);
+        int opacity = qBound (1, qRound (static_cast<qreal>(bgColorValue * (19 * bgColorValue - 2813)) / static_cast<qreal>(5175)) + 20, 30);
         lineHColor = QColor (255, 255, 255, opacity);
         viewport()->setStyleSheet (QString (".QWidget {"
                                             "color: white;"
@@ -342,9 +342,9 @@ QString TextEdit::remainingSpaces (const QString& spaceTab, const QTextCursor& c
     while ((i = txt.indexOf("\t", i)) != -1)
     { // find tab widths in terms of spaces
         tmp.setPosition (tmp.block().position() + i);
-        qreal x = (qreal)(cursorRect (tmp).right());
+        qreal x = static_cast<qreal>(cursorRect (tmp).right());
         tmp.setPosition (tmp.position() + 1);
-        x = (qreal)(cursorRect (tmp).right()) - x;
+        x = static_cast<qreal>(cursorRect (tmp).right()) - x;
         n += qMax (qRound (x / spaceL) - 1, 0);
         ++i;
     }
@@ -378,9 +378,9 @@ QTextCursor TextEdit::backTabCursor (const QTextCursor& cursor) const
     while ((i = txt.indexOf("\t", i)) != -1)
     { // find tab widths in terms of spaces
         tmp.setPosition (tmp.block().position() + i);
-        qreal x = (qreal)(cursorRect (tmp).right());
+        qreal x = static_cast<qreal>(cursorRect (tmp).right());
         tmp.setPosition (tmp.position() + 1);
-        x = (qreal)(cursorRect (tmp).right()) - x;
+        x = static_cast<qreal>(cursorRect (tmp).right()) - x;
         n += qMax (qRound (x / spaceL) - 1, 0);
         ++i;
     }
@@ -394,9 +394,9 @@ QTextCursor TextEdit::backTabCursor (const QTextCursor& cursor) const
         tmp.setPosition (txtStart - n, QTextCursor::KeepAnchor);
     else // the previous character is a tab
     {
-        qreal x = (qreal)(cursorRect (tmp).right());
+        qreal x = static_cast<qreal>(cursorRect (tmp).right());
         tmp.setPosition (txtStart - 1, QTextCursor::KeepAnchor);
-        x -= (qreal)(cursorRect (tmp).right());
+        x -= static_cast<qreal>(cursorRect (tmp).right());
         n -= qRound (x / spaceL);
         if (n < 0) n = 0; // impossible
         tmp.setPosition (tmp.position() - n, QTextCursor::KeepAnchor);
@@ -982,7 +982,7 @@ void TextEdit::scrollWithInertia()
     int totalDelta = 0;
     for (QList<scollData>::iterator it = queuedScrollSteps_.begin(); it != queuedScrollSteps_.end(); ++it)
     {
-        totalDelta += qRound ((qreal)it->delta / (qreal)it->totalSteps);
+        totalDelta += qRound (static_cast<qreal>(it->delta) / static_cast<qreal>(it->totalSteps));
         -- it->leftSteps;
     }
     /* only remove the first queue to simulate an inertia */
@@ -1079,8 +1079,8 @@ void TextEdit::paintEvent (QPaintEvent *event)
     qreal maximumWidth = document()->documentLayout()->documentSize().width();
     painter.setBrushOrigin (offset);
 
-    int maxX = offset.x() + qMax ((qreal)viewportRect.width(), maximumWidth)
-               - document()->documentMargin();
+    int maxX = static_cast<int>(offset.x() + qMax (static_cast<qreal>(viewportRect.width()), maximumWidth)
+                                - document()->documentMargin());
     er.setRight (qMin (er.right(), maxX));
     painter.setClipRect (er);
 
@@ -1212,12 +1212,12 @@ void TextEdit::paintEvent (QPaintEvent *event)
                     if (darkValue > -1)
                     {
                         col = Qt::white;
-                        col.setAlpha (107);
+                        col.setAlpha (100);
                     }
                     else
                     {
                         col = Qt::black;
-                        col.setAlpha (95);
+                        col.setAlpha (80);
                     }
                     painter.setPen (col);
                 }
@@ -1248,10 +1248,10 @@ void TextEdit::paintEvent (QPaintEvent *event)
                     cur.setPosition (match.capturedLength() + block.position());
                     QFontMetricsF fm = QFontMetricsF (document()->defaultFont());
                     int yTop = qRound (r.topLeft().y());
-                    int yBottom =  qRound (r.height() >= (qreal)2 * fm.lineSpacing()
+                    int yBottom =  qRound (r.height() >= static_cast<qreal>(2) * fm.lineSpacing()
                                                ? yTop + fm.height()
-                                               : r.bottomLeft().y() - (qreal)1);
-                    qreal tabWidth = (qreal)fm.width (textTab_);
+                                               : r.bottomLeft().y() - static_cast<qreal>(1));
+                    qreal tabWidth = fm.width (textTab_);
                     if (rtl)
                     {
                         qreal leftMost = cursorRect (cur).left();
@@ -1296,13 +1296,13 @@ void TextEdit::paintEvent (QPaintEvent *event)
                 QTextCursor cur = textCursor();
                 cur.setPosition (block.position());
                 QFontMetricsF fm = QFontMetricsF (document()->defaultFont());
-                qreal rulerSpace = fm.width (' ') * (qreal)vLineDistance_;
+                qreal rulerSpace = fm.width (' ') * static_cast<qreal>(vLineDistance_);
                 int yTop = qRound (r.topLeft().y());
-                int yBottom =  qRound (r.height() >= (qreal)2 * fm.lineSpacing()
+                int yBottom =  qRound (r.height() >= static_cast<qreal>(2) * fm.lineSpacing()
                                        ? yTop + fm.height()
-                                       : r.bottomLeft().y() - (qreal)1);
+                                       : r.bottomLeft().y() - static_cast<qreal>(1));
                 qreal rightMost = er.right();
-                qreal x = (qreal)(cursorRect (cur).right());
+                qreal x = static_cast<qreal>(cursorRect (cur).right());
                 x += rulerSpace;
                 while (x <= rightMost)
                 {
@@ -1322,7 +1322,7 @@ void TextEdit::paintEvent (QPaintEvent *event)
     if (backgroundVisible() && !block.isValid() && offset.y() <= er.bottom()
         && (centerOnScroll() || verticalScrollBar()->maximum() == verticalScrollBar()->minimum()))
     {
-        painter.fillRect (QRect (QPoint ((int)er.left(), (int)offset.y()), er.bottomRight()), palette().background());
+        painter.fillRect (QRect (QPoint (static_cast<int>(er.left()), static_cast<int>(offset.y())), er.bottomRight()), palette().background());
     }
 }
 /************************************************
@@ -1374,8 +1374,8 @@ void TextEdit::lineNumberAreaPaintEvent (QPaintEvent *event)
 
     QTextBlock block = firstVisibleBlock();
     int blockNumber = block.blockNumber();
-    int top = (int) blockBoundingGeometry (block).translated (contentOffset()).top();
-    int bottom = top + (int) blockBoundingRect (block).height();
+    int top = static_cast<int>(blockBoundingGeometry (block).translated (contentOffset()).top());
+    int bottom = top + static_cast<int>(blockBoundingRect (block).height());
     int curBlock = textCursor().blockNumber();
     int h = fontMetrics().height();
     QFont bf = font();
@@ -1421,7 +1421,7 @@ void TextEdit::lineNumberAreaPaintEvent (QPaintEvent *event)
 
         block = block.next();
         top = bottom;
-        bottom = top + (int)blockBoundingRect (block).height();
+        bottom = top + static_cast<int>(blockBoundingRect (block).height());
         ++blockNumber;
     }
 }
@@ -1479,9 +1479,9 @@ void TextEdit::zooming (float range)
     }
     else
     {
-        const float newSize = f.pointSizeF() + range;
+        const float newSize = static_cast<float>(f.pointSizeF()) + range;
         if (newSize <= 0) return;
-        f.setPointSizeF (newSize);
+        f.setPointSizeF (static_cast<qreal>(newSize));
         setEditorFont (f, false);
 
         /* if this is a zoom-out, the text will need

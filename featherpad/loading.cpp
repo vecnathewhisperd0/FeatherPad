@@ -84,7 +84,7 @@ void Loading::run()
             data.append (c);
             if (c == '\0')
                 hasNull = true;
-            C[num] = c;
+            C[num] = static_cast<unsigned char>(c);
             ++ num;
         }
         if (num == 2 && ((C[0] != '\0' && C[1] == '\0') || (C[0] == '\0' && C[1] != '\0')))

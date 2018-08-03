@@ -309,7 +309,7 @@ void FPwin::closeEvent (QCloseEvent *event)
         if (sidePane_ && config.getRemSplitterPos())
         {
             QList<int> sizes = ui->splitter->sizes();
-            config.setSplitterPos (qRound (100.0 * (qreal)sizes.at (0) / (qreal)(sizes.at (0) + sizes.at (1))));
+            config.setSplitterPos (qRound (100.0 * static_cast<qreal>(sizes.at (0)) / static_cast<qreal>(sizes.at (0) + sizes.at (1))));
         }
         config.setLastFileCursorPos (lastWinFilesCur_);
         singleton->removeWin (this);
@@ -397,7 +397,7 @@ void FPwin::toggleSidePane()
         else
         {
             if (config.getRemSplitterPos()) // remember the position also when the side-pane is removed
-                config.setSplitterPos (qRound (100.0 * (qreal)sizes.at (0) / (qreal)(sizes.at (0) + sizes.at (1))));
+                config.setSplitterPos (qRound (100.0 * static_cast<qreal>(sizes.at (0)) / static_cast<qreal>(sizes.at (0) + sizes.at (1))));
             sideItems_.clear();
             delete sidePane_;
             sidePane_ = nullptr;
@@ -469,7 +469,7 @@ void FPwin::applyConfigOnStarting()
         addRemoveLangBtn (true);
 
     if (config.getTabPosition() != 0)
-        ui->tabWidget->setTabPosition ((QTabWidget::TabPosition) config.getTabPosition());
+        ui->tabWidget->setTabPosition (static_cast<QTabWidget::TabPosition>(config.getTabPosition()));
 
     if (!config.getSidePaneMode()) // hideSingle() shouldn't be set with the side-pane
         ui->tabWidget->tabBar()->hideSingle (config.getHideSingleTab());
@@ -2791,7 +2791,7 @@ bool FPwin::saveFile (bool keepSyntax)
                 if (file != nullptr)
                 {
                     /* this worked correctly as I far as I tested */
-                    fwrite (txt , 2 , ln + 1 , file);
+                    fwrite (txt , 2 , static_cast<size_t>(ln + 1) , file);
                     fclose (file);
                     success = true;
                 }
@@ -4117,7 +4117,7 @@ void FPwin::dropTab (const QString& str)
     FPwin *dragSource = nullptr;
     for (int i = 0; i < singleton->Wins.count(); ++i)
     {
-        if (singleton->Wins.at (i)->winId() == (uint) list.at (0).toInt())
+        if (singleton->Wins.at (i)->winId() == static_cast<WId>(list.at (0).toInt()))
         {
             dragSource = singleton->Wins.at (i);
             break;
@@ -4739,7 +4739,7 @@ void FPwin::aboutDialog()
 
     class AboutDialog : public QDialog {
     public:
-        explicit AboutDialog (QWidget* parent = nullptr, Qt::WindowFlags f = 0) : QDialog (parent, f) {
+        explicit AboutDialog (QWidget* parent = nullptr, Qt::WindowFlags f = nullptr) : QDialog (parent, f) {
             aboutUi.setupUi (this);
             aboutUi.textLabel->setOpenExternalLinks (true);
         }

@@ -30,7 +30,7 @@ namespace FeatherPad {
 class LineEdit : public QLineEdit {
     Q_OBJECT
 public:
-    LineEdit (QWidget *parent = 0);
+    LineEdit (QWidget *parent = nullptr);
     ~LineEdit();
 
 signals:

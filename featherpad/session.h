@@ -34,7 +34,7 @@ class SessionDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit SessionDialog (QWidget *parent = 0);
+    explicit SessionDialog (QWidget *parent = nullptr);
     ~SessionDialog();
 
 private slots:

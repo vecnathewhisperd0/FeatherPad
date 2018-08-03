@@ -31,7 +31,7 @@ class SearchBar : public QFrame
 {
     Q_OBJECT
 public:
-    SearchBar (QWidget *parent = 0,
+    SearchBar (QWidget *parent = nullptr,
                bool hasText = false,
                const QStringList& shortcuts = QStringList(),
                Qt::WindowFlags f = Qt::WindowFlags());

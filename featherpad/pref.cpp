@@ -742,10 +742,10 @@ void PrefDialog::prefTabPosition()
     FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
     Config& config = singleton->getConfig();
     config.setTabPosition (index);
-    if (singleton->Wins.at (0)->ui->tabWidget->tabPosition() != (QTabWidget::TabPosition) index)
+    if (singleton->Wins.at (0)->ui->tabWidget->tabPosition() != static_cast<QTabWidget::TabPosition>(index))
     {
         for (int i = 0; i < singleton->Wins.count(); ++i)
-            singleton->Wins.at (i)->ui->tabWidget->setTabPosition ((QTabWidget::TabPosition) index);
+            singleton->Wins.at (i)->ui->tabWidget->setTabPosition (static_cast<QTabWidget::TabPosition>(index));
     }
 }
 /*************************/

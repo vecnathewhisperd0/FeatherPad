@@ -31,7 +31,7 @@ class TabBar : public QTabBar
     Q_OBJECT
 
 public:
-    TabBar (QWidget *parent = 0);
+    TabBar (QWidget *parent = nullptr);
 
     void finishMouseMoveEvent();
     void releaseMouse();

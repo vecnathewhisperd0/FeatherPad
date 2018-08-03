@@ -32,7 +32,7 @@ class Delegate : public QStyledItemDelegate
     Q_OBJECT
 
 public:
-    Delegate (QObject *parent = 0);
+    Delegate (QObject *parent = nullptr);
 
     virtual QWidget* createEditor (QWidget *parent,
                                    const QStyleOptionViewItem&,
@@ -49,7 +49,7 @@ class PrefDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget *parent = 0);
+    explicit PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget *parent = nullptr);
     ~PrefDialog();
 
 private slots:

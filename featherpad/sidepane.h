@@ -57,7 +57,7 @@ class SidePane : public QWidget
 {
     Q_OBJECT
 public:
-    SidePane (QWidget *parent = 0);
+    SidePane (QWidget *parent = nullptr);
     ~SidePane();
 
     ListWidget* listWidget() const {

@@ -34,7 +34,7 @@ class TextEdit : public QPlainTextEdit
     Q_OBJECT
 
 public:
-    TextEdit (QWidget *parent = 0, int bgColorValue = 255);
+    TextEdit (QWidget *parent = nullptr, int bgColorValue = 255);
     ~TextEdit();
 
     void setTextCursor (const QTextCursor &cursor)
