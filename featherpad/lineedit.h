@@ -33,6 +33,10 @@ public:
     LineEdit (QWidget *parent = nullptr);
     ~LineEdit();
 
+    void pressKey (QKeyEvent *event) {
+        keyPressEvent (event);
+    }
+
 signals:
     void receivedFocus();
 

@@ -2141,7 +2141,7 @@ oknach zostaną uwzględnione w zapisanej sesji.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="226"/>
-        <location filename="../../session.cpp" line="304"/>
+        <location filename="../../session.cpp" line="319"/>
         <source>&amp;Yes</source>
         <translation>&amp;Tak</translation>
     </message>
@@ -2181,42 +2181,42 @@ oknach zostaną uwzględnione w zapisanej sesji.</translation>
         <translation>Wprowadź nazwę zapisywanej sesji</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="148"/>
+        <location filename="../../session.cpp" line="163"/>
         <source>Nothing saved.&lt;br&gt;No file was opened.</source>
         <translation>Nie zapisano niczego.&lt;br&gt;Nie zapisano żadnego pliku.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="241"/>
+        <location filename="../../session.cpp" line="256"/>
         <source>No file exists or can be opened.</source>
         <translation>Plik nie istnieje lub nie może zostać otworzony.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="247"/>
+        <location filename="../../session.cpp" line="262"/>
         <source>Not all files exist or can be opened.</source>
         <translation>Niektóre pliki nie istnieją lub nie udało się ich otworzyć.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="290"/>
+        <location filename="../../session.cpp" line="305"/>
         <source>&amp;OK</source>
         <translation>&amp;OK</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="309"/>
+        <location filename="../../session.cpp" line="324"/>
         <source>Do you really want to remove all saved sessions?</source>
         <translation>Czy na pewno chcesz usunąć wszystkie zapisane sesje?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="315"/>
+        <location filename="../../session.cpp" line="330"/>
         <source>Do you really want to remove the selected sessions?</source>
         <translation>Czy na pewno chcesz usunąć wszystkie zaznaczone sesje?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="317"/>
+        <location filename="../../session.cpp" line="332"/>
         <source>Do you really want to remove the selected session?</source>
         <translation>Czy na pewno chcesz usunąć zaznaczoną sesję?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="322"/>
+        <location filename="../../session.cpp" line="337"/>
         <source>A session with the same name exists.&lt;br&gt;Do you want to overwrite it?</source>
         <translation>Sesja o tej nazwie istnieje.&lt;br&gt;Czy chcesz ją zastąpić?</translation>
     </message>

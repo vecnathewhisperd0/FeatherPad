@@ -59,6 +59,8 @@ SessionDialog::SessionDialog (QWidget *parent):QDialog (parent), ui (new Ui::Ses
         QTimer::singleShot (0, ui->lineEdit, SLOT (setFocus()));
     }
 
+    ui->listWidget->installEventFilter (this);
+
     connect (ui->saveBtn, &QAbstractButton::clicked, this, &SessionDialog::saveSession);
     connect (ui->lineEdit, &QLineEdit::returnPressed, this, &SessionDialog::saveSession);
     /* we don't want to open a session by pressing Enter inside the line-edit */
@@ -91,6 +93,19 @@ SessionDialog::~SessionDialog()
         delete filterTimer_;
     }
     delete ui; ui = nullptr;
+}
+/*************************/
+bool SessionDialog::eventFilter (QObject *watched, QEvent *event)
+{
+    if (watched == ui->listWidget && event->type() == QEvent::KeyPress)
+    { // when a text is typed inside the list, type it inside the filter line-edit too
+        if (QKeyEvent *ke = static_cast<QKeyEvent*>(event))
+        {
+            ui->filterLineEdit->pressKey (ke);
+            return false;
+        }
+    }
+    return QObject::eventFilter (watched, event);
 }
 /*************************/
 void SessionDialog::showContextMenu (const QPoint &p)

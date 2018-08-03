@@ -37,6 +37,9 @@ public:
     explicit SessionDialog (QWidget *parent = nullptr);
     ~SessionDialog();
 
+protected:
+    bool eventFilter (QObject *watched, QEvent *event);
+
 private slots:
     void showContextMenu (const QPoint &p);
     void saveSession();
