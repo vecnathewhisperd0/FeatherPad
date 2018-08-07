@@ -105,7 +105,7 @@ bool SessionDialog::eventFilter (QObject *watched, QEvent *event)
             return false;
         }
     }
-    return QObject::eventFilter (watched, event);
+    return QDialog::eventFilter (watched, event);
 }
 /*************************/
 void SessionDialog::showContextMenu (const QPoint &p)

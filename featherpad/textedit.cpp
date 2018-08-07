@@ -154,7 +154,7 @@ bool TextEdit::eventFilter (QObject *watched, QEvent *event)
             return false;
         }
     }
-    return QObject::eventFilter (watched, event);
+    return QPlainTextEdit::eventFilter (watched, event);
 }
 /*************************/
 void TextEdit::setEditorFont (const QFont &f, bool setDefault)
