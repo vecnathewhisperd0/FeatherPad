@@ -85,7 +85,7 @@ public:
                 QFile f (fileName);
                 QByteArray bytes;
                 if (f.open (QIODevice::ReadOnly))
-                    bytes=  f.readAll();
+                    bytes = f.readAll();
                 if (!bytes.isEmpty())
                     bytes.replace ("#000", col.name().toLatin1());
                 renderer.load (bytes);

@@ -16,6 +16,7 @@ V0.9.1
  * Added a workaround for a new bug in KDE's file dialog, which doesn't change directory with selectFile().
  * Changed old-style casts to C++ ones.
  * In the session dialog, when a text is typed inside the list, type it inside the filter line-edit too. In this way, filtering becomes easier.
+ * Simplified the line-edit code.
 
 V0.9.0
 ---------

@@ -19,15 +19,12 @@
 
 #include "lineedit.h"
 #include <QToolButton>
-#include <QStyle>
-#include <QApplication>
 
 namespace FeatherPad {
 
 LineEdit::LineEdit (QWidget *parent)
     : QLineEdit (parent)
 {
-    klear = nullptr;
     setClearButtonEnabled (true);
     QList<QToolButton*> list = findChildren<QToolButton*>();
     if (list.isEmpty()) return;
@@ -35,15 +32,28 @@ LineEdit::LineEdit (QWidget *parent)
     if (clearButton)
     {
         clearButton->setToolTip (tr ("Clear text (Ctrl+K)"));
-        connect (clearButton, &QAbstractButton::clicked, this, &LineEdit::Klear);
+        /* we'll need this for clearing found matches highlighting */
+        connect (clearButton, &QAbstractButton::clicked, this, &LineEdit::returnPressed);
     }
-    connect (this, &QLineEdit::editingFinished, this, &LineEdit::unfocused);
-    connect (this, &LineEdit::receivedFocus, this, &LineEdit::focused);
 }
 /*************************/
-LineEdit::~LineEdit()
+void LineEdit::keyPressEvent (QKeyEvent *event)
 {
-    if (klear) delete klear;
+    /* because of a bug in Qt5, the non-breaking space (ZWNJ) isn't inserted with SHIFT+SPACE */
+    if (event->key() == 0x200c)
+    {
+        insert (QChar (0x200C));
+        event->accept();
+        return;
+    }
+    /* since two line-ediits can be shown, Ctrl+K can't be used
+       as a QShortcut but can come here for clearing the text */
+    if (event->modifiers() == Qt::ControlModifier && event->key() == Qt::Key_K)
+    {
+        clear();
+        returnPressed(); // for clearing found matches highlighting
+    }
+    QLineEdit::keyPressEvent (event);
 }
 /*************************/
 void LineEdit::focusInEvent (QFocusEvent * ev)
@@ -51,36 +61,6 @@ void LineEdit::focusInEvent (QFocusEvent * ev)
     /* first do what QLineEdit does */
     QLineEdit::focusInEvent (ev);
     emit receivedFocus();
-}
-/*************************/
-void LineEdit::Klear()
-{
-    if (!qobject_cast<QToolButton*>(QObject::sender()))
-        clear();
-    /* we'll need this for clearing found matches highlighting
-       because the compiler won't know that clearButton is a QObject */
-    returnPressed();
-}
-/*************************/
-void LineEdit::unfocused()
-{
-    /* filter out pressing of Return or Enter */
-    if (hasFocus()) return;
-
-    if (klear)
-    {
-        disconnect (klear, &QShortcut::activated, this, &LineEdit::Klear);
-        delete klear;
-        klear = nullptr;
-    }
-}
-/*************************/
-void LineEdit::focused()
-{
-    if (klear) return;
-
-    klear = new QShortcut (QKeySequence (tr ("Ctrl+K", "Clear text")), this);
-    connect (klear, &QShortcut::activated, this, &LineEdit::Klear);
 }
 
 }

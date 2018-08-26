@@ -20,9 +20,7 @@
 #ifndef LINEEDIT_H
 #define LINEEDIT_H
 
-#include <QShortcut>
 #include <QLineEdit>
-#include <QIcon>
 #include <QKeyEvent>
 
 namespace FeatherPad {
@@ -31,7 +29,7 @@ class LineEdit : public QLineEdit {
     Q_OBJECT
 public:
     LineEdit (QWidget *parent = nullptr);
-    ~LineEdit();
+    ~LineEdit() {}
 
     void pressKey (QKeyEvent *event) {
         keyPressEvent (event);
@@ -41,26 +39,8 @@ signals:
     void receivedFocus();
 
 protected:
-    virtual void keyPressEvent (QKeyEvent *event)
-    {
-        /* because of a bug in Qt5, the non-breaking space (ZWNJ) isn't inserted with SHIFT+SPACE */
-        if (event->key() == 0x200c)
-        {
-            insert (QChar (0x200C));
-            event->accept();
-            return;
-        }
-        QLineEdit::keyPressEvent (event);
-    }
+    virtual void keyPressEvent (QKeyEvent *event);
     void focusInEvent (QFocusEvent *ev);
-
-private slots:
-    void Klear();
-    void unfocused();
-    void focused();
-
-private:
-    QShortcut *klear;
 };
 
 }

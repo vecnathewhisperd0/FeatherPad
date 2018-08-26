@@ -1363,15 +1363,9 @@
 <context>
     <name>FeatherPad::LineEdit</name>
     <message>
-        <location filename="../../lineedit.cpp" line="37"/>
+        <location filename="../../lineedit.cpp" line="34"/>
         <source>Clear text (Ctrl+K)</source>
         <translation>清除文本(Ctrl+K)</translation>
-    </message>
-    <message>
-        <location filename="../../lineedit.cpp" line="82"/>
-        <source>Ctrl+K</source>
-        <comment>Clear text</comment>
-        <translation></translation>
     </message>
 </context>
 <context>
