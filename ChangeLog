@@ -17,6 +17,8 @@ V0.9.1
  * Changed old-style casts to C++ ones.
  * In the session dialog, when a text is typed inside the list, type it inside the filter line-edit too. In this way, filtering becomes easier.
  * Simplified the line-edit code.
+ * Fixed the exchange of the last and first tab shortcuts in the side-pane mode.
+ * Added an action for activating the last active tab (with F1 as the shortcut, by default).
 
 V0.9.0
 ---------

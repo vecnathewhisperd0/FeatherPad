@@ -308,6 +308,7 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
         OBJECT_NAMES.insert (win->ui->actionLeftTab->text().remove ("&"), "actionLeftTab");
         OBJECT_NAMES.insert (win->ui->actionFirstTab->text().remove ("&"), "actionFirstTab");
         OBJECT_NAMES.insert (win->ui->actionLastTab->text().remove ("&"), "actionLastTab");
+        OBJECT_NAMES.insert (win->ui->actionLastActiveTab->text().remove ("&"), "actionLastActiveTab");
     }
 
     QHash<QString, QString> ca = config.customShortcutActions();
@@ -380,6 +381,8 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
                        keys.contains ("actionFirstTab") ? ca.value ("actionFirstTab") : defaultShortcuts_.value ("actionFirstTab"));
     shortcuts_.insert (win->ui->actionLastTab->text().remove ("&"),
                        keys.contains ("actionLastTab") ? ca.value ("actionLastTab") : defaultShortcuts_.value ("actionLastTab"));
+    shortcuts_.insert (win->ui->actionLastActiveTab->text().remove ("&"),
+                       keys.contains ("actionLastActiveTab") ? ca.value ("actionLastActiveTab") : defaultShortcuts_.value ("actionLastActiveTab"));
 
     QList<QString> val = shortcuts_.values();
     for (int i = 0; i < val.size(); ++i)

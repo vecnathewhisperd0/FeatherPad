@@ -163,6 +163,7 @@
     <addaction name="actionRun"/>
     <addaction name="separator"/>
     <addaction name="actionDetachTab"/>
+    <addaction name="actionLastActiveTab"/>
     <addaction name="actionRightTab"/>
     <addaction name="actionLeftTab"/>
     <addaction name="actionLastTab"/>
@@ -1139,6 +1140,20 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+L</string>
+   </property>
+  </action>
+  <action name="actionLastActiveTab">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Last Active Tab</string>
+   </property>
+   <property name="toolTip">
+    <string>Last Active Tab</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
    </property>
   </action>
  </widget>

@@ -23,39 +23,81 @@ namespace FeatherPad {
 
 TabWidget::TabWidget (QWidget *parent) : QTabWidget (parent)
 {
-    tb = new TabBar;
-    setTabBar (tb);
-    tb->setFocusPolicy (Qt::NoFocus); // there are shortcuts for tab switching
-    curIndx= -1;
-    timerId = 0;
+    tb_ = new TabBar;
+    setTabBar (tb_);
+    tb_->setFocusPolicy (Qt::NoFocus); // there are shortcuts for tab switching
+    curIndx_= -1;
+    timerId_ = 0;
     connect (this, &QTabWidget::currentChanged, this, &TabWidget::tabSwitch);
 }
 /*************************/
 TabWidget::~TabWidget()
 {
-    delete tb;
+    delete tb_;
 }
 /*************************/
 void TabWidget::tabSwitch (int index)
 {
-    curIndx = index;
-    if (timerId)
+    curIndx_ = index;
+    if (timerId_)
     {
-        killTimer (timerId);
-        timerId = 0;
+        killTimer (timerId_);
+        timerId_ = 0;
     }
-    timerId = startTimer (50);
+    timerId_ = startTimer (50);
 }
 /*************************/
 void TabWidget::timerEvent (QTimerEvent *e)
 {
     QTabWidget::timerEvent (e);
 
-    if (e->timerId() == timerId)
+    if (e->timerId() == timerId_)
     {
         killTimer (e->timerId());
-        timerId = 0;
-        emit currentTabChanged (curIndx);
+        timerId_ = 0;
+        emit currentTabChanged (curIndx_);
+
+        if (QWidget *w = widget (curIndx_))
+        {
+            const int n = activatedTabs_.size();
+            activatedTabs_.removeOne (w);
+            activatedTabs_ << w;
+            if (n <= 1 && activatedTabs_.size () > 1)
+                emit hasLastActiveTab (true);
+        }
+    }
+}
+/*************************/
+QWidget* TabWidget::getLastActiveTab()
+{
+    const int n = activatedTabs_.size();
+    if (n > 1)
+    {
+        if (QWidget *w = activatedTabs_.at (n - 2))
+            return w;
+    }
+    return nullptr;
+}
+/*************************/
+void TabWidget::removeTab (int index)
+{
+    if (QWidget *w = widget (index))
+    {
+        const int n = activatedTabs_.size();
+        activatedTabs_.removeOne (w);
+        if (n > 1 && activatedTabs_.size () <= 1)
+            emit hasLastActiveTab (false);
+    }
+    QTabWidget::removeTab (index);
+}
+/*************************/
+void TabWidget::selectLastActiveTab()
+{
+    const int n = activatedTabs_.size();
+    if (n > 1)
+    {
+        if (QWidget *w = activatedTabs_.at (n - 2))
+            setCurrentWidget(w);
     }
 }
 

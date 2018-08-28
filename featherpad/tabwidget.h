@@ -26,9 +26,6 @@
 
 namespace FeatherPad {
 
-/* At first, I subclassed QTabWidget just because QTabBar was
-   a protected member of it but afterward, I implemented tab DND
-   in TabBar and also provided currentChanged() with a 50-ms buffer. */
 class TabWidget : public QTabWidget
 {
     Q_OBJECT
@@ -37,10 +34,14 @@ public:
     TabWidget (QWidget *parent = nullptr);
     ~TabWidget();
     /* make it public */
-    TabBar *tabBar() const {return tb;}
+    TabBar* tabBar() const {return tb_;}
+    QWidget* getLastActiveTab();
+    void removeTab (int index);
+    void selectLastActiveTab();
 
 signals:
     void currentTabChanged (int curIndx);
+    void hasLastActiveTab (bool hasLastActive);
 
 protected:
     void timerEvent (QTimerEvent *event);
@@ -49,9 +50,12 @@ private slots:
     void tabSwitch (int index);
 
 private:
-    TabBar *tb;
-    int timerId;
-    int curIndx;
+    TabBar *tb_;
+    int timerId_;
+    int curIndx_;
+    /* This is the list of activated tabs, in the order of activation,
+       and is used for finding the last active tab: */
+    QList<QWidget*> activatedTabs_;
 };
 
 }

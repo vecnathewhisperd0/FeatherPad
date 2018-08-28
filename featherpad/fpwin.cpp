@@ -155,19 +155,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     connect (ui->actionDetachTab, &QAction::triggered, this, &FPwin::detachTab);
     connect (ui->actionRightTab, &QAction::triggered, this, &FPwin::nextTab);
     connect (ui->actionLeftTab, &QAction::triggered, this, &FPwin::previousTab);
-    if (sidePane_)
-    {
-        QString txt = ui->actionFirstTab->text();
-        ui->actionFirstTab->setText (ui->actionLastTab->text());
-        ui->actionLastTab->setText (txt);
-        connect (ui->actionFirstTab, &QAction::triggered, this, &FPwin::lastTab);
-        connect (ui->actionLastTab, &QAction::triggered, this, &FPwin::firstTab);
-    }
-    else
-    {
-        connect (ui->actionLastTab, &QAction::triggered, this, &FPwin::lastTab);
-        connect (ui->actionFirstTab, &QAction::triggered, this, &FPwin::firstTab);
-    }
+    connect (ui->actionLastActiveTab, &QAction::triggered, this, &FPwin::lastActiveTab);
     connect (ui->actionClose, &QAction::triggered, this, &FPwin::closeTab);
     connect (ui->tabWidget, &QTabWidget::tabCloseRequested, this, &FPwin::closeTabAtIndex);
     connect (ui->actionOpen, &QAction::triggered, this, &FPwin::fileOpen);
@@ -198,6 +186,9 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
 
     connect (ui->tabWidget, &QTabWidget::currentChanged, this, &FPwin::onTabChanged);
     connect (ui->tabWidget, &TabWidget::currentTabChanged, this, &FPwin::tabSwitch);
+    connect (ui->tabWidget, &TabWidget::hasLastActiveTab, [this] (bool hasLastActive) {
+        ui->actionLastActiveTab->setEnabled (hasLastActive);
+    });
     connect (ui->tabWidget->tabBar(), &TabBar::tabDetached, this, &FPwin::detachTab);
     connect (ui->tabWidget->tabBar(), &TabBar::hideTabBar, this, &FPwin::toggleSidePane);
     ui->tabWidget->tabBar()->setContextMenuPolicy (Qt::CustomContextMenu);
@@ -378,6 +369,14 @@ void FPwin::toggleSidePane()
             sidePane_->listWidget()->scrollTo (sidePane_->listWidget()->currentIndex());
             updateShortcuts (false);
         }
+
+        disconnect(ui->actionLastTab, nullptr, this, nullptr);
+        disconnect(ui->actionFirstTab, nullptr, this, nullptr);
+        QString txt = ui->actionFirstTab->text();
+        ui->actionFirstTab->setText (ui->actionLastTab->text());
+        ui->actionLastTab->setText (txt);
+        connect (ui->actionFirstTab, &QAction::triggered, this, &FPwin::lastTab);
+        connect (ui->actionLastTab, &QAction::triggered, this, &FPwin::firstTab);
     }
     else
     {
@@ -408,6 +407,14 @@ void FPwin::toggleSidePane()
             /* return focus to the document */
             if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget()))
                 tabPage->textEdit()->setFocus();
+
+            disconnect(ui->actionLastTab, nullptr, this, nullptr);
+            disconnect(ui->actionFirstTab, nullptr, this, nullptr);
+            QString txt = ui->actionFirstTab->text();
+            ui->actionFirstTab->setText (ui->actionLastTab->text());
+            ui->actionLastTab->setText (txt);
+            connect (ui->actionLastTab, &QAction::triggered, this, &FPwin::lastTab);
+            connect (ui->actionFirstTab, &QAction::triggered, this, &FPwin::firstTab);
         }
     }
 }
@@ -472,7 +479,12 @@ void FPwin::applyConfigOnStarting()
         ui->tabWidget->setTabPosition (static_cast<QTabWidget::TabPosition>(config.getTabPosition()));
 
     if (!config.getSidePaneMode()) // hideSingle() shouldn't be set with the side-pane
+    {
         ui->tabWidget->tabBar()->hideSingle (config.getHideSingleTab());
+        /* for the side pane, these connections are made in toggleSidePane() */
+        connect (ui->actionLastTab, &QAction::triggered, this, &FPwin::lastTab);
+        connect (ui->actionFirstTab, &QAction::triggered, this, &FPwin::firstTab);
+    }
     else
         toggleSidePane();
 
@@ -1230,6 +1242,7 @@ void FPwin::updateCustomizableShortcuts (bool disable)
         ui->actionLeftTab->setShortcut (QKeySequence());
         ui->actionLastTab->setShortcut (QKeySequence());
         ui->actionFirstTab->setShortcut (QKeySequence());
+        ui->actionLastActiveTab->setShortcut (QKeySequence());
     }
     else
     {
@@ -1283,6 +1296,7 @@ void FPwin::updateCustomizableShortcuts (bool disable)
         }
         ui->actionLastTab->setShortcut (keys.contains ("actionLastTab") ? ca.value ("actionLastTab") : QKeySequence (tr ("Alt+Up")));
         ui->actionFirstTab->setShortcut (keys.contains ("actionFirstTab") ? ca.value ("actionFirstTab") : QKeySequence (tr ("Alt+Down")));
+        ui->actionLastActiveTab->setShortcut (keys.contains ("actionLastActiveTab") ? ca.value ("actionLastActiveTab") : QKeySequence (tr ("F1")));
     }
 }
 /*************************/
@@ -3871,6 +3885,20 @@ void FPwin::firstTab()
         ui->tabWidget->setCurrentIndex (0);
 }
 /*************************/
+void FPwin::lastActiveTab()
+{
+    if (sidePane_)
+    {
+        if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->getLastActiveTab()))
+        {
+            if (QListWidgetItem *wi = sideItems_.key (tabPage))
+                sidePane_->listWidget()->setCurrentItem (wi);
+        }
+    }
+    else
+        ui->tabWidget->selectLastActiveTab();
+}
+/*************************/
 void FPwin::detachTab()
 {
     if (!isReady()) return;
@@ -4516,6 +4544,7 @@ void FPwin::prefDialog()
         }
         defaultShortcuts.insert ("actionFirstTab", tr ("Alt+Down"));
         defaultShortcuts.insert ("actionLastTab", tr ("Alt+Up"));
+        defaultShortcuts.insert ("actionLastActiveTab", tr ("F1"));
     }
 
     updateShortcuts (true);
