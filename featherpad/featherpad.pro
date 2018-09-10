@@ -2,7 +2,6 @@ QT += core gui \
       widgets \
       printsupport \
       network \
-      x11extras \
       svg
 
 TARGET = featherpad
@@ -17,7 +16,6 @@ SOURCES += main.cpp \
            lineedit.cpp \
            textedit.cpp \
            tabbar.cpp \
-           x11.cpp \
            highlighter.cpp \
            find.cpp \
            replace.cpp \
@@ -44,7 +42,6 @@ HEADERS += singleton.h \
            lineedit.h \
            textedit.h \
            tabbar.h \
-           x11.h \
            highlighter.h \
            vscrollbar.h \
            filedialog.h \
@@ -67,7 +64,16 @@ FORMS += fp.ui \
 
 RESOURCES += data/fp.qrc
 
-unix:!macx: LIBS += -lX11
+contains(WITHOUT_X11, YES) {
+  message("Compiling without X11...")
+}
+else:unix:!macx {
+  QT += x11extras
+  SOURCES += x11.cpp
+  HEADERS += x11.h
+  LIBS += -lX11
+  DEFINES += HAS_X11
+}
 
 unix {
   #TRANSLATIONS

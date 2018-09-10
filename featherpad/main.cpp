@@ -18,7 +18,10 @@
  */
 
 #include "singleton.h"
+
+#ifdef HAS_X11
 #include "x11.h"
+#endif
 
 #include <signal.h>
 #include <QLibraryInfo>
@@ -99,7 +102,11 @@ int main (int argc, char **argv)
     singleton.installTranslator (&FPTranslator);
 
     QString info;
+#ifdef HAS_X11
     int d = singleton.isX11() ? static_cast<int>(FeatherPad::fromDesktop()) : -1;
+#else
+    int d = -1;
+#endif
     info.setNum (d);
     info += "\n\r"; // a string that can't be used in file names
     for (int i = 1; i < argc; ++i)

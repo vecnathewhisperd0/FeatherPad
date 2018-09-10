@@ -1971,7 +1971,7 @@ bool Highlighter::textEndsWithBackSlash (const QString &text)
 }
 /*************************/
 // This also covers single-line quotes. It comes after single-line comments
-// and before nulti-line ones are formatted. "comState" is the comment state,
+// and before multi-line ones are formatted. "comState" is the comment state,
 // whose default is "commentState" but may be different for some languages.
 // Sometimes (with multi-language docs), formatting should be started from "start".
 void Highlighter::multiLineQuote (const QString &text, const int start, int comState)

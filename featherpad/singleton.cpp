@@ -22,16 +22,24 @@
 #include <QDialog>
 #include <QStandardPaths>
 #include <QCryptographicHash>
+
+#ifdef HAS_X11
 #if defined Q_WS_X11 || defined Q_OS_LINUX || defined Q_OS_FREEBSD
 #include <QX11Info>
 #endif
+#endif
+
 #include "singleton.h"
+
+#ifdef HAS_X11
 #include "x11.h"
+#endif
 
 namespace FeatherPad {
 
 FPsingleton::FPsingleton (int &argc, char **argv) : QApplication (argc, argv)
 {
+#ifdef HAS_X11
     // For now, the lack of x11 is seen as wayland.
 #if defined Q_WS_X11 || defined Q_OS_LINUX || defined Q_OS_FREEBSD
 #if QT_VERSION < 0x050200
@@ -42,6 +50,9 @@ FPsingleton::FPsingleton (int &argc, char **argv) : QApplication (argc, argv)
 #else
     isX11_ = false;
 #endif
+#else
+    isX11_ = false;
+#endif // HAS_X11
 
     socketFailure_ = false;
     config_.readConfig();
@@ -281,13 +292,18 @@ void FPsingleton::handleMessage (const QString& message)
         const QRect sr = QApplication::desktop()->screenGeometry();
         for (int i = 0; i < Wins.count(); ++i)
         {
+#ifdef HAS_X11
             WId id = Wins.at (i)->winId();
+#endif
             /* if the command is issued from where a FeatherPad
                window exists and if that window isn't minimized
                and doesn't have a modal dialog... */
             if (!isX11_ // always open a new tab on wayland
+#ifdef HAS_X11
                 || (onWhichDesktop (id) == d
-                    && (!Wins.at (i)->isMinimized() || isWindowShaded (id))))
+                    && (!Wins.at (i)->isMinimized() || isWindowShaded (id)))
+#endif
+               )
             {
                 bool hasDialog = false;
                 QList<QDialog*> dialogs = Wins.at (i)->findChildren<QDialog*>();

@@ -20,8 +20,6 @@
 #ifndef X11_H
 #define X11_H
 
-#include <QList>
-
 #if defined Q_WS_X11 || defined Q_OS_LINUX || defined Q_OS_FREEBSD
 #include <X11/Xlib.h>
 #endif
@@ -29,7 +27,7 @@
 namespace FeatherPad {
 
 long fromDesktop();
-long onWhichDesktop (Window w);
+long onWhichDesktop (Window window);
 bool isWindowShaded (Window window);
 void unshadeWindow (Window window);
 

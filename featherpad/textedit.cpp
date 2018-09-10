@@ -1195,17 +1195,19 @@ void TextEdit::paintEvent (QPaintEvent *event)
 
             if (!placeholderText().isEmpty() && document()->isEmpty())
             {
+                painter.save();
                 QColor col = palette().text().color();
                 col.setAlpha (128);
                 painter.setPen (col);
                 const int margin = int(document()->documentMargin());
                 painter.drawText (r.adjusted (margin, 0, 0, 0), Qt::AlignTop | Qt::TextWordWrap, placeholderText());
+                painter.restore();
             }
             else
             {
-                painter.save();
                 if (opt.flags() & QTextOption::ShowLineAndParagraphSeparators)
                 {
+                    painter.save();
                     /* Use alpha with the painter to gray out the paragraph separators and
                        document terminators. The real text will be formatted by the highlgihter. */
                     QColor col;
@@ -1222,8 +1224,10 @@ void TextEdit::paintEvent (QPaintEvent *event)
                     painter.setPen (col);
                 }
                 layout->draw (&painter, offset, selections, er);
-                painter.restore();
+                if (opt.flags() & QTextOption::ShowLineAndParagraphSeparators)
+                    painter.restore();
             }
+
             if ((drawCursor && !drawCursorAsBlock)
                 || (editable && context.cursorPosition < -1
                     && !layout->preeditAreaText().isEmpty()))

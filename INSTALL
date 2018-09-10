@@ -49,6 +49,19 @@ Afterward, you could use this command to clean the source directory:
 
 	make distclean
 
+*******************************
+*   Compilation without X11   *
+*******************************
+
+If, for whatever reason, you do not want the X11 support, you could compile FeatherPad with:
+
+	qmake WITHOUT_X11=YES
+	make
+
+The result will have all features except for virtual desktop awareness.
+
+Please also note that FeatherPad works under Wayland and you do not need to disable its X11 support for that.
+
 **********************************
 *   Translation (Localization)   *
 **********************************

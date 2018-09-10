@@ -68,7 +68,7 @@ long fromDesktop()
 }
 /*************************/
 // Get the desktop of a window.
-long onWhichDesktop (Window w)
+long onWhichDesktop (Window window)
 {
     long res = -1;
 
@@ -84,7 +84,7 @@ long onWhichDesktop (Window w)
 
     long *desktop = NULL;
 
-    int status = XGetWindowProperty (disp, w,
+    int status = XGetWindowProperty (disp, window,
                                      wm_desktop,
                                      0, 1, False, XA_CARDINAL,
                                      &type_ret, &fmt_ret, &nitems_ret, &bytes_after_ret,

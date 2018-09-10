@@ -146,6 +146,7 @@ Alt+Right       Next tab (Alt+Left for RTL)
 Alt+Left        Previous tab (Alt+Right for RTL)
 Alt+Up          Last tab
 Alt+Down        First tab
+F1              Last active tab
 Ctrl+P          Print
 Ctrl+E          Edit uneditable documents
 
