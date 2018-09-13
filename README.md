@@ -18,7 +18,8 @@ FeatherPad (by Pedram Pourang, a.k.a. Tsu Jan <tsujan2000@gmail.com>) is a light
   * Auto-saving;
   * Printing;
   * Text zooming;
-  * Appropriate but non-interrupting prompts; and
+  * Appropriate but non-interrupting prompts;
+  * Haiku OS support; and
   * Other features that can be found in its settings, on its menus or when it is actually used.
 
 Please see INSTALL for instructions on compilation, installation and translation! (For translations, also see below.)

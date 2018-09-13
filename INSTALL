@@ -62,6 +62,8 @@ The result will have all features except for virtual desktop awareness.
 
 Please also note that FeatherPad works under Wayland and you do not need to disable its X11 support for that.
 
+Compilation on Haiku OS does not require "WITHOUT_X11=YES" either.
+
 **********************************
 *   Translation (Localization)   *
 **********************************

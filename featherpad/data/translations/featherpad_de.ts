@@ -1251,7 +1251,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="351"/>
         <location filename="../../fpwin.cpp" line="3105"/>
-        <location filename="../../fpwin.cpp" line="4903"/>
+        <location filename="../../fpwin.cpp" line="4907"/>
         <source>Help</source>
         <translation>Hilfe</translation>
     </message>

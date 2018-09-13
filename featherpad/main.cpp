@@ -99,9 +99,9 @@ int main (int argc, char **argv)
 
     QTranslator FPTranslator;
 #ifdef Q_OS_HAIKU
-	FPTranslator.load ("featherpad_" + lang, "/translations");
+    FPTranslator.load ("featherpad_" + lang, "/translations");
 #else
-	FPTranslator.load ("featherpad_" + lang, DATADIR "/featherpad/translations");
+    FPTranslator.load ("featherpad_" + lang, DATADIR "/featherpad/translations");
 #endif
     singleton.installTranslator (&FPTranslator);
 

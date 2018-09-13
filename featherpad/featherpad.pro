@@ -3,11 +3,14 @@ QT += core gui \
       printsupport \
       network \
       svg
+
 haiku {
-	TARGET = FeatherPad
-}else {
-	TARGET = featherpad
+  TARGET = FeatherPad
 }
+else {
+  TARGET = featherpad
+}
+
 TEMPLATE = app
 CONFIG += c++11
 
@@ -89,6 +92,7 @@ unix {
     QMAKE_EXTRA_COMPILERS += updateqm
   }
 }
+
 unix:!haiku {
   #VARIABLES
   isEmpty(PREFIX) {
@@ -120,22 +124,22 @@ unix:!haiku {
   trans.files += data/translations/translations
 
   INSTALLS += target slink desktop iconsvg help trans
-
-}else:haiku {
-	isEmpty(PREFIX) {
-	PREFIX = /boot/home/config/non-packaged/apps/FeatherPad
+}
+else:haiku {
+  isEmpty(PREFIX) {
+    PREFIX = /boot/home/config/non-packaged/apps/FeatherPad
   }
-	BINDIR = $$PREFIX
-	DATADIR =$$PREFIX/data
+  BINDIR = $$PREFIX
+  DATADIR =$$PREFIX/data
 
-	DEFINES += DATADIR=\\\"$$DATADIR\\\" PKGDATADIR=\\\"$$PKGDATADIR\\\"
+  DEFINES += DATADIR=\\\"$$DATADIR\\\" PKGDATADIR=\\\"$$PKGDATADIR\\\"
 
-	target.path =$$BINDIR
+  target.path =$$BINDIR
 
-	help.path = $$DATADIR
-	help.files += ./data/help
+  help.path = $$DATADIR
+  help.files += ./data/help
 
-	trans.path = $$PREFIX
-	trans.files += data/translations/translations
-	INSTALLS += target help trans
+  trans.path = $$PREFIX
+  trans.files += data/translations/translations
+  INSTALLS += target help trans
 }
