@@ -393,7 +393,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         cFormat.setFontWeight (QFont::Bold);
         cFormat.setForeground (DarkMagenta);
         if (progLan == "cpp")
-            rule.pattern.setPattern ("\\bQ[A-Za-z]+(?!(\\.|-|@|#|\\$))\\b");
+            rule.pattern.setPattern ("\\bQ[A-Z][A-Za-z0-9]+(?!(\\.|-|@|#|\\$))\\b");
         else
             rule.pattern.setPattern ("\\bG[A-Za-z]+(?!(\\.|-|@|#|\\$))\\b");
         rule.format = cFormat;
@@ -403,7 +403,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         if (progLan == "cpp")
         {
             cFormat.setFontItalic (true);
-            rule.pattern.setPattern ("\\bq(App)(?!(\\@|#|\\$))\\b|\\bq(Abs|Bound|Critical|Debug|Fatal|FuzzyCompare|InstallMsgHandler|MacVersion|Max|Min|Round64|Round|Version|Warning|getenv|putenv|rand|srand|tTrId|_check_ptr|t_set_sequence_auto_mnemonic|t_symbian_exception2Error|t_symbian_exception2LeaveL|t_symbian_throwIfError)(?!(\\.|-|@|#|\\$))\\b");
+            rule.pattern.setPattern ("\\bq(App)(?!(\\@|#|\\$))\\b|\\bq(Abs|Bound|Critical|Debug|Fatal|FuzzyCompare|InstallMsgHandler|MacVersion|Max|Min|Round64|Round|Version|Warning|getenv|putenv|rand|srand|tTrId|unsetenv|_check_ptr|t_set_sequence_auto_mnemonic|t_symbian_exception2Error|t_symbian_exception2LeaveL|t_symbian_throwIfError)(?!(\\.|-|@|#|\\$))\\b");
             rule.format = cFormat;
             highlightingRules.append (rule);
             cFormat.setFontItalic (false);

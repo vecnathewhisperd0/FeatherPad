@@ -4840,7 +4840,7 @@ void FPwin::helpDoc()
     }
 
 #ifdef Q_OS_HAIKU
-	QFile helpFile (DATADIR "/help");
+    QFile helpFile (DATADIR "/help");
 #else
     QFile helpFile (DATADIR "/featherpad/help");
 #endif
