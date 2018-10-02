@@ -714,7 +714,10 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     }
     else if (progLan == "markdown")
     {
-        quoteMark.setPattern ("`"); // inline code is almost like a single-line quote
+        /* Inline code is almost like a single-line quote.
+           "`" will be distinguished from "```" at multiLineQuote(). */
+        quoteMark.setPattern ("`");
+
         blockQuoteFormat.setForeground (DarkGreen);
         codeBlockFormat.setForeground (DarkRed);
         QTextCharFormat markdownFormat;
@@ -2013,6 +2016,22 @@ void Highlighter::multiLineQuote (const QString &text, const int start, int comS
         while (format (index) == commentFormat || format (index) == urlFormat) // single-line and Python
             index = text.indexOf (quoteExpression, index + 1);
 
+        /* with markdown, "`" should be distinguished from "```" for code bocks (-> highlightBlock()) */
+        if (index >= 0 && progLan == "markdown")
+        {
+            while (index >= 0 && index == text.indexOf (QRegularExpression ("```(?!`)"), index))
+            {
+                index = text.indexOf (quoteExpression, index + 3);
+                while (isEscapedQuote (text, index, true)
+                       || isMLCommented (text, index, comState))
+                {
+                    index = text.indexOf (quoteExpression, index + 1);
+                }
+                while (format (index) == commentFormat || format (index) == urlFormat)
+                    index = text.indexOf (quoteExpression, index + 1);
+            }
+        }
+
         /* if the start quote is found... */
         if (index >= 0)
         {
@@ -2099,10 +2118,6 @@ void Highlighter::multiLineQuote (const QString &text, const int start, int comS
                 isQuotation = false;
             }
         }
-        else if (endIndex == index + 1 && progLan == "markdown")
-        { //  don't format `` because of ``` for code block
-            isQuotation = false;
-        }
 
         int quoteLength;
         if (endIndex == -1)
@@ -2145,6 +2160,21 @@ void Highlighter::multiLineQuote (const QString &text, const int start, int comS
         }
         while (format (index) == commentFormat || format (index) == urlFormat)
             index = text.indexOf (quoteExpression, index + 1);
+
+        if (index >= 0 && progLan == "markdown")
+        {
+            while (index >= 0 && index == text.indexOf (QRegularExpression ("```(?!`)"), index))
+            {
+                index = text.indexOf (quoteExpression, index + 3);
+                while (isEscapedQuote (text, index, true)
+                       || isMLCommented (text, index, comState))
+                {
+                    index = text.indexOf (quoteExpression, index + 1);
+                }
+                while (format (index) == commentFormat || format (index) == urlFormat)
+                    index = text.indexOf (quoteExpression, index + 1);
+            }
+        }
     }
 }
 /*************************/
@@ -2743,7 +2773,7 @@ void Highlighter::highlightBlock (const QString &text)
         /* the ``` code block of markdown is like a multiline comment
            but shouldn't be formatted inside a comment or block quote */
         if (prevState != commentState && prevState != markdownBlockQuoteState)
-            multiLineComment (text, 0, -1, QRegularExpression ("^```[^\\s`]*$"), QRegularExpression ("^```$"), markdownCodeBlockState, codeBlockFormat);
+            multiLineComment (text, 0, -1, QRegularExpression ("```(?!`)"), QRegularExpression ("(?<![^\\s])```(?![^\\s])"), markdownCodeBlockState, codeBlockFormat);
         if (mainFormatting)
         {
             data->insertHighlightInfo (true); // completely highlighted
