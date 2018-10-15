@@ -272,7 +272,8 @@ void FPwin::syntaxHighlighting (TextEdit *textEdit, bool highlight, const QStrin
         /* if the highlighter is created just now, it's necessary
            to wait until the text is completely loaded */
         QTimer::singleShot (0, textEdit, [this, textEdit]() {
-            matchBrackets(); // in case the cursor is beside a bracket when the text is loaded
+            if (textEdit->isVisible())
+                matchBrackets(); // in case the cursor is beside a bracket when the text is loaded
             connect (textEdit, &TextEdit::updateBracketMatching, this, &FPwin::matchBrackets);
             /* visible text may change on block removal */
             connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);

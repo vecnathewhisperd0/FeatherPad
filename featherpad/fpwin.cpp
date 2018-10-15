@@ -137,7 +137,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     ui->actionCyrillic_CP1251->setActionGroup (aGroup_);
     ui->actionCyrillic_KOI8_U->setActionGroup (aGroup_);
     ui->actionCyrillic_ISO_8859_5->setActionGroup (aGroup_);
-    ui->actionChineese_BIG5->setActionGroup (aGroup_);
+    ui->actionChinese_BIG5->setActionGroup (aGroup_);
     ui->actionChinese_GB18030->setActionGroup (aGroup_);
     ui->actionJapanese_ISO_2022_JP->setActionGroup (aGroup_);
     ui->actionJapanese_ISO_2022_JP_2->setActionGroup (aGroup_);
@@ -3493,7 +3493,7 @@ void FPwin::encodingToCheck (const QString& encoding)
     else if (encoding == "ISO-8859-5")
         ui->actionCyrillic_ISO_8859_5->setChecked (true);
     else if (encoding == "BIG5")
-        ui->actionChineese_BIG5->setChecked (true);
+        ui->actionChinese_BIG5->setChecked (true);
     else if (encoding == "B18030")
         ui->actionChinese_GB18030->setChecked (true);
     else if (encoding == "ISO-2022-JP")
@@ -3541,7 +3541,7 @@ const QString FPwin::checkToEncoding() const
         encoding = "KOI8-U";
     else if (ui->actionCyrillic_ISO_8859_5->isChecked())
         encoding = "ISO-8859-5";
-    else if (ui->actionChineese_BIG5->isChecked())
+    else if (ui->actionChinese_BIG5->isChecked())
         encoding = "BIG5";
     else if (ui->actionChinese_GB18030->isChecked())
         encoding = "B18030";

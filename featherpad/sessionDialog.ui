@@ -132,7 +132,7 @@
           <bool>false</bool>
          </property>
          <property name="toolTip">
-          <string>Save the curent session under the given title.</string>
+          <string>Save the current session under the given title.</string>
          </property>
          <property name="text">
           <string>&amp;Save</string>

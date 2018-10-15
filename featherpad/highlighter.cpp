@@ -2114,7 +2114,7 @@ void Highlighter::multiLineQuote (const QString &text, const int start, int comS
                 }
             }
             else if (progLan == "markdown")
-            { // this is the main different of a markdown inline code from a single-line quote
+            { // this is the main difference of a markdown inline code from a single-line quote
                 isQuotation = false;
             }
         }

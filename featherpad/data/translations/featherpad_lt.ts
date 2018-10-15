@@ -718,7 +718,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="859"/>
-        <source>&amp;Chineese (BIG5)</source>
+        <source>&amp;Chinese (BIG5)</source>
         <translation>Ki&amp;nų (BIG5)</translation>
     </message>
     <message>
@@ -2193,7 +2193,7 @@ bus įtraukti į įrašytą seansą.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="135"/>
-        <source>Save the curent session under the given title.</source>
+        <source>Save the current session under the given title.</source>
         <translation>Įrašyti esamą seansą nurodytuoju pavadinimu.</translation>
     </message>
     <message>
@@ -2258,32 +2258,32 @@ bus įtraukti į įrašytą seansą.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="135"/>
+        <location filename="../../textedit.cpp" line="136"/>
         <source>Double click to center current line</source>
         <translation>Spustelėkite du kartus, norėdami centruoti esamą eilutę</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1542"/>
+        <location filename="../../textedit.cpp" line="1546"/>
         <source>Open Link</source>
         <translation>Atverti nuorodą</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1555"/>
+        <location filename="../../textedit.cpp" line="1559"/>
         <source>Copy Link</source>
         <translation>Kopijuoti nuorodą</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1568"/>
+        <location filename="../../textedit.cpp" line="1572"/>
         <source>To Upper Case</source>
         <translation>Paversti didžiosiomis</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1572"/>
+        <location filename="../../textedit.cpp" line="1576"/>
         <source>To Lower Case</source>
         <translation>Paversti mažosiomis</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1578"/>
+        <location filename="../../textedit.cpp" line="1582"/>
         <source>Paste Date and Time</source>
         <translation>Įdėti datą ir laiką</translation>
     </message>

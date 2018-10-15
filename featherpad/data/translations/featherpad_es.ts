@@ -718,7 +718,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="859"/>
-        <source>&amp;Chineese (BIG5)</source>
+        <source>&amp;Chinese (BIG5)</source>
         <translation>&amp;Chino (BIG5)</translation>
     </message>
     <message>
@@ -1898,7 +1898,7 @@ is 10.
 
 Needs application restart to take effect.</source>
         <translation>El número máximo de archivos modificados o
-abiertos recientemente que muestra FeatherPad. 
+abiertos recientemente que muestra FeatherPad.
 Por omisión es 10.
 
 Es necesario reiniciar la aplicación para que tenga efecto.</translation>
@@ -2194,7 +2194,7 @@ las ventanas serán incluidos en la sesión guardada.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="135"/>
-        <source>Save the curent session under the given title.</source>
+        <source>Save the current session under the given title.</source>
         <translation>Guardar la sesión actual con el título dado.</translation>
     </message>
     <message>
@@ -2259,32 +2259,32 @@ las ventanas serán incluidos en la sesión guardada.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="135"/>
+        <location filename="../../textedit.cpp" line="136"/>
         <source>Double click to center current line</source>
         <translation>Hacer doble clic para centrar la línea actual</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1542"/>
+        <location filename="../../textedit.cpp" line="1546"/>
         <source>Open Link</source>
         <translation>Abrir el enlace</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1555"/>
+        <location filename="../../textedit.cpp" line="1559"/>
         <source>Copy Link</source>
         <translation>Copiar el enlace</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1568"/>
+        <location filename="../../textedit.cpp" line="1572"/>
         <source>To Upper Case</source>
         <translation>A mayúsculas</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1572"/>
+        <location filename="../../textedit.cpp" line="1576"/>
         <source>To Lower Case</source>
         <translation>A minúsculas</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1578"/>
+        <location filename="../../textedit.cpp" line="1582"/>
         <source>Paste Date and Time</source>
         <translation>Pegar la fecha y hora</translation>
     </message>

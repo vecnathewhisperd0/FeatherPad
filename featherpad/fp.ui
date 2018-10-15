@@ -239,7 +239,7 @@
       <property name="title">
        <string>Ea&amp;st Asian</string>
       </property>
-      <addaction name="actionChineese_BIG5"/>
+      <addaction name="actionChinese_BIG5"/>
       <addaction name="actionChinese_GB18030"/>
       <addaction name="actionJapanese_ISO_2022_JP"/>
       <addaction name="actionJapanese_ISO_2022_JP_2"/>
@@ -848,7 +848,7 @@
     <string>Cyrillic (&amp;ISO-8859-5)</string>
    </property>
   </action>
-  <action name="actionChineese_BIG5">
+  <action name="actionChinese_BIG5">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -856,7 +856,7 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>&amp;Chineese (BIG5)</string>
+    <string>&amp;Chinese (BIG5)</string>
    </property>
   </action>
   <action name="actionChinese_GB18030">

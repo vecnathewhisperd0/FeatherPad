@@ -44,6 +44,7 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     drawIndetLines = false;
     saveCursor_ = false;
     vLineDistance_ = 0;
+    matchedBrackets_ = false;
 
     inertialScrolling_ = false;
     wheelEvent_ = nullptr;
@@ -1040,7 +1041,10 @@ void TextEdit::timerEvent (QTimerEvent *e)
         /* we use TextEdit's rect because the last rect that
            updateRequest() provides after 50ms may be null */
         emit updateRect (rect(), Dy);
-        emit updateBracketMatching(); // the cursor may become visible
+        /* the text-edit may have been invisible before and so,
+           FPwin::matchBrackets() may have not be called for it */
+        if (!matchedBrackets_ && isVisible())
+            emit updateBracketMatching();
     }
 }
 /*******************************************************

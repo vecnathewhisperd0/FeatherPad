@@ -193,6 +193,7 @@ public:
     }
     void setHighlighter (QSyntaxHighlighter *h) {
         highlighter_ = h;
+        matchedBrackets_ = false;
     }
 
     bool getInertialScrolling() const {
@@ -214,6 +215,10 @@ public:
     }
     void setThickCursor (bool thick) {
         setCursorWidth (thick ? 2 : 1);
+    }
+
+    void matchedBrackets() {
+        matchedBrackets_ = true;
     }
 
 signals:
@@ -316,7 +321,8 @@ private:
                            (4) bracket matches.
     */
     QList<QTextEdit::ExtraSelection> greenSel_; // for replaced matches
-    QList<QTextEdit::ExtraSelection> redSel_; // for bracket matches
+    QList<QTextEdit::ExtraSelection> redSel_; // for bracket matching
+    bool matchedBrackets_; // is bracket matching done (is FPwin::matchBrackets called)?
     bool uneditable_; // the doc should be made uneditable because of its contents
     QSyntaxHighlighter *highlighter_; // syntax highlighter
     bool saveCursor_;

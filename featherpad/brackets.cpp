@@ -31,6 +31,8 @@ void FPwin::matchBrackets()
     TextBlockData *data = static_cast<TextBlockData *>(cur.block().userData());
     if (!data) return;
 
+    textEdit->matchedBrackets();
+
     QList<QTextEdit::ExtraSelection> es = textEdit->extraSelections();
     int n = textEdit->getRedSel().count();
     while (n > 0

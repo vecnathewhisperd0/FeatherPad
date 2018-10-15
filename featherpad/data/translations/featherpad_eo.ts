@@ -718,7 +718,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="859"/>
-        <source>&amp;Chineese (BIG5)</source>
+        <source>&amp;Chinese (BIG5)</source>
         <translation>Ĉina (BIG&amp;5)</translation>
     </message>
     <message>
@@ -2194,7 +2194,7 @@ fenestroj estos inkluzivitaj de la konservota sesio.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="135"/>
-        <source>Save the curent session under the given title.</source>
+        <source>Save the current session under the given title.</source>
         <translation>Konservu la nunan sesion sub la donita titolo.</translation>
     </message>
     <message>
@@ -2259,32 +2259,32 @@ fenestroj estos inkluzivitaj de la konservota sesio.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="135"/>
+        <location filename="../../textedit.cpp" line="136"/>
         <source>Double click to center current line</source>
         <translation>Duoble klaku por centrigi la aktivan linion</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1542"/>
+        <location filename="../../textedit.cpp" line="1546"/>
         <source>Open Link</source>
         <translation>Malfermu la Ligilon</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1555"/>
+        <location filename="../../textedit.cpp" line="1559"/>
         <source>Copy Link</source>
         <translation>Kopiu la Ligilon</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1568"/>
+        <location filename="../../textedit.cpp" line="1572"/>
         <source>To Upper Case</source>
         <translation>Majuskligo</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1572"/>
+        <location filename="../../textedit.cpp" line="1576"/>
         <source>To Lower Case</source>
         <translation>Minuskligo</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1578"/>
+        <location filename="../../textedit.cpp" line="1582"/>
         <source>Paste Date and Time</source>
         <translation>Algluu la Daton kaj Tempon</translation>
     </message>

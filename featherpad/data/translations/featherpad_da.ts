@@ -718,7 +718,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="859"/>
-        <source>&amp;Chineese (BIG5)</source>
+        <source>&amp;Chinese (BIG5)</source>
         <translation>&amp;Kinesisk (BIG5)</translation>
     </message>
     <message>
@@ -2193,7 +2193,7 @@ vinduer i den gemte session.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="135"/>
-        <source>Save the curent session under the given title.</source>
+        <source>Save the current session under the given title.</source>
         <translation>Gem den nuværende session under den givne titel.</translation>
     </message>
     <message>
@@ -2258,32 +2258,32 @@ vinduer i den gemte session.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="135"/>
+        <location filename="../../textedit.cpp" line="136"/>
         <source>Double click to center current line</source>
         <translation>Dobbeltklik for at centrere nuværende linje</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1542"/>
+        <location filename="../../textedit.cpp" line="1546"/>
         <source>Open Link</source>
         <translation>Åbn link</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1555"/>
+        <location filename="../../textedit.cpp" line="1559"/>
         <source>Copy Link</source>
         <translation>Kopiér link</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1568"/>
+        <location filename="../../textedit.cpp" line="1572"/>
         <source>To Upper Case</source>
         <translation>Til store bogstaver</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1572"/>
+        <location filename="../../textedit.cpp" line="1576"/>
         <source>To Lower Case</source>
         <translation>Små bogstaver</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1578"/>
+        <location filename="../../textedit.cpp" line="1582"/>
         <source>Paste Date and Time</source>
         <translation>Indsæt dato og klokkeslæt</translation>
     </message>

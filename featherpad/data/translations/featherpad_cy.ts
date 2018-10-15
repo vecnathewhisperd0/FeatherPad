@@ -717,7 +717,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="859"/>
-        <source>&amp;Chineese (BIG5)</source>
+        <source>&amp;Chinese (BIG5)</source>
         <translation></translation>
     </message>
     <message>
@@ -2124,7 +2124,7 @@ windows will be included in the saved session.</source>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="135"/>
-        <source>Save the curent session under the given title.</source>
+        <source>Save the current session under the given title.</source>
         <translation></translation>
     </message>
     <message>
@@ -2189,32 +2189,32 @@ windows will be included in the saved session.</source>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="135"/>
+        <location filename="../../textedit.cpp" line="136"/>
         <source>Double click to center current line</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1542"/>
+        <location filename="../../textedit.cpp" line="1546"/>
         <source>Open Link</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1555"/>
+        <location filename="../../textedit.cpp" line="1559"/>
         <source>Copy Link</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1568"/>
+        <location filename="../../textedit.cpp" line="1572"/>
         <source>To Upper Case</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1572"/>
+        <location filename="../../textedit.cpp" line="1576"/>
         <source>To Lower Case</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1578"/>
+        <location filename="../../textedit.cpp" line="1582"/>
         <source>Paste Date and Time</source>
         <translation></translation>
     </message>

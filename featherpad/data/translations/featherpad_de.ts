@@ -718,7 +718,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="859"/>
-        <source>&amp;Chineese (BIG5)</source>
+        <source>&amp;Chinese (BIG5)</source>
         <translation>&amp;Chinesisch (BIG5)</translation>
     </message>
     <message>
@@ -1535,10 +1535,10 @@ erscheint ein Menüknopf auf der Werkzeugleiste.</translation>
 after the last tab is activated, and the same for Alt+Left.
 
 Tab navigation with mouse wheel is not affected.</source>
-        <translation>Ermöglicht zyklisches Wechseln zwischen Registerkarten, 
-sodass erste und letzte Registerkarten beieinander liegen. 
+        <translation>Ermöglicht zyklisches Wechseln zwischen Registerkarten,
+sodass erste und letzte Registerkarten beieinander liegen.
 (Rechts: Alt+Rechts / Links: Alt+Links)
-        
+
 Registerkarten sind von der Navigation mit Mausrad nicht betroffen.</translation>
     </message>
     <message>
@@ -1558,11 +1558,11 @@ current desktop, files will be opened in its tabs.
 
 However, some desktop environments may not
 report that they have multiple desktops.</source>
-        <translation>Wenn ein FeatherPad Fenster auf der aktuellen 
-Arbeitsfläche existiert, werden Dateien in ihren 
+        <translation>Wenn ein FeatherPad Fenster auf der aktuellen
+Arbeitsfläche existiert, werden Dateien in ihren
 Tabs geöffnet.
 
-Vorsicht: Einige Desktopumgebungen könnten 
+Vorsicht: Einige Desktopumgebungen könnten
 nicht berichten, dass sie mehrere Arbeitsflächen haben.</translation>
     </message>
     <message>
@@ -1716,7 +1716,7 @@ Wenn der Befehlt leer gelassen wird, wird die Datei
 direkt ausgeführt.
 
 Wenn das Script nicht in einem Terminalemulator
-ausgeführt wird, dann werden die Ausgabe und 
+ausgeführt wird, dann werden die Ausgabe und
 Fehlermeldungen in einem Popup-Dialog angezeigt.</translation>
     </message>
     <message>
@@ -1775,9 +1775,9 @@ Neustart der Anwendung notwendig um wirksam zu werden.</translation>
 tooltip and context menu of a single tab but you could not
 merge a single tabbed window into another one by tab drag-
 and-drop either.</source>
-        <translation>Wenn diese Option ausgewählt ist, gehen der Tooltip und 
+        <translation>Wenn diese Option ausgewählt ist, gehen der Tooltip und
 das Kontextmenü verloren. Es ist dann auch nicht möglich,
-ein Einzelfenster in ein anderes Fenster per Ziehen und 
+ein Einzelfenster in ein anderes Fenster per Ziehen und
 Fallenlassen zu integrieren.</translation>
     </message>
     <message>
@@ -1834,7 +1834,7 @@ Fallenlassen zu integrieren.</translation>
         <location filename="../../predDialog.ui" line="648"/>
         <source>This is not a complete fix but
 prevents annoying scroll jumps.</source>
-        <translation>Das ist keine vollständige Reparatur aber 
+        <translation>Das ist keine vollständige Reparatur aber
 es verhindert störende Sprünge beim Scrollen.</translation>
     </message>
     <message>
@@ -1856,8 +1856,8 @@ process could be killed by Ctrl+Alt+E.</source>
 Skriptsprachen wie Shell oder Python geschrieben wurden.
 
 Wenn ausgewählt und die geöffnete Datei ausführbar ist,
-wird die Datei beim Klicken des Start Knopfs, der bei Bedarf 
-auf der Werkzeugleiste/Dateimenü erscheint oder mit dem 
+wird die Datei beim Klicken des Start Knopfs, der bei Bedarf
+auf der Werkzeugleiste/Dateimenü erscheint oder mit dem
 Kurzbefehl Strg+E ausgeführt,
 .
 Der Prozess kann mit Strg+Alt+E beendet werden.</translation>
@@ -1976,7 +1976,7 @@ auch dann verwendet werden, wenn die geöffnete Datei
 nicht verändert wurde.
 
 Dies kann unter bestimmten Umständen zum Ändern des
-Zeitstempels oder zum Entfernen von Leerzeichen an den 
+Zeitstempels oder zum Entfernen von Leerzeichen an den
 Zeilenenden einer Textdatei sinnvoll sein.</translation>
     </message>
     <message>
@@ -2155,7 +2155,7 @@ Zeilenenden einer Textdatei sinnvoll sein.</translation>
         <location filename="../../sessionDialog.ui" line="159"/>
         <source>By default, all files that are opened in all
 windows will be included in the saved session.</source>
-        <translation>Per Voreinstellung werden alle Dateien in allen Fenstern 
+        <translation>Per Voreinstellung werden alle Dateien in allen Fenstern
 in die gespeicherte Sitzung eingeschlossen.</translation>
     </message>
     <message>
@@ -2196,7 +2196,7 @@ in die gespeicherte Sitzung eingeschlossen.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="135"/>
-        <source>Save the curent session under the given title.</source>
+        <source>Save the current session under the given title.</source>
         <translation>Speichern der aktuellen Sitzung unter dem gegebenem Titel.</translation>
     </message>
     <message>
@@ -2261,32 +2261,32 @@ in die gespeicherte Sitzung eingeschlossen.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="135"/>
+        <location filename="../../textedit.cpp" line="136"/>
         <source>Double click to center current line</source>
         <translation>Doppel-Klick um die aktuelle Zeile zu zentreieren</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1542"/>
+        <location filename="../../textedit.cpp" line="1546"/>
         <source>Open Link</source>
         <translation>Öffne Link</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1555"/>
+        <location filename="../../textedit.cpp" line="1559"/>
         <source>Copy Link</source>
         <translation>Kopiere Link</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1568"/>
+        <location filename="../../textedit.cpp" line="1572"/>
         <source>To Upper Case</source>
         <translation>Umwandeln in Großbuchstaben</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1572"/>
+        <location filename="../../textedit.cpp" line="1576"/>
         <source>To Lower Case</source>
         <translation>Umwandeln in Kleinbuchstaben</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1578"/>
+        <location filename="../../textedit.cpp" line="1582"/>
         <source>Paste Date and Time</source>
         <translation>Datum und Uhrzeit einfügen</translation>
     </message>
