@@ -4252,7 +4252,7 @@ void FPwin::dropTab (const QString& str)
     if (ui->tabWidget->count() == 0) // the tab will be inserted and switched to below
         enableWidgets (true);
     else if (ui->tabWidget->count() == 1)
-        updateGUIForSingleTab (true); // tab detach and switch actions
+        updateGUIForSingleTab (false); // tab detach and switch actions
     bool isLink = lastFile_.isEmpty() ? false : QFileInfo (lastFile_).isSymLink();
     ui->tabWidget->insertTab (insertIndex, tabPage,
                               isLink ? QIcon (":icons/link.svg") : QIcon(),
