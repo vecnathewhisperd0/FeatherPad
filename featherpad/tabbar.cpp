@@ -130,8 +130,9 @@ bool TabBar::event (QEvent *event)
         return QWidget::event (event);
     else
        return QTabBar::event (event);
-#endif
+#else
     return QTabBar::event (event);
+#endif
 }
 /*************************/
 void TabBar::wheelEvent (QWheelEvent *event)
