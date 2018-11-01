@@ -475,7 +475,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = asteriskFormat;
         highlightingRules.append (rule);
 
-        rule.pattern.setPattern ("\\b[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
+        rule.pattern.setPattern (urlPattern.pattern());
         rule.format = urlFormat;
         highlightingRules.append (rule);
     }
@@ -2393,7 +2393,7 @@ bool Highlighter::isHereDocument (const QString &text)
 
         if (!delimStr.isEmpty())
         {
-            int n = qHash (delimStr);
+            int n = static_cast<int>(qHash (delimStr));
             int state = 2 * (n + (n >= 0 ? endState/2 + 1 : 0)); // always an even number but maybe negative
             if (isQuoted (text, pos, false))
             { // to know whether a double quote is added/removed before "$(" in the current line

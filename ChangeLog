@@ -3,6 +3,7 @@ V0.9.2
  * Fixed the extra CPU time taken by bracket matching.
  * Fixed some typos (thanks to flopp at GitHub).
  * Ensure that the tab drag source is one of our windows (and not a root instance, for example).
+ * Use our standard URL pattern with changelog too.
 
 V0.9.1
 ---------
