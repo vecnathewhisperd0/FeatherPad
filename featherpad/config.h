@@ -169,22 +169,22 @@ public:
     QSize getWinSize() const {
         return winSize_;
     }
-    void setWinSize (QSize s) {
+    void setWinSize (const QSize &s) {
         winSize_ = s;
     }
 
     QSize getStartSize() const {
         return startSize_;
     }
-    void setStartSize (QSize s) {
+    void setStartSize (const QSize &s) {
         startSize_ = s;
     }
 
     QPoint getWinPos() const {
         return winPos_;
     }
-    void setWinPos (QPoint s) {
-        winPos_ = s;
+    void setWinPos (const QPoint &p) {
+        winPos_ = p;
     }
 
     int getSplitterPos() const {

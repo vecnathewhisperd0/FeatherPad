@@ -1437,7 +1437,7 @@ kaj eble ne efikas ĉe iuj fenestraj agordiloj.</translation>
     <message>
         <location filename="../../predDialog.ui" line="115"/>
         <source>Remember window &amp;position on closing</source>
-        <translation>Memoru la &amp;posicion de la fenestro</translation>
+        <translation>Memoru la &amp;pozicion de la fenestro</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="122"/>
