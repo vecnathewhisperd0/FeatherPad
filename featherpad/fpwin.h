@@ -62,7 +62,7 @@ class FPwin : public QMainWindow
     Q_OBJECT
     
 public:
-    explicit FPwin (QWidget *parent = 0);
+    explicit FPwin (QWidget *parent = nullptr);
     ~FPwin();
 
     bool isScriptLang (QString lang);

@@ -299,6 +299,8 @@ void FPwin::closeEvent (QCloseEvent *event)
         Config& config = singleton->getConfig();
         if (config.getRemSize() && windowState() == Qt::WindowNoState)
             config.setWinSize (size());
+        if (config.getRemPos())
+            config.setWinPos (pos());
         if (sidePane_ && config.getRemSplitterPos())
         {
             QList<int> sizes = ui->splitter->sizes();
@@ -451,6 +453,9 @@ void FPwin::applyConfigOnStarting()
         }
         resize (startSize);
     }
+
+    if (config.getRemPos())
+        move (config.getWinPos());
 
     ui->mainToolBar->setVisible (!config.getNoToolbar());
     ui->menuBar->setVisible (!config.getNoMenubar());

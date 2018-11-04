@@ -25,6 +25,7 @@ namespace FeatherPad {
 
 Config::Config():
     remSize_ (true),
+    remPos_ (false),
     remSplitterPos_ (true),
     iconless_ (false),
     sysIcon_ (false),
@@ -70,6 +71,7 @@ Config::Config():
     autoSaveInterval_ (1), // not needed
     winSize_ (QSize (700, 500)),
     startSize_ (QSize (700, 500)),
+    winPos_ (QPoint (0, 0)),
     splitterPos_ (20), // percentage
     font_ (QFont ("Monospace", 9)),
     recentOpened_ (false),
@@ -80,6 +82,7 @@ Config::~Config() {}
 /*************************/
 void Config::readConfig()
 {
+    QVariant v;
     Settings settings ("featherpad", "fp");
 
     /**************
@@ -92,15 +95,22 @@ void Config::readConfig()
         remSize_ = false; // true by default
     else
     {
-        winSize_ = settings.value ("size", QSize(700, 500)).toSize();
+        winSize_ = settings.value ("size", QSize (700, 500)).toSize();
         if (!winSize_.isValid() || winSize_.isNull())
             winSize_ = QSize (700, 500);
         isMaxed_ = settings.value ("max", false).toBool();
         isFull_ = settings.value ("fullscreen", false).toBool();
     }
-    startSize_ = settings.value ("startSize", QSize(700, 500)).toSize();
+    startSize_ = settings.value ("startSize", QSize (700, 500)).toSize();
     if (!startSize_.isValid() || startSize_.isNull())
         startSize_ = QSize (700, 500);
+
+    v = settings.value ("position");
+    if (v.isValid() && settings.value ("position") != "none")
+    {
+        remPos_ = true; // false by default
+        winPos_ = settings.value ("position", QPoint (0, 0)).toPoint();
+    }
 
     if (settings.value ("splitterPos") == "none")
         remSplitterPos_ = false; // true by default
@@ -232,7 +242,7 @@ void Config::readConfig()
         executeScripts_ = true; // false by default
     executeCommand_ = settings.value ("executeCommand").toString();
 
-    QVariant v = settings.value ("appendEmptyLine");
+    v = settings.value ("appendEmptyLine");
     if (v.isValid()) // true by default
         appendEmptyLine_ = v.toBool();
 
@@ -317,6 +327,11 @@ void Config::writeConfig()
         settings.remove ("max");
         settings.remove ("fullscreen");
     }
+
+    if (remPos_)
+        settings.setValue ("position", winPos_);
+    else
+        settings.setValue ("position", "none");
 
     if (remSplitterPos_)
         settings.setValue ("splitterPos", splitterPos_);

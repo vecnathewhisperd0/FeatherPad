@@ -22,6 +22,7 @@
 
 #include <QSettings>
 #include <QSize>
+#include <QPoint>
 #include <QFont>
 
 namespace FeatherPad {
@@ -55,6 +56,13 @@ public:
     }
     void setRemSize (bool rem) {
         remSize_ = rem;
+    }
+
+    bool getRemPos() const {
+        return remPos_;
+    }
+    void setRemPos (bool rem) {
+        remPos_ = rem;
     }
 
     bool getRemSplitterPos() const {
@@ -170,6 +178,13 @@ public:
     }
     void setStartSize (QSize s) {
         startSize_ = s;
+    }
+
+    QPoint getWinPos() const {
+        return winPos_;
+    }
+    void setWinPos (QPoint s) {
+        winPos_ = s;
     }
 
     int getSplitterPos() const {
@@ -479,7 +494,7 @@ private:
     void readCursorPos();
     void writeCursorPos();
 
-    bool remSize_, remSplitterPos_,
+    bool remSize_, remPos_, remSplitterPos_,
          iconless_, sysIcon_,
          noToolbar_, noMenubar_,
          hideSearchbar_,
@@ -512,6 +527,7 @@ private:
     QString textTab_;
     QString dateFormat_;
     QSize winSize_, startSize_;
+    QPoint winPos_;
     int splitterPos_;
     QFont font_;
     QString executeCommand_;

@@ -110,6 +110,9 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
     connect (ui->spinY, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
              this, &PrefDialog::prefStartSize);
 
+    ui->winPosBox->setChecked (config.getRemPos());
+    connect (ui->winPosBox, &QCheckBox::stateChanged, this, &PrefDialog::prefPos);
+
     ui->iconBox->setChecked (!config.getSysIcon());
     ui->iconBox->setEnabled (!config.getIconless());
     connect (ui->iconBox, &QCheckBox::stateChanged, this, &PrefDialog::prefIcon);
@@ -549,6 +552,15 @@ void PrefDialog::prefSize (int checked)
         ui->mLabel->setEnabled (true);
         ui->sizeLable->setEnabled (true);
     }
+}
+/*************************/
+void PrefDialog::prefPos (int checked)
+{
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    if (checked == Qt::Checked)
+        config.setRemPos (true);
+    else if (checked == Qt::Unchecked)
+        config.setRemPos (false);
 }
 /*************************/
 void PrefDialog::prefIcon (int checked)

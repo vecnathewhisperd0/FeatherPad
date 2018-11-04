@@ -56,6 +56,7 @@ private slots:
     void onClosing();
     void prefSize (int checked);
     void prefStartSize (int value);
+    void prefPos (int checked);
     void prefIcon (int checked);
     void prefIconless (int checked);
     void prefToolbar (int checked);
