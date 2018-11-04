@@ -230,7 +230,7 @@ a menu button appears on the toolbar.</string>
             </property>
            </widget>
           </item>
-          <item row="13" column="2" colspan="3">
+          <item row="12" column="2" colspan="3">
            <widget class="QComboBox" name="tabCombo">
             <property name="toolTip">
              <string>Will take effect after closing this dialog.</string>
