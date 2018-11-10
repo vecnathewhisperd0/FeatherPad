@@ -32,7 +32,7 @@ Config::Config():
     noToolbar_ (false),
     noMenubar_ (false),
     hideSearchbar_ (false),
-    showStatusbar_ (false),
+    showStatusbar_ (true),
     showCursorPos_ (false),
     showLangSelector_ (false),
     sidePaneMode_ (false),
@@ -138,8 +138,9 @@ void Config::readConfig()
     if (settings.value ("hideSearchbar").toBool())
         hideSearchbar_ = true; // false by default
 
-    if (settings.value ("showStatusbar").toBool())
-        showStatusbar_ = true; // false by default
+    v = settings.value ("showStatusbar");
+    if (v.isValid()) // true by default
+        showStatusbar_ = v.toBool();
 
     if (settings.value ("showCursorPos").toBool())
         showCursorPos_ = true; // false by default

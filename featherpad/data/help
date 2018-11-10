@@ -83,9 +83,7 @@ The Jump bar can be shown by clicking its item on the toolbar or the Search menu
 *   Status Bar   *
 ******************
 
-The status bar shows some information about the opened file and can be toggled with the item "Document Properties" on the File menu. You could also make it visible permanently in the Preferences dialog, in which case, the above-mentioned menu item will be removed.
-
-The Preferences dialog also has an option (disabled by default) for showing the current cursor position on the status bar.
+The status bar not only shows information about the opened file but can also contain other widgets when certain properties are enabled in the Preferences dialog. You could also hide it in the Preferences dialog, in which case, the item "Document Properties" will appear on the File menu and could show it temporarily.
 
 ***********************
 *   Wheel Scrolling   *
