@@ -6,6 +6,7 @@ V0.9.2
  * Use our standard URL pattern with changelog too.
  * Added an option to remember the window position (disabled by default).
  * Show status bar by default (for users to find advanced options more easily).
+ * When copying the file path to the clipboard, include its name too.
 
 V0.9.1
 ---------

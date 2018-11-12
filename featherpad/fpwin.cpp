@@ -1023,11 +1023,8 @@ void FPwin::copyTabFilePath()
     else
         tabPage = qobject_cast<TabPage*>(ui->tabWidget->widget (rightClicked_));
     QString str = tabPage->textEdit()->getFileName();
-    if (str.contains ("/"))
-        str.chop (str.section ('/', -1).count());
-    else if (!str.isEmpty())
-        str = QFileInfo (str).absolutePath();
-    QApplication::clipboard()->setText (str);
+    if (!str.isEmpty())
+        QApplication::clipboard()->setText (str);
 }
 /*************************/
 void FPwin::closeAllTabs()
