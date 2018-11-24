@@ -1521,6 +1521,45 @@ void TextEdit::showEvent (QShowEvent *event)
     updateTimerId = startTimer (UPDATE_INTERVAL);
 }
 /*************************/
+void TextEdit::sortLines (bool reverse)
+{
+    if (isReadOnly()) return;
+    QTextCursor cursor = textCursor();
+    if (!cursor.selectedText().contains (QChar (QChar::ParagraphSeparator)))
+        return;
+
+    int anch = cursor.anchor();
+    int pos = cursor.position();
+    cursor.beginEditBlock();
+    cursor.setPosition (qMin (anch, pos));
+    cursor.movePosition (QTextCursor::StartOfBlock);
+    cursor.setPosition (qMax (anch, pos), QTextCursor::KeepAnchor);
+    cursor.movePosition (QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
+
+    QStringList lines = cursor.selectedText().split (QChar (QChar::ParagraphSeparator));
+    lines.sort();
+    int n = lines.size();
+    if (reverse)
+    {
+        for (int i = 0; i < n; ++i)
+        {
+            cursor.insertText (lines.at (n - 1 - i));
+            if (i < n - 1)
+                cursor.insertBlock();
+        }
+    }
+    else
+    {
+        for (int i = 0; i < n; ++i)
+        {
+            cursor.insertText (lines.at (i));
+            if (i < n - 1)
+                cursor.insertBlock();
+        }
+    }
+    cursor.endEditBlock();
+}
+/*************************/
 void TextEdit::showContextMenu (const QPoint &p)
 {
     /* put the cursor at the right-click position if it has no selection */
@@ -1569,14 +1608,26 @@ void TextEdit::showContextMenu (const QPoint &p)
     {
         if (textCursor().hasSelection())
         {
-            QAction *upperCase = menu->addAction (tr ("To Upper Case"));
-            connect (upperCase, &QAction::triggered, [this] {
+            QAction *action = menu->addAction (tr ("To Upper Case"));
+            connect (action, &QAction::triggered, [this] {
                 insertPlainText (locale().toUpper (textCursor().selectedText()));
             });
-            QAction *lowerCase = menu->addAction (tr ("To Lower Case"));
-            connect (lowerCase, &QAction::triggered, [this] {
+            action = menu->addAction (tr ("To Lower Case"));
+            connect (action, &QAction::triggered, [this] {
                 insertPlainText (locale().toLower (textCursor().selectedText()));
             });
+            if (textCursor().selectedText().contains (QChar (QChar::ParagraphSeparator)))
+            {
+                menu->addSeparator();
+                action = menu->addAction (tr ("Sort Lines"));
+                connect (action, &QAction::triggered, [this] {
+                    sortLines();
+                });
+                action = menu->addAction (tr ("Sort Lines Reversely"));
+                connect (action, &QAction::triggered, [this] {
+                    sortLines (true);
+                });
+            }
             menu->addSeparator();
         }
         QAction *action = menu->addAction (tr ("Paste Date and Time"));

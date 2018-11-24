@@ -132,6 +132,8 @@ private slots:
     void selectAllText();
     void upperCase();
     void lowerCase();
+    void enableSortLines();
+    void sortLines();
     void makeEditable();
     void undoing();
     void redoing();

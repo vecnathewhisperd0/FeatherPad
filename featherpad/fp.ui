@@ -202,6 +202,9 @@
     <addaction name="actionUpperCase"/>
     <addaction name="actionLowerCase"/>
     <addaction name="separator"/>
+    <addaction name="actionSortLines"/>
+    <addaction name="actionRSortLines"/>
+    <addaction name="separator"/>
     <addaction name="actionDate"/>
    </widget>
    <widget class="QMenu" name="menuOptions">
@@ -1154,6 +1157,22 @@
    </property>
    <property name="shortcut">
     <string>F1</string>
+   </property>
+  </action>
+  <action name="actionSortLines">
+   <property name="text">
+    <string>Sort Lines</string>
+   </property>
+   <property name="toolTip">
+    <string>Sort Lines</string>
+   </property>
+  </action>
+  <action name="actionRSortLines">
+   <property name="text">
+    <string>Sort Lines Reversely</string>
+   </property>
+   <property name="toolTip">
+    <string>Sort Lines Reversely</string>
    </property>
   </action>
  </widget>

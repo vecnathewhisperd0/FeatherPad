@@ -7,6 +7,7 @@ V0.9.2
  * Added an option to remember the window position (disabled by default).
  * Show status bar by default (for users to find advanced options more easily).
  * When copying the file path to the clipboard, include its name too.
+ * Added actions for sorting selected lines (to the right-click menu).
 
 V0.9.1
 ---------

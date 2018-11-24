@@ -53,6 +53,8 @@ public:
 
     void removeGreenHighlights();
 
+    void sortLines (bool reverse = false);
+
     QFont getDefaultFont() const {
         return font_;
     }

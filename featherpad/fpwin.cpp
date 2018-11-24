@@ -177,6 +177,12 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     connect (ui->actionUpperCase, &QAction::triggered, this, &FPwin::upperCase);
     connect (ui->actionLowerCase, &QAction::triggered, this, &FPwin::lowerCase);
 
+    /* because sort line actions don't have shortcuts,
+       their state can be set when their menu is going to be shown */
+    connect (ui->menuEdit, &QMenu::aboutToShow, this, &FPwin::enableSortLines);
+    connect (ui->actionSortLines, &QAction::triggered, this, &FPwin::sortLines);
+    connect (ui->actionRSortLines, &QAction::triggered, this, &FPwin::sortLines);
+
     connect (ui->actionEdit, &QAction::triggered, this, &FPwin::makeEditable);
 
     connect (ui->actionSession, &QAction::triggered, this, &FPwin::manageSessions);
@@ -3021,6 +3027,29 @@ void FPwin::lowerCase()
             textEdit->insertPlainText (l.toLower (textEdit->textCursor().selectedText()));
         }
     }
+}
+/*************************/
+void FPwin::enableSortLines()
+{
+    if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget()))
+    {
+        TextEdit *textEdit = tabPage->textEdit();
+        if (!textEdit->isReadOnly()
+            && textEdit->textCursor().selectedText().contains (QChar (QChar::ParagraphSeparator)))
+        {
+            ui->actionSortLines->setEnabled (true);
+            ui->actionRSortLines->setEnabled (true);
+            return;
+        }
+    }
+    ui->actionSortLines->setEnabled (false);
+    ui->actionRSortLines->setEnabled (false);
+}
+/*************************/
+void FPwin::sortLines()
+{
+    if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget()))
+        tabPage->textEdit()->sortLines (qobject_cast<QAction*>(QObject::sender()) == ui->actionRSortLines);
 }
 /*************************/
 void FPwin::makeEditable()
