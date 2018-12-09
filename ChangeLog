@@ -8,6 +8,7 @@ V0.9.2
  * Show status bar by default (for users to find advanced options more easily).
  * When copying the file path to the clipboard, include its name too.
  * Added actions for sorting selected lines (to the right-click menu).
+ * Removed an old workaround for KDE's clipboard because it isn't needed anymore and can cause a delay on startup.
 
 V0.9.1
 ---------

@@ -1457,11 +1457,11 @@ TabPage* FPwin::createEmptyTab (bool setCurrent, bool allowNormalHighlighter)
     connect (tabPage, &TabPage::find, this, &FPwin::find);
     connect (tabPage, &TabPage::searchFlagChanged, this, &FPwin::searchFlagChanged);
 
-    /* I don't know why, under KDE, when text is selected
-       for the first time, it isn't copied to the selection
-       clipboard. Perhaps it has something to do with Klipper.
-       I neither know why this s a workaround: */
-    QApplication::clipboard()->text (QClipboard::Selection);
+    /* I don't know why, under KDE, when a text is selected for the first time,
+       it may not be copied to the selection clipboard. Perhaps it has something
+       to do with Klipper. I neither know why the following line is a workaround
+       but it can cause a long delay when FeatherPad is started. */
+    //QApplication::clipboard()->text (QClipboard::Selection);
 
     if (sidePane_)
     {
