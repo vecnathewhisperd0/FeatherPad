@@ -106,7 +106,12 @@ void FPsingleton::quitting()
 void FPsingleton::receiveMessage()
 {
     QLocalSocket *localSocket = localServer->nextPendingConnection();
-    if (!localSocket || !localSocket->waitForReadyRead (timeout))
+    if (!localSocket)
+    {
+        qDebug ("Unable to find a local socket");
+        return;
+    }
+    if (!localSocket->waitForReadyRead (timeout))
     {
         qDebug ("%s", (const char *) localSocket->errorString().toLatin1());
         return;
