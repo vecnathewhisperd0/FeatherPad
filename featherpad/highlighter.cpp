@@ -2125,13 +2125,19 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
         else // otherwise, search from the start quote
             endIndex = text.indexOf (quoteExpression, index + 1, &quoteMatch);
 
-        /* check if the quote is escaped */
-        while (isEscapedQuote (text, endIndex, false)
-               /* also check if it's inside a C++11 raw string literal */
-               || (!delimStr.isEmpty() && endIndex - delimStr.length() >= start
-                   && text.mid (endIndex - delimStr.length(), delimStr.length()) != delimStr))
-        {
-            endIndex = text.indexOf (quoteExpression, endIndex + 1, &quoteMatch);
+        if (delimStr.isEmpty())
+        { // check if the quote is escaped
+            while (isEscapedQuote (text, endIndex, false))
+                endIndex = text.indexOf (quoteExpression, endIndex + 1, &quoteMatch);
+        }
+        else
+        { // check if the quote is inside a C++11 raw string literal
+            while (endIndex > -1
+                   && (endIndex - delimStr.length() < start
+                       || text.mid (endIndex - delimStr.length(), delimStr.length()) != delimStr))
+            {
+                endIndex = text.indexOf (quoteExpression, endIndex + 1, &quoteMatch);
+            }
         }
 
         bool isQuotation = true;
