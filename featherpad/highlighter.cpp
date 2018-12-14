@@ -2114,20 +2114,20 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
             }
         }
 
-        /* search for the end quote from the start quote */
-        int endIndex = text.indexOf (quoteExpression, index + 1, &quoteMatch);
-
-        /* but if there's no start quote ... */
+        int endIndex;
+        /* if there's no start quote ... */
         if (index == 0
             && (prevState == doubleQuoteState || prevState == singleQuoteState))
         {
             /* ... search for the end quote from the line start */
             endIndex = text.indexOf (quoteExpression, 0, &quoteMatch);
         }
+        else // otherwise, search from the start quote
+            endIndex = text.indexOf (quoteExpression, index + 1, &quoteMatch);
 
         /* check if the quote is escaped */
         while (isEscapedQuote (text, endIndex, false)
-               /* also checck if it's inside a C++11 raw string literal */
+               /* also check if it's inside a C++11 raw string literal */
                || (!delimStr.isEmpty() && endIndex - delimStr.length() >= start
                    && text.mid (endIndex - delimStr.length(), delimStr.length()) != delimStr))
         {
@@ -2165,15 +2165,19 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
             /* set the delimiter string for C++11 */
             if (cppData && !delimStr.isEmpty())
             {
-                /* since this is a multiline C++11 raw string literal, rehighlight
-                   the next block if its delimiter string isn't isn't up-to-date */
+                /* since this is a multiline C++11 raw string literal, rehighlight the
+                   next visible block if its delimiter string isn't isn't up-to-date */
                 QTextBlock nextBlock = currentBlock().next();
                 if (nextBlock.isValid())
                 {
-                    if (TextBlockData *nextData = static_cast<TextBlockData *>(nextBlock.userData()))
+                    int bn = nextBlock.blockNumber();
+                    if (bn >= startCursor.blockNumber() && bn <= endCursor.blockNumber())
                     {
-                        if (nextData->labelInfo() != delimStr)
-                            rehighlightNextBlock = true;
+                        if (TextBlockData *nextData = static_cast<TextBlockData *>(nextBlock.userData()))
+                        {
+                            if (nextData->labelInfo() != delimStr)
+                                rehighlightNextBlock = true;
+                        }
                     }
                 }
                 cppData->insertInfo (delimStr);
