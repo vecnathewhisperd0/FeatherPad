@@ -1984,9 +1984,12 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
        whose pattern is R"(\bR"([^(]*)\(.*(?=\)\1"))" */
     bool rehighlightNextBlock = false;
     QString delimStr;
+    QTextCharFormat rFormat;
     TextBlockData *cppData = nullptr;
     if (progLan == "cpp")
     {
+        rFormat = quoteFormat;
+        rFormat.setFontWeight (QFont::Bold);
         cppData = static_cast<TextBlockData *>(currentBlock().userData());
         QTextBlock prevBlock = currentBlock().previous();
         if (prevBlock.isValid())
@@ -2062,7 +2065,10 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
                     {
                         QRegularExpressionMatch cppMatch;
                         if (index - 1 == text.indexOf (QRegularExpression (R"(\bR"([^(]*)\()"), index - 1, &cppMatch))
+                        {
                             delimStr = ")" + cppMatch.captured (1);
+                            setFormat (index - 1, 1, rFormat);
+                        }
                     }
                     quoteExpression = quoteMark;
                     quote = doubleQuoteState;
@@ -2102,7 +2108,10 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
                 {
                     QRegularExpressionMatch cppMatch;
                     if (index - 1 == text.indexOf (QRegularExpression (R"(\bR"([^(]*)\()"), index - 1, &cppMatch))
+                    {
                         delimStr = ")" + cppMatch.captured (1);
+                        setFormat (index - 1, 1, rFormat);
+                    }
                 }
                 quoteExpression = quoteMark;
                 quote = doubleQuoteState;
