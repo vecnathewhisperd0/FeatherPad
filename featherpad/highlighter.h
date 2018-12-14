@@ -132,7 +132,7 @@ private:
                            const int commState,
                            const QTextCharFormat &comFormat);
     bool textEndsWithBackSlash (const QString &text);
-    void multiLineQuote (const QString &text,
+    bool multiLineQuote (const QString &text,
                          const int start = 0,
                          int comState = commentState);
     void xmlQuotes (const QString &text);

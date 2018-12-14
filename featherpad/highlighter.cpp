@@ -1124,9 +1124,9 @@ bool Highlighter::isQuoted (const QString &text, const int index,
             if (mixedQuotes)
             {
                 if (prevState == doubleQuoteState
-                        || prevState == SH_DoubleQuoteState
-                        || prevState == SH_MixedDoubleQuoteState
-                        || prevState == htmlStyleDoubleQuoteState)
+                    || prevState == SH_DoubleQuoteState
+                    || prevState == SH_MixedDoubleQuoteState
+                    || prevState == htmlStyleDoubleQuoteState)
                 {
                     quoteExpression = quoteMark;
                     if (skipCommandSign)
@@ -1977,8 +1977,26 @@ bool Highlighter::textEndsWithBackSlash (const QString &text)
 // and before multi-line ones are formatted. "comState" is the comment state,
 // whose default is "commentState" but may be different for some languages.
 // Sometimes (with multi-language docs), formatting should be started from "start".
-void Highlighter::multiLineQuote (const QString &text, const int start, int comState)
+bool Highlighter::multiLineQuote (const QString &text, const int start, int comState)
 {
+//--------------------
+    /* these are only for C++11 raw string literals,
+       whose pattern is R"(\bR"([^(]*)\(.*(?=\)\1"))" */
+    bool rehighlightNextBlock = false;
+    QString delimStr;
+    TextBlockData *cppData = nullptr;
+    if (progLan == "cpp")
+    {
+        cppData = static_cast<TextBlockData *>(currentBlock().userData());
+        QTextBlock prevBlock = currentBlock().previous();
+        if (prevBlock.isValid())
+        {
+            if (TextBlockData *prevData = static_cast<TextBlockData *>(prevBlock.userData()))
+                delimStr = prevData->labelInfo();
+        }
+    }
+//--------------------
+
     int index = start;
     bool mixedQuotes = false;
     if (progLan == "c" || progLan == "cpp"
@@ -2040,6 +2058,12 @@ void Highlighter::multiLineQuote (const QString &text, const int start, int comS
                 /* ... distinguish between double and single quotes */
                 if (index == text.indexOf (quoteMark, index))
                 {
+                    if (progLan == "cpp" && index > start)
+                    {
+                        QRegularExpressionMatch cppMatch;
+                        if (index - 1 == text.indexOf (QRegularExpression (R"(\bR"([^(]*)\()"), index - 1, &cppMatch))
+                            delimStr = ")" + cppMatch.captured (1);
+                    }
                     quoteExpression = quoteMark;
                     quote = doubleQuoteState;
                 }
@@ -2074,6 +2098,12 @@ void Highlighter::multiLineQuote (const QString &text, const int start, int comS
                again because the quote mark may have changed */
             if (index == text.indexOf (quoteMark, index))
             {
+                if (progLan == "cpp" && index > start)
+                {
+                    QRegularExpressionMatch cppMatch;
+                    if (index - 1 == text.indexOf (QRegularExpression (R"(\bR"([^(]*)\()"), index - 1, &cppMatch))
+                        delimStr = ")" + cppMatch.captured (1);
+                }
                 quoteExpression = quoteMark;
                 quote = doubleQuoteState;
             }
@@ -2096,8 +2126,13 @@ void Highlighter::multiLineQuote (const QString &text, const int start, int comS
         }
 
         /* check if the quote is escaped */
-        while (isEscapedQuote (text, endIndex, false))
+        while (isEscapedQuote (text, endIndex, false)
+               /* also checck if it's inside a C++11 raw string literal */
+               || (!delimStr.isEmpty() && endIndex - delimStr.length() >= start
+                   && text.mid (endIndex - delimStr.length(), delimStr.length()) != delimStr))
+        {
             endIndex = text.indexOf (quoteExpression, endIndex + 1, &quoteMatch);
+        }
 
         bool isQuotation = true;
         if (endIndex == -1)
@@ -2105,10 +2140,11 @@ void Highlighter::multiLineQuote (const QString &text, const int start, int comS
             if (progLan == "c" || progLan == "cpp"
                 || progLan == "javascript" || progLan == "qml")
             {
-                /* in c and cpp, multiline double quotes need backslash
-                   and there's no multiline single quote */
+                /* In c and cpp, multiline double quotes need backslash and
+                   there's no multiline single quote. Moreover, In C++11,
+                   there can be multiline raw string literals. */
                 if (quoteExpression.pattern() == "\'"
-                    || (quoteExpression == quoteMark && !textEndsWithBackSlash (text)))
+                    || (quoteExpression == quoteMark && delimStr.isEmpty() && !textEndsWithBackSlash (text)))
                 {
                     endIndex = text.size() + 1; // quoteMatch.capturedLength() is 1 here
                 }
@@ -2125,6 +2161,24 @@ void Highlighter::multiLineQuote (const QString &text, const int start, int comS
             if (isQuotation)
                 setCurrentBlockState (quote);
             quoteLength = text.length() - index;
+
+            /* set the delimiter string for C++11 */
+            if (cppData && !delimStr.isEmpty())
+            {
+                /* since this is a multiline C++11 raw string literal, rehighlight
+                   the next block if its delimiter string isn't isn't up-to-date */
+                QTextBlock nextBlock = currentBlock().next();
+                if (nextBlock.isValid())
+                {
+                    if (TextBlockData *nextData = static_cast<TextBlockData *>(nextBlock.userData()))
+                    {
+                        if (nextData->labelInfo() != delimStr)
+                            rehighlightNextBlock = true;
+                    }
+                }
+                cppData->insertInfo (delimStr);
+                setCurrentBlockUserData (cppData);
+            }
         }
         else
             quoteLength = endIndex - index
@@ -2175,7 +2229,9 @@ void Highlighter::multiLineQuote (const QString &text, const int start, int comS
                     index = text.indexOf (quoteExpression, index + 1);
             }
         }
+        delimStr.clear();
     }
+    return rehighlightNextBlock;
 }
 /*************************/
 // Generalized form of setFormat(), where "oldFormat" shouldn't be reformatted.
@@ -2736,7 +2792,7 @@ void Highlighter::highlightBlock (const QString &text)
              && progLan != "srt" && progLan != "html"
              && progLan != "deb" && progLan != "m3u")
     {
-        multiLineQuote (text);
+        rehighlightNextBlock = multiLineQuote (text);
     }
 
     /*******

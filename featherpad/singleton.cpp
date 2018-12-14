@@ -108,7 +108,7 @@ void FPsingleton::receiveMessage()
     QLocalSocket *localSocket = localServer->nextPendingConnection();
     if (!localSocket)
     {
-        qDebug ("Unable to find a local socket");
+        qDebug ("Unable to find local socket.");
         return;
     }
     if (!localSocket->waitForReadyRead (timeout))
