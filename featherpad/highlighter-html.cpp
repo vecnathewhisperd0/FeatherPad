@@ -295,7 +295,7 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
     /* at last, format whitespaces */
     if (mainFormatting)
     {
-        static_cast<TextBlockData *>(currentBlock().userData())->insertHighlightInfo (true); // completely highlighted
+        static_cast<TextBlockData *>(currentBlock().userData())->setHighlighted(); // completely highlighted
         for (const HighlightingRule &rule : static_cast<const QVector<HighlightingRule>&>(highlightingRules))
         {
             if (rule.format == whiteSpaceFormat)

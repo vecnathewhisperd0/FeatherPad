@@ -44,30 +44,39 @@ struct BracketInfo
 };
 
 
-/* This class is for detection of matching parentheses and
-   braces, and also for highlighting of here-documents, etc. */
+/* This class gathers all the information needed for
+   highlighting the syntax of the current block. */
 class TextBlockData : public QTextBlockUserData
 {
 public:
-    TextBlockData() { Highlighted = false; Property = false; OpenNests = 0;
-                      LastFormattedQuote = 0; LastFormattedRegex = 0; }
+    TextBlockData() :
+        Highlighted (false),
+        Property (false),
+        LastState (0),
+        OpenNests (0),
+        LastFormattedQuote (0),
+        LastFormattedRegex (0) {}
     ~TextBlockData();
+
     QVector<ParenthesisInfo *> parentheses() const;
     QVector<BraceInfo *> braces() const;
     QVector<BracketInfo *> brackets() const;
     QString labelInfo() const;
     bool isHighlighted() const;
     bool getProperty() const;
+    int lastState() const;
     int openNests() const;
     int lastFormattedQuote() const;
     int lastFormattedRegex() const;
     QSet<int> openQuotes() const;
+
     void insertInfo (ParenthesisInfo *info);
     void insertInfo (BraceInfo *info);
     void insertInfo (BracketInfo *info);
     void insertInfo (const QString &str);
-    void insertHighlightInfo (bool highlighted);
+    void setHighlighted();
     void setProperty (bool p);
+    void setLastState (int state);
     void insertNestInfo (int nests);
     void insertLastFormattedQuote (int last);
     void insertLastFormattedRegex (int last);
@@ -77,9 +86,10 @@ private:
     QVector<ParenthesisInfo *> allParentheses;
     QVector<BraceInfo *> allBraces;
     QVector<BracketInfo *> allBrackets;
-    QString label; // A label (usually, the delimiter string of a here-doc).
+    QString label; // A label (usually, a delimiter string, like that of a here-doc).
     bool Highlighted; // Is this block completely highlighted?
-    bool Property; // A general boolean property (use with SH).
+    bool Property; // A general boolean property (used with SH).
+    int LastState; // The state of this block before it is highlighted (again).
     /* "Nest" is a generalized bracket. This variable
        is the number of unclosed nests in a block. */
     int OpenNests;

@@ -80,6 +80,11 @@ bool TextBlockData::getProperty() const
     return Property;
 }
 /*************************/
+int TextBlockData::lastState() const
+{
+    return LastState;
+}
+/*************************/
 int TextBlockData::openNests() const
 {
     return OpenNests;
@@ -141,14 +146,19 @@ void TextBlockData::insertInfo (const QString &str)
     label = str;
 }
 /*************************/
-void TextBlockData::insertHighlightInfo (bool highlighted)
+void TextBlockData::setHighlighted()
 {
-    Highlighted = highlighted;
+    Highlighted = true;
 }
 /*************************/
 void TextBlockData::setProperty (bool p)
 {
     Property = p;
+}
+/*************************/
+void TextBlockData::setLastState (int state)
+{
+    LastState = state;
 }
 /*************************/
 void TextBlockData::insertNestInfo (int nests)
@@ -2180,13 +2190,13 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
             /* set the delimiter string for C++11 */
             if (cppData && !delimStr.isEmpty())
             {
-                /* since this is a multiline C++11 raw string literal, rehighlight the
-                   next visible block if its delimiter string isn't isn't up-to-date */
-                QTextBlock nextBlock = currentBlock().next();
-                if (nextBlock.isValid())
+                /* with a multiline C++11 raw string literal, if the state of the current
+                   block isn't changed, the next block won't be highlighted automatically,
+                   so it should be rehighlighted forcefully when its delimiter string isn't up-to-date */
+                if (cppData->lastState() == quote)
                 {
-                    int bn = nextBlock.blockNumber();
-                    if (bn >= startCursor.blockNumber() && bn <= endCursor.blockNumber())
+                    QTextBlock nextBlock = currentBlock().next();
+                    if (nextBlock.isValid())
                     {
                         if (TextBlockData *nextData = static_cast<TextBlockData *>(nextBlock.userData()))
                         {
@@ -2731,9 +2741,9 @@ void Highlighter::highlightBlock (const QString &text)
 
     int index;
     TextBlockData *data = new TextBlockData;
-    data->insertHighlightInfo (false); // not highlighted yet
+    data->setLastState (currentBlockState()); // remember the last state (which may not be -1)
     setCurrentBlockUserData (data); // to be fed in later
-    setCurrentBlockState (0);
+    setCurrentBlockState (0); // start highlightng, with 0 as the neutral state
 
     /********************
      * "Here" Documents *
@@ -2744,7 +2754,7 @@ void Highlighter::highlightBlock (const QString &text)
     {
         if (isHereDocument (text))
         {
-            data->insertHighlightInfo (true); // completely highlighted
+            data->setHighlighted(); // completely highlighted
             /* transfer the info on open quotes inside code blocks downwards */
             if (data->openNests() > 0)
             {
@@ -2848,7 +2858,7 @@ void Highlighter::highlightBlock (const QString &text)
             multiLineComment (text, 0, -1, QRegularExpression ("```(?!`)"), QRegularExpression ("(?<![^\\s])```(?![^\\s])"), markdownCodeBlockState, codeBlockFormat);
         if (mainFormatting)
         {
-            data->insertHighlightInfo (true); // completely highlighted
+            data->setHighlighted(); // completely highlighted
             for (const HighlightingRule &rule : static_cast<const QVector<HighlightingRule>&>(highlightingRules))
             {
                 QRegularExpressionMatch match;
@@ -2905,7 +2915,7 @@ void Highlighter::highlightBlock (const QString &text)
     // we format html embedded javascript in htmlJavascript()
     else if (mainFormatting)
     {
-        data->insertHighlightInfo (true); // completely highlighted
+        data->setHighlighted(); // completely highlighted
         for (const HighlightingRule &rule : static_cast<const QVector<HighlightingRule>&>(highlightingRules))
         {
             /* single-line comments are already formatted */
