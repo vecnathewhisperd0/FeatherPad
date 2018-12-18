@@ -1604,8 +1604,8 @@ Niektóre środowiska, np. KDE i LXQt dostarczają własne okna dialogowe.</tran
     </message>
     <message>
         <location filename="../../predDialog.ui" line="372"/>
-        <source>Uncheck for Monospace 9.</source>
-        <translation>Odznacz, aby korzystać z Monospace 9.</translation>
+        <source>Uncheck for Monospace.</source>
+        <translation>Odznacz, aby korzystać z Monospace.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="375"/>

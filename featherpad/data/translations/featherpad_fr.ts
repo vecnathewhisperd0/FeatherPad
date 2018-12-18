@@ -1610,8 +1610,8 @@ Certains environnnements de bureau, comme KDE et LXQt, disposent de leurs propre
     </message>
     <message>
         <location filename="../../predDialog.ui" line="372"/>
-        <source>Uncheck for Monospace 9.</source>
-        <translation>Décocher pour Monospace 9.</translation>
+        <source>Uncheck for Monospace.</source>
+        <translation>Décocher pour Monospace.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="375"/>

@@ -1599,8 +1599,8 @@ Qt 的文件对话框。
     </message>
     <message>
         <location filename="../../predDialog.ui" line="372"/>
-        <source>Uncheck for Monospace 9.</source>
-        <translation>如不勾选，则字体默认为 Monospace 9。</translation>
+        <source>Uncheck for Monospace.</source>
+        <translation>如不勾选，则字体默认为 Monospace。</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="375"/>

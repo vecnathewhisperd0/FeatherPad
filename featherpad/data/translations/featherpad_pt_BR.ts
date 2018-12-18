@@ -1607,8 +1607,8 @@ Alguns ambientes de desktop, como o KDE e o LXQt, fornecem caixas de diálogo de
     </message>
     <message>
         <location filename="../../predDialog.ui" line="372"/>
-        <source>Uncheck for Monospace 9.</source>
-        <translation>Desmarque para Monospace 9.</translation>
+        <source>Uncheck for Monospace.</source>
+        <translation>Desmarque para Monospace.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="375"/>

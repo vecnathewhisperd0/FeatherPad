@@ -73,7 +73,7 @@ Config::Config():
     startSize_ (QSize (700, 500)),
     winPos_ (QPoint (0, 0)),
     splitterPos_ (20), // percentage
-    font_ (QFont ("Monospace", 9)),
+    font_ (QFont ("Monospace")),
     recentOpened_ (false),
     saveLastFilesList_ (false),
     cursorPosRetrieved_ (false) {}
@@ -179,9 +179,18 @@ void Config::readConfig()
     settings.beginGroup ("text");
 
     if (settings.value ("font") == "none")
+    {
         remFont_ = false; // true by default
+        font_.setPointSize (qMax (QFont().pointSize(), 9));
+    }
     else
-        font_.fromString ((settings.value ("font", "Monospace,9,-1,5,50,0,0,0,0,0")).toString());
+    {
+        QString fontStr = settings.value ("font").toString();
+        if (!fontStr.isEmpty())
+            font_.fromString (fontStr);
+        else
+            font_.setPointSize (qMax (QFont().pointSize(), 9));
+    }
 
     if (settings.value ("noWrap").toBool())
         wrapByDefault_ = false; // true by default

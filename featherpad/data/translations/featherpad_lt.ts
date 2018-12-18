@@ -1608,8 +1608,8 @@ Kai kurios darbalaukio aplinkos, tokios kaip KDE ir LXQt, pateikia failų dialog
     </message>
     <message>
         <location filename="../../predDialog.ui" line="372"/>
-        <source>Uncheck for Monospace 9.</source>
-        <translation>Nuimkite žymėjimą, norėdami naudoti Lygiaplotį (Monospace) 9.</translation>
+        <source>Uncheck for Monospace.</source>
+        <translation>Nuimkite žymėjimą, norėdami naudoti Lygiaplotį (Monospace).</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="375"/>

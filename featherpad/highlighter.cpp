@@ -2190,9 +2190,9 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
             /* set the delimiter string for C++11 */
             if (cppData && !delimStr.isEmpty())
             {
-                /* with a multiline C++11 raw string literal, if the state of the current
-                   block isn't changed, the next block won't be highlighted automatically,
-                   so it should be rehighlighted forcefully when its delimiter string isn't up-to-date */
+                /* with a multiline C++11 raw string literal, if the delimiter is changed
+                   but the state of the current block isn't changed, the next block won't
+                   be highlighted automatically, so it should be rehighlighted forcefully */
                 if (cppData->lastState() == quote)
                 {
                     QTextBlock nextBlock = currentBlock().next();

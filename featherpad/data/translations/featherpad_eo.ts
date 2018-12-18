@@ -1609,8 +1609,8 @@ Iuj labortablaj medioj, kiel KDE kaj LXQt, provizas dosierdialogojn.</translatio
     </message>
     <message>
         <location filename="../../predDialog.ui" line="372"/>
-        <source>Uncheck for Monospace 9.</source>
-        <translation>Malmarku por Monospace 9.</translation>
+        <source>Uncheck for Monospace.</source>
+        <translation>Malmarku por Monospace.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="375"/>

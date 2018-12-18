@@ -1625,8 +1625,8 @@ KDE ve LXQt gibi bazı masaüstlerinin kendi dosya diyaloğu vardır.</translati
     </message>
     <message>
         <location filename="../../predDialog.ui" line="372"/>
-        <source>Uncheck for Monospace 9.</source>
-        <translation>Monospace 9 kullanmak için boş bırakın.</translation>
+        <source>Uncheck for Monospace.</source>
+        <translation>Monospace kullanmak için boş bırakın.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="375"/>

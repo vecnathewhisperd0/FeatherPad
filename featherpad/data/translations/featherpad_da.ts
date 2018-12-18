@@ -1608,8 +1608,8 @@ Nogle skrivebordsmiljøer, såsom KDE og LXQt leverer fildialoger.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="372"/>
-        <source>Uncheck for Monospace 9.</source>
-        <translation>Fravælg for Monospace 9.</translation>
+        <source>Uncheck for Monospace.</source>
+        <translation>Fravælg for Monospace.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="375"/>

@@ -1609,8 +1609,8 @@ Algunos entornos de escritorio, como KDE y LXQt, ofrecen díalogos de archivos.<
     </message>
     <message>
         <location filename="../../predDialog.ui" line="372"/>
-        <source>Uncheck for Monospace 9.</source>
-        <translation>Desmarcar para ancho fijo 9.</translation>
+        <source>Uncheck for Monospace.</source>
+        <translation>Desmarcar para ancho fijo.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="375"/>

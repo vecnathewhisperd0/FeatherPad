@@ -1569,8 +1569,8 @@ Some desktop environments, like KDE and LXQt, provide files dialogs.</source>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="372"/>
-        <source>Uncheck for Monospace 9.</source>
-        <translation>Снимите флажок для Monospace 9.</translation>
+        <source>Uncheck for Monospace.</source>
+        <translation>Снимите флажок для Monospace.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="396"/>

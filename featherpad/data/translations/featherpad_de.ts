@@ -1611,8 +1611,8 @@ Manche Desktopumgebungen wie KDE und LXQ bieten Dateidialoge an.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="372"/>
-        <source>Uncheck for Monospace 9.</source>
-        <translation>Abwählen für Monospace 9.</translation>
+        <source>Uncheck for Monospace.</source>
+        <translation>Abwählen für Monospace.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="375"/>

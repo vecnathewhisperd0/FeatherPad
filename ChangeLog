@@ -2,6 +2,7 @@ V0.9.3
 ---------
  * Fixed some small mistakes in the code (thanks to shlyakpavel at GitHub)
  * Added support for highlighting C++11 raw string literals (i.e. R"DELIMITER(STRING)DELIMITER").
+ * Set the point size of the default font to that of the application font.
 
 V0.9.2
 ---------
