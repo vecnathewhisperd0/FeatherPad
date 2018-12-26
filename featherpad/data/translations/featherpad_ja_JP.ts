@@ -897,7 +897,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="359"/>
         <location filename="../../fpwin.cpp" line="3154"/>
-        <location filename="../../fpwin.cpp" line="4956"/>
+        <location filename="../../fpwin.cpp" line="4972"/>
         <source>Help</source>
         <translation>ヘルプ</translation>
     </message>
@@ -1653,8 +1653,8 @@ KDEやLXQtのようなデスクトップ環境は、独自のファイルダイ�
     </message>
     <message>
         <location filename="../../predDialog.ui" line="372"/>
-        <source>Uncheck for Monospace 9.</source>
-        <translation>チェックしないときは、フォントはMonospace 9 になります。</translation>
+        <source>Uncheck for Monospace.</source>
+        <translation>チェックしないときは、フォントはMonospace になります。</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="375"/>

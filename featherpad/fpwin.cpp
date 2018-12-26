@@ -4888,12 +4888,28 @@ void FPwin::helpDoc()
         }
     }
 
+    /* see if a translated help file exists */
+    QString lang;
+    QStringList langs (QLocale::system().uiLanguages());
+    if (!langs.isEmpty())
+        lang = langs.first().replace ('-', '_');
+
 #ifdef Q_OS_HAIKU
-    QFile helpFile (DATADIR "/help");
+    QString helpPath (QStringLiteral (DATADIR) + "/help_" + lang);
 #else
-    QFile helpFile (DATADIR "/featherpad/help");
+    QString helpPath (QStringLiteral (DATADIR) + "/featherpad/help_" + lang);
 #endif
 
+    if (!QFile::exists (helpPath))
+    {
+#ifdef Q_OS_HAIKU
+        helpPath =  QStringLiteral (DATADIR) + "/help";
+#else
+        helpPath =  QStringLiteral (DATADIR) + "/featherpad/help";
+#endif
+    }
+
+    QFile helpFile (helpPath);
     if (!helpFile.exists()) return;
     if (!helpFile.open (QFile::ReadOnly)) return;
 

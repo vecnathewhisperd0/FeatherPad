@@ -119,6 +119,7 @@ unix:!haiku {
 
   help.path = $$DATADIR/featherpad
   help.files += ./data/help
+  help.files += ./data/help_*
 
   trans.path = $$DATADIR/featherpad
   trans.files += data/translations/translations
@@ -138,6 +139,7 @@ else:haiku {
 
   help.path = $$DATADIR
   help.files += ./data/help
+  help.files += ./data/help_*
 
   trans.path = $$PREFIX
   trans.files += data/translations/translations

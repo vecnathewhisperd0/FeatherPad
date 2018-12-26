@@ -68,6 +68,8 @@ Compilation on Haiku OS does not require "WITHOUT_X11=YES" either.
 *   Translation (Localization)   *
 **********************************
 
-The file 'featherpad/data/translations/featherpad.ts' can serve as the basis for translation. The translated file should be saved in the same directory as "featherpad_LN.ts", where "LN" is the abbreviation for the target language, like "de", "fr", etc.
+The file 'featherpad/data/translations/featherpad.ts' can serve as the basis for GUI translation. The translated file should be saved in the same directory as "featherpad_LN.ts", where "LN" is the abbreviation for the target language, like "de", "fr", "ja_JP", etc.
 
-If you have translated FeatherPad's GUI into your language, please make a "Pull Request" (PR) at https://github.com/tsujan/FeatherPad for your work to be merged into FeatherPad!
+Optionally, also the file 'featherpad/data/help' or only its shortcuts list can be manually translated as "featherpad/data/help_LN". If the help file is translated, it will be shown instead of the English help, although it does not follow the translation standards.
+
+If you have translated FeatherPad's GUI (or its help file) into your language, please make a "Pull Request" (PR) at https://github.com/tsujan/FeatherPad for your work to be merged into FeatherPad!

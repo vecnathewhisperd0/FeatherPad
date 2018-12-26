@@ -1263,7 +1263,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="359"/>
         <location filename="../../fpwin.cpp" line="3154"/>
-        <location filename="../../fpwin.cpp" line="4956"/>
+        <location filename="../../fpwin.cpp" line="4972"/>
         <source>Help</source>
         <translation>Ajuda</translation>
     </message>

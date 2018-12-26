@@ -1177,7 +1177,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="359"/>
         <location filename="../../fpwin.cpp" line="3154"/>
-        <location filename="../../fpwin.cpp" line="4956"/>
+        <location filename="../../fpwin.cpp" line="4972"/>
         <source>Help</source>
         <translation>Справка</translation>
     </message>
@@ -2274,7 +2274,7 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../textedit.cpp" line="1611"/>
         <source>To Upper Case</source>
-        <translation type="unfinished">В верхний регистр</translation>
+        <translation>В верхний регистр</translation>
     </message>
     <message>
         <location filename="../../textedit.cpp" line="1615"/>
@@ -2284,12 +2284,12 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../textedit.cpp" line="1622"/>
         <source>Sort Lines</source>
-        <translation type="unfinished"></translation>
+        <translation>Сортировать строки</translation>
     </message>
     <message>
         <location filename="../../textedit.cpp" line="1626"/>
         <source>Sort Lines Reversely</source>
-        <translation type="unfinished"></translation>
+        <translation>Сортировать строки в обратном порядке</translation>
     </message>
     <message>
         <location filename="../../textedit.cpp" line="1633"/>
