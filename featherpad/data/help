@@ -156,7 +156,7 @@ Ctrl+Shift+W        Resize window to fixed size (700x500 by default
 Ctrl+=              Zoom in (also Ctrl++ or Ctrl + mouse wheel)
 Ctrl+-              Zoom out (also Ctrl + mouse wheel)
 Ctrl+0              Reset zooming
-Ctrl+E              Execute this file (only if enabled in Preferences)
+Ctrl+E              Execute this executable file (only if enabled in Preferences)
 Ctrl+Alt+E          Exit (kill) the above process immediately
 Ctrl+K              Delete to the end of the line when the editor is focused
 Ctrl+Right/Left     Move the cursor one word to the right/left

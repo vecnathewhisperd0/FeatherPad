@@ -1373,11 +1373,13 @@
         <source>One Replacement</source>
         <translation>Bir Değişiklik</translation>
     </message>
-    <message>
+    <message numerus="yes">
         <location filename="../../replace.cpp" line="243"/>
-        <source>Replacements</source>
+        <source>%Ln Replacements</source>
         <translatorcomment>Reminder: Must be singular for enumerated items as in &quot;7 file&quot; but NOT &quot;7 files&quot;</translatorcomment>
-        <translation>Değişiklik</translation>
+        <translation>
+            <numerusform>%Ln Değişiklik</numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../../syntax.cpp" line="251"/>

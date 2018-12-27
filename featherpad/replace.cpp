@@ -240,7 +240,7 @@ void FPwin::replaceAll()
     else if (count == 1)
         title =  tr ("One Replacement");
     else
-        title = QString ("%1 ").arg (count) + tr ("Replacements");
+        title = tr("%Ln Replacements", "", count);
     ui->dockReplace->setWindowTitle (title);
     textEdit->setReplaceTitle (title);
 }

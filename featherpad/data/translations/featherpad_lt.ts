@@ -1359,10 +1359,14 @@
         <source>One Replacement</source>
         <translation>Vienas pakeitimas</translation>
     </message>
-    <message>
+    <message numerus="yes">
         <location filename="../../replace.cpp" line="243"/>
-        <source>Replacements</source>
-        <translation>pakeitimų</translation>
+        <source>%Ln Replacements</source>
+        <translation>
+            <numerusform>%Ln pakeitimas</numerusform>
+            <numerusform>%Ln pakeitimai</numerusform>
+            <numerusform>%Ln pakeitimai</numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../../syntax.cpp" line="251"/>

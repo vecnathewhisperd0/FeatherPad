@@ -1359,10 +1359,13 @@
         <source>One Replacement</source>
         <translation>Uma substituição</translation>
     </message>
-    <message>
+    <message numerus="yes">
         <location filename="../../replace.cpp" line="243"/>
-        <source>Replacements</source>
-        <translation>Substituições</translation>
+        <source>%Ln Replacements</source>
+        <translation>
+            <numerusform>%Ln substituição</numerusform>
+            <numerusform>%Ln substituições</numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../../syntax.cpp" line="251"/>

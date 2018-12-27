@@ -1359,10 +1359,13 @@
         <source>One Replacement</source>
         <translation>Unu Anstataŭigo</translation>
     </message>
-    <message>
+    <message numerus="yes">
         <location filename="../../replace.cpp" line="243"/>
-        <source>Replacements</source>
-        <translation>Anstataŭigoj</translation>
+        <source>%Ln Replacements</source>
+        <translation>
+            <numerusform>%Ln Anstataŭigo</numerusform>
+            <numerusform>%Ln Anstataŭigoj</numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../../syntax.cpp" line="251"/>
