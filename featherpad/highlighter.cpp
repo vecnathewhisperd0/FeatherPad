@@ -2497,6 +2497,16 @@ void Highlighter::xmlQuotes (const QString &text)
             endIndex = text.indexOf (quoteExpression, 0, &quoteMatch);
         }
 
+        if (endIndex == -1)
+        {
+            /* tolerate a mismatch between `"` and `&quot;` as far as possible
+               but show the error by formatting `>` or `&gt;` */
+            QRegularExpressionMatch match;
+            int closing = text.indexOf (QRegularExpression ("(>|&gt;)"), index, &match);
+            if (closing > -1)
+                endIndex = closing + match.capturedLength();
+        }
+
         int quoteLength;
         if (endIndex == -1)
         {
