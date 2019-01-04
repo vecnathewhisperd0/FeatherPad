@@ -454,7 +454,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         xmlElementFormat.setFontWeight (QFont::Bold);
         xmlElementFormat.setForeground (Violet);
         /* after </ or before /> */
-        rule.pattern.setPattern ("\\s*(<|&lt;)/?[A-Za-z0-9_\\-:]+|\\s*(<|&lt;)!(DOCTYPE|ENTITY)\\s|\\s*/?(>|&gt;)");
+        rule.pattern.setPattern ("\\s*(<|&lt;)/?[A-Za-z0-9_\\-:]+|\\s*(<|&lt;)!(DOCTYPE|ENTITY|ELEMENT|ATTLIST|NOTATION)\\s|\\s*/?(>|&gt;)");
         rule.format = xmlElementFormat;
         highlightingRules.append (rule);
 
@@ -798,6 +798,112 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         markdownFormat.setForeground (Blue);
         rule.pattern.setPattern ("^#+\\s+.*");
         rule.format = markdownFormat;
+        highlightingRules.append (rule);
+    }
+    else if (progLan == "reST")
+    {
+        /* For bold, italic, verbatim and link
+
+           possible characters before the start:  ([{<:'"/
+           possible characters after the end:     )]}>.,;:-'"/\
+        */
+
+        codeBlockFormat.setForeground (DarkRed);
+        QTextCharFormat reSTFormat;
+
+        /* headings */
+        reSTFormat.setFontWeight (QFont::Bold);
+        reSTFormat.setForeground (Blue);
+        rule.pattern.setPattern ("^([^\\s\\w:])\\1{2,}$");
+        rule.format = reSTFormat;
+        highlightingRules.append (rule);
+
+        /* lists */
+        reSTFormat.setFontWeight (QFont::Bold);
+        reSTFormat.setForeground (DarkMagenta);
+        rule.pattern.setPattern ("^\\s*(\\*|-|\\+|#\\.|[0-9]+\\.|[0-9]+\\)|\\([0-9]+\\)|[a-zA-Z]\\.|[a-zA-Z]\\)|\\([a-zA-Z]\\))\\s+");
+        rule.format = reSTFormat;
+        highlightingRules.append (rule);
+
+
+        /* verbatim */
+        quoteFormat.setForeground (Blue);
+        rule.pattern.setPattern ("(?<=[\\s\\(\\[{<:'\\\"/]|^)``"
+                                 "([^`\\s]((?!``).)*[^`\\s]"
+                                 "|"
+                                 "[^`\\s])"
+                                 "``(?=[\\s\\)\\]}>.,;:\\-'\\\"/\\\\]|$)");
+        rule.format = quoteFormat;
+        highlightingRules.append (rule);
+
+        /* links */
+        reSTFormat = urlFormat;
+        rule.pattern.setPattern ("(?<=[\\s\\(\\[{<:'\\\"/]|^)"
+                                 "(`(\\S+|\\S((?!`_ ).)*\\S)`|\\w+|\\[\\w+\\])"
+                                 "_(?=[\\s\\)\\]}>.,;:\\-'\\\"/\\\\]|$)");
+        rule.format = reSTFormat;
+        highlightingRules.append (rule);
+
+        reSTFormat = neutralFormat;
+
+        /* bold */
+        reSTFormat.setFontWeight (QFont::Bold);
+        rule.pattern.setPattern ("(?<=[\\s\\(\\[{<:'\\\"/]|^)\\*\\*"
+                                 "([^*\\s]|[^*\\s][^*]*[^*\\s])"
+                                 "\\*\\*(?=[\\s\\)\\]}>.,;:\\-'\\\"/\\\\]|$)");
+        rule.format = reSTFormat;
+        highlightingRules.append (rule);
+        reSTFormat.setFontWeight (QFont::Normal);
+
+        /* italic */
+        reSTFormat.setFontItalic (true);
+        rule.pattern.setPattern ("(?<=[\\s\\(\\[{<:'\\\"/]|^)\\*"
+                                 "([^*\\s]|[^*\\s]+[^*]*[^*\\s])"
+                                 "\\*(?=[\\s\\)\\]}>.,;:\\-'\\\"/\\\\]|$)");
+        rule.format = reSTFormat;
+        highlightingRules.append (rule);
+        reSTFormat.setFontItalic (false);
+
+        /* labels and substitutions (".. _X:" and ".. |X| Y::") */
+        reSTFormat.setForeground (Violet);
+        rule.pattern.setPattern ("^\\s*\\.{2} _[\\w\\s\\-+]*:(?!\\S)");
+        rule.format = reSTFormat;
+        highlightingRules.append (rule);
+        rule.pattern.setPattern ("^\\s*\\.{2} \\|[\\w\\s]+\\|\\s+\\w+::(?!\\S)");
+        rule.format = reSTFormat;
+        highlightingRules.append (rule);
+
+        /* aliases ("|X|") */
+        rule.pattern.setPattern ("(?<=[\\s\\(\\[{<:'\\\"/]|^)"
+                                 "\\|(?!\\s)[^|]+\\|"
+                                 "(?=[\\s\\)\\]}>.,;:\\-'\\\"/\\\\]|$)");
+        rule.format = reSTFormat;
+        highlightingRules.append (rule);
+
+        /* footnotes (".. [#X]") */
+        rule.pattern.setPattern ("^\\s*\\.{2} (\\[(\\w|\\s|-|\\+|\\*)+\\]|\\[#(\\w|\\s|-|\\+)*\\])\\s+");
+        rule.format = reSTFormat;
+        highlightingRules.append (rule);
+
+        /* references */
+        reSTFormat.setForeground (Brown);
+        rule.pattern.setPattern (":[\\w\\-+]+:`[^`]*`");
+        rule.format = reSTFormat;
+        highlightingRules.append (rule);
+
+        /* ".. X::" (like literalinclude) */
+        reSTFormat.setFontWeight (QFont::Bold);
+        reSTFormat.setForeground (DarkGreen);
+        //rule.pattern.setPattern ("^\\s*\\.{2} literalinclude::(?!\\S)");
+        rule.pattern.setPattern ("^\\s*\\.{2} ((\\w|-)+::(?!\\S)|code-block::)");
+        rule.format = reSTFormat;
+        highlightingRules.append (rule);
+
+        /* ":X:" */
+        reSTFormat.setFontWeight (QFont::Normal);
+        reSTFormat.setForeground (DarkMagenta);
+        rule.pattern.setPattern ("^\\s*:[^:]+:(?!\\S)");
+        rule.format = reSTFormat;
         highlightingRules.append (rule);
     }
     else if (progLan == "lua")
@@ -2312,6 +2418,7 @@ void Highlighter::xmlQuotes (const QString &text)
     QRegularExpressionMatch quoteMatch;
     QRegularExpression quoteExpression ("\"|&quot;|\'");
     QRegularExpression doubleQuote ("\"|&quot;");
+    QRegularExpression virtualQuote ("&quot;");
     int quote = doubleQuoteState;
 
     /* find the start quote */
@@ -2330,10 +2437,13 @@ void Highlighter::xmlQuotes (const QString &text)
         /* if the start quote is found... */
         if (index >= 0)
         {
-            /* ... distinguish between double and single quotes */
+            /* ... distinguish between double, virtual and single quotes */
             if (index == text.indexOf (doubleQuote, index))
             {
-                quoteExpression = doubleQuote;
+                if (text.at (index) == "\"")
+                    quoteExpression = quoteMark;
+                else
+                    quoteExpression = virtualQuote;
                 quote = doubleQuoteState;
             }
             else
@@ -2359,11 +2469,14 @@ void Highlighter::xmlQuotes (const QString &text)
         /* if the search is continued... */
         if (quoteExpression.pattern() == "\"|&quot;|\'")
         {
-            /* ... distinguish between double and single quotes
-               again because the quote mark may have changed */
+            /* ... distinguish between double, virtual and single
+               quotes again because the quote mark may have changed */
             if (index == text.indexOf (doubleQuote, index))
             {
-                quoteExpression = doubleQuote;
+                if (text.at (index) == '\"')
+                    quoteExpression = quoteMark;
+                else
+                    quoteExpression = virtualQuote;
                 quote = doubleQuoteState;
             }
             else
@@ -2393,8 +2506,9 @@ void Highlighter::xmlQuotes (const QString &text)
         else
             quoteLength = endIndex - index
                           + quoteMatch.capturedLength(); // 1
-        setFormat (index, quoteLength, quoteExpression == doubleQuote ? quoteFormat
-                                                                      : altQuoteFormat);
+        setFormat (index, quoteLength,
+                   quoteExpression == quoteMark
+                   || quoteExpression == virtualQuote ? quoteFormat : altQuoteFormat);
 
         QString str = text.mid (index, quoteLength);
         int urlIndex = 0;
@@ -2640,6 +2754,63 @@ void Highlighter::markDownFonts (const QString &text)
     }
 }
 /*************************/
+void Highlighter::reSTMainFormatting (int start, const QString &text)
+{
+    if (start < 0) return;
+    TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData());
+    if (data == nullptr) return;
+
+    data->setHighlighted(); // completely highlighted
+    for (const HighlightingRule &rule : static_cast<const QVector<HighlightingRule>&>(highlightingRules))
+    {
+        QTextCharFormat fi;
+        QRegularExpressionMatch match;
+        int index = text.indexOf (rule.pattern, start, &match);
+        if (rule.format != whiteSpaceFormat)
+        {
+            fi = format (index);
+            while (index >= 0 && fi != mainFormat)
+            {
+                index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
+                fi = format (index);
+            }
+        }
+        while (index >= 0)
+        {
+            /* get the overwritten format if existent */
+            QTextCharFormat prevFormat = format (index + match.capturedLength() - 1);
+
+            setFormat (index, match.capturedLength(), rule.format);
+            if (rule.pattern == QRegularExpression (":[\\w\\-+]+:`[^`]*`"))
+            { // format the reference start too
+                QTextCharFormat boldFormat = neutralFormat;
+                boldFormat.setFontWeight (QFont::Bold);
+                setFormat (index, text.indexOf (":`", index) - index + 1, boldFormat);
+            }
+            index += match.capturedLength();
+
+            if (rule.format != whiteSpaceFormat && prevFormat != mainFormat)
+            { // if a format is overwriiten by this rule, reformat from here
+                setFormat (index, text.length() - index, mainFormat);
+                reSTMainFormatting (index, text);
+                break;
+            }
+
+            index = text.indexOf (rule.pattern, index, &match);
+            if (rule.format != whiteSpaceFormat)
+            {
+                fi = format (index);
+                while (index >= 0 && fi != mainFormat)
+                {
+                    index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
+                    fi = format (index);
+                }
+            }
+        }
+    }
+}
+
+/*************************/
 void Highlighter::debControlFormatting (const QString &text)
 {
     if (text.isEmpty()) return;
@@ -2729,7 +2900,7 @@ void Highlighter::highlightBlock (const QString &text)
     /* If the paragraph separators are shown, the unformatted text
        will be grayed out. So, we should restore its real color here.
        This is also safe when the paragraph separators are hidden. */
-    setFormat(0, text.size(), mainFormat);
+    setFormat (0, text.size(), mainFormat);
 
     bool rehighlightNextBlock = false;
     int oldOpenNests = 0; QSet<int> oldOpenQuotes; // to be used in SH_CmndSubstVar()
@@ -2819,7 +2990,8 @@ void Highlighter::highlightBlock (const QString &text)
              && progLan != "desktop" && progLan != "config" && progLan != "theme"
              && progLan != "changelog" && progLan != "url"
              && progLan != "srt" && progLan != "html"
-             && progLan != "deb" && progLan != "m3u")
+             && progLan != "deb" && progLan != "m3u"
+             && progLan != "reST")
     {
         rehighlightNextBlock = multiLineQuote (text);
     }
@@ -2855,7 +3027,7 @@ void Highlighter::highlightBlock (const QString &text)
         /* the ``` code block of markdown is like a multiline comment
            but shouldn't be formatted inside a comment or block quote */
         if (prevState != commentState && prevState != markdownBlockQuoteState)
-            multiLineComment (text, 0, -1, QRegularExpression ("```(?!`)"), QRegularExpression ("(?<![^\\s])```(?![^\\s])"), markdownCodeBlockState, codeBlockFormat);
+            multiLineComment (text, 0, -1, QRegularExpression ("```(?!`)"), QRegularExpression ("(?<![^\\s])```(?![^\\s])"), codeBlockState, codeBlockFormat);
         if (mainFormatting)
         {
             data->setHighlighted(); // completely highlighted
@@ -2894,6 +3066,194 @@ void Highlighter::highlightBlock (const QString &text)
             markDownFonts (text);
         }
         /* go to braces matching */
+    }
+
+    /********************
+     * reStructuredText *
+     ********************/
+
+    else if (progLan == "reST" && codeBlockFormat.isValid())
+    {
+        QRegularExpressionMatch match;
+
+        /*******************************
+        * reST Code and Comment Blocks *
+        ********************************/
+        QTextBlock prevBlock = currentBlock().previous();
+        /* definitely, the start of a code block */
+        if (text.indexOf (QRegularExpression ("^\\.{2} code-block::"), 0, &match) == 0)
+        { // also overwrites commentFormat
+            /* the ".. code-block::" part will be formatted later */
+            setFormat (match.capturedLength(), text.count() - match.capturedLength(), codeBlockFormat);
+            setCurrentBlockState (codeBlockState);
+        }
+        /* perhaps the start of a code block */
+        else if (text.indexOf (QRegularExpression ("^(?!\\s*\\.{2}).*::$")) == 0)
+        {
+            bool isCommented (false);
+            if (previousBlockState() >= endState || previousBlockState() < -1)
+            {
+                int spaces = text.indexOf (QRegularExpression ("\\S"));
+                if (spaces > 0)
+                {
+                    if (TextBlockData *prevData = static_cast<TextBlockData *>(prevBlock.userData()))
+                    {
+                        QString prevLabel = prevData->labelInfo();
+                        if (prevLabel.startsWith ("c") && text.startsWith (prevLabel.right(prevLabel.count() - 1)))
+                        { // not a code block start but a comment
+                            isCommented = true;
+                            setFormat (0, text.count(), commentFormat);
+                            setCurrentBlockState (previousBlockState());
+                            data->insertInfo (prevLabel);
+                        }
+                    }
+                }
+            }
+            /* definitely, the start of a code block */
+            if (!isCommented)
+            {
+                QTextCharFormat blockFormat = codeBlockFormat;
+                blockFormat.setFontWeight (QFont::Bold);
+                setFormat (text.count() - 2,  2, blockFormat);
+                setCurrentBlockState (codeBlockState);
+            }
+        }
+        /* perhaps a comment */
+        else if (text.indexOf (QRegularExpression ("^\\s*\\.{2}"
+                                                   "(?!("
+                                                       /* not a label or substitution (".. _X:" or ".. |X| Y::") */
+                                                       " _[\\w\\s\\-+]*:(?!\\S)"
+                                                       "|"
+                                                       " \\|[\\w\\s]+\\|\\s+\\w+::(?!\\S)"
+                                                       "|"
+                                                       /* not a footnote (".. [#X]") */
+                                                       " (\\[(\\w|\\s|-|\\+|\\*)+\\]|\\[#(\\w|\\s|-|\\+)*\\])\\s+"
+                                                       "|"
+                                                       /* not ".. X::" */
+                                                       " (\\w|-)+::(?!\\S)"
+                                                   "))"
+                                                   "\\s+.*")) == 0)
+        {
+            bool isCodeLine (false);
+            QString prevLabel;
+            if (previousBlockState() == codeBlockState
+                || previousBlockState() >= endState || previousBlockState() < -1)
+            {
+                if (TextBlockData *prevData = static_cast<TextBlockData *>(prevBlock.userData()))
+                {
+                    prevLabel = prevData->labelInfo();
+                    if (prevLabel.isEmpty()
+                        || (!prevLabel.startsWith ("c") && text.startsWith (prevLabel)))
+                    { // not a commnt but a code line
+                        isCodeLine = true;
+                        if (prevLabel.isEmpty())
+                        { // the code block was started or kept in the previous line
+                            int spaces = text.indexOf (QRegularExpression ("\\S"));
+                            if (spaces == -1) // spaces only keep the code block
+                                setCurrentBlockState (codeBlockState);
+                            else
+                            { // a code line
+                                setFormat (0, text.count(), codeBlockFormat);
+                                if (spaces == 0) // a line without indent only keeps the code block
+                                    setCurrentBlockState (codeBlockState);
+                                else
+                                {
+                                    /* remember the starting spaces */
+                                    QString spaceStr = text.left (spaces);
+                                    data->insertInfo (spaceStr);
+                                    /* also, the state should depend on the starting spaces */
+                                    int n = static_cast<int>(qHash (spaceStr));
+                                    int state = 2 * (n + (n >= 0 ? endState/2 + 1 : 0));
+                                    setCurrentBlockState (state);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            setFormat (0, text.count(), codeBlockFormat);
+                            setCurrentBlockState (previousBlockState());
+                            data->insertInfo (prevLabel);
+                        }
+                    }
+                }
+            }
+            /* definitely a comment */
+            if (!isCodeLine)
+            {
+                setFormat (0, text.count(), commentFormat);
+                if ((previousBlockState() >= endState || previousBlockState() < -1)
+                    && prevLabel.startsWith ("c") && text.startsWith (prevLabel.right(prevLabel.count() - 1)))
+                {
+                    setCurrentBlockState (previousBlockState());
+                    data->insertInfo (prevLabel);
+                }
+                else
+                {
+                    /* remember the starting spaces (which consists of 3 spaces at least)
+                       but add a "c" to its beginning to distinguish it from a code block */
+                    QString spaceStr;
+                    int spaces = text.indexOf (QRegularExpression ("\\S"));
+                    if (spaces == -1)
+                        spaceStr = "c   ";
+                    else
+                        spaceStr = "c" + text.left (spaces) + "   ";
+                    data->insertInfo (spaceStr);
+                    /* also, the state should depend on the starting spaces */
+                    int n = static_cast<int>(qHash (spaceStr));
+                    int state = 2 * (n + (n >= 0 ? endState/2 + 1 : 0)); // always an even number but maybe negative
+                    setCurrentBlockState (state);
+                }
+            }
+        }
+        /* now, everything depends on the previous block */
+        else if (prevBlock.isValid())
+        {
+            if (previousBlockState() == codeBlockState)
+            { // the code block was started or kept in the previous line
+                int spaces = text.indexOf (QRegularExpression ("\\S"));
+                if (text.isEmpty() || spaces == -1) // spaces only keep the code block
+                    setCurrentBlockState (codeBlockState);
+                else
+                { // a code line
+                    setFormat (0, text.count(), codeBlockFormat);
+                    if (spaces == 0) // a line without indent only keeps the code block
+                        setCurrentBlockState (codeBlockState);
+                    else
+                    {
+                        /* remember the starting spaces */
+                        QString spaceStr = text.left (spaces);
+                        data->insertInfo (spaceStr);
+                        /* also, the state should depend on the starting spaces */
+                        int n = static_cast<int>(qHash (spaceStr));
+                        int state = 2 * (n + (n >= 0 ? endState/2 + 1 : 0));
+                        setCurrentBlockState (state);
+                    }
+                }
+            }
+            else if (previousBlockState() >= endState || previousBlockState() < -1)
+            {
+                if (TextBlockData *prevData = static_cast<TextBlockData *>(prevBlock.userData()))
+                {
+                    QString prevLabel = prevData->labelInfo();
+                    if (text.isEmpty()
+                        || ((prevLabel.startsWith ("c") && text.startsWith (prevLabel.right(prevLabel.count() - 1)))
+                            || text.startsWith (prevLabel)))
+                    {
+                        setCurrentBlockState (previousBlockState());
+                        data->insertInfo (prevLabel);
+                        if (prevLabel.startsWith ("c")) // a comment continues
+                            setFormat (0, text.count(), commentFormat);
+                        else
+                            setFormat (0, text.count(), codeBlockFormat);
+                    }
+                }
+            }
+        }
+        /***********************
+        * reST Main Formatting *
+        ************************/
+        if (mainFormatting)
+            reSTMainFormatting (0, text);
     }
 
     /*************

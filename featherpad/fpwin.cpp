@@ -737,8 +737,8 @@ void FPwin::addRemoveLangBtn (bool add)
                  << "css" << "deb" << "desktop" << "diff" << "gtkrc"
                  << "html" << "javascript" << "log" << "lua" << "m3u"
                  << "markdown" << "makefile" << "perl" << "php" << "python"
-                 << "qmake" << "qml" << "ruby" << "scss" << "sh"
-                 << "troff" << "theme" << "xml";
+                 << "qmake" << "qml" << "reST" << "ruby" << "scss"
+                 << "sh" << "troff" << "theme" << "xml";
         langList.sort();
     }
 
@@ -1650,7 +1650,7 @@ void FPwin::executeProcess()
     }
 }
 /*************************/
-bool FPwin::isScriptLang (QString lang)
+bool FPwin::isScriptLang (const QString& lang)
 {
     return (lang == "sh" || lang == "python"
             || lang == "ruby" || lang == "lua"

@@ -161,6 +161,7 @@ private:
                           int oldOpenNests, const QSet<int> &oldOpenQuotes);
 
     void markDownFonts (const QString &text);
+    void reSTMainFormatting (int start, const QString &text);
     void debControlFormatting (const QString &text);
 
     bool isEscapedJSRegex (const QString &text, const int pos);
@@ -225,7 +226,9 @@ private:
 
         /* Markdown: */
         markdownBlockQuoteState,
-        markdownCodeBlockState,
+
+        /* Markdown and reStructuredText */
+        codeBlockState,
 
         /* JavaScript: */
         JSRegexState,

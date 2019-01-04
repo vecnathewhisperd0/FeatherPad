@@ -65,7 +65,7 @@ public:
     explicit FPwin (QWidget *parent = nullptr);
     ~FPwin();
 
-    bool isScriptLang (QString lang);
+    bool isScriptLang (const QString& lang);
 
     bool isLoading() {
         return (loadingProcesses_ > 0);

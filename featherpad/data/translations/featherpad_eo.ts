@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="133"/>
+        <location filename="../../about.ui" line="135"/>
         <source>License</source>
         <translation>Licenco</translation>
     </message>
@@ -1368,7 +1368,7 @@
         </translation>
     </message>
     <message>
-        <location filename="../../syntax.cpp" line="251"/>
+        <location filename="../../syntax.cpp" line="255"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
         <translation>La grandeca limo por la sintaks-markado estas transpasita.</translation>
     </message>

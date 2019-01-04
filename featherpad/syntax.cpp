@@ -124,6 +124,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
             progLan = "html";
         else if (fname.endsWith (".markdown") || fname.endsWith (".md") || fname.endsWith (".mkd"))
             progLan = "markdown";
+        else if (fname.endsWith (".rst"))
+            progLan = "reST";
         else if (baseName.startsWith ("makefile.", Qt::CaseInsensitive) && !baseName.endsWith (".txt", Qt::CaseInsensitive))
             progLan = "makefile";
         else if (baseName.compare ("CMakeLists.txt", Qt::CaseInsensitive) == 0)
@@ -210,6 +212,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
                 progLan = "diff";
             else if (mime == "text/html" || mime == "application/xhtml+xml")
                 progLan = "html";
+            else if (mime == "text/markdown")
+                progLan = "markdown";
             else if (mime == "audio/x-mpegurl")
                 progLan = "m3u";
             else if (fname.endsWith (".conf") || fname.endsWith (".ini"))
