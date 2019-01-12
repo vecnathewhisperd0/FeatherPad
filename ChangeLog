@@ -6,6 +6,7 @@ V0.9.3
  * Support optionally translated Help files.
  * macOS support by shlyakpavel at GitHub.
  * Added reStructuredText to syntax highlighting.
+ * Dropped QDesktopWidget.
 
 V0.9.2
 ---------

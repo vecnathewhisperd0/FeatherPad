@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2019 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -320,7 +320,7 @@ void FPwin::formatOnTextChange (int /*position*/, int charsRemoved, int charsAdd
     {
         /* wait until the document's layout manager is notified about the change;
            otherwise, the end cursor might be out of range in formatTextRect() */
-        QTimer::singleShot (0, this, SLOT (formatOnResizing()));
+        QTimer::singleShot (0, this, &FPwin::formatOnResizing);
     }
 }
 /*************************/

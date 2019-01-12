@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2019 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -66,7 +66,7 @@ public:
 protected:
     void showEvent(QShowEvent * event) {
         if (p && !native)
-            QTimer::singleShot (0, this, SLOT (center()));
+            QTimer::singleShot (0, this, &FileDialog::center);
         QFileDialog::showEvent (event);
     }
 

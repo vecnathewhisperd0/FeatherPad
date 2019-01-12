@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2019 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -17,7 +17,7 @@
  * @license GPL-3.0+ <https://spdx.org/licenses/GPL-3.0+.html>
  */
 
-#include <QDesktopWidget>
+#include <QScreen>
 #include <QLocalSocket>
 #include <QDialog>
 #include <QStandardPaths>
@@ -294,7 +294,9 @@ void FPsingleton::handleMessage (const QString& message)
     bool found = false;
     if (!config_.getOpenInWindows())
     {
-        const QRect sr = QApplication::desktop()->screenGeometry();
+        QRect sr;
+        if (QScreen *pScreen = QApplication::primaryScreen())
+            sr = pScreen->virtualGeometry();
         for (int i = 0; i < Wins.count(); ++i)
         {
 #ifdef HAS_X11
@@ -333,7 +335,7 @@ void FPsingleton::handleMessage (const QString& message)
                         /* first, pretend to KDE that a new window is created
                            (without this, the next new window would open on a wrong desktop) */
                         Wins.at (i)->dummyWidget->showMinimized();
-                        QTimer::singleShot (0, Wins.at (i)->dummyWidget, SLOT (close()));
+                        QTimer::singleShot (0, Wins.at (i)->dummyWidget, &QWidget::close);
                     }
 
                     /* and then, open tab(s) in the current FeatherPad window... */

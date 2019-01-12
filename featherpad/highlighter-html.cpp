@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2019 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -296,7 +296,7 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
     if (mainFormatting)
     {
         static_cast<TextBlockData *>(currentBlock().userData())->setHighlighted(); // completely highlighted
-        for (const HighlightingRule &rule : static_cast<const QVector<HighlightingRule>&>(highlightingRules))
+        for (const HighlightingRule &rule : qAsConst(highlightingRules))
         {
             if (rule.format == whiteSpaceFormat)
             {
@@ -393,7 +393,7 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
                           commentFormat);
         if (mainFormatting)
         {
-            for (const HighlightingRule &rule : static_cast<const QVector<HighlightingRule>&>(highlightingRules))
+            for (const HighlightingRule &rule : qAsConst(highlightingRules))
             { // CSS doesn't have any main formatting except for witesapces
                 if (rule.format == whiteSpaceFormat)
                 {
@@ -534,7 +534,7 @@ void Highlighter::htmlJavascript (const QString &text)
         multiLineJSRegex (text, javaIndex + matched);
         if (mainFormatting)
         {
-            for (const HighlightingRule &rule : static_cast<const QVector<HighlightingRule>&>(highlightingRules))
+            for (const HighlightingRule &rule : qAsConst(highlightingRules))
             {
                 if (rule.format == commentFormat)
                     continue;

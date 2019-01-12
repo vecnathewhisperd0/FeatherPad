@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2019 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -51,12 +51,12 @@ SessionDialog::SessionDialog (QWidget *parent):QDialog (parent), ui (new Ui::Ses
     {
         ui->listWidget->addItems (allItems_);
         ui->listWidget->setCurrentRow (0);
-        QTimer::singleShot (0, ui->listWidget, SLOT (setFocus()));
+        QTimer::singleShot (0, ui->listWidget, QOverload<>::of(&QWidget::setFocus));
     }
     else
     {
         onEmptinessChanged (true);
-        QTimer::singleShot (0, ui->lineEdit, SLOT (setFocus()));
+        QTimer::singleShot (0, ui->lineEdit, QOverload<>::of(&QWidget::setFocus));
     }
 
     ui->listWidget->installEventFilter (this);
@@ -80,6 +80,17 @@ SessionDialog::SessionDialog (QWidget *parent):QDialog (parent), ui (new Ui::Ses
     connect (ui->closeButton, &QAbstractButton::clicked, this, &QDialog::close);
 
     connect (ui->filterLineEdit, &QLineEdit::textChanged, this, &SessionDialog::filter);
+
+    /* for the tooltip mess in Qt 5.12 */
+    const auto widgets = findChildren<QWidget*>();
+    for (QWidget *w : widgets)
+    {
+        QString tip = w->toolTip();
+        if (!tip.isEmpty())
+        {
+            w->setToolTip ("<p style='white-space:pre'>" + tip + "</p>");
+        }
+    }
 
     resize (QSize (parent_->size().width()/2, 3*parent_->size().height()/4));
 }
@@ -288,7 +299,7 @@ void SessionDialog::showMainPage()
 void SessionDialog::showPromptPage()
 {
     ui->stackedWidget->setCurrentIndex (1);
-    QTimer::singleShot (0, ui->confirmBtn, SLOT (setFocus()));
+    QTimer::singleShot (0, ui->confirmBtn, QOverload<>::of(&QWidget::setFocus));
 }
 /*************************/
 void SessionDialog::showPrompt (const QString& message)
@@ -300,7 +311,7 @@ void SessionDialog::showPrompt (const QString& message)
 
     if (message.isEmpty()) return;
 
-    QTimer::singleShot (0, this, SLOT (showPromptPage()));
+    QTimer::singleShot (0, this, &SessionDialog::showPromptPage);
 
     ui->confirmBtn->setText (tr ("&OK"));
     ui->cancelBtn->setVisible (false);
@@ -314,7 +325,7 @@ void SessionDialog::showPrompt (PROMPT prompt)
     disconnect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::reallySaveSession);
     disconnect (ui->confirmBtn, &QAbstractButton::clicked, this, &SessionDialog::reallyRenameSession);
 
-    QTimer::singleShot (0, this, SLOT (showPromptPage()));
+    QTimer::singleShot (0, this, &SessionDialog::showPromptPage);
 
     ui->confirmBtn->setText (tr ("&Yes"));
     ui->cancelBtn->setVisible (true);
@@ -345,7 +356,7 @@ void SessionDialog::showPrompt (PROMPT prompt)
 void SessionDialog::closePrompt()
 {
     ui->promptLabel->clear();
-    QTimer::singleShot (0, this, SLOT (showMainPage()));
+    QTimer::singleShot (0, this, &SessionDialog::showMainPage);
 }
 /*************************/
 void SessionDialog::removeSelected()

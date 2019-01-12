@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2019 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -23,7 +23,8 @@
 #include "pref.h"
 #include "ui_predDialog.h"
 
-#include <QDesktopWidget>
+#include <QScreen>
+#include <QWindow>
 #include <QWhatsThis>
 #include <QKeySequenceEdit>
 #include <QFileInfo>
@@ -100,15 +101,23 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
         ui->mLabel->setEnabled (false);
         ui->sizeLable->setEnabled (false);
     }
-    QSize ag = QApplication::desktop()->availableGeometry().size();
+    QSize ag;
+    if (parent != nullptr)
+    {
+        if (QWindow *win = parent->windowHandle())
+        {
+            if (QScreen *sc = win->screen())
+                ag = sc->availableVirtualGeometry().size();
+        }
+    }
+    if (!ag.isValid()) ag = QSize(0, 0);
     ui->spinX->setMaximum (ag.width());
     ui->spinY->setMaximum (ag.height());
     ui->spinX->setValue (config.getStartSize().width());
     ui->spinY->setValue (config.getStartSize().height());
-    connect (ui->spinX, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-             this, &PrefDialog::prefStartSize);
-    connect (ui->spinY, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-             this, &PrefDialog::prefStartSize);
+    /* old-fashioned: connect (ui->spinX, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),... */
+    connect (ui->spinX, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::prefStartSize);
+    connect (ui->spinY, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::prefStartSize);
 
     ui->winPosBox->setChecked (config.getRemPos());
     connect (ui->winPosBox, &QCheckBox::stateChanged, this, &PrefDialog::prefPos);
@@ -188,8 +197,7 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
     connect (ui->vLineBox, &QCheckBox::stateChanged, this, &PrefDialog::prefVLine);
     ui->vLineSpin->setEnabled (vLineDistance_ >= 10);
     ui->vLineSpin->setValue (qAbs (vLineDistance_));
-    connect (ui->vLineSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-             this, &PrefDialog::prefVLineDistance);
+    connect (ui->vLineSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::prefVLineDistance);
 
     ui->endingsBox->setChecked (config.getShowEndings());
     connect (ui->endingsBox, &QCheckBox::stateChanged, this, &PrefDialog::prefEndings);
@@ -208,8 +216,7 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
         ui->colorValueSpin->setMaximum (50);
         ui->colorValueSpin->setValue (config.getDarkBgColorValue());
     }
-    connect (ui->colorValueSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-             this, &PrefDialog::prefColValue);
+    connect (ui->colorValueSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::prefColValue);
 
     ui->thickCursorBox->setChecked (config.getThickCursor());
 
@@ -228,15 +235,13 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
     connect (ui->skipNonTextBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSkipNontext);
 
     ui->spinBox->setValue (config.getMaxSHSize());
-    connect (ui->spinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-             this, &PrefDialog::prefMaxSHSize);
+    connect (ui->spinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::prefMaxSHSize);
 
     ui->inertiaBox->setChecked (config.getInertialScrolling());
     connect (ui->inertiaBox, &QCheckBox::stateChanged, this, &PrefDialog::prefInertialScrolling);
 
     ui->textTabSpin->setValue (textTabSize_);
-    connect (ui->textTabSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-             this, &PrefDialog::prefTextTabSize);
+    connect (ui->textTabSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::prefTextTabSize);
 
     /*************
      *** Files ***
@@ -251,8 +256,7 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
 
     ui->recentSpin->setValue (config.getRecentFilesNumber());
     ui->recentSpin->setSuffix(" " + (ui->recentSpin->value() > 1 ? tr ("files") : tr ("file")));
-    connect (ui->recentSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-             this, &PrefDialog::prefRecentFilesNumber);
+    connect (ui->recentSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::prefRecentFilesNumber);
 
     ui->lastFilesBox->setChecked (config.getSaveLastFilesList());
     connect (ui->lastFilesBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSaveLastFilesList);
@@ -425,11 +429,16 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
     connect (this, &QDialog::rejected, this, &PrefDialog::onClosing);
 
     /* set tooltip as "whatsthis" */
-    QList<QWidget*> widgets = findChildren<QWidget*>();
-    for (int i = 0; i < widgets.count(); ++i)
+    const auto widgets = findChildren<QWidget*>();
+    for (QWidget *w : widgets)
     {
-        QWidget *w = widgets.at (i);
-        w->setWhatsThis (w->toolTip().replace ('\n', ' ').replace ("  ", "\n\n"));
+        QString tip = w->toolTip();
+        if (!tip.isEmpty())
+        {
+            w->setWhatsThis (tip.replace ('\n', ' ').replace ("  ", "\n\n"));
+            /* for the tooltip mess in Qt 5.12 */
+            w->setToolTip ("<p style='white-space:pre'>" + w->toolTip() + "</p>");
+        }
     }
 
     resize (sizeHint() + QSize (style()->pixelMetric(QStyle::PM_ScrollBarExtent), 0));
@@ -957,8 +966,7 @@ void PrefDialog::prefEndings (int checked)
 void PrefDialog::prefDarkColScheme (int checked)
 {
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
-    disconnect (ui->colorValueSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-                this, &PrefDialog::prefColValue);
+    disconnect (ui->colorValueSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::prefColValue);
     if (checked == Qt::Checked)
     {
         config.setDarkColScheme (true);
@@ -973,8 +981,7 @@ void PrefDialog::prefDarkColScheme (int checked)
         ui->colorValueSpin->setMaximum (255);
         ui->colorValueSpin->setValue (config.getLightBgColorValue());
     }
-    connect (ui->colorValueSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-             this, &PrefDialog::prefColValue);
+    connect (ui->colorValueSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::prefColValue);
 
     showPrompt();
 }

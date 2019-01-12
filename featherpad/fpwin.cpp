@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2019 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -32,7 +32,8 @@
 #include <QFontDialog>
 #include <QPrintDialog>
 #include <QToolTip>
-#include <QDesktopWidget>
+#include <QScreen>
+#include <QWindow>
 #include <QScrollBar>
 #include <QWidgetAction>
 #include <fstream> // std::ofstream
@@ -49,7 +50,7 @@
 namespace FeatherPad {
 
 void BusyMaker::waiting() {
-    QTimer::singleShot (timeout, this, SLOT (makeBusy()));
+    QTimer::singleShot (timeout, this, &BusyMaker::makeBusy);
 }
 
 void BusyMaker::makeBusy() {
@@ -90,7 +91,9 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     wordButton->setToolButtonStyle (Qt::ToolButtonIconOnly);
     wordButton->setIconSize (QSize (16, 16));
     wordButton->setIcon (symbolicIcon::icon (":icons/view-refresh.svg"));
-    wordButton->setToolTip (tr ("Calculate number of words\n(For huge texts, this may be CPU-intensive.)"));
+    wordButton->setToolTip ("<p style='white-space:pre'>"
+                            + tr ("Calculate number of words\n(For huge texts, this may be CPU-intensive.)")
+                            + "</p>");
     connect (wordButton, &QAbstractButton::clicked, [=]{updateWordInfo();});
     ui->statusBar->addWidget (statusLabel);
     ui->statusBar->addWidget (wordButton);
@@ -446,8 +449,11 @@ void FPwin::applyConfigOnStarting()
     else
     {
         QSize startSize = config.getStartSize();
-        QSize ag = QApplication::desktop()->availableGeometry().size();
-        if (startSize.width() > ag.width() || startSize.height() > ag.height())
+        QSize ag;
+        if (QScreen *pScreen = QApplication::primaryScreen()) // the window isn't shown yet
+            ag = pScreen->availableVirtualGeometry().size();
+        if (!ag.isEmpty()
+            && (startSize.width() > ag.width() || startSize.height() > ag.height()))
         {
             startSize = startSize.boundedTo (ag);
             config.setStartSize (startSize);
@@ -1583,7 +1589,7 @@ void FPwin::defaultSize()
     resize (s);
     /*if (parent() != nullptr)
         setParent (nullptr, flags);*/
-    QTimer::singleShot (0, this, SLOT (show()));
+    QTimer::singleShot (0, this, &FPwin::show);
 }
 /*************************/
 /*void FPwin::align()
@@ -1634,7 +1640,10 @@ void FPwin::executeProcess()
 
         QString fName = tabPage->textEdit()->getFileName();
         if (!isScriptLang (tabPage->textEdit()->getProg())  || !QFileInfo (fName).isExecutable())
+        {
+            ui->actionRun->setVisible (false);
             return;
+        }
 
         QProcess *process = new QProcess (tabPage);
         process->setObjectName (fName); // to put it into the message dialog
@@ -1645,7 +1654,8 @@ void FPwin::executeProcess()
             command +=  " ";
         fName.replace ("\"", "\"\"\""); // literal quotes in the command are shown by triple quotes
         process->start (command + "\"" + fName + "\"");
-        connect(process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+        /* old-fashioned: connect(process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),... */
+        connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
                 [=](int /*exitCode*/, QProcess::ExitStatus /*exitStatus*/){ process->deleteLater(); });
     }
 }
@@ -2187,9 +2197,16 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
                         ui->tabWidget->indexOf (tabPage) : -1);
     QString tip (fInfo.absolutePath() + "/");
     QFontMetrics metrics (QToolTip::font());
-    int w = QApplication::desktop()->screenGeometry().width();
+    int w = 0;
+    if (QWindow *win = windowHandle())
+    {
+        if (QScreen *sc = win->screen())
+            w = sc->availableGeometry().width();
+    }
     if (w > 200 * metrics.width (' ')) w = 200 * metrics.width (' ');
-    QString elidedTip = metrics.elidedText (tip, Qt::ElideMiddle, w);
+    QString elidedTip = "<p style='white-space:pre'>"
+                        + metrics.elidedText (tip, Qt::ElideMiddle, w)
+                        + "</p>";
     ui->tabWidget->setTabToolTip (ui->tabWidget->indexOf (tabPage), elidedTip);
     if (!sideItems_.isEmpty())
     {
@@ -2243,7 +2260,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
         disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionLowerCase, &QAction::setEnabled);
     }
     else if (textEdit->isReadOnly())
-        QTimer::singleShot (0, this, SLOT (makeEditable()));
+        QTimer::singleShot (0, this, &FPwin::makeEditable);
 
     if (!multiple || openInCurrentTab)
     {
@@ -2344,7 +2361,13 @@ void FPwin::onOpeningNonexistent()
 {
     disconnect (this, &FPwin::finishedLoading, this, &FPwin::onOpeningNonexistent);
     QTimer::singleShot (0, this, [=]() {
-        showWarningBar ("<center><b><big>" + tr ("The file does not exist.") + "</big></b></center>");
+        /* show the bar only if the current file doesn't exist at this very moment */
+        if (TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget()))
+        {
+            QString fname = tabPage->textEdit()->getFileName();
+            if (!fname.isEmpty() && !QFile::exists (fname))
+                showWarningBar ("<center><b><big>" + tr ("The file does not exist.") + "</big></b></center>");
+        }
     });
 }
 /*************************/
@@ -2849,7 +2872,6 @@ bool FPwin::saveFile (bool keepSyntax)
         default:
             updateShortcuts (false);
             return false;
-            break;
         }
         updateShortcuts (false);
     }
@@ -2868,9 +2890,16 @@ bool FPwin::saveFile (bool keepSyntax)
         setTitle (fname);
         QString tip (fInfo.absolutePath() + "/");
         QFontMetrics metrics (QToolTip::font());
-        int w = QApplication::desktop()->screenGeometry().width();
+        int w = 0;
+        if (QWindow *win = windowHandle())
+        {
+            if (QScreen *sc = win->screen())
+                w = sc->availableGeometry().width();
+        }
         if (w > 200 * metrics.width (' ')) w = 200 * metrics.width (' ');
-        QString elidedTip = metrics.elidedText (tip, Qt::ElideMiddle, w);
+        QString elidedTip = "<p style='white-space:pre'>"
+                            + metrics.elidedText (tip, Qt::ElideMiddle, w)
+                            + "</p>";
         ui->tabWidget->setTabToolTip (index, elidedTip);
         if (!sideItems_.isEmpty())
         {
@@ -2952,7 +2981,7 @@ bool FPwin::saveFile (bool keepSyntax)
     }
 
     if (success && textEdit->isReadOnly() && !alreadyOpen (tabPage))
-         QTimer::singleShot (0, this, SLOT (makeEditable()));
+         QTimer::singleShot (0, this, &FPwin::makeEditable);
 
     return success;
 }
@@ -4409,7 +4438,7 @@ void FPwin::dropTab (const QString& str)
     raise();
 
     if (count == 0)
-        QTimer::singleShot (0, dragSource, SLOT (close()));
+        QTimer::singleShot (0, dragSource, &QWidget::close);
 }
 /*************************/
 void FPwin::tabContextMenu (const QPoint& p)

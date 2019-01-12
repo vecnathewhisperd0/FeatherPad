@@ -45,7 +45,7 @@ long fromDesktop()
     int actual_format;
     long unsigned nitems;
     long unsigned bytes;
-    long *data = NULL;
+    long *data = nullptr;
     int status;
 
     /* QX11Info::appRootWindow() or even RootWindow (disp, 0)
@@ -82,7 +82,7 @@ long onWhichDesktop (Window window)
     unsigned long nitems_ret;
     unsigned long bytes_after_ret;
 
-    long *desktop = NULL;
+    long *desktop = nullptr;
 
     int status = XGetWindowProperty (disp, window,
                                      wm_desktop,
@@ -116,7 +116,7 @@ bool isWindowShaded (Window window)
     Atom atom = XInternAtom (disp, "_NET_WM_STATE_SHADED", False);
     if (atom == None) return false;
 
-    Atom *atoms = NULL;
+    Atom *atoms = nullptr;
     Atom realtype;
     int realformat;
     unsigned long nitems, left;
