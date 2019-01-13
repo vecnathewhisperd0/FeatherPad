@@ -490,7 +490,7 @@ public:
     }
 
 private:
-    bool isValidShortCut (const QVariant v);
+    QString validatedShortcut (const QVariant v);
     void readCursorPos();
     void writeCursorPos();
 

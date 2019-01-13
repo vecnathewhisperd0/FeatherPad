@@ -91,6 +91,10 @@ public:
 
     void startAutoSaving (bool start, int interval = 1);
 
+    QHash<QAction*, QKeySequence> defaultShortcuts() const {
+        return defaultShortcuts_;
+    }
+
 signals:
     void finishedLoading();
 
@@ -270,6 +274,7 @@ private:
     SidePane *sidePane_;
     QHash<QListWidgetItem*, TabPage*> sideItems_; // For fast tab switching.
     QHash<QString, QAction*> langs_; // All programming languages (to be enforced by the user).
+    QHash<QAction*, QKeySequence> defaultShortcuts_;
     // Auto-saving:
     QTimer *autoSaver_;
     QElapsedTimer autoSaverPause_;

@@ -112,6 +112,27 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     ui->toolButtonAll->setToolTip (tr ("Replace all") + " (" + tr ("F9") + ")");
     ui->dockReplace->setVisible (false);
 
+    /* shortcuts should be reversed for rtl */
+    if (QApplication::layoutDirection() == Qt::RightToLeft)
+    {
+        ui->actionRightTab->setShortcut (QKeySequence (Qt::ALT + Qt::Key_Left));
+        ui->actionLeftTab->setShortcut (QKeySequence (Qt::ALT + Qt::Key_Right));
+    }
+
+    /* get the default (customizable) shortcuts before any change */
+    static const QStringList exxcluded = {"actionCut", "actionCopy", "actionPaste", "actionSelectAll"};
+    const auto allMenus = ui->menuBar->findChildren<QMenu*>();
+    for (auto thisMenu : allMenus)
+    {
+        const auto menuActions = thisMenu->actions();
+        for (auto menuAction : menuActions)
+        {
+            QKeySequence seq = menuAction->shortcut();
+            if (!seq.isEmpty() && !exxcluded.contains (menuAction->objectName()))
+                defaultShortcuts_.insert (menuAction, seq);
+        }
+    }
+
     applyConfigOnStarting();
 
     QWidget* spacer = new QWidget();
@@ -253,21 +274,21 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
      *****     for tool buttons on the search bar and replacement dock.    *****
      ***** The toolbar buttons and menu items aren't affected by this bug. *****
      ***************************************************************************/
-    ui->toolButtonNext->setShortcut (QKeySequence (tr ("F7")));
-    ui->toolButtonPrv->setShortcut (QKeySequence (tr ("F8")));
-    ui->toolButtonAll->setShortcut (QKeySequence (tr ("F9")));
+    ui->toolButtonNext->setShortcut (QKeySequence (Qt::Key_F7));
+    ui->toolButtonPrv->setShortcut (QKeySequence (Qt::Key_F8));
+    ui->toolButtonAll->setShortcut (QKeySequence (Qt::Key_F9));
 
-    QShortcut *zoomin = new QShortcut (QKeySequence (tr ("Ctrl+=")), this);
-    QShortcut *zoominPlus = new QShortcut (QKeySequence (tr ("Ctrl++")), this);
-    QShortcut *zoomout = new QShortcut (QKeySequence (tr ("Ctrl+-")), this);
-    QShortcut *zoomzero = new QShortcut (QKeySequence (tr ("Ctrl+0")), this);
+    QShortcut *zoomin = new QShortcut (QKeySequence (Qt::CTRL + Qt::Key_Equal), this);
+    QShortcut *zoominPlus = new QShortcut (QKeySequence (Qt::CTRL + Qt::Key_Plus), this);
+    QShortcut *zoomout = new QShortcut (QKeySequence (Qt::CTRL + Qt::Key_Minus), this);
+    QShortcut *zoomzero = new QShortcut (QKeySequence (Qt::CTRL + Qt::Key_0), this);
     connect (zoomin, &QShortcut::activated, this, &FPwin::zoomIn);
     connect (zoominPlus, &QShortcut::activated, this, &FPwin::zoomIn);
     connect (zoomout, &QShortcut::activated, this, &FPwin::zoomOut);
     connect (zoomzero, &QShortcut::activated, this, &FPwin::zoomZero);
 
-    QShortcut *fullscreen = new QShortcut (QKeySequence (tr ("F11")), this);
-    QShortcut *defaultsize = new QShortcut (QKeySequence (tr ("Ctrl+Shift+W")), this);
+    QShortcut *fullscreen = new QShortcut (QKeySequence (Qt::Key_F11), this);
+    QShortcut *defaultsize = new QShortcut (QKeySequence (Qt::CTRL + Qt::SHIFT + Qt::Key_W), this);
     connect (fullscreen, &QShortcut::activated, [this] {setWindowState (windowState() ^ Qt::WindowFullScreen);});
     connect (defaultsize, &QShortcut::activated, this, &FPwin::defaultSize);
 
@@ -277,7 +298,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     connect (align, &QShortcut::activated, this, &FPwin::align);*/
 
     /* exiting a process */
-    QShortcut *kill = new QShortcut (QKeySequence (tr ("Ctrl+Alt+E")), this);
+    QShortcut *kill = new QShortcut (QKeySequence (Qt::CTRL + Qt::ALT + Qt::Key_E), this);
     connect (kill, &QShortcut::activated, this, &FPwin::exitProcess);
 
     dummyWidget = new QWidget();
@@ -606,10 +627,6 @@ void FPwin::applyConfigOnStarting()
                 ui->actionCloseLeft->setIcon (QIcon::fromTheme ("go-next"));
                 ui->actionRightTab->setIcon (QIcon::fromTheme ("go-previous"));
                 ui->actionLeftTab->setIcon (QIcon::fromTheme ("go-next"));
-
-                /* shortcuts should be reversed for rtl */
-                ui->actionRightTab->setShortcut (QKeySequence (tr ("Alt+Left")));
-                ui->actionLeftTab->setShortcut (QKeySequence (tr ("Alt+Right")));
             }
             else
             {
@@ -668,9 +685,6 @@ void FPwin::applyConfigOnStarting()
                 ui->actionCloseLeft->setIcon (symbolicIcon::icon (":icons/go-next.svg"));
                 ui->actionRightTab->setIcon (symbolicIcon::icon (":icons/go-previous.svg"));
                 ui->actionLeftTab->setIcon (symbolicIcon::icon (":icons/go-next.svg"));
-
-                ui->actionRightTab->setShortcut (QKeySequence (tr ("Alt+Left")));
-                ui->actionLeftTab->setShortcut (QKeySequence (tr ("Alt+Right")));
             }
             else
             {
@@ -688,23 +702,26 @@ void FPwin::applyConfigOnStarting()
     }
 
     if (!config.hasReservedShortcuts())
-    { // this is here, and not in "singleton.cpp", just to simplify translation
+    { // the reserved shortcuts list could also be in "singleton.cpp"
         QStringList reserved;
                     /* QPLainTextEdit */
-        reserved << tr ("Ctrl+Shift+Z") << tr ("Ctrl+Z") << tr ("Ctrl+X") << tr ("Ctrl+C") << tr ("Ctrl+V") << tr ("Ctrl+A")
-                 << tr ("Shift+Ins") << tr ("Shift+Del") << tr ("Ctrl+Ins") << tr ("Ctrl+Left") << tr ("Ctrl+Right")
-                 << tr ("Ctrl+Up") << tr ("Ctrl+Down") << tr ("Ctrl+Home") << tr ("Ctrl+End") << tr ("Ctrl+Shift+Up") << tr ("Ctrl+Shift+Down") << tr ("Meta+Up") << tr ("Meta+Down") << tr ("Meta+Shift+Up")<< tr ("Meta+Shift+Down")
+        reserved << QKeySequence (Qt::CTRL + Qt::SHIFT + Qt::Key_Z).toString() << QKeySequence (Qt::CTRL + Qt::Key_Z).toString() << QKeySequence (Qt::CTRL + Qt::Key_X).toString() << QKeySequence (Qt::CTRL + Qt::Key_C).toString() << QKeySequence (Qt::CTRL + Qt::Key_V).toString() << QKeySequence (Qt::CTRL + Qt::Key_A).toString()
+                 << QKeySequence (Qt::SHIFT + Qt::Key_Insert).toString() << QKeySequence (Qt::SHIFT + Qt::Key_Delete).toString() << QKeySequence (Qt::CTRL + Qt::Key_Insert).toString()
+                 << QKeySequence (Qt::CTRL + Qt::Key_Left).toString() << QKeySequence (Qt::CTRL + Qt::Key_Right).toString() << QKeySequence (Qt::CTRL + Qt::Key_Up).toString() << QKeySequence (Qt::CTRL + Qt::Key_Down).toString()
+                 << QKeySequence (Qt::CTRL + Qt::Key_Home).toString() << QKeySequence (Qt::CTRL + Qt::Key_End).toString()
+                 << QKeySequence (Qt::CTRL + Qt::SHIFT + Qt::Key_Up).toString() << QKeySequence (Qt::CTRL + Qt::SHIFT + Qt::Key_Down).toString()
+                 << QKeySequence (Qt::META + Qt::Key_Up).toString() << QKeySequence (Qt::META + Qt::Key_Down).toString() << QKeySequence (Qt::META + Qt::SHIFT + Qt::Key_Up).toString() << QKeySequence (Qt::META + Qt::SHIFT + Qt::Key_Down).toString()
 
                     /* search and replacement */
-                 << tr ("F3") << tr ("F4") << tr ("F5") << tr ("F6")
-                 << tr ("F7") << tr ("F8") << tr ("F9")
-                 << tr ("F11") << tr ("Ctrl+Shift+W")
+                 << QKeySequence (Qt::Key_F3).toString() << QKeySequence (Qt::Key_F4).toString() << QKeySequence (Qt::Key_F5).toString() << QKeySequence (Qt::Key_F6).toString()
+                 << QKeySequence (Qt::Key_F7).toString() << QKeySequence (Qt::Key_F8).toString() << QKeySequence (Qt::Key_F9).toString()
+                 << QKeySequence (Qt::Key_F11).toString() << QKeySequence (Qt::CTRL + Qt::SHIFT + Qt::Key_W).toString()
 
-                 << tr ("Ctrl+=") << tr ("Ctrl++") << tr ("Ctrl+-") << tr ("Ctrl+0") // zooming
-                 << tr ("Ctrl+Alt+E") // exiting a process
-                 << tr ("Shift+Enter") << tr ("Ctrl+Tab") << tr ("Ctrl+Meta+Tab") // text tabulation
-                 << tr ("Ctrl+Shift+J") // select text on jumping (not an action)
-                 << tr ("Ctrl+K"); // used by LineEdit as well as QPlainTextEdit
+                 << QKeySequence (Qt::CTRL + Qt::Key_Equal).toString() << QKeySequence (Qt::CTRL + Qt::Key_Plus).toString() << QKeySequence (Qt::CTRL + Qt::Key_Minus).toString() << QKeySequence (Qt::CTRL + Qt::Key_0).toString() // zooming
+                 << QKeySequence (Qt::CTRL + Qt::ALT  +Qt::Key_E).toString() // exiting a process
+                 << QKeySequence (Qt::SHIFT + Qt::Key_Enter).toString() << QKeySequence (Qt::SHIFT + Qt::Key_Return).toString() << QKeySequence (Qt::CTRL + Qt::Key_Tab).toString() << QKeySequence (Qt::CTRL + Qt::META + Qt::Key_Tab).toString() // text tabulation
+                 << QKeySequence (Qt::CTRL + Qt::SHIFT + Qt::Key_J).toString() // select text on jumping (not an action)
+                 << QKeySequence (Qt::CTRL + Qt::Key_K).toString(); // used by LineEdit as well as QPlainTextEdit
         config.setReservedShortcuts (reserved);
         config.readShortcuts();
     }
@@ -712,9 +729,9 @@ void FPwin::applyConfigOnStarting()
     QHash<QString, QString> ca = config.customShortcutActions();
     QHash<QString, QString>::const_iterator it = ca.constBegin();
     while (it != ca.constEnd())
-    {
+    { // NOTE: Custom shortcuts are saved in the PortableText format.
         if (QAction *action = findChild<QAction*>(it.key()))
-            action->setShortcut (it.value());
+            action->setShortcut (QKeySequence (it.value(), QKeySequence::PortableText));
         ++it;
     }
 
@@ -1234,103 +1251,29 @@ void FPwin::enableWidgets (bool enable) const
 /*************************/
 void FPwin::updateCustomizableShortcuts (bool disable)
 {
+    QHash<QAction*, QKeySequence>::const_iterator iter = defaultShortcuts_.constBegin();
     if (disable)
-    {
-        ui->actionLineNumbers->setShortcut (QKeySequence());
-        ui->actionWrap->setShortcut (QKeySequence());
-        ui->actionIndent->setShortcut (QKeySequence());
-        ui->actionSyntax->setShortcut (QKeySequence());
-
-        ui->actionNew->setShortcut (QKeySequence());
-        ui->actionOpen->setShortcut (QKeySequence());
-        ui->actionSave->setShortcut (QKeySequence());
-        ui->actionFind->setShortcut (QKeySequence());
-        ui->actionReplace->setShortcut (QKeySequence());
-        ui->actionSaveAs->setShortcut (QKeySequence());
-        ui->actionPrint->setShortcut (QKeySequence());
-        ui->actionDoc->setShortcut (QKeySequence());
-        ui->actionClose->setShortcut (QKeySequence());
-        ui->actionQuit->setShortcut (QKeySequence());
-        ui->actionPreferences->setShortcut (QKeySequence());
-        ui->actionHelp->setShortcut (QKeySequence());
-        ui->actionEdit->setShortcut (QKeySequence());
-        ui->actionDetachTab->setShortcut (QKeySequence());
-        ui->actionReload->setShortcut (QKeySequence());
-
-        ui->actionUpperCase->setShortcut (QKeySequence());
-        ui->actionLowerCase->setShortcut (QKeySequence());
-
-        /* the shortcuts of these 3 actions don't need to be unset
-           but they may need to be reset with Preferences dialog */
-        ui->actionJump->setShortcut (QKeySequence());
-        ui->actionRun->setShortcut (QKeySequence());
-        ui->actionSession->setShortcut (QKeySequence());
-
-        ui->actionSidePane->setShortcut (QKeySequence());
-
-        ui->actionUndo->setShortcut (QKeySequence());
-        ui->actionRedo->setShortcut (QKeySequence());
-        ui->actionDate->setShortcut (QKeySequence());
-
-        ui->actionRightTab->setShortcut (QKeySequence());
-        ui->actionLeftTab->setShortcut (QKeySequence());
-        ui->actionLastTab->setShortcut (QKeySequence());
-        ui->actionFirstTab->setShortcut (QKeySequence());
-        ui->actionLastActiveTab->setShortcut (QKeySequence());
+    { // remove shortcuts
+        while (iter != defaultShortcuts_.constEnd())
+        {
+            iter.key()->setShortcut (QKeySequence());
+            ++ iter;
+        }
     }
     else
-    {
+    { // restore shortcuts
         QHash<QString, QString> ca = static_cast<FPsingleton*>(qApp)->
-                                     getConfig().customShortcutActions();
-        QList<QString> keys = ca.keys();
+                getConfig().customShortcutActions();
+        QList<QString> cn = ca.keys();
 
-        ui->actionLineNumbers->setShortcut (keys.contains ("actionLineNumbers") ? ca.value ("actionLineNumbers") : QKeySequence (tr ("Ctrl+L")));
-        ui->actionWrap->setShortcut (keys.contains ("actionWrap") ? ca.value ("actionWrap") : QKeySequence (tr ("Ctrl+W")));
-        ui->actionIndent->setShortcut (keys.contains ("actionIndent") ? ca.value ("actionIndent") : QKeySequence (tr ("Ctrl+I")));
-        ui->actionSyntax->setShortcut (keys.contains ("actionSyntax") ? ca.value ("actionSyntax") : QKeySequence (tr ("Ctrl+Shift+H")));
-
-        ui->actionNew->setShortcut (keys.contains ("actionNew") ? ca.value ("actionNew") : QKeySequence (tr ("Ctrl+N")));
-        ui->actionOpen->setShortcut (keys.contains ("actionOpen") ? ca.value ("actionOpen") : QKeySequence (tr ("Ctrl+O")));
-        ui->actionSave->setShortcut (keys.contains ("actionSave") ? ca.value ("actionSave") : QKeySequence (tr ("Ctrl+S")));
-        ui->actionFind->setShortcut (keys.contains ("actionFind") ? ca.value ("actionFind") : QKeySequence (tr ("Ctrl+F")));
-        ui->actionReplace->setShortcut (keys.contains ("actionReplace") ? ca.value ("actionReplace") : QKeySequence (tr ("Ctrl+R")));
-        ui->actionSaveAs->setShortcut (keys.contains ("actionSaveAs") ? ca.value ("actionSaveAs") : QKeySequence (tr ("Ctrl+Shift+S")));
-        ui->actionPrint->setShortcut (keys.contains ("actionPrint") ? ca.value ("actionPrint") : QKeySequence (tr ("Ctrl+P")));
-        ui->actionDoc->setShortcut (keys.contains ("actionDoc") ? ca.value ("actionDoc") : QKeySequence (tr ("Ctrl+Shift+D")));
-        ui->actionClose->setShortcut (keys.contains ("actionClose") ? ca.value ("actionClose") : QKeySequence (tr ("Ctrl+Shift+Q")));
-        ui->actionQuit->setShortcut (keys.contains ("actionQuit") ? ca.value ("actionQuit") : QKeySequence (tr ("Ctrl+Q")));
-        ui->actionPreferences->setShortcut (keys.contains ("actionPreferences") ? ca.value ("actionPreferences") : QKeySequence (tr ("Ctrl+Shift+P")));
-        ui->actionHelp->setShortcut (keys.contains ("actionHelp") ? ca.value ("actionHelp") : QKeySequence (tr ("Ctrl+H")));
-        ui->actionEdit->setShortcut (keys.contains ("actionEdit") ? ca.value ("actionEdit") : QKeySequence (tr ("Ctrl+E")));
-        ui->actionDetachTab->setShortcut (keys.contains ("actionDetachTab") ? ca.value ("actionDetachTab") : QKeySequence (tr ("Ctrl+T")));
-        ui->actionReload->setShortcut (keys.contains ("actionReload") ? ca.value ("actionReload") : QKeySequence (tr ("Ctrl+Shift+R")));
-
-        ui->actionUpperCase->setShortcut (keys.contains ("actionUpperCase") ? ca.value ("actionUpperCase") : QKeySequence (tr ("Ctrl+Shift+U")));
-        ui->actionLowerCase->setShortcut (keys.contains ("actionLowerCase") ? ca.value ("actionLowerCase") : QKeySequence (tr ("Ctrl+Shift+L")));
-
-        ui->actionJump->setShortcut (keys.contains ("actionJump") ? ca.value ("actionJump") : QKeySequence (tr ("Ctrl+J")));
-        ui->actionRun->setShortcut (keys.contains ("actionRun") ? ca.value ("actionRun") : QKeySequence (tr ("Ctrl+E")));
-        ui->actionSession->setShortcut (keys.contains ("actionSession") ? ca.value ("actionSession") : QKeySequence (tr ("Ctrl+M")));
-
-        ui->actionSidePane->setShortcut (keys.contains ("actionSidePane") ? ca.value ("actionSidePane") : QKeySequence (tr ("Ctrl+Alt+P")));
-
-        ui->actionUndo->setShortcut (keys.contains ("actionUndo") ? ca.value ("actionUndo") : QKeySequence (tr ("Ctrl+Z")));
-        ui->actionRedo->setShortcut (keys.contains ("actionRedo") ? ca.value ("actionRedo") : QKeySequence (tr ("Ctrl+Shift+Z")));
-        ui->actionDate->setShortcut (keys.contains ("actionDate") ? ca.value ("actionDate") : QKeySequence (tr ("Ctrl+Shift+V")));
-
-        if (QApplication::layoutDirection() == Qt::RightToLeft)
+        while (iter != defaultShortcuts_.constEnd())
         {
-            ui->actionRightTab->setShortcut (keys.contains ("actionRightTab") ? ca.value ("actionRightTab") : QKeySequence (tr ("Alt+Left")));
-            ui->actionLeftTab->setShortcut (keys.contains ("actionLeftTab") ? ca.value ("actionLeftTab") : QKeySequence (tr ("Alt+Right")));
+            const QString name = iter.key()->objectName();
+            iter.key()->setShortcut (cn.contains (name)
+                                     ? QKeySequence (ca.value (name), QKeySequence::PortableText)
+                                     : iter.value());
+            ++ iter;
         }
-        else
-        {
-            ui->actionRightTab->setShortcut (keys.contains ("actionRightTab") ? ca.value ("actionRightTab") : QKeySequence (tr ("Alt+Right")));
-            ui->actionLeftTab->setShortcut (keys.contains ("actionLeftTab") ? ca.value ("actionLeftTab") : QKeySequence (tr ("Alt+Left")));
-        }
-        ui->actionLastTab->setShortcut (keys.contains ("actionLastTab") ? ca.value ("actionLastTab") : QKeySequence (tr ("Alt+Up")));
-        ui->actionFirstTab->setShortcut (keys.contains ("actionFirstTab") ? ca.value ("actionFirstTab") : QKeySequence (tr ("Alt+Down")));
-        ui->actionLastActiveTab->setShortcut (keys.contains ("actionLastActiveTab") ? ca.value ("actionLastActiveTab") : QKeySequence (tr ("F1")));
     }
 }
 /*************************/
@@ -1355,14 +1298,14 @@ void FPwin::updateShortcuts (bool disable, bool page)
     }
     else
     {
-        ui->actionCut->setShortcut (QKeySequence (tr ("Ctrl+X")));
-        ui->actionCopy->setShortcut (QKeySequence (tr ("Ctrl+C")));
-        ui->actionPaste->setShortcut (QKeySequence (tr ("Ctrl+V")));
-        ui->actionSelectAll->setShortcut (QKeySequence (tr ("Ctrl+A")));
+        ui->actionCut->setShortcut (QKeySequence (Qt::CTRL+ Qt::Key_X));
+        ui->actionCopy->setShortcut (QKeySequence (Qt::CTRL+ Qt::Key_C));
+        ui->actionPaste->setShortcut (QKeySequence (Qt::CTRL+ Qt::Key_V));
+        ui->actionSelectAll->setShortcut (QKeySequence (Qt::CTRL+ Qt::Key_A));
 
-        ui->toolButtonNext->setShortcut (QKeySequence (tr ("F7")));
-        ui->toolButtonPrv->setShortcut (QKeySequence (tr ("F8")));
-        ui->toolButtonAll->setShortcut (QKeySequence (tr ("F9")));
+        ui->toolButtonNext->setShortcut (QKeySequence (Qt::Key_F7));
+        ui->toolButtonPrv->setShortcut (QKeySequence (Qt::Key_F8));
+        ui->toolButtonAll->setShortcut (QKeySequence (Qt::Key_F9));
     }
     updateCustomizableShortcuts (disable);
 
@@ -4579,60 +4522,10 @@ void FPwin::listContextMenu (const QPoint& p)
 void FPwin::prefDialog()
 {
     if (isLoading()) return;
-
     if (hasAnotherDialog()) return;
 
-    static QHash<QString, QString> defaultShortcuts; // FIXME: use C++11 initializer
-    if (defaultShortcuts.isEmpty())
-    {
-        defaultShortcuts.insert ("actionNew", tr ("Ctrl+N"));
-        defaultShortcuts.insert ("actionOpen", tr ("Ctrl+O"));
-        defaultShortcuts.insert ("actionSave", tr ("Ctrl+S"));
-        defaultShortcuts.insert ("actionReload", tr ("Ctrl+Shift+R"));
-        defaultShortcuts.insert ("actionFind", tr ("Ctrl+F"));
-        defaultShortcuts.insert ("actionReplace", tr ("Ctrl+R"));
-        defaultShortcuts.insert ("actionSaveAs", tr ("Ctrl+Shift+S"));
-        defaultShortcuts.insert ("actionPrint", tr ("Ctrl+P"));
-        defaultShortcuts.insert ("actionDoc", tr ("Ctrl+Shift+D"));
-        defaultShortcuts.insert ("actionClose", tr ("Ctrl+Shift+Q"));
-        defaultShortcuts.insert ("actionQuit", tr ("Ctrl+Q"));
-        defaultShortcuts.insert ("actionLineNumbers", tr ("Ctrl+L"));
-        defaultShortcuts.insert ("actionWrap", tr ("Ctrl+W"));
-        defaultShortcuts.insert ("actionIndent", tr ("Ctrl+I"));
-        defaultShortcuts.insert ("actionSyntax", tr ("Ctrl+Shift+H"));
-        defaultShortcuts.insert ("actionPreferences", tr ("Ctrl+Shift+P"));
-        defaultShortcuts.insert ("actionHelp", tr ("Ctrl+H"));
-        defaultShortcuts.insert ("actionJump", tr ("Ctrl+J"));
-        defaultShortcuts.insert ("actionEdit", tr ("Ctrl+Shift+E"));
-        defaultShortcuts.insert ("actionDetachTab", tr ("Ctrl+T"));
-        defaultShortcuts.insert ("actionRun", tr ("Ctrl+E"));
-        defaultShortcuts.insert ("actionSession", tr ("Ctrl+M"));
-        defaultShortcuts.insert ("actionSidePane", tr ("Ctrl+Alt+P"));
-
-        defaultShortcuts.insert ("actionUpperCase", tr ("Ctrl+Shift+U"));
-        defaultShortcuts.insert ("actionLowerCase", tr ("Ctrl+Shift+L"));
-
-        defaultShortcuts.insert ("actionUndo", tr ("Ctrl+Z"));
-        defaultShortcuts.insert ("actionRedo", tr ("Ctrl+Shift+Z"));
-        defaultShortcuts.insert ("actionDate", tr ("Ctrl+Shift+V"));
-
-        if (QApplication::layoutDirection() == Qt::RightToLeft)
-        {
-            defaultShortcuts.insert ("actionRightTab", tr ("Alt+Left"));
-            defaultShortcuts.insert ("actionLeftTab", tr ("Alt+Right"));
-        }
-        else
-        {
-            defaultShortcuts.insert ("actionRightTab", tr ("Alt+Right"));
-            defaultShortcuts.insert ("actionLeftTab", tr ("Alt+Left"));
-        }
-        defaultShortcuts.insert ("actionFirstTab", tr ("Alt+Down"));
-        defaultShortcuts.insert ("actionLastTab", tr ("Alt+Up"));
-        defaultShortcuts.insert ("actionLastActiveTab", tr ("F1"));
-    }
-
     updateShortcuts (true);
-    PrefDialog dlg (defaultShortcuts, this);
+    PrefDialog dlg (this);
     /*dlg.show();
     move (x() + width()/2 - dlg.width()/2,
           y() + height()/2 - dlg.height()/ 2);*/

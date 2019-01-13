@@ -32,6 +32,7 @@
 namespace FeatherPad {
 
 static QHash<QString, QString> OBJECT_NAMES;
+static QHash<QString, QString> DEFAULT_SHORTCUTS;
 
 Delegate::Delegate (QObject *parent)
     : QStyledItemDelegate (parent)
@@ -61,7 +62,7 @@ bool Delegate::eventFilter (QObject *object, QEvent *event)
     return QStyledItemDelegate::eventFilter (object, event);
 }
 /*************************/
-PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget *parent)
+PrefDialog::PrefDialog (QWidget *parent)
     : QDialog (parent), ui (new Ui::PrefDialog)
 {
     ui->setupUi (this);
@@ -275,121 +276,33 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
      *** Shortcuts ***
      *****************/
 
-    defaultShortcuts_ = defaultShortcuts;
-    FPwin *win = static_cast<FPwin *>(parent_);
-
-    if (OBJECT_NAMES.isEmpty())
+    if (FPwin *win = static_cast<FPwin *>(parent_))
     {
-        OBJECT_NAMES.insert (win->ui->actionNew->text().remove ("&"), "actionNew");
-        OBJECT_NAMES.insert (win->ui->actionOpen->text().remove ("&"), "actionOpen");
-        OBJECT_NAMES.insert (win->ui->actionSave->text().remove ("&"), "actionSave");
-        OBJECT_NAMES.insert (win->ui->actionReload->text().remove ("&"), "actionReload");
-        OBJECT_NAMES.insert (win->ui->actionFind->text().remove ("&"), "actionFind");
-        OBJECT_NAMES.insert (win->ui->actionReplace->text().remove ("&"), "actionReplace");
-        OBJECT_NAMES.insert (win->ui->actionSaveAs->text().remove ("&"), "actionSaveAs");
-        OBJECT_NAMES.insert (win->ui->actionPrint->text().remove ("&"), "actionPrint");
-        OBJECT_NAMES.insert (win->ui->actionDoc->text().remove ("&"), "actionDoc");
-        OBJECT_NAMES.insert (win->ui->actionClose->text().remove ("&"), "actionClose");
-        OBJECT_NAMES.insert (win->ui->actionQuit->text().remove ("&"), "actionQuit");
-        OBJECT_NAMES.insert (win->ui->actionLineNumbers->text().remove ("&"), "actionLineNumbers");
-        OBJECT_NAMES.insert (win->ui->actionWrap->text().remove ("&"), "actionWrap");
-        OBJECT_NAMES.insert (win->ui->actionIndent->text().remove ("&"), "actionIndent");
-        OBJECT_NAMES.insert (win->ui->actionSyntax->text().remove ("&"), "actionSyntax");
-        OBJECT_NAMES.insert (win->ui->actionPreferences->text().remove ("&"), "actionPreferences");
-        OBJECT_NAMES.insert (win->ui->actionHelp->text().remove ("&"), "actionHelp");
-        OBJECT_NAMES.insert (win->ui->actionJump->text().remove ("&"), "actionJump");
-        OBJECT_NAMES.insert (win->ui->actionEdit->text().remove ("&"), "actionEdit");
-        OBJECT_NAMES.insert (win->ui->actionDetachTab->text().remove ("&"), "actionDetachTab");
-        OBJECT_NAMES.insert (win->ui->actionRun->text().remove ("&"), "actionRun");
-        OBJECT_NAMES.insert (win->ui->actionSession->text().remove ("&"), "actionSession");
-        OBJECT_NAMES.insert (win->ui->actionSidePane->text().remove ("&"), "actionSidePane");
-
-        OBJECT_NAMES.insert (win->ui->actionUpperCase->text().remove ("&"), "actionUpperCase");
-        OBJECT_NAMES.insert (win->ui->actionLowerCase->text().remove ("&"), "actionLowerCase");
-
-        OBJECT_NAMES.insert (win->ui->actionUndo->text().remove ("&"), "actionUndo");
-        OBJECT_NAMES.insert (win->ui->actionRedo->text().remove ("&"), "actionRedo");
-        OBJECT_NAMES.insert (win->ui->actionDate->text().remove ("&"), "actionDate");
-
-        OBJECT_NAMES.insert (win->ui->actionRightTab->text().remove ("&"), "actionRightTab");
-        OBJECT_NAMES.insert (win->ui->actionLeftTab->text().remove ("&"), "actionLeftTab");
-        OBJECT_NAMES.insert (win->ui->actionFirstTab->text().remove ("&"), "actionFirstTab");
-        OBJECT_NAMES.insert (win->ui->actionLastTab->text().remove ("&"), "actionLastTab");
-        OBJECT_NAMES.insert (win->ui->actionLastActiveTab->text().remove ("&"), "actionLastActiveTab");
+        if (DEFAULT_SHORTCUTS.isEmpty())
+        { // NOTE: Shortcut strings hould be in the PortableText format.
+            const auto defaultShortcuts = win->defaultShortcuts();
+            QHash<QAction*, QKeySequence>::const_iterator iter = defaultShortcuts.constBegin();
+            while (iter != defaultShortcuts.constEnd())
+            {
+                const QString name = iter.key()->objectName();
+                DEFAULT_SHORTCUTS.insert (name, iter.value().toString());
+                OBJECT_NAMES.insert (iter.key()->text().remove ("&"), name);
+                ++ iter;
+            }
+        }
     }
 
     QHash<QString, QString> ca = config.customShortcutActions();
+
     QList<QString> keys = ca.keys();
-
-    shortcuts_.insert (win->ui->actionNew->text().remove ("&"),
-                       keys.contains ("actionNew") ? ca.value ("actionNew") : defaultShortcuts_.value ("actionNew"));
-    shortcuts_.insert (win->ui->actionOpen->text().remove ("&"),
-                       keys.contains ("actionOpen") ? ca.value ("actionOpen") : defaultShortcuts_.value ("actionOpen"));
-    shortcuts_.insert (win->ui->actionSave->text().remove ("&"),
-                       keys.contains ("actionSave") ? ca.value ("actionSave") : defaultShortcuts_.value ("actionSave"));
-    shortcuts_.insert (win->ui->actionReload->text().remove ("&"),
-                       keys.contains ("actionReload") ? ca.value ("actionReload") : defaultShortcuts_.value ("actionReload"));
-    shortcuts_.insert (win->ui->actionFind->text().remove ("&"),
-                       keys.contains ("actionFind") ? ca.value ("actionFind") : defaultShortcuts_.value ("actionFind"));
-    shortcuts_.insert (win->ui->actionReplace->text().remove ("&"),
-                       keys.contains ("actionReplace") ? ca.value ("actionReplace") : defaultShortcuts_.value ("actionReplace"));
-    shortcuts_.insert (win->ui->actionSaveAs->text().remove ("&"),
-                       keys.contains ("actionSaveAs") ? ca.value ("actionSaveAs") : defaultShortcuts_.value ("actionSaveAs"));
-    shortcuts_.insert (win->ui->actionPrint->text().remove ("&"),
-                       keys.contains ("actionPrint") ? ca.value ("actionPrint") :defaultShortcuts_.value ("actionPrint"));
-    shortcuts_.insert (win->ui->actionDoc->text().remove ("&"),
-                       keys.contains ("actionDoc") ? ca.value ("actionDoc") : defaultShortcuts_.value ("actionDoc"));
-    shortcuts_.insert (win->ui->actionClose->text().remove ("&"),
-                       keys.contains ("actionClose") ? ca.value ("actionClose") : defaultShortcuts_.value ("actionClose"));
-    shortcuts_.insert (win->ui->actionQuit->text().remove ("&"),
-                       keys.contains ("actionQuit") ? ca.value ("actionQuit") : defaultShortcuts_.value ("actionQuit"));
-    shortcuts_.insert (win->ui->actionLineNumbers->text().remove ("&"),
-                       keys.contains ("actionLineNumbers") ? ca.value ("actionLineNumbers") : defaultShortcuts_.value ("actionLineNumbers"));
-    shortcuts_.insert (win->ui->actionWrap->text().remove ("&"),
-                       keys.contains ("actionWrap") ? ca.value ("actionWrap") : defaultShortcuts_.value ("actionWrap"));
-    shortcuts_.insert (win->ui->actionIndent->text().remove ("&"),
-                       keys.contains ("actionIndent") ? ca.value ("actionIndent") : defaultShortcuts_.value ("actionIndent"));
-    shortcuts_.insert (win->ui->actionSyntax->text().remove ("&"),
-                       keys.contains ("actionSyntax") ? ca.value ("actionSyntax") : defaultShortcuts_.value ("actionSyntax"));
-    shortcuts_.insert (win->ui->actionPreferences->text().remove ("&"),
-                       keys.contains ("actionPreferences") ? ca.value ("actionPreferences") : defaultShortcuts_.value ("actionPreferences"));
-    shortcuts_.insert (win->ui->actionHelp->text().remove ("&"),
-                       keys.contains ("actionHelp") ? ca.value ("actionHelp") : defaultShortcuts_.value ("actionHelp"));
-    shortcuts_.insert (win->ui->actionJump->text().remove ("&"),
-                       keys.contains ("actionJump") ? ca.value ("actionJump") : defaultShortcuts_.value ("actionJump"));
-    shortcuts_.insert (win->ui->actionEdit->text().remove ("&"),
-                       keys.contains ("actionEdit") ? ca.value ("actionEdit") : defaultShortcuts_.value ("actionEdit"));
-    shortcuts_.insert (win->ui->actionDetachTab->text().remove ("&"),
-                       keys.contains ("actionDetachTab") ? ca.value ("actionDetachTab") : defaultShortcuts_.value ("actionDetachTab"));
-    shortcuts_.insert (win->ui->actionRun->text().remove ("&"),
-                       keys.contains ("actionRun") ? ca.value ("actionRun") : defaultShortcuts_.value ("actionRun"));
-    shortcuts_.insert (win->ui->actionSession->text().remove ("&"),
-                       keys.contains ("actionSession") ? ca.value ("actionSession") : defaultShortcuts_.value ("actionSession"));
-    shortcuts_.insert (win->ui->actionSidePane->text().remove ("&"),
-                       keys.contains ("actionSidePane") ? ca.value ("actionSidePane") : defaultShortcuts_.value ("actionSidePane"));
-
-    shortcuts_.insert (win->ui->actionUpperCase->text().remove ("&"),
-                       keys.contains ("actionUpperCase") ? ca.value ("actionUpperCase") : defaultShortcuts_.value ("actionUpperCase"));
-    shortcuts_.insert (win->ui->actionLowerCase->text().remove ("&"),
-                       keys.contains ("actionLowerCase") ? ca.value ("actionLowerCase") : defaultShortcuts_.value ("actionLowerCase"));
-
-    shortcuts_.insert (win->ui->actionUndo->text().remove ("&"),
-                       keys.contains ("actionUndo") ? ca.value ("actionUndo") : defaultShortcuts_.value ("actionUndo"));
-    shortcuts_.insert (win->ui->actionRedo->text().remove ("&"),
-                       keys.contains ("actionRedo") ? ca.value ("actionRedo") : defaultShortcuts_.value ("actionRedo"));
-    shortcuts_.insert (win->ui->actionDate->text().remove ("&"),
-                       keys.contains ("actionDate") ? ca.value ("actionDate") : defaultShortcuts_.value ("actionDate"));
-
-    shortcuts_.insert (win->ui->actionRightTab->text().remove ("&"),
-                       keys.contains ("actionRightTab") ? ca.value ("actionRightTab") : defaultShortcuts_.value ("actionRightTab"));
-    shortcuts_.insert (win->ui->actionLeftTab->text().remove ("&"),
-                       keys.contains ("actionLeftTab") ? ca.value ("actionLeftTab") : defaultShortcuts_.value ("actionLeftTab"));
-    shortcuts_.insert (win->ui->actionFirstTab->text().remove ("&"),
-                       keys.contains ("actionFirstTab") ? ca.value ("actionFirstTab") : defaultShortcuts_.value ("actionFirstTab"));
-    shortcuts_.insert (win->ui->actionLastTab->text().remove ("&"),
-                       keys.contains ("actionLastTab") ? ca.value ("actionLastTab") : defaultShortcuts_.value ("actionLastTab"));
-    shortcuts_.insert (win->ui->actionLastActiveTab->text().remove ("&"),
-                       keys.contains ("actionLastActiveTab") ? ca.value ("actionLastActiveTab") : defaultShortcuts_.value ("actionLastActiveTab"));
+    QHash<QString, QString>::const_iterator iter = OBJECT_NAMES.constBegin();
+    while (iter != OBJECT_NAMES.constEnd())
+    {
+        shortcuts_.insert (iter.key(),
+                           keys.contains (iter.value()) ? ca.value (iter.value())
+                                                        : DEFAULT_SHORTCUTS.value (iter.value()));
+        ++ iter;
+    }
 
     QList<QString> val = shortcuts_.values();
     for (int i = 0; i < val.size(); ++i)
@@ -410,14 +323,16 @@ PrefDialog::PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget
         QTableWidgetItem *item = new QTableWidgetItem (it.key());
         item->setFlags (item->flags() & ~Qt::ItemIsEditable & ~Qt::ItemIsSelectable);
         ui->tableWidget->setItem (index, 0, item);
-        ui->tableWidget->setItem (index, 1, new QTableWidgetItem (it.value()));
+        /* shortcut texts should added in the NativeText format */
+        ui->tableWidget->setItem (index, 1, new QTableWidgetItem (QKeySequence (it.value(), QKeySequence::PortableText)
+                                                                  .toString (QKeySequence::NativeText)));
         ++ it;
         ++ index;
     }
     ui->tableWidget->setSortingEnabled (true);
     ui->tableWidget->setCurrentCell (0, 1);
     connect (ui->tableWidget, &QTableWidget::itemChanged, this, &PrefDialog::onShortcutChange);
-    connect (ui->defaultButton, &QAbstractButton::clicked, this, &PrefDialog::defaultSortcuts);
+    connect (ui->defaultButton, &QAbstractButton::clicked, this, &PrefDialog::restoreDefaultShortcuts);
     ui->defaultButton->setDisabled (ca.isEmpty());
 
     /*************
@@ -1273,17 +1188,41 @@ void PrefDialog::prefSplitterPos (int checked)
         config.setRemSplitterPos (false);
 }
 /*************************/
+// NOTE: Custom shortcuts will be saved in the PortableText format.
 void PrefDialog::onShortcutChange (QTableWidgetItem *item)
 {
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
+
     QString txt = item->text();
+    bool invalid (txt.isEmpty());
+    if (!invalid)
+    {
+        /* the QKeySequenceEdit text is in the NativeText format but it should be
+           converted into the PortableText format, both for saving and checking for "+" */
+        QKeySequence keySeq (txt);
+        txt = keySeq.toString();
+        if (!txt.contains ("+"))
+        {
+            invalid = true;
+            /* make and exception for Fx keys */
+            for (int i = Qt::Key_F1; i <= Qt::Key_F35; ++i)
+            {
+                if (QKeySequence::ExactMatch == keySeq.matches (QKeySequence (i)))
+                {
+                    invalid = false;
+                    break;
+                }
+            }
+        }
+    }
+
     QString desc = ui->tableWidget->item (ui->tableWidget->currentRow(), 0)->text();
-    if (txt.isEmpty() || !txt.contains ("+")
+    if (invalid
         || (config.reservedShortcuts().contains (txt)
             /* unless its (hard-coded) default shortcut is typed */
-            && defaultShortcuts_.value (OBJECT_NAMES.value (desc)) != txt))
+            && DEFAULT_SHORTCUTS.value (OBJECT_NAMES.value (desc)) != txt))
     {
-        if (txt.isEmpty() || !txt.contains ("+"))
+        if (invalid)
             showPrompt (tr ("The typed shortcut was not valid."), true);
         else
             showPrompt (tr ("The typed shortcut was reserved."), true);
@@ -1306,7 +1245,7 @@ void PrefDialog::onShortcutChange (QTableWidgetItem *item)
         QHash<QString, QString>::const_iterator it = shortcuts_.constBegin();
         while (it != shortcuts_.constEnd())
         {
-            if (defaultShortcuts_.value (OBJECT_NAMES.value (it.key())) != it.value())
+            if (DEFAULT_SHORTCUTS.value (OBJECT_NAMES.value (it.key())) != it.value())
             {
                 ui->defaultButton->setEnabled (true);
                 return;
@@ -1317,7 +1256,7 @@ void PrefDialog::onShortcutChange (QTableWidgetItem *item)
     }
 }
 /*************************/
-void PrefDialog::defaultSortcuts()
+void PrefDialog::restoreDefaultShortcuts()
 {
     if (newShortcuts_.isEmpty()
         && static_cast<FPsingleton*>(qApp)->getConfig().customShortcutActions().isEmpty())
@@ -1330,14 +1269,14 @@ void PrefDialog::defaultSortcuts()
                   ? 0
                   : ui->tableWidget->currentRow();
     ui->tableWidget->setSortingEnabled (false);
-    newShortcuts_ = defaultShortcuts_;
+    newShortcuts_ = DEFAULT_SHORTCUTS;
     int index = 0;
     QMutableHashIterator<QString, QString> it (shortcuts_);
     while (it.hasNext())
     {
         it.next();
         ui->tableWidget->item (index, 0)->setText (it.key());
-        QString s = defaultShortcuts_.value (OBJECT_NAMES.value (it.key()));
+        QString s = DEFAULT_SHORTCUTS.value (OBJECT_NAMES.value (it.key()));
         ui->tableWidget->item (index, 1)->setText (s);
         it.setValue (s);
         ++ index;
@@ -1361,7 +1300,7 @@ void PrefDialog::prefShortcuts()
     QHash<QString, QString>::const_iterator it = newShortcuts_.constBegin();
     while (it != newShortcuts_.constEnd())
     {
-        if (defaultShortcuts_.value (it.key()) == it.value())
+        if (DEFAULT_SHORTCUTS.value (it.key()) == it.value())
             config.removeShortcut (it.key());
         else
             config.setActionShortcut (it.key(), it.value());

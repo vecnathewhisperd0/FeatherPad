@@ -49,7 +49,7 @@ class PrefDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit PrefDialog (const QHash<QString, QString> &defaultShortcuts, QWidget *parent = nullptr);
+    explicit PrefDialog (QWidget *parent = nullptr);
     ~PrefDialog();
 
 private slots:
@@ -95,7 +95,7 @@ private slots:
     void prefInertialScrolling (int checked);
     void showWhatsThis();
     void prefShortcuts();
-    void defaultSortcuts();
+    void restoreDefaultShortcuts();
     void onShortcutChange (QTableWidgetItem *item);
     void prefAutoSave (int checked);
     void prefSaveUnmodified();
@@ -116,7 +116,7 @@ private:
     QWidget * parent_;
     bool darkBg_, sysIcons_, iconless_, showWhiteSpace_, showEndings_;
     int vLineDistance_, darkColValue_, lightColValue_, recentNumber_, textTabSize_;
-    QHash<QString, QString> shortcuts_, newShortcuts_, defaultShortcuts_;
+    QHash<QString, QString> shortcuts_, newShortcuts_;
     QString prevtMsg_;
     QTimer *promptTimer_;
 };

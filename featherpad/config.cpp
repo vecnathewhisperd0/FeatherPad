@@ -290,8 +290,9 @@ void Config::readShortcuts()
     for (int i = 0; i < actions.size(); ++i)
     {
         QVariant v = settings.value (actions.at (i));
-        if (isValidShortCut (v))
-            setActionShortcut (actions.at (i), v.toString());
+        QString vs = validatedShortcut (v);
+        if (!vs.isEmpty())
+            setActionShortcut (actions.at (i), vs);
         else // remove the key on writing config
             removedActions_ << actions.at (i);
     }
@@ -490,24 +491,32 @@ void Config::addRecentFile (const QString& file)
         recentFiles_.removeLast();
 }
 /*************************/
-bool Config::isValidShortCut (const QVariant v)
+QString Config::validatedShortcut (const QVariant v)
 {
     static QStringList added;
     if (v.isValid())
     {
         QString str = v.toString();
-        if (!QKeySequence (str).toString().isEmpty())
+
+        /* NOTE: In older versions of FeatherPad, shorcuts were saved in
+           the NativeText format. For the sake of backward compatibility,
+           we convert them into the PortableText format. */
+        QKeySequence keySeq (str);
+        if (str == keySeq.toString (QKeySequence::NativeText))
+            str = keySeq.toString();
+
+        if (!QKeySequence (str, QKeySequence::PortableText).toString().isEmpty())
         {
             if (!reservedShortcuts_.contains (str)
                 // prevent ambiguous shortcuts at startup as far as possible
                 && !added.contains (str))
             {
                 added << str;
-                return true;
+                return str;
             }
         }
     }
-    return false;
+    return QString();
 }
 
 }
