@@ -805,11 +805,6 @@
         <translation>Konservi</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="718"/>
-        <source>Ctrl+Shift+W</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../../fpwin.cpp" line="1328"/>
         <source>F3</source>
         <translation></translation>
@@ -1821,49 +1816,49 @@ Tio povas esti uzebla ĉe iuj cirkonstancoj, ekz. por
     </message>
     <message>
         <location filename="../../pref.cpp" line="259"/>
-        <location filename="../../pref.cpp" line="1107"/>
+        <location filename="../../pref.cpp" line="1108"/>
         <source>files</source>
         <translation>dosieroj</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="259"/>
-        <location filename="../../pref.cpp" line="1107"/>
+        <location filename="../../pref.cpp" line="1108"/>
         <source>file</source>
         <translation>dosiero</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="312"/>
-        <location filename="../../pref.cpp" line="1235"/>
+        <location filename="../../pref.cpp" line="1236"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Averto: Ambigua fulmoklavo estas detektita!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="423"/>
+        <location filename="../../pref.cpp" line="424"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Restartigo de la aplikaĵo necesas por ke la ŝanĝoj efektiviĝu.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="435"/>
+        <location filename="../../pref.cpp" line="436"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Remalfermado de la fenestro necesas por ke la ŝanĝoj efektiviĝu.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1133"/>
+        <location filename="../../pref.cpp" line="1134"/>
         <source>&amp;Recently Opened</source>
         <translation>Lastatempe Malfermita&amp;j</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1134"/>
+        <location filename="../../pref.cpp" line="1135"/>
         <source>Recently &amp;Modified</source>
         <translation>Lastatempe Mod&amp;ifitaj</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1225"/>
+        <location filename="../../pref.cpp" line="1226"/>
         <source>The typed shortcut was not valid.</source>
         <translation>La fulmoklavo tajpita ne estis valida.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1227"/>
+        <location filename="../../pref.cpp" line="1228"/>
         <source>The typed shortcut was reserved.</source>
         <translation>La fulmoklavo tajpita estis rezervita.</translation>
     </message>
@@ -2061,37 +2056,37 @@ fenestroj estos inkluzivitaj de la konservota sesio.</translation>
         <translation>Duoble klaku por centrigi la aktivan linion</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1585"/>
+        <location filename="../../textedit.cpp" line="1589"/>
         <source>Open Link</source>
         <translation>Malfermu la Ligilon</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1598"/>
+        <location filename="../../textedit.cpp" line="1602"/>
         <source>Copy Link</source>
         <translation>Kopiu la Ligilon</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1611"/>
+        <location filename="../../textedit.cpp" line="1615"/>
         <source>To Upper Case</source>
         <translation>Majuskligo</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1615"/>
+        <location filename="../../textedit.cpp" line="1619"/>
         <source>To Lower Case</source>
         <translation>Minuskligo</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1622"/>
+        <location filename="../../textedit.cpp" line="1626"/>
         <source>Sort Lines</source>
         <translation>Ordigu Liniojn</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1626"/>
+        <location filename="../../textedit.cpp" line="1630"/>
         <source>Sort Lines Reversely</source>
         <translation>Ordigu Liniojn Inverse</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1633"/>
+        <location filename="../../textedit.cpp" line="1637"/>
         <source>Paste Date and Time</source>
         <translation>Algluu la Daton kaj Tempon</translation>
     </message>

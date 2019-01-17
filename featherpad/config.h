@@ -135,11 +135,11 @@ public:
         dateFormat_ = format;
     }
 
-    QString getTextTab() const {
-        return textTab_;
+    int getTextTabSize() const {
+        return textTabSize_;
     }
-    void setTextTab (const QString &textTab) {
-        textTab_ = textTab;
+    void setTextTabSize (int textTab) {
+        textTabSize_ = textTab;
     }
 
     int getRecentFilesNumber() const {
@@ -523,8 +523,8 @@ private:
         lightBgColorValue_, darkBgColorValue_,
         recentFilesNumber_,
         curRecentFilesNumber_, // the start value of recentFilesNumber_ -- fixed during a session
-        autoSaveInterval_;
-    QString textTab_;
+        autoSaveInterval_,
+        textTabSize_;
     QString dateFormat_;
     QSize winSize_, startSize_;
     QPoint winPos_;

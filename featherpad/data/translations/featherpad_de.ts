@@ -879,11 +879,6 @@
         <translation>Ein anderes FeatherPad-Fenster hat einen modalen Dialog!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="718"/>
-        <source>Ctrl+Shift+W</source>
-        <translation>Strg+Umschalt+W</translation>
-    </message>
-    <message>
         <location filename="../../fpwin.cpp" line="1328"/>
         <source>F3</source>
         <translation>F3</translation>
@@ -1822,49 +1817,49 @@ Zeilenenden einer Textdatei sinnvoll sein.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="259"/>
-        <location filename="../../pref.cpp" line="1107"/>
+        <location filename="../../pref.cpp" line="1108"/>
         <source>files</source>
         <translation>Dateien</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="259"/>
-        <location filename="../../pref.cpp" line="1107"/>
+        <location filename="../../pref.cpp" line="1108"/>
         <source>file</source>
         <translation>Datei</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="312"/>
-        <location filename="../../pref.cpp" line="1235"/>
+        <location filename="../../pref.cpp" line="1236"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Warnung: Mehrdeutiger Tastatur-Kurzbefehl erkannt!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="423"/>
+        <location filename="../../pref.cpp" line="424"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Neustart der Anwendung, notwendig um wirksam zu werden.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="435"/>
+        <location filename="../../pref.cpp" line="436"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Neustart des Fensters notwendig, um wirksam zu werden.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1133"/>
+        <location filename="../../pref.cpp" line="1134"/>
         <source>&amp;Recently Opened</source>
         <translation>&amp;Kürzlich geöffnete</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1134"/>
+        <location filename="../../pref.cpp" line="1135"/>
         <source>Recently &amp;Modified</source>
         <translation>Kürzlich &amp;bearbeitete</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1225"/>
+        <location filename="../../pref.cpp" line="1226"/>
         <source>The typed shortcut was not valid.</source>
         <translation>Der eingegebene Tastatur-Kurzbefehl war nicht gültig.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1227"/>
+        <location filename="../../pref.cpp" line="1228"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Der eingegebene Tastatur-Kurzbefehl war reserviert.</translation>
     </message>
@@ -2062,37 +2057,37 @@ in die gespeicherte Sitzung eingeschlossen.</translation>
         <translation>Doppel-Klick um die aktuelle Zeile zu zentreieren</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1585"/>
+        <location filename="../../textedit.cpp" line="1589"/>
         <source>Open Link</source>
         <translation>Link öffnen</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1598"/>
+        <location filename="../../textedit.cpp" line="1602"/>
         <source>Copy Link</source>
         <translation>Link kopieren</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1611"/>
+        <location filename="../../textedit.cpp" line="1615"/>
         <source>To Upper Case</source>
         <translation>Zu Großbuchstaben</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1615"/>
+        <location filename="../../textedit.cpp" line="1619"/>
         <source>To Lower Case</source>
         <translation>Zu Kleinbuchstaben</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1622"/>
+        <location filename="../../textedit.cpp" line="1626"/>
         <source>Sort Lines</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1626"/>
+        <location filename="../../textedit.cpp" line="1630"/>
         <source>Sort Lines Reversely</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1633"/>
+        <location filename="../../textedit.cpp" line="1637"/>
         <source>Paste Date and Time</source>
         <translation>Datum und Uhrzeit einfügen</translation>
     </message>

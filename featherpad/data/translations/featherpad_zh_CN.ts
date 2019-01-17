@@ -879,11 +879,6 @@
         <translation>另外的 FeatherPad 窗口弹出了对话框！</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="718"/>
-        <source>Ctrl+Shift+W</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../../fpwin.cpp" line="1328"/>
         <source>F3</source>
         <translation></translation>
@@ -1780,49 +1775,49 @@ trailing spaces of a text file.</source>
     </message>
     <message>
         <location filename="../../pref.cpp" line="259"/>
-        <location filename="../../pref.cpp" line="1107"/>
+        <location filename="../../pref.cpp" line="1108"/>
         <source>files</source>
         <translation>文件</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="259"/>
-        <location filename="../../pref.cpp" line="1107"/>
+        <location filename="../../pref.cpp" line="1108"/>
         <source>file</source>
         <translation>文件</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="312"/>
-        <location filename="../../pref.cpp" line="1235"/>
+        <location filename="../../pref.cpp" line="1236"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>警告：检测到不明确的快捷方式！</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="423"/>
+        <location filename="../../pref.cpp" line="424"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>需要重新启动应用程序以使更改生效。</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="435"/>
+        <location filename="../../pref.cpp" line="436"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>需要重新开启窗口以生效。</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1133"/>
+        <location filename="../../pref.cpp" line="1134"/>
         <source>&amp;Recently Opened</source>
         <translation>最近打开的文件(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1134"/>
+        <location filename="../../pref.cpp" line="1135"/>
         <source>Recently &amp;Modified</source>
         <translation>最近更改的文件(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1225"/>
+        <location filename="../../pref.cpp" line="1226"/>
         <source>The typed shortcut was not valid.</source>
         <translation>输入的快捷方式无效。</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1227"/>
+        <location filename="../../pref.cpp" line="1228"/>
         <source>The typed shortcut was reserved.</source>
         <translation>输入的快捷方式已被保留。</translation>
     </message>
@@ -2020,37 +2015,37 @@ windows will be included in the saved session.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1585"/>
+        <location filename="../../textedit.cpp" line="1589"/>
         <source>Open Link</source>
         <translation>打开链接</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1598"/>
+        <location filename="../../textedit.cpp" line="1602"/>
         <source>Copy Link</source>
         <translation>复制链接</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1611"/>
+        <location filename="../../textedit.cpp" line="1615"/>
         <source>To Upper Case</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1615"/>
+        <location filename="../../textedit.cpp" line="1619"/>
         <source>To Lower Case</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1622"/>
+        <location filename="../../textedit.cpp" line="1626"/>
         <source>Sort Lines</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1626"/>
+        <location filename="../../textedit.cpp" line="1630"/>
         <source>Sort Lines Reversely</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1633"/>
+        <location filename="../../textedit.cpp" line="1637"/>
         <source>Paste Date and Time</source>
         <translation>粘贴日期与时间</translation>
     </message>

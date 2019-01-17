@@ -69,6 +69,7 @@ Config::Config():
     recentFilesNumber_ (10),
     curRecentFilesNumber_ (10), // not needed
     autoSaveInterval_ (1), // not needed
+    textTabSize_ (4), // not needed
     winSize_ (QSize (700, 500)),
     startSize_ (QSize (700, 500)),
     winPos_ (QPoint (0, 0)),
@@ -274,9 +275,7 @@ void Config::readConfig()
 
     autoSaveInterval_ = qBound (1, settings.value ("autoSaveInterval", 1).toInt(), 60);
 
-    int textTabSize = qBound (2, settings.value ("textTabSize", 4).toInt(), 10);
-    for (int i = 0; i < textTabSize; ++i)
-        textTab_ += " ";
+    textTabSize_ = qBound (2, settings.value ("textTabSize", 4).toInt(), 10);
 
     settings.endGroup();
 }
@@ -418,7 +417,7 @@ void Config::writeConfig()
 
     settings.setValue ("autoSaveInterval", autoSaveInterval_);
 
-    settings.setValue ("textTabSize", textTab_.size());
+    settings.setValue ("textTabSize", textTabSize_);
 
     settings.endGroup();
 

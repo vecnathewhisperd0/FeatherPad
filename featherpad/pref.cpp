@@ -87,7 +87,7 @@ PrefDialog::PrefDialog (QWidget *parent)
     showWhiteSpace_ = config.getShowWhiteSpace();
     showEndings_ = config.getShowEndings();
     vLineDistance_ = config.getVLineDistance();
-    textTabSize_ = config.getTextTab().size();
+    textTabSize_ = config.getTextTabSize();
 
     /**************
      *** Window ***
@@ -429,7 +429,7 @@ void PrefDialog::showPrompt (const QString& str, bool temporary)
              || (!darkBg_ && lightColValue_ != config.getLightBgColorValue())
              || showWhiteSpace_ != config.getShowWhiteSpace()
              || showEndings_ != config.getShowEndings()
-             || textTabSize_ != config.getTextTab().size()
+             || textTabSize_ != config.getTextTabSize()
              || (vLineDistance_ * config.getVLineDistance() < 0
                  || (vLineDistance_ > 0 && vLineDistance_ != config.getVLineDistance())))
     {
@@ -1367,7 +1367,7 @@ void PrefDialog::prefApplyAutoSave()
 }
 /*************************/
 void PrefDialog::prefTextTabSize (int value)
-{
+{ // textTabSize_ is updated but the config isn't
     if (value >= 2 && value <= 10)
     {
         textTabSize_ = value;
@@ -1376,14 +1376,9 @@ void PrefDialog::prefTextTabSize (int value)
 }
 /*************************/
 void PrefDialog::prefTextTab()
-{ // textTabSize_ is updated but the config isn't
+{
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
-    if (textTabSize_ == config.getTextTab().size())
-        return;
-    QString textTab;
-    for (int i = 0; i < textTabSize_; ++i)
-        textTab += " ";
-    config.setTextTab (textTab);
+    config.setTextTabSize (textTabSize_);
 }
 /*************************/
 void PrefDialog::prefCloseWithLastTab (int checked)

@@ -879,11 +879,6 @@
         <translation>Kitame FeatherPad lange yra modalinis dialogas!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="718"/>
-        <source>Ctrl+Shift+W</source>
-        <translation>Ctrl(Vald)+Shift(Lyg2)+W</translation>
-    </message>
-    <message>
         <location filename="../../fpwin.cpp" line="1328"/>
         <source>F3</source>
         <translation></translation>
@@ -1821,49 +1816,49 @@ pvz., laiko žymos keitimui arba tekstinio failo galinių tarpų
     </message>
     <message>
         <location filename="../../pref.cpp" line="259"/>
-        <location filename="../../pref.cpp" line="1107"/>
+        <location filename="../../pref.cpp" line="1108"/>
         <source>files</source>
         <translation>failų</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="259"/>
-        <location filename="../../pref.cpp" line="1107"/>
+        <location filename="../../pref.cpp" line="1108"/>
         <source>file</source>
         <translation>failas</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="312"/>
-        <location filename="../../pref.cpp" line="1235"/>
+        <location filename="../../pref.cpp" line="1236"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Įspėjimas: Aptiktas dviprasmiškas spartusis klavišas!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="423"/>
+        <location filename="../../pref.cpp" line="424"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Tam, kad įsigaliotų pakeitimai, reikia paleisti programą iš naujo.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="435"/>
+        <location filename="../../pref.cpp" line="436"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Tam, kad įsigaliotų pakeitimai, reikia langą atverti iš naujo.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1133"/>
+        <location filename="../../pref.cpp" line="1134"/>
         <source>&amp;Recently Opened</source>
         <translation>Pas&amp;kiausiai atverti</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1134"/>
+        <location filename="../../pref.cpp" line="1135"/>
         <source>Recently &amp;Modified</source>
         <translation>Paskiausiai &amp;modifikuoti</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1225"/>
+        <location filename="../../pref.cpp" line="1226"/>
         <source>The typed shortcut was not valid.</source>
         <translation>Įrašytas spartusis klavišas nebuvo teisingas.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1227"/>
+        <location filename="../../pref.cpp" line="1228"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Įrašytas spartusis klavišas buvo rezervuotas.</translation>
     </message>
@@ -2061,37 +2056,37 @@ bus įtraukti į įrašytą seansą.</translation>
         <translation>Spustelėkite du kartus, norėdami centruoti esamą eilutę</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1585"/>
+        <location filename="../../textedit.cpp" line="1589"/>
         <source>Open Link</source>
         <translation>Atverti nuorodą</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1598"/>
+        <location filename="../../textedit.cpp" line="1602"/>
         <source>Copy Link</source>
         <translation>Kopijuoti nuorodą</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1611"/>
+        <location filename="../../textedit.cpp" line="1615"/>
         <source>To Upper Case</source>
         <translation>Paversti didžiosiomis</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1615"/>
+        <location filename="../../textedit.cpp" line="1619"/>
         <source>To Lower Case</source>
         <translation>Paversti mažosiomis</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1622"/>
+        <location filename="../../textedit.cpp" line="1626"/>
         <source>Sort Lines</source>
         <translation>Rikiuoti eilutes</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1626"/>
+        <location filename="../../textedit.cpp" line="1630"/>
         <source>Sort Lines Reversely</source>
         <translation>Rikiuoti eilutes atvirkščiai</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1633"/>
+        <location filename="../../textedit.cpp" line="1637"/>
         <source>Paste Date and Time</source>
         <translation>Įdėti datą ir laiką</translation>
     </message>

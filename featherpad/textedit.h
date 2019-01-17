@@ -62,8 +62,8 @@ public:
     QString getTextTab_() const {
         return textTab_;
     }
-    void setTtextTab (const QString& textTab) {
-        textTab_ = textTab;
+    void setTtextTab (int textTabSize) {
+        textTab_ = textTab_.leftJustified (textTabSize, ' ', true);
     }
 
     QTextEdit::ExtraSelection currentLineSelection() {
@@ -284,7 +284,7 @@ private:
     QString computeIndentation (const QTextCursor &cur) const;
     QString getUrl (const int pos) const;
     QString remainingSpaces (const QString& spaceTab, const QTextCursor& cursor) const;
-    QTextCursor backTabCursor(const QTextCursor& cursor) const;
+    QTextCursor backTabCursor(const QTextCursor& cursor, bool twoSpace) const;
 
     int prevAnchor, prevPos; // used only for bracket matching
     QWidget *lineNumberArea;

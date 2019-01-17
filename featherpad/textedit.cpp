@@ -358,7 +358,8 @@ QString TextEdit::remainingSpaces (const QString& spaceTab, const QTextCursor& c
 }
 /*************************/
 // Returns a cursor that selects the spaces to be removed by a backtab.
-QTextCursor TextEdit::backTabCursor (const QTextCursor& cursor) const
+// If "twoSpace" is true, a 2-space backtab will be applied as far as possible.
+QTextCursor TextEdit::backTabCursor (const QTextCursor& cursor, bool twoSpace) const
 {
     QTextCursor tmp = cursor;
     tmp.movePosition (QTextCursor::StartOfBlock);
@@ -389,6 +390,8 @@ QTextCursor TextEdit::backTabCursor (const QTextCursor& cursor) const
     n = n % textTab_.count();
     if (n == 0) n = textTab_.count();
 
+    if (twoSpace) n = qMin (n, 2);
+
     tmp.setPosition (txtStart);
     QChar ch = blockText.at (indx - 1);
     if (ch == QChar (QChar::Space))
@@ -399,7 +402,7 @@ QTextCursor TextEdit::backTabCursor (const QTextCursor& cursor) const
         tmp.setPosition (txtStart - 1, QTextCursor::KeepAnchor);
         x -= static_cast<qreal>(cursorRect (tmp).right());
         n -= qRound (x / spaceL);
-        if (n < 0) n = 0; // impossible
+        if (n < 0) n = 0; // impossible without "twoSpace"
         tmp.setPosition (tmp.position() - n, QTextCursor::KeepAnchor);
     }
 
@@ -875,7 +878,8 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                     break; // not needed
                 continue;
             }
-            cursor = backTabCursor (cursor);
+            cursor = backTabCursor (cursor, event->modifiers() & Qt::MetaModifier
+                                            ? true : false);
             cursor.removeSelectedText();
             if (!cursor.movePosition (QTextCursor::NextBlock))
                 break; // not needed

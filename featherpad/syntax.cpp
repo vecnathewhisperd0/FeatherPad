@@ -68,7 +68,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
             progLan = "cpp";
         else if (fname.endsWith (".c"))
             progLan = "c";
-        else if (fname.endsWith (".sh") || fname.endsWith (".bashrc")
+        else if (fname.endsWith (".sh") || fname.endsWith (".bashrc") || fname.endsWith (".rules")
                  || baseName == ".bash_profile" || baseName == ".bash_functions"
                  || baseName == ".xprofile" || baseName == ".profile"
                  || baseName == ".bash_aliases" || baseName == ".mkshrc"
@@ -131,7 +131,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
         else if (baseName.compare ("CMakeLists.txt", Qt::CaseInsensitive) == 0)
             progLan = "cmake";
     }
-    else if (baseName == "PKGBUILD")
+    else if (baseName == "PKGBUILD" || baseName == "fstab")
         progLan = "sh";
     /* makefile is an exception */
     else if (baseName.compare ("makefile", Qt::CaseInsensitive) == 0)

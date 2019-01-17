@@ -160,8 +160,11 @@ Ctrl+E              Execute this executable file (only if enabled in Preferences
 Ctrl+Alt+E          Exit (kill) the above process immediately
 Ctrl+K              Delete to the end of the line when the editor is focused
 Ctrl+Right/Left     Move the cursor one word to the right/left
+Tab                 Ordinary text tabulation
 Ctrl+Tab            4-space text tabulation (can be changed in Preferences)
 Ctrl+Meta+Tab       2-space text tabulation
+Shift+Tab           Backtab (the reverse of Tab)
+Shift+Meta+Tab      2-space Backtab, as far as possible
 Up/Down             Go to the same position in the previous/next wrapped line
 Shift+Up/Down       Go to the same position in the previous/next wrapped line while selecting text
 Meta+Up/Down        Go to the same position in the previous/next (real) line
