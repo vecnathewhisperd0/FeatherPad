@@ -102,6 +102,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
         else if (fname.endsWith (".kvconfig")
                  || fname.endsWith (".service") || fname.endsWith (".mount") || fname.endsWith (".timer") // systemd related
                  || baseName == "sources.list" || baseName == "sources.list.save"
+                 || baseName == "mimeinfo.cache" || baseName == "mimeapps.list" || baseName.endsWith ("-mimeapps.list")
                  || fname.endsWith (".pls", Qt::CaseInsensitive))
              progLan = "config";
         else if (fname.endsWith (".js"))

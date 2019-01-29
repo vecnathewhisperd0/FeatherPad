@@ -87,6 +87,7 @@ public:
     void addRemoveLangBtn (bool add);
 
     void showCrashWarning();
+    void showRootWarning();
     void updateCustomizableShortcuts (bool disable = false);
 
     void startAutoSaving (bool start, int interval = 1);
@@ -237,7 +238,8 @@ private:
     QTextDocument::FindFlags getSearchFlags() const;
     void enableWidgets (bool enable) const;
     void updateShortcuts (bool disable, bool page = true);
-    QTextCursor finding (const QString& str, const QTextCursor& start, QTextDocument::FindFlags flags = 0,
+    QTextCursor finding (const QString& str, const QTextCursor& start,
+                         QTextDocument::FindFlags flags = QTextDocument::FindFlags(),
                          const int end = 0) const;
     void setProgLang (TextEdit *textEdit);
     void syntaxHighlighting (TextEdit *textEdit, bool highlight = true, const QString& lang = QString());

@@ -480,7 +480,7 @@ void FPwin::searchFlagChanged()
 QTextDocument::FindFlags FPwin::getSearchFlags() const
 {
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
-    QTextDocument::FindFlags searchFlags = 0;
+    QTextDocument::FindFlags searchFlags = QTextDocument::FindFlags();
     if (tabPage->matchWhole())
         searchFlags = QTextDocument::FindWholeWords;
     if (tabPage->matchCase())

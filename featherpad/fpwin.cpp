@@ -2295,8 +2295,8 @@ void FPwin::onOpeningUneditable()
     /* A timer is needed here because the scrollbar position is restored on reloading by a
        lambda connection. Timers are also used in similar places for the sake of certainty. */
     QTimer::singleShot (0, this, [=]() {
-        this->showWarningBar ("<center><b><big>" + tr ("Uneditable file(s)!") + "</big></b></center>\n"
-                              + "<center>" + tr ("Non-text files or files with huge lines cannot be edited.") + "</center>");
+        showWarningBar ("<center><b><big>" + tr ("Uneditable file(s)!") + "</big></b></center>\n"
+                        + "<center>" + tr ("Non-text files or files with huge lines cannot be edited.") + "</center>");
     });
 }
 /*************************/
@@ -2351,8 +2351,15 @@ void FPwin::showWarningBar (const QString& message)
 void FPwin::showCrashWarning()
 {
     QTimer::singleShot (0, this, [=]() {
-        this->showWarningBar ("<center><b><big>" + tr ("A previous crash detected!") + "</big></b></center>"
-                              + "<center><i>" +tr ("Preferably, close all FeatherPad windows and start again!") + "</i></center>");
+        showWarningBar ("<center><b><big>" + tr ("A previous crash detected!") + "</big></b></center>"
+                        + "<center><i>" +tr ("Preferably, close all FeatherPad windows and start again!") + "</i></center>");
+    });
+}
+/*************************/
+void FPwin::showRootWarning()
+{
+    QTimer::singleShot (0, this, [=]() {
+        showWarningBar ("<center><b><big>" + tr ("Root Instance") + "</big></b></center>");
     });
 }
 /*************************/
