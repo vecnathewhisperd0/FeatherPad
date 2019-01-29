@@ -2261,7 +2261,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
         scrollToFirstItem = false;
         firstPage = nullptr;
 
-        closeWarningBar(); // here the closing animation won't be interrupted
+        closeWarningBar (true); // here the closing animation won't be interrupted
         emit finishedLoading();
     }
 }
@@ -2314,7 +2314,7 @@ void FPwin::onOpeningNonexistent()
     });
 }
 /*************************/
-void FPwin::showWarningBar (const QString& message)
+void FPwin::showWarningBar (const QString& message, bool startupBar)
 {
     /* don't show the warning bar when there's a modal dialog */
     QList<QDialog*> dialogs = findChildren<QDialog*>();
@@ -2338,6 +2338,8 @@ void FPwin::showWarningBar (const QString& message)
     if (tabPage)
         vOffset = tabPage->height() - tabPage->textEdit()->height();
     WarningBar *bar = new WarningBar (message, iconMode_, vOffset, ui->tabWidget);
+    if (startupBar)
+        bar->setObjectName ("startupBar");
     /* close the bar when the text is scrolled */
     if (tabPage)
     {
@@ -2352,22 +2354,25 @@ void FPwin::showCrashWarning()
 {
     QTimer::singleShot (0, this, [=]() {
         showWarningBar ("<center><b><big>" + tr ("A previous crash detected!") + "</big></b></center>"
-                        + "<center><i>" +tr ("Preferably, close all FeatherPad windows and start again!") + "</i></center>");
+                        + "<center><i>" +tr ("Preferably, close all FeatherPad windows and start again!") + "</i></center>", true);
     });
 }
 /*************************/
 void FPwin::showRootWarning()
 {
     QTimer::singleShot (0, this, [=]() {
-        showWarningBar ("<center><b><big>" + tr ("Root Instance") + "</big></b></center>");
+        showWarningBar ("<center><b><big>" + tr ("Root Instance") + "</big></b></center>", true);
     });
 }
 /*************************/
-void FPwin::closeWarningBar()
+void FPwin::closeWarningBar (bool keepOnStartup)
 {
     const QList<WarningBar*> warningBars = ui->tabWidget->findChildren<WarningBar*>();
     for (WarningBar *wb : warningBars)
-        wb->closeBar();
+    {
+        if (!keepOnStartup || wb->objectName() != "startupBar")
+            wb->closeBar();
+    }
 }
 /*************************/
 void FPwin::newTabFromName (const QString& fileName, int restoreCursor, int posInLine, bool multiple)

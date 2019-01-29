@@ -258,8 +258,8 @@ private:
     void waitToMakeBusy();
     void unbusy();
     void displayMessage (bool error);
-    void showWarningBar (const QString& message);
-    void closeWarningBar();
+    void showWarningBar (const QString& message, bool startupBar = false);
+    void closeWarningBar (bool keepOnStartup = false);
     void disconnectLambda();
     void updateLangBtn (TextEdit *textEdit);
     void updateGUIForSingleTab (bool single);
