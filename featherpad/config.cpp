@@ -58,7 +58,7 @@ Config::Config():
     inertialScrolling_ (false),
     autoSave_ (false),
     scrollJumpWorkaround_ (false),
-    skipNonText_ (false),
+    skipNonText_ (true),
     saveUnmodified_ (false),
     closeWithLastTab_ (false),
     vLineDistance_ (-80),
@@ -233,8 +233,9 @@ void Config::readConfig()
     if (settings.value ("scrollJumpWorkaround").toBool())
         scrollJumpWorkaround_ = true; // false by default
 
-    if (settings.value ("skipNonText").toBool())
-        skipNonText_ = true; // false by default
+    v = settings.value ("skipNonText");
+    if (v.isValid()) // true by default
+        skipNonText_ = v.toBool();
 
     if (settings.value ("saveUnmodified").toBool())
         saveUnmodified_ = true; // false by default

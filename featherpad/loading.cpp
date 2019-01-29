@@ -34,7 +34,7 @@ Loading::Loading (const QString& fname, const QString& charset, bool reload,
     posInLine_ (posInLine),
     forceUneditable_ (forceUneditable),
     multiple_ (multiple),
-    skipNonText_ (false)
+    skipNonText_ (true)
 {}
 /*************************/
 Loading::~Loading() {}
