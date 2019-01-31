@@ -2440,7 +2440,7 @@ void Highlighter::xmlQuotes (const QString &text)
             /* ... distinguish between double, virtual and single quotes */
             if (index == text.indexOf (doubleQuote, index))
             {
-                if (text.at (index) == "\"")
+                if (text.at (index) == '\"')
                     quoteExpression = quoteMark;
                 else
                     quoteExpression = virtualQuote;
