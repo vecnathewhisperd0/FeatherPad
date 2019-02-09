@@ -1,3 +1,8 @@
+V0.9.4
+---------
+ * BSD issues fixed by Brian Callahan (ibara at GitHub).
+ * Don't toggle the insert mode when a modifier is pressed.
+
 V0.9.3
 ---------
  * Fixed some small mistakes in the code (thanks to shlyakpavel at GitHub)
