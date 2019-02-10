@@ -40,7 +40,7 @@
     <message>
         <location filename="../../fp.ui" line="114"/>
         <source>Ctrl+Shift+J</source>
-        <translation>Ctrl+MAJ+J</translation>
+        <translation>Ctrl+Maj+J</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="149"/>
@@ -955,7 +955,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="2364"/>
         <source>Root Instance</source>
-        <translation type="unfinished"></translation>
+        <translation>Instance root</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="3150"/>
