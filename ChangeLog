@@ -2,6 +2,9 @@ V0.9.4
 ---------
  * BSD issues fixed by Brian Callahan (ibara at GitHub).
  * Don't toggle the insert mode when a modifier is pressed.
+ * Don't consider the screen width when eliding path tooltips (because it can be zero at the login moment -- although that doesn't have effect in practice).
+ * No need to consider the screen size when resizing the window at startup.
+ * Added YAML to syntax highlighting.
 
 V0.9.3
 ---------

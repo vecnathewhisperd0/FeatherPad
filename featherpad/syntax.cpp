@@ -119,6 +119,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
             progLan = "srt";
         else if (fname.endsWith (".theme"))
              progLan = "theme";
+        else if (fname.endsWith (".yml") || fname.endsWith (".yaml"))
+             progLan = "yaml";
         else if (fname.endsWith (".m3u", Qt::CaseInsensitive))
             progLan = "m3u";
         else if (fname.endsWith (".htm", Qt::CaseInsensitive) || fname.endsWith (".html", Qt::CaseInsensitive))
@@ -209,6 +211,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
                 progLan = "php";
             else if (mime == "application/x-theme")
                 progLan = "theme";
+            else if (mime == "application/x-yaml")
+                progLan = "yaml";
             else if (mime == "text/x-diff" || mime == "text/x-patch")
                 progLan = "diff";
             else if (mime == "text/html" || mime == "application/xhtml+xml")

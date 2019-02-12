@@ -88,7 +88,7 @@ private:
     QVector<BracketInfo *> allBrackets;
     QString label; // A label (usually, a delimiter string, like that of a here-doc).
     bool Highlighted; // Is this block completely highlighted?
-    bool Property; // A general boolean property (used with SH).
+    bool Property; // A general boolean property (used with SH and YAML).
     int LastState; // The state of this block before it is highlighted (again).
     /* "Nest" is a generalized bracket. This variable
        is the number of unclosed nests in a block. */
@@ -167,6 +167,11 @@ private:
     bool isEscapedJSRegex (const QString &text, const int pos);
     bool isInsideJSRegex (const QString &text, const int index);
     void multiLineJSRegex (const QString &text, const int index);
+
+    bool yamlOpenNraces (const QString &text,
+                         const QRegularExpression &startExp, const QRegularExpression &endExp,
+                         int oldOpenNests, bool oldProperty,
+                         bool setData);
 
     struct HighlightingRule
     {

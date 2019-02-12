@@ -32,8 +32,8 @@
 #include <QFontDialog>
 #include <QPrintDialog>
 #include <QToolTip>
-#include <QScreen>
-#include <QWindow>
+//#include <QScreen>
+//#include <QWindow>
 #include <QScrollBar>
 #include <QWidgetAction>
 #include <fstream> // std::ofstream
@@ -470,7 +470,7 @@ void FPwin::applyConfigOnStarting()
     else
     {
         QSize startSize = config.getStartSize();
-        QSize ag;
+        /*QSize ag;
         if (QScreen *pScreen = QApplication::primaryScreen()) // the window isn't shown yet
             ag = pScreen->availableVirtualGeometry().size();
         if (!ag.isEmpty()
@@ -479,7 +479,7 @@ void FPwin::applyConfigOnStarting()
             startSize = startSize.boundedTo (ag);
             config.setStartSize (startSize);
         }
-        else if (startSize.isEmpty())
+        else */if (startSize.isEmpty())
         {
             startSize = QSize (700, 500);
             config.setStartSize (startSize);
@@ -761,7 +761,7 @@ void FPwin::addRemoveLangBtn (bool add)
                  << "html" << "javascript" << "log" << "lua" << "m3u"
                  << "markdown" << "makefile" << "perl" << "php" << "python"
                  << "qmake" << "qml" << "reST" << "ruby" << "scss"
-                 << "sh" << "troff" << "theme" << "xml";
+                 << "sh" << "troff" << "theme" << "xml" << "yaml";
         langList.sort();
     }
 
@@ -2140,15 +2140,8 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
                         ui->tabWidget->indexOf (tabPage) : -1);
     QString tip (fInfo.absolutePath() + "/");
     QFontMetrics metrics (QToolTip::font());
-    int w = 0;
-    if (QWindow *win = windowHandle())
-    {
-        if (QScreen *sc = win->screen())
-            w = sc->availableGeometry().width();
-    }
-    if (w > 200 * metrics.width (' ')) w = 200 * metrics.width (' ');
     QString elidedTip = "<p style='white-space:pre'>"
-                        + metrics.elidedText (tip, Qt::ElideMiddle, w)
+                        + metrics.elidedText (tip, Qt::ElideMiddle, 200 * metrics.width (' '))
                         + "</p>";
     ui->tabWidget->setTabToolTip (ui->tabWidget->indexOf (tabPage), elidedTip);
     if (!sideItems_.isEmpty())
@@ -2845,15 +2838,8 @@ bool FPwin::saveFile (bool keepSyntax)
         setTitle (fname);
         QString tip (fInfo.absolutePath() + "/");
         QFontMetrics metrics (QToolTip::font());
-        int w = 0;
-        if (QWindow *win = windowHandle())
-        {
-            if (QScreen *sc = win->screen())
-                w = sc->availableGeometry().width();
-        }
-        if (w > 200 * metrics.width (' ')) w = 200 * metrics.width (' ');
         QString elidedTip = "<p style='white-space:pre'>"
-                            + metrics.elidedText (tip, Qt::ElideMiddle, w)
+                            + metrics.elidedText (tip, Qt::ElideMiddle, 200 * metrics.width (' '))
                             + "</p>";
         ui->tabWidget->setTabToolTip (index, elidedTip);
         if (!sideItems_.isEmpty())

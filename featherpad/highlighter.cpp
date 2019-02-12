@@ -701,6 +701,59 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = desktopFormat;
         highlightingRules.append (rule);
     }
+    else if (progLan == "yaml")
+    {
+        rule.pattern.setPattern ("#.*");
+        rule.format = commentFormat;
+        highlightingRules.append (rule);
+
+        QTextCharFormat yamlFormat;
+
+        /* keys */
+        // NOTE: This is the first time I use \K with Qt and it seems to work well.
+        yamlFormat.setForeground (Blue);
+        rule.pattern.setPattern ("[^:,#]*:(\\s+|$)");
+        rule.format = yamlFormat;
+        highlightingRules.append (rule);
+
+        /* values */
+        yamlFormat.setForeground (Violet);
+        rule.pattern.setPattern ("[^:#]*:\\s+\\K[^#]+");
+        rule.format = yamlFormat;
+        highlightingRules.append (rule);
+
+        /* non-value numbers (including the scientific notation) */
+        yamlFormat.setForeground (Brown);
+        rule.pattern.setPattern ("^((\\s*-\\s)+)?\\s*\\K[-+]?\\d*\\.?\\d+(e(\\+|-)\\d+)?\\s*(?=(#|$))");
+        rule.format = yamlFormat;
+        highlightingRules.append (rule);
+
+        /* lists */
+        yamlFormat.setForeground (DarkBlue);
+        yamlFormat.setFontWeight (QFont::Bold);
+        rule.pattern.setPattern ("^(\\s*-(\\s|$))+");
+        rule.format = yamlFormat;
+        highlightingRules.append (rule);
+
+        /* booleans */
+        yamlFormat.setForeground (DarkBlue);
+        yamlFormat.setFontWeight (QFont::Bold);
+        rule.pattern.setPattern ("^((\\s*-\\s)+)?\\s*\\K(true|false|yes|no|TRUE|FALSE|YES|NO|True|False|Yes|No)\\s*(?=(#|$))");
+        rule.format = yamlFormat;
+        highlightingRules.append (rule);
+
+        /* | and > */
+        codeBlockFormat.setForeground (DarkMagenta);
+        codeBlockFormat.setFontWeight (QFont::Bold);
+        rule.pattern.setPattern (".*\\s+\\K(\\||>)\\s*$");
+        rule.format = codeBlockFormat;
+        highlightingRules.append (rule);
+
+        yamlFormat.setForeground (Verda);
+        rule.pattern.setPattern ("^---.*");
+        rule.format = yamlFormat;
+        highlightingRules.append (rule);
+    }
     else if (progLan == "url")
     {
         rule.pattern.setPattern (urlPattern.pattern());
@@ -1015,7 +1068,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     {
         rule.pattern.setPattern ("#.*"); // or "#[^\n]*"
     }
-    else if (progLan == "desktop" || progLan == "config")
+    else if (progLan == "desktop" || progLan == "config" || progLan == "theme")
     {
         rule.pattern.setPattern ("^\\s*#.*"); // only at start
     }
@@ -1112,6 +1165,44 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
     if (progLan == "html" || progLan == "xml")
         return false;
 
+    if (progLan == "yaml")
+    {
+        if (isStartQuote)
+        {
+            if (format (pos) == codeBlockFormat)
+                return true; // inside a block
+            /* skip the start quote if it's inside a key or value */
+            QRegularExpressionMatch match;
+            if (format (pos) == neutralFormat)
+            {
+                int index = text.lastIndexOf (QRegularExpression ("(^|{|,|\\[)\\s*\\K[^:,#]*:\\s+"), pos, &match);
+                if (index > -1 && index < pos && index + match.capturedLength() > pos)
+                    return true;
+                index = text.lastIndexOf (QRegularExpression ("(^|{|,|\\[)[^:#]*:\\s+\\K[^{\\[,#\\s][^,#]*"), pos, &match);
+                if (index > -1 && index < pos && index + match.capturedLength() > pos)
+                    return true;
+            }
+            else
+            {
+                int index = text.lastIndexOf (QRegularExpression ("^[^:#]*:\\s+"), pos, &match);
+                if (index > -1 && index < pos && index + match.capturedLength() > pos)
+                    return true;
+                index = text.lastIndexOf (QRegularExpression ("^[^:#]*:\\s+\\K[^\\[\\s#].*"), pos, &match);
+                if (index > -1 && index < pos && index + match.capturedLength() > pos)
+                    return true;
+            }
+        }
+        else if (text.length() > pos && text.at (pos) == '\'')
+        { // a pair of single quotes means escaping them
+            QRegularExpressionMatch match;
+            if (text.lastIndexOf (QRegularExpression ("('')+"), pos) == pos)
+                return true;
+            int index = text.lastIndexOf (QRegularExpression ("('')+"), pos, &match);
+            if (index > -1 && index < pos && index + match.capturedLength() >= pos)
+                return true;
+        }
+    }
+
     if (pos != text.indexOf (quoteMark, pos)
         && (progLan == "markdown" || pos != text.indexOf (QRegularExpression ("\'"), pos)))
     {
@@ -1136,7 +1227,7 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
     /* escaped start quotes are just for Bash, Perl and markdown */
     if (isStartQuote
         && progLan != "sh" && progLan != "makefile" && progLan != "cmake"
-        && progLan != "perl" && progLan != "markdown")
+        && progLan != "perl" && progLan != "markdown" && progLan != "yaml")
     {
         return false;
     }
@@ -1160,11 +1251,10 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
     /* only an odd number of backslashes means that the quote is escaped */
     if (
         i % 2 != 0
-            /* for perl, only double quote can be escaped? */
-        && (/*(progLan == "perl"
-             && pos == text.indexOf (quoteMark, pos)) ||*/
-            /* for these languages, both single and double quotes can be escaped */
-            progLan == "c" || progLan == "cpp"
+        && ((progLan == "yaml"
+             && pos == text.indexOf (quoteMark, pos))
+            /* for these languages, both single and double quotes can be escaped (also for perl?) */
+            || progLan == "c" || progLan == "cpp"
             || progLan == "javascript" || progLan == "qml"
             || progLan == "python"
             || progLan == "perl"
@@ -1214,7 +1304,8 @@ bool Highlighter::isQuoted (const QString &text, const int index,
         || progLan == "makefile" || progLan == "cmake"
         || progLan == "lua" || progLan == "perl"
         || progLan == "xml" // never used with xml; otherwise, we should consider "&quot;"
-        || progLan == "ruby" || progLan == "html" || progLan == "scss")
+        || progLan == "ruby" || progLan == "html" || progLan == "scss"
+        || progLan == "yaml")
     {
         mixedQuotes = true;
     }
@@ -1952,7 +2043,7 @@ void Highlighter::multiLineComment (const QString &text,
         }
 
         /* if there's a comment end ... */
-        if (!hugeText && endIndex >= 0)
+        if (!hugeText && endIndex >= 0 && progLan != "yaml")
         {
             /* ... clear the comment format from there to reformat later as
                a single-line comment sign may have been commented out now */
@@ -2124,7 +2215,8 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
         /*|| progLan == "sh"*/ // bash uses SH_MultiLineQuote()
         || progLan == "makefile" || progLan == "cmake"
         || progLan == "lua" || progLan == "perl"
-        || progLan == "ruby" || progLan == "scss")
+        || progLan == "ruby" || progLan == "scss"
+        || progLan == "yaml")
     {
         mixedQuotes = true;
     }
@@ -2902,6 +2994,102 @@ void Highlighter::debControlFormatting (const QString &text)
     }
 }
 /*************************/
+// Check whether the start bracket/brace is escaped. FIXME: This is quite complex.
+static inline bool isYamlBraceEscaped (const QString &text, const QRegularExpression &start, int pos)
+{
+    if (pos < 0 || text.indexOf (start, pos) != pos)
+        return false;
+    if (text.lastIndexOf (QRegularExpression ("(^|{|,|\\[)?[^:#]*:\\s+[^{\\[,#\\s]+\\s*\\K" + start.pattern()), pos) == pos) // inside value
+        return true;
+    QRegularExpressionMatch match;
+    int indx = text.lastIndexOf (QRegularExpression ("[^:#\\s]+\\s*" + start.pattern() + "[^:#]*:\\s+"), pos, &match);
+    if (indx > -1 && indx < pos && indx + match.capturedLength() > pos) // inside key
+        return true;
+    return false;
+}
+// Process open braces or brackets, apply the neutral format appropriately
+// and return a boolean that shows whether the next line should be updated.
+// Single-line comments should have already been highlighted.
+bool Highlighter::yamlOpenNraces (const QString &text,
+                                  const QRegularExpression &startExp, const QRegularExpression &endExp,
+                                  int oldOpenNests, bool oldProperty, // old info on the current line
+                                  bool setData) // whether data should be set
+{
+    TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData());
+    if (!data) return false;
+
+    int openNests = 0;
+    bool property = startExp.pattern() == "{" ? false : true;
+
+    if (setData)
+    {
+        QTextBlock prevBlock = currentBlock().previous();
+        if (prevBlock.isValid())
+        {
+            if (TextBlockData *prevData = static_cast<TextBlockData *>(prevBlock.userData()))
+            {
+                if (prevData->getProperty() == property)
+                    openNests = prevData->openNests();
+            }
+        }
+    }
+
+    QRegularExpression mixed (startExp.pattern() + "|" + endExp.pattern());
+    int indx = -1, startIndx = 0;
+    int txtL = text.length();
+    QRegularExpressionMatch match;
+    while (indx < txtL)
+    {
+        indx = text.indexOf (mixed, indx + 1, &match);
+        while (isYamlBraceEscaped (text, startExp, indx) || isQuoted (text, indx))
+            indx = text.indexOf (mixed, indx + match.capturedLength(), &match);
+        if (format (indx) == commentFormat)
+        {
+            while (format (indx - 1) == commentFormat) --indx;
+            if (indx > startIndx && openNests > 0)
+                setFormat (startIndx, indx - startIndx, neutralFormat);
+            break;
+        }
+        if (indx > -1)
+        {
+            if (text.indexOf (startExp, indx) == indx)
+            {
+                if (openNests == 0)
+                    startIndx = indx;
+                ++ openNests;
+            }
+            else
+            {
+                -- openNests;
+                if (openNests == 0)
+                    setFormat (startIndx, indx + match.capturedLength() - startIndx, neutralFormat);
+                openNests = qMax (openNests, 0);
+            }
+        }
+        else
+        {
+            if (openNests > 0)
+            {
+                indx = txtL;
+                while (format (indx - 1) == commentFormat) --indx;
+                if (indx > startIndx && openNests > 0)
+                    setFormat (startIndx, indx - startIndx, neutralFormat);
+            }
+            break;
+        }
+    }
+
+    if (setData)
+    {
+        data->insertNestInfo (openNests);
+        if (openNests == 0) // braces take priority over brackets
+            property = false;
+        data->setProperty (property);
+        return (openNests != oldOpenNests || property != oldProperty);
+    }
+    return false; // don't update the next line if no data is set
+}
+/*************************/
 // Start syntax highlighting!
 void Highlighter::highlightBlock (const QString &text)
 {
@@ -2914,10 +3102,12 @@ void Highlighter::highlightBlock (const QString &text)
 
     bool rehighlightNextBlock = false;
     int oldOpenNests = 0; QSet<int> oldOpenQuotes; // to be used in SH_CmndSubstVar()
+    bool oldProperty = false; // to be used with yaml
     if (TextBlockData *oldData = static_cast<TextBlockData *>(currentBlockUserData()))
     {
         oldOpenNests = oldData->openNests();
         oldOpenQuotes = oldData->openQuotes();
+        oldProperty = oldData->getProperty();
     }
 
     int index;
@@ -2972,7 +3162,7 @@ void Highlighter::highlightBlock (const QString &text)
 
     /* this is only for setting the format of
        command substitution variables in bash */
-    rehighlightNextBlock = SH_CmndSubstVar (text, data, oldOpenNests, oldOpenQuotes);
+    rehighlightNextBlock |= SH_CmndSubstVar (text, data, oldOpenNests, oldOpenQuotes);
 
     /*******************
      * Python Comments *
@@ -3001,9 +3191,10 @@ void Highlighter::highlightBlock (const QString &text)
              && progLan != "changelog" && progLan != "url"
              && progLan != "srt" && progLan != "html"
              && progLan != "deb" && progLan != "m3u"
-             && progLan != "reST")
+             && progLan != "reST"
+             && progLan != "yaml") // yaml will be formated separately
     {
-        rehighlightNextBlock = multiLineQuote (text);
+        rehighlightNextBlock |= multiLineQuote (text);
     }
 
     /*******
@@ -3023,57 +3214,240 @@ void Highlighter::highlightBlock (const QString &text)
     /* only javascript and qml, for now */
     multiLineJSRegex (text, 0);
 
-    /************
-     * Markdown *
-     ************/
+    /********
+     * Yaml *
+     ********/
 
-    if (progLan == "markdown" && blockQuoteFormat.isValid() && codeBlockFormat.isValid())
+    if (progLan == "yaml")
     {
-        int prevState = previousBlockState();
-        /* the block quote of markdown is like a multiline comment
-           but shouldn't be formatted inside a real comment */
-        if (prevState != commentState)
-            multiLineComment (text, 0, -1, QRegularExpression ("^>.*"), QRegularExpression ("^$"), markdownBlockQuoteState, blockQuoteFormat);
-        /* the ``` code block of markdown is like a multiline comment
-           but shouldn't be formatted inside a comment or block quote */
-        if (prevState != commentState && prevState != markdownBlockQuoteState)
-            multiLineComment (text, 0, -1, QRegularExpression ("```(?!`)"), QRegularExpression ("(?<![^\\s])```(?![^\\s])"), codeBlockState, codeBlockFormat);
+        bool braces (true);
+        int openNests = 0;
+        QTextBlock prevBlock = currentBlock().previous();
+        if (prevBlock.isValid())
+        {
+            if (TextBlockData *prevData = static_cast<TextBlockData *>(prevBlock.userData()))
+            {
+                openNests = prevData->openNests();
+                if (openNests != 0) // braces take priority over brackets
+                    braces = !prevData->getProperty();
+            }
+        }
+        if (text.indexOf (QRegularExpression("^---")) == 0) // pass the data
+        {
+            data->insertNestInfo (openNests);
+            data->setProperty (braces);
+            rehighlightNextBlock |= oldOpenNests != openNests;
+        }
+        else // format braces and brackets before formatting multi-line quotes
+        {
+            if (previousBlockState() != codeBlockState || text.indexOf (QRegularExpression ("^\\S")) == 0)
+            {
+                if (braces)
+                {
+                    rehighlightNextBlock |= yamlOpenNraces (text, QRegularExpression ("{"), QRegularExpression ("}"), oldOpenNests, oldProperty, true);
+                    rehighlightNextBlock |= yamlOpenNraces (text, QRegularExpression ("\\["), QRegularExpression ("\\]"), oldOpenNests, oldProperty,
+                                                            data->openNests() == 0); // set data only if braces are completely closed
+                }
+                else
+                {
+                    rehighlightNextBlock |= yamlOpenNraces (text, QRegularExpression ("\\["), QRegularExpression ("\\]"), oldOpenNests, oldProperty, true);
+                    rehighlightNextBlock |= yamlOpenNraces (text, QRegularExpression ("{"), QRegularExpression ("}"), oldOpenNests, oldProperty,
+                                                            data->openNests() == 0); // set data only if brackets are completely closed
+                }
+            }
+            else
+            {
+                data->insertNestInfo (0);
+                data->setProperty (false);
+            }
+            if (data->openNests() == 0)
+                multiLineComment (text, 0, -1, QRegularExpression (".*\\s+\\K(\\||>)\\s*$"), QRegularExpression ("^(?=\\S)"), codeBlockState, codeBlockFormat);
+
+            rehighlightNextBlock |= multiLineQuote (text);
+        }
+
+        /* yaml Main Formatting  */
         if (mainFormatting)
         {
-            data->setHighlighted(); // completely highlighted
+            data->setHighlighted();
             for (const HighlightingRule &rule : qAsConst(highlightingRules))
             {
+                if (rule.format != whiteSpaceFormat
+                    && previousBlockState() == codeBlockState
+                    && text.indexOf (QRegularExpression ("^(?=\\S)")) != 0)
+                { // a block
+                    continue;
+                }
+                if (rule.format == commentFormat)
+                    continue;
+
                 QRegularExpressionMatch match;
                 index = text.indexOf (rule.pattern, 0, &match);
                 if (rule.format != whiteSpaceFormat)
                 {
                     fi = format (index);
                     while (index >= 0
-                           && (fi == blockQuoteFormat || fi == codeBlockFormat // the same as quoteFormat (for `...`)
+                           && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                                || fi == commentFormat || fi == urlFormat))
                     {
-                        index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
+                        index = text.indexOf (rule.pattern, index + 1, &match);
                         fi = format (index);
                     }
                 }
                 while (index >= 0)
                 {
-                    setFormat (index, match.capturedLength(), rule.format);
-                    index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
+                    int length = match.capturedLength();
+
+                    /* check if there is a valid brace inside the regex
+                       and if there is, limit the found match to it */
+                    QString txt = text.mid (index, length);
+                    int braceIndx = 0;
+                    while ((braceIndx = txt.indexOf (QRegularExpression ("{"), braceIndx)) >= 0)
+                    {
+                        if (format (index + braceIndx) == neutralFormat
+                            && !isYamlBraceEscaped (text, QRegularExpression ("{"), index + braceIndx))
+                        {
+                            txt = text.mid (index, braceIndx);
+                            break;
+                        }
+                        ++ braceIndx;
+                    }
+                    braceIndx = 0;
+                    while ((braceIndx = txt.indexOf (QRegularExpression ("}"), braceIndx)) >= 0)
+                    {
+                        if (format (index + braceIndx) == neutralFormat)
+                        {
+                            txt = text.mid (index, braceIndx);
+                            break;
+                        }
+                        ++ braceIndx;
+                    }
+                    braceIndx = 0;
+                    while ((braceIndx = txt.indexOf (QRegularExpression ("\\["), braceIndx)) >= 0)
+                    {
+                        if (format (index + braceIndx) == neutralFormat
+                            && !isYamlBraceEscaped (text, QRegularExpression ("\\["), index + braceIndx))
+                        {
+                            txt = text.mid (index, braceIndx);
+                            break;
+                        }
+                        ++ braceIndx;
+                    }
+                    braceIndx = 0;
+                    while ((braceIndx = txt.indexOf (QRegularExpression ("\\]"), braceIndx)) >= 0)
+                    {
+                        if (format (index + braceIndx) == neutralFormat)
+                        {
+                            txt = text.mid (index, braceIndx);
+                            break;
+                        }
+                        ++ braceIndx;
+                    }
+                    braceIndx = 0;
+                    while ((braceIndx = txt.indexOf (QRegularExpression (","), braceIndx)) >= 0)
+                    {
+                        if (format (index + braceIndx) == neutralFormat)
+                        {
+                            txt = text.mid (index, braceIndx);
+                            break;
+                        }
+                        ++ braceIndx;
+                    }
+                    length = txt.length();
+
+                    if (length > 0)
+                    {
+                        fi = rule.format;
+                        if (fi.foreground() == Violet)
+                        {
+                            if (txt.indexOf (QRegularExpression ("[-+]?\\d*\\.?\\d+(e(\\+|-)\\d+)?"), 0, &match) == 0)
+                            { // format numerical values differently
+                                if (match.capturedLength() == length)
+                                    fi.setForeground (Brown);
+                            }
+                            else if (txt.indexOf (QRegularExpression ("(true|false|yes|no|TRUE|FALSE|YES|NO|True|False|Yes|No)"), 0, &match) == 0)
+                            { // format booleans differently
+                                if (match.capturedLength() == length)
+                                {
+                                    fi.setForeground (DarkBlue);
+                                    fi.setFontWeight (QFont::Bold);
+                                }
+                            }
+                        }
+                        setFormat (index, length, fi);
+                    }
+                    index = text.indexOf (rule.pattern, index + qMax (length, 1), &match);
+
                     if (rule.format != whiteSpaceFormat)
                     {
                         fi = format (index);
                         while (index >= 0
-                               && (fi == blockQuoteFormat || fi == codeBlockFormat
+                               && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
+                                   || fi == commentFormat || fi == urlFormat))
+                        {
+                            index = text.indexOf (rule.pattern, index + 1, &match);
+                            fi = format (index);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /************
+     * Markdown *
+     ************/
+
+    else if (progLan == "markdown")
+    {
+        if (blockQuoteFormat.isValid() && codeBlockFormat.isValid())
+        {
+            int prevState = previousBlockState();
+            /* the block quote of markdown is like a multiline comment
+           but shouldn't be formatted inside a real comment */
+            if (prevState != commentState)
+                multiLineComment (text, 0, -1, QRegularExpression ("^>.*"), QRegularExpression ("^$"), markdownBlockQuoteState, blockQuoteFormat);
+            /* the ``` code block of markdown is like a multiline comment
+           but shouldn't be formatted inside a comment or block quote */
+            if (prevState != commentState && prevState != markdownBlockQuoteState)
+                multiLineComment (text, 0, -1, QRegularExpression ("```(?!`)"), QRegularExpression ("(?<![^\\s])```(?![^\\s])"), codeBlockState, codeBlockFormat);
+            if (mainFormatting)
+            {
+                data->setHighlighted(); // completely highlighted
+                for (const HighlightingRule &rule : qAsConst(highlightingRules))
+                {
+                    QRegularExpressionMatch match;
+                    index = text.indexOf (rule.pattern, 0, &match);
+                    if (rule.format != whiteSpaceFormat)
+                    {
+                        fi = format (index);
+                        while (index >= 0
+                               && (fi == blockQuoteFormat || fi == codeBlockFormat // the same as quoteFormat (for `...`)
                                    || fi == commentFormat || fi == urlFormat))
                         {
                             index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
                             fi = format (index);
                         }
                     }
+                    while (index >= 0)
+                    {
+                        setFormat (index, match.capturedLength(), rule.format);
+                        index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
+                        if (rule.format != whiteSpaceFormat)
+                        {
+                            fi = format (index);
+                            while (index >= 0
+                                   && (fi == blockQuoteFormat || fi == codeBlockFormat
+                                       || fi == commentFormat || fi == urlFormat))
+                            {
+                                index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
+                                fi = format (index);
+                            }
+                        }
+                    }
                 }
+                markDownFonts (text);
             }
-            markDownFonts (text);
         }
         /* go to braces matching */
     }
@@ -3421,7 +3795,8 @@ void Highlighter::highlightBlock (const QString &text)
     while (index >= 0
            && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                || fi == commentFormat || fi == urlFormat
-               || fi == JSRegexFormat))
+               || fi == JSRegexFormat
+               || (progLan == "yaml" && fi != neutralFormat)))
     {
         index = text.indexOf ('{', index + 1);
         fi = format (index);
@@ -3438,7 +3813,8 @@ void Highlighter::highlightBlock (const QString &text)
         while (index >= 0
                && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                    || fi == commentFormat || fi == urlFormat
-                   || fi == JSRegexFormat))
+                   || fi == JSRegexFormat
+                   || (progLan == "yaml" && fi != neutralFormat)))
         {
             index = text.indexOf ('{', index + 1);
             fi = format (index);
@@ -3451,7 +3827,8 @@ void Highlighter::highlightBlock (const QString &text)
     while (index >= 0
            && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                || fi == commentFormat || fi == urlFormat
-               || fi == JSRegexFormat))
+               || fi == JSRegexFormat
+               || (progLan == "yaml" && fi != neutralFormat)))
     {
         index = text.indexOf ('}', index + 1);
         fi = format (index);
@@ -3468,7 +3845,8 @@ void Highlighter::highlightBlock (const QString &text)
         while (index >= 0
                && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                    || fi == commentFormat || fi == urlFormat
-                   || fi == JSRegexFormat))
+                   || fi == JSRegexFormat
+                   || (progLan == "yaml" && fi != neutralFormat)))
         {
             index = text.indexOf ('}', index + 1);
             fi = format (index);
@@ -3482,6 +3860,7 @@ void Highlighter::highlightBlock (const QString &text)
            && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                || fi == commentFormat || fi == urlFormat
                || fi == JSRegexFormat
+               || (progLan == "yaml" && fi != neutralFormat)
                || (progLan == "sh" && isEscapedChar (text, index))))
     {
         index = text.indexOf ('[', index + 1);
@@ -3500,6 +3879,7 @@ void Highlighter::highlightBlock (const QString &text)
                && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                    || fi == commentFormat || fi == urlFormat
                    || fi == JSRegexFormat
+                   || (progLan == "yaml" && fi != neutralFormat)
                    || (progLan == "sh" && isEscapedChar (text, index))))
         {
             index = text.indexOf ('[', index + 1);
@@ -3514,6 +3894,7 @@ void Highlighter::highlightBlock (const QString &text)
            && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                || fi == commentFormat || fi == urlFormat
                || fi == JSRegexFormat
+               || (progLan == "yaml" && fi != neutralFormat)
                || (progLan == "sh" && isEscapedChar (text, index))))
     {
         index = text.indexOf (']', index + 1);
@@ -3532,6 +3913,7 @@ void Highlighter::highlightBlock (const QString &text)
                && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                    || fi == commentFormat || fi == urlFormat
                    || fi == JSRegexFormat
+                   || (progLan == "yaml" && fi != neutralFormat)
                    || (progLan == "sh" && isEscapedChar (text, index))))
         {
             index = text.indexOf (']', index + 1);
