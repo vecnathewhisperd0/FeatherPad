@@ -45,20 +45,20 @@ QStringList Highlighter::keywords (const QString &lang)
     }
     else if (lang == "sh" || lang == "makefile" || lang == "cmake") // the characters "(", ";" and "&" will be reformatted after this
     {
-        keywordPatterns << "((^\\s*|[\\(\\);&`\\|]+\\s*)((if|then|elif|else|fi|while|do|done|esac)\\s+)*)(alias|bg|bind|break|builtin)(?!(\\.|-|@|#|\\$))\\b"
-                        << "((^\\s*|[\\(\\);&`\\|]+\\s*)((if|then|elif|else|fi|while|do|done|esac)\\s+)*)(caller|case|command|compgen|complete|continue)(?!(\\.|-|@|#|\\$))\\b"
-                        << "((^\\s*|[\\(\\);&`\\|]+\\s*)((if|then|elif|else|fi|while|do|done|esac)\\s+)*)(declare|dirs|disown|do|done)(?!(\\.|-|@|#|\\$))\\b"
-                        << "((^\\s*|[\\(\\);&`\\|]+\\s*)((if|then|elif|else|fi|while|do|done|esac)\\s+)*)(echo|enable|esac|eval|exec|exit|export)(?!(\\.|-|@|#|\\$))\\b"
-                        << "(^\\s*|[\\(\\);&`\\|]+\\s*)elif(?!(\\.|-|@|#|\\$))\\b" << "(^\\s*|[\\(\\);&`\\|]+\\s*)else(?!(\\.|-|@|#|\\$))\\b"
+        keywordPatterns << "((^\\s*|[\\(\\);&`\\|{}]+\\s*)((if|then|elif|elseif|else|fi|while|do|done|esac)\\s+)*)(alias|bg|bind|break|builtin)(?!(\\.|-|@|#|\\$))\\b"
+                        << "((^\\s*|[\\(\\);&`\\|{}]+\\s*)((if|then|elif|elseif|else|fi|while|do|done|esac)\\s+)*)(caller|case|command|compgen|complete|continue)(?!(\\.|-|@|#|\\$))\\b"
+                        << "((^\\s*|[\\(\\);&`\\|{}]+\\s*)((if|then|elif|elseif|else|fi|while|do|done|esac)\\s+)*)(declare|default|dirs|disown|do|done)(?!(\\.|-|@|#|\\$))\\b"
+                        << "((^\\s*|[\\(\\);&`\\|{}]+\\s*)((if|then|elif|elseif|else|fi|while|do|done|esac)\\s+)*)(echo|enable|esac|eval|exec|exit|export)(?!(\\.|-|@|#|\\$))\\b"
+                        << "(^\\s*|[\\(\\);&`\\|{}]+\\s*)(elif|elseif|else)(?!(\\.|-|@|#|\\$))\\b"
                         << "\\bfalse(?!(\\.|-|@|#|\\$))\\b"
-                        << "((^\\s*|[\\(\\);&`\\|]+\\s*)((if|then|elif|else|fi|while|do|done|esac)\\s+)*)(fg|fi|for|getopts|hash|help|history)(?!(\\.|-|@|#|\\$))\\b"
-                        << "((^\\s*|[\\(\\);&`\\|]+\\s*)((then|else|done|esac)\\s+)*)if(?!(\\.|-|@|#|\\$))\\b" << "\\bin(?!(\\.|-|@|#|\\$))\\b"
-                        << "((^\\s*|[\\(\\);&`\\|]+\\s*)((if|then|elif|else|fi|while|do|done|esac)\\s+)*)(jobs|let|local|logout|popd|printf|pushd|read|readonly|return)(?!(\\.|-|@|#|\\$))\\b"
-                        << "((^\\s*|[\\(\\);&`\\|]+\\s*)((if|then|elif|else|fi|while|do|done|esac)\\s+)*)(select|set|shift|shopt|source|suspend|test|times|trap|type|typeset)(?!(\\.|-|@|#|\\$))\\b"
-                        << "(^\\s*|[\\(\\);&`\\|]+\\s*)then(?!(\\.|-|@|#|\\$))\\b" << "\\btrue(?!(\\.|-|@|#|\\$))\\b"
-                        << "((^\\s*|[\\(\\);&`\\|]+\\s*)((if|then|elif|else|fi|while|do|done|esac)\\s+)*)(umask|unalias|unset|until|wait|while)(?!(\\.|-|@|#|\\$))\\b";
+                        << "((^\\s*|[\\(\\);&`\\|{}]+\\s*)((if|then|elif|elseif|else|fi|while|do|done|esac)\\s+)*)(fg|fi|for|foreach|getopts|hash|help|history)(?!(\\.|-|@|#|\\$))\\b"
+                        << "((^\\s*|[\\(\\);&`\\|{}]+\\s*)((then|else|done|esac)\\s+)*)if(?!(\\.|-|@|#|\\$))\\b" << "\\bin(?!(\\.|-|@|#|\\$))\\b"
+                        << "((^\\s*|[\\(\\);&`\\|{}]+\\s*)((if|then|elif|elseif|else|fi|while|do|done|esac)\\s+)*)(jobs|let|local|logout|popd|printf|pushd|read|readonly|return)(?!(\\.|-|@|#|\\$))\\b"
+                        << "((^\\s*|[\\(\\);&`\\|{}]+\\s*)((if|then|elif|elseif|else|fi|while|do|done|esac)\\s+)*)(select|seq|set|shift|shopt|source|suspend|test|times|trap|type|typeset)(?!(\\.|-|@|#|\\$))\\b"
+                        << "(^\\s*|[\\(\\);&`\\|{}]+\\s*)then(?!(\\.|-|@|#|\\$))\\b" << "\\btrue(?!(\\.|-|@|#|\\$))\\b"
+                        << "((^\\s*|[\\(\\);&`\\|{}]+\\s*)((if|then|elif|elseif|else|fi|while|do|done|esac)\\s+)*)(umask|unalias|unset|until|wait|while)(?!(\\.|-|@|#|\\$))\\b";
         if (lang == "cmake")
-            keywordPatterns << "(^\\s*|[\\(\\);&`\\|]+\\s*)(endif|endmacro|endwhile|file|include|option|project|add_compile_options|add_custom_command|add_custom_target|add_definitions|add_dependencies|add_executable|add_library|add_subdirectory|add_test|aux_source_directory|build_command|cmake_host_system_information|cmake_minimum_required|cmake_policy|configure_file|create_test_sourcelist|define_property|enable_language|enable_testing|endforeach|endfunction|execute_process|find_file|find_library|find_package|find_path|find_program|fltk_wrap_ui|foreach|function|get_cmake_property|get_directory_property|get_filename_component|get_property|get_source_file_property|get_target_property|get_test_property|include_directories|include_external_msproject|include_regular_expressionlink_directories|list|load_cache|load_command|macro|mark_as_advanced|math|message|qt_wrap_cpp|qt_wrap_ui|remove_definitions|separate_arguments|set_directory_properties|set_property|set_source_files_properties|set_target_properties|set_tests_properties|site_name|source_group|string|target_compile_definitions|target_compile_options|target_include_directories|target_link_libraries|try_compile|try_run|variable_watch)(?!(\\.|-|@|#|\\$))\\b";
+            keywordPatterns << "(^\\s*|[\\(\\);&`\\|{}]+\\s*)(endif|endmacro|endwhile|file|include|option|project|add_compile_options|add_custom_command|add_custom_target|add_definitions|add_dependencies|add_executable|add_library|add_subdirectory|add_test|aux_source_directory|build_command|cmake_host_system_information|cmake_minimum_required|cmake_policy|configure_file|create_test_sourcelist|define_property|enable_language|enable_testing|endforeach|endfunction|execute_process|find_file|find_library|find_package|find_path|find_program|fltk_wrap_ui|foreach|function|get_cmake_property|get_directory_property|get_filename_component|get_property|get_source_file_property|get_target_property|get_test_property|include_directories|include_external_msproject|include_regular_expressionlink_directories|list|load_cache|load_command|macro|mark_as_advanced|math|message|qt_wrap_cpp|qt_wrap_ui|remove_definitions|separate_arguments|set_directory_properties|set_property|set_source_files_properties|set_target_properties|set_tests_properties|site_name|source_group|string|target_compile_definitions|target_compile_options|target_include_directories|target_link_libraries|try_compile|try_run|variable_watch)(?!(\\.|-|@|#|\\$))\\b";
     }
     else if (lang == "qmake")
     {
