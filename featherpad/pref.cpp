@@ -307,7 +307,7 @@ PrefDialog::PrefDialog (QWidget *parent)
     QList<QString> val = shortcuts_.values();
     for (int i = 0; i < val.size(); ++i)
     {
-        if (val.indexOf (val.at (i), i + 1) > -1)
+        if (!val.at (i).isEmpty() && val.indexOf (val.at (i), i + 1) > -1)
         {
             showPrompt (tr ("Warning: Ambiguous shortcut detected!"), false);
             break;
