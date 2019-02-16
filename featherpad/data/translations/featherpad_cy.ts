@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="135"/>
+        <location filename="../../about.ui" line="137"/>
         <source>License</source>
         <translation></translation>
     </message>
@@ -1753,50 +1753,50 @@ trailing spaces of a text file.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="259"/>
-        <location filename="../../pref.cpp" line="1108"/>
+        <location filename="../../pref.cpp" line="260"/>
+        <location filename="../../pref.cpp" line="1109"/>
         <source>files</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="259"/>
-        <location filename="../../pref.cpp" line="1108"/>
+        <location filename="../../pref.cpp" line="260"/>
+        <location filename="../../pref.cpp" line="1109"/>
         <source>file</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="312"/>
-        <location filename="../../pref.cpp" line="1236"/>
+        <location filename="../../pref.cpp" line="313"/>
+        <location filename="../../pref.cpp" line="1237"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="424"/>
+        <location filename="../../pref.cpp" line="425"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="436"/>
+        <location filename="../../pref.cpp" line="437"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1134"/>
+        <location filename="../../pref.cpp" line="1135"/>
         <source>&amp;Recently Opened</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1135"/>
+        <location filename="../../pref.cpp" line="1136"/>
         <source>Recently &amp;Modified</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1226"/>
+        <location filename="../../pref.cpp" line="1227"/>
         <source>The typed shortcut was not valid.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1228"/>
+        <location filename="../../pref.cpp" line="1229"/>
         <source>The typed shortcut was reserved.</source>
         <translation></translation>
     </message>

@@ -88,6 +88,7 @@ PrefDialog::PrefDialog (QWidget *parent)
     showEndings_ = config.getShowEndings();
     vLineDistance_ = config.getVLineDistance();
     textTabSize_ = config.getTextTabSize();
+    saveUnmodified_ = config.getSaveUnmodified();
 
     /**************
      *** Window ***
@@ -270,7 +271,7 @@ PrefDialog::PrefDialog (QWidget *parent)
     ui->autoSaveSpin->setEnabled (ui->autoSaveBox->isChecked());
     connect (ui->autoSaveBox, &QCheckBox::stateChanged, this, &PrefDialog::prefAutoSave);
 
-    ui->unmodifiedSaveBox->setChecked (config.getSaveUnmodified());
+    ui->unmodifiedSaveBox->setChecked (saveUnmodified_);
 
     /*****************
      *** Shortcuts ***
@@ -1329,24 +1330,30 @@ void PrefDialog::prefSaveUnmodified()
 {
     FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
     Config& config = singleton->getConfig();
-    config.setSaveUnmodified (ui->unmodifiedSaveBox->isChecked());
+    if (ui->unmodifiedSaveBox->isChecked() == saveUnmodified_)
+        return; // do nothing when it isn't changed
+    config.setSaveUnmodified (!saveUnmodified_);
     for (int i = 0; i < singleton->Wins.count(); ++i)
     {
         FPwin *win = singleton->Wins.at (i);
-        for (int j = 0; j < win->ui->tabWidget->count(); ++j)
+        if (TabPage *tabPage = qobject_cast<TabPage*>(win->ui->tabWidget->currentWidget()))
         {
-            TextEdit *textEdit = qobject_cast< TabPage *>(win->ui->tabWidget->widget (j))->textEdit();
-            if (ui->unmodifiedSaveBox->isChecked())
+            TextEdit *textEdit = tabPage->textEdit();
+            if (!saveUnmodified_) // meaans that unmodified docs can be saved now
             {
-                disconnect (textEdit->document(), &QTextDocument::modificationChanged, win->ui->actionSave, &QAction::setEnabled);
                 if (!textEdit->isReadOnly() && !textEdit->isUneditable())
                     win->ui->actionSave->setEnabled (true);
             }
             else
-            {
                 win->ui->actionSave->setEnabled (textEdit->document()->isModified());
+        }
+        for (int j = 0; j < win->ui->tabWidget->count(); ++j)
+        {
+            TextEdit *textEdit = qobject_cast< TabPage *>(win->ui->tabWidget->widget (j))->textEdit();
+            if (!saveUnmodified_)
+                disconnect (textEdit->document(), &QTextDocument::modificationChanged, win->ui->actionSave, &QAction::setEnabled);
+            else
                 connect (textEdit->document(), &QTextDocument::modificationChanged, win->ui->actionSave, &QAction::setEnabled);
-            }
         }
     }
 }

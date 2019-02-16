@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="135"/>
+        <location filename="../../about.ui" line="137"/>
         <source>License</source>
         <translation>Licenco</translation>
     </message>
@@ -1820,50 +1820,50 @@ Tio povas esti uzebla ĉe iuj cirkonstancoj, ekz. por
         <translation>Fermi</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="259"/>
-        <location filename="../../pref.cpp" line="1108"/>
+        <location filename="../../pref.cpp" line="260"/>
+        <location filename="../../pref.cpp" line="1109"/>
         <source>files</source>
         <translation>dosieroj</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="259"/>
-        <location filename="../../pref.cpp" line="1108"/>
+        <location filename="../../pref.cpp" line="260"/>
+        <location filename="../../pref.cpp" line="1109"/>
         <source>file</source>
         <translation>dosiero</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="312"/>
-        <location filename="../../pref.cpp" line="1236"/>
+        <location filename="../../pref.cpp" line="313"/>
+        <location filename="../../pref.cpp" line="1237"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Averto: Ambigua fulmoklavo estas detektita!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="424"/>
+        <location filename="../../pref.cpp" line="425"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Restartigo de la aplikaĵo necesas por ke la ŝanĝoj efektiviĝu.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="436"/>
+        <location filename="../../pref.cpp" line="437"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Remalfermado de la fenestro necesas por ke la ŝanĝoj efektiviĝu.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1134"/>
+        <location filename="../../pref.cpp" line="1135"/>
         <source>&amp;Recently Opened</source>
         <translation>Lastatempe Malfermita&amp;j</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1135"/>
+        <location filename="../../pref.cpp" line="1136"/>
         <source>Recently &amp;Modified</source>
         <translation>Lastatempe Mod&amp;ifitaj</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1226"/>
+        <location filename="../../pref.cpp" line="1227"/>
         <source>The typed shortcut was not valid.</source>
         <translation>La fulmoklavo tajpita ne estis valida.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1228"/>
+        <location filename="../../pref.cpp" line="1229"/>
         <source>The typed shortcut was reserved.</source>
         <translation>La fulmoklavo tajpita estis rezervita.</translation>
     </message>

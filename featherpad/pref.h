@@ -114,7 +114,7 @@ private:
 
     Ui::PrefDialog *ui;
     QWidget * parent_;
-    bool darkBg_, sysIcons_, iconless_, showWhiteSpace_, showEndings_;
+    bool darkBg_, sysIcons_, iconless_, showWhiteSpace_, showEndings_, saveUnmodified_;
     int vLineDistance_, darkColValue_, lightColValue_, recentNumber_, textTabSize_;
     QHash<QString, QString> shortcuts_, newShortcuts_;
     QString prevtMsg_;

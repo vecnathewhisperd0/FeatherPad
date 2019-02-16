@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="135"/>
+        <location filename="../../about.ui" line="137"/>
         <source>License</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1779,50 +1779,50 @@ trailing spaces of a text file.</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="259"/>
-        <location filename="../../pref.cpp" line="1108"/>
+        <location filename="../../pref.cpp" line="260"/>
+        <location filename="../../pref.cpp" line="1109"/>
         <source>files</source>
         <translation>文件</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="259"/>
-        <location filename="../../pref.cpp" line="1108"/>
+        <location filename="../../pref.cpp" line="260"/>
+        <location filename="../../pref.cpp" line="1109"/>
         <source>file</source>
         <translation>文件</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="312"/>
-        <location filename="../../pref.cpp" line="1236"/>
+        <location filename="../../pref.cpp" line="313"/>
+        <location filename="../../pref.cpp" line="1237"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>警告：检测到不明确的快捷方式！</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="424"/>
+        <location filename="../../pref.cpp" line="425"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>需要重新启动应用程序以使更改生效。</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="436"/>
+        <location filename="../../pref.cpp" line="437"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>需要重新开启窗口以生效。</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1134"/>
+        <location filename="../../pref.cpp" line="1135"/>
         <source>&amp;Recently Opened</source>
         <translation>最近打开的文件(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1135"/>
+        <location filename="../../pref.cpp" line="1136"/>
         <source>Recently &amp;Modified</source>
         <translation>最近更改的文件(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1226"/>
+        <location filename="../../pref.cpp" line="1227"/>
         <source>The typed shortcut was not valid.</source>
         <translation>输入的快捷方式无效。</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1228"/>
+        <location filename="../../pref.cpp" line="1229"/>
         <source>The typed shortcut was reserved.</source>
         <translation>输入的快捷方式已被保留。</translation>
     </message>

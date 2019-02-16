@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="135"/>
+        <location filename="../../about.ui" line="137"/>
         <source>License</source>
         <translation>Licencja</translation>
     </message>
@@ -1801,50 +1801,50 @@ trailing spaces of a text file.</source>
         <translation>Zamknij</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="259"/>
-        <location filename="../../pref.cpp" line="1108"/>
+        <location filename="../../pref.cpp" line="260"/>
+        <location filename="../../pref.cpp" line="1109"/>
         <source>files</source>
         <translation>pliki</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="259"/>
-        <location filename="../../pref.cpp" line="1108"/>
+        <location filename="../../pref.cpp" line="260"/>
+        <location filename="../../pref.cpp" line="1109"/>
         <source>file</source>
         <translation>plik</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="312"/>
-        <location filename="../../pref.cpp" line="1236"/>
+        <location filename="../../pref.cpp" line="313"/>
+        <location filename="../../pref.cpp" line="1237"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Ostrzeżenie: Wykryto niejednoznaczny skrót!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="424"/>
+        <location filename="../../pref.cpp" line="425"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Restart aplikacji jest wymagany, aby uzyskać efekt.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="436"/>
+        <location filename="../../pref.cpp" line="437"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Ponowne otwarcie okna jest wymagane, aby uzyskać efekt.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1134"/>
+        <location filename="../../pref.cpp" line="1135"/>
         <source>&amp;Recently Opened</source>
         <translation>Ostatnio otwie&amp;rane</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1135"/>
+        <location filename="../../pref.cpp" line="1136"/>
         <source>Recently &amp;Modified</source>
         <translation>Ostatnio &amp;modyfikowane</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1226"/>
+        <location filename="../../pref.cpp" line="1227"/>
         <source>The typed shortcut was not valid.</source>
         <translation>Wprowadzony skrót jest nieprawidłowy.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1228"/>
+        <location filename="../../pref.cpp" line="1229"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Wprowadzony skrót został zarejestrowany.</translation>
     </message>

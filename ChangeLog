@@ -6,6 +6,7 @@ V0.9.4
  * No need to consider the screen size when resizing the window at startup.
  * Added YAML to syntax highlighting.
  * Don't consider empty shortcuts ambiguous in Preferences dialog (they are possible with localization).
+ * Fixed an issue in deciding whether unmodified docs should be saved on closing the Preferences dialog.
 
 V0.9.3
 ---------
