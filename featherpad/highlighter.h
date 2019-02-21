@@ -161,6 +161,7 @@ private:
                           int oldOpenNests, const QSet<int> &oldOpenQuotes);
 
     void markDownFonts (const QString &text);
+    void fountainFonts (const QString &text);
     void reSTMainFormatting (int start, const QString &text);
     void debControlFormatting (const QString &text);
 
@@ -172,6 +173,9 @@ private:
                          const QRegularExpression &startExp, const QRegularExpression &endExp,
                          int oldOpenNests, bool oldProperty,
                          bool setData);
+
+    bool isFountainLineBlank (const QTextBlock &block);
+    void highlightFountainBlock (const QString &text);
 
     struct HighlightingRule
     {

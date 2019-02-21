@@ -757,11 +757,11 @@ void FPwin::addRemoveLangBtn (bool add)
     if (langList.isEmpty())
     { // no "url" for the language button
         langList << "c" << "changelog" << "cmake" << "config" << "cpp"
-                 << "css" << "deb" << "desktop" << "diff" << "gtkrc"
-                 << "html" << "javascript" << "log" << "lua" << "m3u"
-                 << "markdown" << "makefile" << "perl" << "php" << "python"
-                 << "qmake" << "qml" << "reST" << "ruby" << "scss"
-                 << "sh" << "troff" << "theme" << "xml" << "yaml";
+                 << "css" << "deb" << "desktop" << "diff" << "fountain"
+                 << "gtkrc" << "html" << "javascript" << "log" << "lua"
+                 << "m3u" << "markdown" << "makefile" << "perl" << "php"
+                 << "python" << "qmake" << "qml" << "reST" << "ruby"
+                 << "scss" << "sh" << "troff" << "theme" << "xml" << "yaml";
         langList.sort();
     }
 
@@ -2735,7 +2735,7 @@ bool FPwin::saveFile (bool keepSyntax)
             if (const int num = trailingSpaces (block.text()))
             {
                 tmpCur.setPosition (block.position() + block.text().length());
-                if (num > 1 && textEdit->getProg() == "markdown") // md sees two trailing spaces as a new line
+                if (num > 1 && (textEdit->getProg() == "markdown" || textEdit->getProg() == "fountain")) // md sees two trailing spaces as a new line
                     tmpCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, num - 2);
                 else
                     tmpCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, num);
@@ -4637,7 +4637,7 @@ void FPwin::autoSave()
                     if (const int num = trailingSpaces (block.text()))
                     {
                         tmpCur.setPosition (block.position() + block.text().length());
-                        if (num > 1 && thisTextEdit->getProg() == "markdown")
+                        if (num > 1 && (thisTextEdit->getProg() == "markdown" || thisTextEdit->getProg() == "fountain"))
                             tmpCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, num - 2);
                         else
                             tmpCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, num);

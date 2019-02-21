@@ -1138,7 +1138,7 @@
         </translation>
     </message>
     <message>
-        <location filename="../../syntax.cpp" line="260"/>
+        <location filename="../../syntax.cpp" line="262"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
         <translation>El tamaño límite para el que se excede el realce de sintaxis.</translation>
     </message>

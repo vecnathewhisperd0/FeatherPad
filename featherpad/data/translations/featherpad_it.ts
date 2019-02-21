@@ -1132,11 +1132,13 @@ linea (Ctrl + Shift + J)</translation>
     <message numerus="yes">
         <location filename="../../replace.cpp" line="243"/>
         <source>%Ln Replacements</source>
-        <translation><numerusform>%Ln Sostituzione</numerusform>
-        <numerusform>%Ln Sostituzioni</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%Ln Sostituzione</numerusform>
+            <numerusform>%Ln Sostituzioni</numerusform>
+        </translation>
+    </message>
     <message>
-        <location filename="../../syntax.cpp" line="260"/>
+        <location filename="../../syntax.cpp" line="262"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
         <translation>Il limite di dimensione per l&apos;evidenziazione della sintassi è stato  superato.</translation>
     </message>

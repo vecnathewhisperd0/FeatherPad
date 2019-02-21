@@ -119,6 +119,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
             progLan = "srt";
         else if (fname.endsWith (".theme"))
              progLan = "theme";
+        else if (fname.endsWith (".fountain"))
+             progLan = "fountain";
         else if (fname.endsWith (".yml") || fname.endsWith (".yaml"))
              progLan = "yaml";
         else if (fname.endsWith (".m3u", Qt::CaseInsensitive))
@@ -187,7 +189,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
                      || mime == "application/metalink4+xml" || mime == "application/metalink+xml"
                      || mime == "application/x-gtk-builder" || mime == "text/rdf+xml" || mime == "application/rdf+xml"
                      || mime == "application/x-docbook+xml" || mime == "application/x-xbel" || mime == "text/feathernotes-fnx"
-                     || mime == "text/vnd.trolltech.linguist"
+                     || mime == "text/vnd.trolltech.linguist" || mime == "text/x-opml+xml"
                      || mime == "application/xspf+xml" || mime == "audio/x-ms-asx"
                      || mime == "application/vnd.kde.kxmlguirc" || mime == "application/vnd.google-earth.kml+xml")
                 progLan = "xml";
