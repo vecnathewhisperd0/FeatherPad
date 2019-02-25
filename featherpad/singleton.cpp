@@ -249,7 +249,13 @@ void FPsingleton::firstWin (const QString& message)
     long d = -1;
     bool openNewWin;
     QStringList filesList = processInfo (message, d, lineNum, posInLine, &openNewWin);
-    newWin (filesList, lineNum, posInLine);
+    if (config_.getOpenInWindows() && !filesList.isEmpty())
+    {
+        for (auto file : filesList)
+          newWin (QStringList() << file, lineNum, posInLine);
+    }
+    else
+        newWin (filesList, lineNum, posInLine);
     lastFiles_ = QStringList(); // they should be called only with the session start
 }
 /*************************/
@@ -293,8 +299,8 @@ void FPsingleton::handleMessage (const QString& message)
     int lineNum = 0, posInLine = 0;
     long d = -1;
     bool openNewWin;
-    QStringList filesList = processInfo (message, d, lineNum, posInLine, &openNewWin);
-    if (openNewWin)
+    const QStringList filesList = processInfo (message, d, lineNum, posInLine, &openNewWin);
+    if (openNewWin && !config_.getOpenInWindows())
     {
         newWin (filesList, lineNum, posInLine);
         return;
@@ -309,13 +315,17 @@ void FPsingleton::handleMessage (const QString& message)
         {
 #ifdef HAS_X11
             WId id = Wins.at (i)->winId();
+            long whichDesktop = onWhichDesktop (id);
 #endif
             /* if the command is issued from where a FeatherPad
                window exists and if that window isn't minimized
                and doesn't have a modal dialog... */
             if (!isX11_ // always open a new tab on wayland
 #ifdef HAS_X11
-                || (onWhichDesktop (id) == d
+                || ((whichDesktop == d
+                     /* if a window is created a moment ago, it should be
+                        on the current desktop but may not report that yet */
+                     || whichDesktop == -1)
                     && (!Wins.at (i)->isMinimized() || isWindowShaded (id)))
 #endif
                )
@@ -362,8 +372,16 @@ void FPsingleton::handleMessage (const QString& message)
         }
     }
     if (!found)
+    {
         /* ... otherwise, open a new window */
-        newWin (filesList, lineNum, posInLine);
+        if (config_.getOpenInWindows() && !filesList.isEmpty())
+        {
+            for (auto file : filesList)
+              newWin (QStringList() << file, lineNum, posInLine);
+        }
+        else
+            newWin (filesList, lineNum, posInLine);
+    }
 }
 
 
