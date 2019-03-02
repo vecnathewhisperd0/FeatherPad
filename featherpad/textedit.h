@@ -234,6 +234,10 @@ signals:
     void zoomedOut (TextEdit *textEdit); // needed for reformatting text
     void updateBracketMatching();
 
+public slots:
+    void copy();
+    void cut();
+
 protected:
     void keyPressEvent (QKeyEvent *event);
     void keyReleaseEvent (QKeyEvent *event);

@@ -26,6 +26,7 @@
 #include <QProcess>
 #include <QRegularExpression>
 #include <QClipboard>
+#include <QTextDocumentFragment>
 #include "textedit.h"
 #include "vscrollbar.h"
 
@@ -424,6 +425,20 @@ static inline bool isOnlySpaces (const QString &str)
 
 void TextEdit::keyPressEvent (QKeyEvent *event)
 {
+    /* workarounds for copy/cut -- see TextEdit::copy()/cut() */
+    if (event == QKeySequence::Copy)
+    {
+        copy();
+        event->accept();
+        return;
+    }
+    if (event == QKeySequence::Cut)
+    {
+        cut();
+        event->accept();
+        return;
+    }
+
     /* first, deal with spacial cases of pressing Ctrl */
     if (event->modifiers() & Qt::ControlModifier)
     {
@@ -910,6 +925,24 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
     }
 
     QPlainTextEdit::keyPressEvent (event);
+}
+/*************************/
+// QPlainTextEdit doesn't give a plain text to the clipboard on copying/cutting
+// but we're interested only in plain text.
+void TextEdit::copy()
+{
+    QTextCursor cursor = textCursor();
+    if (cursor.hasSelection())
+        QApplication::clipboard()->setText (cursor.selection().toPlainText());
+}
+void TextEdit::cut()
+{
+    QTextCursor cursor = textCursor();
+    if (cursor.hasSelection())
+    {
+        QApplication::clipboard()->setText (cursor.selection().toPlainText());
+        cursor.removeSelectedText();
+    }
 }
 /*************************/
 void TextEdit::keyReleaseEvent (QKeyEvent *event)
@@ -1580,12 +1613,24 @@ void TextEdit::showContextMenu (const QPoint &p)
     if (!actions.isEmpty())
     {
         for (QAction* const thisAction : actions)
-        { // remove the shortcut strings because shortcuts may change
+        {
+            /* remove the shortcut strings because shortcuts may change */
             QString txt = thisAction->text();
             if (!txt.isEmpty())
                 txt = txt.split ('\t').first();
             if (!txt.isEmpty())
                 thisAction->setText(txt);
+            // correct the slots of copy and cut actions
+            if (thisAction->objectName() == "edit-copy")
+            {
+                disconnect (thisAction, &QAction::triggered, nullptr, nullptr);
+                connect (thisAction, &QAction::triggered, this, &TextEdit::copy);
+            }
+            else if (thisAction->objectName() == "edit-cut")
+            {
+                disconnect (thisAction, &QAction::triggered, nullptr, nullptr);
+                connect (thisAction, &QAction::triggered, this, &TextEdit::cut);
+            }
         }
         QString str = getUrl (textCursor().position());
         if (!str.isEmpty())
@@ -1704,6 +1749,17 @@ void TextEdit::mousePressEvent (QMouseEvent *event)
 void TextEdit::mouseReleaseEvent (QMouseEvent *event)
 {
     QPlainTextEdit::mouseReleaseEvent (event);
+
+    /* workaround for copying to the selection clipboard;
+       see TextEdit::copy()/cut() for an explanation */
+    QTextCursor cursor = textCursor();
+    if (cursor.hasSelection())
+    {
+        QClipboard *cl = QApplication::clipboard();
+        if (cl->supportsSelection())
+            cl->setText (cursor.selection().toPlainText(), QClipboard::Selection);
+    }
+
     if (!highlighter_
         || !(event->button() & Qt::LeftButton)
         || !(qApp->keyboardModifiers() & Qt::ControlModifier)

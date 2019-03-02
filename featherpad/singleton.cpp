@@ -248,7 +248,7 @@ void FPsingleton::firstWin (const QString& message)
     int lineNum = 0, posInLine = 0;
     long d = -1;
     bool openNewWin;
-    QStringList filesList = processInfo (message, d, lineNum, posInLine, &openNewWin);
+    const QStringList filesList = processInfo (message, d, lineNum, posInLine, &openNewWin);
     if (config_.getOpenInWindows() && !filesList.isEmpty())
     {
         for (auto file : filesList)

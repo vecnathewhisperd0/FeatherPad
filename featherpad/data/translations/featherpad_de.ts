@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="137"/>
+        <location filename="../../about.ui" line="139"/>
         <source>License</source>
         <translation>Lizenz</translation>
     </message>
@@ -2057,42 +2057,42 @@ in die gespeicherte Sitzung eingeschlossen.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="136"/>
+        <location filename="../../textedit.cpp" line="137"/>
         <source>Double click to center current line</source>
         <translation>Doppel-Klick um die aktuelle Zeile zu zentreieren</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1594"/>
+        <location filename="../../textedit.cpp" line="1639"/>
         <source>Open Link</source>
         <translation>Link öffnen</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1607"/>
+        <location filename="../../textedit.cpp" line="1652"/>
         <source>Copy Link</source>
         <translation>Link kopieren</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1620"/>
+        <location filename="../../textedit.cpp" line="1665"/>
         <source>To Upper Case</source>
         <translation>Zu Großbuchstaben</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1624"/>
+        <location filename="../../textedit.cpp" line="1669"/>
         <source>To Lower Case</source>
         <translation>Zu Kleinbuchstaben</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1631"/>
+        <location filename="../../textedit.cpp" line="1676"/>
         <source>Sort Lines</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1635"/>
+        <location filename="../../textedit.cpp" line="1680"/>
         <source>Sort Lines Reversely</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1642"/>
+        <location filename="../../textedit.cpp" line="1687"/>
         <source>Paste Date and Time</source>
         <translation>Datum und Uhrzeit einfügen</translation>
     </message>

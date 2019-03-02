@@ -2,6 +2,7 @@ V0.9.5
 ---------
  * If a window hasn't report yet on which desktop it is, that means it's created a moment ago. So, open the next file inside it.
  * When the option "Always open in separate windows" is checked, also respect it on opening multiple files with command line.
+ * Workaround for a Qt bug that gives non-plain text to clipboard on copying/cutting/selecting text.
 
 V0.9.4
 ---------

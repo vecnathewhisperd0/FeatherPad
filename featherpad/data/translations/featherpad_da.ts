@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="137"/>
+        <location filename="../../about.ui" line="139"/>
         <source>License</source>
         <translation>Licens</translation>
     </message>
@@ -2055,42 +2055,42 @@ vinduer i den gemte session.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="136"/>
+        <location filename="../../textedit.cpp" line="137"/>
         <source>Double click to center current line</source>
         <translation>Dobbeltklik for at centrere nuværende linje</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1594"/>
+        <location filename="../../textedit.cpp" line="1639"/>
         <source>Open Link</source>
         <translation>Åbn link</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1607"/>
+        <location filename="../../textedit.cpp" line="1652"/>
         <source>Copy Link</source>
         <translation>Kopiér link</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1620"/>
+        <location filename="../../textedit.cpp" line="1665"/>
         <source>To Upper Case</source>
         <translation>Til store bogstaver</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1624"/>
+        <location filename="../../textedit.cpp" line="1669"/>
         <source>To Lower Case</source>
         <translation>Små bogstaver</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1631"/>
+        <location filename="../../textedit.cpp" line="1676"/>
         <source>Sort Lines</source>
         <translation>Sortér linjer</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1635"/>
+        <location filename="../../textedit.cpp" line="1680"/>
         <source>Sort Lines Reversely</source>
         <translation>Sortér linjer rekursivt</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1642"/>
+        <location filename="../../textedit.cpp" line="1687"/>
         <source>Paste Date and Time</source>
         <translation>Indsæt dato og klokkeslæt</translation>
     </message>
