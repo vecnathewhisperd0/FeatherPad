@@ -176,6 +176,10 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     ui->actionUTF_8->setChecked (true);
     ui->actionOther->setDisabled (true);
 
+    /* see TabBar::mouseMoveEvent() for the reason of this: */
+    if (!static_cast<FPsingleton*>(qApp)->isX11())
+        ui->tabWidget->noTabDND();
+
     connect (ui->actionNew, &QAction::triggered, this, &FPwin::newTab);
     connect (ui->tabWidget->tabBar(), &TabBar::addEmptyTab, this, &FPwin::newTab);
     connect (ui->actionDetachTab, &QAction::triggered, this, &FPwin::detachTab);

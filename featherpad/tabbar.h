@@ -44,6 +44,10 @@ public:
         lock_ = lock;
     }
 
+    void noTabDND() {
+        noTabDND_ = true;
+    }
+
 signals:
     void tabDetached();
     void addEmptyTab();
@@ -66,6 +70,7 @@ private:
     bool dragStarted_;
     bool hideSingle_;
     bool lock_;
+    bool noTabDND_;
 };
 
 }

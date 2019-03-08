@@ -6,6 +6,8 @@ Files can be dragged and dropped into FeatherPad windows.
 
 Also tabs can be dragged from a window and dropped into another window or outside all FeatherPad windows. In the first case, the dropped tab will appear after the previously active tab; in the second case, a new window containing the dropped tab will be created, i.e. the tab will be detached.
 
+NOTE: Tab DND is enabled only under X11 because, at least, Wayland has a serious issue related to DND and there was no guarantee that it would work elsewhere either.
+
 ************
 *   Tabs   *
 ************

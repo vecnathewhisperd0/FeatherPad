@@ -39,6 +39,10 @@ public:
     void removeTab (int index);
     void selectLastActiveTab();
 
+    void noTabDND() {
+        tb_->noTabDND();
+    }
+
 signals:
     void currentTabChanged (int curIndx);
     void hasLastActiveTab (bool hasLastActive);

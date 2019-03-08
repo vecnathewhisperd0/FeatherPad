@@ -36,6 +36,7 @@ TabBar::TabBar (QWidget *parent)
     hideSingle_ = false;
     lock_ = false;
     dragStarted_ = false; // not needed
+    noTabDND_ = false;
 }
 /*************************/
 void TabBar::mousePressEvent (QMouseEvent *event)
@@ -78,7 +79,10 @@ void TabBar::mouseMoveEvent (QMouseEvent *event)
       dragStarted_ = true;
     }
 
-    if ((event->buttons() & Qt::LeftButton)
+    /* since Wayland has a serious issue related to QDrag that interferes with
+       dropping tabs outside all windows, we don't enable tab DND without X11 */
+    if (!noTabDND_
+        && (event->buttons() & Qt::LeftButton)
         && dragStarted_
         && !window()->geometry().contains (event->globalPos()))
     {
@@ -99,8 +103,10 @@ void TabBar::mouseMoveEvent (QMouseEvent *event)
         drag->setPixmap (px);
         drag->setHotSpot (QPoint (px.width()/2, px.height()));
         Qt::DropAction dragged = drag->exec (Qt::MoveAction);
-        if (dragged == Qt::IgnoreAction) // a tab is dropped outside all windows
+        if (dragged != Qt::MoveAction)
         {
+            /* A tab is dropped outside all windows. WARNING: Under Enlightenment,
+               this may be Qt::CopyAction, not IgnoreAction (an E bug). */
             if (count() > 1)
                 emit tabDetached();
             else
@@ -181,11 +187,9 @@ QSize TabBar::tabSizeHint(int index) const
     case QTabBar::TriangularEast:
         return QSize (QTabBar::tabSizeHint (index).width(),
                       qMin (height()/2, QTabBar::tabSizeHint (index).height()));
-        break;
     default:
         return QSize (qMin (width()/2, QTabBar::tabSizeHint (index).width()),
                       QTabBar::tabSizeHint (index).height());
-        break;
     }
 }
 /*************************/
