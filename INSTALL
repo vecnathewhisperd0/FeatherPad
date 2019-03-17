@@ -38,14 +38,23 @@ And, finally, in OpenSUSE:
  * libqt5-qtsvg-devel
  * libqt5-qttools-devel
 
+
+With cmake
+==========
 Then, open a terminal inside this folder and issue the following commands:
+
+	mkdir build && cd build
+	cmake ..
+	sudo make install
+
+With qmake
+==========
+If you prefer qmake, use these commands instead:
 
 	qmake && make
 	sudo make install
 
-If your default Qt installation is not Qt5, put the full path of Qt5 qmake in the first command but before that, put the full path of Qt5's "lrelease" binary into 'featherpad/featherpad.pro' (only one place).
-
-Afterward, you could use this command to clean the source directory:
+With qmake, you might need to put the full path of qmake in the first command and also the full path of Qt5's "lrelease" binary in 'featherpad/featherpad.pro' (only one place). After a qmake compilation, you could clean the source directory with this command:
 
 	make distclean
 
@@ -53,16 +62,20 @@ Afterward, you could use this command to clean the source directory:
 *   Compilation without X11   *
 *******************************
 
-If, for whatever reason, you do not want the X11 support, you could compile FeatherPad with:
+If, for whatever reason, you do not want the X11 support, you could turn on the option "WITHOUT_X11" with cmake:
+
+	cmake .. -DWITHOUT_X11=ON
+
+Or, with qmake:
 
 	qmake WITHOUT_X11=YES
 	make
 
-The result will have all features except for virtual desktop awareness.
+The result will have all features except for virtual desktop awareness and tab DND.
 
 Please also note that, on Linux, FeatherPad works under Wayland and you do not need to disable its X11 support for that.
 
-Compilation on Haiku OS or macOS does not require "WITHOUT_X11=YES" either.
+Compilation on Haiku OS or macOS does not require "WITHOUT_X11" either.
 
 **********************************
 *   Translation (Localization)   *
