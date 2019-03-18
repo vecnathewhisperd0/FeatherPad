@@ -5,6 +5,7 @@ V0.9.5
  * Workaround for a Qt bug that gives non-plain text to clipboard on copying/cutting/selecting text.
  * Disabled tab DND without X11, mainly because Wayland has a serious problem with QDrag.
  * Added cmake support.
+ * Added lots of cmake patterns for syntax highlighting.
 
 V0.9.4
 ---------
