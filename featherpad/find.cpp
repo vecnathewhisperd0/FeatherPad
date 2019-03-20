@@ -114,7 +114,7 @@ QTextCursor FPwin::finding (const QString& str, const QTextCursor& start, QTextD
             cursor.setPosition (qMax (cursor.anchor(), cursor.position())); // as with ordinary search
             while (!cursor.atEnd())
             {
-                if (!cursor.atBlockEnd())
+                if (!cursor.atBlockEnd()) // otherwise, it'll be returned with ".*"
                 {
                     if (end > 0 && cursor.anchor() > end)
                         break;
@@ -122,6 +122,11 @@ QTextCursor FPwin::finding (const QString& str, const QTextCursor& start, QTextD
                     int indx = cursor.block().text().indexOf (regexp, cursor.positionInBlock(), &match);
                     if (indx > -1)
                     {
+                        if (match.capturedLength() == 0) // possible case, as with "\w*"
+                        {
+                            cursor.setPosition (cursor.position() + 1);
+                            continue;
+                        }
                         if (end > 0 && indx + cursor.block().position() > end)
                             break;
                         res.setPosition (indx + cursor.block().position());
@@ -145,6 +150,11 @@ QTextCursor FPwin::finding (const QString& str, const QTextCursor& start, QTextD
                     int indx = txt.lastIndexOf (regexp, -1, &match);
                     if (indx > -1)
                     {
+                        if (match.capturedLength() == 0)
+                        {
+                            cursor.setPosition (cursor.position() - 1);
+                            continue;
+                        }
                         res.setPosition (indx + cursor.block().position());
                         res.setPosition (res.position() + match.capturedLength(), QTextCursor::KeepAnchor);
                         return  res;
