@@ -114,17 +114,20 @@ QTextCursor FPwin::finding (const QString& str, const QTextCursor& start, QTextD
             cursor.setPosition (qMax (cursor.anchor(), cursor.position())); // as with ordinary search
             while (!cursor.atEnd())
             {
-                if (end > 0 && cursor.anchor() > end)
-                    break;
-                QRegularExpressionMatch match;
-                int indx = cursor.block().text().indexOf (regexp, cursor.positionInBlock(), &match);
-                if (indx > -1)
+                if (!cursor.atBlockEnd())
                 {
-                    if (end > 0 && indx + cursor.block().position() > end)
+                    if (end > 0 && cursor.anchor() > end)
                         break;
-                    res.setPosition (indx + cursor.block().position());
-                    res.setPosition (res.position() + match.capturedLength(), QTextCursor::KeepAnchor);
-                    return  res;
+                    QRegularExpressionMatch match;
+                    int indx = cursor.block().text().indexOf (regexp, cursor.positionInBlock(), &match);
+                    if (indx > -1)
+                    {
+                        if (end > 0 && indx + cursor.block().position() > end)
+                            break;
+                        res.setPosition (indx + cursor.block().position());
+                        res.setPosition (res.position() + match.capturedLength(), QTextCursor::KeepAnchor);
+                        return  res;
+                    }
                 }
                 if (!cursor.movePosition (QTextCursor::NextBlock))
                     break;
@@ -135,14 +138,17 @@ QTextCursor FPwin::finding (const QString& str, const QTextCursor& start, QTextD
             cursor.setPosition (cursor.anchor()); // as with ordinary search
             while (!cursor.atStart())
             {
-                QString txt = cursor.block().text().left (cursor.positionInBlock());
-                QRegularExpressionMatch match;
-                int indx = txt.lastIndexOf (regexp, -1, &match);
-                if (indx > -1)
+                if (!cursor.atBlockStart())
                 {
-                    res.setPosition (indx + cursor.block().position());
-                    res.setPosition (res.position() + match.capturedLength(), QTextCursor::KeepAnchor);
-                    return  res;
+                    QString txt = cursor.block().text().left (cursor.positionInBlock());
+                    QRegularExpressionMatch match;
+                    int indx = txt.lastIndexOf (regexp, -1, &match);
+                    if (indx > -1)
+                    {
+                        res.setPosition (indx + cursor.block().position());
+                        res.setPosition (res.position() + match.capturedLength(), QTextCursor::KeepAnchor);
+                        return  res;
+                    }
                 }
                 if (!cursor.movePosition (QTextCursor::PreviousBlock))
                     break;
