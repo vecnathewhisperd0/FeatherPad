@@ -33,7 +33,7 @@ class SearchBar : public QFrame
 public:
     SearchBar (QWidget *parent = nullptr,
                bool hasText = false,
-               const QStringList& shortcuts = QStringList(),
+               const QList<QKeySequence>& shortcuts = QList<QKeySequence>(),
                Qt::WindowFlags f = Qt::WindowFlags());
 
     void focusLineEdit();
@@ -43,10 +43,10 @@ public:
 
     bool matchCase() const;
     bool matchWhole() const;
+    bool matchRegex() const;
 
     void updateShortcuts (bool disable);
-    void setSearchIcons (const QIcon& iconNext, const QIcon& iconPrev,
-                         const QIcon& wholeIcon, const QIcon& caseIcon);
+    void setSearchIcons (const QIcon& iconNext, const QIcon& iconPrev);
 
 signals:
     void searchFlagChanged();
@@ -63,7 +63,8 @@ private:
     QPointer<QToolButton> toolButton_prv_;
     QPointer<QToolButton> button_case_;
     QPointer<QToolButton> button_whole_;
-    QStringList shortcuts_;
+    QPointer<QToolButton> button_regex_;
+    QList<QKeySequence> shortcuts_;
 };
 
 }

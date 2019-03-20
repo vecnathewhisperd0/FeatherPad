@@ -92,7 +92,7 @@ static bool findBackward (const QTextDocument *txtdoc, const QString str,
 // It also corrects the behavior of Qt's backward search and can set an
 // end limit to the forward search.
 QTextCursor FPwin::finding (const QString& str, const QTextCursor& start, QTextDocument::FindFlags flags,
-                            const int end) const
+                            bool isRegex, const int end) const
 {
     /* let's be consistent first */
     if (ui->tabWidget->currentIndex() == -1 || str.isEmpty())
@@ -101,7 +101,16 @@ QTextCursor FPwin::finding (const QString& str, const QTextCursor& start, QTextD
     QTextDocument *txtdoc = qobject_cast< TabPage *>(ui->tabWidget->currentWidget())
                             ->textEdit()->document();
     QTextCursor res = start;
-    if (str.contains ('\n'))
+    if (isRegex)
+    {
+        QRegularExpression regexp (str);
+        if (!regexp.isValid())
+            return QTextCursor();
+        res = txtdoc->find (regexp, start, flags);
+        if (end > 0 && res.anchor() > end)
+            return QTextCursor();
+    }
+    else if (str.contains ('\n'))
     {
         QTextCursor cursor = start;
         QTextCursor found;
@@ -361,7 +370,7 @@ void FPwin::find (bool forward)
     if (!forward)
         newFlags = searchFlags | QTextDocument::FindBackward;
     QTextCursor start = textEdit->textCursor();
-    QTextCursor found = finding (txt, start, newFlags);
+    QTextCursor found = finding (txt, start, newFlags, tabPage->matchRegex());
 
     if (found.isNull())
     {
@@ -369,7 +378,7 @@ void FPwin::find (bool forward)
             start.movePosition (QTextCursor::End, QTextCursor::MoveAnchor);
         else
             start.movePosition (QTextCursor::Start, QTextCursor::MoveAnchor);
-        found = finding (txt, start, newFlags);
+        found = finding (txt, start, newFlags, tabPage->matchRegex());
     }
 
     if (!found.isNull())
@@ -413,7 +422,7 @@ void FPwin::hlight() const
     QPoint Point (0, 0);
     QTextCursor start = textEdit->cursorForPosition (Point);
     /* ... then move it backward by the search text length */
-    int startPos = start.position() - txt.length();
+    int startPos = start.position() - (!tabPage->matchRegex() ? txt.length() : 0);
     if (startPos >= 0)
         start.setPosition (startPos);
     else
@@ -425,7 +434,7 @@ void FPwin::hlight() const
     Point = QPoint (w, h);
     QTextCursor end = textEdit->cursorForPosition (Point);
     int endLimit = end.anchor();
-    int endPos = end.position() + txt.length();
+    int endPos = end.position() + (!tabPage->matchRegex() ? txt.length() : 0);
     end.movePosition (QTextCursor::End);
     if (endPos <= end.position())
         end.setPosition (endPos);
@@ -434,8 +443,8 @@ void FPwin::hlight() const
     QString str = visCur.selection().toPlainText(); // '\n' is included in this way
     Qt::CaseSensitivity cs = Qt::CaseInsensitive;
     if (tabPage->matchCase()) cs = Qt::CaseSensitive;
-    while (str.contains (txt, cs) // don't waste time if the searched text isn't visible
-           && !(found = finding (txt, start, searchFlags, endLimit)).isNull())
+    while ((tabPage->matchRegex() || str.contains (txt, cs)) // don't waste time if the searched text isn't visible
+           && !(found = finding (txt, start, searchFlags,  tabPage->matchRegex(), endLimit)).isNull())
     {
         QTextEdit::ExtraSelection extra;
         extra.format.setBackground (color);

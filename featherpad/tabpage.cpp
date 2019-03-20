@@ -24,7 +24,7 @@
 namespace FeatherPad {
 
 TabPage::TabPage (ICONMODE iconMode, int bgColorValue,
-                  const QStringList& searchShortcuts,
+                  const QList<QKeySequence> &searchShortcuts,
                   QWidget *parent)
     : QWidget (parent)
 {
@@ -32,12 +32,9 @@ TabPage::TabPage (ICONMODE iconMode, int bgColorValue,
     searchBar_ = new SearchBar (this, iconMode == NONE, searchShortcuts);
 
     QIcon icnNext, icnPrev;
-    QIcon icnWhole = symbolicIcon::icon (":icons/whole.svg");
-    QIcon icnCase = symbolicIcon::icon (":icons/case.svg");
     switch (iconMode) {
     case OWN:
-        searchBar_->setSearchIcons (symbolicIcon::icon (":icons/go-down.svg"), symbolicIcon::icon (":icons/go-up.svg"),
-                                    icnWhole, icnCase);
+        searchBar_->setSearchIcons (symbolicIcon::icon (":icons/go-down.svg"), symbolicIcon::icon (":icons/go-up.svg"));
         break;
     case SYSTEM:
         icnNext = QIcon::fromTheme ("go-down");
@@ -46,7 +43,7 @@ TabPage::TabPage (ICONMODE iconMode, int bgColorValue,
         icnPrev = QIcon::fromTheme ("go-up");
         if (icnPrev.isNull())
             icnPrev = QIcon (":icons/go-up.svg");
-        searchBar_->setSearchIcons (icnNext, icnPrev, icnWhole, icnCase);
+        searchBar_->setSearchIcons (icnNext, icnPrev);
         break;
     case NONE:
     default:
@@ -102,6 +99,11 @@ bool TabPage::matchCase() const
 bool TabPage::matchWhole() const
 {
     return searchBar_->matchWhole();
+}
+/*************************/
+bool TabPage::matchRegex() const
+{
+    return searchBar_->matchRegex();
 }
 /*************************/
 void TabPage::updateShortcuts (bool disable)

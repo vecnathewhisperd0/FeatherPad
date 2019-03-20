@@ -90,7 +90,7 @@
         <location filename="../../fp.ui" line="335"/>
         <location filename="../../fpwin.cpp" line="3228"/>
         <location filename="../../replace.cpp" line="62"/>
-        <location filename="../../replace.cpp" line="114"/>
+        <location filename="../../replace.cpp" line="115"/>
         <source>Rep&amp;lacement</source>
         <translation>&amp;Замена</translation>
     </message>
@@ -113,21 +113,6 @@
         <location filename="../../fp.ui" line="428"/>
         <source>Replacing text</source>
         <translation>Замена текста</translation>
-    </message>
-    <message>
-        <location filename="../../fpwin.cpp" line="111"/>
-        <source>F8</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../fpwin.cpp" line="110"/>
-        <source>F7</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../fpwin.cpp" line="112"/>
-        <source>F9</source>
-        <translation></translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="487"/>
@@ -1031,26 +1016,6 @@
         <translation>Другое окно FeatherPad имеет модальный диалог!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1332"/>
-        <source>F3</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../fpwin.cpp" line="1332"/>
-        <source>F4</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../fpwin.cpp" line="1332"/>
-        <source>F5</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../fpwin.cpp" line="1332"/>
-        <source>F6</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../../fpwin.cpp" line="1158"/>
         <source>Save changes?</source>
         <translation>Сохранить изменения?</translation>
@@ -1120,17 +1085,17 @@
         <translation>О FeatherPad</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="239"/>
+        <location filename="../../replace.cpp" line="241"/>
         <source>No Replacement</source>
         <translation>Нет замены</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="241"/>
+        <location filename="../../replace.cpp" line="243"/>
         <source>One Replacement</source>
         <translation>Одна замена</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../replace.cpp" line="243"/>
+        <location filename="../../replace.cpp" line="245"/>
         <source>%Ln Replacements</source>
         <translation>
             <numerusform>%Ln замена</numerusform>
@@ -1851,31 +1816,34 @@ if the cursor is inside the text view?</source>
 <context>
     <name>FeatherPad::SearchBar</name>
     <message>
-        <location filename="../../searchbar.cpp" line="36"/>
+        <location filename="../../searchbar.cpp" line="37"/>
         <source>Search...</source>
         <translation>Поиск...</translation>
     </message>
     <message>
-        <location filename="../../searchbar.cpp" line="73"/>
-        <location filename="../../searchbar.cpp" line="77"/>
+        <location filename="../../searchbar.cpp" line="74"/>
         <source>Match Case</source>
         <translation>Учитывать регистр</translation>
     </message>
     <message>
-        <location filename="../../searchbar.cpp" line="85"/>
-        <location filename="../../searchbar.cpp" line="89"/>
+        <location filename="../../searchbar.cpp" line="81"/>
         <source>Whole Word</source>
         <translation>Целое слово</translation>
     </message>
     <message>
-        <location filename="../../searchbar.cpp" line="62"/>
-        <location filename="../../searchbar.cpp" line="67"/>
+        <location filename="../../searchbar.cpp" line="88"/>
+        <source>Regular Expression</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../searchbar.cpp" line="64"/>
+        <location filename="../../searchbar.cpp" line="69"/>
         <source>Next</source>
         <translation>Следующий</translation>
     </message>
     <message>
-        <location filename="../../searchbar.cpp" line="63"/>
-        <location filename="../../searchbar.cpp" line="68"/>
+        <location filename="../../searchbar.cpp" line="65"/>
+        <location filename="../../searchbar.cpp" line="70"/>
         <source>Previous</source>
         <translation>Предыдущий</translation>
     </message>

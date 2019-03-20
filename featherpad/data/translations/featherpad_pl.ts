@@ -102,21 +102,6 @@
         <translation>Zastępowanie tekstu</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="111"/>
-        <source>F8</source>
-        <translation>F8</translation>
-    </message>
-    <message>
-        <location filename="../../fpwin.cpp" line="110"/>
-        <source>F7</source>
-        <translation>F7</translation>
-    </message>
-    <message>
-        <location filename="../../fpwin.cpp" line="112"/>
-        <source>F9</source>
-        <translation>F9</translation>
-    </message>
-    <message>
         <location filename="../../fp.ui" line="487"/>
         <source>&amp;New</source>
         <translation>&amp;Nowy</translation>
@@ -591,7 +576,7 @@
         <location filename="../../fp.ui" line="335"/>
         <location filename="../../fpwin.cpp" line="3228"/>
         <location filename="../../replace.cpp" line="62"/>
-        <location filename="../../replace.cpp" line="114"/>
+        <location filename="../../replace.cpp" line="115"/>
         <source>Rep&amp;lacement</source>
         <translation>&amp;Zastąpienie</translation>
     </message>
@@ -879,26 +864,6 @@
         <translation>Inne okno FeatherPad wyświetliło dialogowe okno modalne!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1332"/>
-        <source>F3</source>
-        <translation>F3</translation>
-    </message>
-    <message>
-        <location filename="../../fpwin.cpp" line="1332"/>
-        <source>F4</source>
-        <translation>F4</translation>
-    </message>
-    <message>
-        <location filename="../../fpwin.cpp" line="1332"/>
-        <source>F5</source>
-        <translation>F5</translation>
-    </message>
-    <message>
-        <location filename="../../fpwin.cpp" line="1332"/>
-        <source>F6</source>
-        <translation>F6</translation>
-    </message>
-    <message>
         <location filename="../../fpwin.cpp" line="752"/>
         <location filename="../../fpwin.cpp" line="3693"/>
         <source>Position:</source>
@@ -1120,17 +1085,17 @@
         <translation>O FeatherPad</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="239"/>
+        <location filename="../../replace.cpp" line="241"/>
         <source>No Replacement</source>
         <translation>Bez zamiennika</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="241"/>
+        <location filename="../../replace.cpp" line="243"/>
         <source>One Replacement</source>
         <translation>Jeden zamiennik</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../replace.cpp" line="243"/>
+        <location filename="../../replace.cpp" line="245"/>
         <source>%Ln Replacements</source>
         <translation>
             <numerusform>%Ln zamiennik</numerusform>
@@ -1852,31 +1817,34 @@ trailing spaces of a text file.</source>
 <context>
     <name>FeatherPad::SearchBar</name>
     <message>
-        <location filename="../../searchbar.cpp" line="36"/>
+        <location filename="../../searchbar.cpp" line="37"/>
         <source>Search...</source>
         <translation>Szukaj…</translation>
     </message>
     <message>
-        <location filename="../../searchbar.cpp" line="73"/>
-        <location filename="../../searchbar.cpp" line="77"/>
+        <location filename="../../searchbar.cpp" line="74"/>
         <source>Match Case</source>
         <translation>Uwzględniaj wielkość znaków</translation>
     </message>
     <message>
-        <location filename="../../searchbar.cpp" line="85"/>
-        <location filename="../../searchbar.cpp" line="89"/>
+        <location filename="../../searchbar.cpp" line="81"/>
         <source>Whole Word</source>
         <translation>Cały wyraz</translation>
     </message>
     <message>
-        <location filename="../../searchbar.cpp" line="62"/>
-        <location filename="../../searchbar.cpp" line="67"/>
+        <location filename="../../searchbar.cpp" line="88"/>
+        <source>Regular Expression</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../searchbar.cpp" line="64"/>
+        <location filename="../../searchbar.cpp" line="69"/>
         <source>Next</source>
         <translation>Następne</translation>
     </message>
     <message>
-        <location filename="../../searchbar.cpp" line="63"/>
-        <location filename="../../searchbar.cpp" line="68"/>
+        <location filename="../../searchbar.cpp" line="65"/>
+        <location filename="../../searchbar.cpp" line="70"/>
         <source>Previous</source>
         <translation>Poprzednie</translation>
     </message>

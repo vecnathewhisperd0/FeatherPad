@@ -107,9 +107,9 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     ui->dockReplace->setTabOrder (ui->lineEditFind, ui->lineEditReplace);
     ui->dockReplace->setTabOrder (ui->lineEditReplace, ui->toolButtonNext);
     /* tooltips are set here for easier translation */
-    ui->toolButtonNext->setToolTip (tr ("Next") + " (" + tr ("F7") + ")");
-    ui->toolButtonPrv->setToolTip (tr ("Previous") + " (" + tr ("F8") + ")");
-    ui->toolButtonAll->setToolTip (tr ("Replace all") + " (" + tr ("F9") + ")");
+    ui->toolButtonNext->setToolTip (tr ("Next") + " (" + QKeySequence (Qt::Key_F8).toString (QKeySequence::NativeText) + ")");
+    ui->toolButtonPrv->setToolTip (tr ("Previous") + " (" + QKeySequence (Qt::Key_F9).toString (QKeySequence::NativeText) + ")");
+    ui->toolButtonAll->setToolTip (tr ("Replace all") + " (" + QKeySequence (Qt::Key_F10).toString (QKeySequence::NativeText) + ")");
     ui->dockReplace->setVisible (false);
 
     /* shortcuts should be reversed for rtl */
@@ -278,9 +278,9 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
      *****     for tool buttons on the search bar and replacement dock.    *****
      ***** The toolbar buttons and menu items aren't affected by this bug. *****
      ***************************************************************************/
-    ui->toolButtonNext->setShortcut (QKeySequence (Qt::Key_F7));
-    ui->toolButtonPrv->setShortcut (QKeySequence (Qt::Key_F8));
-    ui->toolButtonAll->setShortcut (QKeySequence (Qt::Key_F9));
+    ui->toolButtonNext->setShortcut (QKeySequence (Qt::Key_F8));
+    ui->toolButtonPrv->setShortcut (QKeySequence (Qt::Key_F9));
+    ui->toolButtonAll->setShortcut (QKeySequence (Qt::Key_F10));
 
     QShortcut *zoomin = new QShortcut (QKeySequence (Qt::CTRL + Qt::Key_Equal), this);
     QShortcut *zoominPlus = new QShortcut (QKeySequence (Qt::CTRL + Qt::Key_Plus), this);
@@ -717,8 +717,8 @@ void FPwin::applyConfigOnStarting()
                  << QKeySequence (Qt::META + Qt::Key_Up).toString() << QKeySequence (Qt::META + Qt::Key_Down).toString() << QKeySequence (Qt::META + Qt::SHIFT + Qt::Key_Up).toString() << QKeySequence (Qt::META + Qt::SHIFT + Qt::Key_Down).toString()
 
                     /* search and replacement */
-                 << QKeySequence (Qt::Key_F3).toString() << QKeySequence (Qt::Key_F4).toString() << QKeySequence (Qt::Key_F5).toString() << QKeySequence (Qt::Key_F6).toString()
-                 << QKeySequence (Qt::Key_F7).toString() << QKeySequence (Qt::Key_F8).toString() << QKeySequence (Qt::Key_F9).toString()
+                 << QKeySequence (Qt::Key_F3).toString() << QKeySequence (Qt::Key_F4).toString() << QKeySequence (Qt::Key_F5).toString() << QKeySequence (Qt::Key_F6).toString() << QKeySequence (Qt::Key_F7).toString()
+                 << QKeySequence (Qt::Key_F8).toString() << QKeySequence (Qt::Key_F9).toString() << QKeySequence (Qt::Key_F10).toString()
                  << QKeySequence (Qt::Key_F11).toString() << QKeySequence (Qt::CTRL + Qt::SHIFT + Qt::Key_W).toString()
 
                  << QKeySequence (Qt::CTRL + Qt::Key_Equal).toString() << QKeySequence (Qt::CTRL + Qt::Key_Plus).toString() << QKeySequence (Qt::CTRL + Qt::Key_Minus).toString() << QKeySequence (Qt::CTRL + Qt::Key_0).toString() // zooming
@@ -1307,9 +1307,9 @@ void FPwin::updateShortcuts (bool disable, bool page)
         ui->actionPaste->setShortcut (QKeySequence (Qt::CTRL+ Qt::Key_V));
         ui->actionSelectAll->setShortcut (QKeySequence (Qt::CTRL+ Qt::Key_A));
 
-        ui->toolButtonNext->setShortcut (QKeySequence (Qt::Key_F7));
-        ui->toolButtonPrv->setShortcut (QKeySequence (Qt::Key_F8));
-        ui->toolButtonAll->setShortcut (QKeySequence (Qt::Key_F9));
+        ui->toolButtonNext->setShortcut (QKeySequence (Qt::Key_F8));
+        ui->toolButtonPrv->setShortcut (QKeySequence (Qt::Key_F9));
+        ui->toolButtonAll->setShortcut (QKeySequence (Qt::Key_F10));
     }
     updateCustomizableShortcuts (disable);
 
@@ -1329,7 +1329,7 @@ TabPage* FPwin::createEmptyTab (bool setCurrent, bool allowNormalHighlighter)
 {
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
 
-    static const QStringList searchShortcuts = {tr ("F3"), tr ("F4"), tr ("F5"), tr ("F6")};
+    static const QList<QKeySequence> searchShortcuts = {QKeySequence (Qt::Key_F3), QKeySequence (Qt::Key_F4), QKeySequence (Qt::Key_F5), QKeySequence (Qt::Key_F6), QKeySequence (Qt::Key_F7)};
     TabPage *tabPage = new TabPage (iconMode_,
                                     config.getDarkColScheme() ? config.getDarkBgColorValue()
                                                               : config.getLightBgColorValue(),

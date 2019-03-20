@@ -6,7 +6,7 @@ Files can be dragged and dropped into FeatherPad windows.
 
 Also tabs can be dragged from a window and dropped into another window or outside all FeatherPad windows. In the first case, the dropped tab will appear after the previously active tab; in the second case, a new window containing the dropped tab will be created, i.e. the tab will be detached.
 
-NOTE: Tab DND is enabled only under X11 because, at least, Wayland has a serious issue related to DND and there was no guarantee that it would work elsewhere either.
+NOTE: Tab DND is enabled only under X11 because, at least, Wayland has a serious issue related to DND.
 
 ************
 *   Tabs   *
@@ -26,7 +26,7 @@ For users' comfort, double clicking on an empty area of the tab-bar creates a ne
 
 If there is a FeatherPad window on the current virtual desktop or viewport, so that more than half of its width as well as its height is visible, files will be opened as new tabs in it; otherwise, a new window will be created. Also when the window on the current desktop/viewport has a modal dialog, another window is created.
 
-In this way, FeatherPad is aware of virtual desktops under most Linux desktop environments. However, there are exceptions (like Enlightenment).
+In this way, FeatherPad is aware of virtual desktops under most Linux desktop environments. However, there are exceptions (like non-X11 environments or Enlightenment).
 
 Files are always opened after the active tab unless it is empty, in which case the first file will be opened in it. If a single file is opened, its tab will be activated but in the case of multiple files, the active tab will not change.
 
@@ -44,9 +44,9 @@ FeatherPad remembers recently modified or opened files, depending on which optio
 
 Sessions can be saved and opened by using the Session Manager dialog. As mentioned above, there is no limit to the number of stored sessions. Each session can have any name and consist of any number of files. All files of a session are opened in the current FeatherPad window and their cursor positions are remembered.
 
-FeatherPad also has a side-pane mode, which can be enabled either temporarily or with startup. It is most suitable for working with sessions because its file list is alphabetically ordered and can be filtered. Unlike in the tab mode, when multiple files are opened in the side-pane mode while the active document is empty, the alphabetically first file becomes visible. Each pane item has a right-click menu, which contains menu-items for various jobs when there is more than one page. Items can also be removed by middle-clicking without being selected.
+FeatherPad also has a side-pane mode, which can be enabled either temporarily or with startup. It is most suitable for working with sessions because its file list is alphabetically ordered and can be filtered. Each pane item has a right-click menu, which contains menu-items for various jobs when there is more than one page. Items can also be removed by middle-clicking without being selected.
 
-The side-pane mode does not have features provided by tabs -- for example, tab drag-and-drop is missing from it -- and conversely -- for example, tabs cannot be filtered -- but the side-pane and tab modes can be used interchangeably through the Side-Pane menu-item or its shortcut and also by middle-clicking an empty space inside the tab-bar or side-pane.
+The side-pane mode does not have features provided by tabs -- for example, tab drag-and-drop is missing from it -- and conversely -- for example, tabs are not sorted and cannot be filtered -- but the side-pane and tab modes can be used interchangeably through the Side-Pane menu-item or its shortcut and also by middle-clicking an empty space inside the tab-bar or side-pane.
 
 *******************************************
 *   Encodings and Programming Languages   *
@@ -73,7 +73,7 @@ To remove the yellow highlights after finishing a search, you could
 * Empty the search entry and press Enter or F3 in it, or
 * Hide the search bar by focusing it and then, pressing Ctrl+F.
 
-The 'Replace' docked window respects the settings for 'Match Case' and 'Whole Word' on the search bar. It can be detached from and reattached to the main window at top or bottom. To remove the green highlights after replacing text, you could either hide/close the 'Replace' docked window or do as in the case of removing yellow search highlights (without closing the dock).
+The 'Replace' docked window respects the settings for 'Match Case', 'Whole Word' and 'Regular Expression' on the search bar (in the last case, the matching text should be a regular expression, while the replcaing text is always an ordinary string). It can be detached from and reattached to the main window at top or bottom. To remove the green highlights after replacing text, you could either hide/close the 'Replace' docked window or do as in the case of removing yellow search highlights (without closing the dock).
 
 ***********************
 *   Going to A Line   *
@@ -99,9 +99,11 @@ For fast mouse wheel scrolling, put the cursor on the scrollbar. If it is inside
 *   Text Tabbing   *
 ********************
 
-The (selected multi-line) text can be tabbed by the Tab key and untabbed by Shift+Tab. If Ctrl+Tab is used, the tabulation will be done by 4 spaces instead of a tab (or the number of spaces that is set by the user in the related option of the Preferences dialog). With Ctrl+Meta+Tab, the text will be tabbed by 2 spaces.
+The (selected multi-line) text can be tabbed by the Tab key and untabbed by Shift+Tab.
 
-It is better to use text tabbing only for indentation and never alongside spaces; otherwise, text lines might have different indentations with different fonts.
+If Ctrl+Tab is used, the tabulation will be done by 4 spaces instead of a tab (or the number of spaces that is set by the user in the related option of the Preferences dialog).
+
+With Ctrl+Meta+Tab, the text will be tabbed by 2 spaces, while Shift+Meta+Tab is for 2-space untabbing as far as possible
 
 ********************
 *   Auto-Bracket   *
@@ -115,67 +117,61 @@ For user convenience, if Enter/Return is pressed after a text selection is auto-
 
 The same holds for RTL (right-to-left) texts but with right and left reversed.
 
-*********************************
-*   Useful Keyboard Shortcuts   *
-*********************************
+**************************
+*   Keyboard Shortcuts   *
+**************************
 
-Ctrl+H          This help
-Ctrl+L          Show/hide line numbers
-Ctrl+W          Toggle wrapping state
-Ctrl+I          Toggle auto-indentation
-Ctrl+Shift+H    Toggle syntax highlighting
-Ctrl+Shift+R    Refresh (reload file)
-Ctrl+J          Jump to line
-Ctrl+Shift+J    Select text to line (the Jump bar should be visible)
-Ctrl+F          Focus/hide search bar (it hides only a focused search bar)
-F3              Forward search (also Enter can be pressed in the search entry)
-F4              Backward search
-F5              Match case
-F6              Whole word
-Ctrl+R          Replacement dock
-F7              Forward replacement
-F8              Backward replacement
-F9              Replace all
-Ctrl+K          Clear the text of an entry when it is focused
-Ctrl+Shift+P    Preferences
-Ctrl+Shift+D    Document statistics (on the statusbar)
-Ctrl+Shift+Q    Close tab
-Ctrl+Shift+V    Paste date and time
-Ctrl+T          Detach tab
-Alt+Right       Next tab (Alt+Left for RTL)
-Alt+Left        Previous tab (Alt+Right for RTL)
-Alt+Up          Last tab
-Alt+Down        First tab
-F1              Last active tab
-Ctrl+P          Print
-Ctrl+E          Edit uneditable documents
+All shortcuts, except for the extra ones below, can be found on menus or as tooltips and many of them can be customized in the Preferences dialog.
 
-Extra (Hidden) Shortcuts:
-==========================
+Useful Extra (Hidden) Shortcuts:
+=================================
+
+Window:
+*********
 F11                 (Un-)Fullscreen
-Ctrl+Shift+W        Resize window to fixed size (700x500 by default
-                    but can be set in Preferences)
+Ctrl+Shift+W        Resize window to fixed size (700x500 by default but can be set in Preferences)
+
+Zooming:
+**********
 Ctrl+=              Zoom in (also Ctrl++ or Ctrl + mouse wheel)
 Ctrl+-              Zoom out (also Ctrl + mouse wheel)
 Ctrl+0              Reset zooming
-Ctrl+E              Execute this executable file (only if enabled in Preferences)
+
+Running a process:
+********************
+Ctrl+E              Run the executable file opened in this tab (only if enabled in Preferences)
 Ctrl+Alt+E          Exit (kill) the above process immediately
-Ctrl+K              Delete to the end of the line when the editor is focused
-Ctrl+Right/Left     Move the cursor one word to the right/left
-Tab                 Ordinary text tabulation
-Ctrl+Tab            4-space text tabulation (can be changed in Preferences)
-Ctrl+Meta+Tab       2-space text tabulation
-Shift+Tab           Backtab (the reverse of Tab)
-Shift+Meta+Tab      2-space Backtab, as far as possible
+
+Scrolling:
+***********
+Shift+Mouse Wheel   Scroll up/down by one wrapped line with mouse wheel
+Ctrl+Up/Down        Scroll up/down by one wrapped line without moving text cursor
+
+Moving text cursor:
+********************
 Up/Down             Go to the same position in the previous/next wrapped line
+Home                Go to to the line start
+End                 Go to to the line end
+Ctrl+Home           Go to to the text start
+Ctrl+End            Go to to the text end
+Ctrl+Right/Left     Move the cursor one word to the right/left
 Shift+Up/Down       Go to the same position in the previous/next wrapped line while selecting text
 Meta+Up/Down        Go to the same position in the previous/next (real) line
 Meta+Shift+Up/Down  Go to the same position in the previous/next (real) line while selecting text
-Ctrl+Up/Down        Scroll up/down by one wrapped line without moving cursor
-Ctrl+Shift+Up/Down  Move line(s) upward/downward
+
+Text tabulation:
+*****************
+Tab                 Ordinary text tabulation (its length can be changed in Preferences)
+Shift+Tab           Backtab (the reverse of Tab)
+Ctrl+Tab            4-space text tabulation (can be changed in Preferences)
+Ctrl+Meta+Tab       2-space text tabulation
+Shift+Meta+Tab      2-space Backtab, as far as possible
+
+Text editing:
+**************
+Insert              Toggle overwrite mode
+Delete              Delete to the right of the text cursor (the opposite of Backspace)
+Ctrl+K              Delete to the end of the line (when the editor has focus)
+Ctrl+Shift+Up/Down  Move the current line or selected lines upward/downward
 Shift+Enter         Insert newline with the non-letter prefix of the current line
                     (to write code comments easily, for example)
-Shift+Mouse Wheel   Scroll up/down by one wrapped line
-Insert              Toggle overwrite mode
-
-The remaining shortcuts are standard. All shortcuts, except for the extra ones above, can be found on menus or as tooltips and many of them can be customized in the Preferences dialog.

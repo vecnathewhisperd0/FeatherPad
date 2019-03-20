@@ -1,4 +1,4 @@
-V0.9.5
+V0.10.0
 ---------
  * If a window hasn't reported yet on which desktop it is, that means it's created a moment ago. So, open the next file inside it.
  * When the option "Always open in separate windows" is checked, also respect it on opening multiple files with command line.
@@ -6,6 +6,7 @@ V0.9.5
  * Disabled tab DND without X11, mainly because Wayland has a serious problem with QDrag.
  * Added cmake support (in addition to qmake).
  * Added lots of cmake patterns for syntax highlighting.
+ * Added support for searching/replacing regular expressions.
 
 V0.9.4
 ---------

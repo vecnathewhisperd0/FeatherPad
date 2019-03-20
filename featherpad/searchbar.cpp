@@ -21,13 +21,14 @@
 #include <QToolButton>
 #include <QCompleter>
 #include "searchbar.h"
+#include "svgicons.h"
 
 namespace FeatherPad {
 
 
 SearchBar::SearchBar(QWidget *parent,
                      bool hasText,
-                     const QStringList& shortcuts,
+                     const QList<QKeySequence> &shortcuts,
                      Qt::WindowFlags f)
     : QFrame (parent, f)
 {
@@ -42,13 +43,14 @@ SearchBar::SearchBar(QWidget *parent,
     combo_->setCompleter (nullptr); // disable auto-completion to keep history
 
     shortcuts_ = shortcuts;
-    QString nxtShortcut, prevShortcut, csShortcut, wholeShortcut;
-    if (shortcuts.size() >= 4)
+    QKeySequence nxtShortcut, prevShortcut, csShortcut, wholeShortcut, regexShortcut;
+    if (shortcuts.size() >= 5)
     {
         nxtShortcut = shortcuts.at (0);
         prevShortcut = shortcuts.at (1);
         csShortcut = shortcuts.at (2);
         wholeShortcut = shortcuts.at (3);
+        regexShortcut = shortcuts.at (4);
     }
 
     /* See the comment about KAcceleratorManager in "fpwin.cpp". */
@@ -62,34 +64,31 @@ SearchBar::SearchBar(QWidget *parent,
         toolButton_nxt_->setText (tr ("Next"));
         toolButton_prv_->setText (tr ("Previous"));
     }
-    toolButton_nxt_->setShortcut (QKeySequence (nxtShortcut));
-    toolButton_prv_->setShortcut (QKeySequence (prevShortcut));
-    toolButton_nxt_->setToolTip (tr ("Next") + " (" + nxtShortcut + ")");
-    toolButton_prv_->setToolTip (tr ("Previous") + " (" + prevShortcut + ")");
+    toolButton_nxt_->setShortcut (nxtShortcut);
+    toolButton_prv_->setShortcut (prevShortcut);
+    toolButton_nxt_->setToolTip (tr ("Next") + " (" + nxtShortcut.toString (QKeySequence::NativeText) + ")");
+    toolButton_prv_->setToolTip (tr ("Previous") + " (" + prevShortcut.toString (QKeySequence::NativeText) + ")");
 
     button_case_ = new QToolButton (this);
-    if (hasText)
-    {
-        button_case_->setText (tr ("Match Case"));
-        button_case_->setToolTip (csShortcut);
-    }
-    else
-        button_case_->setToolTip (tr ("Match Case") + " (" + csShortcut + ")");
-    button_case_->setShortcut (QKeySequence (csShortcut));
+    button_case_->setIcon (symbolicIcon::icon (":icons/case.svg"));
+    button_case_->setToolTip (tr ("Match Case") + " (" + csShortcut.toString (QKeySequence::NativeText) + ")");
+    button_case_->setShortcut (csShortcut);
     button_case_->setCheckable (true);
     button_case_->setFocusPolicy (Qt::NoFocus);
 
     button_whole_ = new QToolButton (this);
-    if (hasText)
-    {
-        button_whole_->setText (tr ("Whole Word"));
-        button_whole_->setToolTip (wholeShortcut);
-    }
-    else
-        button_whole_->setToolTip (tr ("Whole Word") + " (" + wholeShortcut + ")");
-    button_whole_->setShortcut (QKeySequence (wholeShortcut));
+    button_whole_->setIcon (symbolicIcon::icon (":icons/whole.svg"));
+    button_whole_->setToolTip (tr ("Whole Word") + " (" + wholeShortcut.toString (QKeySequence::NativeText) + ")");
+    button_whole_->setShortcut (wholeShortcut);
     button_whole_->setCheckable (true);
     button_whole_->setFocusPolicy (Qt::NoFocus);
+
+    button_regex_ = new QToolButton (this);
+    button_regex_->setIcon (symbolicIcon::icon (":icons/regex.svg"));
+    button_regex_->setToolTip (tr ("Regular Expression") + " (" + regexShortcut.toString (QKeySequence::NativeText) + ")");
+    button_regex_->setShortcut (regexShortcut);
+    button_regex_->setCheckable (true);
+    button_regex_->setFocusPolicy (Qt::NoFocus);
 
     /* there are shortcuts for forward/backward search */
     toolButton_nxt_->setFocusPolicy (Qt::NoFocus);
@@ -104,13 +103,21 @@ SearchBar::SearchBar(QWidget *parent,
     mainGrid->addItem (new QSpacerItem (6, 3), 0, 3);
     mainGrid->addWidget (button_case_, 0, 4);
     mainGrid->addWidget (button_whole_, 0, 5);
+    mainGrid->addWidget (button_regex_, 0, 6);
     setLayout (mainGrid);
 
     connect (lineEdit_, &QLineEdit::returnPressed, this, &SearchBar::findForward);
     connect (toolButton_nxt_, &QAbstractButton::clicked, this, &SearchBar::findForward);
     connect (toolButton_prv_, &QAbstractButton::clicked, this, &SearchBar::findBackward);
     connect (button_case_, &QAbstractButton::clicked, this, &SearchBar::searchFlagChanged);
-    connect (button_whole_, &QAbstractButton::clicked, this, &SearchBar::searchFlagChanged);
+    connect (button_whole_, &QAbstractButton::clicked, [this](bool checked) {
+        button_regex_->setEnabled (!checked);
+        emit searchFlagChanged();
+    });
+    connect (button_regex_, &QAbstractButton::clicked, [this](bool checked) {
+        button_whole_->setEnabled (!checked);
+        emit searchFlagChanged();
+    });
 }
 /*************************/
 void SearchBar::searchStarted()
@@ -170,6 +177,11 @@ bool SearchBar::matchWhole() const
     return button_whole_->isChecked();
 }
 /*************************/
+bool SearchBar::matchRegex() const
+{
+    return button_regex_->isChecked();
+}
+/*************************/
 // Used only in a workaround (-> FPwin::updateShortcuts())
 void SearchBar::updateShortcuts (bool disable)
 {
@@ -179,23 +191,22 @@ void SearchBar::updateShortcuts (bool disable)
         toolButton_prv_->setShortcut (QKeySequence());
         button_case_->setShortcut (QKeySequence());
         button_whole_->setShortcut (QKeySequence());
+        button_regex_->setShortcut (QKeySequence());
     }
-    else if (shortcuts_.size() >= 4)
+    else if (shortcuts_.size() >= 5)
     {
-        toolButton_nxt_->setShortcut (QKeySequence (shortcuts_.at (0)));
-        toolButton_prv_->setShortcut (QKeySequence (shortcuts_.at (1)));
-        button_case_->setShortcut (QKeySequence (shortcuts_.at (2)));
-        button_whole_->setShortcut (QKeySequence (shortcuts_.at (3)));
+        toolButton_nxt_->setShortcut (shortcuts_.at (0));
+        toolButton_prv_->setShortcut (shortcuts_.at (1));
+        button_case_->setShortcut (shortcuts_.at (2));
+        button_whole_->setShortcut (shortcuts_.at (3));
+        button_regex_->setShortcut (shortcuts_.at (4));
     }
 }
 /*************************/
-void SearchBar::setSearchIcons (const QIcon& iconNext, const QIcon& iconPrev,
-                                const QIcon& wholeIcon, const QIcon& caseIcon)
+void SearchBar::setSearchIcons (const QIcon& iconNext, const QIcon& iconPrev)
 {
     toolButton_nxt_->setIcon (iconNext);
     toolButton_prv_->setIcon (iconPrev);
-    button_whole_->setIcon (wholeIcon);
-    button_case_->setIcon (caseIcon);
 }
 
 }

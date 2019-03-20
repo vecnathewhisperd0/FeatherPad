@@ -107,7 +107,8 @@ void FPwin::replace()
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
 
-    TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
+    TextEdit *textEdit = tabPage->textEdit();
     if (textEdit->isReadOnly()) return;
 
     textEdit->setReplaceTitle (QString());
@@ -141,9 +142,9 @@ void FPwin::replace()
     QTextCursor tmp = start;
     QTextCursor found;
     if (QObject::sender() == ui->toolButtonNext)
-        found = finding (txtFind, start, searchFlags);
+        found = finding (txtFind, start, searchFlags, tabPage->matchRegex());
     else// if (QObject::sender() == ui->toolButtonPrv)
-        found = finding (txtFind, start, searchFlags | QTextDocument::FindBackward);
+        found = finding (txtFind, start, searchFlags | QTextDocument::FindBackward, tabPage->matchRegex());
     QColor color = QColor (textEdit->hasDarkScheme() ? Qt::darkGreen : Qt::green);
     int pos;
     QList<QTextEdit::ExtraSelection> gsel = textEdit->getGreenSel();
@@ -181,7 +182,8 @@ void FPwin::replaceAll()
     int index = ui->tabWidget->currentIndex();
     if (index == -1) return;
 
-    TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
+    TextEdit *textEdit = tabPage->textEdit();
     if (textEdit->isReadOnly()) return;
 
     QString txtFind = ui->lineEditFind->text();
@@ -206,7 +208,7 @@ void FPwin::replaceAll()
     QList<QTextEdit::ExtraSelection> gsel = textEdit->getGreenSel();
     QList<QTextEdit::ExtraSelection> es;
     int count = 0;
-    while (!(found = finding (txtFind, start, searchFlags)).isNull())
+    while (!(found = finding (txtFind, start, searchFlags, tabPage->matchRegex())).isNull())
     {
         start.setPosition (found.anchor());
         pos = found.anchor();
