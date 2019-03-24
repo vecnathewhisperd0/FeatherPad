@@ -54,7 +54,7 @@ If you prefer qmake, use these commands instead:
 	qmake && make
 	sudo make install
 
-With qmake, you might need to put the full path of qmake in the first command and also the full path of Qt5's "lrelease" binary in 'featherpad/featherpad.pro' (only one place). After a qmake compilation, you could clean the source directory with this command:
+You might need to put the full path of qmake in the first command and also the full path of Qt5's "lrelease" binary in 'featherpad/featherpad.pro' (only one place). After a qmake compilation, you could clean the source directory with this command:
 
 	make distclean
 
@@ -62,14 +62,13 @@ With qmake, you might need to put the full path of qmake in the first command an
 *   Compilation without X11   *
 *******************************
 
-If, for whatever reason, you do not want the X11 support, you could turn on the option "WITHOUT_X11" with cmake:
+If, for whatever reason, you do not want the X11 support, you could first turn on the option "WITHOUT_X11" with cmake:
 
 	cmake .. -DWITHOUT_X11=ON
 
-Or, with qmake:
+Or, if you use qmake:
 
 	qmake WITHOUT_X11=YES
-	make
 
 The result will have all features except for virtual desktop awareness and tab DND.
 

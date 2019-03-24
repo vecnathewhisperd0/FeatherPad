@@ -101,7 +101,7 @@ QTextCursor FPwin::finding (const QString& str, const QTextCursor& start, QTextD
     QTextDocument *txtdoc = qobject_cast< TabPage *>(ui->tabWidget->currentWidget())
                             ->textEdit()->document();
     QTextCursor res = start;
-    if (isRegex)
+    if (isRegex) // multiline matches aren't supported
     {
         QRegularExpression regexp (str, (flags & QTextDocument::FindCaseSensitively)
                                             ? QRegularExpression::NoPatternOption
@@ -109,6 +109,7 @@ QTextCursor FPwin::finding (const QString& str, const QTextCursor& start, QTextD
         if (!regexp.isValid())
             return QTextCursor();
         QTextCursor cursor = start;
+        QRegularExpressionMatch match;
         if (!(flags & QTextDocument::FindBackward))
         {
             cursor.setPosition (qMax (cursor.anchor(), cursor.position())); // as with ordinary search
@@ -118,11 +119,10 @@ QTextCursor FPwin::finding (const QString& str, const QTextCursor& start, QTextD
                 {
                     if (end > 0 && cursor.anchor() > end)
                         break;
-                    QRegularExpressionMatch match;
                     int indx = cursor.block().text().indexOf (regexp, cursor.positionInBlock(), &match);
                     if (indx > -1)
                     {
-                        if (match.capturedLength() == 0) // possible case, as with "\w*"
+                        if (match.capturedLength() == 0) // no empty match (with "\w*", for example)
                         {
                             cursor.setPosition (cursor.position() + 1);
                             continue;
@@ -138,27 +138,32 @@ QTextCursor FPwin::finding (const QString& str, const QTextCursor& start, QTextD
                     break;
             }
         }
-        else
+        else // with a backward search, the block/doc start should also be checked
         {
             cursor.setPosition (cursor.anchor()); // as with ordinary search
-            while (!cursor.atStart())
+            while (true)
             {
-                if (!cursor.atBlockStart())
+                const int bp = cursor.block().position();
+                int indx = cursor.block().text().lastIndexOf (regexp, cursor.position() - bp, &match);
+                if (indx > -1)
                 {
-                    QString txt = cursor.block().text().left (cursor.positionInBlock());
-                    QRegularExpressionMatch match;
-                    int indx = txt.lastIndexOf (regexp, -1, &match);
-                    if (indx > -1)
+                    if (match.capturedLength() == 0 // no empty match
+                        /* the match start should be before the search start */
+                        || bp + indx == start.anchor())
                     {
-                        if (match.capturedLength() == 0)
+                        if (cursor.atBlockStart())
                         {
-                            cursor.setPosition (cursor.position() - 1);
-                            continue;
+                            if (!cursor.movePosition (QTextCursor::PreviousBlock))
+                                break;
+                            cursor.movePosition (QTextCursor::EndOfBlock);
                         }
-                        res.setPosition (indx + cursor.block().position());
-                        res.setPosition (res.position() + match.capturedLength(), QTextCursor::KeepAnchor);
-                        return  res;
+                        else
+                            cursor.setPosition (cursor.position() - 1);
+                        continue;
                     }
+                    res.setPosition (indx + bp);
+                    res.setPosition (res.position() + match.capturedLength(), QTextCursor::KeepAnchor);
+                    return  res;
                 }
                 if (!cursor.movePosition (QTextCursor::PreviousBlock))
                     break;
@@ -463,7 +468,7 @@ void FPwin::hlight() const
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
     TextEdit *textEdit = tabPage->textEdit();
 
-    QString txt = textEdit->getSearchedText();
+    const QString txt = textEdit->getSearchedText();
     if (txt.isEmpty()) return;
 
     QTextDocument::FindFlags searchFlags = getSearchFlags();
@@ -497,17 +502,18 @@ void FPwin::hlight() const
         end.setPosition (endPos);
     QTextCursor visCur = start;
     visCur.setPosition (end.position(), QTextCursor::KeepAnchor);
-    QString str = visCur.selection().toPlainText(); // '\n' is included in this way
-    Qt::CaseSensitivity cs = Qt::CaseInsensitive;
-    if (tabPage->matchCase()) cs = Qt::CaseSensitive;
-    while ((tabPage->matchRegex() || str.contains (txt, cs)) // don't waste time if the searched text isn't visible
-           && !(found = finding (txt, start, searchFlags,  tabPage->matchRegex(), endLimit)).isNull())
+    const QString str = visCur.selection().toPlainText(); // '\n' is included in this way
+    Qt::CaseSensitivity cs = tabPage->matchCase() ? Qt::CaseSensitive : Qt::CaseInsensitive;
+    if (tabPage->matchRegex() || str.contains (txt, cs)) // don't waste time if the searched text isn't visible
     {
-        QTextEdit::ExtraSelection extra;
-        extra.format.setBackground (color);
-        extra.cursor = found;
-        es.append (extra);
-        start.setPosition (found.position());
+        while (!(found = finding (txt, start, searchFlags,  tabPage->matchRegex(), endLimit)).isNull())
+        {
+            QTextEdit::ExtraSelection extra;
+            extra.format.setBackground (color);
+            extra.cursor = found;
+            es.append (extra);
+            start.setPosition (found.position());
+        }
     }
 
     /* also prepend the current line highlight,
