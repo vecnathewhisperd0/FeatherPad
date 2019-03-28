@@ -1817,6 +1817,7 @@ if the cursor is inside the text view?</source>
     <name>FeatherPad::SearchBar</name>
     <message>
         <location filename="../../searchbar.cpp" line="37"/>
+        <location filename="../../searchbar.cpp" line="122"/>
         <source>Search...</source>
         <translation>Поиск...</translation>
     </message>
@@ -1833,6 +1834,11 @@ if the cursor is inside the text view?</source>
     <message>
         <location filename="../../searchbar.cpp" line="88"/>
         <source>Regular Expression</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../searchbar.cpp" line="120"/>
+        <source>Search with regex...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

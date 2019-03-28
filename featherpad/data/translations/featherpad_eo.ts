@@ -1837,6 +1837,7 @@ Tio povas esti uzebla ĉe iuj cirkonstancoj, ekz. por
     <name>FeatherPad::SearchBar</name>
     <message>
         <location filename="../../searchbar.cpp" line="37"/>
+        <location filename="../../searchbar.cpp" line="122"/>
         <source>Search...</source>
         <translation>Serĉu...</translation>
     </message>
@@ -1854,6 +1855,11 @@ Tio povas esti uzebla ĉe iuj cirkonstancoj, ekz. por
         <location filename="../../searchbar.cpp" line="88"/>
         <source>Regular Expression</source>
         <translation>Regula Esprimo</translation>
+    </message>
+    <message>
+        <location filename="../../searchbar.cpp" line="120"/>
+        <source>Search with regex...</source>
+        <translation>Serĉu per regula esprimo...</translation>
     </message>
     <message>
         <location filename="../../searchbar.cpp" line="64"/>

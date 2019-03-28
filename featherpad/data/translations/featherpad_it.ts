@@ -1838,6 +1838,7 @@ modificare la data o rimuovere spazi  vuoti.</translation>
     <name>FeatherPad::SearchBar</name>
     <message>
         <location filename="../../searchbar.cpp" line="37"/>
+        <location filename="../../searchbar.cpp" line="122"/>
         <source>Search...</source>
         <translation>Cerca...</translation>
     </message>
@@ -1854,6 +1855,11 @@ modificare la data o rimuovere spazi  vuoti.</translation>
     <message>
         <location filename="../../searchbar.cpp" line="88"/>
         <source>Regular Expression</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../searchbar.cpp" line="120"/>
+        <source>Search with regex...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

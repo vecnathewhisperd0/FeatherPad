@@ -116,6 +116,10 @@ SearchBar::SearchBar(QWidget *parent,
     });
     connect (button_regex_, &QAbstractButton::clicked, [this](bool checked) {
         button_whole_->setEnabled (!checked);
+        if (checked)
+            lineEdit_->setPlaceholderText (tr ("Search with regex..."));
+        else
+            lineEdit_->setPlaceholderText (tr ("Search..."));
         emit searchFlagChanged();
     });
 }

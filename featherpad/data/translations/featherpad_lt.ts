@@ -1837,6 +1837,7 @@ pvz., laiko žymos keitimui arba tekstinio failo galinių tarpų
     <name>FeatherPad::SearchBar</name>
     <message>
         <location filename="../../searchbar.cpp" line="37"/>
+        <location filename="../../searchbar.cpp" line="122"/>
         <source>Search...</source>
         <translation>Ieškoti...</translation>
     </message>
@@ -1853,6 +1854,11 @@ pvz., laiko žymos keitimui arba tekstinio failo galinių tarpų
     <message>
         <location filename="../../searchbar.cpp" line="88"/>
         <source>Regular Expression</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../searchbar.cpp" line="120"/>
+        <source>Search with regex...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
