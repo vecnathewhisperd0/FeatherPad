@@ -31,7 +31,7 @@
 void handleQuitSignals (const std::vector<int>& quitSignals)
 {
     auto handler = [](int sig) ->void {
-        Q_UNUSED (sig);
+        Q_UNUSED (sig)
         //printf("\nUser signal = %d.\n", sig);
         QCoreApplication::quit();
     };

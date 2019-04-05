@@ -7,6 +7,7 @@ V0.10.0
  * Added cmake support (in addition to qmake).
  * Added lots of cmake patterns for syntax highlighting.
  * Added support for searching/replacing regular expressions.
+ * Fixed a crash under Wayland when calling FeatherPad twice.
 
 V0.9.4
 ---------
