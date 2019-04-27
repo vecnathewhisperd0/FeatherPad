@@ -77,6 +77,13 @@ public:
         return autoIndentation;
     }
 
+    void setAutoReplace (bool replace) {
+        autoReplace = replace;
+    }
+    bool getAutoReplace() const {
+        return autoReplace;
+    }
+
     void setDrawIndetLines (bool draw) {
         drawIndetLines = draw;
     }
@@ -296,6 +303,7 @@ private:
     QRect lastCurrentLine;
     int widestDigit;
     bool autoIndentation;
+    bool autoReplace;
     bool drawIndetLines;
     bool autoBracket;
     bool scrollJumpWorkaround; // for working around Qt5's scroll jump bug

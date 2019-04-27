@@ -1336,6 +1336,7 @@ TabPage* FPwin::createEmptyTab (bool setCurrent, bool allowNormalHighlighter)
                                     searchShortcuts,
                                     nullptr);
     TextEdit *textEdit = tabPage->textEdit();
+    textEdit->setAutoReplace (config.getAutoReplace());
     textEdit->setAutoBracket (config.getAutoBracket());
     textEdit->setScrollJumpWorkaround (config.getScrollJumpWorkaround());
     textEdit->setTtextTab (config.getTextTabSize());

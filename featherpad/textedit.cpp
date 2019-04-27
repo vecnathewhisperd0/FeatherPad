@@ -40,6 +40,7 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
 {
     prevAnchor = prevPos = -1;
     autoIndentation = true;
+    autoReplace = true;
     autoBracket = false;
     scrollJumpWorkaround = false;
     drawIndetLines = false;
@@ -496,8 +497,36 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
     if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter)
     {
         QTextCursor cur = textCursor();
-        bool isBracketed (false);
         QString selTxt = cur.selectedText();
+
+        if (autoReplace && selTxt.isEmpty())
+        {
+            const int p = cur.positionInBlock();
+            if (p > 2)
+            {
+                cur.beginEditBlock();
+                cur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, 3);
+                const QString sel = cur.selectedText();
+                if (sel == " --")
+                    cur.insertText (" —");
+                else if (sel == "...")
+                {
+                    QTextCursor prevCur = cur;
+                    prevCur.setPosition (cur.position());
+                    if (p > 3)
+                    {
+                        prevCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor);
+                        if (prevCur.selectedText() != ".")
+                            cur.insertText ("…");
+                    }
+                    else cur.insertText ("…");
+                }
+                cur.endEditBlock();
+                cur = textCursor(); // reset the current cursor
+            }
+        }
+
+        bool isBracketed (false);
         QString prefix, indent;
         bool withShift (event->modifiers() & Qt::ShiftModifier);
 
@@ -922,6 +951,38 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
         insertPlainText (QChar (0x200C));
         event->accept();
         return;
+    }
+    else if (autoReplace && event->key() == Qt::Key_Space)
+    {
+        if (event->modifiers() == Qt::NoModifier)
+        {
+            QTextCursor cur = textCursor();
+            if (!cur.hasSelection())
+            {
+                const int p = cur.positionInBlock();
+                if (p > 2)
+                {
+                    cur.beginEditBlock();
+                    cur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, 3);
+                    QString selTxt = cur.selectedText();
+                    if (selTxt == " --")
+                        cur.insertText (" —");
+                    else if (selTxt == "...")
+                    {
+                        QTextCursor prevCur = cur;
+                        prevCur.setPosition (cur.position());
+                        if (p > 3)
+                        {
+                            prevCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor);
+                            if (prevCur.selectedText() != ".")
+                                cur.insertText ("…");
+                        }
+                        else cur.insertText ("…");
+                    }
+                    cur.endEditBlock();
+                }
+            }
+        }
     }
 
     QPlainTextEdit::keyPressEvent (event);

@@ -117,6 +117,14 @@ For user convenience, if Enter/Return is pressed after a text selection is auto-
 
 The same holds for RTL (right-to-left) texts but with right and left reversed.
 
+****************************
+*   Ellipsis and Em Dash   *
+****************************
+
+By default and under proper circumstances, a triple period is replaced with an ellipsis and a double hyphen with an em dash (long dash), while the user is typing. This feature can be disabled in the Preferences dialog.
+
+The proper circumstances depend on the pressed key and what comes before those characters. For example, in the case of a triple period, the Space or Enter/Return key should be pressed and the triple period should not follow a period.
+
 **************************
 *   Keyboard Shortcuts   *
 **************************

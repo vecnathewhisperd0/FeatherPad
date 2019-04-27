@@ -278,6 +278,13 @@ public:
         indentByDefault_ = indent;
     }
 
+    bool getAutoReplace() const {
+        return autoReplace_;
+    }
+    void setAutoReplace (bool autoR) {
+        autoReplace_ = autoR;
+    }
+
     bool getAutoBracket() const {
         return autoBracket_;
     }
@@ -500,7 +507,7 @@ private:
          hideSearchbar_,
          showStatusbar_, showCursorPos_, showLangSelector_,
          sidePaneMode_,
-         remFont_, wrapByDefault_, indentByDefault_, autoBracket_, lineByDefault_,
+         remFont_, wrapByDefault_, indentByDefault_, autoReplace_, autoBracket_, lineByDefault_,
          syntaxByDefault_, showWhiteSpace_, showEndings_,
          isMaxed_, isFull_,
          darkColScheme_,

@@ -183,6 +183,9 @@ PrefDialog::PrefDialog (QWidget *parent)
     ui->autoBracketBox->setChecked (config.getAutoBracket());
     connect (ui->autoBracketBox, &QCheckBox::stateChanged, this, &PrefDialog::prefAutoBracket);
 
+    ui->autoReplaceBox->setChecked (config.getAutoReplace());
+    connect (ui->autoReplaceBox, &QCheckBox::stateChanged, this, &PrefDialog::prefAutoReplace);
+
     ui->lineBox->setChecked (config.getLineByDefault());
     connect (ui->lineBox, &QCheckBox::stateChanged, this, &PrefDialog::prefLine);
 
@@ -734,27 +737,71 @@ void PrefDialog::prefAutoBracket (int checked)
     Config& config = singleton->getConfig();
     if (checked == Qt::Checked)
     {
-        config.setAutoBracket (true);
-        for (int i = 0; i < singleton->Wins.count(); ++i)
+        if (!config.getAutoBracket())
         {
-            int count = singleton->Wins.at (i)->ui->tabWidget->count();
-            for (int j = 0; j < count; ++j)
+            config.setAutoBracket (true);
+            for (int i = 0; i < singleton->Wins.count(); ++i)
             {
-                qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
-                        ->textEdit()->setAutoBracket (true);
+                int count = singleton->Wins.at (i)->ui->tabWidget->count();
+                for (int j = 0; j < count; ++j)
+                {
+                    qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
+                            ->textEdit()->setAutoBracket (true);
+                }
             }
         }
     }
     else if (checked == Qt::Unchecked)
     {
-        config.setAutoBracket (false);
-        for (int i = 0; i < singleton->Wins.count(); ++i)
+        if (config.getAutoBracket())
         {
-            int count = singleton->Wins.at (i)->ui->tabWidget->count();
-            for (int j = 0; j < count; ++j)
+            config.setAutoBracket (false);
+            for (int i = 0; i < singleton->Wins.count(); ++i)
             {
-                qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
-                        ->textEdit()->setAutoBracket (false);
+                int count = singleton->Wins.at (i)->ui->tabWidget->count();
+                for (int j = 0; j < count; ++j)
+                {
+                    qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
+                            ->textEdit()->setAutoBracket (false);
+                }
+            }
+        }
+    }
+}
+/*************************/
+void PrefDialog::prefAutoReplace (int checked)
+{
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    Config& config = singleton->getConfig();
+    if (checked == Qt::Checked)
+    {
+        if (!config.getAutoReplace())
+        {
+            config.setAutoReplace (true);
+            for (int i = 0; i < singleton->Wins.count(); ++i)
+            {
+                int count = singleton->Wins.at (i)->ui->tabWidget->count();
+                for (int j = 0; j < count; ++j)
+                {
+                    qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
+                            ->textEdit()->setAutoReplace (true);
+                }
+            }
+        }
+    }
+    else if (checked == Qt::Unchecked)
+    {
+        if (config.getAutoReplace())
+        {
+            config.setAutoReplace (false);
+            for (int i = 0; i < singleton->Wins.count(); ++i)
+            {
+                int count = singleton->Wins.at (i)->ui->tabWidget->count();
+                for (int j = 0; j < count; ++j)
+                {
+                    qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
+                            ->textEdit()->setAutoReplace (false);
+                }
             }
         }
     }
