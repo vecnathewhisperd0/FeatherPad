@@ -360,7 +360,10 @@ PrefDialog::PrefDialog (QWidget *parent)
         }
     }
 
-    resize (sizeHint() + QSize (style()->pixelMetric(QStyle::PM_ScrollBarExtent), 0));
+    if (parent != nullptr)
+        ag -= parent->window()->frameGeometry().size() - parent->window()->geometry().size();
+    resize (QSize (sizeHint().width() + style()->pixelMetric (QStyle::PM_ScrollBarExtent), size().height())
+            .boundedTo(ag));
 }
 /*************************/
 PrefDialog::~PrefDialog()

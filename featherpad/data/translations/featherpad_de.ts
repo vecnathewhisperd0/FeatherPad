@@ -1144,70 +1144,70 @@
         <translation>Fenster</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="36"/>
+        <location filename="../../predDialog.ui" line="69"/>
         <source>Window Settings</source>
         <translation>Fenstereinstellungen</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="42"/>
+        <location filename="../../predDialog.ui" line="75"/>
         <source>Remember window &amp;size on closing</source>
         <translation>&amp;Fenstergröße speichern beim Schließen</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="49"/>
-        <location filename="../../predDialog.ui" line="62"/>
-        <location filename="../../predDialog.ui" line="72"/>
-        <location filename="../../predDialog.ui" line="85"/>
+        <location filename="../../predDialog.ui" line="82"/>
+        <location filename="../../predDialog.ui" line="95"/>
+        <location filename="../../predDialog.ui" line="105"/>
+        <location filename="../../predDialog.ui" line="118"/>
         <source>Window frame is excluded.</source>
         <translation>Fenster-Dekoration ist ausgenommen.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="52"/>
+        <location filename="../../predDialog.ui" line="85"/>
         <source>Start with this size: </source>
         <translation>Start mit dieser Größe: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="65"/>
-        <location filename="../../predDialog.ui" line="88"/>
+        <location filename="../../predDialog.ui" line="98"/>
+        <location filename="../../predDialog.ui" line="121"/>
         <source> px</source>
         <translation> px</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="75"/>
+        <location filename="../../predDialog.ui" line="108"/>
         <source>×</source>
         <translation>×</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="111"/>
+        <location filename="../../predDialog.ui" line="144"/>
         <source>Enforcing a window position is not recommended
 and may not work with some window managers.</source>
         <translation>Das Erzwingen einer Fensterposition wird nicht empfohlen und
 funktioniert möglicherweise nicht mit einigen Fenstermanagern.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="115"/>
+        <location filename="../../predDialog.ui" line="148"/>
         <source>Remember window &amp;position on closing</source>
         <translation>Fenster&amp;position beim Schließen merken</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="122"/>
+        <location filename="../../predDialog.ui" line="155"/>
         <source>Most suitable with sessions
 but without tab functionality.</source>
         <translation>Am geeignetsten mit Sitzungen
 aber ohne Registerkartenfunktionalität.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="149"/>
+        <location filename="../../predDialog.ui" line="182"/>
         <source>Uncheck for 1/5 of the width.</source>
         <translation>Abwählen für 1/5 der Breite.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="152"/>
+        <location filename="../../predDialog.ui" line="185"/>
         <source>Remember splitter position</source>
         <translation>Splitter-Position speichern</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="172"/>
+        <location filename="../../predDialog.ui" line="205"/>
         <source>No icons in the main window and its menus.
 
 KDE may have a bug that disables search and
@@ -1224,75 +1224,75 @@ Neustart der Anwendung notwendig, um
 wirksam zu werden.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="180"/>
+        <location filename="../../predDialog.ui" line="213"/>
         <source>&amp;Iconless mode</source>
         <translation>&amp;Keine Symbole anzeigen</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="187"/>
+        <location filename="../../predDialog.ui" line="220"/>
         <source>Do not show &amp;toolbar</source>
         <translation>&amp;Werkzeugleiste verbergen</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="194"/>
+        <location filename="../../predDialog.ui" line="227"/>
         <source>If the menubar is hidden,
 a menu button appears on the toolbar.</source>
         <translation>Wenn die Menüleiste ausgeblendet ist,
 erscheint ein Menüknopf auf der Werkzeugleiste.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="198"/>
+        <location filename="../../predDialog.ui" line="231"/>
         <source>Do not show &amp;menubar</source>
         <translation>&amp;Menüleiste verbergen</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="205"/>
+        <location filename="../../predDialog.ui" line="238"/>
         <source>Hide search &amp;bar by default</source>
         <translation>&amp;Automatisches Ausblenden der Suchleiste</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="212"/>
+        <location filename="../../predDialog.ui" line="245"/>
         <source>Always show st&amp;atus bar</source>
         <translation>&amp;Statusleiste immer anzeigen</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="219"/>
+        <location filename="../../predDialog.ui" line="252"/>
         <source>Show cursor position on status bar</source>
         <translation>Position des Cursor auf der Statusleiste anzeigen</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="226"/>
-        <location filename="../../predDialog.ui" line="236"/>
+        <location filename="../../predDialog.ui" line="259"/>
+        <location filename="../../predDialog.ui" line="269"/>
         <source>Will take effect after closing this dialog.</source>
         <translation>Wird wirksam nach dem Schließen dieses Dialogs.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="229"/>
+        <location filename="../../predDialog.ui" line="262"/>
         <source>Tab position: </source>
         <translation>Reiterposition: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="240"/>
+        <location filename="../../predDialog.ui" line="273"/>
         <source>North</source>
         <translation>Norden</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="245"/>
+        <location filename="../../predDialog.ui" line="278"/>
         <source>South</source>
         <translation>Süden</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="250"/>
+        <location filename="../../predDialog.ui" line="283"/>
         <source>West</source>
         <translation>Westen</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="255"/>
+        <location filename="../../predDialog.ui" line="288"/>
         <source>East</source>
         <translation>Osten</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="263"/>
+        <location filename="../../predDialog.ui" line="296"/>
         <source>This means that, for LTR, Alt+Right goes to the first tab
 after the last tab is activated, and the same for Alt+Left.
 
@@ -1304,17 +1304,17 @@ sodass erste und letzte Registerkarten beieinander liegen.
 Registerkarten sind von der Navigation mit Mausrad nicht betroffen.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="269"/>
+        <location filename="../../predDialog.ui" line="302"/>
         <source>Tab navigation wraps &amp;around</source>
         <translation>Fortl&amp;aufende Registerkarten-Navigation</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="289"/>
+        <location filename="../../predDialog.ui" line="322"/>
         <source>Close window on closing its last tab</source>
         <translation>Fenster beim Schließen der letzten Registerkarte schließen</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="296"/>
+        <location filename="../../predDialog.ui" line="329"/>
         <source>By default, if a FeatherPad window exists on the
 current desktop, files will be opened in its tabs.
 
@@ -1328,12 +1328,12 @@ Vorsicht: Einige Desktopumgebungen könnten
 nicht berichten, dass sie mehrere Arbeitsflächen haben.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="303"/>
+        <location filename="../../predDialog.ui" line="336"/>
         <source>Always open in separate windows</source>
         <translation>Immer in separatem Fenster öffnen</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="310"/>
+        <location filename="../../predDialog.ui" line="343"/>
         <source>If this is checked, the file dialog provided by the current
 desktop environment will be used instead of the Qt file dialog.
 
@@ -1344,134 +1344,134 @@ anstdelle des Qt-Dateidialogs benutzt.
 Manche Desktopumgebungen wie KDE und LXQ bieten Dateidialoge an.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="316"/>
+        <location filename="../../predDialog.ui" line="349"/>
         <source>Native file dialog</source>
         <translation>System-Dateidialog</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="372"/>
+        <location filename="../../predDialog.ui" line="409"/>
         <source>Uncheck for Monospace.</source>
         <translation>Abwählen für Monospace.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="375"/>
+        <location filename="../../predDialog.ui" line="412"/>
         <source>Remember &amp;font</source>
         <translation>Schriftart &amp;speichern</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="396"/>
+        <location filename="../../predDialog.ui" line="433"/>
         <source>This covers parentheses, braces, brackets and quotes.</source>
         <translation>Das deckt Einschübe, Zweige, Klammern und Anführungszeichen ab.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="399"/>
+        <location filename="../../predDialog.ui" line="436"/>
         <source>Auto-&amp;bracket</source>
         <translation>Auto-&amp;Klammern</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="406"/>
+        <location filename="../../predDialog.ui" line="443"/>
         <source>By default, a triple period is replaced with an ellipsis
 and a double hyphen with a long dash while typing,
 under proper circumstances.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="411"/>
+        <location filename="../../predDialog.ui" line="448"/>
         <source>Replace triple periods and double hyphens while typing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="475"/>
+        <location filename="../../predDialog.ui" line="524"/>
         <source>Never highlight syntax for files &gt; </source>
         <translation>Keine Syntax-Hervorhebung für Dateien &gt; </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="448"/>
+        <location filename="../../predDialog.ui" line="490"/>
         <source>This creates a menu button on the
 status bar for changing the syntax.</source>
         <translation>Erstelle einen Menü Knopf auf der
 Statusleiste zum Ändern der Syntax.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="452"/>
+        <location filename="../../predDialog.ui" line="494"/>
         <source>Support syntax override</source>
         <translation>Freie Wahl der Syntax-Hervorhebung</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="495"/>
+        <location filename="../../predDialog.ui" line="562"/>
         <source>Show spaces, tabs and tab lines
 when the syntax is highlighted.</source>
         <translation>Anzeigen von Leerzeichen, Tabulatoren und Einrückungslinien
 wenn die Syntax-Erweiterung aktiv ist.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="499"/>
+        <location filename="../../predDialog.ui" line="566"/>
         <source>Show whitespaces</source>
         <translation>Zeige Leerzeichen, Tabulatoren und Einrückungslinien</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="513"/>
-        <location filename="../../predDialog.ui" line="524"/>
+        <location filename="../../predDialog.ui" line="585"/>
+        <location filename="../../predDialog.ui" line="596"/>
         <source>The vertical position lines will be drawn only if
 the editor font has a fixed pitch (like Monospace).</source>
         <translation>Die vertikalen Positionslinien werden nur mit Editor-Schriftarten
 mit einem festen Abstand (wie Monospace) gezeichnet.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="517"/>
+        <location filename="../../predDialog.ui" line="589"/>
         <source>Show vertical lines starting from this position:</source>
         <translation>Anzeigen von vertikalen Linien ab dieser Position:</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="506"/>
+        <location filename="../../predDialog.ui" line="573"/>
         <source>Also show line and document ends</source>
         <translation>Auch Zeilen- und Dokumentende anzeigen</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="587"/>
+        <location filename="../../predDialog.ui" line="721"/>
         <source>Date and time format:</source>
         <translation>Datum- und Zeitformat:</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="635"/>
+        <location filename="../../predDialog.ui" line="794"/>
         <source>Some text editors cannot open a document
 whose last line is not empty.</source>
         <translation>Manchet Texteditoren können keine Dokumente öffnen,
 deren letzte Zeile nicht leer ist.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="639"/>
+        <location filename="../../predDialog.ui" line="798"/>
         <source>Ensure an empty last line on saving</source>
         <translation>Leerzeile am Textende bei Speicherung garantieren</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="646"/>
+        <location filename="../../predDialog.ui" line="805"/>
         <source>Remove trailing spaces on saving</source>
         <translation>Entfernen von nachgestellten Leerzeichen beim Speichern</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="664"/>
+        <location filename="../../predDialog.ui" line="823"/>
         <source>Inertial scrolling with mouse wheel</source>
         <translation>Träge Abrollfunktion mit Mausrad</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="690"/>
+        <location filename="../../predDialog.ui" line="849"/>
         <source>Files</source>
         <translation>Dateien</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="696"/>
+        <location filename="../../predDialog.ui" line="855"/>
         <source>File Management</source>
         <translation>Datei-Management</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="766"/>
+        <location filename="../../predDialog.ui" line="972"/>
         <source>Start with files of last window</source>
         <translation>Starte mit den Dateien des letzten Fensters</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="806"/>
-        <location filename="../../predDialog.ui" line="825"/>
+        <location filename="../../predDialog.ui" line="1014"/>
+        <location filename="../../predDialog.ui" line="1033"/>
         <source>This can be any starting command with
 arguments, for example, &quot;xterm -hold&quot;
 for running the process in XTerm.
@@ -1494,37 +1494,37 @@ ausgeführt wird, dann werden die Ausgabe und
 Fehlermeldungen in einem Popup-Dialog angezeigt.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="818"/>
+        <location filename="../../predDialog.ui" line="1026"/>
         <source>Start with this command: </source>
         <translation>Starte mit diesem Befehl: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="837"/>
+        <location filename="../../predDialog.ui" line="1045"/>
         <source>Command + Arguments</source>
         <translation>Befehl + Argumente</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="746"/>
+        <location filename="../../predDialog.ui" line="930"/>
         <source>Show recentl&amp;y modified files</source>
         <translation>Anzeigen von kürzlic&amp;h bearbeiteten Dateien</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="756"/>
+        <location filename="../../predDialog.ui" line="960"/>
         <source>Show recentl&amp;y opened files</source>
         <translation>Anzeigen von kürzlic&amp;h geöffneten Dateien</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="863"/>
+        <location filename="../../predDialog.ui" line="1059"/>
         <source>Save changes to opened files every:</source>
         <translation>Änderungen geöffneter Dateien speichern alle:</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="974"/>
+        <location filename="../../predDialog.ui" line="1188"/>
         <source>Help</source>
         <translation>Hilfe</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="159"/>
+        <location filename="../../predDialog.ui" line="192"/>
         <source>Uncheck this if you want FeatherPad to
 use system icons!
 
@@ -1534,17 +1534,17 @@ Needs application restart to take effect.</source>
 Neustart der Anwendung notwendig um wirksam zu werden.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="126"/>
+        <location filename="../../predDialog.ui" line="159"/>
         <source>Start with side-pane mode</source>
         <translation>Starte mit aktiver Seitenleiste</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="165"/>
+        <location filename="../../predDialog.ui" line="198"/>
         <source>&amp;Use own icons</source>
         <translation>&amp;Eigene Icons benutzen</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="276"/>
+        <location filename="../../predDialog.ui" line="309"/>
         <source>If this is checked, not only you will lose the informative
 tooltip and context menu of a single tab but you could not
 merge a single tabbed window into another one by tab drag-
@@ -1555,69 +1555,69 @@ ein Einzelfenster in ein anderes Fenster per Ziehen und
 Fallenlassen zu integrieren.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="282"/>
+        <location filename="../../predDialog.ui" line="315"/>
         <source>&amp;Do not show a single tab</source>
         <translation>&amp;Reiterleiste bei einer Registerkarte verbergen</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="327"/>
+        <location filename="../../predDialog.ui" line="364"/>
         <source>Text</source>
         <translation>Text</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="366"/>
+        <location filename="../../predDialog.ui" line="403"/>
         <source>Text Editor</source>
         <translation>Texteditor</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="382"/>
+        <location filename="../../predDialog.ui" line="419"/>
         <source>&amp;Wrap lines by default</source>
         <translation>Automatischer &amp;Zeilenumbruch</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="389"/>
+        <location filename="../../predDialog.ui" line="426"/>
         <source>Auto-&amp;indent by default</source>
         <translation>Automatische &amp;Einrückung</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="418"/>
+        <location filename="../../predDialog.ui" line="455"/>
         <source>Always show line &amp;numbers</source>
         <translation>Immer &amp;Zeilennummern anzeigen</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="425"/>
+        <location filename="../../predDialog.ui" line="462"/>
         <source>Highlight s&amp;yntax by default</source>
         <translation>Automatische &amp;Syntax-Hervorhebung</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="541"/>
+        <location filename="../../predDialog.ui" line="631"/>
         <source>Dark c&amp;olor scheme</source>
         <translation>Dunkles &amp;Farbschema</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="572"/>
+        <location filename="../../predDialog.ui" line="669"/>
         <source>Background color value: </source>
         <translation>Hintergrundfarbe Wert: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="482"/>
+        <location filename="../../predDialog.ui" line="531"/>
         <source> MiB</source>
         <translation> MiB</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="671"/>
+        <location filename="../../predDialog.ui" line="830"/>
         <source>This is not a complete fix but
 prevents annoying scroll jumps.</source>
         <translation>Das ist keine vollständige Reparatur aber
 es verhindert störende Sprünge beim Scrollen.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="675"/>
+        <location filename="../../predDialog.ui" line="834"/>
         <source>Workaround for &amp;Qt5&apos;s scroll jump bug</source>
         <translation>Umgehung für &amp;Qt5&apos;s Scroll Sprung Fehler</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="773"/>
+        <location filename="../../predDialog.ui" line="979"/>
         <source>This only includes executable files written
 in script languages like Shell and Python.
 
@@ -1637,13 +1637,13 @@ Kurzbefehl Strg+E ausgeführt,
 Der Prozess kann mit Strg+Alt+E beendet werden.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="538"/>
+        <location filename="../../predDialog.ui" line="628"/>
         <source>Needs window reopening to take effect.</source>
         <translation>Neustart des Fensters notwendig, um wirksam zu werden.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="548"/>
-        <location filename="../../predDialog.ui" line="562"/>
+        <location filename="../../predDialog.ui" line="659"/>
+        <location filename="../../predDialog.ui" line="676"/>
         <source>The color value of the background.
 255 means white while 0 means black.
 
@@ -1662,13 +1662,13 @@ zwischen 0 und 50.
 Neustart des Fensters notwendig, um wirksam zu werden.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="783"/>
+        <location filename="../../predDialog.ui" line="989"/>
         <source>Run executable scripts</source>
         <translation>Starte ausführbare Skripte</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="702"/>
-        <location filename="../../predDialog.ui" line="716"/>
+        <location filename="../../predDialog.ui" line="863"/>
+        <location filename="../../predDialog.ui" line="877"/>
         <source>The maximum number of recently modified or
 opened files FeatherPad shows. The default
 is 10.
@@ -1679,8 +1679,8 @@ geöffneten Dateien, die FeatherPad anzeigt.
 Standard ist 10.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="579"/>
-        <location filename="../../predDialog.ui" line="594"/>
+        <location filename="../../predDialog.ui" line="713"/>
+        <location filename="../../predDialog.ui" line="728"/>
         <source>Used for pasting the date and time.
 
 Takes effect after closing this dialog.
@@ -1695,50 +1695,50 @@ Leer lassen für:
 MMM dd, yyyy, hh:mm:ss</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="612"/>
+        <location filename="../../predDialog.ui" line="753"/>
         <source>Text tab size:</source>
         <translation>Tabulatorgröße:</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="619"/>
+        <location filename="../../predDialog.ui" line="760"/>
         <source> spaces</source>
         <translation> Leerzeichen</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="653"/>
+        <location filename="../../predDialog.ui" line="812"/>
         <source>Thick text cursor</source>
         <translation>Fetter Textcursor</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="660"/>
+        <location filename="../../predDialog.ui" line="819"/>
         <source>Should the mouse wheel scrolling be inertial
 if the cursor is inside the text view?</source>
         <translation>Sollte die Abrollfunktion des Mausrads träge sein,
 wenn der Cursor innerhalb der Textansicht ist?</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="709"/>
+        <location filename="../../predDialog.ui" line="870"/>
         <source>Number of recent files: </source>
         <translation>Anzahl von kürzlichen geöffneten Dateien: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="763"/>
+        <location filename="../../predDialog.ui" line="969"/>
         <source>Only if their number is not greater than 50.</source>
         <translation>Nur wenn ihre Zahl nicht grösser als 50 ist.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="860"/>
-        <location filename="../../predDialog.ui" line="870"/>
+        <location filename="../../predDialog.ui" line="1056"/>
+        <location filename="../../predDialog.ui" line="1066"/>
         <source>Only for files that exist and can be saved.</source>
         <translation>Nur für Dateien, die existieren und gespeichert werden können.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="873"/>
+        <location filename="../../predDialog.ui" line="1069"/>
         <source> min</source>
         <translation> min</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="886"/>
+        <location filename="../../predDialog.ui" line="1100"/>
         <source>If this is checked, the Save button/menu-item could
 be used also when the opened file is not modified.
 
@@ -1754,95 +1754,95 @@ Zeitstempels oder zum Entfernen von Leerzeichen an den
 Zeilenenden einer Textdatei sinnvoll sein.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="894"/>
+        <location filename="../../predDialog.ui" line="1108"/>
         <source>Allow saving unmodified files</source>
         <translation>Speichern von unveränderten Dateien erlauben</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="901"/>
+        <location filename="../../predDialog.ui" line="1115"/>
         <source>Show a warning instead.</source>
         <translation>Zeige stattdessen eine Warnung.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="904"/>
+        <location filename="../../predDialog.ui" line="1118"/>
         <source>Do not permit opening of non-text files</source>
         <translation>Öffnen von Nicht-Text-Dateien nicht zulassen</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="915"/>
+        <location filename="../../predDialog.ui" line="1129"/>
         <source>Shortcuts</source>
         <translation>Tastatur-Kurzbefehle</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="934"/>
+        <location filename="../../predDialog.ui" line="1148"/>
         <source>Action</source>
         <translation>Aktion</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="939"/>
+        <location filename="../../predDialog.ui" line="1153"/>
         <source>Shortcut</source>
         <translation>Tastatur-Kurzbefehl</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="947"/>
+        <location filename="../../predDialog.ui" line="1161"/>
         <source>Restore default shortcuts.</source>
         <translation>Ursprüngliche Kurzbefehle wiederherstellen.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="950"/>
+        <location filename="../../predDialog.ui" line="1164"/>
         <source>Default</source>
         <translation>Standard</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="985"/>
+        <location filename="../../predDialog.ui" line="1199"/>
         <source>Close</source>
         <translation>Schließen</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="263"/>
-        <location filename="../../pref.cpp" line="1156"/>
+        <location filename="../../pref.cpp" line="1159"/>
         <source>files</source>
         <translation>Dateien</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="263"/>
-        <location filename="../../pref.cpp" line="1156"/>
+        <location filename="../../pref.cpp" line="1159"/>
         <source>file</source>
         <translation>Datei</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="316"/>
-        <location filename="../../pref.cpp" line="1284"/>
+        <location filename="../../pref.cpp" line="1287"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Warnung: Mehrdeutiger Tastatur-Kurzbefehl erkannt!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="428"/>
+        <location filename="../../pref.cpp" line="431"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Neustart der Anwendung, notwendig um wirksam zu werden.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="440"/>
+        <location filename="../../pref.cpp" line="443"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Neustart des Fensters notwendig, um wirksam zu werden.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1182"/>
+        <location filename="../../pref.cpp" line="1185"/>
         <source>&amp;Recently Opened</source>
         <translation>&amp;Kürzlich geöffnete</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1183"/>
+        <location filename="../../pref.cpp" line="1186"/>
         <source>Recently &amp;Modified</source>
         <translation>Kürzlich &amp;bearbeitete</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1274"/>
+        <location filename="../../pref.cpp" line="1277"/>
         <source>The typed shortcut was not valid.</source>
         <translation>Der eingegebene Tastatur-Kurzbefehl war nicht gültig.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1276"/>
+        <location filename="../../pref.cpp" line="1279"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Der eingegebene Tastatur-Kurzbefehl war reserviert.</translation>
     </message>
