@@ -1812,50 +1812,50 @@ güncellemek veya dosya sonundaki boşlukları kırpmak için.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="263"/>
-        <location filename="../../pref.cpp" line="1159"/>
+        <location filename="../../pref.cpp" line="1167"/>
         <source>files</source>
         <translatorcomment>Reminder: Enumerated items are used in singular (e.g. &quot;7 file&quot; instead of &quot;7 files&quot;).</translatorcomment>
         <translation>dosya</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="263"/>
-        <location filename="../../pref.cpp" line="1159"/>
+        <location filename="../../pref.cpp" line="1167"/>
         <source>file</source>
         <translation>dosya</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="316"/>
-        <location filename="../../pref.cpp" line="1287"/>
+        <location filename="../../pref.cpp" line="1295"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Uyarı: Muğlak kısayol tespit edildi!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="431"/>
+        <location filename="../../pref.cpp" line="439"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Uygulama tekrar başlatılınca değişiklikler etkinleşir.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="443"/>
+        <location filename="../../pref.cpp" line="451"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Değişikliklerin etkinleşmesi için yeni pencere açılmalıdır.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1185"/>
+        <location filename="../../pref.cpp" line="1193"/>
         <source>&amp;Recently Opened</source>
         <translation>&amp;Son Açılanlar</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1186"/>
+        <location filename="../../pref.cpp" line="1194"/>
         <source>Recently &amp;Modified</source>
         <translation>&amp;Son Değiştirilenler</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1277"/>
+        <location filename="../../pref.cpp" line="1285"/>
         <source>The typed shortcut was not valid.</source>
         <translation>Girilen kısayol geçersiz.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1279"/>
+        <location filename="../../pref.cpp" line="1287"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Girilen kısayol tahsisli (kullanılamaz).</translation>
     </message>

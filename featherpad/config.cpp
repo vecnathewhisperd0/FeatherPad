@@ -119,6 +119,8 @@ void Config::readConfig()
     else
         splitterPos_ = qMin (qMax (settings.value ("splitterPos", 20).toInt(), 0), 100);
 
+    prefSize_ = settings.value ("prefSize").toSize();
+
     if (settings.value ("iconless").toBool())
         iconless_ = true; // false by default
 
@@ -353,6 +355,8 @@ void Config::writeConfig()
         settings.setValue ("splitterPos", splitterPos_);
     else
         settings.setValue ("splitterPos", "none");
+
+    settings.setValue ("prefSize", prefSize_);
 
     settings.setValue ("startSize", startSize_);
     settings.setValue ("iconless", iconless_);

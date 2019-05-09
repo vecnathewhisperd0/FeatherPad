@@ -1800,49 +1800,49 @@ pvz., laiko žymos keitimui arba tekstinio failo galinių tarpų
     </message>
     <message>
         <location filename="../../pref.cpp" line="263"/>
-        <location filename="../../pref.cpp" line="1159"/>
+        <location filename="../../pref.cpp" line="1167"/>
         <source>files</source>
         <translation>failų</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="263"/>
-        <location filename="../../pref.cpp" line="1159"/>
+        <location filename="../../pref.cpp" line="1167"/>
         <source>file</source>
         <translation>failas</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="316"/>
-        <location filename="../../pref.cpp" line="1287"/>
+        <location filename="../../pref.cpp" line="1295"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Įspėjimas: Aptiktas dviprasmiškas spartusis klavišas!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="431"/>
+        <location filename="../../pref.cpp" line="439"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Tam, kad įsigaliotų pakeitimai, reikia paleisti programą iš naujo.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="443"/>
+        <location filename="../../pref.cpp" line="451"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Tam, kad įsigaliotų pakeitimai, reikia langą atverti iš naujo.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1185"/>
+        <location filename="../../pref.cpp" line="1193"/>
         <source>&amp;Recently Opened</source>
         <translation>Pas&amp;kiausiai atverti</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1186"/>
+        <location filename="../../pref.cpp" line="1194"/>
         <source>Recently &amp;Modified</source>
         <translation>Paskiausiai &amp;modifikuoti</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1277"/>
+        <location filename="../../pref.cpp" line="1285"/>
         <source>The typed shortcut was not valid.</source>
         <translation>Įrašytas spartusis klavišas nebuvo teisingas.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1279"/>
+        <location filename="../../pref.cpp" line="1287"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Įrašytas spartusis klavišas buvo rezervuotas.</translation>
     </message>

@@ -1799,49 +1799,49 @@ achterliggende spaties te verwijderen uit een tekstbestand.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="263"/>
-        <location filename="../../pref.cpp" line="1159"/>
+        <location filename="../../pref.cpp" line="1167"/>
         <source>files</source>
         <translation>bestanden</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="263"/>
-        <location filename="../../pref.cpp" line="1159"/>
+        <location filename="../../pref.cpp" line="1167"/>
         <source>file</source>
         <translation>bestand</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="316"/>
-        <location filename="../../pref.cpp" line="1287"/>
+        <location filename="../../pref.cpp" line="1295"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Waarschuwing: dubbelzinnige sneltoets gedetecteerd!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="431"/>
+        <location filename="../../pref.cpp" line="439"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>De applicatie moet worden herstart om de wijzigingen toe te passen.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="443"/>
+        <location filename="../../pref.cpp" line="451"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>De applicatie moet worden herstart om de wijzigingen toe te passen.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1185"/>
+        <location filename="../../pref.cpp" line="1193"/>
         <source>&amp;Recently Opened</source>
         <translation>&amp;Recent geopend</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1186"/>
+        <location filename="../../pref.cpp" line="1194"/>
         <source>Recently &amp;Modified</source>
         <translation>Recent &amp;bewerkt</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1277"/>
+        <location filename="../../pref.cpp" line="1285"/>
         <source>The typed shortcut was not valid.</source>
         <translation>De ingevoerde sneltoets is ongeldig.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1279"/>
+        <location filename="../../pref.cpp" line="1287"/>
         <source>The typed shortcut was reserved.</source>
         <translation>De ingevoerde sneltoets is gereserveerd.</translation>
     </message>

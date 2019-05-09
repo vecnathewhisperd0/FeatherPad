@@ -362,8 +362,13 @@ PrefDialog::PrefDialog (QWidget *parent)
 
     if (parent != nullptr)
         ag -= parent->window()->frameGeometry().size() - parent->window()->geometry().size();
-    resize (QSize (sizeHint().width() + style()->pixelMetric (QStyle::PM_ScrollBarExtent), size().height())
-            .boundedTo(ag));
+    if (config.getPrefSize().isEmpty())
+    {
+        resize (QSize (sizeHint().width() + style()->pixelMetric (QStyle::PM_ScrollBarExtent), size().height())
+                .boundedTo(ag));
+    }
+    else
+        resize (config.getPrefSize().boundedTo(ag));
 }
 /*************************/
 PrefDialog::~PrefDialog()
@@ -393,6 +398,9 @@ void PrefDialog::onClosing()
     prefTextTab();
     prefSaveUnmodified();
     prefThickCursor();
+
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    config.setPrefSize (size());
 }
 /*************************/
 void PrefDialog::showPrompt (const QString& str, bool temporary)

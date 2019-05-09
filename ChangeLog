@@ -9,6 +9,7 @@ V0.10.0
  * Added support for searching/replacing regular expressions.
  * Fixed a crash under Wayland when calling FeatherPad twice.
  * By default, replace triple periods and double hyphens with ellipses and em dashes respectively, on typing. That can be disabled in Preferences.
+ * Always remember the Preferences dialog size.
 
 V0.9.4
 ---------

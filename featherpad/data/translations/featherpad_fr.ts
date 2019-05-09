@@ -1799,49 +1799,49 @@ de fin de ligne d&apos;un fichier texte.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="263"/>
-        <location filename="../../pref.cpp" line="1159"/>
+        <location filename="../../pref.cpp" line="1167"/>
         <source>files</source>
         <translation>fichiers</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="263"/>
-        <location filename="../../pref.cpp" line="1159"/>
+        <location filename="../../pref.cpp" line="1167"/>
         <source>file</source>
         <translation>fichier</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="316"/>
-        <location filename="../../pref.cpp" line="1287"/>
+        <location filename="../../pref.cpp" line="1295"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Attention: raccourci ambigu détecté !</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="431"/>
+        <location filename="../../pref.cpp" line="439"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Le redémarrage de l&apos;application est nécessaire pour valider les changements.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="443"/>
+        <location filename="../../pref.cpp" line="451"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>La réouverture de la fenêtre est nécessaire pour valider les changements.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1185"/>
+        <location filename="../../pref.cpp" line="1193"/>
         <source>&amp;Recently Opened</source>
         <translation>&amp;Récemment ouvert</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1186"/>
+        <location filename="../../pref.cpp" line="1194"/>
         <source>Recently &amp;Modified</source>
         <translation>Récemment &amp;Modifié</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1277"/>
+        <location filename="../../pref.cpp" line="1285"/>
         <source>The typed shortcut was not valid.</source>
         <translation>Le raccourci entré est invalide.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1279"/>
+        <location filename="../../pref.cpp" line="1287"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Le raccourci entré est déjà réservé.</translation>
     </message>

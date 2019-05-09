@@ -173,6 +173,13 @@ public:
         winSize_ = s;
     }
 
+    QSize getPrefSize() const {
+        return prefSize_;
+    }
+    void setPrefSize (const QSize &s) {
+        prefSize_ = s;
+    }
+
     QSize getStartSize() const {
         return startSize_;
     }
@@ -533,7 +540,7 @@ private:
         autoSaveInterval_,
         textTabSize_;
     QString dateFormat_;
-    QSize winSize_, startSize_;
+    QSize winSize_, startSize_, prefSize_;
     QPoint winPos_;
     int splitterPos_;
     QFont font_;

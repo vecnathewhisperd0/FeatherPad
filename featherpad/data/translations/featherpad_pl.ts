@@ -1794,49 +1794,49 @@ na końcu pliku.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="263"/>
-        <location filename="../../pref.cpp" line="1159"/>
+        <location filename="../../pref.cpp" line="1167"/>
         <source>files</source>
         <translation>pliki</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="263"/>
-        <location filename="../../pref.cpp" line="1159"/>
+        <location filename="../../pref.cpp" line="1167"/>
         <source>file</source>
         <translation>plik</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="316"/>
-        <location filename="../../pref.cpp" line="1287"/>
+        <location filename="../../pref.cpp" line="1295"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Ostrzeżenie: Wykryto niejednoznaczny skrót!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="431"/>
+        <location filename="../../pref.cpp" line="439"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Restart aplikacji jest wymagany, aby uzyskać efekt.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="443"/>
+        <location filename="../../pref.cpp" line="451"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Ponowne otwarcie okna jest wymagane, aby uzyskać efekt.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1185"/>
+        <location filename="../../pref.cpp" line="1193"/>
         <source>&amp;Recently Opened</source>
         <translation>Ostatnio otwie&amp;rane</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1186"/>
+        <location filename="../../pref.cpp" line="1194"/>
         <source>Recently &amp;Modified</source>
         <translation>Ostatnio &amp;modyfikowane</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1277"/>
+        <location filename="../../pref.cpp" line="1285"/>
         <source>The typed shortcut was not valid.</source>
         <translation>Wprowadzony skrót jest nieprawidłowy.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1279"/>
+        <location filename="../../pref.cpp" line="1287"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Wprowadzony skrót został zarejestrowany.</translation>
     </message>
