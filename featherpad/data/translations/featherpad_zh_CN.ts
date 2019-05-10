@@ -1153,58 +1153,58 @@
         <translation>关闭时保存窗口大小(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="82"/>
-        <location filename="../../predDialog.ui" line="95"/>
-        <location filename="../../predDialog.ui" line="105"/>
-        <location filename="../../predDialog.ui" line="118"/>
+        <location filename="../../predDialog.ui" line="84"/>
+        <location filename="../../predDialog.ui" line="97"/>
+        <location filename="../../predDialog.ui" line="107"/>
+        <location filename="../../predDialog.ui" line="120"/>
         <source>Window frame is excluded.</source>
         <translation>不包括窗口框架。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="85"/>
+        <location filename="../../predDialog.ui" line="87"/>
         <source>Start with this size: </source>
         <translation>默认尺寸: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="98"/>
-        <location filename="../../predDialog.ui" line="121"/>
+        <location filename="../../predDialog.ui" line="100"/>
+        <location filename="../../predDialog.ui" line="123"/>
         <source> px</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="108"/>
+        <location filename="../../predDialog.ui" line="110"/>
         <source>×</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="144"/>
+        <location filename="../../predDialog.ui" line="148"/>
         <source>Enforcing a window position is not recommended
 and may not work with some window managers.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="148"/>
+        <location filename="../../predDialog.ui" line="152"/>
         <source>Remember window &amp;position on closing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="155"/>
+        <location filename="../../predDialog.ui" line="159"/>
         <source>Most suitable with sessions
 but without tab functionality.</source>
         <translation>最适合会话，但没有标签功能。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="182"/>
+        <location filename="../../predDialog.ui" line="188"/>
         <source>Uncheck for 1/5 of the width.</source>
         <translation>如取消勾选，则侧边栏宽度为窗口宽度的五分之一。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="185"/>
+        <location filename="../../predDialog.ui" line="191"/>
         <source>Remember splitter position</source>
         <translation>记住分割位置</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="205"/>
+        <location filename="../../predDialog.ui" line="213"/>
         <source>No icons in the main window and its menus.
 
 KDE may have a bug that disables search and
@@ -1217,74 +1217,74 @@ Needs application restart to take effect.</source>
 需要重新启动应用程序以生效。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="213"/>
+        <location filename="../../predDialog.ui" line="221"/>
         <source>&amp;Iconless mode</source>
         <translation>无图标模式(&amp;I)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="220"/>
+        <location filename="../../predDialog.ui" line="228"/>
         <source>Do not show &amp;toolbar</source>
         <translation>隐藏工具栏(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="227"/>
+        <location filename="../../predDialog.ui" line="235"/>
         <source>If the menubar is hidden,
 a menu button appears on the toolbar.</source>
         <translation>如果菜单栏被隐藏，则工具栏上会出现一个菜单按钮。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="231"/>
+        <location filename="../../predDialog.ui" line="239"/>
         <source>Do not show &amp;menubar</source>
         <translation>隐藏菜单栏(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="238"/>
+        <location filename="../../predDialog.ui" line="246"/>
         <source>Hide search &amp;bar by default</source>
         <translation>默认隐藏搜索栏(&amp;B)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="245"/>
+        <location filename="../../predDialog.ui" line="253"/>
         <source>Always show st&amp;atus bar</source>
         <translation>总是显示状态栏(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="252"/>
+        <location filename="../../predDialog.ui" line="278"/>
         <source>Show cursor position on status bar</source>
         <translation>在状态栏上显示光标位置</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="259"/>
-        <location filename="../../predDialog.ui" line="269"/>
+        <location filename="../../predDialog.ui" line="289"/>
+        <location filename="../../predDialog.ui" line="299"/>
         <source>Will take effect after closing this dialog.</source>
         <translation>关闭此对话框后生效。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="262"/>
+        <location filename="../../predDialog.ui" line="292"/>
         <source>Tab position: </source>
         <translation>标签位置: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="273"/>
+        <location filename="../../predDialog.ui" line="303"/>
         <source>North</source>
         <translation>北</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="278"/>
+        <location filename="../../predDialog.ui" line="308"/>
         <source>South</source>
         <translation>南</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="283"/>
+        <location filename="../../predDialog.ui" line="313"/>
         <source>West</source>
         <translation>西</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="288"/>
+        <location filename="../../predDialog.ui" line="318"/>
         <source>East</source>
         <translation>东</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="296"/>
+        <location filename="../../predDialog.ui" line="344"/>
         <source>This means that, for LTR, Alt+Right goes to the first tab
 after the last tab is activated, and the same for Alt+Left.
 
@@ -1294,17 +1294,17 @@ Tab navigation with mouse wheel is not affected.</source>
 此选项不影响鼠标滚轮控制的标签导航。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="302"/>
+        <location filename="../../predDialog.ui" line="350"/>
         <source>Tab navigation wraps &amp;around</source>
         <translation>标签导航循环(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="322"/>
+        <location filename="../../predDialog.ui" line="370"/>
         <source>Close window on closing its last tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="329"/>
+        <location filename="../../predDialog.ui" line="377"/>
         <source>By default, if a FeatherPad window exists on the
 current desktop, files will be opened in its tabs.
 
@@ -1315,12 +1315,12 @@ report that they have multiple desktops.</source>
 但某些桌面环境可能不会报告其拥有多个桌面。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="336"/>
+        <location filename="../../predDialog.ui" line="384"/>
         <source>Always open in separate windows</source>
         <translation>总是在分离窗口打开文件</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="343"/>
+        <location filename="../../predDialog.ui" line="391"/>
         <source>If this is checked, the file dialog provided by the current
 desktop environment will be used instead of the Qt file dialog.
 
@@ -1330,130 +1330,130 @@ Qt 的文件对话框。
 某些桌面环境，如 KDE 与 LXQt，提供了自己的文件对话框。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="349"/>
+        <location filename="../../predDialog.ui" line="397"/>
         <source>Native file dialog</source>
         <translation>原生文件对话框</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="409"/>
+        <location filename="../../predDialog.ui" line="457"/>
         <source>Uncheck for Monospace.</source>
         <translation>如不勾选，则字体默认为 Monospace。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="412"/>
+        <location filename="../../predDialog.ui" line="460"/>
         <source>Remember &amp;font</source>
         <translation>记住字体(&amp;F)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="433"/>
+        <location filename="../../predDialog.ui" line="481"/>
         <source>This covers parentheses, braces, brackets and quotes.</source>
         <translation>包括圆括号、方括号、大括号与引号。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="436"/>
+        <location filename="../../predDialog.ui" line="484"/>
         <source>Auto-&amp;bracket</source>
         <translation>自动补全括号(&amp;B)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="443"/>
+        <location filename="../../predDialog.ui" line="491"/>
         <source>By default, a triple period is replaced with an ellipsis
 and a double hyphen with a long dash while typing,
 under proper circumstances.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="448"/>
+        <location filename="../../predDialog.ui" line="496"/>
         <source>Replace triple periods and double hyphens while typing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="524"/>
+        <location filename="../../predDialog.ui" line="566"/>
         <source>Never highlight syntax for files &gt; </source>
         <translation>禁用语法高亮于文件大小 &gt; </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="490"/>
+        <location filename="../../predDialog.ui" line="535"/>
         <source>This creates a menu button on the
 status bar for changing the syntax.</source>
         <translation>如勾选，则将在状态栏上创建一个按钮，用于更改语法。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="494"/>
+        <location filename="../../predDialog.ui" line="539"/>
         <source>Support syntax override</source>
         <translation>支持语法重写</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="562"/>
+        <location filename="../../predDialog.ui" line="604"/>
         <source>Show spaces, tabs and tab lines
 when the syntax is highlighted.</source>
         <translation>语法高亮时显示空格、缩进与缩进行。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="566"/>
+        <location filename="../../predDialog.ui" line="608"/>
         <source>Show whitespaces</source>
         <translation>用语法高亮显示空格</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="585"/>
-        <location filename="../../predDialog.ui" line="596"/>
+        <location filename="../../predDialog.ui" line="624"/>
+        <location filename="../../predDialog.ui" line="635"/>
         <source>The vertical position lines will be drawn only if
 the editor font has a fixed pitch (like Monospace).</source>
         <translation>垂直位置行只会在编辑器字体点数固定时绘制。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="589"/>
+        <location filename="../../predDialog.ui" line="628"/>
         <source>Show vertical lines starting from this position:</source>
         <translation>显示从此位置开始的竖行:</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="573"/>
+        <location filename="../../predDialog.ui" line="615"/>
         <source>Also show line and document ends</source>
         <translation>也显示行与文档结尾</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="721"/>
+        <location filename="../../predDialog.ui" line="754"/>
         <source>Date and time format:</source>
         <translation>日期与时间格式:</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="794"/>
+        <location filename="../../predDialog.ui" line="824"/>
         <source>Some text editors cannot open a document
 whose last line is not empty.</source>
         <translation>某些文本编辑器只能打开最后一行为空的文档。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="798"/>
+        <location filename="../../predDialog.ui" line="828"/>
         <source>Ensure an empty last line on saving</source>
         <translation>确保保存时在文档末尾留下一行空白</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="805"/>
+        <location filename="../../predDialog.ui" line="835"/>
         <source>Remove trailing spaces on saving</source>
         <translation>保存时移除结尾空白</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="823"/>
+        <location filename="../../predDialog.ui" line="853"/>
         <source>Inertial scrolling with mouse wheel</source>
         <translation>鼠标滚论滚动时带惯性</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="849"/>
+        <location filename="../../predDialog.ui" line="879"/>
         <source>Files</source>
         <translation>文件</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="855"/>
+        <location filename="../../predDialog.ui" line="885"/>
         <source>File Management</source>
         <translation>文件管理</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="972"/>
+        <location filename="../../predDialog.ui" line="1002"/>
         <source>Start with files of last window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1014"/>
-        <location filename="../../predDialog.ui" line="1033"/>
+        <location filename="../../predDialog.ui" line="1044"/>
+        <location filename="../../predDialog.ui" line="1063"/>
         <source>This can be any starting command with
 arguments, for example, &quot;xterm -hold&quot;
 for running the process in XTerm.
@@ -1471,37 +1471,37 @@ will be shown by a popup dialog.</source>
 与错误信息会在弹出的对话框中显示。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1026"/>
+        <location filename="../../predDialog.ui" line="1056"/>
         <source>Start with this command: </source>
         <translation>以此命令运行脚本: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1045"/>
+        <location filename="../../predDialog.ui" line="1075"/>
         <source>Command + Arguments</source>
         <translation>命令 + 参数</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="930"/>
+        <location filename="../../predDialog.ui" line="960"/>
         <source>Show recentl&amp;y modified files</source>
         <translation>显示最近更改的文件(&amp;Y)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="960"/>
+        <location filename="../../predDialog.ui" line="990"/>
         <source>Show recentl&amp;y opened files</source>
         <translation>显示最近打开的文件(&amp;Y)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1059"/>
+        <location filename="../../predDialog.ui" line="1089"/>
         <source>Save changes to opened files every:</source>
         <translation>自动保存时间间隔:</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1188"/>
+        <location filename="../../predDialog.ui" line="1218"/>
         <source>Help</source>
         <translation>帮助</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="192"/>
+        <location filename="../../predDialog.ui" line="200"/>
         <source>Uncheck this if you want FeatherPad to
 use system icons!
 
@@ -1510,17 +1510,17 @@ Needs application restart to take effect.</source>
 需要重新启动本应用程序以生效。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="159"/>
+        <location filename="../../predDialog.ui" line="163"/>
         <source>Start with side-pane mode</source>
         <translation>以侧边栏模式启动</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="198"/>
+        <location filename="../../predDialog.ui" line="206"/>
         <source>&amp;Use own icons</source>
         <translation>使用系统图标(&amp;U)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="309"/>
+        <location filename="../../predDialog.ui" line="357"/>
         <source>If this is checked, not only you will lose the informative
 tooltip and context menu of a single tab but you could not
 merge a single tabbed window into another one by tab drag-
@@ -1529,68 +1529,68 @@ and-drop either.</source>
 还会导致不能通过拖放将单标签窗口合并至另一个窗口。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="315"/>
+        <location filename="../../predDialog.ui" line="363"/>
         <source>&amp;Do not show a single tab</source>
         <translation>不显示单个标签(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="364"/>
+        <location filename="../../predDialog.ui" line="412"/>
         <source>Text</source>
         <translation>文本</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="403"/>
+        <location filename="../../predDialog.ui" line="451"/>
         <source>Text Editor</source>
         <translation>文本编辑器</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="419"/>
+        <location filename="../../predDialog.ui" line="467"/>
         <source>&amp;Wrap lines by default</source>
         <translation>默认自动换行(&amp;W)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="426"/>
+        <location filename="../../predDialog.ui" line="474"/>
         <source>Auto-&amp;indent by default</source>
         <translation>默认自动缩进(&amp;I)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="455"/>
+        <location filename="../../predDialog.ui" line="503"/>
         <source>Always show line &amp;numbers</source>
         <translation>总是显示行数(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="462"/>
+        <location filename="../../predDialog.ui" line="510"/>
         <source>Highlight s&amp;yntax by default</source>
         <translation>默认语法高亮(&amp;Y)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="631"/>
+        <location filename="../../predDialog.ui" line="670"/>
         <source>Dark c&amp;olor scheme</source>
         <translation>暗色主题(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="669"/>
+        <location filename="../../predDialog.ui" line="705"/>
         <source>Background color value: </source>
         <translation>背景颜色值: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="531"/>
+        <location filename="../../predDialog.ui" line="573"/>
         <source> MiB</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="830"/>
+        <location filename="../../predDialog.ui" line="860"/>
         <source>This is not a complete fix but
 prevents annoying scroll jumps.</source>
         <translation>此修复并不完善，但避免了烦人的滚动跳转。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="834"/>
+        <location filename="../../predDialog.ui" line="864"/>
         <source>Workaround for &amp;Qt5&apos;s scroll jump bug</source>
         <translation>修复 &amp;Qt5 滚动时跳转错误</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="979"/>
+        <location filename="../../predDialog.ui" line="1009"/>
         <source>This only includes executable files written
 in script languages like Shell and Python.
 
@@ -1608,13 +1608,13 @@ process could be killed by Ctrl+Alt+E.</source>
 Ctrl+Alt+E 结束脚本运行。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="628"/>
+        <location filename="../../predDialog.ui" line="667"/>
         <source>Needs window reopening to take effect.</source>
         <translation>需要重新开启窗口以生效。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="659"/>
-        <location filename="../../predDialog.ui" line="676"/>
+        <location filename="../../predDialog.ui" line="695"/>
+        <location filename="../../predDialog.ui" line="712"/>
         <source>The color value of the background.
 255 means white while 0 means black.
 
@@ -1629,13 +1629,13 @@ Needs window reopening to take effect.</source>
 需要重新启动应用程序以生效。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="989"/>
+        <location filename="../../predDialog.ui" line="1019"/>
         <source>Run executable scripts</source>
         <translation>运行可执行脚本</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="863"/>
-        <location filename="../../predDialog.ui" line="877"/>
+        <location filename="../../predDialog.ui" line="893"/>
+        <location filename="../../predDialog.ui" line="907"/>
         <source>The maximum number of recently modified or
 opened files FeatherPad shows. The default
 is 10.
@@ -1647,8 +1647,8 @@ Needs application restart to take effect.</source>
 需要重新启动应用程序以生效。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="713"/>
-        <location filename="../../predDialog.ui" line="728"/>
+        <location filename="../../predDialog.ui" line="746"/>
+        <location filename="../../predDialog.ui" line="761"/>
         <source>Used for pasting the date and time.
 
 Takes effect after closing this dialog.
@@ -1659,49 +1659,49 @@ MMM dd, yyyy, hh:mm:ss</source>
 默认格式为：MMM dd, yyyy, hh:mm:ss</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="753"/>
+        <location filename="../../predDialog.ui" line="783"/>
         <source>Text tab size:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="760"/>
+        <location filename="../../predDialog.ui" line="790"/>
         <source> spaces</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="812"/>
+        <location filename="../../predDialog.ui" line="842"/>
         <source>Thick text cursor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="819"/>
+        <location filename="../../predDialog.ui" line="849"/>
         <source>Should the mouse wheel scrolling be inertial
 if the cursor is inside the text view?</source>
         <translation>如光标在文本视图内，鼠标滚轮滚动是否应带惯性？</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="870"/>
+        <location filename="../../predDialog.ui" line="900"/>
         <source>Number of recent files: </source>
         <translation>最近文件的数量: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="969"/>
+        <location filename="../../predDialog.ui" line="999"/>
         <source>Only if their number is not greater than 50.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1056"/>
-        <location filename="../../predDialog.ui" line="1066"/>
+        <location filename="../../predDialog.ui" line="1086"/>
+        <location filename="../../predDialog.ui" line="1096"/>
         <source>Only for files that exist and can be saved.</source>
         <translation>仅对于存在且可被保存的文件。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1069"/>
+        <location filename="../../predDialog.ui" line="1099"/>
         <source> min</source>
         <translation> 分钟</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1100"/>
+        <location filename="../../predDialog.ui" line="1130"/>
         <source>If this is checked, the Save button/menu-item could
 be used also when the opened file is not modified.
 
@@ -1711,47 +1711,47 @@ trailing spaces of a text file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1108"/>
+        <location filename="../../predDialog.ui" line="1138"/>
         <source>Allow saving unmodified files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1115"/>
+        <location filename="../../predDialog.ui" line="1145"/>
         <source>Show a warning instead.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1118"/>
+        <location filename="../../predDialog.ui" line="1148"/>
         <source>Do not permit opening of non-text files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1129"/>
+        <location filename="../../predDialog.ui" line="1159"/>
         <source>Shortcuts</source>
         <translation>快捷方式</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1148"/>
+        <location filename="../../predDialog.ui" line="1178"/>
         <source>Action</source>
         <translation>动作</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1153"/>
+        <location filename="../../predDialog.ui" line="1183"/>
         <source>Shortcut</source>
         <translation>快捷方式</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1161"/>
+        <location filename="../../predDialog.ui" line="1191"/>
         <source>Restore default shortcuts.</source>
         <translation>恢复默认快捷方式。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1164"/>
+        <location filename="../../predDialog.ui" line="1194"/>
         <source>Default</source>
         <translation>默认</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1199"/>
+        <location filename="../../predDialog.ui" line="1229"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
