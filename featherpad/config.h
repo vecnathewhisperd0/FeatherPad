@@ -502,6 +502,20 @@ public:
     void setCloseWithLastTab (bool close) {
         closeWithLastTab_ = close;
     }
+/*************************/
+    QString getDictPath() const {
+        return dictPath_;
+    }
+    void setDictPath (const QString& dictPath) {
+        dictPath_ = dictPath;
+    }
+
+    bool getSpellCheckFromStart() const {
+        return spellCheckFromStart_;
+    }
+    void setSpellCheckFromStart (bool fromStart) {
+        spellCheckFromStart_ = fromStart;
+    }
 
 private:
     QString validatedShortcut (const QVariant v);
@@ -557,6 +571,9 @@ private:
     bool cursorPosRetrieved_; // used only internally for reading once
 
     QHash<QString, QVariant> lasFilesCursorPos_;
+
+    QString dictPath_;
+    bool spellCheckFromStart_;
 };
 
 }

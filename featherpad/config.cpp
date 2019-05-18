@@ -78,7 +78,8 @@ Config::Config():
     font_ (QFont ("Monospace")),
     recentOpened_ (false),
     saveLastFilesList_ (false),
-    cursorPosRetrieved_ (false) {}
+    cursorPosRetrieved_ (false),
+    spellCheckFromStart_ (false){}
 /*************************/
 Config::~Config() {}
 /*************************/
@@ -285,6 +286,9 @@ void Config::readConfig()
 
     textTabSize_ = qBound (2, settings.value ("textTabSize", 4).toInt(), 10);
 
+    dictPath_ = settings.value ("dictionaryPath").toString();
+    spellCheckFromStart_ = settings.value ("spellCheckFromStart").toBool();
+
     settings.endGroup();
 }
 /*************************/
@@ -429,6 +433,9 @@ void Config::writeConfig()
     settings.setValue ("autoSaveInterval", autoSaveInterval_);
 
     settings.setValue ("textTabSize", textTabSize_);
+
+    settings.setValue ("dictionaryPath", dictPath_);
+    settings.setValue ("spellCheckFromStart", spellCheckFromStart_);
 
     settings.endGroup();
 

@@ -191,6 +191,7 @@ private slots:
     void changeTab (QListWidgetItem *current, QListWidgetItem*);
     void toggleSidePane();
     void prefDialog();
+    void checkSpelling();
     void aboutDialog();
     void helpDoc();
     void matchBrackets();

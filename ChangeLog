@@ -1,3 +1,7 @@
+V0.11.0
+---------
+ * Added spell checking with Hunspell (as a new dependency).
+
 V0.10.0
 ---------
  * If a window hasn't reported yet on which desktop it is, that means it's created a moment ago. So, open the next file inside it.
@@ -60,7 +64,7 @@ V0.9.1
  * Disable the language button when there is no highlighter.
  * Disable syntax highlighting on printing (because the whole document may not be highlighted).
  * Draw the warning bar as a translucent layer over the tab widget instead of putting it into its layout. Also, animate its appearance and closing.
- * First try "gio" for openeing hyperlinks because Qt may resort to "xdg-open", which isn't a good choice sometimes.
+ * First try "gio" for opening hyperlinks because Qt may resort to "xdg-open", which isn't a good choice sometimes.
  * Added a workaround for a new bug in KDE's file dialog, which doesn't change directory with selectFile().
  * Changed old-style casts to C++ ones.
  * In the session dialog, when a text is typed inside the list, type it inside the filter line-edit too. In this way, filtering becomes easier.
@@ -127,7 +131,7 @@ V0.8
  * Don't Activate the window repeatedly on opening multiple files because, otherwise, the input might be blocked.
  * Fixed a mistake in localization that didn't let Simplified Chinese be detected.
  * Added a configurable date and time pasting.
- * Open hyperlinks of highlighted texts by left-clikcing them while the Ctrl key is pressed and also with an item in the context menu.
+ * Open hyperlinks of highlighted texts by left-clicking them while the Ctrl key is pressed and also with an item in the context menu.
  * Put the cursor at the right-click position if it has no selection.
  * Replaced QRegExp with QRegularExpression.
  * Added an option for removing trailing spaces on saving (Markdown's trailing double spaces are taken care of).
@@ -150,7 +154,7 @@ V0.7
  * Side-pane mode with filtering.
  * French translation by Cyril Cottet.
  * Also apply all settings when Escape is pressed to close the Preferences dialog. (Some settings were applied only when the Close button was pressed).
- * Added an option to save a session only from the currect window.
+ * Added an option to save a session only from the current window.
  * An option for always opening files in separate windows.
  * Fixed a memory leak in making the cursor busy on closing a window with a tab (found by valgrind).
  * Fixed a bug in bracket matching, which happened when a selected text was removed while the cursor was at its start.
@@ -203,13 +207,13 @@ V0.6.1
  * Highlight the syntax on text change too (because otherwise, the text won't be formatted if the whole visible text is pasted).
  * Auto-bracket support.
  * A workaround for the RTL bug in QPlainTextEdit.
- * A workaround for the scrollbar range bug in QPlainTextEdit (the range wasn't updated correctly on chaanging font size).
+ * A workaround for the scrollbar range bug in QPlainTextEdit (the range wasn't updated correctly on changing font size).
  * Don't let the statusbar text change the window width.
  * Added options for showing whitespaces and line/document ends with syntax highlighting.
  * Match brackets too (in addition to parentheses and braces).
  * Added config files to syntax highlighting.
  * Support Shift+Enter (useful e.g. to write code comments).
- * Addded a shortcut editor to Preferences for customizing some shortcuts.
+ * Added a shortcut editor to Preferences for customizing some shortcuts.
  * Filtering for the session manager dialog.
 
 V0.6.0
@@ -240,7 +244,7 @@ V0.5.9
  * Added a lot of CMake and Python keywords to syntax highlighting.
  * A workaround for Qt's backward search bug.
  * Removed the translucency workaround because Qt-5.7 translucency problems are fixed in Kvantum (QtCurve should do the same thing).
- * Set an optional end limit to the forward search (for faster highlighting of found matches, especially on scrolling a large text with sytax highlighting).
+ * Set an optional end limit to the forward search (for faster highlighting of found matches, especially on scrolling a large text with syntax highlighting).
  * An option to set the color value of the background.
  * An option to hide a single tab.
  * Add the home folder name to the singleton string because the user may not change as root.
@@ -494,7 +498,7 @@ V0.2.3
 
 V0.2.2
 ---------
- * Added formatting of Bash "here documnents".
+ * Added formatting of Bash "here documents".
 
 V0.2.1
 ---------
@@ -520,7 +524,7 @@ V0.1.9
  * The tab detachment keyboard shortcut was ambiguous.
  * Set the tab width proportional to the font size.
  * Added 'About' dialog and 'Help'.
- * Use path of containing folder as tab tootip and insert ellipsis for very long tooltips.
+ * Use path of containing folder as tab tooltip and insert ellipsis for very long tooltips.
  * Fixed a silly bug in tab DND.
  * Write size to the config file only if necessary.
  * Fixed a little bug in size preference.

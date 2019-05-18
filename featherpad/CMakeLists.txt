@@ -1,4 +1,7 @@
 set(QT_MINIMUM_VERSION "5.7.1")
+set(HUNSPELL_MINIMUM_VERSION "1.6")
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
 find_package(Qt5Core "${QT_MINIMUM_VERSION}" REQUIRED)
 find_package(Qt5Gui "${QT_MINIMUM_VERSION}" REQUIRED)
@@ -6,6 +9,9 @@ find_package(Qt5Widgets "${QT_MINIMUM_VERSION}" REQUIRED)
 find_package(Qt5Svg "${QT_MINIMUM_VERSION}" REQUIRED)
 find_package(Qt5Network "${QT_MINIMUM_VERSION}" REQUIRED)
 find_package(Qt5PrintSupport "${QT_MINIMUM_VERSION}" REQUIRED)
+
+# for spell checking (see FindHUNSPELL.cmake)
+find_package(HUNSPELL "${HUNSPELL_MINIMUM_VERSION}" REQUIRED)
 
 # optional localization
 find_package(Qt5LinguistTools QUIET)
@@ -34,7 +40,8 @@ if(NOT WITHOUT_X11 AND UNIX AND NOT APPLE AND NOT HAIKU)
                       ${Qt5X11Extras_INCLUDE_DIRS}
                       ${Qt5Network_INCLUDE_DIRS}
                       ${Qt5PrintSupport_INCLUDE_DIRS}
-                      ${X11_INCLUDE_DIR})
+                      ${X11_INCLUDE_DIR}
+                      ${HUNSPELL_INCLUDE_DIRS})
   add_definitions(-DHAS_X11)
 else()
   include_directories(${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}
@@ -43,7 +50,8 @@ else()
                       ${Qt5Widgets_INCLUDE_DIRS}
                       ${Qt5Svg_INCLUDE_DIRS}
                       ${Qt5Network_INCLUDE_DIRS}
-                      ${Qt5PrintSupport_INCLUDE_DIRS})
+                      ${Qt5PrintSupport_INCLUDE_DIRS}
+                      ${HUNSPELL_INCLUDE_DIRS})
 endif()
 
 if(HAIKU)
@@ -80,7 +88,9 @@ set(featherpad_SRCS
     searchbar.cpp
     session.cpp
     sidepane.cpp
-    svgicons.cpp)
+    svgicons.cpp
+    spellChecker.cpp
+    spellDialog.cpp)
 
 if(NOT WITHOUT_X11 AND UNIX AND NOT APPLE AND NOT HAIKU)
   set(featherpad_SRCS ${featherpad_SRCS} x11.cpp)
@@ -122,14 +132,16 @@ if(NOT WITHOUT_X11 AND UNIX AND NOT APPLE AND NOT HAIKU)
                                    ${Qt5X11Extras_LIBRARIES}
                                    ${Qt5Network_LIBRARIES}
                                    ${Qt5PrintSupport_LIBRARIES}
-                                   ${X11_LIBRARIES})
+                                   ${X11_LIBRARIES}
+                                   ${HUNSPELL_LIBRARIES})
 else()
   target_link_libraries(featherpad ${Qt5Core_LIBRARIES}
                                    ${Qt5Gui_LIBRARIES}
                                    ${Qt5Widgets_LIBRARIES}
                                    ${Qt5Svg_LIBRARIES}
                                    ${Qt5Network_LIBRARIES}
-                                   ${Qt5PrintSupport_LIBRARIES})
+                                   ${Qt5PrintSupport_LIBRARIES}
+                                   ${HUNSPELL_LIBRARIES})
 endif()
 
 # installation

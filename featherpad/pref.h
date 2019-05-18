@@ -103,6 +103,8 @@ private slots:
     void prefTextTabSize (int value);
     void prefTextTab();
     void prefCloseWithLastTab (int checked);
+    void addDict();
+    void prefSpellCheck (int checked);
 
 private:
     void closeEvent (QCloseEvent *event);

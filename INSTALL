@@ -8,6 +8,7 @@ First install build dependencies. In Debian-based systems, they are:
  * libx11-dev and libxext-dev (for X11)
  * qtbase5-dev and libqt5x11extras5-dev (for Qt5)
  * libqt5svg5-dev (for hard-coded SVG icons)
+ * libhunspell-dev (for spell checking)
  * qttools5-dev-tools (for localization)
 
 In Arch-based systems, the required package are:
@@ -16,6 +17,7 @@ In Arch-based systems, the required package are:
  * libx11 and libxext (for X11)
  * qt5-base and qt5-x11extras (for Qt5)
  * qt5-svg (for hard-coded SVG icons)
+ * hunspell (for spell checking)
  * qt5-tools (for localization)
 
 In Red Hat based systems like Fedora:
@@ -26,6 +28,7 @@ In Red Hat based systems like Fedora:
  * qt5-qtx11extras-devel
  * qt5-qtbase-devel
  * qt5-qtsvg-devel
+ * hunspell-devel
  * qt5-qttools-devel
 
 And, finally, in OpenSUSE:
@@ -36,6 +39,7 @@ And, finally, in OpenSUSE:
  * libqt5-qtx11extras-devel
  * libqt5-qtbase-devel
  * libqt5-qtsvg-devel
+ * hunspell-devel
  * libqt5-qttools-devel
 
 

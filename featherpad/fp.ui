@@ -205,6 +205,8 @@
     <addaction name="actionSortLines"/>
     <addaction name="actionRSortLines"/>
     <addaction name="separator"/>
+    <addaction name="actionCheckSpelling"/>
+    <addaction name="separator"/>
     <addaction name="actionDate"/>
    </widget>
    <widget class="QMenu" name="menuOptions">
@@ -1173,6 +1175,14 @@
    </property>
    <property name="toolTip">
     <string>Sort Lines Reversely</string>
+   </property>
+  </action>
+  <action name="actionCheckSpelling">
+   <property name="text">
+    <string>Check Spelling</string>
+   </property>
+   <property name="shortcut">
+    <string>F2</string>
    </property>
   </action>
  </widget>
