@@ -4643,8 +4643,10 @@ void FPwin::checkSpelling()
                         + "<center><i>" + tr ("See Preferences → Text → Spell Checking!") + "</i></center>");
         return;
     }
-    QString userDict = QStandardPaths::writableLocation (QStandardPaths::ConfigLocation)
-                       + "/featherpad/userDict-" + dictPath.section ("/",-1);
+    QString confPath = QStandardPaths::writableLocation (QStandardPaths::ConfigLocation);
+    if (!QFile (confPath + "/featherpad").exists()) // create config dir if needed
+        QDir (confPath).mkpath (confPath + "/featherpad");
+    QString userDict = confPath + "/featherpad/userDict-" + dictPath.section ("/", -1);
 
     TextEdit *textEdit = tabPage->textEdit();
     QTextCursor cur = textEdit->textCursor();
