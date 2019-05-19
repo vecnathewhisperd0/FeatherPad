@@ -870,7 +870,7 @@ bool FPwin::hasAnotherDialog()
     if (res)
     {
         showWarningBar ("<center><b><big>" + tr ("Another FeatherPad window has a modal dialog!") + "</big></b></center>"
-                        + "<center><i>" +tr ("Please attend to that window or just close its dialog!") + "</i></center>");
+                        + "<center><i>" + tr ("Please attend to that window or just close its dialog!") + "</i></center>");
     }
     return res;
 }
@@ -2357,7 +2357,7 @@ void FPwin::showCrashWarning()
 {
     QTimer::singleShot (0, this, [=]() {
         showWarningBar ("<center><b><big>" + tr ("A previous crash detected!") + "</big></b></center>"
-                        + "<center><i>" +tr ("Preferably, close all FeatherPad windows and start again!") + "</i></center>", true);
+                        + "<center><i>" + tr ("Preferably, close all FeatherPad windows and start again!") + "</i></center>", true);
     });
 }
 /*************************/
@@ -4549,7 +4549,8 @@ static inline void moveToWordStart (QTextCursor& cur, bool forward)
     if (indx < l)
     {
         QChar ch = blockText.at (indx);
-        while (!ch.isLetterOrNumber() && ch != '\'' && ch != '-')
+        while (!ch.isLetterOrNumber() && ch != '\'' && ch != '-'
+               && ch != QChar (QChar::Nbsp) && ch != QChar (0x200C))
         {
             cur.movePosition (QTextCursor::NextCharacter);
             ++indx;
@@ -4565,7 +4566,8 @@ static inline void moveToWordStart (QTextCursor& cur, bool forward)
     if (!forward && indx > 0)
     {
         QChar ch = blockText.at (indx - 1);
-        while (ch.isLetterOrNumber() || ch == '\'' || ch == '-')
+        while (ch.isLetterOrNumber() || ch == '\'' || ch == '-'
+               || ch == QChar (QChar::Nbsp) || ch == QChar (0x200C))
         {
             cur.movePosition (QTextCursor::PreviousCharacter);
             --indx;
@@ -4584,7 +4586,8 @@ static inline void selectWord (QTextCursor& cur)
     if (indx < l)
     {
         QChar ch = blockText.at (indx);
-        while (ch.isLetterOrNumber() || ch == '\'' || ch == '-')
+        while (ch.isLetterOrNumber() || ch == '\'' || ch == '-'
+               || ch == QChar (QChar::Nbsp) || ch == QChar (0x200C))
         {
             cur.movePosition (QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
             ++indx;
@@ -4593,51 +4596,20 @@ static inline void selectWord (QTextCursor& cur)
         }
     }
 
-    /* no multiple non-letter characters at the start or end */
-    if (!cur.selectedText().isEmpty())
-    {
-        QRegularExpression letter ("[^\'\\-]");
-        indx = cur.selectedText().indexOf (letter);
-        if (indx == -1)
-        {
-            cur.setPosition (cur.position());
-            return;
-        }
-        if (indx > 1)
-        {
-            int p = cur.position();
-            cur.setPosition (cur.anchor() + indx);
-            cur.setPosition (p, QTextCursor::KeepAnchor);
-        }
-        indx = cur.selectedText().lastIndexOf (letter);
-        if (indx < cur.selectedText().length() - 2)
-            cur.setPosition (cur.anchor() + indx + 1, QTextCursor::KeepAnchor);
-    }
-    /* no dash or number at the start */
+    /* no dash, single quote mark or number at the start */
     while (!cur.selectedText().isEmpty()
-           && (cur.selectedText().at (0) == '-' || cur.selectedText().at (0).isNumber()))
+           && (cur.selectedText().at (0) == '-' || cur.selectedText().at (0) == "\'"
+               || cur.selectedText().at (0).isNumber()))
     {
         int p = cur.position();
         cur.setPosition (cur.anchor() + 1);
         cur.setPosition (p, QTextCursor::KeepAnchor);
     }
-    /* no dash at the end either */
-    while (!cur.selectedText().isEmpty() && cur.selectedText().endsWith ("-"))
-        cur.setPosition (cur.position() - 1, QTextCursor::KeepAnchor);
-    /* not single quoted and no single quote mark at the start */
-    if (!cur.selectedText().isEmpty() && cur.selectedText().startsWith ("\'"))
+    /* no dash or single quote mark at the end */
+    while (!cur.selectedText().isEmpty()
+           && (cur.selectedText().endsWith ("-") || cur.selectedText().endsWith ("\'")))
     {
-        int p = cur.position();
-        if (cur.selectedText().endsWith ("\'"))
-        {
-            cur.setPosition (cur.anchor() + 1);
-            cur.setPosition (p - 1, QTextCursor::KeepAnchor);
-        }
-        else
-        {
-            cur.setPosition (cur.anchor() + 1);
-            cur.setPosition (p, QTextCursor::KeepAnchor);
-        }
+        cur.setPosition (cur.position() - 1, QTextCursor::KeepAnchor);
     }
 }
 
