@@ -1017,34 +1017,34 @@
         <translation>Literumada Kontrolo</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5053"/>
+        <location filename="../../fpwin.cpp" line="5056"/>
         <source>Translators</source>
         <translation>Tradukintoj</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5049"/>
+        <location filename="../../fpwin.cpp" line="5052"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translation>Malpeza, foliigita tekst-redaktilo</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5050"/>
+        <location filename="../../fpwin.cpp" line="5053"/>
         <source>based on Qt5</source>
         <translation>bazita sur Qt5</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5051"/>
+        <location filename="../../fpwin.cpp" line="5054"/>
         <source>Author</source>
         <translation>Verkinto</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5052"/>
+        <location filename="../../fpwin.cpp" line="5055"/>
         <source>aka.</source>
         <translation>akk.</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="392"/>
         <location filename="../../fpwin.cpp" line="3134"/>
-        <location filename="../../fpwin.cpp" line="5168"/>
+        <location filename="../../fpwin.cpp" line="5171"/>
         <source>Help</source>
         <translation>Helpo</translation>
     </message>
@@ -1055,9 +1055,9 @@
         <location filename="../../fpwin.cpp" line="2907"/>
         <location filename="../../fpwin.cpp" line="2914"/>
         <location filename="../../fpwin.cpp" line="3657"/>
-        <location filename="../../fpwin.cpp" line="4979"/>
-        <location filename="../../fpwin.cpp" line="4990"/>
-        <location filename="../../fpwin.cpp" line="4997"/>
+        <location filename="../../fpwin.cpp" line="4982"/>
+        <location filename="../../fpwin.cpp" line="4993"/>
+        <location filename="../../fpwin.cpp" line="5000"/>
         <source>Lines</source>
         <translation>Linioj</translation>
     </message>
@@ -1118,9 +1118,9 @@
         <location filename="../../fpwin.cpp" line="2898"/>
         <location filename="../../fpwin.cpp" line="2906"/>
         <location filename="../../fpwin.cpp" line="3656"/>
-        <location filename="../../fpwin.cpp" line="4975"/>
-        <location filename="../../fpwin.cpp" line="4981"/>
-        <location filename="../../fpwin.cpp" line="4989"/>
+        <location filename="../../fpwin.cpp" line="4978"/>
+        <location filename="../../fpwin.cpp" line="4984"/>
+        <location filename="../../fpwin.cpp" line="4992"/>
         <source>Syntax</source>
         <translation>Sintakso</translation>
     </message>
@@ -1130,8 +1130,8 @@
         <translation>Presi Dokumenton</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5053"/>
-        <location filename="../../fpwin.cpp" line="5054"/>
+        <location filename="../../fpwin.cpp" line="5056"/>
+        <location filename="../../fpwin.cpp" line="5057"/>
         <source>About FeatherPad</source>
         <translation>Pri FeatherPad</translation>
     </message>

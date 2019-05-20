@@ -4711,20 +4711,23 @@ void FPwin::checkSpelling()
     dlg.setWindowTitle (tr ("Spell Checking"));
 
     connect (&dlg, &SpellDialog::spellChecked, [&dlg, textEdit] (int res) {
+        bool uneditable = textEdit->isReadOnly() || textEdit->isUneditable();
         QTextCursor cur = textEdit->textCursor();
         if (!cur.hasSelection()) return; // impossible
         QString word = cur.selectedText();
         QString corrected;
         switch (res) {
         case SpellDialog::CorrectOnce:
-            cur.insertText (dlg.replacement());
+            if (!uneditable)
+                cur.insertText (dlg.replacement());
             break;
         case SpellDialog::IgnoreOnce:
             break;
         case SpellDialog::CorrectAll:
             /* remember this corretion */
             dlg.spellChecker()->addToCorrections (word, dlg.replacement());
-            cur.insertText (dlg.replacement());
+            if (!uneditable)
+                cur.insertText (dlg.replacement());
             break;
         case SpellDialog::IgnoreAll:
             /* always ignore the selected word */
