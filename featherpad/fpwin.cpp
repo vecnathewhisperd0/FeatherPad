@@ -4598,7 +4598,7 @@ static inline void selectWord (QTextCursor& cur)
 
     /* no dash, single quote mark or number at the start */
     while (!cur.selectedText().isEmpty()
-           && (cur.selectedText().at (0) == '-' || cur.selectedText().at (0) == "\'"
+           && (cur.selectedText().at (0) == '-' || cur.selectedText().at (0) == '\''
                || cur.selectedText().at (0).isNumber()))
     {
         int p = cur.position();
