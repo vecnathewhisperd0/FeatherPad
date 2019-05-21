@@ -21,12 +21,34 @@
 #include "ui_spellDialog.h"
 #include "spellChecker.h"
 
+#include <QScreen>
+#include <QWindow>
+
 namespace FeatherPad {
 
 SpellDialog::SpellDialog (SpellChecker *spellChecker, const QString& word, QWidget *parent)
     : QDialog (parent), ui (new Ui::SpellDialog)
 {
     ui->setupUi (this);
+
+    QWidget::setTabOrder (ui->replace, ui->listWidget);
+    QWidget::setTabOrder (ui->listWidget, ui->ignoreOnce);
+    QWidget::setTabOrder (ui->ignoreOnce, ui->ignoreAll);
+    QWidget::setTabOrder (ui->ignoreAll, ui->correctOnce);
+    QWidget::setTabOrder (ui->correctOnce, ui->correctAll);
+    QWidget::setTabOrder (ui->correctAll, ui->addToDict);
+
+    ui->ignoreOnce->setShortcut (QKeySequence (Qt::Key_F3));
+    ui->ignoreOnce->setToolTip (QKeySequence (Qt::Key_F3).toString (QKeySequence::NativeText));
+    ui->ignoreAll->setShortcut (QKeySequence (Qt::Key_F4));
+    ui->ignoreAll->setToolTip (QKeySequence (Qt::Key_F4).toString (QKeySequence::NativeText));
+    ui->correctOnce->setShortcut (QKeySequence (Qt::Key_F5));
+    ui->correctOnce->setToolTip (QKeySequence (Qt::Key_F5).toString (QKeySequence::NativeText));
+    ui->correctAll->setShortcut (QKeySequence (Qt::Key_F6));
+    ui->correctAll->setToolTip (QKeySequence (Qt::Key_F6).toString (QKeySequence::NativeText));
+    ui->addToDict->setShortcut (QKeySequence (Qt::Key_F7));
+    ui->addToDict->setToolTip (QKeySequence (Qt::Key_F7).toString (QKeySequence::NativeText));
+
     spellChecker_ = spellChecker;
 
     connect (ui->correctOnce, &QAbstractButton::clicked, [this] {emit spellChecked (SpellAction::CorrectOnce);});
@@ -39,6 +61,19 @@ SpellDialog::SpellDialog (SpellChecker *spellChecker, const QString& word, QWidg
     connect (ui->listWidget, &QListWidget::currentTextChanged, ui->replace, &QLineEdit::setText);
 
     checkWord (word);
+
+    if (parent != nullptr)
+    {
+        if (QWindow *win = parent->windowHandle())
+        {
+            if (QScreen *sc = win->screen())
+            {
+                QSize ag = sc->availableVirtualGeometry().size()
+                           - (parent->window()->frameGeometry().size() - parent->window()->geometry().size());
+                resize (size().boundedTo (ag));
+            }
+        }
+    }
 }
 /*************************/
 SpellDialog::~SpellDialog()

@@ -107,8 +107,8 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     ui->actionRun->setVisible (false);
 
     /* replace dock */
-    ui->dockReplace->setTabOrder (ui->lineEditFind, ui->lineEditReplace);
-    ui->dockReplace->setTabOrder (ui->lineEditReplace, ui->toolButtonNext);
+    QWidget::setTabOrder (ui->lineEditFind, ui->lineEditReplace);
+    QWidget::setTabOrder (ui->lineEditReplace, ui->toolButtonNext);
     /* tooltips are set here for easier translation */
     ui->toolButtonNext->setToolTip (tr ("Next") + " (" + QKeySequence (Qt::Key_F8).toString (QKeySequence::NativeText) + ")");
     ui->toolButtonPrv->setToolTip (tr ("Previous") + " (" + QKeySequence (Qt::Key_F9).toString (QKeySequence::NativeText) + ")");
