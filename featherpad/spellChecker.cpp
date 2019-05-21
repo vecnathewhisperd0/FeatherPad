@@ -92,7 +92,7 @@ QStringList SpellChecker::suggest (const QString& word)
 /*************************/
 void SpellChecker::ignoreWord (const QString& word)
 {
-    hunspell_->add (codec_->fromUnicode (word).constData());
+    hunspell_->add (codec_->fromUnicode (word).toStdString());
 }
 /*************************/
 void SpellChecker::addToUserWordlist (const QString& word)

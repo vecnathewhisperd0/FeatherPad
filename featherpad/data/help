@@ -73,7 +73,7 @@ To remove the yellow highlights after finishing a search, you could
 * Empty the search entry and press Enter or F3 in it, or
 * Hide the search bar by focusing it and then, pressing Ctrl+F.
 
-The 'Replace' docked window respects the settings for 'Match Case', 'Whole Word' and 'Regular Expression' on the search bar (in the last case, the matching text should be a regular expression, while the replcaing text is always an ordinary string). It can be detached from and reattached to the main window at top or bottom. To remove the green highlights after replacing text, you could either hide/close the 'Replace' docked window or do as in the case of removing yellow search highlights (without closing the dock).
+The 'Replace' docked window respects the settings for 'Match Case', 'Whole Word' and 'Regular Expression' on the search bar (in the last case, the matching text should be a regular expression, while the replacing text is always an ordinary string). It can be detached from and reattached to the main window at top or bottom. To remove the green highlights after replacing text, you could either hide/close the 'Replace' docked window or do as in the case of removing yellow search highlights (without closing the dock).
 
 ***********************
 *   Going to A Line   *

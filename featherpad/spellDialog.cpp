@@ -30,6 +30,7 @@ SpellDialog::SpellDialog (SpellChecker *spellChecker, const QString& word, QWidg
     : QDialog (parent), ui (new Ui::SpellDialog)
 {
     ui->setupUi (this);
+    setWindowModality (Qt::WindowModal);
 
     QWidget::setTabOrder (ui->replace, ui->listWidget);
     QWidget::setTabOrder (ui->listWidget, ui->ignoreOnce);
