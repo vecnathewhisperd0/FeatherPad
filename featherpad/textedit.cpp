@@ -585,14 +585,14 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                                 if (ch.isSpace())
                                 { // non-letter and non-space character -> number -> space
                                     if (!prefix.isEmpty() && !prefix.at (prefix.size() - 1).isSpace())
-                                        num = QString::number (num.toInt() + 1) + ch;
+                                        num = locale().toString (locale().toInt (num) + 1) + ch;
                                     else num = QString();
                                 }
                                 else if (i + 1 < curBlockPos
                                          && !ch.isLetterOrNumber() && !ch.isSpace()
                                          && blockText.at (i + 1).isSpace())
                                 { // number -> non-letter and non-space character -> space
-                                    num = QString::number (num.toInt() + 1) + ch + blockText.at (i + 1);
+                                    num = locale().toString (locale().toInt (num) + 1) + ch + blockText.at (i + 1);
                                 }
                                 else num = QString();
                             }
