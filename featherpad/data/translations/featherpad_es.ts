@@ -2176,37 +2176,37 @@ las ventanas serán incluidos en la sesión guardada.</translation>
         <translation>Hacer doble clic para centrar la línea actual</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1700"/>
+        <location filename="../../textedit.cpp" line="1755"/>
         <source>Open Link</source>
         <translation>Abrir el enlace</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1713"/>
+        <location filename="../../textedit.cpp" line="1768"/>
         <source>Copy Link</source>
         <translation>Copiar el enlace</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1726"/>
+        <location filename="../../textedit.cpp" line="1781"/>
         <source>To Upper Case</source>
         <translation>A mayúsculas</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1730"/>
+        <location filename="../../textedit.cpp" line="1785"/>
         <source>To Lower Case</source>
         <translation>A minúsculas</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1737"/>
+        <location filename="../../textedit.cpp" line="1792"/>
         <source>Sort Lines</source>
         <translation>Ordenar líneas</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1741"/>
+        <location filename="../../textedit.cpp" line="1796"/>
         <source>Sort Lines Reversely</source>
         <translation>Ordenar líneas de forma inversa</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1748"/>
+        <location filename="../../textedit.cpp" line="1803"/>
         <source>Paste Date and Time</source>
         <translation>Pegar la fecha y hora</translation>
     </message>

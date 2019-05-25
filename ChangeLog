@@ -1,6 +1,7 @@
 V0.11.0
 ---------
  * Added spell checking with Hunspell (as a new dependency).
+ * Smarter Shift+Enter, especially with numbered lists.
 
 V0.10.0
 ---------

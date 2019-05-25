@@ -2105,37 +2105,37 @@ windows will be included in the saved session.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1700"/>
+        <location filename="../../textedit.cpp" line="1755"/>
         <source>Open Link</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1713"/>
+        <location filename="../../textedit.cpp" line="1768"/>
         <source>Copy Link</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1726"/>
+        <location filename="../../textedit.cpp" line="1781"/>
         <source>To Upper Case</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1730"/>
+        <location filename="../../textedit.cpp" line="1785"/>
         <source>To Lower Case</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1737"/>
+        <location filename="../../textedit.cpp" line="1792"/>
         <source>Sort Lines</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1741"/>
+        <location filename="../../textedit.cpp" line="1796"/>
         <source>Sort Lines Reversely</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1748"/>
+        <location filename="../../textedit.cpp" line="1803"/>
         <source>Paste Date and Time</source>
         <translation></translation>
     </message>

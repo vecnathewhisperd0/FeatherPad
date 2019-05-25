@@ -2191,37 +2191,37 @@ dosyalar kaydedilen oturuma dahil edilir.</translation>
         <translation>Bulunulan satırı ortalamak için çift tıklayın</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1700"/>
+        <location filename="../../textedit.cpp" line="1755"/>
         <source>Open Link</source>
         <translation>Bağlantıyı Aç</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1713"/>
+        <location filename="../../textedit.cpp" line="1768"/>
         <source>Copy Link</source>
         <translation>Bağlantıyı Kopyala</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1726"/>
+        <location filename="../../textedit.cpp" line="1781"/>
         <source>To Upper Case</source>
         <translation>Büyük Harfe Çevir</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1730"/>
+        <location filename="../../textedit.cpp" line="1785"/>
         <source>To Lower Case</source>
         <translation>Küçük Harfe Çevir</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1737"/>
+        <location filename="../../textedit.cpp" line="1792"/>
         <source>Sort Lines</source>
         <translation>Satırları Sırala</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1741"/>
+        <location filename="../../textedit.cpp" line="1796"/>
         <source>Sort Lines Reversely</source>
         <translation>Satırları Tersten Sırala</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1748"/>
+        <location filename="../../textedit.cpp" line="1803"/>
         <source>Paste Date and Time</source>
         <translation>Tarih-Zamanı Yapıştır</translation>
     </message>

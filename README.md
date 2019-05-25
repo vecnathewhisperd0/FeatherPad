@@ -16,6 +16,7 @@ FeatherPad (by Pedram Pourang, a.k.a. Tsu Jan <tsujan2000@gmail.com>) is a light
   * Session management;
   * Side-pane mode;
   * Auto-saving;
+  * Spell checking with Hunspell;
   * Printing;
   * Text zooming;
   * Appropriate but non-interrupting prompts;

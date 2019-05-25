@@ -182,4 +182,4 @@ Delete              Delete to the right of the text cursor (the opposite of Back
 Ctrl+K              Delete to the end of the line (when the editor has focus)
 Ctrl+Shift+Up/Down  Move the current line or selected lines upward/downward
 Shift+Enter         Insert newline with the non-letter prefix of the current line
-                    (to write code comments easily, for example)
+                    (to write code comments or lists easily, for example)

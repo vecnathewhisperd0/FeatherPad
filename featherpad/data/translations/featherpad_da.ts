@@ -2177,37 +2177,37 @@ vinduer i den gemte session.</translation>
         <translation>Dobbeltklik for at centrere nuværende linje</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1700"/>
+        <location filename="../../textedit.cpp" line="1755"/>
         <source>Open Link</source>
         <translation>Åbn link</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1713"/>
+        <location filename="../../textedit.cpp" line="1768"/>
         <source>Copy Link</source>
         <translation>Kopiér link</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1726"/>
+        <location filename="../../textedit.cpp" line="1781"/>
         <source>To Upper Case</source>
         <translation>Til store bogstaver</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1730"/>
+        <location filename="../../textedit.cpp" line="1785"/>
         <source>To Lower Case</source>
         <translation>Små bogstaver</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1737"/>
+        <location filename="../../textedit.cpp" line="1792"/>
         <source>Sort Lines</source>
         <translation>Sortér linjer</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1741"/>
+        <location filename="../../textedit.cpp" line="1796"/>
         <source>Sort Lines Reversely</source>
         <translation>Sortér linjer rekursivt</translation>
     </message>
     <message>
-        <location filename="../../textedit.cpp" line="1748"/>
+        <location filename="../../textedit.cpp" line="1803"/>
         <source>Paste Date and Time</source>
         <translation>Indsæt dato og klokkeslæt</translation>
     </message>
