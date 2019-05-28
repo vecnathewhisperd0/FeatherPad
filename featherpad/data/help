@@ -125,6 +125,14 @@ By default and under proper circumstances, a triple period is replaced with an e
 
 The proper circumstances depend on the pressed key and what comes before those characters. For example, in the case of a triple period, the Space or Enter/Return key should be pressed and the triple period should not follow a period.
 
+**********************
+*   Spell Checking   *
+**********************
+
+For spell checking, a Hunspell dictionary should be first added to Preferences → Text → Hunspell dictionary path (a Hunspell dictionary has the suffix ".dic" and should be accompanied by an affix file with the suffix ".aff"). Spell checking can be done by F2 but the shortcut can be customized.
+
+If "Ignore All" is clicked, all instances of the word will be ignored during the current check. If you know that the word is correct, you could click "Add To Dictionary" and it will be saved for all checks. If "Correct All" is clicked, other instances of the word will be corrected in the same way when reached during the current check.
+
 **************************
 *   Keyboard Shortcuts   *
 **************************

@@ -1736,7 +1736,7 @@ void TextEdit::showContextMenu (const QPoint &p)
                 txt = txt.split ('\t').first();
             if (!txt.isEmpty())
                 thisAction->setText(txt);
-            // correct the slots of copy and cut actions
+            /* correct the slots of copy and cut actions */
             if (thisAction->objectName() == "edit-copy")
             {
                 disconnect (thisAction, &QAction::triggered, nullptr, nullptr);
