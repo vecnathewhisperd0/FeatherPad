@@ -45,6 +45,7 @@
 #include <QTextDocumentWriter>
 #include <QTextCodec>
 #include <QStandardPaths>
+#include <QDesktopServices>
 
 #ifdef HAS_X11
 #include "x11.h"
@@ -1341,6 +1342,7 @@ TabPage* FPwin::createEmptyTab (bool setCurrent, bool allowNormalHighlighter)
                                     searchShortcuts,
                                     nullptr);
     TextEdit *textEdit = tabPage->textEdit();
+    connect (textEdit, &QWidget::customContextMenuRequested, this, &FPwin::editorContextMenu);
     textEdit->setAutoReplace (config.getAutoReplace());
     textEdit->setAutoBracket (config.getAutoBracket());
     textEdit->setScrollJumpWorkaround (config.getScrollJumpWorkaround());
@@ -1456,6 +1458,94 @@ TabPage* FPwin::createEmptyTab (bool setCurrent, bool allowNormalHighlighter)
     }
 
     return tabPage;
+}
+/*************************/
+void FPwin::editorContextMenu (const QPoint& p)
+{
+    /* NOTE: The editor's customized context menu comes here (and not in
+             the TextEdit class) for not duplicating actions, although that
+             requires extra signal connections and disconnections on tab DND. */
+
+    TextEdit *textEdit = qobject_cast<TextEdit*>(QObject::sender());
+    if (textEdit == nullptr) return;
+
+    /* put the cursor at the right-click position if it has no selection */
+    if (!textEdit->textCursor().hasSelection())
+        textEdit->setTextCursor (textEdit->cursorForPosition (p));
+
+    QMenu *menu = textEdit->createStandardContextMenu (p);
+    const QList<QAction*> actions = menu->actions();
+    if (!actions.isEmpty())
+    {
+        for (QAction* const thisAction : actions)
+        {
+            /* remove the shortcut strings because shortcuts may change */
+            QString txt = thisAction->text();
+            if (!txt.isEmpty())
+                txt = txt.split ('\t').first();
+            if (!txt.isEmpty())
+                thisAction->setText(txt);
+            /* correct the slots of copy and cut actions */
+            if (thisAction->objectName() == "edit-copy")
+            {
+                disconnect (thisAction, &QAction::triggered, nullptr, nullptr);
+                connect (thisAction, &QAction::triggered, textEdit, &TextEdit::copy);
+            }
+            else if (thisAction->objectName() == "edit-cut")
+            {
+                disconnect (thisAction, &QAction::triggered, nullptr, nullptr);
+                connect (thisAction, &QAction::triggered, textEdit, &TextEdit::cut);
+            }
+        }
+        QString str = textEdit->getUrl (textEdit->textCursor().position());
+        if (!str.isEmpty())
+        {
+            QAction *sep = menu->insertSeparator (actions.first());
+            QAction *openLink = new QAction (tr ("Open Link"), menu);
+            menu->insertAction (sep, openLink);
+            connect (openLink, &QAction::triggered, [str] {
+                QUrl url (str);
+                if (url.isRelative())
+                    url = QUrl::fromUserInput (str, "/");
+                /* QDesktopServices::openUrl() may resort to "xdg-open", which isn't
+                   the best choice. "gio" is always reliable, so we check it first. */
+                if (!QProcess::startDetached ("gio", QStringList() << "open" << url.toString()))
+                    QDesktopServices::openUrl (url);
+            });
+            if (str.startsWith ("mailto:")) // see getUrl()
+                str.remove (0, 7);
+            QAction *copyLink = new QAction (tr ("Copy Link"), menu);
+            menu->insertAction (sep, copyLink);
+            connect (copyLink, &QAction::triggered, [str] {
+                QApplication::clipboard()->setText (str);
+            });
+
+        }
+        menu->addSeparator();
+    }
+    if (!textEdit->isReadOnly())
+    {
+        if (textEdit->textCursor().hasSelection())
+        {
+            menu->addAction (ui->actionUpperCase);
+            menu->addAction (ui->actionLowerCase);
+            if (textEdit->textCursor().selectedText().contains (QChar (QChar::ParagraphSeparator)))
+            {
+                menu->addSeparator();
+                menu->addAction (ui->actionSortLines);
+                menu->addAction (ui->actionRSortLines);
+            }
+            menu->addSeparator();
+        }
+        menu->addAction (ui->actionCheckSpelling);
+        menu->addSeparator();
+        menu->addAction (ui->actionDate);
+    }
+    else
+        menu->addAction (ui->actionCheckSpelling);
+
+    menu->exec (textEdit->viewport()->mapToGlobal (p));
+    delete menu;
 }
 /*************************/
 void FPwin::updateRecenMenu()
@@ -3994,6 +4084,7 @@ void FPwin::detachTab()
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionUpperCase, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionLowerCase, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCopy, &QAction::setEnabled);
+    disconnect (textEdit, &QWidget::customContextMenuRequested, this, &FPwin::editorContextMenu);
     disconnect (textEdit, &TextEdit::zoomedOut, this, &FPwin::reformat);
     disconnect (textEdit, &TextEdit::fileDropped, this, &FPwin::newTabFromName);
     disconnect (textEdit, &TextEdit::updateBracketMatching, this, &FPwin::matchBrackets);
@@ -4154,6 +4245,7 @@ void FPwin::detachTab()
     }
     connect (textEdit, &TextEdit::fileDropped, dropTarget, &FPwin::newTabFromName);
     connect (textEdit, &TextEdit::zoomedOut, dropTarget, &FPwin::reformat);
+    connect (textEdit, &QWidget::customContextMenuRequested, dropTarget, &FPwin::editorContextMenu);
 
     textEdit->setFocus();
 
@@ -4224,6 +4316,7 @@ void FPwin::dropTab (const QString& str)
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, dragSource->ui->actionUpperCase, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, dragSource->ui->actionLowerCase, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, dragSource->ui->actionCopy, &QAction::setEnabled);
+    disconnect (textEdit, &QWidget::customContextMenuRequested, dragSource, &FPwin::editorContextMenu);
     disconnect (textEdit, &TextEdit::zoomedOut, dragSource, &FPwin::reformat);
     disconnect (textEdit, &TextEdit::fileDropped, dragSource, &FPwin::newTabFromName);
     disconnect (textEdit, &TextEdit::updateBracketMatching, dragSource, &FPwin::matchBrackets);
@@ -4382,6 +4475,7 @@ void FPwin::dropTab (const QString& str)
     }
     connect (textEdit, &TextEdit::fileDropped, this, &FPwin::newTabFromName);
     connect (textEdit, &TextEdit::zoomedOut, this, &FPwin::reformat);
+    connect (textEdit, &QWidget::customContextMenuRequested, this, &FPwin::editorContextMenu);
 
     textEdit->setFocus();
 

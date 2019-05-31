@@ -55,6 +55,8 @@ public:
 
     void sortLines (bool reverse = false);
 
+    QString getUrl (const int pos) const;
+
     QFont getDefaultFont() const {
         return font_;
     }
@@ -289,11 +291,9 @@ private slots:
     void onUpdateRequesting (const QRect&, int dy);
     void onSelectionChanged();
     void scrollWithInertia();
-    void showContextMenu (const QPoint &p);
 
 private:
     QString computeIndentation (const QTextCursor &cur) const;
-    QString getUrl (const int pos) const;
     QString remainingSpaces (const QString& spaceTab, const QTextCursor& cursor) const;
     QTextCursor backTabCursor(const QTextCursor& cursor, bool twoSpace) const;
 

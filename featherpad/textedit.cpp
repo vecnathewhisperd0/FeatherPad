@@ -144,7 +144,6 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     connect (this, &QPlainTextEdit::selectionChanged, this, &TextEdit::onSelectionChanged);
 
     setContextMenuPolicy (Qt::CustomContextMenu);
-    connect (this, &QWidget::customContextMenuRequested, this, &TextEdit::showContextMenu);
 }
 /*************************/
 bool TextEdit::eventFilter (QObject *watched, QEvent *event)
@@ -1716,97 +1715,6 @@ void TextEdit::sortLines (bool reverse)
         }
     }
     cursor.endEditBlock();
-}
-/*************************/
-void TextEdit::showContextMenu (const QPoint &p)
-{
-    /* put the cursor at the right-click position if it has no selection */
-    if (!textCursor().hasSelection())
-        setTextCursor (cursorForPosition (p));
-
-    QMenu *menu = createStandardContextMenu (p);
-    const QList<QAction*> actions = menu->actions();
-    if (!actions.isEmpty())
-    {
-        for (QAction* const thisAction : actions)
-        {
-            /* remove the shortcut strings because shortcuts may change */
-            QString txt = thisAction->text();
-            if (!txt.isEmpty())
-                txt = txt.split ('\t').first();
-            if (!txt.isEmpty())
-                thisAction->setText(txt);
-            /* correct the slots of copy and cut actions */
-            if (thisAction->objectName() == "edit-copy")
-            {
-                disconnect (thisAction, &QAction::triggered, nullptr, nullptr);
-                connect (thisAction, &QAction::triggered, this, &TextEdit::copy);
-            }
-            else if (thisAction->objectName() == "edit-cut")
-            {
-                disconnect (thisAction, &QAction::triggered, nullptr, nullptr);
-                connect (thisAction, &QAction::triggered, this, &TextEdit::cut);
-            }
-        }
-        QString str = getUrl (textCursor().position());
-        if (!str.isEmpty())
-        {
-            QAction *sep = menu->insertSeparator (actions.first());
-            QAction *openLink = new QAction (tr ("Open Link"), menu);
-            menu->insertAction (sep, openLink);
-            connect (openLink, &QAction::triggered, [str] {
-                QUrl url (str);
-                if (url.isRelative())
-                    url = QUrl::fromUserInput (str, "/");
-                /* QDesktopServices::openUrl() may resort to "xdg-open", which isn't
-                   the best choice. "gio" is always reliable, so we check it first. */
-                if (!QProcess::startDetached ("gio", QStringList() << "open" << url.toString()))
-                    QDesktopServices::openUrl (url);
-            });
-            if (str.startsWith ("mailto:")) // see getUrl()
-                str.remove (0, 7);
-            QAction *copyLink = new QAction (tr ("Copy Link"), menu);
-            menu->insertAction (sep, copyLink);
-            connect (copyLink, &QAction::triggered, [str] {
-                QApplication::clipboard()->setText (str);
-            });
-
-        }
-        menu->addSeparator();
-    }
-    if (!isReadOnly())
-    {
-        if (textCursor().hasSelection())
-        {
-            QAction *action = menu->addAction (tr ("To Upper Case"));
-            connect (action, &QAction::triggered, [this] {
-                insertPlainText (locale().toUpper (textCursor().selectedText()));
-            });
-            action = menu->addAction (tr ("To Lower Case"));
-            connect (action, &QAction::triggered, [this] {
-                insertPlainText (locale().toLower (textCursor().selectedText()));
-            });
-            if (textCursor().selectedText().contains (QChar (QChar::ParagraphSeparator)))
-            {
-                menu->addSeparator();
-                action = menu->addAction (tr ("Sort Lines"));
-                connect (action, &QAction::triggered, [this] {
-                    sortLines();
-                });
-                action = menu->addAction (tr ("Sort Lines Reversely"));
-                connect (action, &QAction::triggered, [this] {
-                    sortLines (true);
-                });
-            }
-            menu->addSeparator();
-        }
-        QAction *action = menu->addAction (tr ("Paste Date and Time"));
-        connect (action, &QAction::triggered, [this] {
-            insertPlainText (QDateTime::currentDateTime().toString (dateFormat_.isEmpty() ? "MMM dd, yyyy, hh:mm:ss" : dateFormat_));
-        });
-    }
-    menu->exec (viewport()->mapToGlobal (p));
-    delete menu;
 }
 
 /*****************************************************
