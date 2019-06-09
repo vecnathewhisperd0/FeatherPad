@@ -39,7 +39,7 @@ SpellChecker::SpellChecker (const QString& dictionaryPath, const QString& userDi
     QByteArray affixFilePathBA = affixFile.toLocal8Bit();
     hunspell_ = new Hunspell (affixFilePathBA.constData(), dictFilePathBA.constData());
 
-    encoding_ = "UTF-8";
+    QString encoding = "UTF-8";
     QFile _affixFile (affixFile);
     if (_affixFile.open (QIODevice::ReadOnly))
     {
@@ -50,13 +50,13 @@ SpellChecker::SpellChecker (const QString& dictionaryPath, const QString& userDi
         {
             if (line.indexOf (encDetector, 0, &match) > -1)
             {
-                encoding_ = match.captured (1);
+                encoding = match.captured (1);
                 break;
             }
         }
         _affixFile.close();
     }
-    codec_ = QTextCodec::codecForName (encoding_.toLatin1().constData());
+    codec_ = QTextCodec::codecForName (encoding.toLatin1().constData());
 
     if (!userDictionary_.isEmpty())
     {

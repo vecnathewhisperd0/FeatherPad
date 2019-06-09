@@ -2238,7 +2238,8 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
                         /* An Old comment not valid anymore: "The index may have changed because syntaxHighlighting()
                            waits for all events to be processed (but it won't change from here on)." */
                         ui->tabWidget->indexOf (tabPage) : -1);
-    QString tip (fInfo.absolutePath() + "/");
+    QString tip (fInfo.absolutePath());
+    if (!tip.endsWith ("/")) tip += "/";
     QFontMetrics metrics (QToolTip::font());
     QString elidedTip = "<p style='white-space:pre'>"
                         + metrics.elidedText (tip, Qt::ElideMiddle, 200 * metrics.width (' '))
@@ -2936,7 +2937,8 @@ bool FPwin::saveFile (bool keepSyntax)
         textEdit->setLastModified (fInfo.lastModified());
         ui->actionReload->setDisabled (false);
         setTitle (fname);
-        QString tip (fInfo.absolutePath() + "/");
+        QString tip (fInfo.absolutePath());
+        if (!tip.endsWith ("/")) tip += "/";
         QFontMetrics metrics (QToolTip::font());
         QString elidedTip = "<p style='white-space:pre'>"
                             + metrics.elidedText (tip, Qt::ElideMiddle, 200 * metrics.width (' '))

@@ -22,6 +22,7 @@
 
 #include "pref.h"
 #include "ui_predDialog.h"
+#include "filedialog.h"
 
 #include <QScreen>
 #include <QWindow>
@@ -1473,13 +1474,13 @@ void PrefDialog::prefSpellCheck (int checked)
 /*************************/
 void PrefDialog::addDict()
 {
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
     if (QObject::sender() == ui->dictEdit)
     {
-        Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
         config.setDictPath (ui->dictEdit->text());
         return;
     }
-    QFileDialog dialog (this);
+    FileDialog dialog (this, config.getNativeDialog());
     dialog.setAcceptMode (QFileDialog::AcceptOpen);
     dialog.setWindowTitle (tr ("Add dictionary..."));
     dialog.setFileMode (QFileDialog::ExistingFile);
@@ -1491,17 +1492,22 @@ void PrefDialog::addDict()
         if (!QFileInfo (path).isDir())
             path = "/usr/local/share/hunspell";
     }
-    else if (!QFileInfo (path).isDir())
-        path = path.section ("/", 0, -2);
 
-    if (QFileInfo (path).isDir()) dialog.setDirectory (path);
+    if (QFileInfo (path).isDir())
+        dialog.setDirectory (path);
+    else if (QFile::exists (path))
+    {
+        dialog.setDirectory (path.section ("/", 0, -2));
+        dialog.selectFile (path);
+        dialog.autoScroll();
+    }
+
     if (dialog.exec())
     {
         const QStringList files = dialog.selectedFiles();
         if (!files.isEmpty())
         {
             ui->dictEdit->setText (files.at (0));
-            Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
             config.setDictPath (files.at (0));
         }
     }

@@ -47,7 +47,6 @@ public:
 private:
     Hunspell *hunspell_;
     QString userDictionary_;
-    QString encoding_;
     QTextCodec *codec_;
     QHash<QString, QString> corrections_;
 };

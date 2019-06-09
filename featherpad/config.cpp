@@ -55,7 +55,7 @@ Config::Config():
     appendEmptyLine_ (true),
     removeTrailingSpaces_ (false),
     openInWindows_ (false),
-    nativeDialog_ (false),
+    nativeDialog_ (true),
     inertialScrolling_ (false),
     autoSave_ (false),
     scrollJumpWorkaround_ (false),
@@ -169,8 +169,9 @@ void Config::readConfig()
     if (settings.value ("openInWindows").toBool())
         openInWindows_ = true; // false by default
 
-    if (settings.value ("nativeDialog").toBool())
-        nativeDialog_ = true; // false by default
+    v = settings.value ("nativeDialog");
+    if (v.isValid()) // true by default
+        nativeDialog_ = v.toBool();
 
     if (settings.value ("closeWithLastTab").toBool())
         closeWithLastTab_ = true; // false by default

@@ -3,6 +3,8 @@ V0.11.0
  * Added spell checking with Hunspell (as a new dependency).
  * Smarter Shift+Enter, especially with numbered lists.
  * Better context menu for text-edits.
+ * Fixed tab tooltips for files inside the root directory.
+ * Use native file dialogs by default.
 
 V0.10.0
 ---------
