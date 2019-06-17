@@ -5,6 +5,8 @@ V0.11.0
  * Better context menu for text-edits.
  * Fixed tab tooltips for files inside the root directory.
  * Use native file dialogs by default.
+ * Update text selection with inertial scrolling if the left mouse button is pressed.
+ * Drag the selected text only if there is a real mouse movement (and not when the view is scrolled by the wheel of a motionless mouse).
 
 V0.10.0
 ---------

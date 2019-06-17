@@ -1068,11 +1068,10 @@ void TextEdit::keyReleaseEvent (QKeyEvent *event)
     QPlainTextEdit::keyReleaseEvent (event);
 }
 /*************************/
-// A workaround for Qt5's scroll jump bug
 void TextEdit::wheelEvent (QWheelEvent *event)
 {
     if (scrollJumpWorkaround && event->angleDelta().manhattanLength() > 240)
-        event->ignore();
+        event->ignore(); // a workaround for Qt5's scroll jump bug
     else
     {
         if (event->modifiers() & Qt::ControlModifier)
@@ -1098,6 +1097,7 @@ void TextEdit::wheelEvent (QWheelEvent *event)
             return;
         }
 
+        /* inertial scrolling */
         if (QScrollBar* vbar = verticalScrollBar())
         {
             /* always set the initial speed to 3 lines per wheel turn */
@@ -1161,6 +1161,17 @@ void TextEdit::scrollWithInertia()
                    totalDelta,
                    wheelEvent_->buttons(), Qt::NoModifier, Qt::Vertical);
     QCoreApplication::sendEvent (verticalScrollBar(), &e);
+
+    /* update text selection if the left mouse button is pressed (-> QPlainTextEdit::timerEvent) */
+    if (QApplication::mouseButtons() & Qt::LeftButton)
+    {
+        const QPoint globalPos = QCursor::pos();
+        QPoint pos = viewport()->mapFromGlobal (globalPos);
+        QMouseEvent ev (QEvent::MouseMove, pos, viewport()->mapTo (viewport()->topLevelWidget(), pos), globalPos,
+                        Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+        mouseMoveEvent (&ev);
+    }
+
     if (queuedScrollSteps_.empty())
         scrollTimer_->stop();
 }
@@ -1745,7 +1756,12 @@ QString TextEdit::getUrl (const int pos) const
 /*************************/
 void TextEdit::mouseMoveEvent (QMouseEvent *event)
 {
+    /* prevent dragging if there is no real mouse movement */
+    if (event->buttons() == Qt::LeftButton && event->globalPos() == selectionPressPoint_)
+        return;
+
     QPlainTextEdit::mouseMoveEvent (event);
+
     if (!highlighter_) return;
     if (!(qApp->keyboardModifiers() & Qt::ControlModifier))
     {
@@ -1761,7 +1777,29 @@ void TextEdit::mouseMoveEvent (QMouseEvent *event)
 /*************************/
 void TextEdit::mousePressEvent (QMouseEvent *event)
 {
+    /* get the global press position if it's inside a selection to know
+       whether there will be a real mouse movement at mouseMoveEvent() */
+    if (event->buttons() == Qt::LeftButton
+        && qApp->keyboardModifiers() == Qt::NoModifier)
+    {
+        QTextCursor cur = cursorForPosition (event->pos());
+        int pos = cur.position();
+        QTextCursor txtCur = textCursor();
+        int selStart = txtCur.selectionStart();
+        int selEnd = txtCur.selectionEnd();
+        if (pos == cur.anchor() && selStart != selEnd
+            && pos >= qMin (selStart, selEnd) && pos <= qMax (selStart, selEnd))
+        {
+            selectionPressPoint_ = event->globalPos();
+        }
+        else
+            selectionPressPoint_ = QPoint();
+    }
+    else
+        selectionPressPoint_ = QPoint();
+
     QPlainTextEdit::mousePressEvent (event);
+
     if (highlighter_
         && (event->button() & Qt::LeftButton)
         && (qApp->keyboardModifiers() & Qt::ControlModifier))

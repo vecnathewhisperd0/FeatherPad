@@ -314,6 +314,7 @@ private:
     int resizeTimerId, updateTimerId; // for not wasting CPU's time
     int Dy;
     QPoint pressPoint_; // used internally for hyperlinks
+    QPoint selectionPressPoint_; // used internally to delay dragging until mouse movement
     QFont font_; // used internally for keeping track of the unzoomed font
     QString textTab_; // text tab in terms of spaces
     /********************************************
