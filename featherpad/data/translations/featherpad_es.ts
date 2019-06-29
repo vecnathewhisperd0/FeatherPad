@@ -1158,9 +1158,11 @@
     <message numerus="yes">
         <location filename="../../replace.cpp" line="245"/>
         <source>%Ln Replacements</source>
-        <translation><numerusform>Se ha sustituido %Ln palabra o caracter</numerusform>
-        <numerusform>Se han sustituido %Ln palabras o caracteres</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>Se ha sustituido %Ln palabra o caracter</numerusform>
+            <numerusform>Se han sustituido %Ln palabras o caracteres</numerusform>
+        </translation>
+    </message>
     <message>
         <location filename="../../syntax.cpp" line="262"/>
         <source>The size limit for syntax highlighting is exceeded.</source>

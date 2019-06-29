@@ -7,6 +7,7 @@ V0.11.0
  * Use native file dialogs by default.
  * Update text selection with inertial scrolling if the left mouse button is pressed.
  * Drag the selected text only if there is a real mouse movement (and not when the view is scrolled by the wheel of a motionless mouse).
+ * 3 spaces between statusbar info sections (instead of 4 spaces).
 
 V0.10.0
 ---------

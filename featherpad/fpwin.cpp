@@ -124,7 +124,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     }
 
     /* get the default (customizable) shortcuts before any change */
-    static const QStringList exxcluded = {"actionCut", "actionCopy", "actionPaste", "actionSelectAll"};
+    static const QStringList excluded = {"actionCut", "actionCopy", "actionPaste", "actionSelectAll"};
     const auto allMenus = ui->menuBar->findChildren<QMenu*>();
     for (auto thisMenu : allMenus)
     {
@@ -132,7 +132,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
         for (auto menuAction : menuActions)
         {
             QKeySequence seq = menuAction->shortcut();
-            if (!seq.isEmpty() && !exxcluded.contains (menuAction->objectName()))
+            if (!seq.isEmpty() && !excluded.contains (menuAction->objectName()))
                 defaultShortcuts_.insert (menuAction, seq);
         }
     }
@@ -1389,9 +1389,9 @@ TabPage* FPwin::createEmptyTab (bool setCurrent, bool allowNormalHighlighter)
             if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>("wordButton"))
                 wordButton->setVisible (false);
             QLabel *statusLabel = ui->statusBar->findChild<QLabel *>("statusLabel");
-            statusLabel->setText ("<b>" + tr ("Encoding") + ":</b> <i>UTF-8</i>&nbsp;&nbsp;&nbsp;&nbsp;<b>"
-                                        + tr ("Lines") + ":</b> <i>1</i>&nbsp;&nbsp;&nbsp;&nbsp;<b>"
-                                        + tr ("Sel. Chars") + ":</b> <i>0</i>&nbsp;&nbsp;&nbsp;&nbsp;<b>"
+            statusLabel->setText ("<b>" + tr ("Encoding") + ":</b> <i>UTF-8</i>&nbsp;&nbsp;&nbsp;<b>"
+                                        + tr ("Lines") + ":</b> <i>1</i>&nbsp;&nbsp;&nbsp;<b>"
+                                        + tr ("Sel. Chars") + ":</b> <i>0</i>&nbsp;&nbsp;&nbsp;<b>"
                                         + tr ("Words") + ":</b> <i>0</i>");
             if (showCurPos)
                 showCursorPos();
@@ -2628,7 +2628,7 @@ void FPwin::enforceEncoding (QAction*)
             QString str = statusLabel->text();
             QString encodStr = tr ("Encoding");
             // the next info is about lines; there's no syntax info
-            QString lineStr = "</i>&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
+            QString lineStr = "</i>&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
             int i = str.indexOf (encodStr);
             int j = str.indexOf (lineStr);
             int offset = encodStr.count() + 9; // size of ":</b> <i>"
@@ -2985,25 +2985,25 @@ bool FPwin::saveFile (bool keepSyntax)
                     int i = str.indexOf (syntaxStr);
                     if (i == -1) // there was no real language before saving (prevLan was "url")
                     {
-                        QString lineStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
+                        QString lineStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
                         int j = str.indexOf (lineStr);
-                        syntaxStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Syntax") + QString (":</b> <i>%1</i>")
-                                                                                    .arg (textEdit->getProg());
+                        syntaxStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Syntax") + QString (":</b> <i>%1</i>")
+                                                                              .arg (textEdit->getProg());
                         str.insert (j, syntaxStr);
                     }
                     else
                     {
                         if (textEdit->getProg() == "url") // there's no real language after saving
                         {
-                            syntaxStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Syntax");
-                            QString lineStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
+                            syntaxStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Syntax");
+                            QString lineStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
                             int j = str.indexOf (syntaxStr);
                             int k = str.indexOf (lineStr);
                             str.remove (j, k - j);
                         }
                         else // the language is changed by saving
                         {
-                            QString lineStr = "</i>&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
+                            QString lineStr = "</i>&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
                             int j = str.indexOf (lineStr);
                             int offset = syntaxStr.count() + 9; // size of ":</b> <i>"
                             str.replace (i + offset, j - i - offset, textEdit->getProg());
@@ -3745,11 +3745,11 @@ void FPwin::statusMsgWithLineCount (const int lines)
     QString encodStr = "<b>" + tr ("Encoding") + QString (":</b> <i>%1</i>").arg (textEdit->getEncoding());
     QString syntaxStr;
     if (textEdit->getProg() != "help" && textEdit->getProg() != "url")
-        syntaxStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Syntax") + QString (":</b> <i>%1</i>").arg (textEdit->getProg());
-    QString lineStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines") + QString (":</b> <i>%1</i>").arg (lines);
-    QString selStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Sel. Chars")
+        syntaxStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Syntax") + QString (":</b> <i>%1</i>").arg (textEdit->getProg());
+    QString lineStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines") + QString (":</b> <i>%1</i>").arg (lines);
+    QString selStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Sel. Chars")
                      + QString (":</b> <i>%1</i>").arg (textEdit->textCursor().selectedText().size());
-    QString wordStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Words") + ":</b>";
+    QString wordStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Words") + ":</b>";
 
     statusLabel->setText (encodStr + syntaxStr + lineStr + selStr + wordStr);
 }
@@ -3762,7 +3762,7 @@ void FPwin::statusMsg()
               ->textCursor().selectedText().size();
     QString str = statusLabel->text();
     QString selStr = tr ("Sel. Chars");
-    QString wordStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Words");
+    QString wordStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Words");
     int i = str.indexOf (selStr) + selStr.count();
     int j = str.indexOf (wordStr);
     if (sel == 0)
@@ -5075,25 +5075,25 @@ void FPwin::autoSave()
                         int i = str.indexOf (syntaxStr);
                         if (i == -1) // there was no real language before saving (prevLan was "url")
                         {
-                            QString lineStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
+                            QString lineStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
                             int j = str.indexOf (lineStr);
-                            syntaxStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Syntax") + QString (":</b> <i>%1</i>")
-                                                                                        .arg (thisTextEdit->getProg());
+                            syntaxStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Syntax") + QString (":</b> <i>%1</i>")
+                                                                                  .arg (thisTextEdit->getProg());
                             str.insert (j, syntaxStr);
                         }
                         else
                         {
                             if (thisTextEdit->getProg() == "url") // there's no real language after saving
                             {
-                                syntaxStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Syntax");
-                                QString lineStr = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
+                                syntaxStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Syntax");
+                                QString lineStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
                                 int j = str.indexOf (syntaxStr);
                                 int k = str.indexOf (lineStr);
                                 str.remove (j, k - j);
                             }
                             else // the language is changed by saving
                             {
-                                QString lineStr = "</i>&nbsp;&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
+                                QString lineStr = "</i>&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
                                 int j = str.indexOf (lineStr);
                                 int offset = syntaxStr.count() + 9; // size of ":</b> <i>"
                                 str.replace (i + offset, j - i - offset, thisTextEdit->getProg());
