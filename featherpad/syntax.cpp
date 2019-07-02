@@ -191,7 +191,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
                      || mime == "application/x-docbook+xml" || mime == "application/x-xbel" || mime == "text/feathernotes-fnx"
                      || mime == "text/vnd.trolltech.linguist" || mime == "text/x-opml+xml"
                      || mime == "application/xspf+xml" || mime == "audio/x-ms-asx"
-                     || mime == "application/vnd.kde.kxmlguirc" || mime == "application/vnd.google-earth.kml+xml")
+                     || mime == "application/vnd.kde.kxmlguirc" || mime == "application/vnd.google-earth.kml+xml" || mime == "application/vnd.kde.kcfg")
                 progLan = "xml";
             else if (mime == "text/css")
                 progLan = "css";
@@ -201,7 +201,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
                 progLan = "changelog";
             else if (mime == "application/x-desktop")
                 progLan = "desktop";
-            else if (mime == "audio/x-scpls")
+            else if (mime == "audio/x-scpls" || mime == "application/vnd.kde.kcfgc")
                 progLan = "config";
             else if (mime == "application/javascript")
                 progLan = "javascript";
