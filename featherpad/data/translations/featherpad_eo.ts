@@ -34,13 +34,13 @@
         <location filename="../../fp.ui" line="107"/>
         <source>Select text from cursor to this line
 (Ctrl+Shift+J)</source>
-        <translation>Selekti tekston ekde la kursoro al ĉi tiu linio
+        <translation>Elekti tekston ekde la kursoro al ĉi tiu linio
 (Ctrl+Shift+J)</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="111"/>
         <source>Select Text</source>
-        <translation>Selekti tekston</translation>
+        <translation>Elekti tekston</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="114"/>
@@ -295,7 +295,7 @@
     <message>
         <location filename="../../fp.ui" line="667"/>
         <source>&amp;Select All</source>
-        <translation>Selectu &amp;Ĉion</translation>
+        <translation>Elektu &amp;Ĉion</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="670"/>
@@ -845,7 +845,7 @@
         <location filename="../../fpwin.cpp" line="3750"/>
         <location filename="../../fpwin.cpp" line="3764"/>
         <source>Sel. Chars</source>
-        <translation>Sel. Signoj</translation>
+        <translation>Elekt. Signoj</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1504"/>
@@ -1577,7 +1577,7 @@ eligajn kaj erarajn mesaĝojn.</translation>
     <message>
         <location filename="../../predDialog.ui" line="1179"/>
         <source>Save changes to opened files every:</source>
-        <translation>Konservi la ŝanĝojn al la malfermitaj dosieroj ĉiun:</translation>
+        <translation>Konservu la ŝanĝojn al la malfermitaj dosieroj ĉiun:</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="1324"/>
