@@ -1323,7 +1323,7 @@ menubutono aperus sur la ilbreto.</translation>
         <location filename="../../predDialog.ui" line="289"/>
         <location filename="../../predDialog.ui" line="299"/>
         <source>Will take effect after closing this dialog.</source>
-        <translation>Efektiviĝos post ĉi tiu dialogo estas fermita.</translation>
+        <translation>Efektiviĝos post kiam ĉi tiu dialogo estas fermita.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="292"/>
@@ -1752,7 +1752,7 @@ Leave empty for:
 MMM dd, yyyy, hh:mm:ss</source>
         <translation>Uzita por alglui la daton kaj tempon.
 
-Efektiviĝos post ĉi tiu dialogo estas fermita.
+Efektiviĝos post kiam ĉi tiu dialogo estas fermita.
 
 Lasu ĉi tion malplena por:
 MMM dd, yyyy, hh:mm:ss</translation>

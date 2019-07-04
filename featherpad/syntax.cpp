@@ -221,7 +221,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
                 progLan = "html";
             else if (mime == "text/markdown")
                 progLan = "markdown";
-            else if (mime == "audio/x-mpegurl")
+            else if (mime == "audio/x-mpegurl" || mime == "application/vnd.apple.mpegurl")
                 progLan = "m3u";
             else if (fname.endsWith (".conf") || fname.endsWith (".ini"))
                  progLan = "config"; // only if the mime type isn't found
