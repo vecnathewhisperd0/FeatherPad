@@ -169,10 +169,10 @@ void TextEdit::setEditorFont (const QFont &f, bool setDefault)
     /* we want consistent tabs */
     QFontMetricsF metrics (f);
     QTextOption opt = document()->defaultTextOption();
-#if QT_VERSION < 0x051000
-    opt.setTabStop (metrics.width (textTab_));
-#else
+#if (QT_VERSION >= QT_VERSION_CHECK(5,10,0))
     opt.setTabStopDistance (metrics.width (textTab_));
+#else
+    opt.setTabStop (metrics.width (textTab_));
 #endif
     document()->setDefaultTextOption (opt);
 
@@ -190,7 +190,11 @@ void TextEdit::setEditorFont (const QFont &f, bool setDefault)
     widestDigit = 0;
     for (int i = 0; i < 10; ++i)
     {
+#if (QT_VERSION >= QT_VERSION_CHECK(5,11,0))
+         if (QFontMetrics (F).horizontalAdvance (QString::number (i)) > widestDigit)
+#else
          if (QFontMetrics (F).width (QString::number (i)) > widestDigit)
+#endif
              widestDigit = i;
     }
 }
@@ -247,7 +251,11 @@ int TextEdit::lineNumberAreaWidth()
     }
     QFont f = font();
     f.setBold (true);
-    return (6 + QFontMetrics (f).width (num)); // 6 = 3 + 3 (-> lineNumberAreaPaintEvent)
+#if (QT_VERSION >= QT_VERSION_CHECK(5,11,0))
+    return (6 + QFontMetrics (f).horizontalAdvance (num)); // 6 = 3 + 3 (-> lineNumberAreaPaintEvent)
+#else
+    return (6 + QFontMetrics (f).width (num));
+#endif
 }
 /*************************/
 void TextEdit::updateLineNumberAreaWidth (int /* newBlockCount */)
@@ -1498,7 +1506,7 @@ void TextEdit::paintEvent (QPaintEvent *event)
     if (backgroundVisible() && !block.isValid() && offset.y() <= er.bottom()
         && (centerOnScroll() || verticalScrollBar()->maximum() == verticalScrollBar()->minimum()))
     {
-        painter.fillRect (QRect (QPoint (static_cast<int>(er.left()), static_cast<int>(offset.y())), er.bottomRight()), palette().background());
+        painter.fillRect (QRect (QPoint (static_cast<int>(er.left()), static_cast<int>(offset.y())), er.bottomRight()), palette().window());
     }
 }
 /************************************************

@@ -15,13 +15,13 @@
         <location filename="../../fpwin.cpp" line="395"/>
         <location filename="../../fpwin.cpp" line="1369"/>
         <location filename="../../fpwin.cpp" line="1430"/>
-        <location filename="../../fpwin.cpp" line="1906"/>
-        <location filename="../../fpwin.cpp" line="1950"/>
-        <location filename="../../fpwin.cpp" line="2704"/>
-        <location filename="../../fpwin.cpp" line="2724"/>
-        <location filename="../../fpwin.cpp" line="2727"/>
-        <location filename="../../fpwin.cpp" line="3228"/>
-        <location filename="../../fpwin.cpp" line="3905"/>
+        <location filename="../../fpwin.cpp" line="1910"/>
+        <location filename="../../fpwin.cpp" line="1954"/>
+        <location filename="../../fpwin.cpp" line="2712"/>
+        <location filename="../../fpwin.cpp" line="2732"/>
+        <location filename="../../fpwin.cpp" line="2735"/>
+        <location filename="../../fpwin.cpp" line="3240"/>
+        <location filename="../../fpwin.cpp" line="3917"/>
         <source>Untitled</source>
         <translation>İsimsiz</translation>
     </message>
@@ -65,8 +65,8 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1392"/>
-        <location filename="../../fpwin.cpp" line="2629"/>
-        <location filename="../../fpwin.cpp" line="3745"/>
+        <location filename="../../fpwin.cpp" line="2637"/>
+        <location filename="../../fpwin.cpp" line="3757"/>
         <source>Encoding</source>
         <translatorcomment>Reminder: Should really have been &quot;Karakter Kodlama&quot;, but trimmed due to space constraints on status bar.</translatorcomment>
         <translation>Kodlama</translation>
@@ -590,7 +590,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="337"/>
-        <location filename="../../fpwin.cpp" line="3326"/>
+        <location filename="../../fpwin.cpp" line="3338"/>
         <location filename="../../replace.cpp" line="62"/>
         <location filename="../../replace.cpp" line="115"/>
         <source>Rep&amp;lacement</source>
@@ -793,7 +793,7 @@
         <translation>Hepsi</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1776"/>
+        <location filename="../../fpwin.cpp" line="1780"/>
         <source>Close</source>
         <translation>Kapat</translation>
     </message>
@@ -824,7 +824,7 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1180"/>
-        <location filename="../../fpwin.cpp" line="2877"/>
+        <location filename="../../fpwin.cpp" line="2885"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
@@ -841,38 +841,38 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1393"/>
-        <location filename="../../fpwin.cpp" line="2631"/>
-        <location filename="../../fpwin.cpp" line="2988"/>
-        <location filename="../../fpwin.cpp" line="2999"/>
-        <location filename="../../fpwin.cpp" line="3006"/>
-        <location filename="../../fpwin.cpp" line="3749"/>
-        <location filename="../../fpwin.cpp" line="5078"/>
-        <location filename="../../fpwin.cpp" line="5089"/>
-        <location filename="../../fpwin.cpp" line="5096"/>
+        <location filename="../../fpwin.cpp" line="2639"/>
+        <location filename="../../fpwin.cpp" line="3000"/>
+        <location filename="../../fpwin.cpp" line="3011"/>
+        <location filename="../../fpwin.cpp" line="3018"/>
+        <location filename="../../fpwin.cpp" line="3761"/>
+        <location filename="../../fpwin.cpp" line="5090"/>
+        <location filename="../../fpwin.cpp" line="5101"/>
+        <location filename="../../fpwin.cpp" line="5108"/>
         <source>Lines</source>
         <translation>Satır</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1394"/>
-        <location filename="../../fpwin.cpp" line="3750"/>
-        <location filename="../../fpwin.cpp" line="3764"/>
+        <location filename="../../fpwin.cpp" line="3762"/>
+        <location filename="../../fpwin.cpp" line="3776"/>
         <source>Sel. Chars</source>
         <translation>Seçim</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1395"/>
-        <location filename="../../fpwin.cpp" line="3752"/>
-        <location filename="../../fpwin.cpp" line="3765"/>
+        <location filename="../../fpwin.cpp" line="3764"/>
+        <location filename="../../fpwin.cpp" line="3777"/>
         <source>Words</source>
         <translation>Kelime</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1679"/>
+        <location filename="../../fpwin.cpp" line="1683"/>
         <source>Another process is running in this tab!</source>
         <translation>Bu sekmede başka bir süreç çalışıyor!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1767"/>
+        <location filename="../../fpwin.cpp" line="1771"/>
         <source>Script File</source>
         <translation>Betik Dosyası</translation>
     </message>
@@ -883,20 +883,20 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="758"/>
-        <location filename="../../fpwin.cpp" line="3791"/>
+        <location filename="../../fpwin.cpp" line="3803"/>
         <source>Position:</source>
         <translation>Konum:</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="805"/>
-        <location filename="../../fpwin.cpp" line="3809"/>
-        <location filename="../../fpwin.cpp" line="3829"/>
+        <location filename="../../fpwin.cpp" line="3821"/>
+        <location filename="../../fpwin.cpp" line="3841"/>
         <source>Normal</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1166"/>
-        <location filename="../../fpwin.cpp" line="2406"/>
+        <location filename="../../fpwin.cpp" line="2414"/>
         <source>The file does not exist.</source>
         <translation>Böyle bir dosya yok.</translation>
     </message>
@@ -911,250 +911,250 @@
         <translation>Bağlantıyı Kopyala</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1680"/>
+        <location filename="../../fpwin.cpp" line="1684"/>
         <source>Only one process is allowed per tab.</source>
         <translation>Bir sekmede birden fazla süreç çalışamaz.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1763"/>
+        <location filename="../../fpwin.cpp" line="1767"/>
         <source>Script Output</source>
         <translation>Betik Çıktısı</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1779"/>
+        <location filename="../../fpwin.cpp" line="1783"/>
         <source>Clear</source>
         <translation>Temizle</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2373"/>
+        <location filename="../../fpwin.cpp" line="2381"/>
         <source>FeatherPad does not open files larger than 100 MiB.</source>
         <translation>FeatherPad 100 MB&apos;den büyük dosyaları açmaz.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2381"/>
+        <location filename="../../fpwin.cpp" line="2389"/>
         <source>Some file(s) could not be opened!</source>
         <translation>Bazı dosya(lar) açılamadı!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2382"/>
+        <location filename="../../fpwin.cpp" line="2390"/>
         <source>You may not have the permission to read.</source>
         <translation>Dosyayı okuma yetkiniz olmayabilir.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2392"/>
+        <location filename="../../fpwin.cpp" line="2400"/>
         <source>Uneditable file(s)!</source>
         <translation>Düzenlenemeyen dosya(lar)!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2393"/>
+        <location filename="../../fpwin.cpp" line="2401"/>
         <source>Non-text files or files with huge lines cannot be edited.</source>
         <translation>Metin olmayan dosyalar veya aşırı uzun satırlar içeren dosyalar düzenlenemezler.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2450"/>
+        <location filename="../../fpwin.cpp" line="2458"/>
         <source>A previous crash detected!</source>
         <translation>Evvelki çökme tespit edildi!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2451"/>
+        <location filename="../../fpwin.cpp" line="2459"/>
         <source>Preferably, close all FeatherPad windows and start again!</source>
         <translation>Tercihen, tüm FeatherPad pencerelerini kapatıp tekrar başlatın!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2458"/>
+        <location filename="../../fpwin.cpp" line="2466"/>
         <source>Root Instance</source>
         <translation>Yetkili Kullanıcı</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2529"/>
-        <location filename="../../fpwin.cpp" line="2686"/>
-        <location filename="../../fpwin.cpp" line="2713"/>
+        <location filename="../../fpwin.cpp" line="2537"/>
+        <location filename="../../fpwin.cpp" line="2694"/>
+        <location filename="../../fpwin.cpp" line="2721"/>
         <source>All Files (*)</source>
         <translation>Tüm Dosyalar (*)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2534"/>
+        <location filename="../../fpwin.cpp" line="2542"/>
         <source>All Files (*);;.%1 Files (*.%1)</source>
         <translatorcomment>Reminder: %1 refers to file type as in &quot;.txt files (*.txt)&quot;</translatorcomment>
         <translation>Tüm Dosyalar (*);;.%1 Dosyaları (*.%1)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2538"/>
+        <location filename="../../fpwin.cpp" line="2546"/>
         <source>Open file...</source>
         <translation>Dosya aç...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2691"/>
+        <location filename="../../fpwin.cpp" line="2699"/>
         <source>.%1 Files (*.%1);;All Files (*)</source>
         <translatorcomment>Reminder: %1 refers to file type as in &quot;.txt files (*.txt)&quot;</translatorcomment>
         <translation>.%1 Dosyaları (*.%1);;Tüm Dosyalar (*)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2738"/>
-        <location filename="../../fpwin.cpp" line="2770"/>
+        <location filename="../../fpwin.cpp" line="2746"/>
+        <location filename="../../fpwin.cpp" line="2778"/>
         <source>Save as...</source>
         <translation>Farklı Kaydet...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2800"/>
+        <location filename="../../fpwin.cpp" line="2808"/>
         <source>Keep encoding and save as...</source>
         <translation>Karakter kodlamayı koruyarak farklı kaydet...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2875"/>
+        <location filename="../../fpwin.cpp" line="2883"/>
         <source>Yes</source>
         <translation>Evet</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2876"/>
+        <location filename="../../fpwin.cpp" line="2884"/>
         <source>No</source>
         <translation>Hayır</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2878"/>
+        <location filename="../../fpwin.cpp" line="2886"/>
         <source>Do you want to use &lt;b&gt;MS Windows&lt;/b&gt; end-of-lines?</source>
         <translation>&lt;b&gt;MS Windows&lt;/b&gt; satır sonlandırmasını kullanmak istiyor musunuz?</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2879"/>
+        <location filename="../../fpwin.cpp" line="2887"/>
         <source>This may be good for readability under MS Windows.</source>
         <translation>MS Windows&apos;da okunabilirlik açısından iyi olabilir.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3022"/>
+        <location filename="../../fpwin.cpp" line="3034"/>
         <source>Cannot be saved!</source>
         <translation>Kaydedilemiyor!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="393"/>
-        <location filename="../../fpwin.cpp" line="3226"/>
-        <location filename="../../fpwin.cpp" line="5267"/>
+        <location filename="../../fpwin.cpp" line="3238"/>
+        <location filename="../../fpwin.cpp" line="5279"/>
         <source>Help</source>
         <translation>Yardım</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2984"/>
-        <location filename="../../fpwin.cpp" line="2990"/>
-        <location filename="../../fpwin.cpp" line="2998"/>
-        <location filename="../../fpwin.cpp" line="3748"/>
-        <location filename="../../fpwin.cpp" line="5074"/>
-        <location filename="../../fpwin.cpp" line="5080"/>
-        <location filename="../../fpwin.cpp" line="5088"/>
+        <location filename="../../fpwin.cpp" line="2996"/>
+        <location filename="../../fpwin.cpp" line="3002"/>
+        <location filename="../../fpwin.cpp" line="3010"/>
+        <location filename="../../fpwin.cpp" line="3760"/>
+        <location filename="../../fpwin.cpp" line="5086"/>
+        <location filename="../../fpwin.cpp" line="5092"/>
+        <location filename="../../fpwin.cpp" line="5100"/>
         <source>Syntax</source>
         <translation>Sözdizimi</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2372"/>
+        <location filename="../../fpwin.cpp" line="2380"/>
         <source>Huge file(s) not opened!</source>
         <translation>Aşırı büyük dosya(lar) açılmadı!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3238"/>
-        <location filename="../../fpwin.cpp" line="3421"/>
+        <location filename="../../fpwin.cpp" line="3250"/>
+        <location filename="../../fpwin.cpp" line="3433"/>
         <source>This file has been modified elsewhere or in another way!</source>
         <translation>Bu dosya başka bir yerde veya başka surette değiştirilmiş!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3239"/>
-        <location filename="../../fpwin.cpp" line="3422"/>
+        <location filename="../../fpwin.cpp" line="3251"/>
+        <location filename="../../fpwin.cpp" line="3434"/>
         <source>Please be careful about reloading or saving this document!</source>
         <translation>Lütfen bu dosyayı tekrar yüklerken veya kaydederken dikkatli olun!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3916"/>
+        <location filename="../../fpwin.cpp" line="3928"/>
         <source>Print Document</source>
         <translation>Belgeyi Yazdır</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4505"/>
-        <location filename="../../fpwin.cpp" line="4573"/>
+        <location filename="../../fpwin.cpp" line="4517"/>
+        <location filename="../../fpwin.cpp" line="4585"/>
         <source>%1 Pages</source>
         <translation>%1 Sayfa</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4531"/>
-        <location filename="../../fpwin.cpp" line="4601"/>
+        <location filename="../../fpwin.cpp" line="4543"/>
+        <location filename="../../fpwin.cpp" line="4613"/>
         <source>Copy Target Path</source>
         <translation>Hedef Yolunu Kopyala</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4535"/>
-        <location filename="../../fpwin.cpp" line="4605"/>
+        <location filename="../../fpwin.cpp" line="4547"/>
+        <location filename="../../fpwin.cpp" line="4617"/>
         <source>Open Target Here</source>
         <translation>Hedefi Buraya Aç</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4723"/>
+        <location filename="../../fpwin.cpp" line="4735"/>
         <source>You need to add a Hunspell dictionary.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4724"/>
-        <location filename="../../fpwin.cpp" line="4730"/>
-        <location filename="../../fpwin.cpp" line="4739"/>
+        <location filename="../../fpwin.cpp" line="4736"/>
+        <location filename="../../fpwin.cpp" line="4742"/>
+        <location filename="../../fpwin.cpp" line="4751"/>
         <source>See Preferences → Text → Spell Checking!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4729"/>
+        <location filename="../../fpwin.cpp" line="4741"/>
         <source>The Hunspell dictionary does not exist.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4738"/>
+        <location filename="../../fpwin.cpp" line="4750"/>
         <source>The Hunspell dictionary is not accompanied by an affix file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4760"/>
-        <location filename="../../fpwin.cpp" line="4778"/>
-        <location filename="../../fpwin.cpp" line="4793"/>
+        <location filename="../../fpwin.cpp" line="4772"/>
+        <location filename="../../fpwin.cpp" line="4790"/>
+        <location filename="../../fpwin.cpp" line="4805"/>
         <source>No misspelling in document.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4762"/>
-        <location filename="../../fpwin.cpp" line="4780"/>
-        <location filename="../../fpwin.cpp" line="4795"/>
+        <location filename="../../fpwin.cpp" line="4774"/>
+        <location filename="../../fpwin.cpp" line="4792"/>
+        <location filename="../../fpwin.cpp" line="4807"/>
         <source>No misspelling from text cursor.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4807"/>
+        <location filename="../../fpwin.cpp" line="4819"/>
         <source>Spell Checking</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5152"/>
+        <location filename="../../fpwin.cpp" line="5164"/>
         <source>Translators</source>
         <translation>Çevirmenler</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5148"/>
+        <location filename="../../fpwin.cpp" line="5160"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translatorcomment>RAPOR 7: Please see the other comment.</translatorcomment>
         <translation>Hafif, sekmeli, düz metin düzenleyici</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5149"/>
+        <location filename="../../fpwin.cpp" line="5161"/>
         <source>based on Qt5</source>
         <translatorcomment>RAPOR 7: Either has to be put at the start or mid-sentence as part of the features, or has to be added to the end as an afterthought. Because of such things, I suggest this and the preceding message be merged in a single compound sentence.</translatorcomment>
         <translation>Qt5 tabanlı</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5150"/>
+        <location filename="../../fpwin.cpp" line="5162"/>
         <source>Author</source>
         <translation>Yazar</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5151"/>
+        <location filename="../../fpwin.cpp" line="5163"/>
         <source>aka.</source>
         <translatorcomment>Reminder: Lesser alternatives: &quot;yani&quot; (that is) ; &quot;rumuz&quot; (nick) ; &quot;veya&quot; (or)</translatorcomment>
         <translation>nam-ı diğer,</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5152"/>
-        <location filename="../../fpwin.cpp" line="5153"/>
+        <location filename="../../fpwin.cpp" line="5164"/>
+        <location filename="../../fpwin.cpp" line="5165"/>
         <source>About FeatherPad</source>
         <translation>FeatherPad Hakkında</translation>
     </message>

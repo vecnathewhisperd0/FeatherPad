@@ -1557,7 +1557,11 @@ void FPwin::updateRecenMenu()
     QList<QAction *> actions = ui->menuOpenRecently->actions();
     int recentSize = recentFiles.count();
     QFontMetrics metrics (ui->menuOpenRecently->font());
+#if (QT_VERSION >= QT_VERSION_CHECK(5,11,0))
+    int w = 150 * metrics.horizontalAdvance (' ');
+#else
     int w = 150 * metrics.width (' ');
+#endif
     for (int i = 0; i < recentNumber; ++i)
     {
         if (i < recentSize)
@@ -2242,7 +2246,11 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
     if (!tip.endsWith ("/")) tip += "/";
     QFontMetrics metrics (QToolTip::font());
     QString elidedTip = "<p style='white-space:pre'>"
+#if (QT_VERSION >= QT_VERSION_CHECK(5,11,0))
+                        + metrics.elidedText (tip, Qt::ElideMiddle, 200 * metrics.horizontalAdvance (' '))
+#else
                         + metrics.elidedText (tip, Qt::ElideMiddle, 200 * metrics.width (' '))
+#endif
                         + "</p>";
     ui->tabWidget->setTabToolTip (ui->tabWidget->indexOf (tabPage), elidedTip);
     if (!sideItems_.isEmpty())
@@ -2941,7 +2949,11 @@ bool FPwin::saveFile (bool keepSyntax)
         if (!tip.endsWith ("/")) tip += "/";
         QFontMetrics metrics (QToolTip::font());
         QString elidedTip = "<p style='white-space:pre'>"
+#if (QT_VERSION >= QT_VERSION_CHECK(5,11,0))
+                            + metrics.elidedText (tip, Qt::ElideMiddle, 200 * metrics.horizontalAdvance (' '))
+#else
                             + metrics.elidedText (tip, Qt::ElideMiddle, 200 * metrics.width (' '))
+#endif
                             + "</p>";
         ui->tabWidget->setTabToolTip (index, elidedTip);
         if (!sideItems_.isEmpty())

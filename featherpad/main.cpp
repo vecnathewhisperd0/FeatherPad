@@ -77,9 +77,7 @@ int main (int argc, char **argv)
 
     handleQuitSignals ({SIGQUIT, SIGINT, SIGTERM, SIGHUP}); // -> https://en.wikipedia.org/wiki/Unix_signal
 
-#if QT_VERSION >= 0x050500
     singleton.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-#endif
 
     QStringList langs (QLocale::system().uiLanguages());
     QString lang; // bcp47Name() doesn't work under vbox

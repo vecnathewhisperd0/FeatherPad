@@ -198,7 +198,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         if (showEndings)
             flags |= QTextOption::ShowLineAndParagraphSeparators
                      | QTextOption::AddSpaceForLineAndParagraphSeparators // never show the horizontal scrollbar on wrapping
-#if QT_VERSION >= 0x050700
+#if (QT_VERSION >= QT_VERSION_CHECK(5,7,0))
                      | QTextOption::ShowDocumentTerminator
 #endif
                      ;
@@ -1188,7 +1188,7 @@ Highlighter::~Highlighter()
         opt.setFlags (opt.flags() & ~QTextOption::ShowTabsAndSpaces
                                   & ~QTextOption::ShowLineAndParagraphSeparators
                                   & ~QTextOption::AddSpaceForLineAndParagraphSeparators
-#if QT_VERSION >= 0x050700
+#if (QT_VERSION >= QT_VERSION_CHECK(5,7,0))
                                   & ~QTextOption::ShowDocumentTerminator
 #endif
                                   );
