@@ -409,6 +409,7 @@ void PrefDialog::onClosing()
 
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
     config.setPrefSize (size());
+    config.writeConfig();
 }
 /*************************/
 void PrefDialog::showPrompt (const QString& str, bool temporary)

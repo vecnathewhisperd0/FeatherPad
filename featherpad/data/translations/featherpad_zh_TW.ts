@@ -1731,7 +1731,7 @@ name but ending with &quot;.aff&quot;.</source>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="919"/>
-        <location filename="../../pref.cpp" line="1485"/>
+        <location filename="../../pref.cpp" line="1486"/>
         <source>Add dictionary...</source>
         <translation></translation>
     </message>
@@ -1824,54 +1824,54 @@ trailing spaces of a text file.</source>
     </message>
     <message>
         <location filename="../../pref.cpp" line="271"/>
-        <location filename="../../pref.cpp" line="1175"/>
+        <location filename="../../pref.cpp" line="1176"/>
         <source>files</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="271"/>
-        <location filename="../../pref.cpp" line="1175"/>
+        <location filename="../../pref.cpp" line="1176"/>
         <source>file</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="324"/>
-        <location filename="../../pref.cpp" line="1303"/>
+        <location filename="../../pref.cpp" line="1304"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="447"/>
+        <location filename="../../pref.cpp" line="448"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="459"/>
+        <location filename="../../pref.cpp" line="460"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1201"/>
+        <location filename="../../pref.cpp" line="1202"/>
         <source>&amp;Recently Opened</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1202"/>
+        <location filename="../../pref.cpp" line="1203"/>
         <source>Recently &amp;Modified</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1293"/>
+        <location filename="../../pref.cpp" line="1294"/>
         <source>The typed shortcut was not valid.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1295"/>
+        <location filename="../../pref.cpp" line="1296"/>
         <source>The typed shortcut was reserved.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1487"/>
+        <location filename="../../pref.cpp" line="1488"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation></translation>
     </message>

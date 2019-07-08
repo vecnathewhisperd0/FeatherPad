@@ -9,6 +9,7 @@ V0.11.0
  * Drag the selected text only if there is a real mouse movement (and not when the view is scrolled by the wheel of a motionless mouse).
  * 3 spaces between statusbar info sections (instead of 4 spaces).
  * Replaced the Qt methods that were deprecated by Qt 5.13.
+ * Also save settings on closing the Preferences dialog (and not only on quitting).
 
 V0.10.0
 ---------
