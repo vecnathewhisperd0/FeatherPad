@@ -10,6 +10,7 @@ V0.11.0
  * 3 spaces between statusbar info sections (instead of 4 spaces).
  * Replaced the Qt methods that were deprecated by Qt 5.13.
  * Also save settings on closing the Preferences dialog (and not only on quitting).
+ * Also toggle the insert mode when the keypad insert key is pressed.
 
 V0.10.0
 ---------

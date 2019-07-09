@@ -998,7 +998,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
     }
     else if (event->key() == Qt::Key_Insert)
     {
-        if (event->modifiers() == Qt::NoModifier)
+        if (event->modifiers() == Qt::NoModifier || event->modifiers() == Qt::KeypadModifier)
         {
             setOverwriteMode (!overwriteMode());
             if (!overwriteMode())
