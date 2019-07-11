@@ -70,22 +70,22 @@ QStringList Highlighter::keywords (const QString &lang)
     }
     else if (lang == "perl")
     {
-        keywordPatterns << "\\b(abs|alarm|and|atan2|binmode|bless)(?!(@|#|\\$))\\b"
-                        << "\\b(caller|chdir|chmod|chown|chroot|chomp|chop|chr|close|closedir|cmp|continue|cos|crypt)(?!(@|#|\\$))\\b"
-                        << "\\b(dbmclose|dbmopen|define|delete|die|do|dump)(?!(@|#|\\$))\\b"
-                        << "\\b(each|else|elsif|eof|eq|eva|exec|exists|exit|exp)(?!(@|#|\\$))\\b"
-                        << "\\b(fcntl|fileno|flock|for|foreach|fork|format)(?!(@|#|\\$))\\b"
-                        << "\\b(g|getc|getpgrp|getppid|getpriority|glob|goto|grep|hex)(?!(@|#|\\$))\\b"
-                        << "\\b(i|if|import|index|int|ioctl|join|keys|kill)(?!(@|#|\\$))\\b"
-                        << "\\b(last|lc|lcfirst|length|link|local|log|lstat|m|map|mkdir|my|next)(?!(@|#|\\$))\\b"
-                        << "\\b(oct|open|opendir|ord|our|pack|package|pipe|pop|print|printf|push)(?!(@|#|\\$))\\b"
-                        << "\\b(q|qq|qw|qx)(?!(@|#|\\$))\\b"
-                        << "\\b(rand|read|readdir|readlink|redo|ref|rename|require|return|reverse|rewinddir|rindex|rmdir)(?!(@|#|\\$))\\b"
-                        << "\\b(s|seek|seekdir|select|setpgrp|setpriority|shift|sin|sleep|sort|splice|split|sprintf|sqrt|srand|stat|sub|substr|symlink|syscall|sysread|sysseek|system|syswrite|switch)(?!(@|#|\\$))\\b"
-                        << "\\b(tell|telldir|tie|tied|times|tr|truncate)(?!(@|#|\\$))\\b"
-                        << "\\b(uc|ucfirst|umask|undef|unless|unlink|unpack|unshift|untie|use|utime)(?!(@|#|\\$))\\b"
-                        << "\\b(values|vec|x)(?!(@|#|\\$))\\b"
-                        << "\\b(wait|waitpid|warn|wantarray|while|write)(?!(@|#|\\$))\\b";
+        keywordPatterns << "\\b(?<!(@|#|\\$|/))(abs|alarm|and|atan2|binmode|bless)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|\\$|/))(caller|chdir|chmod|chown|chroot|chomp|chop|chr|close|closedir|cmp|continue|cos|crypt)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|\\$|/))(dbmclose|dbmopen|define|delete|die|do|dump)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|\\$|/))(each|else|elsif|eof|eq|eva|exec|exists|exit|exp)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|\\$|/))(fcntl|fileno|flock|for|foreach|fork|format)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|\\$|/))(g|getc|getpgrp|getppid|getpriority|glob|goto|grep|hex)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|\\$|/))(i|if|import|index|int|ioctl|join|keys|kill)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|\\$|/))(last|lc|lcfirst|length|link|local|log|lstat|m|map|mkdir|my|next)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|\\$|/))(oct|open|opendir|or|ord|our|pack|package|pipe|pop|print|printf|push)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|\\$|/))(q|qq|qr|qw|qx)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|\\$|/))(rand|read|readdir|readlink|redo|ref|rename|require|return|reverse|rewinddir|rindex|rmdir)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|\\$|/))(s|seek|seekdir|select|setpgrp|setpriority|shift|sin|sleep|sort|splice|split|sprintf|sqrt|srand|stat|sub|substr|symlink|syscall|sysread|sysseek|system|syswrite|switch)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|\\$|/))(tell|telldir|tie|tied|times|tr|truncate)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|\\$|/))(uc|ucfirst|umask|undef|unless|unlink|unpack|unshift|untie|use|utime)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|\\$|/))(values|vec|x)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|\\$|/))(wait|waitpid|warn|wantarray|while|write)(?!(@|#|\\$))\\b";
     }
     else if (lang == "ruby")
     {

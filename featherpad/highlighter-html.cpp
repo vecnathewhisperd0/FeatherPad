@@ -383,7 +383,7 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
         setFormat (cssIndex + matched, text.length() - cssIndex - matched, neutralFormat);
         setCurrentBlockState (0);
 
-        /* ... and apply the css formats */;
+        /* ... and apply the css formats */
         multiLineQuote (text, cssIndex + matched, htmlCSSCommentState);
         int cssIndx = cssHighlighter (text, mainFormatting, cssIndex + matched);
         multiLineComment (text,
@@ -531,7 +531,7 @@ void Highlighter::htmlJavascript (const QString &text)
                           commentStartExpression, commentEndExpression,
                           htmlJavaCommentState,
                           commentFormat);
-        multiLineJSRegex (text, javaIndex + matched);
+        multiLineRegex (text, javaIndex + matched);
         if (mainFormatting)
         {
             for (const HighlightingRule &rule : qAsConst(highlightingRules))
@@ -547,7 +547,7 @@ void Highlighter::htmlJavascript (const QString &text)
                     while (index >= 0
                            && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                                || fi == commentFormat || fi == urlFormat
-                               || fi ==  JSRegexFormat))
+                               || fi ==  regexFormat))
                     {
                         index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
                         fi = format (index);
@@ -565,7 +565,7 @@ void Highlighter::htmlJavascript (const QString &text)
                         while (index >= 0
                                && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                                    || fi == commentFormat || fi == urlFormat
-                                   || fi == JSRegexFormat))
+                                   || fi == regexFormat))
                         {
                             index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
                             fi = format (index);
@@ -590,7 +590,7 @@ void Highlighter::htmlJavascript (const QString &text)
         while (javaEndIndex > -1
                && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                    || fi == commentFormat || fi == urlFormat
-                   || fi == JSRegexFormat))
+                   || fi == regexFormat))
         {
             javaEndIndex = text.indexOf (javaEndExp, javaEndIndex + endMatch.capturedLength(), &endMatch);
             fi = format (javaEndIndex);

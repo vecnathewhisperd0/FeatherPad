@@ -11,6 +11,7 @@ V0.11.0
  * Replaced the Qt methods that were deprecated by Qt 5.13.
  * Also save settings on closing the Preferences dialog (and not only on quitting).
  * Also toggle the insert mode when the keypad insert key is pressed.
+ * Lots of fixes to Perl syntax highlighting, especially by adding regex to it.
 
 V0.10.0
 ---------

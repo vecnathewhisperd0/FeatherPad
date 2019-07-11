@@ -165,9 +165,12 @@ private:
     void reSTMainFormatting (int start, const QString &text);
     void debControlFormatting (const QString &text);
 
-    bool isEscapedJSRegex (const QString &text, const int pos);
-    bool isInsideJSRegex (const QString &text, const int index);
-    void multiLineJSRegex (const QString &text, const int index);
+    bool isEscapedRegex (const QString &text, const int pos);
+    bool isEscapedPerlRegex (const QString &text, const int pos);
+    bool isInsideRegex (const QString &text, const int index);
+    bool isInsidePerlRegex (const QString &text, const int index);
+    void multiLineRegex (const QString &text, const int index);
+    void multiLinePerlRegex (const QString &text);
 
     bool yamlOpenNraces (const QString &text,
                          const QRegularExpression &startExp, const QRegularExpression &endExp,
@@ -199,7 +202,7 @@ private:
     QTextCharFormat codeBlockFormat;
     QTextCharFormat whiteSpaceFormat; // For whitespaces.
     QTextCharFormat translucentFormat;
-    QTextCharFormat JSRegexFormat;
+    QTextCharFormat regexFormat;
 
     /* Programming language: */
     QString progLan;
@@ -239,9 +242,10 @@ private:
         /* Markdown and reStructuredText */
         codeBlockState,
 
-        /* JavaScript: */
-        JSRegexState,
-        JSRegexEndState, // the line ends with a JS regex (+ spaces)
+        /* Regex inside JavaScript, QML and Perl: */
+        regexSearchState, // search and replace (only in Perl)
+        regexState,
+        regexEndState, // the line ends with a JS regex (+ spaces)
 
         /* HTML: */
         htmlBracketState,

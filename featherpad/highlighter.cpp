@@ -265,7 +265,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     urlInsideQuoteFormat.setFontUnderline (true);
     /*quoteStartExpression.setPattern ("\"([^\"'])");
     quoteEndExpression.setPattern ("([^\"'])\"");*/
-    JSRegexFormat.setForeground (DarkRed);
+    regexFormat.setForeground (DarkRed);
 
     /*************
      * Functions *
@@ -525,6 +525,8 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         /* # is the sh comment sign when it doesn't follow a character */
         if (progLan == "sh" || progLan == "makefile" || progLan == "cmake")
             rule.pattern.setPattern ("(?<=^|\\s|;)#.*");
+        else if (progLan == "perl") // $# isn't a comment
+            rule.pattern.setPattern ("(?<!\\$)#.*");
         else
             rule.pattern.setPattern ("#.*");
         rule.format = commentFormat;
@@ -1269,7 +1271,11 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
         QRegularExpressionMatch match;
         QRegularExpression delimPart ("<<\\s*");
         QRegularExpressionMatch match1;
-        QRegularExpression delimPart1 ("<<(?:\\s*)(\'[A-Za-z0-9_]+)|<<(?:\\s*)(\"[A-Za-z0-9_]+)");
+        QRegularExpression delimPart1;
+        if (progLan == "perl") // space is allowed
+            delimPart1.setPattern ("<<(?:\\s*)(\'[A-Za-z0-9_\\s]+)|<<(?:\\s*)(\"[A-Za-z0-9_\\s]+)");
+        else
+            delimPart1.setPattern ("<<(?:\\s*)(\'[A-Za-z0-9_]+)|<<(?:\\s*)(\"[A-Za-z0-9_]+)");
         if (text.lastIndexOf (delimPart, pos, &match) == pos - match.capturedLength()
             || text.lastIndexOf (delimPart1, pos, &match1) == pos - match1.capturedLength())
         {
@@ -1335,8 +1341,8 @@ bool Highlighter::isQuoted (const QString &text, const int index,
     int pos = -1;
 
     /* with regex, the text will be formatted below to know whether
-       the regex start sign is quoted (-> isEscapedJSRegex) */
-    bool hasRegex (progLan == "javascript" || progLan == "qml");
+       the regex start sign is quoted (-> isEscapedRegex) */
+    bool hasRegex (progLan == "javascript" || progLan == "qml" || progLan == "perl");
     if (hasRegex)
     {
         if (format (index) == quoteFormat || format (index) == altQuoteFormat)
@@ -1438,7 +1444,7 @@ bool Highlighter::isQuoted (const QString &text, const int index,
         if ((N % 2 == 0 // an escaped end quote...
              && isEscapedQuote (text, nxtPos, false))
             || (N % 2 != 0 // ... or an escaped start quote in Perl or Bash
-                && (isEscapedQuote (text, nxtPos, true, skipCommandSign) || isInsideJSRegex (text, nxtPos))))
+                && (isEscapedQuote (text, nxtPos, true, skipCommandSign) || isInsideRegex (text, nxtPos))))
         {
             --N;
             pos = nxtPos;
@@ -1446,7 +1452,7 @@ bool Highlighter::isQuoted (const QString &text, const int index,
         }
 
         if (N % 2 == 0 && hasRegex)
-        { // -> isEscapedJSRegex()
+        { // -> isEscapedRegex()
             if (TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData()))
                 data->insertLastFormattedQuote (nxtPos + 1);
             pos = qMax (pos, 0);
@@ -1948,7 +1954,7 @@ void Highlighter::singleLineComment (const QString &text, const int start)
                 startIndex = text.indexOf (rule.pattern, startIndex);
                 /* skip quoted comments (and, automatically, those inside multiline python comments) */
                 while (startIndex > -1
-                       && (isQuoted (text, startIndex) || isInsideJSRegex (text, startIndex)))
+                       && (isQuoted (text, startIndex) || isInsideRegex (text, startIndex)))
                 {
                     startIndex = text.indexOf (rule.pattern, startIndex + 1);
                 }
@@ -2293,7 +2299,7 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
         index = text.indexOf (quoteExpression, index);
         /* skip escaped start quotes and all comments */
         while (isEscapedQuote (text, index, true)
-               || isInsideJSRegex (text, index)
+               || isInsideRegex (text, index)
                || isMLCommented (text, index, comState)) // multiline
         {
             index = text.indexOf (quoteExpression, index + 1);
@@ -2490,7 +2496,7 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
 
         /* skip escaped start quotes and all comments */
         while (isEscapedQuote (text, index, true)
-               || isInsideJSRegex (text, index)
+               || isInsideRegex (text, index)
                || isMLCommented (text, index, comState))
         {
             index = text.indexOf (quoteExpression, index + 1);
@@ -2708,8 +2714,10 @@ bool Highlighter::isHereDocument (const QString &text)
     QRegularExpression delim;
     if (progLan == "sh" || progLan == "makefile" || progLan == "cmake")
         delim.setPattern ("<<(?:\\s*)(\\\\{0,1}[A-Za-z0-9_]+)|<<(?:\\s*)(\'[A-Za-z0-9_]+\')|<<(?:\\s*)(\"[A-Za-z0-9_]+\")");
-    else if (progLan == "perl") // without space after "<<" and with ";" at the end
-        delim.setPattern ("<<([A-Za-z0-9_]+)(?:;)|<<(\'[A-Za-z0-9_]+\')(?:;)|<<(\"[A-Za-z0-9_]+\")(?:;)");
+    /*else if (progLan == "perl") // without space after "<<" and with ";" at the end
+        delim.setPattern ("<<([A-Za-z0-9_]+)(?:;)|<<(\'[A-Za-z0-9_]+\')(?:;)|<<(\"[A-Za-z0-9_]+\")(?:;)");*/
+    else if (progLan == "perl") // can contain spaces inside quote marks and usually has ";" at the end
+        delim.setPattern ("<<([A-Za-z0-9_]+)(?:;{0,1})|<<(?:\\s*)(\'[A-Za-z0-9_\\s]+\')(?:;{0,1})|<<(?:\\s*)(\"[A-Za-z0-9_\\s]+\")(?:;{0,1})");
     else if (progLan == "ruby")
         delim.setPattern ("<<(?:-|~){0,1}([A-Za-z0-9_]+)|<<(\'[A-Za-z0-9_]+\')|<<(\"[A-Za-z0-9_]+\")");
     else // FIXME: No language.
@@ -3577,11 +3585,13 @@ void Highlighter::highlightBlock (const QString &text)
     bool rehighlightNextBlock = false;
     int oldOpenNests = 0; QSet<int> oldOpenQuotes; // to be used in SH_CmndSubstVar()
     bool oldProperty = false; // to be used with yaml
+    QString oldLabel; // to be used with perl
     if (TextBlockData *oldData = static_cast<TextBlockData *>(currentBlockUserData()))
     {
         oldOpenNests = oldData->openNests();
         oldOpenQuotes = oldData->openQuotes();
         oldProperty = oldData->getProperty();
+        oldLabel = oldData->labelInfo();
     }
 
     int index;
@@ -3685,8 +3695,10 @@ void Highlighter::highlightBlock (const QString &text)
     if (!commentStartExpression.pattern().isEmpty() && progLan != "python")
         multiLineComment (text, 0, cssIndx, commentStartExpression, commentEndExpression, commentState, commentFormat);
 
-    /* only javascript and qml, for now */
-    multiLineJSRegex (text, 0);
+    /* only javascript, qml and perl */
+    multiLineRegex (text, 0);
+    if (progLan == "perl")
+        rehighlightNextBlock |= data->labelInfo() != oldLabel;
 
     /********
      * Yaml *
@@ -4149,7 +4161,7 @@ void Highlighter::highlightBlock (const QString &text)
                 while (index >= 0
                        && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                            || fi == commentFormat || fi == urlFormat
-                           || fi == JSRegexFormat))
+                           || fi == regexFormat))
                 {
                     index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
                     fi = format (index);
@@ -4171,7 +4183,7 @@ void Highlighter::highlightBlock (const QString &text)
                            || format (index + l - 1) == quoteFormat
                            || format (index + l - 1) == altQuoteFormat
                            || format (index + l - 1) == urlInsideQuoteFormat
-                           || format (index + l - 1) == JSRegexFormat*/)
+                           || format (index + l - 1) == regexFormat*/)
                     {
                         -- l;
                     }
@@ -4185,7 +4197,7 @@ void Highlighter::highlightBlock (const QString &text)
                     while (index >= 0
                            && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                                || fi == commentFormat || fi == urlFormat
-                               || fi == JSRegexFormat))
+                               || fi == regexFormat))
                     {
                         index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
                         fi = format (index);
@@ -4205,7 +4217,7 @@ void Highlighter::highlightBlock (const QString &text)
     while (index >= 0
            && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                || fi == commentFormat || fi == urlFormat
-               || fi == JSRegexFormat
+               || fi == regexFormat
                || (progLan == "sh" && isEscapedChar (text, index))))
     {
         index = text.indexOf ('(', index + 1);
@@ -4223,7 +4235,7 @@ void Highlighter::highlightBlock (const QString &text)
         while (index >= 0
                && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                    || fi == commentFormat || fi == urlFormat
-                   || fi == JSRegexFormat
+                   || fi == regexFormat
                    || (progLan == "sh" && isEscapedChar (text, index))))
         {
             index = text.indexOf ('(', index + 1);
@@ -4237,7 +4249,7 @@ void Highlighter::highlightBlock (const QString &text)
     while (index >= 0
            && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                || fi == commentFormat || fi == urlFormat
-               || fi == JSRegexFormat
+               || fi == regexFormat
                || (progLan == "sh" && isEscapedChar (text, index))))
     {
         index = text.indexOf (')', index + 1);
@@ -4255,7 +4267,7 @@ void Highlighter::highlightBlock (const QString &text)
         while (index >= 0
                && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                    || fi == commentFormat || fi == urlFormat
-                   || fi == JSRegexFormat
+                   || fi == regexFormat
                    || (progLan == "sh" && isEscapedChar (text, index))))
         {
             index = text.indexOf (')', index + 1);
@@ -4269,7 +4281,7 @@ void Highlighter::highlightBlock (const QString &text)
     while (index >= 0
            && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                || fi == commentFormat || fi == urlFormat
-               || fi == JSRegexFormat
+               || fi == regexFormat
                || (progLan == "yaml" && fi != neutralFormat)))
     {
         index = text.indexOf ('{', index + 1);
@@ -4287,7 +4299,7 @@ void Highlighter::highlightBlock (const QString &text)
         while (index >= 0
                && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                    || fi == commentFormat || fi == urlFormat
-                   || fi == JSRegexFormat
+                   || fi == regexFormat
                    || (progLan == "yaml" && fi != neutralFormat)))
         {
             index = text.indexOf ('{', index + 1);
@@ -4301,7 +4313,7 @@ void Highlighter::highlightBlock (const QString &text)
     while (index >= 0
            && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                || fi == commentFormat || fi == urlFormat
-               || fi == JSRegexFormat
+               || fi == regexFormat
                || (progLan == "yaml" && fi != neutralFormat)))
     {
         index = text.indexOf ('}', index + 1);
@@ -4319,7 +4331,7 @@ void Highlighter::highlightBlock (const QString &text)
         while (index >= 0
                && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                    || fi == commentFormat || fi == urlFormat
-                   || fi == JSRegexFormat
+                   || fi == regexFormat
                    || (progLan == "yaml" && fi != neutralFormat)))
         {
             index = text.indexOf ('}', index + 1);
@@ -4333,7 +4345,7 @@ void Highlighter::highlightBlock (const QString &text)
     while (index >= 0
            && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                || fi == commentFormat || fi == urlFormat
-               || fi == JSRegexFormat
+               || fi == regexFormat
                || (progLan == "yaml" && fi != neutralFormat)
                || (progLan == "sh" && isEscapedChar (text, index))))
     {
@@ -4352,7 +4364,7 @@ void Highlighter::highlightBlock (const QString &text)
         while (index >= 0
                && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                    || fi == commentFormat || fi == urlFormat
-                   || fi == JSRegexFormat
+                   || fi == regexFormat
                    || (progLan == "yaml" && fi != neutralFormat)
                    || (progLan == "sh" && isEscapedChar (text, index))))
         {
@@ -4367,7 +4379,7 @@ void Highlighter::highlightBlock (const QString &text)
     while (index >= 0
            && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                || fi == commentFormat || fi == urlFormat
-               || fi == JSRegexFormat
+               || fi == regexFormat
                || (progLan == "yaml" && fi != neutralFormat)
                || (progLan == "sh" && isEscapedChar (text, index))))
     {
@@ -4386,7 +4398,7 @@ void Highlighter::highlightBlock (const QString &text)
         while (index >= 0
                && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
                    || fi == commentFormat || fi == urlFormat
-                   || fi == JSRegexFormat
+                   || fi == regexFormat
                    || (progLan == "yaml" && fi != neutralFormat)
                    || (progLan == "sh" && isEscapedChar (text, index))))
         {
