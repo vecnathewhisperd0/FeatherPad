@@ -123,11 +123,12 @@ protected:
 private:
     QStringList keywords (const QString &lang);
     QStringList types();
-    bool isEscapedChar (const QString &text, const int pos);
+    bool isEscapedChar (const QString &text, const int pos) const;
     bool isEscapedQuote (const QString &text, const int pos, bool isStartQuote,
                          bool skipCommandSign = false);
     bool isQuoted (const QString &text, const int index,
                    bool skipCommandSign = false);
+    bool isPerlQuoted (const QString &text, const int index);
     bool isMLCommented (const QString &text, const int index, int comState = commentState);
     bool isHereDocument (const QString &text);
     void pythonMLComment (const QString &text, const int indx);
@@ -145,6 +146,7 @@ private:
     bool multiLineQuote (const QString &text,
                          const int start = 0,
                          int comState = commentState);
+    void multiLinePerlQuote(const QString &text);
     void xmlQuotes (const QString &text);
     void setFormatWithoutOverwrite (int start,
                                     int count,

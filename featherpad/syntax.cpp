@@ -173,7 +173,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
                 progLan = "ruby";
             else if (mime == "text/x-lua")
                 progLan = "lua";
-            else if (mime == "text/x-python")
+            else if (mime.startsWith("text/x-python")) // it may be "text/x-python3"
                 progLan = "python";
             else if (mime == "application/x-perl")
                 progLan = "perl";

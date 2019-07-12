@@ -1199,7 +1199,7 @@ Highlighter::~Highlighter()
 }
 /*************************/
 // Should be used only with characters that can be escaped in a language.
-bool Highlighter::isEscapedChar (const QString &text, const int pos)
+bool Highlighter::isEscapedChar (const QString &text, const int pos) const
 {
     if (pos < 1) return false;
     int i = 0;
@@ -1258,11 +1258,19 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
         }
     }
 
+    /* there's no need to check for quote marks because this function is used only with them */
+    /*if (progLan == "perl"
+        && pos != text.indexOf (quoteMark, pos)
+        && pos != text.indexOf ("\'", pos)
+        && pos != text.indexOf ("`", pos))
+    {
+        return false;
+    }
     if (pos != text.indexOf (quoteMark, pos)
         && (progLan == "markdown" || pos != text.indexOf (QRegularExpression ("\'"), pos)))
     {
         return false;
-    }
+    }*/
 
     /* check if the quote surrounds a here-doc delimiter */
     if ((currentBlockState() >= endState || currentBlockState() < -1)
@@ -1273,7 +1281,7 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
         QRegularExpressionMatch match1;
         QRegularExpression delimPart1;
         if (progLan == "perl") // space is allowed
-            delimPart1.setPattern ("<<(?:\\s*)(\'[A-Za-z0-9_\\s]+)|<<(?:\\s*)(\"[A-Za-z0-9_\\s]+)");
+            delimPart1.setPattern ("<<(?:\\s*)(\'[A-Za-z0-9_\\s]+)|<<(?:\\s*)(\"[A-Za-z0-9_\\s]+)|<<(?:\\s*)(`[A-Za-z0-9_\\s]+)");
         else
             delimPart1.setPattern ("<<(?:\\s*)(\'[A-Za-z0-9_]+)|<<(?:\\s*)(\"[A-Za-z0-9_]+)");
         if (text.lastIndexOf (delimPart, pos, &match) == pos - match.capturedLength()
@@ -1283,23 +1291,42 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
         }
     }
 
-    /* escaped start quotes are just for Bash, Perl and markdown */
-    if (isStartQuote
-        && progLan != "sh" && progLan != "makefile" && progLan != "cmake"
-        && progLan != "perl" && progLan != "markdown" && progLan != "yaml")
+    /* escaped start quotes are just for Bash, Perl, markdown and yaml */
+    if (isStartQuote)
     {
-        return false;
+        if (progLan == "perl")
+        {
+            if (pos >= 1)
+            {
+                if (text.at (pos - 1) == '$') // in Perl, $' has a (deprecated?) meaning
+                    return true;
+                if (text.at (pos) == '\'')
+                {
+                    if (text.at (pos - 1) == '&')
+                        return true;
+                    int index = pos - 1;
+                    while (index >= 0 && (text.at (index).isLetterOrNumber() || text.at (index) == '_'))
+                        -- index;
+                    if (index >= 0 && (text.at (index) == '$' || text.at (index) == '@'
+                                       || text.at (index) == '%' || text.at (index) == '*'
+                                       || text.at (index) == '!'))
+                    {
+                        return true;
+                    }
+                }
+            }
+            if (text.at (pos) == '`')
+                return false; // "`" isn't ecaped at the start
+        }
+        else if (progLan != "sh" && progLan != "makefile" && progLan != "cmake"
+                 && progLan != "markdown" && progLan != "yaml")
+        {
+            return false;
+        }
     }
 
     if (isStartQuote && skipCommandSign && pos == text.indexOf (quoteMark, pos)
         && text.indexOf (QRegularExpression ("[^\"]*\\$\\("), pos)== pos + 1)
-    {
-        return true;
-    }
-
-    /* in Perl, $' has a (deprecated?) meaning */
-    if (isStartQuote // otherwise undetectable
-        && progLan == "perl" && pos >= 1 && pos - 1 == text.indexOf (QRegularExpression ("\\$"), pos - 1))
     {
         return true;
     }
@@ -1336,13 +1363,15 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
 bool Highlighter::isQuoted (const QString &text, const int index,
                             bool skipCommandSign)
 {
+    if (progLan == "perl") return isPerlQuoted (text, index);
+
     if (index < 0) return false;
 
     int pos = -1;
 
     /* with regex, the text will be formatted below to know whether
        the regex start sign is quoted (-> isEscapedRegex) */
-    bool hasRegex (progLan == "javascript" || progLan == "qml" || progLan == "perl");
+    bool hasRegex (progLan == "javascript" || progLan == "qml");
     if (hasRegex)
     {
         if (format (index) == quoteFormat || format (index) == altQuoteFormat)
@@ -1361,7 +1390,7 @@ bool Highlighter::isQuoted (const QString &text, const int index,
         || progLan == "c" || progLan == "cpp"
         || progLan == "python" || progLan == "sh"
         || progLan == "makefile" || progLan == "cmake"
-        || progLan == "lua" || progLan == "perl"
+        || progLan == "lua"
         || progLan == "xml" // never used with xml; otherwise, we should consider "&quot;"
         || progLan == "ruby" || progLan == "html" || progLan == "scss"
         || progLan == "yaml")
@@ -1443,9 +1472,19 @@ bool Highlighter::isQuoted (const QString &text, const int index,
         ++N;
         if ((N % 2 == 0 // an escaped end quote...
              && isEscapedQuote (text, nxtPos, false))
-            || (N % 2 != 0 // ... or an escaped start quote in Perl or Bash
+            || (N % 2 != 0 // ... or an escaped start quote Bash
                 && (isEscapedQuote (text, nxtPos, true, skipCommandSign) || isInsideRegex (text, nxtPos))))
         {
+            if (res && hasRegex)
+            { // -> isEscapedRegex()
+                if (TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData()))
+                    data->insertLastFormattedQuote (nxtPos + 1);
+                pos = qMax (pos, 0);
+                if (nxtPos == text.indexOf (quoteMark, nxtPos))
+                    setFormat (pos, nxtPos - pos + 1, quoteFormat);
+                else
+                    setFormat (pos, nxtPos - pos + 1, altQuoteFormat);
+            }
             --N;
             pos = nxtPos;
             continue;
@@ -1485,6 +1524,126 @@ bool Highlighter::isQuoted (const QString &text, const int index,
             else
                 quoteExpression.setPattern ("\"|\'");
         }
+        pos = nxtPos;
+    }
+
+    return res;
+}
+/*************************/
+// Perl has a separate method to support backquotes.
+// Also see multiLinePerlQuote().
+bool Highlighter::isPerlQuoted (const QString &text, const int index)
+{
+    if (index < 0) return false;
+
+    int pos = -1;
+
+    if (format (index) == quoteFormat || format (index) == altQuoteFormat)
+        return true;
+    if (TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData()))
+    {
+        pos = data->lastFormattedQuote() - 1;
+        if (index <= pos) return false;
+    }
+
+    bool res = false;
+    int N;
+    QRegularExpression quoteExpression ("\"|\'|`");
+    if (pos == -1)
+    {
+        int prevState = previousBlockState();
+        if (prevState != doubleQuoteState && prevState != singleQuoteState)
+            N = 0;
+        else
+        {
+            N = 1;
+            res = true;
+            if (prevState == doubleQuoteState)
+                quoteExpression = quoteMark;
+            else
+            {
+                bool backquoted (false);
+                QTextBlock prevBlock = currentBlock().previous();
+                if (prevBlock.isValid())
+                {
+                    TextBlockData *prevData = static_cast<TextBlockData *>(prevBlock.userData());
+                    if (prevData && prevData->getProperty())
+                        backquoted = true;
+                }
+                if (backquoted)
+                    quoteExpression.setPattern ("`");
+                else
+                    quoteExpression.setPattern ("\'");
+            }
+        }
+    }
+    else N = 0; // a new search from the last position
+
+    int nxtPos;
+    while ((nxtPos = text.indexOf (quoteExpression, pos + 1)) >= 0)
+    {
+        /* skip formatted comments */
+        if (format (nxtPos) == commentFormat
+            || (N % 2 == 0 && isMLCommented (text, nxtPos, commentState)))
+        {
+            pos = nxtPos;
+            continue;
+        }
+
+        ++N;
+        if ((N % 2 == 0 // an escaped end quote...
+             && isEscapedQuote (text, nxtPos, false))
+            || (N % 2 != 0 // ... or an escaped start quote
+                && (isEscapedQuote (text, nxtPos, true, false) || isInsideRegex (text, nxtPos))))
+        {
+            if (res)
+            { // -> isEscapedRegex()
+                if (TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData()))
+                    data->insertLastFormattedQuote (nxtPos + 1);
+                pos = qMax (pos, 0);
+                if (nxtPos == text.indexOf (quoteMark, nxtPos))
+                    setFormat (pos, nxtPos - pos + 1, quoteFormat);
+                else
+                    setFormat (pos, nxtPos - pos + 1, altQuoteFormat);
+            }
+            --N;
+            pos = nxtPos;
+            continue;
+        }
+
+        if (N % 2 == 0)
+        { // -> isEscapedRegex()
+            if (TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData()))
+                data->insertLastFormattedQuote (nxtPos + 1);
+            pos = qMax (pos, 0);
+            if (nxtPos == text.indexOf (quoteMark, nxtPos))
+                setFormat (pos, nxtPos - pos + 1, quoteFormat);
+            else
+                setFormat (pos, nxtPos - pos + 1, altQuoteFormat);
+        }
+
+        if (index < nxtPos)
+        {
+            if (N % 2 == 0) res = true;
+            else res = false;
+            break;
+        }
+
+        /* "pos" might be negative next time */
+        if (N % 2 == 0) res = false;
+        else res = true;
+
+        if (N % 2 != 0)
+        { // each quote neutralizes the other until it's closed
+            if (nxtPos == text.indexOf (quoteMark, nxtPos))
+                quoteExpression = quoteMark;
+            else if (nxtPos == text.indexOf (QRegularExpression ("\'"), nxtPos))
+                quoteExpression.setPattern ("\'");
+            else
+                quoteExpression.setPattern ("`");
+        }
+        else
+            quoteExpression.setPattern ("\"|\'");
         pos = nxtPos;
     }
 
@@ -2248,6 +2407,11 @@ bool Highlighter::textEndsWithBackSlash (const QString &text)
 // Sometimes (with multi-language docs), formatting should be started from "start".
 bool Highlighter::multiLineQuote (const QString &text, const int start, int comState)
 {
+    if (progLan == "perl")
+    {
+        multiLinePerlQuote (text);
+        return false;
+    }
 //--------------------
     /* these are only for C++11 raw string literals,
        whose pattern is R"(\bR"([^(]*)\(.*(?=\)\1"))" */
@@ -2276,7 +2440,7 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
         || progLan == "python"
         /*|| progLan == "sh"*/ // bash uses SH_MultiLineQuote()
         || progLan == "makefile" || progLan == "cmake"
-        || progLan == "lua" || progLan == "perl"
+        || progLan == "lua"
         || progLan == "ruby" || progLan == "scss"
         || progLan == "yaml")
     {
@@ -2523,6 +2687,144 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
     return rehighlightNextBlock;
 }
 /*************************/
+// Perl's multiline quote highlighting comes here to support backquotes.
+// Also see isPerlQuoted().
+void Highlighter::multiLinePerlQuote (const QString &text)
+{
+    int index = 0;
+    QRegularExpressionMatch quoteMatch;
+    QRegularExpression quoteExpression ("\"|\'|`");
+    int quote = doubleQuoteState;
+
+    /* find the start quote */
+    int prevState = previousBlockState();
+    if (prevState != doubleQuoteState && prevState != singleQuoteState)
+    {
+        index = text.indexOf (quoteExpression, index);
+        /* skip escaped start quotes and all comments */
+        while (isEscapedQuote (text, index, true) || isInsideRegex (text, index))
+            index = text.indexOf (quoteExpression, index + 1);
+        while (format (index) == commentFormat || format (index) == urlFormat)
+            index = text.indexOf (quoteExpression, index + 1);
+
+        /* if the start quote is found... */
+        if (index >= 0)
+        {
+            /* ... distinguish between the three kinds of quote */
+            if (index == text.indexOf (quoteMark, index))
+            {
+                quoteExpression = quoteMark;
+                quote = doubleQuoteState;
+            }
+            else
+            {
+                if (index == text.indexOf (QRegularExpression ("\'"), index))
+                    quoteExpression.setPattern ("\'");
+                else
+                    quoteExpression.setPattern ("`");
+                quote = singleQuoteState;
+            }
+        }
+    }
+    else // but if we're inside a quotation...
+    {
+        /* ... distinguish between the three kinds of quote */
+        quote = prevState;
+        if (quote == doubleQuoteState)
+            quoteExpression = quoteMark;
+        else
+        {
+            bool backquoted (false);
+            QTextBlock prevBlock = currentBlock().previous();
+            if (prevBlock.isValid())
+            {
+                TextBlockData *prevData = static_cast<TextBlockData *>(prevBlock.userData());
+                if (prevData && prevData->getProperty())
+                    backquoted = true;
+            }
+            if (backquoted)
+                quoteExpression.setPattern ("`");
+            else
+                quoteExpression.setPattern ("\'");
+        }
+    }
+
+    while (index >= 0)
+    {
+        /* if the search is continued... */
+        if (quoteExpression.pattern() == "\"|\'|`")
+        {
+            /* ... distinguish between the three kinds of quote
+               again because the quote mark may have changed */
+            if (index == text.indexOf (quoteMark, index))
+            {
+                quoteExpression = quoteMark;
+                quote = doubleQuoteState;
+            }
+            else
+            {
+                if (index == text.indexOf (QRegularExpression ("\'"), index))
+                    quoteExpression.setPattern ("\'");
+                else
+                    quoteExpression.setPattern ("`");
+                quote = singleQuoteState;
+            }
+        }
+
+        int endIndex;
+        /* if there's no start quote ... */
+        if (index == 0
+            && (prevState == doubleQuoteState || prevState == singleQuoteState))
+        {
+            /* ... search for the end quote from the line start */
+            endIndex = text.indexOf (quoteExpression, 0, &quoteMatch);
+        }
+        else // otherwise, search from the start quote
+            endIndex = text.indexOf (quoteExpression, index + 1, &quoteMatch);
+
+        // check if the quote is escaped
+        while (isEscapedQuote (text, endIndex, false))
+            endIndex = text.indexOf (quoteExpression, endIndex + 1, &quoteMatch);
+
+        int quoteLength;
+        if (endIndex == -1)
+        {
+            setCurrentBlockState (quote);
+            if (quoteExpression.pattern() == "`")
+            {
+                if (TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData()))
+                    data->setProperty (true);
+                /* NOTE: The next block will be rehighlighted at highlightBlock()
+                         (-> multiLineRegex (text, 0);) if the property is changed. */
+            }
+            quoteLength = text.length() - index;
+        }
+        else
+            quoteLength = endIndex - index
+                          + quoteMatch.capturedLength(); // 1
+        setFormat (index, quoteLength, quoteExpression == quoteMark ? quoteFormat
+                                                                    : altQuoteFormat);
+        QString str = text.mid (index, quoteLength);
+        int urlIndex = 0;
+        QRegularExpressionMatch urlMatch;
+        while ((urlIndex = str.indexOf (urlPattern, urlIndex, &urlMatch)) > -1)
+        {
+             setFormat (urlIndex + index, urlMatch.capturedLength(), urlInsideQuoteFormat);
+             urlIndex += urlMatch.capturedLength();
+        }
+
+        /* the next quote may be different */
+        quoteExpression.setPattern ("\"|\'|`");
+        index = text.indexOf (quoteExpression, index + quoteLength);
+
+        /* skip escaped start quotes and all comments */
+        while (isEscapedQuote (text, index, true) || isInsideRegex (text, index))
+            index = text.indexOf (quoteExpression, index + 1);
+        while (format (index) == commentFormat || format (index) == urlFormat)
+            index = text.indexOf (quoteExpression, index + 1);
+    }
+}
+/*************************/
 // Generalized form of setFormat(), where "oldFormat" shouldn't be reformatted.
 void Highlighter::setFormatWithoutOverwrite (int start,
                                              int count,
@@ -2716,8 +3018,8 @@ bool Highlighter::isHereDocument (const QString &text)
         delim.setPattern ("<<(?:\\s*)(\\\\{0,1}[A-Za-z0-9_]+)|<<(?:\\s*)(\'[A-Za-z0-9_]+\')|<<(?:\\s*)(\"[A-Za-z0-9_]+\")");
     /*else if (progLan == "perl") // without space after "<<" and with ";" at the end
         delim.setPattern ("<<([A-Za-z0-9_]+)(?:;)|<<(\'[A-Za-z0-9_]+\')(?:;)|<<(\"[A-Za-z0-9_]+\")(?:;)");*/
-    else if (progLan == "perl") // can contain spaces inside quote marks and usually has ";" at the end
-        delim.setPattern ("<<([A-Za-z0-9_]+)(?:;{0,1})|<<(?:\\s*)(\'[A-Za-z0-9_\\s]+\')(?:;{0,1})|<<(?:\\s*)(\"[A-Za-z0-9_\\s]+\")(?:;{0,1})");
+    else if (progLan == "perl") // can contain spaces inside quote marks or backquotes and usually has ";" at the end
+        delim.setPattern ("<<([A-Za-z0-9_]+)(?:;{0,1})|<<(?:\\s*)(\'[A-Za-z0-9_\\s]+\')(?:;{0,1})|<<(?:\\s*)(\"[A-Za-z0-9_\\s]+\")(?:;{0,1})|<<(?:\\s*)(`[A-Za-z0-9_\\s]+`)(?:;{0,1})");
     else if (progLan == "ruby")
         delim.setPattern ("<<(?:-|~){0,1}([A-Za-z0-9_]+)|<<(\'[A-Za-z0-9_]+\')|<<(\"[A-Za-z0-9_]+\")");
     else // FIXME: No language.
@@ -2752,6 +3054,8 @@ bool Highlighter::isHereDocument (const QString &text)
             delimStr = delimStr.split ('\'').at (1);
         if (delimStr.contains ('\"'))
             delimStr = delimStr.split ('\"').at (1);
+        if (progLan == "perl" && delimStr.contains ('`')) // Perl's delimiter can have backquotes
+            delimStr = delimStr.split ('`').at (1);
         /* remove the start backslash if it exists */
         if (QString (delimStr.at (0)) == "\\")
             delimStr = delimStr.remove (0, 1);
@@ -3697,8 +4001,8 @@ void Highlighter::highlightBlock (const QString &text)
 
     /* only javascript, qml and perl */
     multiLineRegex (text, 0);
-    if (progLan == "perl")
-        rehighlightNextBlock |= data->labelInfo() != oldLabel;
+    if (progLan == "perl" && currentBlockState() == data->lastState())
+        rehighlightNextBlock |= (data->labelInfo() != oldLabel || data->getProperty() != oldProperty);
 
     /********
      * Yaml *

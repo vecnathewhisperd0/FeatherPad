@@ -133,6 +133,7 @@ bool Highlighter::isEscapedRegex (const QString &text, const int pos)
     return false;
 }
 /*************************/
+// This is only for the start.
 bool Highlighter::isEscapedPerlRegex (const QString &text, const int pos)
 {
     if (pos < 0) return false;
@@ -143,79 +144,48 @@ bool Highlighter::isEscapedPerlRegex (const QString &text, const int pos)
         return true;
     }
 
-    QRegularExpressionMatch keyMatch;
     static QRegularExpression perlKeys;
 
     int i = pos - 1;
+    if (i < 0) return false;
+
+    if (text.at (pos) != '/')
+    {
+        if (format (i) == regexFormat)
+            return true;
+        return false;
+    }
+
+    /* FIXME: Why? */
+    int slashes = 0;
+    while (i >= 0 && format (i) != regexFormat && text.at (i) == '/')
+    {
+        -- i;
+        ++ slashes;
+    }
+    if (slashes % 2 != 0)
+        return true;
+
+    i = pos - 1;
     while (i >= 0 && (text.at (i) == ' ' || text.at (i) == '\t'))
         --i;
-    if (i == -1)
-    { // examine the previous line(s)
-        QTextBlock prev = currentBlock().previous();
-        if (!prev.isValid()) return false;
-        QString txt = prev.text();
-        QRegularExpression nonSpace ("[^\\s]+");
-        while (txt.indexOf (nonSpace, 0) == -1)
-        {
-            prev.setUserState (updateState); // update the next line if this one changes
-            prev = prev.previous();
-            if (!prev.isValid()) return false;
-            txt = prev.text();
-        }
-        int last = txt.length() - 1;
-        QChar ch = txt.at (last);
-        while (ch == ' ' || ch == '\t')
-        {
-            --last;
-            ch = txt.at (last);
-        }
-        if (prev.userState() == regexEndState)
-            return false; // a regex isn't escaped if it follows another one
-        else
-        {
-            prev.setUserState (updateState); // update the next line if this one changes
-            if (ch.isLetterOrNumber() || ch == '_'
-                || ch == ')' || ch == ']' || ch == '}'
-                || ch == '#'|| ch == '$'|| ch == '@')
-            { // a regex isn't escaped if it follows a Perl keyword
-                if (perlKeys.pattern().isEmpty())
-                    perlKeys.setPattern (keywords (progLan).join ('|'));
-                int len = qMin (12, last + 1);
-                QString str = txt.mid (last - len + 1, len);
-                int j;
-                if ((j = str.lastIndexOf (perlKeys, -1, &keyMatch)) > -1 && j + keyMatch.capturedLength() == len)
-                    return false;
-                return true;
-            }
-        }
-    }
-    else
+    if (i >= 0)
     {
         QChar ch = text.at (i);
         if (format (i) != regexFormat && (ch.isLetterOrNumber() || ch == '_'
                                           || ch == ')' || ch == ']' || ch == '}'
                                           || ch == '#'|| ch == '$'|| ch == '@'))
-        { // a regex isn't escaped if it follows another one or a Perl keyword
-            int j;
-            if ((j = text.lastIndexOf (QRegularExpression("/\\w+"), i + 1, &keyMatch)) > -1 && j + keyMatch.capturedLength() == i + 1)
-                return false;
+        { // a regex isn't escaped if it follows a Perl keyword
             if (perlKeys.pattern().isEmpty())
                 perlKeys.setPattern (keywords (progLan).join ('|'));
             int len = qMin (12, i + 1);
             QString str = text.mid (i - len + 1, len);
+            int j;
+            QRegularExpressionMatch keyMatch;
             if ((j = str.lastIndexOf (perlKeys, -1, &keyMatch)) > -1 && j + keyMatch.capturedLength() == len)
                 return false;
             return true;
         }
-
-        int slashes = 0;
-        while (i >= 0 && format (i) != regexFormat && text.at (i) == '/')
-        {
-            -- i;
-            ++ slashes;
-        }
-        if (slashes % 2 != 0)
-            return true;
     }
 
     return false;
@@ -282,6 +252,13 @@ bool Highlighter::isInsideRegex (const QString &text, const int index)
         if ((N % 2 == 0 && isEscapedChar (text, nxtPos)) // an escaped end sign
             || (N % 2 != 0 && isEscapedRegex (text, nxtPos))) // or an escaped start sign
         {
+            if (res)
+            {
+                if (TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData()))
+                    data->insertLastFormattedRegex (nxtPos + match.capturedLength());
+                pos = qMax (pos, 0);
+                setFormat (pos, nxtPos - pos + match.capturedLength(), regexFormat);
+            }
             --N;
             pos = nxtPos;
             continue;
@@ -346,8 +323,8 @@ bool Highlighter::isInsidePerlRegex (const QString &text, const int index)
         if (index <= pos) return false;
     }
 
-    /* NOTE: We cheat and include "q" and "qq" here to have a simpler code. */
-    QString rPattern ("/|\\b(?<!(@|#|\\$|/))(m|qr|q|qq|s|tr)[^\\w\\}\\)\\]>\\s]");
+    /* NOTE: We cheat and include "q", "qq", "qw", "qx" and "qr" here to have a simpler code. */
+    QString rPattern ("/|\\b(?<!(@|#|\\$))(m|qr|q|qq|qw|qx|qr|s|tr)[^\\w\\}\\)\\]>\\s]");
 
     QRegularExpressionMatch match;
     QRegularExpression exp;
@@ -393,7 +370,7 @@ bool Highlighter::isInsidePerlRegex (const QString &text, const int index)
     }
 
     int nxtPos;
-    bool searchToReplace (false);
+    bool searchedToReplace (false);
     while ((nxtPos = text.indexOf (exp, pos + 1, &match)) >= 0)
     {
         /* skip formatted comments and quotes */
@@ -406,19 +383,27 @@ bool Highlighter::isInsidePerlRegex (const QString &text, const int index)
         }
 
         ++N;
-        if ((N % 2 == 0 && isEscapedChar (text, nxtPos)) // an escaped end sign
-            || (N % 2 != 0
-                && match.capturedLength() == 1
-                && (isEscapedChar (text, nxtPos) // or an escaped middle sign
-                    || (exp.pattern() == rPattern
-                        && isEscapedPerlRegex (text, nxtPos))))) // or an escaped start slash
+        if (N % 2 == 0
+            ? isEscapedChar (text, nxtPos) // an escaped end sign
+            : (match.capturedLength() > 1
+              ? isEscapedPerlRegex (text, nxtPos) // an escaped start sign
+              : (isEscapedChar (text, nxtPos) // an escaped middle sign
+                 || (exp.pattern() == rPattern
+                     && isEscapedPerlRegex (text, nxtPos))))) // an escaped start slash
         {
+            if (res)
+            {
+                if (TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData()))
+                    data->insertLastFormattedRegex (nxtPos + match.capturedLength());
+                pos = qMax (pos, 0);
+                setFormat (pos, nxtPos - pos + match.capturedLength(), regexFormat);
+            }
             --N;
             pos = nxtPos + match.capturedLength() - 1;
             continue;
         }
 
-        if (N % 2 == 0)
+        if (N % 2 == 0 || searchedToReplace)
         {
             if (TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData()))
                 data->insertLastFormattedRegex (nxtPos + match.capturedLength());
@@ -428,12 +413,21 @@ bool Highlighter::isInsidePerlRegex (const QString &text, const int index)
 
         if (index <= nxtPos) // they may be equal, as when "//" is at the end of "/...//"
         {
-            if (N % 2 == 0) res = true;
-            else res = searchToReplace;
-            break;
+            if (N % 2 == 0)
+            {
+                res = true;
+                break;
+            }
+            else if (!searchedToReplace)
+            {
+                res = false;
+                break;
+            }
+            // otherwise, the formatting should continue until the replacement is done
         }
 
-        searchToReplace = false;
+        /* NOTE: We should set "res" below because "pos" might be negative next time. */
+        searchedToReplace = false;
         if (N % 2 == 0)
         {
             exp.setPattern (rPattern);
@@ -443,17 +437,17 @@ bool Highlighter::isInsidePerlRegex (const QString &text, const int index)
         {
             if (match.capturedLength() > 1)
             {
-                if (text.at (nxtPos) == 'm' || text.at (nxtPos) == 'q') // m and qr (as well as q and qq)
+                if (text.at (nxtPos) == 'm' || text.at (nxtPos) == 'q') // m and qr (as well as q, qq,..)
                     exp.setPattern ("\\" + getEndDelimiter (QString (text.at (nxtPos + match.capturedLength() - 1))));
                 else // s and tr (search to replace)
                 {
                     exp.setPattern ("\\" + QString (text.at (nxtPos + match.capturedLength() - 1)));
                     --N;
-                    searchToReplace = true;
+                    searchedToReplace = true;
                 }
             }
             else
-                exp.setPattern ("\\" + QString (text.at (nxtPos + match.capturedLength() - 1)));
+                exp.setPattern ("\\" + QString (text.at (nxtPos)));
             res = true;
         }
 
@@ -561,8 +555,8 @@ void Highlighter::multiLinePerlRegex(const QString &text)
 {
     int startIndex = 0;
     QRegularExpressionMatch startMatch;
-    /* NOTE: "q" and "qq" are intentionally included here. */
-    QRegularExpression startExp ("/|\\b(?<!(@|#|\\$|/))(m|qr|q|qq|s|tr)[^\\w\\}\\)\\]>\\s]");
+    /* NOTE: "q", "qq", "qw", "qx" and "qr" are intentionally included here. */
+    QRegularExpression startExp ("/|\\b(?<!(@|#|\\$))(m|qr|q|qq|qw|qx|qr|s|tr)[^\\w\\}\\)\\]>\\s]");
     QRegularExpressionMatch endMatch;
     QRegularExpression endExp;
     QTextCharFormat fi;
@@ -584,7 +578,7 @@ void Highlighter::multiLinePerlRegex(const QString &text)
         /* skip comments and quotations (all formatted to this point) */
         fi = format (startIndex);
         while (startIndex >= 0
-               && ((startMatch.capturedLength() == 1 && isEscapedPerlRegex (text, startIndex))
+               && (isEscapedPerlRegex (text, startIndex)
                    || fi == commentFormat
                    || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
         {
@@ -614,7 +608,7 @@ void Highlighter::multiLinePerlRegex(const QString &text)
             {
                 if (text.at (startIndex) == 's' || text.at (startIndex) == 't') // a replaceable regex from the current line
                     endExp.setPattern ("\\" + delimStr);
-                else // m and qr (as well as q and qq): a simple regex with a delimiter other than slash from the current line
+                else // m and qr (as well as q, qq,..): a simple regex with a delimiter other than slash from the current line
                     endExp.setPattern ("\\" + getEndDelimiter (delimStr));
             }
         }
@@ -641,7 +635,11 @@ void Highlighter::multiLinePerlRegex(const QString &text)
                     setCurrentBlockState (regexState);
             }
             if (!delimStr.isEmpty())
+            {
                 static_cast<TextBlockData *>(currentBlock().userData())->insertInfo (delimStr);
+                /* NOTE: The next block will be rehighlighted at highlightBlock()
+                         (-> multiLineRegex (text, 0);) if the delimiter is changed. */
+            }
             len = text.length() - startIndex;
         }
         else
@@ -667,7 +665,7 @@ void Highlighter::multiLinePerlRegex(const QString &text)
         /* skip comments and quotations again */
         fi = format (startIndex);
         while (startIndex >= 0
-               && ((startMatch.capturedLength() == 1 && isEscapedPerlRegex (text, startIndex))
+               && (isEscapedPerlRegex (text, startIndex)
                    || fi == commentFormat
                    || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
         {
@@ -678,23 +676,6 @@ void Highlighter::multiLinePerlRegex(const QString &text)
             delimStr = QString (text.at (startIndex + startMatch.capturedLength() - 1));
         else
             delimStr = QString();
-    }
-
-    /* If this line ends with a regex plus spaces, give it a special
-       state to decide about the probable regex of its following line
-       and also for that line to be updated when this state is toggled. */
-    if (currentBlockState() == 0 && !text.isEmpty())
-    {
-        int last = text.length() - 1;
-        QChar ch = text.at (last);
-        while (ch == ' ' || ch == '\t')
-        {
-            --last;
-            if (last < 0) return;
-            ch = text.at (last);
-        }
-        if (format (last) == regexFormat)
-            setCurrentBlockState (regexEndState);
     }
 }
 
