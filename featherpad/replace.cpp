@@ -61,8 +61,8 @@ void FPwin::replaceDock()
             qobject_cast< TabPage *>(ui->tabWidget->widget (i))->setSearchBarVisible (true);
         ui->dockReplace->setWindowTitle (tr ("Rep&lacement"));
         ui->dockReplace->setVisible (true);
-        ui->dockReplace->activateWindow();
         ui->dockReplace->raise();
+        ui->dockReplace->activateWindow();
         if (!ui->lineEditFind->hasFocus())
             ui->lineEditFind->setFocus();
         return;

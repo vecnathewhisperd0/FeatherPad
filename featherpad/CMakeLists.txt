@@ -82,6 +82,7 @@ set(featherpad_SRCS
     highlighter-html.cpp
     highlighter-patterns.cpp
     highlighter-regex.cpp
+    highlighter-perl-regex.cpp
     vscrollbar.cpp
     loading.cpp
     tabpage.cpp

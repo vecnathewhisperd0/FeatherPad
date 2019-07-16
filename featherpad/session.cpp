@@ -280,8 +280,8 @@ void SessionDialog::activate()
 {
     if (FPwin *win = static_cast<FPwin *>(parent_))
         disconnect (win, &FPwin::finishedLoading, this, &SessionDialog::activate);
-    activateWindow();
     raise();
+    activateWindow();
 }
 /*************************/
 // These slots are called for processes to have time to be completed,

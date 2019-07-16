@@ -88,7 +88,7 @@ private:
     QVector<BracketInfo *> allBrackets;
     QString label; // A label (usually, a delimiter string, like that of a here-doc).
     bool Highlighted; // Is this block completely highlighted?
-    bool Property; // A general boolean property (used with SH and YAML).
+    bool Property; // A general boolean property (used with SH, Perl and YAML).
     int LastState; // The state of this block before it is highlighted (again).
     /* "Nest" is a generalized bracket. This variable
        is the number of unclosed nests in a block. */
@@ -173,6 +173,8 @@ private:
     bool isInsidePerlRegex (const QString &text, const int index);
     void multiLineRegex (const QString &text, const int index);
     void multiLinePerlRegex (const QString &text);
+    int findDelimiter (const QString &text, const int index,
+                       const QRegularExpression &delimExp, int &capturedLength) const;
 
     bool yamlOpenNraces (const QString &text,
                          const QRegularExpression &startExp, const QRegularExpression &endExp,

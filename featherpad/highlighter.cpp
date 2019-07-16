@@ -1309,14 +1309,13 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
                         -- index;
                     if (index >= 0 && (text.at (index) == '$' || text.at (index) == '@'
                                        || text.at (index) == '%' || text.at (index) == '*'
-                                       || text.at (index) == '!'))
+                                       /*|| text.at (index) == '!'*/))
                     {
                         return true;
                     }
                 }
             }
-            if (text.at (pos) == '`')
-                return false; // "`" isn't ecaped at the start
+            return false; // no other case of escaping at the start
         }
         else if (progLan != "sh" && progLan != "makefile" && progLan != "cmake"
                  && progLan != "markdown" && progLan != "yaml")
@@ -1477,8 +1476,6 @@ bool Highlighter::isQuoted (const QString &text, const int index,
         {
             if (res && hasRegex)
             { // -> isEscapedRegex()
-                if (TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData()))
-                    data->insertLastFormattedQuote (nxtPos + 1);
                 pos = qMax (pos, 0);
                 if (nxtPos == text.indexOf (quoteMark, nxtPos))
                     setFormat (pos, nxtPos - pos + 1, quoteFormat);
@@ -1598,8 +1595,6 @@ bool Highlighter::isPerlQuoted (const QString &text, const int index)
         {
             if (res)
             { // -> isEscapedRegex()
-                if (TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData()))
-                    data->insertLastFormattedQuote (nxtPos + 1);
                 pos = qMax (pos, 0);
                 if (nxtPos == text.indexOf (quoteMark, nxtPos))
                     setFormat (pos, nxtPos - pos + 1, quoteFormat);
@@ -2395,7 +2390,7 @@ bool Highlighter::textEndsWithBackSlash (const QString &text)
     int n = 0;
     while (!str.isEmpty() && str.endsWith ("\\"))
     {
-        str.truncate(str.size() - 1);
+        str.truncate (str.size() - 1);
         ++n;
     }
     return (n % 2 != 0);
@@ -3049,16 +3044,28 @@ bool Highlighter::isHereDocument (const QString &text)
             ++i;
             delimStr = match.captured (i);
         }
-        /* remove quotes */
-        if (delimStr.contains ('\''))
-            delimStr = delimStr.split ('\'').at (1);
-        if (delimStr.contains ('\"'))
-            delimStr = delimStr.split ('\"').at (1);
-        if (progLan == "perl" && delimStr.contains ('`')) // Perl's delimiter can have backquotes
-            delimStr = delimStr.split ('`').at (1);
-        /* remove the start backslash if it exists */
-        if (QString (delimStr.at (0)) == "\\")
-            delimStr = delimStr.remove (0, 1);
+
+        if (progLan == "perl")
+        {
+            bool ok;
+            delimStr.toInt (&ok, 10);
+            if (ok)
+                delimStr = QString(); // don't mistake shift-left operator with here-doc delimiter
+            else if (delimStr.contains ('`')) // Perl's delimiter can have backquotes
+                delimStr = delimStr.split ('`').at (1);
+        }
+
+        if (!delimStr.isEmpty())
+        {
+            /* remove quotes */
+            if (delimStr.contains ('\''))
+                delimStr = delimStr.split ('\'').at (1);
+            if (delimStr.contains ('\"'))
+                delimStr = delimStr.split ('\"').at (1);
+            /* remove the start backslash if it exists */
+            if (QString (delimStr.at (0)) == "\\")
+                delimStr = delimStr.remove (0, 1);
+        }
 
         if (!delimStr.isEmpty())
         {
@@ -3887,7 +3894,7 @@ void Highlighter::highlightBlock (const QString &text)
     setFormat (0, text.size(), mainFormat);
 
     bool rehighlightNextBlock = false;
-    int oldOpenNests = 0; QSet<int> oldOpenQuotes; // to be used in SH_CmndSubstVar()
+    int oldOpenNests = 0; QSet<int> oldOpenQuotes; // to be used in SH_CmndSubstVar() (and perl)
     bool oldProperty = false; // to be used with yaml
     QString oldLabel; // to be used with perl
     if (TextBlockData *oldData = static_cast<TextBlockData *>(currentBlockUserData()))
@@ -4002,7 +4009,8 @@ void Highlighter::highlightBlock (const QString &text)
     /* only javascript, qml and perl */
     multiLineRegex (text, 0);
     if (progLan == "perl" && currentBlockState() == data->lastState())
-        rehighlightNextBlock |= (data->labelInfo() != oldLabel || data->getProperty() != oldProperty);
+        rehighlightNextBlock |= (data->labelInfo() != oldLabel || data->getProperty() != oldProperty
+                                 || data->openNests() != oldOpenNests);
 
     /********
      * Yaml *

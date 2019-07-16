@@ -1453,8 +1453,8 @@ TabPage* FPwin::createEmptyTab (bool setCurrent, bool allowNormalHighlighter)
 
     if (setCurrent)
     {
-        activateWindow();
         raise();
+        activateWindow();
     }
 
     return tabPage;
@@ -2087,8 +2087,8 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
         if (static_cast<FPsingleton*>(qApp)->isX11() && isWindowShaded (winId()))
             unshadeWindow (winId());
 
-        activateWindow();
         raise();
+        activateWindow();
     }
     textEdit->setSaveCursor (restoreCursor == 1);
 
@@ -4263,8 +4263,8 @@ void FPwin::detachTab()
 
     textEdit->setFocus();
 
-    dropTarget->activateWindow();
     dropTarget->raise();
+    dropTarget->activateWindow();
 }
 /*************************/
 void FPwin::dropTab (const QString& str)
@@ -4493,8 +4493,8 @@ void FPwin::dropTab (const QString& str)
 
     textEdit->setFocus();
 
-    activateWindow();
     raise();
+    activateWindow();
 
     if (count == 0)
         QTimer::singleShot (0, dragSource, &QWidget::close);
