@@ -176,7 +176,7 @@ private:
     int findDelimiter (const QString &text, const int index,
                        const QRegularExpression &delimExp, int &capturedLength) const;
 
-    bool yamlOpenNraces (const QString &text,
+    bool yamlOpenBraces (const QString &text,
                          const QRegularExpression &startExp, const QRegularExpression &endExp,
                          int oldOpenNests, bool oldProperty,
                          bool setData);

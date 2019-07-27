@@ -3485,10 +3485,11 @@ static inline bool isYamlBraceEscaped (const QString &text, const QRegularExpres
         return true;
     return false;
 }
+
 // Process open braces or brackets, apply the neutral format appropriately
 // and return a boolean that shows whether the next line should be updated.
 // Single-line comments should have already been highlighted.
-bool Highlighter::yamlOpenNraces (const QString &text,
+bool Highlighter::yamlOpenBraces (const QString &text,
                                   const QRegularExpression &startExp, const QRegularExpression &endExp,
                                   int oldOpenNests, bool oldProperty, // old info on the current line
                                   bool setData) // whether data should be set
@@ -3550,7 +3551,7 @@ bool Highlighter::yamlOpenNraces (const QString &text,
             {
                 indx = txtL;
                 while (format (indx - 1) == commentFormat) --indx;
-                if (indx > startIndx && openNests > 0)
+                if (indx > startIndx)
                     setFormat (startIndx, indx - startIndx, neutralFormat);
             }
             break;
@@ -3566,21 +3567,6 @@ bool Highlighter::yamlOpenNraces (const QString &text,
         return (openNests != oldOpenNests || property != oldProperty);
     }
     return false; // don't update the next line if no data is set
-}
-
-static inline bool isUpperCase (const QString & text)
-{ // this isn't the same as QSting::isUpper()
-    bool res = true;
-    for (int i = 0; i < text.length(); ++i)
-    {
-        const QChar thisChar = text.at (i);
-        if (thisChar.isLetter() && !thisChar.isUpper())
-        {
-            res = false;
-            break;
-        }
-    }
-    return res;
 }
 /*************************/
 // Completely commented lines are considered blank.
@@ -3618,6 +3604,21 @@ bool Highlighter::isFountainLineBlank (const QTextBlock &block)
     return true;
 }
 /*************************/
+static inline bool isUpperCase (const QString & text)
+{ // this isn't the same as QSting::isUpper()
+    bool res = true;
+    for (int i = 0; i < text.length(); ++i)
+    {
+        const QChar thisChar = text.at (i);
+        if (thisChar.isLetter() && !thisChar.isUpper())
+        {
+            res = false;
+            break;
+        }
+    }
+    return res;
+}
+
 void Highlighter::highlightFountainBlock (const QString &text)
 {
     setFormat (0, text.size(), mainFormat);
@@ -4042,14 +4043,14 @@ void Highlighter::highlightBlock (const QString &text)
             {
                 if (braces)
                 {
-                    rehighlightNextBlock |= yamlOpenNraces (text, QRegularExpression ("{"), QRegularExpression ("}"), oldOpenNests, oldProperty, true);
-                    rehighlightNextBlock |= yamlOpenNraces (text, QRegularExpression ("\\["), QRegularExpression ("\\]"), oldOpenNests, oldProperty,
+                    rehighlightNextBlock |= yamlOpenBraces (text, QRegularExpression ("{"), QRegularExpression ("}"), oldOpenNests, oldProperty, true);
+                    rehighlightNextBlock |= yamlOpenBraces (text, QRegularExpression ("\\["), QRegularExpression ("\\]"), oldOpenNests, oldProperty,
                                                             data->openNests() == 0); // set data only if braces are completely closed
                 }
                 else
                 {
-                    rehighlightNextBlock |= yamlOpenNraces (text, QRegularExpression ("\\["), QRegularExpression ("\\]"), oldOpenNests, oldProperty, true);
-                    rehighlightNextBlock |= yamlOpenNraces (text, QRegularExpression ("{"), QRegularExpression ("}"), oldOpenNests, oldProperty,
+                    rehighlightNextBlock |= yamlOpenBraces (text, QRegularExpression ("\\["), QRegularExpression ("\\]"), oldOpenNests, oldProperty, true);
+                    rehighlightNextBlock |= yamlOpenBraces (text, QRegularExpression ("{"), QRegularExpression ("}"), oldOpenNests, oldProperty,
                                                             data->openNests() == 0); // set data only if brackets are completely closed
                 }
             }
