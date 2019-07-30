@@ -3362,20 +3362,25 @@ void FPwin::fontDialog()
     if (fd.exec())
     {
         QFont newFont = fd.selectedFont();
-        FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
-        for (int i = 0; i < singleton->Wins.count(); ++i)
-        {
-            FPwin *thisWin = singleton->Wins.at (i);
-            for (int j = 0; j < thisWin->ui->tabWidget->count(); ++j)
-            {
-                TextEdit *thisTextEdit = qobject_cast< TabPage *>(thisWin->ui->tabWidget->widget (j))->textEdit();
-                thisTextEdit->setEditorFont (newFont);
-            }
-        }
-
         Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
         if (config.getRemFont())
+        {
             config.setFont (newFont);
+            config.writeConfig();
+
+            FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+            for (int i = 0; i < singleton->Wins.count(); ++i)
+            {
+                FPwin *thisWin = singleton->Wins.at (i);
+                for (int j = 0; j < thisWin->ui->tabWidget->count(); ++j)
+                {
+                    TextEdit *thisTextEdit = qobject_cast< TabPage *>(thisWin->ui->tabWidget->widget (j))->textEdit();
+                    thisTextEdit->setEditorFont (newFont);
+                }
+            }
+        }
+        else
+            textEdit->setEditorFont (newFont);
 
         /* the font can become larger... */
         textEdit->adjustScrollbars();

@@ -263,6 +263,7 @@ public:
     void setFont (const QFont &font) {
         font_ = font;
     }
+    void resetFont();
 
     bool getRemFont() const {
         return remFont_;

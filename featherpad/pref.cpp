@@ -729,7 +729,7 @@ void PrefDialog::prefFont (int checked)
     {
         config.setRemFont (false);
         // return to our default font
-        config.setFont (QFont ("Monospace", 9));
+        config.resetFont();
     }
 }
 /*************************/

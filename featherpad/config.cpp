@@ -293,6 +293,12 @@ void Config::readConfig()
     settings.endGroup();
 }
 /*************************/
+void Config::resetFont()
+{
+    font_ = QFont ("Monospace");
+    font_.setPointSize (qMax (QFont().pointSize(), 9));
+}
+/*************************/
 void Config::readShortcuts()
 {
     Settings settings ("featherpad", "fp");

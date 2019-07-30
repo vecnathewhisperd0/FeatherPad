@@ -9,7 +9,8 @@ V0.11.0
  * Drag the selected text only if there is a real mouse movement (and not when the view is scrolled by the wheel of a motionless mouse).
  * 3 spaces between statusbar info sections (instead of 4 spaces).
  * Replaced the Qt methods that were deprecated by Qt 5.13.
- * Also save settings on closing the Preferences dialog (and not only on quitting).
+ * Also save settings on closing the Preferences dialog (and not only on exiting).
+ * If the font is remembered, save it on closing the font dialog (and not only on exiting).
  * Also toggle the insert mode when the keypad insert key is pressed.
  * Lots of fixes to Perl syntax highlighting, especially by adding regex to it.
 
