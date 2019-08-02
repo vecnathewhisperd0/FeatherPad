@@ -39,6 +39,7 @@ SOURCES += main.cpp \
            tabpage.cpp \
            searchbar.cpp \
            session.cpp \
+           fontDialog.cpp \
            sidepane.cpp \
            svgicons.cpp \
            spellChecker.cpp \
@@ -61,6 +62,7 @@ HEADERS += singleton.h \
            tabpage.h \
            searchbar.h \
            session.h \
+           fontDialog.h \
            warningbar.h \
            utils.h \
            sidepane.h \
@@ -71,6 +73,7 @@ HEADERS += singleton.h \
 FORMS += fp.ui \
          predDialog.ui \
          sessionDialog.ui \
+         fontDialog.ui \
          about.ui \
          spellDialog.ui
 

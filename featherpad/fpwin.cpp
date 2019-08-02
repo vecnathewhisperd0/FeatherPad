@@ -27,11 +27,11 @@
 #include "spellChecker.h"
 #include "spellDialog.h"
 #include "session.h"
+#include "fontDialog.h"
 #include "loading.h"
 #include "warningbar.h"
 #include "svgicons.h"
 
-#include <QFontDialog>
 #include <QPrintDialog>
 #include <QToolTip>
 //#include <QScreen>
@@ -3354,8 +3354,7 @@ void FPwin::fontDialog()
     TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
 
     QFont currentFont = textEdit->getDefaultFont();
-    QFontDialog fd (currentFont, this);
-    //fd.setOption (QFontDialog::DontUseNativeDialog);
+    FontDialog fd (currentFont, this);
     fd.setWindowModality (Qt::WindowModal);
     fd.move (x() + width()/2 - fd.width()/2,
              y() + height()/2 - fd.height()/ 2);

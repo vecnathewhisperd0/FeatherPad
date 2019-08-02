@@ -22,6 +22,7 @@
 #include <QDialog>
 #include <QStandardPaths>
 #include <QCryptographicHash>
+#include <QThread>
 
 #if defined Q_OS_LINUX || defined Q_OS_FREEBSD || defined Q_OS_OPENBSD || defined Q_OS_HURD
 #include <unistd.h> // for geteuid()
@@ -127,14 +128,25 @@ bool FPsingleton::sendMessage (const QString &message)
 {
     if (localServer != nullptr) // no other instance was running
         return false;
+
     QLocalSocket localSocket (this);
     localSocket.connectToServer (uniqueKey_, QIODevice::WriteOnly);
-    if (!localSocket.waitForConnected (timeout))
+    /* NOTE: If "QStandardPaths::TempLocation" isn't on RAM, the socket may not be
+             ready yet. So, we retry a few times to make sure this isn't about a crash. */
+    int waiting = 0;
+    while (waiting < 5 && !localSocket.waitForConnected (timeout))
+    {
+        QThread::msleep(500);
+        localSocket.connectToServer (uniqueKey_, QIODevice::WriteOnly);
+        ++ waiting;
+    }
+    if (waiting == 5 && !localSocket.waitForConnected (timeout))
     {
         socketFailure_ = true;
         qDebug ("%s", (const char *) localSocket.errorString().toLatin1());
         return false;
     }
+
     localSocket.write (message.toUtf8());
     if (!localSocket.waitForBytesWritten (timeout))
     {

@@ -88,6 +88,7 @@ set(featherpad_SRCS
     tabpage.cpp
     searchbar.cpp
     session.cpp
+    fontDialog.cpp
     sidepane.cpp
     svgicons.cpp
     spellChecker.cpp

@@ -13,6 +13,8 @@ V0.11.0
  * If the font is remembered, save it on closing the font dialog (and not only on exiting).
  * Also toggle the insert mode when the keypad insert key is pressed.
  * Lots of fixes to Perl syntax highlighting, especially by adding regex to it.
+ * A new font dialog that distinguishes programming fonts from others.
+ * Wait for the local socket to be created in case "/tmp" isn't on RAM.
 
 V0.10.0
 ---------
