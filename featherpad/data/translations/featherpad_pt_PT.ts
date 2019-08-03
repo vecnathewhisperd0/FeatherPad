@@ -1803,7 +1803,7 @@ nome, mas terminando com &quot;.aff&quot;.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="919"/>
-        <location filename="../../pref.cpp" line="1502"/>
+        <location filename="../../pref.cpp" line="1484"/>
         <source>Add dictionary...</source>
         <translation>Adicionar um dicionário...</translation>
     </message>
@@ -1896,55 +1896,55 @@ trailing spaces of a text file.</source>
         <translation>Fechar</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="271"/>
-        <location filename="../../pref.cpp" line="1176"/>
+        <location filename="../../pref.cpp" line="283"/>
+        <location filename="../../pref.cpp" line="1188"/>
         <source>files</source>
         <translation>ficheiros</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="271"/>
-        <location filename="../../pref.cpp" line="1176"/>
+        <location filename="../../pref.cpp" line="283"/>
+        <location filename="../../pref.cpp" line="1188"/>
         <source>file</source>
         <translation>ficheiro</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="324"/>
-        <location filename="../../pref.cpp" line="1320"/>
+        <location filename="../../pref.cpp" line="336"/>
+        <location filename="../../pref.cpp" line="1302"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Aviso: detetado um atalho ambíguo!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="448"/>
+        <location filename="../../pref.cpp" line="460"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Tem que reiniciar a aplicação para aplicar as alterações.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="460"/>
+        <location filename="../../pref.cpp" line="472"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Tem que reabrir esta janela para aplicar as alterações.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1202"/>
+        <location filename="../../pref.cpp" line="1214"/>
         <source>&amp;Recently Opened</source>
         <translation>Abertos &amp;recentemente</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1203"/>
+        <location filename="../../pref.cpp" line="1215"/>
         <source>Recently &amp;Modified</source>
         <translation>&amp;Modificados recentemente</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1310"/>
+        <location filename="../../pref.cpp" line="1292"/>
         <source>The typed shortcut was not valid.</source>
         <translation>O atalho introduzido é inválido.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1312"/>
+        <location filename="../../pref.cpp" line="1294"/>
         <source>The typed shortcut was reserved.</source>
         <translation>O atalho introduzido já está reservado.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1504"/>
+        <location filename="../../pref.cpp" line="1486"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>Arquivos do Dicionário Hunspell (* .dic)</translation>
     </message>

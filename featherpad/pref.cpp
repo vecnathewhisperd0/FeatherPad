@@ -27,7 +27,6 @@
 #include <QScreen>
 #include <QWindow>
 #include <QWhatsThis>
-#include <QKeySequenceEdit>
 #include <QFileInfo>
 #include <QFileDialog>
 
@@ -35,17 +34,30 @@ namespace FeatherPad {
 
 static QHash<QString, QString> OBJECT_NAMES;
 static QHash<QString, QString> DEFAULT_SHORTCUTS;
+/*************************/
+FPKeySequenceEdit::FPKeySequenceEdit (QWidget *parent) : QKeySequenceEdit (parent) {}
 
-Delegate::Delegate (QObject *parent)
-    : QStyledItemDelegate (parent)
-{
+void FPKeySequenceEdit::keyPressEvent (QKeyEvent *event)
+{ // also a workaround for a Qt bug that makes Meta a non-modifier
+    /* don't create a shortcut without modifier because
+       this is a text editor but make exceptions for Fx keys */
+    int k = event->key();
+    if ((k < Qt::Key_F1 || k > Qt::Key_F35)
+        && (event->modifiers() == Qt::NoModifier || event->modifiers() == Qt::KeypadModifier))
+    {
+        return;
+    }
+    clear(); // no multiple shortcuts
+    QKeySequenceEdit::keyPressEvent (event);
 }
+/*************************/
+Delegate::Delegate (QObject *parent) : QStyledItemDelegate (parent) {}
 
 QWidget* Delegate::createEditor (QWidget *parent,
                                  const QStyleOptionViewItem& /*option*/,
                                  const QModelIndex& /*index*/) const
 {
-    return new QKeySequenceEdit (parent);
+    return new FPKeySequenceEdit (parent);
 }
 /*************************/
 bool Delegate::eventFilter (QObject *object, QEvent *event)
@@ -1263,50 +1275,20 @@ void PrefDialog::onShortcutChange (QTableWidgetItem *item)
     QString desc = ui->tableWidget->item (ui->tableWidget->currentRow(), 0)->text();
 
     QString txt = item->text();
-    bool invalid (txt.isEmpty());
-    if (!invalid)
+    if (!txt.isEmpty())
     {
-        /* the QKeySequenceEdit text is in the NativeText format but it should be
-           converted into the PortableText format, both for saving and checking for "+" and ", " */
+        /* the QKeySequenceEdit text is in the NativeText format but it
+           should be converted into the PortableText format for saving */
         QKeySequence keySeq (txt);
         txt = keySeq.toString();
-
-        /* If there are multiple shortcuts, select the last one.
-           NOTE: This is also a workaround for the Meta key bug in Qt 5.13. */
-        if (txt.contains (", "))
-        {
-            auto sl = txt.split (", ");
-            txt = sl.last();
-            disconnect (ui->tableWidget, &QTableWidget::itemChanged, this, &PrefDialog::onShortcutChange);
-            item->setText (txt);
-            connect (ui->tableWidget, &QTableWidget::itemChanged, this, &PrefDialog::onShortcutChange);
-            if (shortcuts_.keys (txt).contains (desc))
-                return;
-        }
-
-        /* don't accept a shortcut without modifier because this is a text editor... */
-        if (!txt.contains ("+"))
-        {
-            invalid = true;
-            /* ... but make exceptions for Fx keys */
-            for (int i = Qt::Key_F1; i <= Qt::Key_F35; ++i)
-            {
-                if (QKeySequence::ExactMatch == keySeq.matches (QKeySequence (i)))
-                {
-                    invalid = false;
-                    break;
-                }
-            }
-        }
-        else if (txt == "+") invalid = true;
     }
 
-    if (invalid
+    if (txt.isEmpty()
         || (config.reservedShortcuts().contains (txt)
             /* unless its (hard-coded) default shortcut is typed */
             && DEFAULT_SHORTCUTS.value (OBJECT_NAMES.value (desc)) != txt))
     {
-        if (invalid)
+        if (txt.isEmpty())
             showPrompt (tr ("The typed shortcut was not valid."), true);
         else
             showPrompt (tr ("The typed shortcut was reserved."), true);

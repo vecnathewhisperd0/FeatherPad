@@ -1860,7 +1860,7 @@ name but ending with &quot;.aff&quot;.</source>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="919"/>
-        <location filename="../../pref.cpp" line="1502"/>
+        <location filename="../../pref.cpp" line="1484"/>
         <source>Add dictionary...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1956,55 +1956,55 @@ modificare la data o rimuovere spazi  vuoti.</translation>
         <translation>Chiudi</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="271"/>
-        <location filename="../../pref.cpp" line="1176"/>
+        <location filename="../../pref.cpp" line="283"/>
+        <location filename="../../pref.cpp" line="1188"/>
         <source>files</source>
         <translation>File</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="271"/>
-        <location filename="../../pref.cpp" line="1176"/>
+        <location filename="../../pref.cpp" line="283"/>
+        <location filename="../../pref.cpp" line="1188"/>
         <source>file</source>
         <translation>File</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="324"/>
-        <location filename="../../pref.cpp" line="1320"/>
+        <location filename="../../pref.cpp" line="336"/>
+        <location filename="../../pref.cpp" line="1302"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Attenzione: rilevata una scorciatoia ambigua!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="448"/>
+        <location filename="../../pref.cpp" line="460"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>E&apos; necessario il riavvio dell&apos;applicazione per attivare le modifiche.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="460"/>
+        <location filename="../../pref.cpp" line="472"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>La riapertura della finestra è necessaria perché le modifiche abbiano effetto.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1202"/>
+        <location filename="../../pref.cpp" line="1214"/>
         <source>&amp;Recently Opened</source>
         <translation>Modificati &amp;recentemente</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1203"/>
+        <location filename="../../pref.cpp" line="1215"/>
         <source>Recently &amp;Modified</source>
         <translation>Modificati &amp;recentemente</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1310"/>
+        <location filename="../../pref.cpp" line="1292"/>
         <source>The typed shortcut was not valid.</source>
         <translation>La scorciatoia inserita non era valida.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1312"/>
+        <location filename="../../pref.cpp" line="1294"/>
         <source>The typed shortcut was reserved.</source>
         <translation>La scorciatoia inserita è già in uso.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1504"/>
+        <location filename="../../pref.cpp" line="1486"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation type="unfinished"></translation>
     </message>
