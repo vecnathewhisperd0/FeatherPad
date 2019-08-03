@@ -1260,19 +1260,35 @@ void PrefDialog::prefSplitterPos (int checked)
 void PrefDialog::onShortcutChange (QTableWidgetItem *item)
 {
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
+    QString desc = ui->tableWidget->item (ui->tableWidget->currentRow(), 0)->text();
 
     QString txt = item->text();
     bool invalid (txt.isEmpty());
     if (!invalid)
     {
         /* the QKeySequenceEdit text is in the NativeText format but it should be
-           converted into the PortableText format, both for saving and checking for "+" */
+           converted into the PortableText format, both for saving and checking for "+" and ", " */
         QKeySequence keySeq (txt);
         txt = keySeq.toString();
+
+        /* If there are multiple shortcuts, select the last one.
+           NOTE: This is also a workaround for the Meta key bug in Qt 5.13. */
+        if (txt.contains (", "))
+        {
+            auto sl = txt.split (", ");
+            txt = sl.last();
+            disconnect (ui->tableWidget, &QTableWidget::itemChanged, this, &PrefDialog::onShortcutChange);
+            item->setText (txt);
+            connect (ui->tableWidget, &QTableWidget::itemChanged, this, &PrefDialog::onShortcutChange);
+            if (shortcuts_.keys (txt).contains (desc))
+                return;
+        }
+
+        /* don't accept a shortcut without modifier because this is a text editor... */
         if (!txt.contains ("+"))
         {
             invalid = true;
-            /* make and exception for Fx keys */
+            /* ... but make exceptions for Fx keys */
             for (int i = Qt::Key_F1; i <= Qt::Key_F35; ++i)
             {
                 if (QKeySequence::ExactMatch == keySeq.matches (QKeySequence (i)))
@@ -1282,9 +1298,9 @@ void PrefDialog::onShortcutChange (QTableWidgetItem *item)
                 }
             }
         }
+        else if (txt == "+") invalid = true;
     }
 
-    QString desc = ui->tableWidget->item (ui->tableWidget->currentRow(), 0)->text();
     if (invalid
         || (config.reservedShortcuts().contains (txt)
             /* unless its (hard-coded) default shortcut is typed */

@@ -1746,7 +1746,7 @@ name but ending with &quot;.aff&quot;.</source>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="919"/>
-        <location filename="../../pref.cpp" line="1486"/>
+        <location filename="../../pref.cpp" line="1502"/>
         <source>Add dictionary...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1961,7 +1961,7 @@ trailing spaces of a text file.</source>
     </message>
     <message>
         <location filename="../../pref.cpp" line="324"/>
-        <location filename="../../pref.cpp" line="1304"/>
+        <location filename="../../pref.cpp" line="1320"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>警告：不明なショートカットが検出されました！</translation>
     </message>
@@ -1986,17 +1986,17 @@ trailing spaces of a text file.</source>
         <translation>最近変更されたファイル(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1294"/>
+        <location filename="../../pref.cpp" line="1310"/>
         <source>The typed shortcut was not valid.</source>
         <translation>入力されたショートカットは無効です。</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1296"/>
+        <location filename="../../pref.cpp" line="1312"/>
         <source>The typed shortcut was reserved.</source>
         <translation>入力されたショートカットは予約されていました。</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1488"/>
+        <location filename="../../pref.cpp" line="1504"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation type="unfinished"></translation>
     </message>

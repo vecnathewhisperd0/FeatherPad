@@ -1872,7 +1872,7 @@ nombre pero terminando en &quot;.aff&quot;.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="919"/>
-        <location filename="../../pref.cpp" line="1486"/>
+        <location filename="../../pref.cpp" line="1502"/>
         <source>Add dictionary...</source>
         <translation>Agregar un diccionario...</translation>
     </message>
@@ -1984,7 +1984,7 @@ los espacios finales de un archivo de texto.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="324"/>
-        <location filename="../../pref.cpp" line="1304"/>
+        <location filename="../../pref.cpp" line="1320"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Advertencia: ¡Se detectó un atajo que podría ser problemático!</translation>
     </message>
@@ -2009,17 +2009,17 @@ los espacios finales de un archivo de texto.</translation>
         <translation>&amp;Modificados recientemente</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1294"/>
+        <location filename="../../pref.cpp" line="1310"/>
         <source>The typed shortcut was not valid.</source>
         <translation>El atajo escrito no es válido.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1296"/>
+        <location filename="../../pref.cpp" line="1312"/>
         <source>The typed shortcut was reserved.</source>
         <translation>El atajo escrito esta reservado.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1488"/>
+        <location filename="../../pref.cpp" line="1504"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>Archivos de diccionario en formato Hunspell (*.dic)</translation>
     </message>

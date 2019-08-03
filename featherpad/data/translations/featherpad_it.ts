@@ -1860,7 +1860,7 @@ name but ending with &quot;.aff&quot;.</source>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="919"/>
-        <location filename="../../pref.cpp" line="1486"/>
+        <location filename="../../pref.cpp" line="1502"/>
         <source>Add dictionary...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1969,7 +1969,7 @@ modificare la data o rimuovere spazi  vuoti.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="324"/>
-        <location filename="../../pref.cpp" line="1304"/>
+        <location filename="../../pref.cpp" line="1320"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Attenzione: rilevata una scorciatoia ambigua!</translation>
     </message>
@@ -1994,17 +1994,17 @@ modificare la data o rimuovere spazi  vuoti.</translation>
         <translation>Modificati &amp;recentemente</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1294"/>
+        <location filename="../../pref.cpp" line="1310"/>
         <source>The typed shortcut was not valid.</source>
         <translation>La scorciatoia inserita non era valida.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1296"/>
+        <location filename="../../pref.cpp" line="1312"/>
         <source>The typed shortcut was reserved.</source>
         <translation>La scorciatoia inserita è già in uso.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1488"/>
+        <location filename="../../pref.cpp" line="1504"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation type="unfinished"></translation>
     </message>

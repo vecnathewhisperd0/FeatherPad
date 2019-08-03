@@ -15,6 +15,7 @@ V0.11.0
  * Lots of fixes to Perl syntax highlighting, especially by adding regex to it.
  * A new font dialog that distinguishes programming fonts from others.
  * Wait for the local socket to be created in case "/tmp" isn't on RAM.
+ * If they key sequence the user types in the shortcut editor consists of multiple shortcuts, select the last one. This is also a workaround for the Meta key bug of Qt 5.13.
 
 V0.10.0
 ---------

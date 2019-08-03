@@ -1790,7 +1790,7 @@ name but ending with &quot;.aff&quot;.</source>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="919"/>
-        <location filename="../../pref.cpp" line="1486"/>
+        <location filename="../../pref.cpp" line="1502"/>
         <source>Add dictionary...</source>
         <translation></translation>
     </message>
@@ -1895,7 +1895,7 @@ trailing spaces of a text file.</source>
     </message>
     <message>
         <location filename="../../pref.cpp" line="324"/>
-        <location filename="../../pref.cpp" line="1304"/>
+        <location filename="../../pref.cpp" line="1320"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation></translation>
     </message>
@@ -1920,17 +1920,17 @@ trailing spaces of a text file.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1294"/>
+        <location filename="../../pref.cpp" line="1310"/>
         <source>The typed shortcut was not valid.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1296"/>
+        <location filename="../../pref.cpp" line="1312"/>
         <source>The typed shortcut was reserved.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1488"/>
+        <location filename="../../pref.cpp" line="1504"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation></translation>
     </message>

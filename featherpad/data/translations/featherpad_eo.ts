@@ -1860,7 +1860,7 @@ nomon se kun la finaĵo &quot;.aff&quot;.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="919"/>
-        <location filename="../../pref.cpp" line="1486"/>
+        <location filename="../../pref.cpp" line="1502"/>
         <source>Add dictionary...</source>
         <translation>Aldoni vortaron...</translation>
     </message>
@@ -1970,7 +1970,7 @@ Tio povas esti uzebla ĉe iuj cirkonstancoj, ekz. por
     </message>
     <message>
         <location filename="../../pref.cpp" line="324"/>
-        <location filename="../../pref.cpp" line="1304"/>
+        <location filename="../../pref.cpp" line="1320"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Averto: Ambigua fulmoklavo estas detektita!</translation>
     </message>
@@ -1995,17 +1995,17 @@ Tio povas esti uzebla ĉe iuj cirkonstancoj, ekz. por
         <translation>Lastatempe Mod&amp;ifitaj</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1294"/>
+        <location filename="../../pref.cpp" line="1310"/>
         <source>The typed shortcut was not valid.</source>
         <translation>La fulmoklavo tajpita ne estis valida.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1296"/>
+        <location filename="../../pref.cpp" line="1312"/>
         <source>The typed shortcut was reserved.</source>
         <translation>La fulmoklavo tajpita estis rezervita.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1488"/>
+        <location filename="../../pref.cpp" line="1504"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>Hunspell-Vortaraj Dosieroj (*.dic)</translation>
     </message>
