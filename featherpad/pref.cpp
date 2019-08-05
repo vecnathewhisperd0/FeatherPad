@@ -39,6 +39,7 @@ FPKeySequenceEdit::FPKeySequenceEdit (QWidget *parent) : QKeySequenceEdit (paren
 
 void FPKeySequenceEdit::keyPressEvent (QKeyEvent *event)
 { // also a workaround for a Qt bug that makes Meta a non-modifier
+    clear(); // no multiple shortcuts
     /* don't create a shortcut without modifier because
        this is a text editor but make exceptions for Fx keys */
     int k = event->key();
@@ -47,7 +48,6 @@ void FPKeySequenceEdit::keyPressEvent (QKeyEvent *event)
     {
         return;
     }
-    clear(); // no multiple shortcuts
     QKeySequenceEdit::keyPressEvent (event);
 }
 /*************************/
