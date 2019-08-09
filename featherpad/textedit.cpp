@@ -186,16 +186,21 @@ void TextEdit::setEditorFont (const QFont &f, bool setDefault)
     else
         lineNumberArea->setFont (f);
     /* find the widest digit (used in calculating line number area width)*/
-    F.setBold (true);
+    F.setBold (true); // it's bold for the current line
     widestDigit = 0;
+    int maxW = 0;
     for (int i = 0; i < 10; ++i)
     {
 #if (QT_VERSION >= QT_VERSION_CHECK(5,11,0))
-         if (QFontMetrics (F).horizontalAdvance (QString::number (i)) > widestDigit)
+        int w = QFontMetrics (F).horizontalAdvance (QString::number (i));
 #else
-         if (QFontMetrics (F).width (QString::number (i)) > widestDigit)
+        int w = QFontMetrics (F).width (QString::number (i));
 #endif
-             widestDigit = i;
+        if (w > maxW)
+        {
+            maxW = w;
+            widestDigit = i;
+        }
     }
 }
 /*************************/

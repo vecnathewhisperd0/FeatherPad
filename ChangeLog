@@ -16,6 +16,7 @@ V0.11.0
  * A new font dialog that distinguishes programming fonts from others.
  * Wait for the local socket to be created in case "/tmp" isn't on RAM.
  * Don't allow multiple custom shortcuts for one action. This is also a workaround for Qt's Meta key bug, that treats Meta like a non-modifier.
+ * Fixed the old miscalculation of the width of line number strip.
 
 V0.10.0
 ---------
