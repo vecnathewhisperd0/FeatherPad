@@ -1093,32 +1093,18 @@ void FPwin::dragEnterEvent (QDragEnterEvent *event)
         return;
     if (event->mimeData()->hasUrls())
         event->acceptProposedAction();
-    else if (event->mimeData()->hasFormat ("application/featherpad-tab"))
-    { // check if this comes from one of our windows (and not from a root instance, for example)
-        QString str = QString::fromUtf8(event->mimeData()->data("application/featherpad-tab").constData());
-        QStringList list = str.split ("+", QString::SkipEmptyParts);
-        if (list.count() == 2 && list.at (1).toInt() >= 0)
-        {
-            FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
-            FPwin *dragSource = nullptr;
-            for (int i = 0; i < singleton->Wins.count(); ++i)
-            {
-                if (singleton->Wins.at (i)->winId() == static_cast<WId>(list.at (0).toInt()))
-                {
-                    dragSource = singleton->Wins.at (i);
-                    break;
-                }
-            }
-            if (dragSource)
-                event->acceptProposedAction();
-        }
+    /* check if this comes from one of our windows (and not from a root instance, for example) */
+    else if (event->mimeData()->hasFormat ("application/featherpad-tab")
+             && event->source() != nullptr)
+    {
+        event->acceptProposedAction();
     }
 }
 /*************************/
 void FPwin::dropEvent (QDropEvent *event)
 {
     if (event->mimeData()->hasFormat ("application/featherpad-tab"))
-        dropTab (QString::fromUtf8(event->mimeData()->data("application/featherpad-tab").constData()));
+        dropTab (QString::fromUtf8 (event->mimeData()->data ("application/featherpad-tab").constData()));
     else
     {
         const QList<QUrl> urlList = event->mimeData()->urls();
@@ -4290,7 +4276,7 @@ void FPwin::dropTab (const QString& str)
     FPwin *dragSource = nullptr;
     for (int i = 0; i < singleton->Wins.count(); ++i)
     {
-        if (singleton->Wins.at (i)->winId() == static_cast<WId>(list.at (0).toInt()))
+        if (singleton->Wins.at (i)->winId() == list.at (0).toULongLong())
         {
             dragSource = singleton->Wins.at (i);
             break;

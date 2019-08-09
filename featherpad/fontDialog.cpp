@@ -28,6 +28,7 @@ FontDialog::FontDialog (const QFont &font, QWidget *parent)
       font_ (font)
 {
     ui->setupUi (this);
+    int widthHint = sizeHint().width(); // before hiding one of combo boxes
 
     /* a coding font should be normal and have a fixed pitch */
     bool codingFont = !font_.italic() && font_.weight() == QFont::Normal
@@ -179,6 +180,8 @@ FontDialog::FontDialog (const QFont &font, QWidget *parent)
         }
         ui->lineEdit->setFont (font_);
     });
+
+    resize (QSize (widthHint, sizeHint().height())); // show it compact
 }
 /*************************/
 FontDialog::~FontDialog()

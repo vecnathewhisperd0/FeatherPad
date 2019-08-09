@@ -95,8 +95,7 @@ void TabBar::mouseMoveEvent (QMouseEvent *event)
 
         QPointer<QDrag> drag = new QDrag (this);
         QMimeData *mimeData = new QMimeData;
-        QByteArray array;
-        array.append (QString ("%1+%2").arg (window()->winId()).arg (index));
+        QByteArray array = (QString::number(window()->winId()) + "+" + QString::number(index)).toUtf8();
         mimeData->setData ("application/featherpad-tab", array);
         drag->setMimeData (mimeData);
         QPixmap px = QIcon (":icons/tab.svg").pixmap (22, 22);

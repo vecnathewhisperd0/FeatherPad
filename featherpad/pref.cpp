@@ -126,7 +126,7 @@ PrefDialog::PrefDialog (QWidget *parent)
                 ag = sc->availableVirtualGeometry().size();
         }
     }
-    if (!ag.isValid()) ag = QSize (qMax (700, config.getStartSize().width()), qMax (500, config.getStartSize().height()));
+    if (ag.isEmpty()) ag = QSize (qMax (700, config.getStartSize().width()), qMax (500, config.getStartSize().height()));
     ui->spinX->setMaximum (ag.width());
     ui->spinY->setMaximum (ag.height());
     ui->spinX->setValue (config.getStartSize().width());
