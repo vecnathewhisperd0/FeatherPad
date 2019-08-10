@@ -2878,12 +2878,12 @@ void Highlighter::xmlQuotes (const QString &text)
         && prevState != singleQuoteState)
     {
         index = text.indexOf (quoteExpression);
-        /* skip all comments */
-        while (format (index) == commentFormat || format (index) == urlFormat)
+        /* skip all comments and all values (that are formatted by multiLineComment()) */
+        while (isMLCommented (text, index, commentState)
+               || format (index) == neutralFormat)
+        {
             index = text.indexOf (quoteExpression, index + 1);
-        /* skip all values (that are formatted by multiLineComment()) */
-        while (format (index) == neutralFormat)
-            index = text.indexOf (quoteExpression, index + 1);
+        }
 
         /* if the start quote is found... */
         if (index >= 0)
@@ -2984,12 +2984,11 @@ void Highlighter::xmlQuotes (const QString &text)
         quoteExpression.setPattern ("\"|&quot;|\'");
         index = text.indexOf (quoteExpression, index + quoteLength);
 
-        /* skip all values */
-        while (format (index) == neutralFormat)
+        while (isMLCommented (text, index, commentState)
+               || format (index) == neutralFormat)
+        {
             index = text.indexOf (quoteExpression, index + 1);
-        /* skip all comments */
-        while (format (index) == commentFormat || format (index) == urlFormat)
-            index = text.indexOf (quoteExpression, index + 1);
+        }
     }
 }
 /*************************/
