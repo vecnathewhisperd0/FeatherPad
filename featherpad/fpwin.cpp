@@ -1433,10 +1433,10 @@ TabPage* FPwin::createEmptyTab (bool setCurrent, bool allowNormalHighlighter)
     /* this isn't enough for unshading under all WMs */
     /*if (isMinimized())
         setWindowState (windowState() & (~Qt::WindowMinimized | Qt::WindowActive));*/
-
+#ifdef HAS_X11
     if (static_cast<FPsingleton*>(qApp)->isX11() && isWindowShaded (winId()))
         unshadeWindow (winId());
-
+#endif
     if (setCurrent)
     {
         raise();
@@ -2069,10 +2069,10 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
             scrollToFirstItem = true;
         /*if (isMinimized())
             setWindowState (windowState() & (~Qt::WindowMinimized | Qt::WindowActive));*/
-
+#ifdef HAS_X11
         if (static_cast<FPsingleton*>(qApp)->isX11() && isWindowShaded (winId()))
             unshadeWindow (winId());
-
+#endif
         raise();
         activateWindow();
     }

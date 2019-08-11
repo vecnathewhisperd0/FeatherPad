@@ -321,20 +321,23 @@ void FPsingleton::handleMessage (const QString& message)
             sr = pScreen->virtualGeometry();
         for (int i = 0; i < Wins.count(); ++i)
         {
+#ifdef HAS_X11
             WId id = Wins.at (i)->winId();
             long whichDesktop = -1;
             if (isX11_)
                 whichDesktop = onWhichDesktop (id);
-
+#endif
             /* if the command is issued from where a FeatherPad
                window exists and if that window isn't minimized
                and doesn't have a modal dialog... */
             if (!isX11_ // always open a new tab on wayland
+#ifdef HAS_X11
                 || ((whichDesktop == d
                      /* if a window is created a moment ago, it should be
                         on the current desktop but may not report that yet */
                      || whichDesktop == -1)
                     && (!Wins.at (i)->isMinimized() || isWindowShaded (id)))
+#endif
                )
             {
                 bool hasDialog = false;

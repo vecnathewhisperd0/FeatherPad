@@ -38,7 +38,7 @@ class WarningBar : public QWidget
 {
     Q_OBJECT
 public:
-    WarningBar (const QString& message, ICONMODE iconMode = OWN, const int verticalOffset = 0, QWidget *parent = Q_NULLPTR) : QWidget (parent) {
+    WarningBar (const QString& message, ICONMODE iconMode = OWN, const int verticalOffset = 0, QWidget *parent = nullptr) : QWidget (parent) {
         int anotherBar (false);
         if (parent)
         { // show only one warning bar at a time
