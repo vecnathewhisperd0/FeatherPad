@@ -1,8 +1,6 @@
 V0.11.1
 ---------
  * Fixed an issue in highlighting of xml comments.
- * Removed the file size limit from syntax highlighting and set the hard-coded limit of 20000 lines on it.
- * Don't highlight lines with more than 10000 characters.
  * Fixed a regression that prevented compilation without X11.
 
 V0.11.0
