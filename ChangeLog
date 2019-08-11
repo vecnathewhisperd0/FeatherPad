@@ -2,6 +2,7 @@ V0.11.1
 ---------
  * Fixed an issue in highlighting of xml comments.
  * Fixed a regression that prevented compilation without X11.
+ * Print with syntax highlighting if any.
 
 V0.11.0
 ---------

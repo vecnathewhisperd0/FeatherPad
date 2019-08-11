@@ -3891,11 +3891,26 @@ void FPwin::filePrint()
 
     TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
 
-    /* disable syntax highlighting when printing
+    /* complete the syntax highlighting when printing
        because the whole document may not be highlighted */
-    bool hasHighlighter (textEdit->getHighlighter());
-    if (hasHighlighter)
-        syntaxHighlighting (textEdit, false, textEdit->getLang());
+    if (Highlighter *highlighter = qobject_cast< Highlighter *>(textEdit->getHighlighter()))
+    {
+        QTextCursor start = textEdit->textCursor();
+        start.movePosition (QTextCursor::Start);
+        QTextCursor end = textEdit->textCursor();
+        end.movePosition (QTextCursor::End);
+        highlighter->setLimit (start, end);
+        QTextBlock block = start.block();
+        while (block.isValid() && block.blockNumber() <= end.blockNumber())
+        {
+            if (TextBlockData *data = static_cast<TextBlockData *>(block.userData()))
+            {
+                if (!data->isHighlighted())
+                    highlighter->rehighlightBlock (block);
+            }
+            block = block.next();
+        }
+    }
 
     QPrinter printer (QPrinter::HighResolution);
 
@@ -3918,9 +3933,6 @@ void FPwin::filePrint()
     dlg.setWindowTitle (tr ("Print Document"));
     if (dlg.exec() == QDialog::Accepted)
         textEdit->print (&printer);
-
-    if (hasHighlighter)
-        syntaxHighlighting (textEdit, true, textEdit->getLang());
 
     updateShortcuts (false);
 }
