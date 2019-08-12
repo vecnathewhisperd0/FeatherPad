@@ -198,10 +198,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         if (showEndings)
             flags |= QTextOption::ShowLineAndParagraphSeparators
                      | QTextOption::AddSpaceForLineAndParagraphSeparators // never show the horizontal scrollbar on wrapping
-#if (QT_VERSION >= QT_VERSION_CHECK(5,7,0))
-                     | QTextOption::ShowDocumentTerminator
-#endif
-                     ;
+                     | QTextOption::ShowDocumentTerminator;
         opt.setFlags (flags);
         document()->setDefaultTextOption (opt);
     }
@@ -213,7 +210,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     endCursor = end;
     progLan = lang;
 
-    quoteMark.setPattern ("\""); // the standard quote mark
+    quoteMark.setPattern ("\""); // the standard quote mark (always a single character)
 
     HighlightingRule rule;
     QColor Faded, translucent;
@@ -1190,10 +1187,7 @@ Highlighter::~Highlighter()
         opt.setFlags (opt.flags() & ~QTextOption::ShowTabsAndSpaces
                                   & ~QTextOption::ShowLineAndParagraphSeparators
                                   & ~QTextOption::AddSpaceForLineAndParagraphSeparators
-#if (QT_VERSION >= QT_VERSION_CHECK(5,7,0))
-                                  & ~QTextOption::ShowDocumentTerminator
-#endif
-                                  );
+                                  & ~QTextOption::ShowDocumentTerminator);
         doc->setDefaultTextOption (opt);
     }
 }
@@ -1224,12 +1218,12 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
     {
         if (isStartQuote)
         {
-            if (format (pos) == codeBlockFormat)
-                return true; // inside a block
+            if (format (pos) == codeBlockFormat) // inside a block
+                return true;
             /* skip the start quote if it's inside a key or value */
             QRegularExpressionMatch match;
             if (format (pos) == neutralFormat)
-            {
+            { // inside preformatted braces, when multiLineQuote() is called (not needed; repeated below)
                 int index = text.lastIndexOf (QRegularExpression ("(^|{|,|\\[)\\s*\\K[^:,#]*:\\s+"), pos, &match);
                 if (index > -1 && index < pos && index + match.capturedLength() > pos)
                     return true;
@@ -1239,7 +1233,15 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
             }
             else
             {
-                int index = text.lastIndexOf (QRegularExpression ("^[^:#]*:\\s+"), pos, &match);
+                /* inside braces before preformatting (indirectly used by yamlOpenBraces()) */
+                int index = text.lastIndexOf (QRegularExpression ("(^|{|,|\\[)\\s*\\K[^:,#]*:\\s+"), pos, &match);
+                if (index > -1 && index < pos && index + match.capturedLength() > pos)
+                    return true;
+                index = text.lastIndexOf (QRegularExpression ("(^|{|,|\\[)[^:#]*:\\s+\\K[^{\\[,#\\s][^,#]*"), pos, &match);
+                if (index > -1 && index < pos && index + match.capturedLength() > pos)
+                    return true;
+                /* outside braces */
+                index = text.lastIndexOf (QRegularExpression ("^[^:#]*:\\s+"), pos, &match);
                 if (index > -1 && index < pos && index + match.capturedLength() > pos)
                     return true;
                 index = text.lastIndexOf (QRegularExpression ("^[^:#]*:\\s+\\K[^\\[\\s#].*"), pos, &match);
@@ -1324,20 +1326,20 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
         }
     }
 
-    if (isStartQuote && skipCommandSign && pos == text.indexOf (quoteMark, pos)
-        && text.indexOf (QRegularExpression ("[^\"]*\\$\\("), pos)== pos + 1)
+    if (isStartQuote && skipCommandSign && text.at (pos) == quoteMark.pattern().at (0)
+        && text.indexOf (QRegularExpression ("[^\"]*\\$\\("), pos) == pos + 1)
     {
         return true;
     }
 
     int i = 0;
-    while (pos - i >= 1 && pos - i - 1 == text.indexOf (QRegularExpression ("\\\\"), pos - i - 1))
+    while (pos - i > 0 && text.at (pos - i - 1) == '\\')
         ++i;
     /* only an odd number of backslashes means that the quote is escaped */
     if (
         i % 2 != 0
         && ((progLan == "yaml"
-             && pos == text.indexOf (quoteMark, pos))
+             && text.at (pos) == quoteMark.pattern().at (0))
             /* for these languages, both single and double quotes can be escaped (also for perl?) */
             || progLan == "c" || progLan == "cpp"
             || progLan == "javascript" || progLan == "qml"
@@ -1347,7 +1349,7 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
             || progLan == "markdown"
             /* however, in Bash, single quote can be escaped only at start */
             || ((progLan == "sh" || progLan == "makefile" || progLan == "cmake")
-                && (isStartQuote || pos == text.indexOf (quoteMark, pos))))
+                && (isStartQuote || text.at (pos) == quoteMark.pattern().at (0))))
        )
     {
         return true;
@@ -1477,7 +1479,7 @@ bool Highlighter::isQuoted (const QString &text, const int index,
             if (res && hasRegex)
             { // -> isEscapedRegex()
                 pos = qMax (pos, 0);
-                if (nxtPos == text.indexOf (quoteMark, nxtPos))
+                if (text.at (nxtPos) == quoteMark.pattern().at (0))
                     setFormat (pos, nxtPos - pos + 1, quoteFormat);
                 else
                     setFormat (pos, nxtPos - pos + 1, altQuoteFormat);
@@ -1492,7 +1494,7 @@ bool Highlighter::isQuoted (const QString &text, const int index,
             if (TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData()))
                 data->insertLastFormattedQuote (nxtPos + 1);
             pos = qMax (pos, 0);
-            if (nxtPos == text.indexOf (quoteMark, nxtPos))
+            if (text.at (nxtPos) == quoteMark.pattern().at (0))
                 setFormat (pos, nxtPos - pos + 1, quoteFormat);
             else
                 setFormat (pos, nxtPos - pos + 1, altQuoteFormat);
@@ -1513,7 +1515,7 @@ bool Highlighter::isQuoted (const QString &text, const int index,
         {
             if (N % 2 != 0)
             { // each quote neutralizes the other until it's closed
-                if (nxtPos == text.indexOf (quoteMark, nxtPos))
+                if (text.at (nxtPos) == quoteMark.pattern().at (0))
                     quoteExpression = quoteMark;
                 else
                     quoteExpression.setPattern ("\'");
@@ -1596,7 +1598,7 @@ bool Highlighter::isPerlQuoted (const QString &text, const int index)
             if (res)
             { // -> isEscapedRegex()
                 pos = qMax (pos, 0);
-                if (nxtPos == text.indexOf (quoteMark, nxtPos))
+                if (text.at (nxtPos) == quoteMark.pattern().at (0))
                     setFormat (pos, nxtPos - pos + 1, quoteFormat);
                 else
                     setFormat (pos, nxtPos - pos + 1, altQuoteFormat);
@@ -1611,7 +1613,7 @@ bool Highlighter::isPerlQuoted (const QString &text, const int index)
             if (TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData()))
                 data->insertLastFormattedQuote (nxtPos + 1);
             pos = qMax (pos, 0);
-            if (nxtPos == text.indexOf (quoteMark, nxtPos))
+            if (text.at (nxtPos) == quoteMark.pattern().at (0))
                 setFormat (pos, nxtPos - pos + 1, quoteFormat);
             else
                 setFormat (pos, nxtPos - pos + 1, altQuoteFormat);
@@ -1630,9 +1632,9 @@ bool Highlighter::isPerlQuoted (const QString &text, const int index)
 
         if (N % 2 != 0)
         { // each quote neutralizes the other until it's closed
-            if (nxtPos == text.indexOf (quoteMark, nxtPos))
+            if (text.at (nxtPos) == quoteMark.pattern().at (0))
                 quoteExpression = quoteMark;
-            else if (nxtPos == text.indexOf (QRegularExpression ("\'"), nxtPos))
+            else if (text.at (nxtPos) == '\'')
                 quoteExpression.setPattern ("\'");
             else
                 quoteExpression.setPattern ("`");
@@ -1645,29 +1647,33 @@ bool Highlighter::isPerlQuoted (const QString &text, const int index)
     return res;
 }
 /*************************/
-// Checks if a start quote or a start single-line comment sign is inside a multiline comment
-// (may give an incorrect result with other characters and works only with real comments
-// whose state is "comState").
-bool Highlighter::isMLCommented (const QString &text, const int index, int comState)
+// Checks if a start quote or a start single-line comment sign is inside a multiline comment.
+// If "start" > 0, it will be supposed that "start" is not inside a previous comment.
+// (May give an incorrect result with other characters and works only with real comments
+// whose state is "comState".)
+bool Highlighter::isMLCommented (const QString &text, const int index, int comState,
+                                 const int start)
 {
-    if (commentStartExpression.pattern().isEmpty()) return false;
+    if (index < 0 || start < 0 || index < start
+        // commentEndExpression is always set if commentStartExpression is
+        || commentStartExpression.pattern().isEmpty())
+    {
+        return false;
+    }
 
     /* not for Python */
     if (progLan == "python") return false;
-
-    if (index < 0 || commentStartExpression.pattern().isEmpty())
-        return false;
 
     int prevState = previousBlockState();
     if (prevState == nextLineCommentState)
         return true; // see singleLineComment()
 
     bool res = false;
-    int pos = -1;
+    int pos = start - 1;
     int N;
     QRegularExpressionMatch commentMatch;
     QRegularExpression commentExpression;
-    if (prevState != comState)
+    if (pos >= 0 || prevState != comState)
     {
         N = 0;
         commentExpression = commentStartExpression;
@@ -1782,7 +1788,7 @@ void Highlighter::pythonMLComment (const QString &text, const int indx)
         {
             /* ... distinguish between double and single quotes
                again because the quote mark may have changed... */
-            if (index == text.indexOf (quoteMark, index))
+            if (text.at (index) == quoteMark.pattern().at (0))
             {
                 commentStartExpression.setPattern ("\"\"\"");
                 quote = pyDoubleQuoteState;
@@ -1807,12 +1813,12 @@ void Highlighter::pythonMLComment (const QString &text, const int indx)
         }
 
         /* check if the quote is escaped */
-        while ((endIndex >= 1 && endIndex  - 1 == text.indexOf (QRegularExpression ("\\\\"), endIndex - 1)
+        while ((endIndex > 0 && text.at (endIndex - 1) == '\\'
                 /* backslash shouldn't be escaped itself */
-                && (endIndex < 2 || endIndex  - 2 != text.indexOf (QRegularExpression ("\\\\"), endIndex - 2)))
+                && (endIndex < 2 || text.at (endIndex - 2) != '\\'))
                    /* also consider ^' and ^" */
-                   || ((endIndex >= 1 && endIndex  - 1 == text.indexOf (QRegularExpression ("\\^"), endIndex - 1))
-                       && (endIndex < 2 || endIndex  - 2 != text.indexOf (QRegularExpression ("\\\\"), endIndex - 2))))
+                   || ((endIndex > 0 && text.at (endIndex - 1) == '^')
+                       && (endIndex < 2 || text.at (endIndex - 2) != '\\')))
         {
             endIndex = text.indexOf (commentStartExpression, endIndex + 3, &startMatch);
         }
@@ -1869,9 +1875,9 @@ int Highlighter::cssHighlighter (const QString &text, bool mainFormatting, const
     int cssIndx = -1;
     /* CSS can have huge lines, which will take
        a lot of CPU time if they're formatted completely. */
-    bool hugeText (text.length() > 50000);
+    /*bool hugeText (text.length() > 50000);
     if (hugeText)
-        mainFormatting = false;
+        mainFormatting = false;*/
 
     /**************************
      * (Multiline) CSS Blocks *
@@ -1909,8 +1915,8 @@ int Highlighter::cssHighlighter (const QString &text, bool mainFormatting, const
 
     while (index >= 0)
     {
-        if (hugeText)
-            setFormat (index, text.length() - index, translucentFormat);
+        /*if (hugeText)
+            setFormat (index, text.length() - index, translucentFormat);*/
         int endIndex;
         /* when the css block starts in the previous line
            and the search for its end has just begun... */
@@ -2167,7 +2173,7 @@ void Highlighter::multiLineComment (const QString &text,
 
     /* CSS can have huge lines, which will take
        a lot of CPU time if they're formatted completely. */
-    bool hugeText = ((progLan == "css" || progLan == "scss" ) && text.length() > 50000);
+    //bool hugeText = ((progLan == "css" || progLan == "scss" ) && text.length() > 50000);
 
     bool commentBeforeBrace = false; // in css, not as: "{...
     int startIndex = index;
@@ -2259,7 +2265,7 @@ void Highlighter::multiLineComment (const QString &text,
         }
 
         /* if there's a comment end ... */
-        if (!hugeText && endIndex >= 0 && progLan != "yaml")
+        if (/*!hugeText && */endIndex >= 0 && progLan != "xml" && progLan != "yaml")
         {
             /* ... clear the comment format from there to reformat later as
                a single-line comment sign may have been commented out now */
@@ -2286,7 +2292,7 @@ void Highlighter::multiLineComment (const QString &text,
         }
         else
         {
-            if (!hugeText && cssIndx >= startIndex && cssIndx < endIndex)
+            if (/*!hugeText && */cssIndx >= startIndex && cssIndx < endIndex)
             {
                 /* if '{' is inside the comment,
                    this isn't a CSS block */
@@ -2296,8 +2302,8 @@ void Highlighter::multiLineComment (const QString &text,
             commentLength = endIndex - startIndex
                             + endMatch.capturedLength();
         }
-        if (!hugeText)
-        {
+        //if (!hugeText)
+        //{
             setFormat (startIndex, commentLength, comFormat);
 
             /* format urls and email addresses inside the comment */
@@ -2317,12 +2323,12 @@ void Highlighter::multiLineComment (const QString &text,
                     setFormat (pIndex + startIndex, urlMatch.capturedLength(), noteFormat);
                 pIndex += urlMatch.capturedLength();
             }
-        }
+        //}
 
         startIndex = text.indexOf (commentStartExp, startIndex + commentLength, &startMatch);
 
         /* reformat from here if the format was cleared before */
-        if (!hugeText && badIndex >= 0)
+        if (/*!hugeText && */badIndex >= 0)
         {
             for (const HighlightingRule &rule : qAsConst(highlightingRules))
             {
@@ -2333,7 +2339,7 @@ void Highlighter::multiLineComment (const QString &text,
                     while (fi == quoteFormat
                            || fi == altQuoteFormat
                            || fi == urlInsideQuoteFormat
-                           || isMLCommented (text, INDX, commState))
+                           || isMLCommented (text, INDX, commState, endIndex + endMatch.capturedLength()))
                     {
                         INDX = text.indexOf (rule.pattern, INDX + 1);
                         fi = format (INDX);
@@ -2488,12 +2494,12 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
             if (mixedQuotes)
             {
                 /* ... distinguish between double and single quotes */
-                if (index == text.indexOf (quoteMark, index))
+                if (text.at (index) == quoteMark.pattern().at (0))
                 {
                     if (progLan == "cpp" && index > start)
                     {
                         QRegularExpressionMatch cppMatch;
-                        if (index - 1 == text.indexOf (QRegularExpression (R"(\bR"([^(]*)\()"), index - 1, &cppMatch))
+                        if (text.at (index - 1) == 'R' && index - 1 == text.indexOf (QRegularExpression (R"(\bR"([^(]*)\()"), index - 1, &cppMatch))
                         {
                             delimStr = ")" + cppMatch.captured (1);
                             setFormat (index - 1, 1, rFormat);
@@ -2531,12 +2537,12 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
         {
             /* ... distinguish between double and single quotes
                again because the quote mark may have changed */
-            if (index == text.indexOf (quoteMark, index))
+            if (text.at (index) == quoteMark.pattern().at (0))
             {
                 if (progLan == "cpp" && index > start)
                 {
                     QRegularExpressionMatch cppMatch;
-                    if (index - 1 == text.indexOf (QRegularExpression (R"(\bR"([^(]*)\()"), index - 1, &cppMatch))
+                    if (text.at (index - 1) == 'R'  && index - 1 == text.indexOf (QRegularExpression (R"(\bR"([^(]*)\()"), index - 1, &cppMatch))
                     {
                         delimStr = ")" + cppMatch.captured (1);
                         setFormat (index - 1, 1, rFormat);
@@ -2656,7 +2662,7 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
         /* skip escaped start quotes and all comments */
         while (isEscapedQuote (text, index, true)
                || isInsideRegex (text, index)
-               || isMLCommented (text, index, comState))
+               || isMLCommented (text, index, comState, endIndex + 1))
         {
             index = text.indexOf (quoteExpression, index + 1);
         }
@@ -2706,14 +2712,14 @@ void Highlighter::multiLinePerlQuote (const QString &text)
         if (index >= 0)
         {
             /* ... distinguish between the three kinds of quote */
-            if (index == text.indexOf (quoteMark, index))
+            if (text.at (index) == quoteMark.pattern().at (0))
             {
                 quoteExpression = quoteMark;
                 quote = doubleQuoteState;
             }
             else
             {
-                if (index == text.indexOf (QRegularExpression ("\'"), index))
+                if (text.at (index) == '\'')
                     quoteExpression.setPattern ("\'");
                 else
                     quoteExpression.setPattern ("`");
@@ -2751,14 +2757,14 @@ void Highlighter::multiLinePerlQuote (const QString &text)
         {
             /* ... distinguish between the three kinds of quote
                again because the quote mark may have changed */
-            if (index == text.indexOf (quoteMark, index))
+            if (text.at (index) == quoteMark.pattern().at (0))
             {
                 quoteExpression = quoteMark;
                 quote = doubleQuoteState;
             }
             else
             {
-                if (index == text.indexOf (QRegularExpression ("\'"), index))
+                if (text.at (index) == '\'')
                     quoteExpression.setPattern ("\'");
                 else
                     quoteExpression.setPattern ("`");
@@ -2889,12 +2895,14 @@ void Highlighter::xmlQuotes (const QString &text)
         if (index >= 0)
         {
             /* ... distinguish between double, virtual and single quotes */
-            if (index == text.indexOf (doubleQuote, index))
+            if (text.at (index) == '\"')
             {
-                if (text.at (index) == '\"')
-                    quoteExpression = quoteMark;
-                else
-                    quoteExpression = virtualQuote;
+                quoteExpression = quoteMark;
+                quote = doubleQuoteState;
+            }
+            else if (text.mid (index, 6) == "&quot;")
+            {
+                quoteExpression = virtualQuote;
                 quote = doubleQuoteState;
             }
             else
@@ -2922,12 +2930,14 @@ void Highlighter::xmlQuotes (const QString &text)
         {
             /* ... distinguish between double, virtual and single
                quotes again because the quote mark may have changed */
-            if (index == text.indexOf (doubleQuote, index))
+            if (text.at (index) == '\"')
             {
-                if (text.at (index) == '\"')
-                    quoteExpression = quoteMark;
-                else
-                    quoteExpression = virtualQuote;
+                quoteExpression = quoteMark;
+                quote = doubleQuoteState;
+            }
+            else if (text.mid (index, 6) == "&quot;")
+            {
+                quoteExpression = virtualQuote;
                 quote = doubleQuoteState;
             }
             else
@@ -2966,7 +2976,7 @@ void Highlighter::xmlQuotes (const QString &text)
         }
         else
             quoteLength = endIndex - index
-                          + quoteMatch.capturedLength(); // 1
+                          + quoteMatch.capturedLength();
         setFormat (index, quoteLength,
                    quoteExpression == quoteMark
                    || quoteExpression == virtualQuote ? quoteFormat : altQuoteFormat);
@@ -2984,7 +2994,7 @@ void Highlighter::xmlQuotes (const QString &text)
         quoteExpression.setPattern ("\"|&quot;|\'");
         index = text.indexOf (quoteExpression, index + quoteLength);
 
-        while (isMLCommented (text, index, commentState)
+        while (isMLCommented (text, index, commentState, endIndex + quoteMatch.capturedLength())
                || format (index) == neutralFormat)
         {
             index = text.indexOf (quoteExpression, index + 1);
@@ -3008,8 +3018,8 @@ bool Highlighter::isHereDocument (const QString &text)
     QString delimStr;
     /* Kate uses something like "<<(?:\\s*)([\\\\]{0,1}[^\\s]+)" */
     QRegularExpression delim;
-    if (progLan == "sh" || progLan == "makefile" || progLan == "cmake")
-        delim.setPattern ("<<(?:\\s*)(\\\\{0,1}[A-Za-z0-9_]+)|<<(?:\\s*)(\'[A-Za-z0-9_]+\')|<<(?:\\s*)(\"[A-Za-z0-9_]+\")");
+    if (progLan == "sh" || progLan == "makefile" || progLan == "cmake") // "<<-" can be used instead of "<<"
+        delim.setPattern ("<<-?(?:\\s*)(\\\\{0,1}[A-Za-z0-9_]+)|<<-?(?:\\s*)(\'[A-Za-z0-9_]+\')|<<-?(?:\\s*)(\"[A-Za-z0-9_]+\")");
     /*else if (progLan == "perl") // without space after "<<" and with ";" at the end
         delim.setPattern ("<<([A-Za-z0-9_]+)(?:;)|<<(\'[A-Za-z0-9_]+\')(?:;)|<<(\"[A-Za-z0-9_]+\")(?:;)");*/
     else if (progLan == "perl") // can contain spaces inside quote marks or backquotes and usually has ";" at the end
@@ -3620,8 +3630,6 @@ static inline bool isUpperCase (const QString & text)
 
 void Highlighter::highlightFountainBlock (const QString &text)
 {
-    setFormat (0, text.size(), mainFormat);
-
     bool rehighlightPrevBlock = false;
 
     TextBlockData *data = new TextBlockData;
@@ -3882,16 +3890,21 @@ void Highlighter::highlightFountainBlock (const QString &text)
 void Highlighter::highlightBlock (const QString &text)
 {
     if (progLan.isEmpty()) return;
-    if (progLan == "fountain")
-    {
-        highlightFountainBlock (text);
-        return;
-    }
 
-    /* If the paragraph separators are shown, the unformatted text
-       will be grayed out. So, we should restore its real color here.
-       This is also safe when the paragraph separators are hidden. */
-    setFormat (0, text.size(), mainFormat);
+    int txtL = text.length();
+    if (txtL <= 10000)
+    {
+        /* If the paragraph separators are shown, the unformatted text
+           will be grayed out. So, we should restore its real color here.
+           This is also safe when the paragraph separators are hidden. */
+        setFormat (0, txtL, mainFormat);
+
+        if (progLan == "fountain")
+        {
+            highlightFountainBlock (text);
+            return;
+        }
+    }
 
     bool rehighlightNextBlock = false;
     int oldOpenNests = 0; QSet<int> oldOpenQuotes; // to be used in SH_CmndSubstVar() (and perl)
@@ -3910,6 +3923,13 @@ void Highlighter::highlightBlock (const QString &text)
     data->setLastState (currentBlockState()); // remember the last state (which may not be -1)
     setCurrentBlockUserData (data); // to be fed in later
     setCurrentBlockState (0); // start highlightng, with 0 as the neutral state
+
+    /* set a limit on line length */
+    if (txtL > 10000)
+    {
+        setFormat (0, txtL, translucentFormat);
+        return;
+    }
 
     /********************
      * "Here" Documents *

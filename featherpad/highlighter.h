@@ -129,7 +129,8 @@ private:
     bool isQuoted (const QString &text, const int index,
                    bool skipCommandSign = false);
     bool isPerlQuoted (const QString &text, const int index);
-    bool isMLCommented (const QString &text, const int index, int comState = commentState);
+    bool isMLCommented (const QString &text, const int index, int comState = commentState,
+                        const int start = 0);
     bool isHereDocument (const QString &text);
     void pythonMLComment (const QString &text, const int indx);
     void htmlCSSHighlighter (const QString &text, const int start = 0);

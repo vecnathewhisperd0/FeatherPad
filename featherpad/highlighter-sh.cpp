@@ -70,7 +70,7 @@ void Highlighter::SH_MultiLineQuote (const QString &text)
         if (index >= 0)
         {
             /* ... distinguish between double and single quotes */
-            if (index == text.indexOf (quoteMark, index))
+            if (text.at (index) == quoteMark.pattern().at (0))
                 quoteExpression = quoteMark;
             else
                 quoteExpression.setPattern ("\'");
@@ -93,7 +93,7 @@ void Highlighter::SH_MultiLineQuote (const QString &text)
         {
             /* ... distinguish between double and single quotes
                again because the quote mark may have changed */
-            if (index == text.indexOf (quoteMark, index))
+            if (text.at (index) == quoteMark.pattern().at (0))
                 quoteExpression = quoteMark;
             else
                 quoteExpression.setPattern ("\'");

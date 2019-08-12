@@ -68,15 +68,15 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
 
     int bn = currentBlock().blockNumber();
     bool mainFormatting (bn >= startCursor.blockNumber() && bn <= endCursor.blockNumber());
-    bool hugeLine (text.length() > 50000);
+    //bool hugeText (text.length() > 50000);
     int firstBraIndex = braIndex; // to check progress in the following loop
     while (braIndex >= 0)
     {
-        if (hugeLine)
+        /*if (hugeText)
         {
             setFormat (braIndex, text.length() - braIndex, translucentFormat);
             break;
-        }
+        }*/
         int braEndIndex;
 
         int matched = 0;
@@ -143,7 +143,7 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
             if (quoteIndex >= braIndex && quoteIndex <= endLimit)
             {
                 /* ... distinguish between double and single quotes */
-                if (quoteIndex == text.indexOf (quoteMark, quoteIndex))
+                if (text.at (quoteIndex) == quoteMark.pattern().at (0))
                 {
                     quoteExpression = quoteMark;
                     quote = currentBlockState() == htmlStyleState ? htmlStyleDoubleQuoteState
@@ -175,7 +175,7 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
             {
                 /* ... distinguish between double and single quotes
                    again because the quote mark may have changed */
-                if (quoteIndex == text.indexOf (quoteMark, quoteIndex))
+                if (text.at (quoteIndex) == quoteMark.pattern().at (0))
                 {
                     quoteExpression = quoteMark;
                     quote = currentBlockState() == htmlStyleState ? htmlStyleDoubleQuoteState

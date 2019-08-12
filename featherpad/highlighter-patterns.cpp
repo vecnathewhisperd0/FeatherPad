@@ -70,7 +70,7 @@ QStringList Highlighter::keywords (const QString &lang)
     }
     else if (lang == "perl")
     {
-        keywordPatterns << "\\b(?<!(@|#|\\$))(q|qq|qr|qw|qx|m|s|tr)(?!\\s*\\=>)\\b" // special meanings (the => operator is excluded)
+        keywordPatterns << "\\b(?<!(@|#|\\$))(q|qq|qr|qw|qx|m|s|y|tr)(?!\\s*\\=>)\\b" // special meanings (the => operator is excluded)
                         << "\\b(?<!(@|#|\\$))(abs|alarm|and|atan2|binmode|bless)(?!(@|#|\\$))\\b"
                         << "\\b(?<!(@|#|\\$))(caller|chdir|chmod|chown|chroot|chomp|chop|chr|close|closedir|cmp|continue|cos|crypt)(?!(@|#|\\$))\\b"
                         << "\\b(?<!(@|#|\\$))(dbmclose|dbmopen|define|delete|die|do|dump)(?!(@|#|\\$))\\b"

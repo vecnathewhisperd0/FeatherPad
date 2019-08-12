@@ -182,7 +182,7 @@ bool Highlighter::isInsidePerlRegex (const QString &text, const int index)
 
     /* NOTE: We cheat and include "q", "qq", "qw", "qx" and "qr" here to have a simpler code.
              Moreover, the => operator is excluded. */
-    QString rPattern ("/|\\b(?<!(@|#|\\$))(m|qr|q|qq|qw|qx|qr|(?<!-)s|tr)\\s*(?!\\=>)[^\\w\\}\\)\\]>\\s]");
+    QString rPattern ("/|\\b(?<!(@|#|\\$))(m|qr|q|qq|qw|qx|qr|(?<!-)s|y|tr)\\s*(?!\\=>)[^\\w\\}\\)\\]>\\s]");
 
     QRegularExpression exp;
     bool res = false;
@@ -314,7 +314,7 @@ bool Highlighter::isInsidePerlRegex (const QString &text, const int index)
             if (capturedLength > 1)
             {
                 exp.setPattern ("\\" + getEndDelimiter (QString (text.at (nxtPos + capturedLength - 1))));
-                if (text.at (nxtPos) == 's' || text.at (nxtPos) == 't')
+                if (text.at (nxtPos) == 's' || text.at (nxtPos) == 't' || text.at (nxtPos) == 'y')
                 {
                     --N;
                     searchedToReplace = true;
@@ -353,7 +353,7 @@ void Highlighter::multiLinePerlRegex(const QString &text)
     int startIndex = 0;
     QRegularExpressionMatch startMatch;
     /* NOTE: "q", "qq", "qw", "qx" and "qr" are intentionally included here. */
-    QRegularExpression startExp ("/|\\b(?<!(@|#|\\$))(m|qr|q|qq|qw|qx|qr|(?<!-)s|tr)\\s*(?!\\=>)[^\\w\\}\\)\\]>\\s]");
+    QRegularExpression startExp ("/|\\b(?<!(@|#|\\$))(m|qr|q|qq|qw|qx|qr|(?<!-)s|y|tr)\\s*(?!\\=>)[^\\w\\}\\)\\]>\\s]");
     QRegularExpressionMatch endMatch;
     QRegularExpression endExp;
     QTextCharFormat fi;
@@ -444,7 +444,7 @@ void Highlighter::multiLinePerlRegex(const QString &text)
             if (!continued)
             {
                 if (startMatch.capturedLength() > 1
-                    && (text.at (startIndex) == 's' || text.at (startIndex) == 't'))
+                    && (text.at (startIndex) == 's' || text.at (startIndex) == 't' || text.at (startIndex) == 'y'))
                 {
                     setCurrentBlockState (regexSearchState);
                 }
@@ -498,7 +498,7 @@ void Highlighter::multiLinePerlRegex(const QString &text)
             else
             {
                 if (startMatch.capturedLength() > 1
-                    && (text.at (startIndex) == 's' || text.at (startIndex) == 't'))
+                    && (text.at (startIndex) == 's' || text.at (startIndex) == 't' || text.at (startIndex) == 'y'))
                 {
                     setFormat (startIndex + keywordLength, len - keywordLength, regexFormat);
                     QString ed = getEndDelimiter (delimStr);
