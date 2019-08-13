@@ -36,14 +36,24 @@ void FPwin::toggleSyntaxHighlighting()
     int count = ui->tabWidget->count();
     if (count == 0) return;
 
+    bool enableSH = ui->actionSyntax->isChecked();
+    if (enableSH)
+        waitToMakeBusy(); // it may take a while with huge texts
+
     for (int i = 0; i < count; ++i)
     {
         TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (i))->textEdit();
-        syntaxHighlighting (textEdit, ui->actionSyntax->isChecked(), textEdit->getLang());
+        syntaxHighlighting (textEdit, enableSH, textEdit->getLang());
     }
 
     if (QToolButton *langButton = ui->statusBar->findChild<QToolButton *>("langButton"))
-        langButton->setEnabled (ui->actionSyntax->isChecked());
+        langButton->setEnabled (enableSH);
+
+    if (enableSH)
+    {
+        QCoreApplication::processEvents();
+        unbusy();
+    }
 }
 /*************************/
 // Never returns an empty string; falls back to "url".

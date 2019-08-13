@@ -6,6 +6,7 @@ V0.11.1
  * Don't highlight the syntax of a line with more than 10,000 characters.
  * Added "y///" to Perl syntax highlighting (it's the same as "tr///").
  * Optimized the highlighting code a little.
+ * Also show the busy cursor if syntax highlighting takes too much time (with huge texts).
 
 V0.11.0
 ---------

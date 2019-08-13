@@ -59,7 +59,7 @@ void BusyMaker::waiting() {
 
 void BusyMaker::makeBusy() {
     if (QGuiApplication::overrideCursor() == nullptr)
-        QGuiApplication::setOverrideCursor (Qt::WaitCursor);
+        QGuiApplication::setOverrideCursor (QCursor (Qt::WaitCursor));
     emit finished();
 }
 
@@ -950,8 +950,7 @@ bool FPwin::closeTabs (int first, int last, bool saveFilesList)
     bool closing (saveFilesList); // saveFilesList is true only with closing
     while (state == SAVED && ui->tabWidget->count() > 0)
     {
-        if (QGuiApplication::overrideCursor() == nullptr)
-            waitToMakeBusy();
+        waitToMakeBusy();
 
         if (last == 0) break; // no tab on the left
         if (last < 0) // close from the end
@@ -1967,8 +1966,8 @@ void FPwin::asterisk (bool modified)
 /*************************/
 void FPwin::waitToMakeBusy()
 {
-    if (busyThread_ != nullptr) return;
-
+    if (QGuiApplication::overrideCursor() != nullptr || busyThread_ != nullptr)
+        return;
     busyThread_ = new QThread;
     BusyMaker *makeBusy = new BusyMaker();
     makeBusy->moveToThread (busyThread_);
@@ -2006,8 +2005,7 @@ void FPwin::loadText (const QString& fileName, bool enforceEncod, bool reload,
     connect (thread, &Loading::finished, thread, &QObject::deleteLater);
     thread->start();
 
-    if (QGuiApplication::overrideCursor() == nullptr)
-        waitToMakeBusy();
+    waitToMakeBusy();
     ui->tabWidget->tabBar()->lockTabs (true);
     updateShortcuts (true, false);
 }
@@ -2028,11 +2026,12 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
         -- loadingProcesses_; // can never become negative
         if (!isLoading())
         {
-            unbusy();
             ui->tabWidget->tabBar()->lockTabs (false);
             updateShortcuts (false, false);
             closeWarningBar();
             emit finishedLoading();
+            QCoreApplication::processEvents(); // see the end of this function
+            unbusy();
         }
         return;
     }
@@ -2324,7 +2323,6 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
     -- loadingProcesses_;
     if (!isLoading())
     {
-        unbusy();
         ui->tabWidget->tabBar()->lockTabs (false);
         updateShortcuts (false, false);
         if (reload && scrollbarValue > -1)
@@ -2351,6 +2349,10 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
 
         closeWarningBar (true); // here the closing animation won't be interrupted
         emit finishedLoading();
+        /* remove the busy cursor only after all events are processed
+           (e.g., highlighting the syntax of a huge text may take a while) */
+        QCoreApplication::processEvents();
+        unbusy();
     }
 }
 /*************************/
@@ -2820,8 +2822,7 @@ bool FPwin::saveFile (bool keepSyntax)
     {
         /* using text blocks directly is the fastest
            and lightest way of removing trailing spaces */
-        if (QGuiApplication::overrideCursor() == nullptr)
-            waitToMakeBusy();
+        waitToMakeBusy();
         QTextBlock block = textEdit->document()->firstBlock();
         QTextCursor tmpCur = textEdit->textCursor();
         tmpCur.beginEditBlock();
@@ -3837,7 +3838,9 @@ void FPwin::enforceLang (QAction *action)
     if (ui->actionSyntax->isChecked())
     {
         syntaxHighlighting (textEdit, false);
+        waitToMakeBusy(); // it may take a while with huge texts
         syntaxHighlighting (textEdit, true, lang);
+        QTimer::singleShot (0, this, [this]() {unbusy();});
     }
 }
 /*************************/
@@ -4425,7 +4428,11 @@ void FPwin::dropTab (const QString& str)
     ui->tabWidget->setTabToolTip (insertIndex, tooltip);
     /* reload buttons, syntax highlighting, jump bar, line numbers */
     if (ui->actionSyntax->isChecked())
+    {
+        waitToMakeBusy(); // it may take a while with huge texts
         syntaxHighlighting (textEdit, true, textEdit->getLang());
+        QTimer::singleShot (0, this, [this]() {unbusy();});
+    }
     else if (!ui->actionSyntax->isChecked() && textEdit->getHighlighter())
     { // there's no connction to the drag target yet
         textEdit->setDrawIndetLines (false);
@@ -5016,8 +5023,7 @@ void FPwin::autoSave()
             /* make changes to the document if needed */
             if (config.getRemoveTrailingSpaces() && thisTextEdit->getProg() != "diff")
             {
-                if (QGuiApplication::overrideCursor() == nullptr)
-                    waitToMakeBusy();
+                waitToMakeBusy();
                 QTextBlock block = thisTextEdit->document()->firstBlock();
                 QTextCursor tmpCur = thisTextEdit->textCursor();
                 tmpCur.beginEditBlock();
