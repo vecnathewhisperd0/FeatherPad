@@ -555,161 +555,64 @@ void FPwin::applyConfigOnStarting()
 
     ui->actionSave->setEnabled (config.getSaveUnmodified()); // newTab() will be called after this
 
-    if (config.getIconless())
+    ui->actionNew->setIcon (symbolicIcon::icon (":icons/document-new.svg"));
+    ui->actionOpen->setIcon (symbolicIcon::icon (":icons/document-open.svg"));
+    ui->menuOpenRecently->setIcon (symbolicIcon::icon (":icons/document-open-recent.svg"));
+    ui->actionClearRecent->setIcon (symbolicIcon::icon (":icons/edit-clear.svg"));
+    ui->actionSave->setIcon (symbolicIcon::icon (":icons/document-save.svg"));
+    ui->actionSaveAs->setIcon (symbolicIcon::icon (":icons/document-save-as.svg"));
+    ui->actionSaveCodec->setIcon (symbolicIcon::icon (":icons/document-save-as.svg"));
+    ui->actionPrint->setIcon (symbolicIcon::icon (":icons/document-print.svg"));
+    ui->actionDoc->setIcon (symbolicIcon::icon (":icons/document-properties.svg"));
+    ui->actionUndo->setIcon (symbolicIcon::icon (":icons/edit-undo.svg"));
+    ui->actionRedo->setIcon (symbolicIcon::icon (":icons/edit-redo.svg"));
+    ui->actionCut->setIcon (symbolicIcon::icon (":icons/edit-cut.svg"));
+    ui->actionCopy->setIcon (symbolicIcon::icon (":icons/edit-copy.svg"));
+    ui->actionPaste->setIcon (symbolicIcon::icon (":icons/edit-paste.svg"));
+    ui->actionDate->setIcon (symbolicIcon::icon (":icons/document-open-recent.svg"));
+    ui->actionDelete->setIcon (symbolicIcon::icon (":icons/edit-delete.svg"));
+    ui->actionSelectAll->setIcon (symbolicIcon::icon (":icons/edit-select-all.svg"));
+    ui->actionReload->setIcon (symbolicIcon::icon (":icons/view-refresh.svg"));
+    ui->actionFind->setIcon (symbolicIcon::icon (":icons/edit-find.svg"));
+    ui->actionReplace->setIcon (symbolicIcon::icon (":icons/edit-find-replace.svg"));
+    ui->actionClose->setIcon (QIcon (":icons/window-close.svg"));
+    ui->actionQuit->setIcon (symbolicIcon::icon (":icons/application-exit.svg"));
+    ui->actionFont->setIcon (symbolicIcon::icon (":icons/preferences-desktop-font.svg"));
+    ui->actionPreferences->setIcon (symbolicIcon::icon (":icons/preferences-system.svg"));
+    ui->actionHelp->setIcon (symbolicIcon::icon (":icons/help-contents.svg"));
+    ui->actionAbout->setIcon (symbolicIcon::icon (":icons/help-about.svg"));
+    ui->actionJump->setIcon (symbolicIcon::icon (":icons/go-jump.svg"));
+    ui->actionEdit->setIcon (symbolicIcon::icon (":icons/document-edit.svg"));
+    ui->actionRun->setIcon (symbolicIcon::icon (":icons/system-run.svg"));
+    ui->actionCopyName->setIcon (symbolicIcon::icon (":icons/edit-copy.svg"));
+    ui->actionCopyPath->setIcon (symbolicIcon::icon (":icons/edit-copy.svg"));
+
+    ui->actionCloseOther->setIcon (symbolicIcon::icon (":icons/tab-close-other.svg"));
+    ui->actionMenu->setIcon (symbolicIcon::icon (":icons/application-menu.svg"));
+
+    ui->toolButtonNext->setIcon (symbolicIcon::icon (":icons/go-down.svg"));
+    ui->toolButtonPrv->setIcon (symbolicIcon::icon (":icons/go-up.svg"));
+    ui->toolButtonAll->setIcon (symbolicIcon::icon (":icons/arrow-down-double.svg"));
+
+    if (QApplication::layoutDirection() == Qt::RightToLeft)
     {
-        iconMode_ = NONE;
-        ui->toolButtonNext->setText (tr ("Next"));
-        ui->toolButtonPrv->setText (tr ("Previous"));
-        ui->toolButtonAll->setText (tr ("All"));
+        ui->actionCloseRight->setIcon (symbolicIcon::icon (":icons/go-previous.svg"));
+        ui->actionCloseLeft->setIcon (symbolicIcon::icon (":icons/go-next.svg"));
+        ui->actionRightTab->setIcon (symbolicIcon::icon (":icons/go-previous.svg"));
+        ui->actionLeftTab->setIcon (symbolicIcon::icon (":icons/go-next.svg"));
     }
     else
     {
-        QIcon icn;
-        bool rtl (QApplication::layoutDirection() == Qt::RightToLeft);
-        if (config.getSysIcon())
-        {
-            iconMode_ = SYSTEM;
-
-            ui->actionNew->setIcon (QIcon::fromTheme ("document-new"));
-            ui->actionOpen->setIcon (QIcon::fromTheme ("document-open"));
-            ui->menuOpenRecently->setIcon (QIcon::fromTheme ("document-open-recent"));
-            ui->actionClearRecent->setIcon (QIcon::fromTheme ("edit-clear"));
-            ui->actionSave->setIcon (QIcon::fromTheme ("document-save"));
-            ui->actionSaveAs->setIcon (QIcon::fromTheme ("document-save-as"));
-            ui->actionSaveCodec->setIcon (QIcon::fromTheme ("document-save-as"));
-            ui->actionPrint->setIcon (QIcon::fromTheme ("document-print"));
-            ui->actionDoc->setIcon (QIcon::fromTheme ("document-properties"));
-            ui->actionUndo->setIcon (QIcon::fromTheme ("edit-undo"));
-            ui->actionRedo->setIcon (QIcon::fromTheme ("edit-redo"));
-            ui->actionCut->setIcon (QIcon::fromTheme ("edit-cut"));
-            ui->actionCopy->setIcon (QIcon::fromTheme ("edit-copy"));
-            ui->actionPaste->setIcon (QIcon::fromTheme ("edit-paste"));
-            ui->actionDate->setIcon (QIcon::fromTheme ("clock"));
-            ui->actionDelete->setIcon (QIcon::fromTheme ("edit-delete"));
-            ui->actionSelectAll->setIcon (QIcon::fromTheme ("edit-select-all"));
-            ui->actionReload->setIcon (QIcon::fromTheme ("view-refresh"));
-            ui->actionFind->setIcon (QIcon::fromTheme ("edit-find"));
-            ui->actionReplace->setIcon (QIcon::fromTheme ("edit-find-replace"));
-            ui->actionClose->setIcon (QIcon::fromTheme ("window-close"));
-            ui->actionQuit->setIcon (QIcon::fromTheme ("application-exit"));
-            ui->actionFont->setIcon (QIcon::fromTheme ("preferences-desktop-font"));
-            ui->actionPreferences->setIcon (QIcon::fromTheme ("preferences-system"));
-            ui->actionHelp->setIcon (QIcon::fromTheme ("help-contents"));
-            ui->actionAbout->setIcon (QIcon::fromTheme ("help-about"));
-            ui->actionJump->setIcon (QIcon::fromTheme ("go-jump"));
-            ui->actionEdit->setIcon (QIcon::fromTheme ("document-edit"));
-            ui->actionRun->setIcon (QIcon::fromTheme ("system-run"));
-            ui->actionCopyName->setIcon (QIcon::fromTheme ("edit-copy"));
-            ui->actionCopyPath->setIcon (QIcon::fromTheme ("edit-copy"));
-
-            /* these icons may not exist in some themes... */
-            icn = QIcon::fromTheme ("tab-close-other");
-            if (icn.isNull())
-                icn = symbolicIcon::icon (":icons/tab-close-other.svg");
-            ui->actionCloseOther->setIcon (icn);
-            icn = QIcon::fromTheme ("application-menu");
-            if (icn.isNull())
-                icn = symbolicIcon::icon (":icons/application-menu.svg");
-            ui->actionMenu->setIcon (icn);
-            /* ... and the following buttons don't have text, so we don't risk */
-            icn = QIcon::fromTheme ("go-down");
-            if (icn.isNull())
-                icn = QIcon (":icons/go-down.svg");
-             ui->toolButtonNext->setIcon (icn);
-            icn = QIcon::fromTheme ("go-up");
-            if (icn.isNull())
-                icn = QIcon (":icons/go-up.svg");
-            ui->toolButtonPrv->setIcon (icn);
-            icn = QIcon::fromTheme ("arrow-down-double");
-            if (icn.isNull())
-                icn = symbolicIcon::icon (":icons/arrow-down-double.svg");
-            ui->toolButtonAll->setIcon (icn);
-            if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>("wordButton"))
-            {
-                icn = QIcon::fromTheme ("view-refresh");
-                if (!icn.isNull())
-                    wordButton->setIcon (icn);
-            }
-
-            if (rtl)
-            {
-                ui->actionCloseRight->setIcon (QIcon::fromTheme ("go-previous"));
-                ui->actionCloseLeft->setIcon (QIcon::fromTheme ("go-next"));
-                ui->actionRightTab->setIcon (QIcon::fromTheme ("go-previous"));
-                ui->actionLeftTab->setIcon (QIcon::fromTheme ("go-next"));
-            }
-            else
-            {
-                ui->actionCloseRight->setIcon (QIcon::fromTheme ("go-next"));
-                ui->actionCloseLeft->setIcon (QIcon::fromTheme ("go-previous"));
-                ui->actionRightTab->setIcon (QIcon::fromTheme ("go-next"));
-                ui->actionLeftTab->setIcon (QIcon::fromTheme ("go-previous"));
-            }
-        }
-        else // own icons
-        {
-            iconMode_ = OWN;
-
-            ui->actionNew->setIcon (symbolicIcon::icon (":icons/document-new.svg"));
-            ui->actionOpen->setIcon (symbolicIcon::icon (":icons/document-open.svg"));
-            ui->menuOpenRecently->setIcon (symbolicIcon::icon (":icons/document-open-recent.svg"));
-            ui->actionClearRecent->setIcon (symbolicIcon::icon (":icons/edit-clear.svg"));
-            ui->actionSave->setIcon (symbolicIcon::icon (":icons/document-save.svg"));
-            ui->actionSaveAs->setIcon (symbolicIcon::icon (":icons/document-save-as.svg"));
-            ui->actionSaveCodec->setIcon (symbolicIcon::icon (":icons/document-save-as.svg"));
-            ui->actionPrint->setIcon (symbolicIcon::icon (":icons/document-print.svg"));
-            ui->actionDoc->setIcon (symbolicIcon::icon (":icons/document-properties.svg"));
-            ui->actionUndo->setIcon (symbolicIcon::icon (":icons/edit-undo.svg"));
-            ui->actionRedo->setIcon (symbolicIcon::icon (":icons/edit-redo.svg"));
-            ui->actionCut->setIcon (symbolicIcon::icon (":icons/edit-cut.svg"));
-            ui->actionCopy->setIcon (symbolicIcon::icon (":icons/edit-copy.svg"));
-            ui->actionPaste->setIcon (symbolicIcon::icon (":icons/edit-paste.svg"));
-            ui->actionDate->setIcon (symbolicIcon::icon (":icons/document-open-recent.svg"));
-            ui->actionDelete->setIcon (symbolicIcon::icon (":icons/edit-delete.svg"));
-            ui->actionSelectAll->setIcon (symbolicIcon::icon (":icons/edit-select-all.svg"));
-            ui->actionReload->setIcon (symbolicIcon::icon (":icons/view-refresh.svg"));
-            ui->actionFind->setIcon (symbolicIcon::icon (":icons/edit-find.svg"));
-            ui->actionReplace->setIcon (symbolicIcon::icon (":icons/edit-find-replace.svg"));
-            ui->actionClose->setIcon (QIcon (":icons/window-close.svg"));
-            ui->actionQuit->setIcon (symbolicIcon::icon (":icons/application-exit.svg"));
-            ui->actionFont->setIcon (symbolicIcon::icon (":icons/preferences-desktop-font.svg"));
-            ui->actionPreferences->setIcon (symbolicIcon::icon (":icons/preferences-system.svg"));
-            ui->actionHelp->setIcon (symbolicIcon::icon (":icons/help-contents.svg"));
-            ui->actionAbout->setIcon (symbolicIcon::icon (":icons/help-about.svg"));
-            ui->actionJump->setIcon (symbolicIcon::icon (":icons/go-jump.svg"));
-            ui->actionEdit->setIcon (symbolicIcon::icon (":icons/document-edit.svg"));
-            ui->actionRun->setIcon (symbolicIcon::icon (":icons/system-run.svg"));
-            ui->actionCopyName->setIcon (symbolicIcon::icon (":icons/edit-copy.svg"));
-            ui->actionCopyPath->setIcon (symbolicIcon::icon (":icons/edit-copy.svg"));
-
-            ui->actionCloseOther->setIcon (symbolicIcon::icon (":icons/tab-close-other.svg"));
-            ui->actionMenu->setIcon (symbolicIcon::icon (":icons/application-menu.svg"));
-
-            ui->toolButtonNext->setIcon (symbolicIcon::icon (":icons/go-down.svg"));
-            ui->toolButtonPrv->setIcon (symbolicIcon::icon (":icons/go-up.svg"));
-            ui->toolButtonAll->setIcon (symbolicIcon::icon (":icons/arrow-down-double.svg"));
-
-            if (rtl)
-            {
-                ui->actionCloseRight->setIcon (symbolicIcon::icon (":icons/go-previous.svg"));
-                ui->actionCloseLeft->setIcon (symbolicIcon::icon (":icons/go-next.svg"));
-                ui->actionRightTab->setIcon (symbolicIcon::icon (":icons/go-previous.svg"));
-                ui->actionLeftTab->setIcon (symbolicIcon::icon (":icons/go-next.svg"));
-            }
-            else
-            {
-                ui->actionCloseRight->setIcon (symbolicIcon::icon (":icons/go-next.svg"));
-                ui->actionCloseLeft->setIcon (symbolicIcon::icon (":icons/go-previous.svg"));
-                ui->actionRightTab->setIcon (symbolicIcon::icon (":icons/go-next.svg"));
-                ui->actionLeftTab->setIcon (symbolicIcon::icon (":icons/go-previous.svg"));
-            }
-        }
-
-        icn = QIcon::fromTheme ("featherpad");
-        if (icn.isNull())
-            icn = QIcon (":icons/featherpad.svg");
-        setWindowIcon (icn);
+        ui->actionCloseRight->setIcon (symbolicIcon::icon (":icons/go-next.svg"));
+        ui->actionCloseLeft->setIcon (symbolicIcon::icon (":icons/go-previous.svg"));
+        ui->actionRightTab->setIcon (symbolicIcon::icon (":icons/go-next.svg"));
+        ui->actionLeftTab->setIcon (symbolicIcon::icon (":icons/go-previous.svg"));
     }
+
+    QIcon icn = QIcon::fromTheme ("featherpad");
+    if (icn.isNull())
+        icn = QIcon (":icons/featherpad.svg");
+    setWindowIcon (icn);
 
     if (!config.hasReservedShortcuts())
     { // the reserved shortcuts list could also be in "singleton.cpp"
@@ -1318,14 +1221,15 @@ void FPwin::newTab()
 /*************************/
 TabPage* FPwin::createEmptyTab (bool setCurrent, bool allowNormalHighlighter)
 {
-    Config config = static_cast<FPsingleton*>(qApp)->getConfig();
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    Config config = singleton->getConfig();
 
     static const QList<QKeySequence> searchShortcuts = {QKeySequence (Qt::Key_F3), QKeySequence (Qt::Key_F4), QKeySequence (Qt::Key_F5), QKeySequence (Qt::Key_F6), QKeySequence (Qt::Key_F7)};
-    TabPage *tabPage = new TabPage (iconMode_,
-                                    config.getDarkColScheme() ? config.getDarkBgColorValue()
+    TabPage *tabPage = new TabPage (config.getDarkColScheme() ? config.getDarkBgColorValue()
                                                               : config.getLightBgColorValue(),
                                     searchShortcuts,
                                     nullptr);
+    tabPage->setSearchModel (singleton->searchModel());
     TextEdit *textEdit = tabPage->textEdit();
     connect (textEdit, &QWidget::customContextMenuRequested, this, &FPwin::editorContextMenu);
     textEdit->setAutoReplace (config.getAutoReplace());
@@ -2427,7 +2331,7 @@ void FPwin::showWarningBar (const QString& message, bool startupBar)
     TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget());
     if (tabPage)
         vOffset = tabPage->height() - tabPage->textEdit()->height();
-    WarningBar *bar = new WarningBar (message, iconMode_, vOffset, ui->tabWidget);
+    WarningBar *bar = new WarningBar (message, vOffset, ui->tabWidget);
     if (startupBar)
         bar->setObjectName ("startupBar");
     /* close the bar when the text is scrolled */
@@ -4089,8 +3993,8 @@ void FPwin::detachTab()
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
     TextEdit *textEdit = tabPage->textEdit();
 
-    disconnect (textEdit, &TextEdit::updateRect, this ,&FPwin::hlighting);
-    disconnect (textEdit, &QPlainTextEdit::textChanged, this ,&FPwin::hlight);
+    disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::hlighting);
+    disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::hlight);
     if (status)
     {
         disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::statusMsgWithLineCount);
@@ -4321,8 +4225,8 @@ void FPwin::dropTab (const QString& str)
     TabPage *tabPage = qobject_cast< TabPage *>(dragSource->ui->tabWidget->widget (index));
     TextEdit *textEdit = tabPage->textEdit();
 
-    disconnect (textEdit, &TextEdit::updateRect, dragSource ,&FPwin::hlighting);
-    disconnect (textEdit, &QPlainTextEdit::textChanged, dragSource ,&FPwin::hlight);
+    disconnect (textEdit, &TextEdit::updateRect, dragSource, &FPwin::hlighting);
+    disconnect (textEdit, &QPlainTextEdit::textChanged, dragSource, &FPwin::hlight);
     if (dragSource->ui->statusBar->isVisible())
     {
         disconnect (textEdit, &QPlainTextEdit::blockCountChanged, dragSource, &FPwin::statusMsgWithLineCount);

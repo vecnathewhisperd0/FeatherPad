@@ -58,8 +58,10 @@ FPsingleton::FPsingleton (int &argc, char **argv) : QApplication (argc, argv)
     socketFailure_ = false;
     config_.readConfig();
     lastFiles_ = config_.getLastFiles();
-    if (config_.getIconless())
-        setAttribute (Qt::AA_DontShowIconsInMenus);
+    if (config_.getSharedSearchHistory())
+        searchModel_ = new QStandardItemModel (0, 1, this);
+    else
+        searchModel_ = nullptr;
 
     /* Instead of QSharedMemory, a lock file is used for creating a single instance because
        QSharedMemory not only would be unsafe with a crash but also might persist without a
@@ -101,6 +103,8 @@ FPsingleton::~FPsingleton()
 /*************************/
 void FPsingleton::quitting()
 {
+    if (searchModel_)
+        delete searchModel_;
     config_.writeConfig();
 }
 /*************************/

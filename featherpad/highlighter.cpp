@@ -2102,7 +2102,7 @@ int Highlighter::cssHighlighter (const QString &text, bool mainFormatting, const
 /*************************/
 void Highlighter::singleLineComment (const QString &text, const int start)
 {
-    for (const HighlightingRule &rule : qAsConst(highlightingRules))
+    for (const HighlightingRule &rule : qAsConst (highlightingRules))
     {
         if (rule.format == commentFormat)
         {
@@ -2330,7 +2330,7 @@ void Highlighter::multiLineComment (const QString &text,
         /* reformat from here if the format was cleared before */
         if (/*!hugeText && */badIndex >= 0)
         {
-            for (const HighlightingRule &rule : qAsConst(highlightingRules))
+            for (const HighlightingRule &rule : qAsConst (highlightingRules))
             {
                 if (rule.format == commentFormat)
                 {
@@ -3151,7 +3151,7 @@ bool Highlighter::isHereDocument (const QString &text)
             setFormat (0, text.length(), blockFormat);
 
             /* also, format whitespaces */
-            for (const HighlightingRule &rule : qAsConst(highlightingRules))
+            for (const HighlightingRule &rule : qAsConst (highlightingRules))
             {
                 if (rule.format == whiteSpaceFormat)
                 {
@@ -3350,7 +3350,7 @@ void Highlighter::reSTMainFormatting (int start, const QString &text)
     if (data == nullptr) return;
 
     data->setHighlighted(); // completely highlighted
-    for (const HighlightingRule &rule : qAsConst(highlightingRules))
+    for (const HighlightingRule &rule : qAsConst (highlightingRules))
     {
         QTextCharFormat fi;
         QRegularExpressionMatch match;
@@ -3735,7 +3735,7 @@ void Highlighter::highlightFountainBlock (const QString &text)
     if (bn >= startCursor.blockNumber() && bn <= endCursor.blockNumber())
     {
         data->setHighlighted();
-        for (const HighlightingRule &rule : qAsConst(highlightingRules))
+        for (const HighlightingRule &rule : qAsConst (highlightingRules))
         {
             if (rule.format == commentFormat)
                 continue;
@@ -4088,7 +4088,7 @@ void Highlighter::highlightBlock (const QString &text)
         if (mainFormatting)
         {
             data->setHighlighted();
-            for (const HighlightingRule &rule : qAsConst(highlightingRules))
+            for (const HighlightingRule &rule : qAsConst (highlightingRules))
             {
                 if (rule.format != whiteSpaceFormat
                     && previousBlockState() == codeBlockState
@@ -4232,7 +4232,7 @@ void Highlighter::highlightBlock (const QString &text)
             if (mainFormatting)
             {
                 data->setHighlighted(); // completely highlighted
-                for (const HighlightingRule &rule : qAsConst(highlightingRules))
+                for (const HighlightingRule &rule : qAsConst (highlightingRules))
                 {
                     QRegularExpressionMatch match;
                     index = text.indexOf (rule.pattern, 0, &match);
@@ -4478,7 +4478,7 @@ void Highlighter::highlightBlock (const QString &text)
     else if (mainFormatting)
     {
         data->setHighlighted(); // completely highlighted
-        for (const HighlightingRule &rule : qAsConst(highlightingRules))
+        for (const HighlightingRule &rule : qAsConst (highlightingRules))
         {
             /* single-line comments are already formatted */
             if (rule.format == commentFormat)

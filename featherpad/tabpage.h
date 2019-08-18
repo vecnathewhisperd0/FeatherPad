@@ -23,7 +23,6 @@
 #include <QPointer>
 #include "searchbar.h"
 #include "textedit.h"
-#include "utils.h"
 
 namespace FeatherPad {
 
@@ -31,12 +30,16 @@ class TabPage : public QWidget
 {
     Q_OBJECT
 public:
-    TabPage (ICONMODE iconMode = OWN, int bgColorValue = 255,
+    TabPage (int bgColorValue = 255,
              const QList<QKeySequence>& searchShortcuts = QList<QKeySequence>(),
              QWidget *parent = nullptr);
 
     QPointer<TextEdit> textEdit() const {
         return textEdit_;
+    }
+
+    void setSearchModel (QStandardItemModel *model) {
+        searchBar_->setSearchModel (model);
     }
 
     void setSearchBarVisible (bool visible);

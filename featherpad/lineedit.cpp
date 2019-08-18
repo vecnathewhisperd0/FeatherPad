@@ -46,12 +46,21 @@ void LineEdit::keyPressEvent (QKeyEvent *event)
         event->accept();
         return;
     }
-    /* since two line-ediits can be shown, Ctrl+K can't be used
-       as a QShortcut but can come here for clearing the text */
-    if (event->modifiers() == Qt::ControlModifier && event->key() == Qt::Key_K)
+    if (event->modifiers() == Qt::ControlModifier)
     {
-        clear();
-        returnPressed(); // for clearing found matches highlighting
+        if (event->key() == Qt::Key_Up || event->key() == Qt::Key_Down)
+        { // in case it belongs to a combo box
+            emit showComboPopup();
+            event->accept();
+            return;
+        }
+        /* since two line-ediits can be shown, Ctrl+K can't be used
+           as a QShortcut but can come here for clearing the text */
+        if (event->key() == Qt::Key_K)
+        {
+            clear();
+            returnPressed(); // for clearing found matches highlighting
+        }
     }
     QLineEdit::keyPressEvent (event);
 }

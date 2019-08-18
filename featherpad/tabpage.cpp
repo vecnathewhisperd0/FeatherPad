@@ -19,36 +19,16 @@
 
 #include <QGridLayout>
 #include "tabpage.h"
-#include "svgicons.h"
 
 namespace FeatherPad {
 
-TabPage::TabPage (ICONMODE iconMode, int bgColorValue,
+TabPage::TabPage (int bgColorValue,
                   const QList<QKeySequence> &searchShortcuts,
                   QWidget *parent)
     : QWidget (parent)
 {
     textEdit_ = new TextEdit (this, bgColorValue);
-    searchBar_ = new SearchBar (this, iconMode == NONE, searchShortcuts);
-
-    QIcon icnNext, icnPrev;
-    switch (iconMode) {
-    case OWN:
-        searchBar_->setSearchIcons (symbolicIcon::icon (":icons/go-down.svg"), symbolicIcon::icon (":icons/go-up.svg"));
-        break;
-    case SYSTEM:
-        icnNext = QIcon::fromTheme ("go-down");
-        if (icnNext.isNull())
-            icnNext = QIcon (":icons/go-down.svg");
-        icnPrev = QIcon::fromTheme ("go-up");
-        if (icnPrev.isNull())
-            icnPrev = QIcon (":icons/go-up.svg");
-        searchBar_->setSearchIcons (icnNext, icnPrev);
-        break;
-    case NONE:
-    default:
-        break;
-    }
+    searchBar_ = new SearchBar (this, searchShortcuts);
 
     QGridLayout *mainGrid = new QGridLayout;
     mainGrid->setVerticalSpacing (4);

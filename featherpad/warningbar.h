@@ -28,7 +28,6 @@
 #include <QLabel>
 #include <QToolButton>
 #include <QPropertyAnimation>
-#include "utils.h"
 
 #define DURATION 150
 
@@ -38,7 +37,7 @@ class WarningBar : public QWidget
 {
     Q_OBJECT
 public:
-    WarningBar (const QString& message, ICONMODE iconMode = OWN, const int verticalOffset = 0, QWidget *parent = nullptr) : QWidget (parent) {
+    WarningBar (const QString& message, const int verticalOffset = 0, QWidget *parent = nullptr) : QWidget (parent) {
         int anotherBar (false);
         if (parent)
         { // show only one warning bar at a time
@@ -77,16 +76,12 @@ public:
         QToolButton *b = new QToolButton;
         b->setAutoRaise (true);
         b->setText (tr ("Close"));
-        if (iconMode == NONE)
-            b->setToolButtonStyle (Qt::ToolButtonTextOnly);
-        else
-        {
-            b->setToolButtonStyle (Qt::ToolButtonIconOnly);
-            b->setIconSize (QSize (16, 16));
-            b->setIcon (iconMode == OWN ? QIcon (":icons/window-close.svg")
-                                        : QIcon::fromTheme ("window-close"));
-            b->setToolTip (tr ("Close"));
-        }
+
+        b->setToolButtonStyle (Qt::ToolButtonIconOnly);
+        b->setIconSize (QSize (16, 16));
+        b->setIcon (QIcon (":icons/window-close.svg"));
+        b->setToolTip (tr ("Close"));
+
         connect (b, &QAbstractButton::clicked, this, &WarningBar::closeBar);
         /* add the label */
         QLabel *warningLabel = new QLabel (message);

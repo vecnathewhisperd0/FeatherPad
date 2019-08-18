@@ -72,20 +72,6 @@ public:
         remSplitterPos_ = rem;
     }
 
-    bool getIconless() const {
-        return iconless_;
-    }
-    void setIconless (bool iconless) {
-        iconless_ = iconless;
-    }
-
-    bool getSysIcon() const {
-        return sysIcon_;
-    }
-    void setSysIcon (bool own) {
-        sysIcon_ = own;
-    }
-
     bool getIsMaxed() const {
         return isMaxed_;
     }
@@ -504,6 +490,13 @@ public:
         closeWithLastTab_ = close;
     }
 /*************************/
+    bool getSharedSearchHistory() const {
+        return sharedSearchHistory_;
+    }
+    void setSharedSearchHistory (bool share) {
+        sharedSearchHistory_ = share;
+    }
+/*************************/
     QString getDictPath() const {
         return dictPath_;
     }
@@ -524,7 +517,6 @@ private:
     void writeCursorPos();
 
     bool remSize_, remPos_, remSplitterPos_,
-         iconless_, sysIcon_,
          noToolbar_, noMenubar_,
          hideSearchbar_,
          showStatusbar_, showCursorPos_, showLangSelector_,
@@ -545,7 +537,8 @@ private:
          scrollJumpWorkaround_, // Should a workaround for Qt5's "scroll jump" bug be applied?
          skipNonText_,
          saveUnmodified_,
-         closeWithLastTab_;
+         closeWithLastTab_,
+         sharedSearchHistory_;
     int vLineDistance_,
         tabPosition_,
         maxSHSize_,

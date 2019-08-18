@@ -195,34 +195,6 @@ but without tab functionality.</string>
                </layout>
               </item>
               <item>
-               <widget class="QCheckBox" name="iconBox">
-                <property name="toolTip">
-                 <string>Uncheck this if you want FeatherPad to
-use system icons!
-
-Needs application restart to take effect.</string>
-                </property>
-                <property name="text">
-                 <string>&amp;Use own icons</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="iconlessBox">
-                <property name="toolTip">
-                 <string>No icons in the main window and its menus.
-
-KDE may have a bug that disables search and
-replace shortcuts with the iconless mode.
-
-Needs application restart to take effect.</string>
-                </property>
-                <property name="text">
-                 <string>&amp;Iconless mode</string>
-                </property>
-               </widget>
-              </item>
-              <item>
                <widget class="QCheckBox" name="toolbarBox">
                 <property name="text">
                  <string>Do not show &amp;toolbar</string>
@@ -244,6 +216,17 @@ a menu button appears on the toolbar.</string>
                <widget class="QCheckBox" name="searchbarBox">
                 <property name="text">
                  <string>Hide search &amp;bar by default</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="searchHistoryBox">
+                <property name="toolTip">
+                 <string>By default, each search entry
+has a separate search history.</string>
+                </property>
+                <property name="text">
+                 <string>Use a shared search history</string>
                 </property>
                </widget>
               </item>

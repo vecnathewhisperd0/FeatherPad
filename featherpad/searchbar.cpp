@@ -25,22 +25,27 @@
 
 namespace FeatherPad {
 
+static const int MAX_ROW_COUNT = 40;
 
 SearchBar::SearchBar(QWidget *parent,
-                     bool hasText,
                      const QList<QKeySequence> &shortcuts,
                      Qt::WindowFlags f)
     : QFrame (parent, f)
 {
+    searchStarted_ = false;
+    combo_ = new ComboBox (this);
+    /* WARNING: If the minimum width is not set here, it will be set by the model,
+                which can contain long texts and make the whole window very wide
+                when the search history is shared. */
+    combo_->setMinimumWidth (150);
+    //combo_->setSizePolicy (QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     lineEdit_ = new LineEdit();
-    lineEdit_->setMinimumWidth (150);
     lineEdit_->setPlaceholderText (tr ("Search..."));
-    //lineEdit_->setSizePolicy (QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
-    combo_ = new QComboBox (this);
     combo_->setLineEdit (lineEdit_);
     combo_->setInsertPolicy (QComboBox::NoInsert);
-    combo_->setMaxCount (40); // more than this would be confusing
     combo_->setCompleter (nullptr); // disable auto-completion to keep history
+    /* we add 1 to be cautiously in control of it; see searchStarted() */
+    combo_->setMaxCount (MAX_ROW_COUNT + 1);
 
     shortcuts_ = shortcuts;
     QKeySequence nxtShortcut, prevShortcut, csShortcut, wholeShortcut, regexShortcut;
@@ -53,17 +58,12 @@ SearchBar::SearchBar(QWidget *parent,
         regexShortcut = shortcuts.at (4);
     }
 
-    /* See the comment about KAcceleratorManager in "fpwin.cpp". */
-
     toolButton_nxt_ = new QToolButton (this);
     toolButton_prv_ = new QToolButton (this);
+    toolButton_nxt_->setIcon (symbolicIcon::icon (":icons/go-down.svg"));
+    toolButton_prv_->setIcon (symbolicIcon::icon (":icons/go-up.svg"));
     toolButton_nxt_->setAutoRaise (true);
     toolButton_prv_->setAutoRaise (true);
-    if (hasText)
-    {
-        toolButton_nxt_->setText (tr ("Next"));
-        toolButton_prv_->setText (tr ("Previous"));
-    }
     toolButton_nxt_->setShortcut (nxtShortcut);
     toolButton_prv_->setShortcut (prevShortcut);
     toolButton_nxt_->setToolTip (tr ("Next") + " (" + nxtShortcut.toString (QKeySequence::NativeText) + ")");
@@ -110,11 +110,11 @@ SearchBar::SearchBar(QWidget *parent,
     connect (toolButton_nxt_, &QAbstractButton::clicked, this, &SearchBar::findForward);
     connect (toolButton_prv_, &QAbstractButton::clicked, this, &SearchBar::findBackward);
     connect (button_case_, &QAbstractButton::clicked, this, &SearchBar::searchFlagChanged);
-    connect (button_whole_, &QAbstractButton::clicked, [this](bool checked) {
+    connect (button_whole_, &QAbstractButton::clicked, [this] (bool checked) {
         button_regex_->setEnabled (!checked);
         emit searchFlagChanged();
     });
-    connect (button_regex_, &QAbstractButton::clicked, [this](bool checked) {
+    connect (button_regex_, &QAbstractButton::clicked, [this] (bool checked) {
         button_whole_->setEnabled (!checked);
         if (checked)
             lineEdit_->setPlaceholderText (tr ("Search with regex..."));
@@ -122,10 +122,68 @@ SearchBar::SearchBar(QWidget *parent,
             lineEdit_->setPlaceholderText (tr ("Search..."));
         emit searchFlagChanged();
     });
+
+    /* show the popup with Ctrl+Down/Up (because Alt+Down/Up is reserved) */
+    connect (lineEdit_, &LineEdit::showComboPopup, [this] {
+        combo_->showPopup();
+    });
+    /* the default behavior of up/down arrow key isn't good enough */
+    connect (combo_, &ComboBox::moveInHistory, lineEdit_, [this] (bool up) {
+        int count = combo_->count();
+        if (count == 0) return;
+        int index = combo_->findText (lineEdit_->text(), Qt::MatchExactly);
+        if (index < 0)
+            combo_->setCurrentIndex (0);
+        else
+        {
+            if (up)
+            {
+                if (index > 0)
+                    combo_->setCurrentIndex (index - 1);
+            }
+            else if (index < count - 1)
+                combo_->setCurrentIndex (index + 1);
+        }
+    });
+}
+/*************************/
+void SearchBar::setSearchModel (QStandardItemModel *model)
+{
+    if (model != nullptr)
+    {
+        combo_->setModel (model);
+
+        /* Qt puts the first item of the new model's history into the line-edit but
+           that can be confusing (we don't use clear() because we don't want undoing). */
+        lineEdit_->setText (QString());
+
+        /* If the history is changed elsewhere, the line-edit's text might change but that
+           could be confusing. So, we restore the text (unfortunately, undo/redo will be reset). */
+        connect (combo_->model(), &QAbstractItemModel::rowsAboutToBeRemoved, lineEdit_, [this] (const QModelIndex&, int, int) {
+            if (!searchStarted_)
+                searchText_ = lineEdit_->text();
+        });
+        connect (combo_->model(), &QAbstractItemModel::rowsRemoved, lineEdit_, [this] (const QModelIndex&, int, int) {
+            /* may also happen when our maximum row count (= 40) has been reached */
+            if (!searchStarted_ && lineEdit_->text() != searchText_)
+                lineEdit_->setText (searchText_);
+            searchText_.clear();
+        });
+        connect (combo_->model(), &QAbstractItemModel::rowsAboutToBeInserted, lineEdit_, [this] (const QModelIndex&, int, int) {
+            if (!searchStarted_)
+                searchText_ = lineEdit_->text();
+        });
+        connect (combo_->model(), &QAbstractItemModel::rowsInserted, lineEdit_, [this] (const QModelIndex&, int, int) {
+            if (!searchStarted_ && lineEdit_->text() != searchText_)
+                lineEdit_->setText (searchText_);
+            searchText_.clear();
+        });
+    }
 }
 /*************************/
 void SearchBar::searchStarted()
 {
+    searchStarted_ = true;
     const QString txt = lineEdit_->text();
     if (txt.isEmpty()) return;
     int index = combo_->findText (txt, Qt::MatchExactly);
@@ -133,9 +191,13 @@ void SearchBar::searchStarted()
     {
         if (index > 0)
             combo_->removeItem (index);
+        /* we set the maximum row count ourself while searchStarted_ is true (see setSearchModel()) */
+        else if (combo_->count() == MAX_ROW_COUNT)
+            combo_->removeItem (MAX_ROW_COUNT - 1);
         combo_->insertItem (0, txt);
     }
     combo_->setCurrentIndex (0);
+    searchStarted_ = false;
 }
 /*************************/
 void SearchBar::focusLineEdit()
@@ -156,7 +218,7 @@ QString SearchBar::searchEntry() const
 /*************************/
 void SearchBar::clearSearchEntry()
 {
-    return lineEdit_->clear(); // doesn't remove the undo/redo history
+    lineEdit_->clear(); // doesn't remove the undo/redo history
 }
 /*************************/
 void SearchBar::findForward()
@@ -205,12 +267,6 @@ void SearchBar::updateShortcuts (bool disable)
         button_whole_->setShortcut (shortcuts_.at (3));
         button_regex_->setShortcut (shortcuts_.at (4));
     }
-}
-/*************************/
-void SearchBar::setSearchIcons (const QIcon& iconNext, const QIcon& iconPrev)
-{
-    toolButton_nxt_->setIcon (iconNext);
-    toolButton_prv_->setIcon (iconPrev);
 }
 
 }

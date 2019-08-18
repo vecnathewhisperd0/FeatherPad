@@ -92,8 +92,6 @@ PrefDialog::PrefDialog (QWidget *parent)
     ui->tableWidget->sortByColumn (0, Qt::AscendingOrder);
 
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
-    sysIcons_ = config.getSysIcon();
-    iconless_ = config.getIconless();
     darkBg_ = config.getDarkColScheme();
     darkColValue_ = config.getDarkBgColorValue();
     lightColValue_ = config.getLightBgColorValue();
@@ -103,6 +101,7 @@ PrefDialog::PrefDialog (QWidget *parent)
     vLineDistance_ = config.getVLineDistance();
     textTabSize_ = config.getTextTabSize();
     saveUnmodified_ = config.getSaveUnmodified();
+    sharedSearchHistory_ = config.getSharedSearchHistory();
 
     /**************
      *** Window ***
@@ -138,12 +137,6 @@ PrefDialog::PrefDialog (QWidget *parent)
     ui->winPosBox->setChecked (config.getRemPos());
     connect (ui->winPosBox, &QCheckBox::stateChanged, this, &PrefDialog::prefPos);
 
-    ui->iconBox->setChecked (!config.getSysIcon());
-    ui->iconBox->setEnabled (!config.getIconless());
-    connect (ui->iconBox, &QCheckBox::stateChanged, this, &PrefDialog::prefIcon);
-    ui->iconlessBox->setChecked (config.getIconless());
-    connect (ui->iconlessBox, &QCheckBox::stateChanged, this, &PrefDialog::prefIconless);
-
     ui->toolbarBox->setChecked (config.getNoToolbar());
     connect (ui->toolbarBox, &QCheckBox::stateChanged, this, &PrefDialog::prefToolbar);
     ui->menubarBox->setChecked (config.getNoMenubar());
@@ -151,6 +144,9 @@ PrefDialog::PrefDialog (QWidget *parent)
 
     ui->searchbarBox->setChecked (config.getHideSearchbar());
     connect (ui->searchbarBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSearchbar);
+
+    ui->searchHistoryBox->setChecked (sharedSearchHistory_);
+    connect (ui->searchHistoryBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSearchHistory);
 
     ui->statusBox->setChecked (config.getShowStatusbar());
     connect (ui->statusBox, &QCheckBox::stateChanged, this, &PrefDialog::prefStatusbar);
@@ -453,9 +449,8 @@ void PrefDialog::showPrompt (const QString& str, bool temporary)
         else
             prevtMsg_ = "<b>" + str + "</b>";
     }
-    else if (sysIcons_ != config.getSysIcon()
-            || iconless_ != config.getIconless()
-            || recentNumber_ != config.getRecentFilesNumber())
+    else if (recentNumber_ != config.getRecentFilesNumber()
+             || sharedSearchHistory_ != config.getSharedSearchHistory())
     {
         ui->promptLabel->setText ("<b>" + tr ("Application restart is needed for changes to take effect.") + "</b>");
         ui->promptLabel->setStyleSheet (style);
@@ -523,36 +518,6 @@ void PrefDialog::prefPos (int checked)
         config.setRemPos (false);
 }
 /*************************/
-void PrefDialog::prefIcon (int checked)
-{
-    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
-    if (checked == Qt::Checked)
-        config.setSysIcon (false);
-    else if (checked == Qt::Unchecked)
-        config.setSysIcon (true);
-
-    showPrompt();
-}
-/*************************/
-void PrefDialog::prefIconless (int checked)
-{
-    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
-    if (checked == Qt::Checked)
-    {
-        qApp->setAttribute (Qt::AA_DontShowIconsInMenus, true);
-        config.setIconless (true);
-        ui->iconBox->setEnabled (false);
-    }
-    else if (checked == Qt::Unchecked)
-    {
-        qApp->setAttribute (Qt::AA_DontShowIconsInMenus, false);
-        config.setIconless (false);
-        ui->iconBox->setEnabled (true);
-    }
-
-    showPrompt();
-}
-/*************************/
 void PrefDialog::prefToolbar (int checked)
 {
     FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
@@ -606,6 +571,17 @@ void PrefDialog::prefSearchbar (int checked)
         config.setHideSearchbar (true);
     else if (checked == Qt::Unchecked)
         config.setHideSearchbar (false);
+}
+/*************************/
+void PrefDialog::prefSearchHistory (int checked)
+{
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    if (checked == Qt::Checked)
+        config.setSharedSearchHistory (true);
+    else if (checked == Qt::Unchecked)
+        config.setSharedSearchHistory (false);
+
+    showPrompt();
 }
 /*************************/
 void PrefDialog::prefStatusbar (int checked)

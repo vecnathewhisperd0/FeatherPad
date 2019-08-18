@@ -23,19 +23,51 @@
 #include <QPointer>
 #include <QPushButton>
 #include <QComboBox>
+#include <QStandardItemModel>
 #include "lineedit.h"
 
 namespace FeatherPad {
+
+class ComboBox : public QComboBox
+{
+    Q_OBJECT
+public:
+    ComboBox (QWidget *parent = nullptr) : QComboBox (parent) {}
+    ~ComboBox() {}
+
+signals:
+    void moveInHistory (bool up);
+
+protected:
+    virtual void keyPressEvent (QKeyEvent *event) {
+        if (!(event->modifiers() & Qt::ControlModifier))
+        {
+            if (event->key() == Qt::Key_Up)
+            {
+                emit moveInHistory (true);
+                event->accept();
+                return;
+            }
+            if (event->key() == Qt::Key_Down)
+            {
+                emit moveInHistory (false);
+                event->accept();
+                return;
+            }
+        }
+        QComboBox::keyPressEvent (event);
+    }
+};
 
 class SearchBar : public QFrame
 {
     Q_OBJECT
 public:
     SearchBar (QWidget *parent = nullptr,
-               bool hasText = false,
                const QList<QKeySequence>& shortcuts = QList<QKeySequence>(),
                Qt::WindowFlags f = Qt::WindowFlags());
 
+    void setSearchModel (QStandardItemModel *model);
     void focusLineEdit();
     bool lineEditHasFocus();
     QString searchEntry() const;
@@ -46,7 +78,6 @@ public:
     bool matchRegex() const;
 
     void updateShortcuts (bool disable);
-    void setSearchIcons (const QIcon& iconNext, const QIcon& iconPrev);
 
 signals:
     void searchFlagChanged();
@@ -58,13 +89,15 @@ private:
     void findBackward();
 
     QPointer<LineEdit> lineEdit_;
-    QPointer<QComboBox> combo_;
+    QPointer<ComboBox> combo_;
     QPointer<QToolButton> toolButton_nxt_;
     QPointer<QToolButton> toolButton_prv_;
     QPointer<QToolButton> button_case_;
     QPointer<QToolButton> button_whole_;
     QPointer<QToolButton> button_regex_;
     QList<QKeySequence> shortcuts_;
+    bool searchStarted_;
+    QString searchText_;
 };
 
 }

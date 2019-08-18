@@ -49,6 +49,7 @@ Then, open a terminal inside this folder and issue the following commands:
 
 	mkdir build && cd build
 	cmake ..
+	make
 	sudo make install
 
 With qmake

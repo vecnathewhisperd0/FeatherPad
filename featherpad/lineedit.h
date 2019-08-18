@@ -37,6 +37,7 @@ public:
 
 signals:
     void receivedFocus();
+    void showComboPopup(); // in case it belongs to a combo box
 
 protected:
     virtual void keyPressEvent (QKeyEvent *event);

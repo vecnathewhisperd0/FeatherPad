@@ -273,7 +273,6 @@ private:
     int rightClicked_; // The index/row of the right-clicked tab/item.
     int loadingProcesses_; // The number of loading processes (used to prevent early closing).
     QPointer<QThread> busyThread_; // Used to wait one second for making the cursor busy.
-    ICONMODE iconMode_; // Used only internally.
     QMetaObject::Connection lambdaConnection_; // Captures a lambda connection to disconnect it later.
     SidePane *sidePane_;
     QHash<QListWidgetItem*, TabPage*> sideItems_; // For fast tab switching.

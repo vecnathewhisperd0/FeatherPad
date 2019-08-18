@@ -64,7 +64,6 @@ HEADERS += singleton.h \
            session.h \
            fontDialog.h \
            warningbar.h \
-           utils.h \
            sidepane.h \
            svgicons.h \
            spellChecker.h \

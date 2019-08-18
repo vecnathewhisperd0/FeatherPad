@@ -13,15 +13,15 @@
     <name>FeatherPad::FPwin</name>
     <message>
         <location filename="../../fpwin.cpp" line="395"/>
-        <location filename="../../fpwin.cpp" line="1354"/>
-        <location filename="../../fpwin.cpp" line="1415"/>
-        <location filename="../../fpwin.cpp" line="1895"/>
-        <location filename="../../fpwin.cpp" line="1939"/>
-        <location filename="../../fpwin.cpp" line="2700"/>
-        <location filename="../../fpwin.cpp" line="2720"/>
-        <location filename="../../fpwin.cpp" line="2723"/>
-        <location filename="../../fpwin.cpp" line="3227"/>
-        <location filename="../../fpwin.cpp" line="3925"/>
+        <location filename="../../fpwin.cpp" line="1258"/>
+        <location filename="../../fpwin.cpp" line="1319"/>
+        <location filename="../../fpwin.cpp" line="1799"/>
+        <location filename="../../fpwin.cpp" line="1843"/>
+        <location filename="../../fpwin.cpp" line="2604"/>
+        <location filename="../../fpwin.cpp" line="2624"/>
+        <location filename="../../fpwin.cpp" line="2627"/>
+        <location filename="../../fpwin.cpp" line="3131"/>
+        <location filename="../../fpwin.cpp" line="3829"/>
         <source>Untitled</source>
         <translation>Sem título</translation>
     </message>
@@ -64,9 +64,9 @@
         <translation>&amp;Opções</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1377"/>
-        <location filename="../../fpwin.cpp" line="2625"/>
-        <location filename="../../fpwin.cpp" line="3748"/>
+        <location filename="../../fpwin.cpp" line="1281"/>
+        <location filename="../../fpwin.cpp" line="2529"/>
+        <location filename="../../fpwin.cpp" line="3652"/>
         <source>Encoding</source>
         <translation>Codificação</translation>
     </message>
@@ -584,7 +584,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="337"/>
-        <location filename="../../fpwin.cpp" line="3325"/>
+        <location filename="../../fpwin.cpp" line="3229"/>
         <location filename="../../replace.cpp" line="62"/>
         <location filename="../../replace.cpp" line="115"/>
         <source>Rep&amp;lacement</source>
@@ -759,13 +759,11 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="114"/>
-        <location filename="../../fpwin.cpp" line="561"/>
         <source>Next</source>
         <translation>Seguinte</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="115"/>
-        <location filename="../../fpwin.cpp" line="562"/>
         <source>Previous</source>
         <translation>Anterior</translation>
     </message>
@@ -780,368 +778,363 @@
         <translation>Abertos &amp;recentemente</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="563"/>
-        <source>All</source>
-        <translation>Tudo</translation>
-    </message>
-    <message>
-        <location filename="../../fpwin.cpp" line="1765"/>
+        <location filename="../../fpwin.cpp" line="1669"/>
         <source>Close</source>
         <translation>Fechar</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1149"/>
+        <location filename="../../fpwin.cpp" line="1052"/>
         <source>Save changes?</source>
         <translation>Guardar alterações?</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="874"/>
+        <location filename="../../fpwin.cpp" line="777"/>
         <source>Please attend to that window or just close its dialog!</source>
         <translation>Aceda à janela ou feche este diálogo!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1153"/>
+        <location filename="../../fpwin.cpp" line="1056"/>
         <source>The document has been modified.</source>
         <translation>O documento foi modificado.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1163"/>
+        <location filename="../../fpwin.cpp" line="1066"/>
         <source>Save</source>
         <translation>Guardar</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1164"/>
+        <location filename="../../fpwin.cpp" line="1067"/>
         <source>Discard changes</source>
         <translation>Rejeitar alterações</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1165"/>
-        <location filename="../../fpwin.cpp" line="2872"/>
+        <location filename="../../fpwin.cpp" line="1068"/>
+        <location filename="../../fpwin.cpp" line="2776"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1167"/>
+        <location filename="../../fpwin.cpp" line="1070"/>
         <source>No to all</source>
         <translation>Não a tudo</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1359"/>
-        <location filename="../../fpwin.cpp" line="1416"/>
+        <location filename="../../fpwin.cpp" line="1263"/>
+        <location filename="../../fpwin.cpp" line="1320"/>
         <source>Unsaved</source>
         <translation>Não guardado</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1378"/>
-        <location filename="../../fpwin.cpp" line="2627"/>
-        <location filename="../../fpwin.cpp" line="2987"/>
-        <location filename="../../fpwin.cpp" line="2998"/>
-        <location filename="../../fpwin.cpp" line="3005"/>
-        <location filename="../../fpwin.cpp" line="3752"/>
-        <location filename="../../fpwin.cpp" line="5098"/>
-        <location filename="../../fpwin.cpp" line="5109"/>
-        <location filename="../../fpwin.cpp" line="5116"/>
+        <location filename="../../fpwin.cpp" line="1282"/>
+        <location filename="../../fpwin.cpp" line="2531"/>
+        <location filename="../../fpwin.cpp" line="2891"/>
+        <location filename="../../fpwin.cpp" line="2902"/>
+        <location filename="../../fpwin.cpp" line="2909"/>
+        <location filename="../../fpwin.cpp" line="3656"/>
+        <location filename="../../fpwin.cpp" line="5002"/>
+        <location filename="../../fpwin.cpp" line="5013"/>
+        <location filename="../../fpwin.cpp" line="5020"/>
         <source>Lines</source>
         <translation>Linhas</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1379"/>
-        <location filename="../../fpwin.cpp" line="3753"/>
-        <location filename="../../fpwin.cpp" line="3767"/>
+        <location filename="../../fpwin.cpp" line="1283"/>
+        <location filename="../../fpwin.cpp" line="3657"/>
+        <location filename="../../fpwin.cpp" line="3671"/>
         <source>Sel. Chars</source>
         <translation>Caracteres selecionados</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1380"/>
-        <location filename="../../fpwin.cpp" line="3755"/>
-        <location filename="../../fpwin.cpp" line="3768"/>
+        <location filename="../../fpwin.cpp" line="1284"/>
+        <location filename="../../fpwin.cpp" line="3659"/>
+        <location filename="../../fpwin.cpp" line="3672"/>
         <source>Words</source>
         <translation>Palavras</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1668"/>
+        <location filename="../../fpwin.cpp" line="1572"/>
         <source>Another process is running in this tab!</source>
         <translation>Já está a ser executado um processo neste separador!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1756"/>
+        <location filename="../../fpwin.cpp" line="1660"/>
         <source>Script File</source>
         <translation>Ficheiro script</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="873"/>
+        <location filename="../../fpwin.cpp" line="776"/>
         <source>Another FeatherPad window has a modal dialog!</source>
         <translation>Já existe uma janela do featherpad com um diálogo modal!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="758"/>
-        <location filename="../../fpwin.cpp" line="3794"/>
+        <location filename="../../fpwin.cpp" line="661"/>
+        <location filename="../../fpwin.cpp" line="3698"/>
         <source>Position:</source>
         <translation>Posição:</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="805"/>
-        <location filename="../../fpwin.cpp" line="3812"/>
-        <location filename="../../fpwin.cpp" line="3832"/>
+        <location filename="../../fpwin.cpp" line="708"/>
+        <location filename="../../fpwin.cpp" line="3716"/>
+        <location filename="../../fpwin.cpp" line="3736"/>
         <source>Normal</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1151"/>
-        <location filename="../../fpwin.cpp" line="2402"/>
+        <location filename="../../fpwin.cpp" line="1054"/>
+        <location filename="../../fpwin.cpp" line="2306"/>
         <source>The file does not exist.</source>
         <translation>O ficheiro não existe.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1489"/>
+        <location filename="../../fpwin.cpp" line="1393"/>
         <source>Open Link</source>
         <translation>Abrir Link</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1502"/>
+        <location filename="../../fpwin.cpp" line="1406"/>
         <source>Copy Link</source>
         <translation>Copiar Link</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1669"/>
+        <location filename="../../fpwin.cpp" line="1573"/>
         <source>Only one process is allowed per tab.</source>
         <translation>Apenas é permitido um processo por separador.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1752"/>
+        <location filename="../../fpwin.cpp" line="1656"/>
         <source>Script Output</source>
         <translation>Destino do script</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1768"/>
+        <location filename="../../fpwin.cpp" line="1672"/>
         <source>Clear</source>
         <translation>Limpar</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2369"/>
+        <location filename="../../fpwin.cpp" line="2273"/>
         <source>FeatherPad does not open files larger than 100 MiB.</source>
         <translation>Não é possível abrir ficheiros com tamanho superior a 100 Mib.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2377"/>
+        <location filename="../../fpwin.cpp" line="2281"/>
         <source>Some file(s) could not be opened!</source>
         <translation>Não foi possível abrir alguns ficheiros!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2378"/>
+        <location filename="../../fpwin.cpp" line="2282"/>
         <source>You may not have the permission to read.</source>
         <translation>Pode ser que você não tenha permissão de leitura.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2388"/>
+        <location filename="../../fpwin.cpp" line="2292"/>
         <source>Uneditable file(s)!</source>
         <translation>O(s) ficheiro (s) não podem ser editados!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2389"/>
+        <location filename="../../fpwin.cpp" line="2293"/>
         <source>Non-text files or files with huge lines cannot be edited.</source>
         <translation>Arquivos que não são de texto ou arquivos com linhas enormes não podem ser editados.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2446"/>
+        <location filename="../../fpwin.cpp" line="2350"/>
         <source>A previous crash detected!</source>
         <translation>Ocorreu um erro!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2447"/>
+        <location filename="../../fpwin.cpp" line="2351"/>
         <source>Preferably, close all FeatherPad windows and start again!</source>
         <translation>Preferencialmente, feche todas as janelas e reinicie a aplicação!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2454"/>
+        <location filename="../../fpwin.cpp" line="2358"/>
         <source>Root Instance</source>
         <translation>Instância raiz</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2525"/>
-        <location filename="../../fpwin.cpp" line="2682"/>
-        <location filename="../../fpwin.cpp" line="2709"/>
+        <location filename="../../fpwin.cpp" line="2429"/>
+        <location filename="../../fpwin.cpp" line="2586"/>
+        <location filename="../../fpwin.cpp" line="2613"/>
         <source>All Files (*)</source>
         <translation>Todos os ficheiros (*)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2530"/>
+        <location filename="../../fpwin.cpp" line="2434"/>
         <source>All Files (*);;.%1 Files (*.%1)</source>
         <translation>Todos os ficheiros (*);; Ficheiros .%1 (*.%1)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2534"/>
+        <location filename="../../fpwin.cpp" line="2438"/>
         <source>Open file...</source>
         <translation>Abrir ficheiro...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2687"/>
+        <location filename="../../fpwin.cpp" line="2591"/>
         <source>.%1 Files (*.%1);;All Files (*)</source>
         <translation>Ficheiros .%1 (*.%1);; Todos os ficheiros (*)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2734"/>
-        <location filename="../../fpwin.cpp" line="2766"/>
+        <location filename="../../fpwin.cpp" line="2638"/>
+        <location filename="../../fpwin.cpp" line="2670"/>
         <source>Save as...</source>
         <translation>Guardar como...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2796"/>
+        <location filename="../../fpwin.cpp" line="2700"/>
         <source>Keep encoding and save as...</source>
         <translation>Manter codificação e guardar como...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2870"/>
+        <location filename="../../fpwin.cpp" line="2774"/>
         <source>Yes</source>
         <translation>Sim</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2871"/>
+        <location filename="../../fpwin.cpp" line="2775"/>
         <source>No</source>
         <translation>Não</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2873"/>
+        <location filename="../../fpwin.cpp" line="2777"/>
         <source>Do you want to use &lt;b&gt;MS Windows&lt;/b&gt; end-of-lines?</source>
         <translation>Deseja utilizar o fim de linhas ao estilo &lt;b&gt;MS Windows&lt;/b&gt;?</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2874"/>
+        <location filename="../../fpwin.cpp" line="2778"/>
         <source>This may be good for readability under MS Windows.</source>
         <translation>Esta opção é a correta para ler ficheiros em sistemas Windows.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3021"/>
+        <location filename="../../fpwin.cpp" line="2925"/>
         <source>Cannot be saved!</source>
         <translation>Não pode ser guardado!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="393"/>
-        <location filename="../../fpwin.cpp" line="3225"/>
-        <location filename="../../fpwin.cpp" line="5287"/>
+        <location filename="../../fpwin.cpp" line="3129"/>
+        <location filename="../../fpwin.cpp" line="5191"/>
         <source>Help</source>
         <translation>Ajuda</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2983"/>
-        <location filename="../../fpwin.cpp" line="2989"/>
-        <location filename="../../fpwin.cpp" line="2997"/>
-        <location filename="../../fpwin.cpp" line="3751"/>
-        <location filename="../../fpwin.cpp" line="5094"/>
-        <location filename="../../fpwin.cpp" line="5100"/>
-        <location filename="../../fpwin.cpp" line="5108"/>
+        <location filename="../../fpwin.cpp" line="2887"/>
+        <location filename="../../fpwin.cpp" line="2893"/>
+        <location filename="../../fpwin.cpp" line="2901"/>
+        <location filename="../../fpwin.cpp" line="3655"/>
+        <location filename="../../fpwin.cpp" line="4998"/>
+        <location filename="../../fpwin.cpp" line="5004"/>
+        <location filename="../../fpwin.cpp" line="5012"/>
         <source>Syntax</source>
         <translation>Sintaxe</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2368"/>
+        <location filename="../../fpwin.cpp" line="2272"/>
         <source>Huge file(s) not opened!</source>
         <translation>Arquivo(s) que é(são) enorme(s) não abre(m)!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3237"/>
-        <location filename="../../fpwin.cpp" line="3424"/>
+        <location filename="../../fpwin.cpp" line="3141"/>
+        <location filename="../../fpwin.cpp" line="3328"/>
         <source>This file has been modified elsewhere or in another way!</source>
         <translation>Este arquivo foi modificado em outro lugar ou de outra maneira!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3238"/>
-        <location filename="../../fpwin.cpp" line="3425"/>
+        <location filename="../../fpwin.cpp" line="3142"/>
+        <location filename="../../fpwin.cpp" line="3329"/>
         <source>Please be careful about reloading or saving this document!</source>
         <translation>Tenha muito cuidado a recarregar ou guardar este documento!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3936"/>
+        <location filename="../../fpwin.cpp" line="3840"/>
         <source>Print Document</source>
         <translation>Imprimir documento</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4526"/>
-        <location filename="../../fpwin.cpp" line="4594"/>
+        <location filename="../../fpwin.cpp" line="4430"/>
+        <location filename="../../fpwin.cpp" line="4498"/>
         <source>%1 Pages</source>
         <translation>%1 Páginas</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4552"/>
-        <location filename="../../fpwin.cpp" line="4622"/>
+        <location filename="../../fpwin.cpp" line="4456"/>
+        <location filename="../../fpwin.cpp" line="4526"/>
         <source>Copy Target Path</source>
         <translation>Copiar caminho do destino</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4556"/>
-        <location filename="../../fpwin.cpp" line="4626"/>
+        <location filename="../../fpwin.cpp" line="4460"/>
+        <location filename="../../fpwin.cpp" line="4530"/>
         <source>Open Target Here</source>
         <translation>Abrir destino aqui</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4744"/>
+        <location filename="../../fpwin.cpp" line="4648"/>
         <source>You need to add a Hunspell dictionary.</source>
         <translation>Você precisa adicionar um dicionário Hunspell.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4745"/>
-        <location filename="../../fpwin.cpp" line="4751"/>
-        <location filename="../../fpwin.cpp" line="4760"/>
+        <location filename="../../fpwin.cpp" line="4649"/>
+        <location filename="../../fpwin.cpp" line="4655"/>
+        <location filename="../../fpwin.cpp" line="4664"/>
         <source>See Preferences → Text → Spell Checking!</source>
         <translation>Consulte Preferências → Texto → Verificação Ortográfica!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4750"/>
+        <location filename="../../fpwin.cpp" line="4654"/>
         <source>The Hunspell dictionary does not exist.</source>
         <translation>O dicionário Hunspell não existe.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4759"/>
+        <location filename="../../fpwin.cpp" line="4663"/>
         <source>The Hunspell dictionary is not accompanied by an affix file.</source>
         <translation>O dicionário Hunspell não está acompanhado por um arquivo de afixação.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4781"/>
-        <location filename="../../fpwin.cpp" line="4799"/>
-        <location filename="../../fpwin.cpp" line="4814"/>
+        <location filename="../../fpwin.cpp" line="4685"/>
+        <location filename="../../fpwin.cpp" line="4703"/>
+        <location filename="../../fpwin.cpp" line="4718"/>
         <source>No misspelling in document.</source>
         <translation>Nenhum erro de ortografia no documento.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4783"/>
-        <location filename="../../fpwin.cpp" line="4801"/>
-        <location filename="../../fpwin.cpp" line="4816"/>
+        <location filename="../../fpwin.cpp" line="4687"/>
+        <location filename="../../fpwin.cpp" line="4705"/>
+        <location filename="../../fpwin.cpp" line="4720"/>
         <source>No misspelling from text cursor.</source>
         <translation>Nenhum erro ortográfico a partir do cursor de texto.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4828"/>
+        <location filename="../../fpwin.cpp" line="4732"/>
         <source>Spell Checking</source>
         <translation>Verificação Ortográfica</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5172"/>
+        <location filename="../../fpwin.cpp" line="5076"/>
         <source>Translators</source>
         <translation>Tradutores</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5168"/>
+        <location filename="../../fpwin.cpp" line="5072"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translation>Um editor de ficheiros poderoso</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5169"/>
+        <location filename="../../fpwin.cpp" line="5073"/>
         <source>based on Qt5</source>
         <translation>baseado em Qt5</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5170"/>
+        <location filename="../../fpwin.cpp" line="5074"/>
         <source>Author</source>
         <translation>Autor</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5171"/>
+        <location filename="../../fpwin.cpp" line="5075"/>
         <source>aka.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5172"/>
-        <location filename="../../fpwin.cpp" line="5173"/>
+        <location filename="../../fpwin.cpp" line="5076"/>
+        <location filename="../../fpwin.cpp" line="5077"/>
         <source>About FeatherPad</source>
         <translation>Acerca de Featherpad</translation>
     </message>
@@ -1326,90 +1319,81 @@ but without tab functionality.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="213"/>
-        <source>No icons in the main window and its menus.
-
-KDE may have a bug that disables search and
-replace shortcuts with the iconless mode.
-
-Needs application restart to take effect.</source>
-        <translation>Nenhum ícone na janela principal e seus menus.
-
-O KDE pode ter um erro que desabilita a pesquisa e
-substitui os atalhos pelo modo sem ícone.
-
-Precisa de reinicialização do aplicativo para entrar em vigor.</translation>
-    </message>
-    <message>
-        <location filename="../../predDialog.ui" line="221"/>
-        <source>&amp;Iconless mode</source>
-        <translation>&amp;modo sem ícones</translation>
-    </message>
-    <message>
-        <location filename="../../predDialog.ui" line="228"/>
+        <location filename="../../predDialog.ui" line="200"/>
         <source>Do not show &amp;toolbar</source>
         <translation>Não mos&amp;trar barra de ferramentas</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="235"/>
+        <location filename="../../predDialog.ui" line="207"/>
         <source>If the menubar is hidden,
 a menu button appears on the toolbar.</source>
         <translation>Se ocultar a barra de menu, aparecerá
 um botão de menu na barra de ferramentas.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="239"/>
+        <location filename="../../predDialog.ui" line="211"/>
         <source>Do not show &amp;menubar</source>
         <translation>Não &amp;mostrar barra de menu</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="246"/>
+        <location filename="../../predDialog.ui" line="218"/>
         <source>Hide search &amp;bar by default</source>
         <translation>Por definição, ocultar &amp;barra de pesquisa</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="253"/>
+        <location filename="../../predDialog.ui" line="225"/>
+        <source>By default, each search entry
+has a separate search history.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="229"/>
+        <source>Use a shared search history</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../predDialog.ui" line="236"/>
         <source>Always show st&amp;atus bar</source>
         <translation>Mostr&amp;ar sempre a barra de estado</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="278"/>
+        <location filename="../../predDialog.ui" line="261"/>
         <source>Show cursor position on status bar</source>
         <translation>Mostrar posição do cursor na barra de estado</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="289"/>
-        <location filename="../../predDialog.ui" line="299"/>
+        <location filename="../../predDialog.ui" line="272"/>
+        <location filename="../../predDialog.ui" line="282"/>
         <source>Will take effect after closing this dialog.</source>
         <translation>A alteração será aplicada depois de fechar este diálogo.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="292"/>
+        <location filename="../../predDialog.ui" line="275"/>
         <source>Tab position: </source>
         <translation>Posição do separador: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="303"/>
+        <location filename="../../predDialog.ui" line="286"/>
         <source>North</source>
         <translation>Norte</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="308"/>
+        <location filename="../../predDialog.ui" line="291"/>
         <source>South</source>
         <translation>Sul</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="313"/>
+        <location filename="../../predDialog.ui" line="296"/>
         <source>West</source>
         <translation>Oeste</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="318"/>
+        <location filename="../../predDialog.ui" line="301"/>
         <source>East</source>
         <translation>Este</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="344"/>
+        <location filename="../../predDialog.ui" line="327"/>
         <source>This means that, for LTR, Alt+Right goes to the first tab
 after the last tab is activated, and the same for Alt+Left.
 
@@ -1417,17 +1401,17 @@ Tab navigation with mouse wheel is not affected.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="350"/>
+        <location filename="../../predDialog.ui" line="333"/>
         <source>Tab navigation wraps &amp;around</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="370"/>
+        <location filename="../../predDialog.ui" line="353"/>
         <source>Close window on closing its last tab</source>
         <translation>Fechar janela ao fechar o último separador</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="377"/>
+        <location filename="../../predDialog.ui" line="360"/>
         <source>By default, if a FeatherPad window exists on the
 current desktop, files will be opened in its tabs.
 
@@ -1436,12 +1420,12 @@ report that they have multiple desktops.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="384"/>
+        <location filename="../../predDialog.ui" line="367"/>
         <source>Always open in separate windows</source>
         <translation>Abrir sempre em janelas distintas</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="391"/>
+        <location filename="../../predDialog.ui" line="374"/>
         <source>If this is checked, the file dialog provided by the current
 desktop environment will be used instead of the Qt file dialog.
 
@@ -1449,132 +1433,132 @@ Some desktop environments, like KDE and LXQt, provide files dialogs.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="397"/>
+        <location filename="../../predDialog.ui" line="380"/>
         <source>Native file dialog</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="473"/>
+        <location filename="../../predDialog.ui" line="456"/>
         <source>Uncheck for Monospace.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="476"/>
+        <location filename="../../predDialog.ui" line="459"/>
         <source>Remember &amp;font</source>
         <translation>Lembrar da &amp;fonte</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="497"/>
+        <location filename="../../predDialog.ui" line="480"/>
         <source>This covers parentheses, braces, brackets and quotes.</source>
         <translation>Abrange parênteses, chaves, colchetes e citações.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="500"/>
+        <location filename="../../predDialog.ui" line="483"/>
         <source>Auto-&amp;bracket</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="507"/>
+        <location filename="../../predDialog.ui" line="490"/>
         <source>By default, a triple period is replaced with an ellipsis
 and a double hyphen with a long dash while typing,
 under proper circumstances.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="512"/>
+        <location filename="../../predDialog.ui" line="495"/>
         <source>Replace triple periods and double hyphens while typing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="582"/>
+        <location filename="../../predDialog.ui" line="565"/>
         <source>Never highlight syntax for files &gt; </source>
         <translation>Não destacar sintaxe para ficheiros &gt; </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="551"/>
+        <location filename="../../predDialog.ui" line="534"/>
         <source>This creates a menu button on the
 status bar for changing the syntax.</source>
         <translation>Isto cria um botão de menu na barra
 de estado para alterar a sintaxe.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="555"/>
+        <location filename="../../predDialog.ui" line="538"/>
         <source>Support syntax override</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="620"/>
+        <location filename="../../predDialog.ui" line="603"/>
         <source>Show spaces, tabs and tab lines
 when the syntax is highlighted.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="624"/>
+        <location filename="../../predDialog.ui" line="607"/>
         <source>Show whitespaces</source>
         <translation>Mostrar espaços vazios</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="640"/>
-        <location filename="../../predDialog.ui" line="651"/>
+        <location filename="../../predDialog.ui" line="623"/>
+        <location filename="../../predDialog.ui" line="634"/>
         <source>The vertical position lines will be drawn only if
 the editor font has a fixed pitch (like Monospace).</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="644"/>
+        <location filename="../../predDialog.ui" line="627"/>
         <source>Show vertical lines starting from this position:</source>
         <translation>Mostrar linhas verticais com início nesta posição:</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="631"/>
+        <location filename="../../predDialog.ui" line="614"/>
         <source>Also show line and document ends</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="770"/>
+        <location filename="../../predDialog.ui" line="753"/>
         <source>Date and time format:</source>
         <translation>Formato de data e hora:</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="840"/>
+        <location filename="../../predDialog.ui" line="823"/>
         <source>Some text editors cannot open a document
 whose last line is not empty.</source>
         <translation>Alguns editores de texto não conseguem abrir
 um ficheiro se não existir uma linha vazia no fim.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="844"/>
+        <location filename="../../predDialog.ui" line="827"/>
         <source>Ensure an empty last line on saving</source>
         <translation>Certifique-se de que deixa uma linha vazia</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="851"/>
+        <location filename="../../predDialog.ui" line="834"/>
         <source>Remove trailing spaces on saving</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="869"/>
+        <location filename="../../predDialog.ui" line="852"/>
         <source>Inertial scrolling with mouse wheel</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="969"/>
+        <location filename="../../predDialog.ui" line="952"/>
         <source>Files</source>
         <translation>Ficheiros</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="975"/>
+        <location filename="../../predDialog.ui" line="958"/>
         <source>File Management</source>
         <translation>Gestão de ficheiros</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1092"/>
+        <location filename="../../predDialog.ui" line="1075"/>
         <source>Start with files of last window</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1134"/>
-        <location filename="../../predDialog.ui" line="1153"/>
+        <location filename="../../predDialog.ui" line="1117"/>
+        <location filename="../../predDialog.ui" line="1136"/>
         <source>This can be any starting command with
 arguments, for example, &quot;xterm -hold&quot;
 for running the process in XTerm.
@@ -1588,42 +1572,34 @@ will be shown by a popup dialog.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1146"/>
+        <location filename="../../predDialog.ui" line="1129"/>
         <source>Start with this command: </source>
         <translation>Iniciar com este comando: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1165"/>
+        <location filename="../../predDialog.ui" line="1148"/>
         <source>Command + Arguments</source>
         <translation>Comando + argumentos</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1050"/>
+        <location filename="../../predDialog.ui" line="1033"/>
         <source>Show recentl&amp;y modified files</source>
         <translation>Mostrar arquivos modificados &amp;recentemente</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1080"/>
+        <location filename="../../predDialog.ui" line="1063"/>
         <source>Show recentl&amp;y opened files</source>
         <translation>Mostrar arquivos abertos &amp;recentemente</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1179"/>
+        <location filename="../../predDialog.ui" line="1162"/>
         <source>Save changes to opened files every:</source>
         <translation>Guardar alterações a cada:</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1324"/>
+        <location filename="../../predDialog.ui" line="1307"/>
         <source>Help</source>
         <translation>Ajuda</translation>
-    </message>
-    <message>
-        <location filename="../../predDialog.ui" line="200"/>
-        <source>Uncheck this if you want FeatherPad to
-use system icons!
-
-Needs application restart to take effect.</source>
-        <translation></translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="163"/>
@@ -1631,12 +1607,7 @@ Needs application restart to take effect.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="206"/>
-        <source>&amp;Use own icons</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../predDialog.ui" line="357"/>
+        <location filename="../../predDialog.ui" line="340"/>
         <source>If this is checked, not only you will lose the informative
 tooltip and context menu of a single tab but you could not
 merge a single tabbed window into another one by tab drag-
@@ -1644,68 +1615,68 @@ and-drop either.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="363"/>
+        <location filename="../../predDialog.ui" line="346"/>
         <source>&amp;Do not show a single tab</source>
         <translation>&amp;Não mostrar uma única guia</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="428"/>
+        <location filename="../../predDialog.ui" line="411"/>
         <source>Text</source>
         <translation>Texto</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="467"/>
+        <location filename="../../predDialog.ui" line="450"/>
         <source>Text Editor</source>
         <translation>Editor de texto</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="483"/>
+        <location filename="../../predDialog.ui" line="466"/>
         <source>&amp;Wrap lines by default</source>
         <translation>&amp;Quebrar linhas por padrão</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="490"/>
+        <location filename="../../predDialog.ui" line="473"/>
         <source>Auto-&amp;indent by default</source>
         <translation>Auto-&amp;recuo por padrão</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="519"/>
+        <location filename="../../predDialog.ui" line="502"/>
         <source>Always show line &amp;numbers</source>
         <translation>Mostrar sempre o &amp;número da linha</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="526"/>
+        <location filename="../../predDialog.ui" line="509"/>
         <source>Highlight s&amp;yntax by default</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="686"/>
+        <location filename="../../predDialog.ui" line="669"/>
         <source>Dark c&amp;olor scheme</source>
         <translation>Esquema escur&amp;o</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="721"/>
+        <location filename="../../predDialog.ui" line="704"/>
         <source>Background color value: </source>
         <translation>Valor da cor de fundo: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="589"/>
+        <location filename="../../predDialog.ui" line="572"/>
         <source> MiB</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="876"/>
+        <location filename="../../predDialog.ui" line="859"/>
         <source>This is not a complete fix but
 prevents annoying scroll jumps.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="880"/>
+        <location filename="../../predDialog.ui" line="863"/>
         <source>Workaround for &amp;Qt5&apos;s scroll jump bug</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1099"/>
+        <location filename="../../predDialog.ui" line="1082"/>
         <source>This only includes executable files written
 in script languages like Shell and Python.
 
@@ -1717,13 +1688,13 @@ process could be killed by Ctrl+Alt+E.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="683"/>
+        <location filename="../../predDialog.ui" line="666"/>
         <source>Needs window reopening to take effect.</source>
         <translation>Precisa reabrir a janela para entrar em vigor.</translation>
     </message>
     <message>
+        <location filename="../../predDialog.ui" line="694"/>
         <location filename="../../predDialog.ui" line="711"/>
-        <location filename="../../predDialog.ui" line="728"/>
         <source>The color value of the background.
 255 means white while 0 means black.
 
@@ -1735,13 +1706,13 @@ Needs window reopening to take effect.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1109"/>
+        <location filename="../../predDialog.ui" line="1092"/>
         <source>Run executable scripts</source>
         <translation>Executar scripts executáveis</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="983"/>
-        <location filename="../../predDialog.ui" line="997"/>
+        <location filename="../../predDialog.ui" line="966"/>
+        <location filename="../../predDialog.ui" line="980"/>
         <source>The maximum number of recently modified or
 opened files FeatherPad shows. The default
 is 10.
@@ -1750,8 +1721,8 @@ Needs application restart to take effect.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="762"/>
-        <location filename="../../predDialog.ui" line="777"/>
+        <location filename="../../predDialog.ui" line="745"/>
+        <location filename="../../predDialog.ui" line="760"/>
         <source>Used for pasting the date and time.
 
 Takes effect after closing this dialog.
@@ -1761,34 +1732,34 @@ MMM dd, yyyy, hh:mm:ss</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="799"/>
+        <location filename="../../predDialog.ui" line="782"/>
         <source>Text tab size:</source>
         <translation>Tamanho da guia de texto:</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="806"/>
+        <location filename="../../predDialog.ui" line="789"/>
         <source> spaces</source>
         <translation> espaços</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="858"/>
+        <location filename="../../predDialog.ui" line="841"/>
         <source>Thick text cursor</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="865"/>
+        <location filename="../../predDialog.ui" line="848"/>
         <source>Should the mouse wheel scrolling be inertial
 if the cursor is inside the text view?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="887"/>
+        <location filename="../../predDialog.ui" line="870"/>
         <source>Spell Checking</source>
         <translation>Verificação Ortográfica</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="895"/>
-        <location filename="../../predDialog.ui" line="907"/>
+        <location filename="../../predDialog.ui" line="878"/>
+        <location filename="../../predDialog.ui" line="890"/>
         <source>A Hunspell dictionary has a name that ends with &quot;.dic&quot;
 and should be alongside an affix file with the same
 name but ending with &quot;.aff&quot;.</source>
@@ -1797,51 +1768,51 @@ e deve estar ao lado de um arquivo de afixação com o mesmo
 nome, mas terminando com &quot;.aff&quot;.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="900"/>
+        <location filename="../../predDialog.ui" line="883"/>
         <source>Hunspell dictionary path:</source>
         <translation>Diretório do dicionário Hunspell:</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="919"/>
-        <location filename="../../pref.cpp" line="1484"/>
+        <location filename="../../predDialog.ui" line="902"/>
+        <location filename="../../pref.cpp" line="1460"/>
         <source>Add dictionary...</source>
         <translation>Adicionar um dicionário...</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="931"/>
+        <location filename="../../predDialog.ui" line="914"/>
         <source>If this is unchecked, spell checking
 will be started from the document start.</source>
         <translation>Caso estiver desmarcado, a verificação ortográfica
 será iniciada a partir do início do documento.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="935"/>
+        <location filename="../../predDialog.ui" line="918"/>
         <source>Start spell checking from text cursor</source>
         <translation>Iniciar verificação ortográfica a partir do cursor de texto</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="990"/>
+        <location filename="../../predDialog.ui" line="973"/>
         <source>Number of recent files: </source>
         <translation>Número de ficheiros recentes: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1089"/>
+        <location filename="../../predDialog.ui" line="1072"/>
         <source>Only if their number is not greater than 50.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1176"/>
-        <location filename="../../predDialog.ui" line="1186"/>
+        <location filename="../../predDialog.ui" line="1159"/>
+        <location filename="../../predDialog.ui" line="1169"/>
         <source>Only for files that exist and can be saved.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1189"/>
+        <location filename="../../predDialog.ui" line="1172"/>
         <source> min</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1220"/>
+        <location filename="../../predDialog.ui" line="1203"/>
         <source>If this is checked, the Save button/menu-item could
 be used also when the opened file is not modified.
 
@@ -1851,100 +1822,100 @@ trailing spaces of a text file.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1228"/>
+        <location filename="../../predDialog.ui" line="1211"/>
         <source>Allow saving unmodified files</source>
         <translation>Permitir guardar ficheiros não modificados</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1235"/>
+        <location filename="../../predDialog.ui" line="1218"/>
         <source>Show a warning instead.</source>
         <translation>Mostrar antes um aviso.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1238"/>
+        <location filename="../../predDialog.ui" line="1221"/>
         <source>Do not permit opening of non-text files</source>
         <translation>Não permitir a abertura de arquivos que não sejam de texto</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1265"/>
+        <location filename="../../predDialog.ui" line="1248"/>
         <source>Shortcuts</source>
         <translation>Atalhos</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1284"/>
+        <location filename="../../predDialog.ui" line="1267"/>
         <source>Action</source>
         <translation>Ação</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1289"/>
+        <location filename="../../predDialog.ui" line="1272"/>
         <source>Shortcut</source>
         <translation>Atalho</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1297"/>
+        <location filename="../../predDialog.ui" line="1280"/>
         <source>Restore default shortcuts.</source>
         <translation>Restaurar atalhos padrão.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1300"/>
+        <location filename="../../predDialog.ui" line="1283"/>
         <source>Default</source>
         <translation>Padrão</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1335"/>
+        <location filename="../../predDialog.ui" line="1318"/>
         <source>Close</source>
         <translation>Fechar</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="283"/>
-        <location filename="../../pref.cpp" line="1188"/>
+        <location filename="../../pref.cpp" line="279"/>
+        <location filename="../../pref.cpp" line="1164"/>
         <source>files</source>
         <translation>ficheiros</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="283"/>
-        <location filename="../../pref.cpp" line="1188"/>
+        <location filename="../../pref.cpp" line="279"/>
+        <location filename="../../pref.cpp" line="1164"/>
         <source>file</source>
         <translation>ficheiro</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="336"/>
-        <location filename="../../pref.cpp" line="1302"/>
+        <location filename="../../pref.cpp" line="332"/>
+        <location filename="../../pref.cpp" line="1278"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Aviso: detetado um atalho ambíguo!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="460"/>
+        <location filename="../../pref.cpp" line="455"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Tem que reiniciar a aplicação para aplicar as alterações.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="472"/>
+        <location filename="../../pref.cpp" line="467"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Tem que reabrir esta janela para aplicar as alterações.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1214"/>
+        <location filename="../../pref.cpp" line="1190"/>
         <source>&amp;Recently Opened</source>
         <translation>Abertos &amp;recentemente</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1215"/>
+        <location filename="../../pref.cpp" line="1191"/>
         <source>Recently &amp;Modified</source>
         <translation>&amp;Modificados recentemente</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1292"/>
+        <location filename="../../pref.cpp" line="1268"/>
         <source>The typed shortcut was not valid.</source>
         <translation>O atalho introduzido é inválido.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1294"/>
+        <location filename="../../pref.cpp" line="1270"/>
         <source>The typed shortcut was reserved.</source>
         <translation>O atalho introduzido já está reservado.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1486"/>
+        <location filename="../../pref.cpp" line="1462"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>Arquivos do Dicionário Hunspell (* .dic)</translation>
     </message>
@@ -1952,7 +1923,7 @@ trailing spaces of a text file.</source>
 <context>
     <name>FeatherPad::SearchBar</name>
     <message>
-        <location filename="../../searchbar.cpp" line="37"/>
+        <location filename="../../searchbar.cpp" line="43"/>
         <location filename="../../searchbar.cpp" line="122"/>
         <source>Search...</source>
         <translation>Pesquisa...</translation>
@@ -1978,13 +1949,11 @@ trailing spaces of a text file.</source>
         <translation>Pesquisar com regex...</translation>
     </message>
     <message>
-        <location filename="../../searchbar.cpp" line="64"/>
         <location filename="../../searchbar.cpp" line="69"/>
         <source>Next</source>
         <translation>Seguinte</translation>
     </message>
     <message>
-        <location filename="../../searchbar.cpp" line="65"/>
         <location filename="../../searchbar.cpp" line="70"/>
         <source>Previous</source>
         <translation>Anterior</translation>
@@ -2192,8 +2161,8 @@ abertos serão incluídos na sessão guardada.</translation>
 <context>
     <name>FeatherPad::WarningBar</name>
     <message>
-        <location filename="../../warningbar.h" line="79"/>
-        <location filename="../../warningbar.h" line="88"/>
+        <location filename="../../warningbar.h" line="78"/>
+        <location filename="../../warningbar.h" line="83"/>
         <source>Close</source>
         <translation>Fechar</translation>
     </message>

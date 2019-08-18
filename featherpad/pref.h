@@ -71,11 +71,10 @@ private slots:
     void prefSize (int checked);
     void prefStartSize (int value);
     void prefPos (int checked);
-    void prefIcon (int checked);
-    void prefIconless (int checked);
     void prefToolbar (int checked);
     void prefMenubar (int checked);
     void prefSearchbar (int checked);
+    void prefSearchHistory (int checked);
     void prefStatusbar (int checked);
     void prefStatusCursor (int checked);
     void prefFont (int checked);
@@ -131,7 +130,7 @@ private:
 
     Ui::PrefDialog *ui;
     QWidget * parent_;
-    bool darkBg_, sysIcons_, iconless_, showWhiteSpace_, showEndings_, saveUnmodified_;
+    bool darkBg_, showWhiteSpace_, showEndings_, saveUnmodified_, sharedSearchHistory_;
     int vLineDistance_, darkColValue_, lightColValue_, recentNumber_, textTabSize_;
     QHash<QString, QString> shortcuts_, newShortcuts_;
     QString prevtMsg_;

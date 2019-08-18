@@ -27,8 +27,6 @@ Config::Config():
     remSize_ (true),
     remPos_ (false),
     remSplitterPos_ (true),
-    iconless_ (false),
-    sysIcon_ (false),
     noToolbar_ (false),
     noMenubar_ (false),
     hideSearchbar_ (false),
@@ -62,6 +60,7 @@ Config::Config():
     skipNonText_ (true),
     saveUnmodified_ (false),
     closeWithLastTab_ (false),
+    sharedSearchHistory_ (false),
     vLineDistance_ (-80),
     tabPosition_ (0),
     maxSHSize_ (2),
@@ -122,12 +121,6 @@ void Config::readConfig()
 
     prefSize_ = settings.value ("prefSize").toSize();
 
-    if (settings.value ("iconless").toBool())
-        iconless_ = true; // false by default
-
-    if (settings.value ("sysIcon").toBool())
-        sysIcon_ = true; // false by default
-
     if (settings.value ("noToolbar").toBool())
         noToolbar_ = true; // false by default
 
@@ -175,6 +168,9 @@ void Config::readConfig()
 
     if (settings.value ("closeWithLastTab").toBool())
         closeWithLastTab_ = true; // false by default
+
+    if (settings.value ("sharedSearchHistory").toBool())
+        sharedSearchHistory_ = true; // false by default
 
     settings.endGroup();
 
@@ -370,8 +366,6 @@ void Config::writeConfig()
     settings.setValue ("prefSize", prefSize_);
 
     settings.setValue ("startSize", startSize_);
-    settings.setValue ("iconless", iconless_);
-    settings.setValue ("sysIcon", sysIcon_);
     settings.setValue ("noToolbar", noToolbar_);
     settings.setValue ("noMenubar", noMenubar_);
     settings.setValue ("hideSearchbar", hideSearchbar_);
@@ -385,6 +379,7 @@ void Config::writeConfig()
     settings.setValue ("openInWindows", openInWindows_);
     settings.setValue ("nativeDialog", nativeDialog_);
     settings.setValue ("closeWithLastTab", closeWithLastTab_);
+    settings.setValue ("sharedSearchHistory", sharedSearchHistory_);
 
     settings.endGroup();
 
