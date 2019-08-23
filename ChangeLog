@@ -2,6 +2,7 @@ V0.12.0
 ---------
  * Removed useless options related to icons.
  * Added an option for a single shared search history.
+ * Always send a release mouse event before a tab DND.
 
 V0.11.1
 ---------

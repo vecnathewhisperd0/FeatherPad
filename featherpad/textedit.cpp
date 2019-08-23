@@ -169,7 +169,9 @@ void TextEdit::setEditorFont (const QFont &f, bool setDefault)
     /* we want consistent tabs */
     QFontMetricsF metrics (f);
     QTextOption opt = document()->defaultTextOption();
-#if (QT_VERSION >= QT_VERSION_CHECK(5,10,0))
+#if (QT_VERSION >= QT_VERSION_CHECK(5,11,0))
+    opt.setTabStopDistance (metrics.horizontalAdvance (textTab_));
+#elif (QT_VERSION >= QT_VERSION_CHECK(5,10,0))
     opt.setTabStopDistance (metrics.width (textTab_));
 #else
     opt.setTabStop (metrics.width (textTab_));
@@ -352,7 +354,11 @@ QString TextEdit::remainingSpaces (const QString& spaceTab, const QTextCursor& c
     QTextCursor tmp = cursor;
     QString txt = cursor.block().text().left (cursor.positionInBlock());
     QFontMetricsF fm = QFontMetricsF (document()->defaultFont());
+#if (QT_VERSION >= QT_VERSION_CHECK(5,11,0))
+    qreal spaceL = fm.horizontalAdvance (" ");
+#else
     qreal spaceL = fm.width (" ");
+#endif
     int n = 0, i = 0;
     while ((i = txt.indexOf("\t", i)) != -1)
     { // find tab widths in terms of spaces
@@ -389,7 +395,11 @@ QTextCursor TextEdit::backTabCursor (const QTextCursor& cursor, bool twoSpace) c
 
     QString txt = blockText.left (indx);
     QFontMetricsF fm = QFontMetricsF (document()->defaultFont());
+#if (QT_VERSION >= QT_VERSION_CHECK(5,11,0))
+    qreal spaceL = fm.horizontalAdvance (" ");
+#else
     qreal spaceL = fm.width (" ");
+#endif
     int n = 0, i = 0;
     while ((i = txt.indexOf("\t", i)) != -1)
     { // find tab widths in terms of spaces
@@ -1440,7 +1450,11 @@ void TextEdit::paintEvent (QPaintEvent *event)
                     int yBottom =  qRound (r.height() >= static_cast<qreal>(2) * fm.lineSpacing()
                                                ? yTop + fm.height()
                                                : r.bottomLeft().y() - static_cast<qreal>(1));
+#if (QT_VERSION >= QT_VERSION_CHECK(5,11,0))
+                    qreal tabWidth = fm.horizontalAdvance (textTab_);
+#else
                     qreal tabWidth = fm.width (textTab_);
+#endif
                     if (rtl)
                     {
                         qreal leftMost = cursorRect (cur).left();
@@ -1485,7 +1499,11 @@ void TextEdit::paintEvent (QPaintEvent *event)
                 QTextCursor cur = textCursor();
                 cur.setPosition (block.position());
                 QFontMetricsF fm = QFontMetricsF (document()->defaultFont());
+#if (QT_VERSION >= QT_VERSION_CHECK(5,11,0))
+                qreal rulerSpace = fm.horizontalAdvance (' ') * static_cast<qreal>(vLineDistance_);
+#else
                 qreal rulerSpace = fm.width (' ') * static_cast<qreal>(vLineDistance_);
+#endif
                 int yTop = qRound (r.topLeft().y());
                 int yBottom =  qRound (r.height() >= static_cast<qreal>(2) * fm.lineSpacing()
                                        ? yTop + fm.height()

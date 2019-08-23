@@ -170,7 +170,7 @@ else:macx{
 
   help.path = $$DATADIR/Contents/Resources/
   help.files += ./data/help
-  help.files += ./data/helps/help_*
+  help.files += ./data/help_*
 
   trans.path = $$DATADIR/Contents/Resources/
   trans.files += data/translations/translations

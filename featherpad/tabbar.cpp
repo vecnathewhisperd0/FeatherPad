@@ -102,18 +102,15 @@ void TabBar::mouseMoveEvent (QMouseEvent *event)
         drag->setPixmap (px);
         drag->setHotSpot (QPoint (px.width()/2, px.height()));
         Qt::DropAction dragged = drag->exec (Qt::MoveAction);
+        releaseMouse(); // for the tabbar to be updated peoperly, the mouse should be released
         if (dragged != Qt::MoveAction)
         {
             /* A tab is dropped outside all windows. WARNING: Under Enlightenment,
                this may be Qt::CopyAction, not IgnoreAction (an E bug). */
             if (count() > 1)
                 emit tabDetached();
-            else
-                finishMouseMoveEvent();
-            event->accept();
         }
-        else // a tab is dropped into another window
-            event->accept();
+        event->accept();
         drag->deleteLater();
     }
     else
@@ -163,12 +160,6 @@ void TabBar::tabInserted (int/* index*/)
         else if (count() == 2)
             show();
     }
-}
-/*************************/
-void TabBar::finishMouseMoveEvent()
-{
-    QMouseEvent finishingEvent (QEvent::MouseMove, QPoint(), Qt::NoButton, Qt::NoButton, Qt::NoModifier);
-    mouseMoveEvent (&finishingEvent);
 }
 /*************************/
 void TabBar::releaseMouse()
