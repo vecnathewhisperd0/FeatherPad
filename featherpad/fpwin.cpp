@@ -3957,7 +3957,10 @@ void FPwin::detachTab()
     else
         index = ui->tabWidget->currentIndex();
     if (index == -1 || ui->tabWidget->count() == 1)
+    {
+        ui->tabWidget->tabBar()->finishMouseMoveEvent();
         return;
+    }
 
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
 
@@ -4023,6 +4026,10 @@ void FPwin::detachTab()
 
     disconnect (tabPage, &TabPage::find, this, &FPwin::find);
     disconnect (tabPage, &TabPage::searchFlagChanged, this, &FPwin::searchFlagChanged);
+
+    /* for tabbar to be updated peoperly with tab reordering during a
+       fast drag-and-drop, mouse should be released before tab removal */
+    ui->tabWidget->tabBar()->releaseMouse();
 
     ui->tabWidget->removeTab (index);
     if (ui->tabWidget->count() == 1)
@@ -4173,10 +4180,16 @@ void FPwin::dropTab (const QString& str)
 {
     QStringList list = str.split ("+", QString::SkipEmptyParts);
     if (list.count() != 2)
+    {
+        ui->tabWidget->tabBar()->finishMouseMoveEvent();
         return;
+    }
     int index = list.at (1).toInt();
     if (index <= -1) // impossible
+    {
+        ui->tabWidget->tabBar()->finishMouseMoveEvent();
         return;
+    }
 
     FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
     FPwin *dragSource = nullptr;
@@ -4191,6 +4204,7 @@ void FPwin::dropTab (const QString& str)
     if (dragSource == this
         || dragSource == nullptr) // impossible
     {
+        ui->tabWidget->tabBar()->finishMouseMoveEvent();
         return;
     }
 
@@ -4244,6 +4258,10 @@ void FPwin::dropTab (const QString& str)
 
     disconnect (tabPage, &TabPage::find, dragSource, &FPwin::find);
     disconnect (tabPage, &TabPage::searchFlagChanged, dragSource, &FPwin::searchFlagChanged);
+
+    /* it's important to release mouse before tab removal because otherwise, the source
+       tabbar might not be updated properly with tab reordering during a fast drag-and-drop */
+    dragSource->ui->tabWidget->tabBar()->releaseMouse();
 
     dragSource->ui->tabWidget->removeTab (index); // there can't be a side-pane here
     int count = dragSource->ui->tabWidget->count();

@@ -2,7 +2,7 @@ V0.12.0
 ---------
  * Removed useless options related to icons.
  * Added an option for a single shared search history.
- * Always send a release mouse event before a tab DND.
+ * Send a mouse release event if a dragged tab can't be dropped into a window that accepts tab drops. This shouldn't be needed but some apps (like Dolphin) may incorrectly accept any kind of drop.
 
 V0.11.1
 ---------

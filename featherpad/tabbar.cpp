@@ -101,14 +101,24 @@ void TabBar::mouseMoveEvent (QMouseEvent *event)
         QPixmap px = QIcon (":icons/tab.svg").pixmap (22, 22);
         drag->setPixmap (px);
         drag->setHotSpot (QPoint (px.width()/2, px.height()));
+        int N = count();
         Qt::DropAction dragged = drag->exec (Qt::MoveAction);
-        releaseMouse(); // for the tabbar to be updated peoperly, the mouse should be released
         if (dragged != Qt::MoveAction)
         {
             /* A tab is dropped outside all windows. WARNING: Under Enlightenment,
                this may be Qt::CopyAction, not IgnoreAction (an E bug). */
-            if (count() > 1)
+            if (N > 1)
                 emit tabDetached();
+            else
+                finishMouseMoveEvent();
+        }
+        else // a tab is dropped into another window
+        {
+            /* WARNING: Theoretically, only FeatherPad should accept its tab drops
+               but another app (like Dolphin) may incorrectly accept any drop. So,
+               if no tab is removed here, we release the mouse as a workaround. */
+            if (count() == N)
+                releaseMouse();
         }
         event->accept();
         drag->deleteLater();
@@ -160,6 +170,12 @@ void TabBar::tabInserted (int/* index*/)
         else if (count() == 2)
             show();
     }
+}
+/*************************/
+void TabBar::finishMouseMoveEvent()
+{
+    QMouseEvent finishingEvent (QEvent::MouseMove, QPoint(), Qt::NoButton, Qt::NoButton, Qt::NoModifier);
+    mouseMoveEvent (&finishingEvent);
 }
 /*************************/
 void TabBar::releaseMouse()
