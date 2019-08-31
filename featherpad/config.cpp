@@ -37,7 +37,7 @@ Config::Config():
     remFont_ (true),
     wrapByDefault_ (true),
     indentByDefault_ (true),
-    autoReplace_ (true),
+    autoReplace_ (false),
     autoBracket_ (false),
     lineByDefault_ (false),
     syntaxByDefault_ (true),
@@ -200,9 +200,8 @@ void Config::readConfig()
     if (settings.value ("noIndent").toBool())
         indentByDefault_ = false; // true by default
 
-    v = settings.value ("autoReplace");
-    if (v.isValid()) // true by default
-        autoReplace_ = v.toBool();
+    if (settings.value ("autoReplace").toBool())
+        autoReplace_ = true; // false by default
 
     if (settings.value ("autoBracket").toBool())
         autoBracket_ = true; // false by default
