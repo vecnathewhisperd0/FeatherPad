@@ -530,7 +530,13 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                 cur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, 3);
                 const QString sel = cur.selectedText();
                 if (sel == " --")
-                    cur.insertText (" —");
+                {
+                    if (prog_ == "url" || prog_ == "changelog"
+                        || lang_ == "url" || lang_ == "changelog")
+                    { // not with programming languages
+                        cur.insertText (" —");
+                    }
+                }
                 else if (sel == "...")
                 {
                     QTextCursor prevCur = cur;
@@ -1043,7 +1049,13 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                     cur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, 3);
                     QString selTxt = cur.selectedText();
                     if (selTxt == " --")
-                        cur.insertText (" —");
+                    {
+                        if (prog_ == "url" || prog_ == "changelog"
+                            || lang_ == "url" || lang_ == "changelog")
+                        { // not with programming languages
+                            cur.insertText (" —");
+                        }
+                    }
                     else if (selTxt == "...")
                     {
                         QTextCursor prevCur = cur;
