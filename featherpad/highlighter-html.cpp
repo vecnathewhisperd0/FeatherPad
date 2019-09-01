@@ -307,6 +307,36 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
                     setFormat (index, match.capturedLength(), rule.format);
                     index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
                 }
+
+                /* also, mark encoded and unencoded ampersands */
+                QRegularExpression ampersand ("&");
+                QTextCharFormat errorFormat;
+                errorFormat.setFontUnderline (true);
+                errorFormat.setForeground (Red);
+                QTextCharFormat encodedFormat;
+                encodedFormat.setForeground (DarkMagenta);
+                encodedFormat.setFontItalic (true);
+
+                index = text.indexOf (ampersand, start);
+                while (index >= 0 && format (index) != mainFormat)
+                    index = text.indexOf (ampersand, index + 1);
+                while (index >= 0)
+                {
+                    QString str = text.mid (index, 6);
+                    if (str == "&nbsp;")
+                        setFormat (index, 6, encodedFormat);
+                    else if (str.startsWith("&amp;"))
+                        setFormat (index, 5, encodedFormat);
+                    else if (str.startsWith ("&lt;") || str.startsWith ("&gt;"))
+                        setFormat (index, 4, encodedFormat);
+                    else
+                        setFormat (index, 1, errorFormat);
+                    index = text.indexOf (ampersand, index + 1);
+                    while (index >= 0 && format (index) != mainFormat)
+                        index = text.indexOf (ampersand, index + 1);
+                }
+
+                break;
             }
         }
     }
@@ -379,8 +409,10 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
         if (matched == 0 && (!wasCSS || cssIndex > 0))
             matched = startMatch.capturedLength();
 
-        /* starting from here, clear all html formats... */
-        setFormat (cssIndex + matched, text.length() - cssIndex - matched, neutralFormat);
+        /* starting from here, clear all html formats...
+           (NOTE: "mainFormat" is used instead of "neutralFormat"
+           for HTML ampersands to be formatted correctly.) */
+        setFormat (cssIndex + matched, text.length() - cssIndex - matched, mainFormat);
         setCurrentBlockState (0);
 
         /* ... and apply the css formats */
@@ -444,7 +476,7 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
                   + endMatch.capturedLength();
             /* if the css block ends at this line, format
                the rest of the line as an html code again */
-            setFormat (cssEndIndex, text.length() - cssEndIndex, neutralFormat);
+            setFormat (cssEndIndex, text.length() - cssEndIndex, mainFormat);
             setCurrentBlockState (0);
             progLan = "html";
             htmlBrackets (text, cssEndIndex);
@@ -520,7 +552,7 @@ void Highlighter::htmlJavascript (const QString &text)
         }
 
         /* starting from here, clear all html formats... */
-        setFormat (javaIndex + matched, text.length() - javaIndex - matched, neutralFormat);
+        setFormat (javaIndex + matched, text.length() - javaIndex - matched, mainFormat);
         setCurrentBlockState (0);
 
         /* ... and apply the javascript formats */
@@ -612,7 +644,7 @@ void Highlighter::htmlJavascript (const QString &text)
                   + endMatch.capturedLength();
             /* if the javascript block ends at this line,
                format the rest of the line as an html code again */
-            setFormat (javaEndIndex, text.length() - javaEndIndex, neutralFormat);
+            setFormat (javaEndIndex, text.length() - javaEndIndex, mainFormat);
             setCurrentBlockState (0);
             progLan = "html";
             htmlBrackets (text, javaEndIndex);

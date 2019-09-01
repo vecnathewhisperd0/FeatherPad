@@ -3162,6 +3162,7 @@ bool Highlighter::isHereDocument (const QString &text)
                         setFormat (index, match.capturedLength(), rule.format);
                         index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
                     }
+                    break;
                 }
             }
 

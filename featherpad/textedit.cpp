@@ -529,15 +529,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                 cur.beginEditBlock();
                 cur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, 3);
                 const QString sel = cur.selectedText();
-                if (sel == " --")
-                {
-                    if (prog_ == "url" || prog_ == "changelog"
-                        || lang_ == "url" || lang_ == "changelog")
-                    { // not with programming languages
-                        cur.insertText (" —");
-                    }
-                }
-                else if (sel == "...")
+                if (sel == "...")
                 {
                     QTextCursor prevCur = cur;
                     prevCur.setPosition (cur.position());
@@ -548,6 +540,16 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                             cur.insertText ("…");
                     }
                     else cur.insertText ("…");
+                }
+                else if (prog_ == "url" || prog_ == "changelog"
+                         || lang_ == "url" || lang_ == "changelog")
+                { // not with programming languages
+                    if (sel == " --")
+                        cur.insertText (" —");
+                    else if (sel == " ->")
+                        cur.insertText (" →");
+                    else if (sel == " <-")
+                        cur.insertText (" ←");
                 }
                 cur.endEditBlock();
                 cur = textCursor(); // reset the current cursor
@@ -1028,7 +1030,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
             return;
         }
     }
-    /* because of a bug in Qt5, the non-breaking space (ZWNJ) isn't inserted with SHIFT+SPACE */
+    /* because of a bug in Qt5, the non-breaking space (ZWNJ) may not be inserted with SHIFT+SPACE */
     else if (event->key() == 0x200c)
     {
         insertPlainText (QChar (0x200C));
@@ -1048,15 +1050,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                     cur.beginEditBlock();
                     cur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, 3);
                     QString selTxt = cur.selectedText();
-                    if (selTxt == " --")
-                    {
-                        if (prog_ == "url" || prog_ == "changelog"
-                            || lang_ == "url" || lang_ == "changelog")
-                        { // not with programming languages
-                            cur.insertText (" —");
-                        }
-                    }
-                    else if (selTxt == "...")
+                    if (selTxt == "...")
                     {
                         QTextCursor prevCur = cur;
                         prevCur.setPosition (cur.position());
@@ -1067,6 +1061,16 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                                 cur.insertText ("…");
                         }
                         else cur.insertText ("…");
+                    }
+                    else if (prog_ == "url" || prog_ == "changelog"
+                             || lang_ == "url" || lang_ == "changelog")
+                    { // not with programming languages
+                        if (selTxt == " --")
+                            cur.insertText (" —");
+                        else if (selTxt == " ->")
+                            cur.insertText (" →");
+                        else if (selTxt == " <-")
+                            cur.insertText (" ←");
                     }
                     cur.endEditBlock();
                 }
