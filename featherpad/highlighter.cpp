@@ -1899,9 +1899,9 @@ int Highlighter::cssHighlighter (const QString &text, bool mainFormatting, const
     numFormat.setFontItalic (true);
     numFormat.setForeground (Brown);
 
-    QTextCharFormat cssErrorFormat;
+    /*QTextCharFormat cssErrorFormat;
     cssErrorFormat.setFontUnderline (true);
-    cssErrorFormat.setForeground (Red);
+    cssErrorFormat.setForeground (Red);*/
 
     int prevState = previousBlockState();
     if (index > 0
@@ -1952,7 +1952,7 @@ int Highlighter::cssHighlighter (const QString &text, bool mainFormatting, const
                 indxTmp = text.indexOf (expression, indxTmp + 1, &match);
             while (indxTmp >= 0 && indxTmp < endIndex)
             {
-                setFormat (indxTmp, match.capturedLength(), cssErrorFormat);
+                setFormat (indxTmp, match.capturedLength(), neutralFormat);
                 indxTmp = text.indexOf (expression, indxTmp + match.capturedLength(), &match);
             }
 
@@ -1960,7 +1960,7 @@ int Highlighter::cssHighlighter (const QString &text, bool mainFormatting, const
             QTextCharFormat cssAttFormat;
             cssAttFormat.setFontItalic (true);
             cssAttFormat.setForeground (Blue);
-            expression.setPattern ("[A-Za-z0-9_\\-]+(?=\\s*:.*;*)");
+            expression.setPattern ("[A-Za-z0-9_\\-]+(?=\\s*(?<!:):(?!:))");
             indxTmp = text.indexOf (expression, index, &match);
             while (isQuoted (text, indxTmp))
                 indxTmp = text.indexOf (expression, indxTmp + 1, &match);
@@ -1978,7 +1978,7 @@ int Highlighter::cssHighlighter (const QString &text, bool mainFormatting, const
      * (Multiline) CSS Values *
      **************************/
 
-    cssStartExpression.setPattern (":");
+    cssStartExpression.setPattern ("(?<!:):(?!:)");
     cssEndExpression.setPattern (";|\\}");
     index = 0;
     if (prevState != cssValueState || start > 0)
@@ -1986,7 +1986,7 @@ int Highlighter::cssHighlighter (const QString &text, bool mainFormatting, const
         index = text.indexOf (cssStartExpression, start, &cssStartMatch);
         if (index > -1)
         {
-            while (format (index) != cssErrorFormat)
+            while (format (index) != neutralFormat)
             {
                 index = text.indexOf (cssStartExpression, index + 1, &cssStartMatch);
                 if (index == -1) break;
@@ -2032,16 +2032,16 @@ int Highlighter::cssHighlighter (const QString &text, bool mainFormatting, const
                 nIndex = text.indexOf (numExpression, nIndex + numMatch.capturedLength(), &numMatch);
             }
 
-            setFormat (index, startMatch, neutralFormat);
+            setFormat (index, startMatch, mainFormat);
             if (endIndex > -1)
-                setFormat (endIndex, 1, neutralFormat);
+                setFormat (endIndex, 1, mainFormat);
         }
 
         index = text.indexOf (cssStartExpression, index + cssLength, &cssStartMatch);
         if (index > -1)
         {
-            if (!mainFormatting) break; // there's no cssErrorFormat
-            while (format (index) != cssErrorFormat)
+            if (!mainFormatting) break; // there's no neutralFormat
+            while (format (index) != neutralFormat)
             {
                 index = text.indexOf (cssStartExpression, index + 1, &cssStartMatch);
                 if (index == -1) break;
@@ -2066,7 +2066,7 @@ int Highlighter::cssHighlighter (const QString &text, bool mainFormatting, const
         while (indxTmp >= 0)
         {
             if (/*format (indxTmp) == cssValueFormat // should be a value
-                    &&*/ format (indxTmp) != cssErrorFormat) // not an error
+                    &&*/ format (indxTmp) != neutralFormat) // not an error
             {
                 setFormat (indxTmp, match.capturedLength(), cssColorFormat);
             }
@@ -2084,7 +2084,7 @@ int Highlighter::cssHighlighter (const QString &text, bool mainFormatting, const
         {
             int length = match.capturedLength();
             if (format (indxTmp) != cssValueFormat
-                    && format (indxTmp) != cssErrorFormat)
+                    && format (indxTmp) != neutralFormat)
             {
                 if (text.at (indxTmp) == ';')
                 {
