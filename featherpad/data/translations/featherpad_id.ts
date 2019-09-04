@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="143"/>
+        <location filename="../../about.ui" line="145"/>
         <source>License</source>
         <translation>Lisensi</translation>
     </message>
@@ -1752,7 +1752,7 @@ if the cursor is inside the text view?</source>
     <message>
         <location filename="../../predDialog.ui" line="870"/>
         <source>Spell Checking</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pemeriksaan Ejaan</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="878"/>
