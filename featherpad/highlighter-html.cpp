@@ -508,7 +508,8 @@ void Highlighter::htmlJavascript (const QString &text)
     int javaIndex = 0;
 
     QRegularExpressionMatch startMatch;
-    QRegularExpression javaStartExp ("<(script|SCRIPT)\\s+[^<>]*(((language|LANGUAGE)\\s*\\=\\s*\"\\s*)|((TYPE|type)\\s*\\=\\s*\"\\s*(TEXT|text)/))(JavaScript|javascript)\\s*\"[^<>]*>");
+    //QRegularExpression javaStartExp ("<(script|SCRIPT)\\s+[^<>]*(((language|LANGUAGE)\\s*\\=\\s*\"\\s*)|((TYPE|type)\\s*\\=\\s*\"\\s*(TEXT|text)/))(JavaScript|javascript)\\s*\"[^<>]*>");
+    QRegularExpression javaStartExp ("<(script|SCRIPT)\\s*>|<(script|SCRIPT)\\s+[^<>]*>");
     QRegularExpressionMatch endMatch;
     QRegularExpression javaEndExp ("</(script|SCRIPT)\\s*>");
 

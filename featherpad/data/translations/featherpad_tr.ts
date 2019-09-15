@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="145"/>
+        <location filename="../../about.ui" line="147"/>
         <source>License</source>
         <translation>Lisans</translation>
     </message>

@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="145"/>
+        <location filename="../../about.ui" line="147"/>
         <source>License</source>
         <translation>Licence</translation>
     </message>
@@ -1151,10 +1151,12 @@ tento řádek (Ctrl+Shift+J)</translation>
     <message numerus="yes">
         <location filename="../../replace.cpp" line="245"/>
         <source>%Ln Replacements</source>
-        <translation><numerusform>%Ln nahrazení</numerusform>
-        <numerusform>%Ln nahrazení</numerusform>
-        <numerusform>%Ln nahrazení</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%Ln nahrazení</numerusform>
+            <numerusform>%Ln nahrazení</numerusform>
+            <numerusform>%Ln nahrazení</numerusform>
+        </translation>
+    </message>
     <message>
         <location filename="../../syntax.cpp" line="272"/>
         <source>The size limit for syntax highlighting is exceeded.</source>

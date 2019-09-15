@@ -261,10 +261,10 @@ bool Highlighter::isInsidePerlRegex (const QString &text, const int index)
 
         ++N;
         if (N % 2 == 0
-            ? isEscapedChar (text, nxtPos) // an escaped end sign
+            ? isEscapedRegexEndSign (text, qMax (0, pos + 1), nxtPos) // an escaped end sign
             : (capturedLength > 1
               ? isEscapedPerlRegex (text, nxtPos) // an escaped start sign
-              : (isEscapedChar (text, nxtPos) // an escaped middle sign
+              : (isEscapedRegexEndSign (text, qMax (0, pos + 1), nxtPos) // an escaped middle sign
                  || (exp.pattern() == rPattern
                      && isEscapedPerlRegex (text, nxtPos))))) // an escaped start slash
         {
@@ -434,8 +434,12 @@ void Highlighter::multiLinePerlRegex(const QString &text)
                                           : startIndex + startMatch.capturedLength(),
                                       endExp, endLength);
 
-        while (isEscapedChar (text, endIndex))
-            endIndex = findDelimiter (text, endIndex + 1, endExp, endLength);
+        int indx = continued ? 0 : startIndex + startMatch.capturedLength();
+        while (isEscapedRegexEndSign (text, indx, endIndex))
+        {
+            indx = endIndex + 1;
+            endIndex = findDelimiter (text, indx, endExp, endLength);
+        }
 
         int len;
         int keywordLength = qMax (startMatch.capturedLength() - 1, 0);

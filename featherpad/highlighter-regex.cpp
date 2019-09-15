@@ -133,6 +133,24 @@ bool Highlighter::isEscapedRegex (const QString &text, const int pos)
     return false;
 }
 /*************************/
+// May be used for middle signs (e.g., "/") too.
+bool Highlighter::isEscapedRegexEndSign (const QString &text, const int start, const int pos) {
+    if (pos < 1) return false;
+    if (isEscapedChar (text, pos))
+        return true;
+    /* check if it's inside a class */
+    int i = pos - 1;
+    while (i >= start)
+    {
+        if (text.at (i) == ']' && !isEscapedChar (text, i))
+            return false;
+        if (text.at (i) == '[' && !isEscapedChar (text, i))
+            return true;
+        --i;
+    }
+    return false;
+}
+/*************************/
 // For faster processing with very long lines, this function also highlights regex patterns.
 // (It should be used with care because it gives correct results only in special places.)
 bool Highlighter::isInsideRegex (const QString &text, const int index)
@@ -191,7 +209,7 @@ bool Highlighter::isInsideRegex (const QString &text, const int index)
         }
 
         ++N;
-        if ((N % 2 == 0 && isEscapedChar (text, nxtPos)) // an escaped end sign
+        if ((N % 2 == 0 && isEscapedRegexEndSign (text, pos + 1, nxtPos)) // an escaped end sign
             || (N % 2 != 0 && isEscapedRegex (text, nxtPos))) // or an escaped start sign
         {
             if (res)
@@ -273,17 +291,26 @@ void Highlighter::multiLineRegex(const QString &text, const int index)
 
     while (startIndex >= 0)
     {
-        int endIndex;
+        int endIndex, indx;
         /* when the start sign is in the prvious line
            and the search for the end sign has just begun,
            search for the end sign from the line start */
         if (prevState == regexState && startIndex == 0)
+        {
+            indx = 0;
             endIndex = text.indexOf (endExp, 0, &endMatch);
+        }
         else
-            endIndex = text.indexOf (endExp, startIndex + startMatch.capturedLength(), &endMatch);
+        {
+            indx = startIndex + startMatch.capturedLength();
+            endIndex = text.indexOf (endExp, indx, &endMatch);
+        }
 
-        while (isEscapedChar (text, endIndex))
-            endIndex = text.indexOf (endExp, endIndex + 1, &endMatch);
+        while (isEscapedRegexEndSign (text, indx, endIndex))
+        {
+            indx = endIndex + 1;
+            endIndex = text.indexOf (endExp, indx, &endMatch);
+        }
 
         int len;
         if (endIndex == -1)

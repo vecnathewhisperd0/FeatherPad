@@ -170,6 +170,7 @@ private:
 
     bool isEscapedRegex (const QString &text, const int pos);
     bool isEscapedPerlRegex (const QString &text, const int pos);
+    bool isEscapedRegexEndSign (const QString &text, const int start, const int index);
     bool isInsideRegex (const QString &text, const int index);
     bool isInsidePerlRegex (const QString &text, const int index);
     void multiLineRegex (const QString &text, const int index);
