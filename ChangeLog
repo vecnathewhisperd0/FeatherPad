@@ -4,7 +4,7 @@ V0.12.0
  * Added an option for a single shared search history.
  * Send a mouse release event if a dragged tab can't be dropped into a window that accepts tab drops. This shouldn't be needed but some apps (like Dolphin) may incorrectly accept any kind of drop.
  * Don't replace double hyphens with em dashes in programming texts.
- * Also replace "->" and "<-" with "→" and "←", respectively, in non-programming texts.
+ * Also replace "->", "<-", ">=" and "<=" with "→", "←", "≥" and "≤", respectively, in non-programming texts.
  * Mark encoded and unencoded ampersands in HTML.
  * Set the limit of highlighting the syntax of a line to 10,000 characters.
 

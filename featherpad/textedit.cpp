@@ -524,32 +524,45 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
         if (autoReplace && selTxt.isEmpty())
         {
             const int p = cur.positionInBlock();
-            if (p > 2)
+            if (p > 1)
             {
+                bool replaced = false;
                 cur.beginEditBlock();
-                cur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, 3);
-                const QString sel = cur.selectedText();
-                if (sel == "...")
-                {
-                    QTextCursor prevCur = cur;
-                    prevCur.setPosition (cur.position());
-                    if (p > 3)
-                    {
-                        prevCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor);
-                        if (prevCur.selectedText() != ".")
-                            cur.insertText ("…");
-                    }
-                    else cur.insertText ("…");
-                }
-                else if (prog_ == "url" || prog_ == "changelog"
-                         || lang_ == "url" || lang_ == "changelog")
+                if (prog_ == "url" || prog_ == "changelog"
+                    || lang_ == "url" || lang_ == "changelog")
                 { // not with programming languages
-                    if (sel == " --")
-                        cur.insertText (" —");
-                    else if (sel == " ->")
-                        cur.insertText (" →");
-                    else if (sel == " <-")
-                        cur.insertText (" ←");
+                    cur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, 2);
+                    const QString sel = cur.selectedText();
+                    replaced = true;
+                    if (sel == "--")
+                        cur.insertText ("—");
+                    else if (sel == "->")
+                        cur.insertText ("→");
+                    else if (sel == "<-")
+                        cur.insertText ("←");
+                    else if (sel == ">=")
+                        cur.insertText ("≥");
+                    else if (sel == "<=")
+                        cur.insertText ("≤");
+                    else replaced = false;
+                }
+                if (!replaced && p > 2)
+                {
+                    cur = textCursor();
+                    cur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, 3);
+                    const QString sel = cur.selectedText();
+                    if (sel == "...")
+                    {
+                        QTextCursor prevCur = cur;
+                        prevCur.setPosition (cur.position());
+                        if (p > 3)
+                        {
+                            prevCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor);
+                            if (prevCur.selectedText() != ".")
+                                cur.insertText ("…");
+                        }
+                        else cur.insertText ("…");
+                    }
                 }
                 cur.endEditBlock();
                 cur = textCursor(); // reset the current cursor
@@ -1037,41 +1050,55 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
         event->accept();
         return;
     }
-    else if (autoReplace && event->key() == Qt::Key_Space)
+    else if (event->key() == Qt::Key_Space)
     {
-        if (event->modifiers() == Qt::NoModifier)
+        if (autoReplace && event->modifiers() == Qt::NoModifier)
         {
             QTextCursor cur = textCursor();
             if (!cur.hasSelection())
             {
                 const int p = cur.positionInBlock();
-                if (p > 2)
+                if (p > 1)
                 {
+                    bool replaced = false;
                     cur.beginEditBlock();
-                    cur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, 3);
-                    QString selTxt = cur.selectedText();
-                    if (selTxt == "...")
-                    {
-                        QTextCursor prevCur = cur;
-                        prevCur.setPosition (cur.position());
-                        if (p > 3)
-                        {
-                            prevCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor);
-                            if (prevCur.selectedText() != ".")
-                                cur.insertText ("…");
-                        }
-                        else cur.insertText ("…");
-                    }
-                    else if (prog_ == "url" || prog_ == "changelog"
-                             || lang_ == "url" || lang_ == "changelog")
+                    if (prog_ == "url" || prog_ == "changelog"
+                        || lang_ == "url" || lang_ == "changelog")
                     { // not with programming languages
-                        if (selTxt == " --")
-                            cur.insertText (" —");
-                        else if (selTxt == " ->")
-                            cur.insertText (" →");
-                        else if (selTxt == " <-")
-                            cur.insertText (" ←");
+                        cur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, 2);
+                        QString selTxt = cur.selectedText();
+                        replaced = true;
+                        if (selTxt == "--")
+                            cur.insertText ("—");
+                        else if (selTxt == "->")
+                            cur.insertText ("→");
+                        else if (selTxt == "<-")
+                            cur.insertText ("←");
+                        else if (selTxt == ">=")
+                            cur.insertText ("≥");
+                        else if (selTxt == "<=")
+                            cur.insertText ("≤");
+                        else replaced = false;
                     }
+                    if (!replaced && p > 2)
+                    {
+                        cur = textCursor();
+                        cur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, 3);
+                        QString selTxt = cur.selectedText();
+                        if (selTxt == "...")
+                        {
+                            QTextCursor prevCur = cur;
+                            prevCur.setPosition (cur.position());
+                            if (p > 3)
+                            {
+                                prevCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor);
+                                if (prevCur.selectedText() != ".")
+                                    cur.insertText ("…");
+                            }
+                            else cur.insertText ("…");
+                        }
+                    }
+
                     cur.endEditBlock();
                 }
             }
@@ -1425,12 +1452,12 @@ void TextEdit::paintEvent (QPaintEvent *event)
                     if (darkValue > -1)
                     {
                         col = Qt::white;
-                        col.setAlpha (100);
+                        col.setAlpha (90);
                     }
                     else
                     {
                         col = Qt::black;
-                        col.setAlpha (80);
+                        col.setAlpha (70);
                     }
                     painter.setPen (col);
                 }

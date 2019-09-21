@@ -134,7 +134,7 @@ bool Highlighter::isEscapedRegex (const QString &text, const int pos)
 }
 /*************************/
 // May be used for middle signs (e.g., "/") too.
-bool Highlighter::isEscapedRegexEndSign (const QString &text, const int start, const int pos) {
+bool Highlighter::isEscapedRegexEndSign (const QString &text, const int start, const int pos) const {
     if (pos < 1) return false;
     if (isEscapedChar (text, pos))
         return true;
