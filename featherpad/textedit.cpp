@@ -526,27 +526,29 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
             const int p = cur.positionInBlock();
             if (p > 1)
             {
-                bool replaced = false;
+                bool replaceStr = true;
                 cur.beginEditBlock();
                 if (prog_ == "url" || prog_ == "changelog"
                     || lang_ == "url" || lang_ == "changelog")
                 { // not with programming languages
                     cur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, 2);
                     const QString sel = cur.selectedText();
-                    replaced = true;
-                    if (sel == "--")
-                        cur.insertText ("—");
-                    else if (sel == "->")
-                        cur.insertText ("→");
-                    else if (sel == "<-")
-                        cur.insertText ("←");
-                    else if (sel == ">=")
-                        cur.insertText ("≥");
-                    else if (sel == "<=")
-                        cur.insertText ("≤");
-                    else replaced = false;
+                    replaceStr = sel.endsWith (".");
+                    if (!replaceStr)
+                    {
+                        if (sel == "--")
+                            cur.insertText ("—");
+                        else if (sel == "->")
+                            cur.insertText ("→");
+                        else if (sel == "<-")
+                            cur.insertText ("←");
+                        else if (sel == ">=")
+                            cur.insertText ("≥");
+                        else if (sel == "<=")
+                            cur.insertText ("≤");
+                    }
                 }
-                if (!replaced && p > 2)
+                if (replaceStr && p > 2)
                 {
                     cur = textCursor();
                     cur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, 3);
@@ -1060,31 +1062,33 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                 const int p = cur.positionInBlock();
                 if (p > 1)
                 {
-                    bool replaced = false;
+                    bool replaceStr = true;
                     cur.beginEditBlock();
                     if (prog_ == "url" || prog_ == "changelog"
                         || lang_ == "url" || lang_ == "changelog")
                     { // not with programming languages
                         cur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, 2);
-                        QString selTxt = cur.selectedText();
-                        replaced = true;
-                        if (selTxt == "--")
-                            cur.insertText ("—");
-                        else if (selTxt == "->")
-                            cur.insertText ("→");
-                        else if (selTxt == "<-")
-                            cur.insertText ("←");
-                        else if (selTxt == ">=")
-                            cur.insertText ("≥");
-                        else if (selTxt == "<=")
-                            cur.insertText ("≤");
-                        else replaced = false;
+                        const QString selTxt = cur.selectedText();
+                        replaceStr = selTxt.endsWith (".");
+                        if (!replaceStr)
+                        {
+                            if (selTxt == "--")
+                                cur.insertText ("—");
+                            else if (selTxt == "->")
+                                cur.insertText ("→");
+                            else if (selTxt == "<-")
+                                cur.insertText ("←");
+                            else if (selTxt == ">=")
+                                cur.insertText ("≥");
+                            else if (selTxt == "<=")
+                                cur.insertText ("≤");
+                        }
                     }
-                    if (!replaced && p > 2)
+                    if (replaceStr && p > 2)
                     {
                         cur = textCursor();
                         cur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, 3);
-                        QString selTxt = cur.selectedText();
+                        const QString selTxt = cur.selectedText();
                         if (selTxt == "...")
                         {
                             QTextCursor prevCur = cur;
