@@ -141,6 +141,8 @@ If "Ignore All" is clicked, all instances of the word will be ignored during the
 *   Keyboard Shortcuts   *
 **************************
 
+To change a customizable shortcut, double click it and press your chosen shortcut inside the shortcut editor of the Preferences dialog. To clear a shortcut, use a modifier key (like Shift). To cancel, press the Escape key before the shortcut loses focus.
+
 All shortcuts, except for the extra ones below, can be found on menus or as tooltips and many of them can be customized in the Preferences dialog.
 
 Useful Extra (Hidden) Shortcuts:

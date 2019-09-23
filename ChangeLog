@@ -7,6 +7,9 @@ V0.12.0
  * Also replace "->", "<-", ">=" and "<=" with "→", "←", "≥" and "≤", respectively, in non-programming texts.
  * Mark encoded and unencoded ampersands in HTML.
  * Set the limit of highlighting the syntax of a line to 10,000 characters.
+ * Allow shortcut removal.
+ * Added "Save All Files" for saving modifications to all files that are open inside the window.
+ * Fixed a bug in auto-saving (when a file could not be saved, its tab asterisk might be removed and the statusbar info might change incorrectly).
 
 V0.11.1
 ---------

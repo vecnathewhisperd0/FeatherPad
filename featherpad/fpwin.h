@@ -113,6 +113,7 @@ public slots:
     void statusMsgWithLineCount (const int lines);
     void showCursorPos();
     void updateWordInfo (int position = -1, int charsRemoved = 0, int charsAdded = 0);
+    void enableSaving (bool modified);
 
 private slots:
     void newTabFromRecent();
@@ -230,6 +231,7 @@ private:
     void setTitle (const QString& fileName, int tabIndex = -1);
     DOCSTATE savePrompt (int tabIndex, bool noToAll);
     bool saveFile (bool keepSyntax);
+    void saveAllFiles (bool showWarning);
     void closeEvent (QCloseEvent *event);
     bool closeTabs (int first, int last, bool saveFilesList = false);
     void dragEnterEvent (QDragEnterEvent *event);
@@ -278,6 +280,7 @@ private:
     QHash<QListWidgetItem*, TabPage*> sideItems_; // For fast tab switching.
     QHash<QString, QAction*> langs_; // All programming languages (to be enforced by the user).
     QHash<QAction*, QKeySequence> defaultShortcuts_;
+    bool inactiveTabModified_; // The inactive tab is modified (e.g., when saving all files).
     // Auto-saving:
     QTimer *autoSaver_;
     QElapsedTimer autoSaverPause_;

@@ -173,6 +173,7 @@
     <addaction name="separator"/>
     <addaction name="actionSave"/>
     <addaction name="actionSaveAs"/>
+    <addaction name="actionSaveAllFiles"/>
     <addaction name="separator"/>
     <addaction name="actionSaveCodec"/>
     <addaction name="separator"/>
@@ -1183,6 +1184,14 @@
    </property>
    <property name="shortcut">
     <string>F2</string>
+   </property>
+  </action>
+  <action name="actionSaveAllFiles">
+   <property name="text">
+    <string>Save All Files</string>
+   </property>
+   <property name="toolTip">
+    <string>Save All Files</string>
    </property>
   </action>
  </widget>

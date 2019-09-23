@@ -512,7 +512,7 @@ public:
     }
 
 private:
-    QString validatedShortcut (const QVariant v);
+    QString validatedShortcut (const QVariant v, bool *isValid);
     void readCursorPos();
     void writeCursorPos();
 
