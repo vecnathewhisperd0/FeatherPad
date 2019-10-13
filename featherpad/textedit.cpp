@@ -537,7 +537,13 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                     if (!replaceStr)
                     {
                         if (sel == "--")
-                            cur.insertText ("—");
+                        {
+                            QTextCursor prevCur = cur;
+                            prevCur.setPosition (cur.position());
+                            prevCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor);
+                            if (prevCur.selectedText() != "-")
+                                cur.insertText ("—");
+                        }
                         else if (sel == "->")
                             cur.insertText ("→");
                         else if (sel == "<-")
@@ -1073,7 +1079,13 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                         if (!replaceStr)
                         {
                             if (selTxt == "--")
-                                cur.insertText ("—");
+                            {
+                                QTextCursor prevCur = cur;
+                                prevCur.setPosition (cur.position());
+                                prevCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor);
+                                if (prevCur.selectedText() != "-")
+                                    cur.insertText ("—");
+                            }
                             else if (selTxt == "->")
                                 cur.insertText ("→");
                             else if (selTxt == "<-")
