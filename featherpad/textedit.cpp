@@ -279,8 +279,8 @@ void TextEdit::updateLineNumberArea (const QRect &rect, int dy)
         lineNumberArea->scroll (0, dy);
     else
     {
-        /* since the current line number is made bold and italic,
-           it should be updated also when the line is wrapped */
+        /* since the current line number is distinguished from other numbers,
+           its rectangle should be updated also when the line is wrapped */
         if (lastCurrentLine.isValid())
             lineNumberArea->update (0, lastCurrentLine.y(), lineNumberArea->width(), lastCurrentLine.height());
         QRect totalRect;
@@ -1658,24 +1658,22 @@ void TextEdit::lineNumberAreaPaintEvent (QPaintEvent *event)
 
                 painter.save();
                 int cur = cursorRect().center().y();
-                int i = 0;
-                while (top + i * h < cur)
-                    ++i;
-                if (i > 0) // always the case
+                painter.setFont (bf);
+                painter.setPen (currentLineFg);
+                painter.fillRect (0, cur - h / 2, w, h, currentLineBg);
+                QTextCursor tmp = textCursor();
+                tmp.movePosition (QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
+                if (!tmp.atBlockStart())
                 {
-                    painter.setFont (bf);
-                    painter.setPen (currentLineFg);
-                    painter.fillRect (0, top + (i - 1) * h, w, h, currentLineBg);
-                    if (i > 1)
+                    painter.drawText (left, cur - h / 2, w - 3, h,
+                                      Qt::AlignRight, rtl ? "↲" : "↳");
+                    painter.setPen (currentBlockFg);
+                    if (tmp.movePosition (QTextCursor::Up, QTextCursor::MoveAnchor) // always true
+                        && !tmp.atBlockStart())
                     {
-                        painter.drawText (left, top + (i - 1) * h, w - 3, h,
-                                          Qt::AlignRight, rtl ? "↲" : "↳");
-                        painter.setPen (currentBlockFg);
-                        if (i > 2)
-                        {
-                            painter.drawText (left, top + (i - 2) * h, w - 3, h,
-                                              Qt::AlignRight, number);
-                        }
+                        cur = cursorRect (tmp).center().y();
+                        painter.drawText (left, cur - h / 2, w - 3, h,
+                                          Qt::AlignRight, number);
                     }
                 }
             }

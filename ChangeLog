@@ -10,6 +10,7 @@ V0.12.0
  * Allow shortcut removal.
  * Added "Save All Files" for saving modifications to all files that are open inside the window.
  * Fixed a bug in auto-saving (when a file could not be saved, its tab asterisk might be removed and the statusbar info might change incorrectly).
+ * Fixed the vertical offset of the current line indicator.
 
 V0.11.1
 ---------
