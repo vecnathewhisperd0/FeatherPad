@@ -997,7 +997,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="2785"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Anuluj</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2786"/>

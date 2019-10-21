@@ -997,7 +997,7 @@ linea (Ctrl + Shift + J)</translation>
     <message>
         <location filename="../../fpwin.cpp" line="2785"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancella</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2786"/>

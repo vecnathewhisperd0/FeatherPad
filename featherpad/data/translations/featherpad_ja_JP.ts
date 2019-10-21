@@ -1009,7 +1009,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="2785"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>キャンセル</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2786"/>
