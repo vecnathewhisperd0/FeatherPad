@@ -128,6 +128,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="515"/>
+        <location filename="../../fpwin.cpp" line="1070"/>
         <source>&amp;Save</source>
         <translation>&amp;Enregistrer</translation>
     </message>
@@ -799,25 +800,19 @@
         <translation>Veuillez vous occuper de cette fenêtre ou fermez simplement la boîte de dialogue !</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1070"/>
-        <source>Save</source>
-        <translation>Enregistrer</translation>
-    </message>
-    <message>
         <location filename="../../fpwin.cpp" line="1071"/>
-        <source>Discard changes</source>
-        <translation>Annuler les modifications</translation>
+        <source>&amp;Discard changes</source>
+        <translation>Annuler les &amp;modifications</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1072"/>
-        <location filename="../../fpwin.cpp" line="2785"/>
-        <source>Cancel</source>
-        <translation>Annuler</translation>
+        <source>&amp;Cancel</source>
+        <translation>&amp;Annuler</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1074"/>
-        <source>No to all</source>
-        <translation>Non à tout</translation>
+        <source>&amp;No to all</source>
+        <translation>&amp;Non à tout</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1268"/>
@@ -940,6 +935,11 @@
         <location filename="../../fpwin.cpp" line="2367"/>
         <source>Root Instance</source>
         <translation>Instance root</translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="2785"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="3150"/>

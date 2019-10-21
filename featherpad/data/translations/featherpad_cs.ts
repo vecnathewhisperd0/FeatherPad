@@ -133,6 +133,7 @@ tento řádek (Ctrl+Shift+J)</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="515"/>
+        <location filename="../../fpwin.cpp" line="1070"/>
         <source>&amp;Save</source>
         <translation>&amp;Uložit</translation>
     </message>
@@ -804,25 +805,19 @@ tento řádek (Ctrl+Shift+J)</translation>
         <translation>Dokument byl změněn.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1070"/>
-        <source>Save</source>
-        <translation>Uložit</translation>
-    </message>
-    <message>
         <location filename="../../fpwin.cpp" line="1071"/>
-        <source>Discard changes</source>
-        <translation>Zahodit změny</translation>
+        <source>&amp;Discard changes</source>
+        <translation>&amp;Zahodit změny</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1072"/>
-        <location filename="../../fpwin.cpp" line="2785"/>
-        <source>Cancel</source>
-        <translation>Storno</translation>
+        <source>&amp;Cancel</source>
+        <translation>&amp;Storno</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1074"/>
-        <source>No to all</source>
-        <translation>Ne všemu</translation>
+        <source>&amp;No to all</source>
+        <translation>&amp;Ne všemu</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1268"/>
@@ -998,6 +993,11 @@ tento řádek (Ctrl+Shift+J)</translation>
         <location filename="../../fpwin.cpp" line="2784"/>
         <source>No</source>
         <translation>Ne</translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="2785"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2786"/>

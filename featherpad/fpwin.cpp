@@ -1067,11 +1067,11 @@ FPwin::DOCSTATE FPwin::savePrompt (int tabIndex, bool noToAll)
             msgBox.setStandardButtons (QMessageBox::Save
                                        | QMessageBox::Discard
                                        | QMessageBox::Cancel);
-        msgBox.changeButtonText (QMessageBox::Save, tr ("Save"));
-        msgBox.changeButtonText (QMessageBox::Discard, tr ("Discard changes"));
-        msgBox.changeButtonText (QMessageBox::Cancel, tr ("Cancel"));
+        msgBox.changeButtonText (QMessageBox::Save, tr ("&Save"));
+        msgBox.changeButtonText (QMessageBox::Discard, tr ("&Discard changes"));
+        msgBox.changeButtonText (QMessageBox::Cancel, tr ("&Cancel"));
         if (noToAll)
-            msgBox.changeButtonText (QMessageBox::NoToAll, tr ("No to all"));
+            msgBox.changeButtonText (QMessageBox::NoToAll, tr ("&No to all"));
         msgBox.setDefaultButton (QMessageBox::Save);
         msgBox.setWindowModality (Qt::WindowModal);
         /* enforce a central position */

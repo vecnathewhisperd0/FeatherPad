@@ -133,6 +133,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="515"/>
+        <location filename="../../fpwin.cpp" line="1070"/>
         <source>&amp;Save</source>
         <translation>&amp;Salvar</translation>
     </message>
@@ -804,25 +805,19 @@
         <translation>O documento foi modificado.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1070"/>
-        <source>Save</source>
-        <translation>Salvar</translation>
-    </message>
-    <message>
         <location filename="../../fpwin.cpp" line="1071"/>
-        <source>Discard changes</source>
-        <translation>Descartar alterações</translation>
+        <source>&amp;Discard changes</source>
+        <translation>&amp;Descartar alterações</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1072"/>
-        <location filename="../../fpwin.cpp" line="2785"/>
-        <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <source>&amp;Cancel</source>
+        <translation>&amp;Cancelar</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1074"/>
-        <source>No to all</source>
-        <translation>Não para todos</translation>
+        <source>&amp;No to all</source>
+        <translation>&amp;Não para todos</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1268"/>
@@ -998,6 +993,11 @@
         <location filename="../../fpwin.cpp" line="2784"/>
         <source>No</source>
         <translation>Não</translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="2785"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2786"/>

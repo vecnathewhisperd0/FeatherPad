@@ -133,6 +133,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="515"/>
+        <location filename="../../fpwin.cpp" line="1070"/>
         <source>&amp;Save</source>
         <translation>&amp;Guardar</translation>
     </message>
@@ -804,25 +805,19 @@
         <translation>El documento ha sido modificado.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1070"/>
-        <source>Save</source>
-        <translation>Guardar</translation>
-    </message>
-    <message>
         <location filename="../../fpwin.cpp" line="1071"/>
-        <source>Discard changes</source>
-        <translation>Descartar los cambios</translation>
+        <source>&amp;Discard changes</source>
+        <translation>&amp;Descartar los cambios</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1072"/>
-        <location filename="../../fpwin.cpp" line="2785"/>
-        <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <source>&amp;Cancel</source>
+        <translation>&amp;Cancelar</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1074"/>
-        <source>No to all</source>
-        <translation>No a todo</translation>
+        <source>&amp;No to all</source>
+        <translation>&amp;No a todo</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1268"/>
@@ -998,6 +993,11 @@
         <location filename="../../fpwin.cpp" line="2784"/>
         <source>No</source>
         <translation>No</translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="2785"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2786"/>
@@ -2131,7 +2131,7 @@ en las ventanas se incluirán en la sesión guardada.</translation>
     <message>
         <location filename="../../sessionDialog.ui" line="138"/>
         <source>&amp;Save</source>
-        <translation>Guardar</translation>
+        <translation>&amp;Guardar</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="149"/>

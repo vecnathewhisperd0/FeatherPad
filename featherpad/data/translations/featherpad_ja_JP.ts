@@ -150,6 +150,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="515"/>
+        <location filename="../../fpwin.cpp" line="1070"/>
         <source>&amp;Save</source>
         <translation>保存(&amp;S)</translation>
     </message>
@@ -823,25 +824,19 @@
         <translation>文書が変更されました。</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1070"/>
-        <source>Save</source>
-        <translation>保存</translation>
-    </message>
-    <message>
         <location filename="../../fpwin.cpp" line="1071"/>
-        <source>Discard changes</source>
-        <translation>保存せず</translation>
+        <source>&amp;Discard changes</source>
+        <translation>保存せず(&amp;D)</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1072"/>
-        <location filename="../../fpwin.cpp" line="2785"/>
-        <source>Cancel</source>
-        <translation>キャンセル</translation>
+        <source>&amp;Cancel</source>
+        <translation>キャンセル(&amp;C)</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1074"/>
-        <source>No to all</source>
-        <translation>すべてではない</translation>
+        <source>&amp;No to all</source>
+        <translation>すべてではない(&amp;N)</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1268"/>
@@ -1010,6 +1005,11 @@
         <location filename="../../fpwin.cpp" line="2784"/>
         <source>No</source>
         <translation>いいえ</translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="2785"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2786"/>

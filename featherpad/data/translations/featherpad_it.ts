@@ -133,6 +133,7 @@ linea (Ctrl + Shift + J)</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="515"/>
+        <location filename="../../fpwin.cpp" line="1070"/>
         <source>&amp;Save</source>
         <translation>&amp;Salva</translation>
     </message>
@@ -804,25 +805,19 @@ linea (Ctrl + Shift + J)</translation>
         <translation>Il documento è stato modificato.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1070"/>
-        <source>Save</source>
-        <translation>Salva</translation>
-    </message>
-    <message>
         <location filename="../../fpwin.cpp" line="1071"/>
-        <source>Discard changes</source>
-        <translation>Scarta le modifiche</translation>
+        <source>&amp;Discard changes</source>
+        <translation>Scarta le &amp;modifiche</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1072"/>
-        <location filename="../../fpwin.cpp" line="2785"/>
-        <source>Cancel</source>
-        <translation>Annulla</translation>
+        <source>&amp;Cancel</source>
+        <translation>&amp;Annulla</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1074"/>
-        <source>No to all</source>
-        <translation>No a tutti</translation>
+        <source>&amp;No to all</source>
+        <translation>&amp;No a tutti</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1268"/>
@@ -998,6 +993,11 @@ linea (Ctrl + Shift + J)</translation>
         <location filename="../../fpwin.cpp" line="2784"/>
         <source>No</source>
         <translation></translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="2785"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2786"/>

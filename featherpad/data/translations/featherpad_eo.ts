@@ -133,6 +133,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="515"/>
+        <location filename="../../fpwin.cpp" line="1070"/>
         <source>&amp;Save</source>
         <translation>Kon&amp;servi</translation>
     </message>
@@ -794,11 +795,6 @@
         <translation>Fermi</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1070"/>
-        <source>Save</source>
-        <translation>Konservi</translation>
-    </message>
-    <message>
         <location filename="../../fpwin.cpp" line="665"/>
         <location filename="../../fpwin.cpp" line="3707"/>
         <source>Position:</source>
@@ -819,19 +815,18 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1071"/>
-        <source>Discard changes</source>
-        <translation>Preterlasi ŝanĝojn</translation>
+        <source>&amp;Discard changes</source>
+        <translation>&amp;Preterlasi ŝanĝojn</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1072"/>
-        <location filename="../../fpwin.cpp" line="2785"/>
-        <source>Cancel</source>
-        <translation>Rezigni</translation>
+        <source>&amp;Cancel</source>
+        <translation>&amp;Rezigni</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1074"/>
-        <source>No to all</source>
-        <translation>Ne al ĉio</translation>
+        <source>&amp;No to all</source>
+        <translation>&amp;Ne al ĉio</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1268"/>
@@ -953,6 +948,11 @@
         <location filename="../../fpwin.cpp" line="2784"/>
         <source>No</source>
         <translation>Ne</translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="2785"/>
+        <source>Cancel</source>
+        <translation>Rezigni</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="3150"/>

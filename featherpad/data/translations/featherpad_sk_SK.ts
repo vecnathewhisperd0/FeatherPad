@@ -132,6 +132,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="515"/>
+        <location filename="../../fpwin.cpp" line="1070"/>
         <source>&amp;Save</source>
         <translation>&amp;Uložiť</translation>
     </message>
@@ -802,25 +803,19 @@
         <translation>Dokument bol upravený.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1070"/>
-        <source>Save</source>
-        <translation>Uložiť</translation>
-    </message>
-    <message>
         <location filename="../../fpwin.cpp" line="1071"/>
-        <source>Discard changes</source>
-        <translation>Zahodiť zmeny</translation>
+        <source>&amp;Discard changes</source>
+        <translation>&amp;Zahodiť zmeny</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1072"/>
-        <location filename="../../fpwin.cpp" line="2785"/>
-        <source>Cancel</source>
-        <translation>Prerušiť</translation>
+        <source>&amp;Cancel</source>
+        <translation>&amp;Prerušiť</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1074"/>
-        <source>No to all</source>
-        <translation>Nie všetkým</translation>
+        <source>&amp;No to all</source>
+        <translation>&amp;Nie všetkým</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1268"/>
@@ -996,6 +991,11 @@
         <location filename="../../fpwin.cpp" line="2784"/>
         <source>No</source>
         <translation></translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="2785"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2786"/>
@@ -2053,7 +2053,7 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../sessionDialog.ui" line="138"/>
         <source>&amp;Save</source>
-        <translation></translation>
+        <translation>&amp;Uložiť</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="149"/>
