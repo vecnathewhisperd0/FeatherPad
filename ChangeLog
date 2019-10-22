@@ -12,6 +12,7 @@ V0.12.0
  * Fixed a bug in auto-saving (when a file could not be saved, its tab asterisk might be removed and the statusbar info might change incorrectly).
  * Fixed the vertical offset of the current line indicator.
  * Added mnemonics to the close prompt dialog.
+ * Show the busy cursor on showing the print dialog because Qt's print dialog doesn't appear immediately (an old Qt bug related to CUPS).
 
 V0.11.1
 ---------

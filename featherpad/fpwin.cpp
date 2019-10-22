@@ -3809,6 +3809,7 @@ void FPwin::filePrint()
 
     /* complete the syntax highlighting when printing
        because the whole document may not be highlighted */
+    waitToMakeBusy();
     if (Highlighter *highlighter = qobject_cast< Highlighter *>(textEdit->getHighlighter()))
     {
         QTextCursor start = textEdit->textCursor();
@@ -3827,6 +3828,7 @@ void FPwin::filePrint()
             block = block.next();
         }
     }
+    QTimer::singleShot (0, this, [this]() {unbusy();}); // wait for the dialog too
 
     QPrinter printer (QPrinter::HighResolution);
 
@@ -3848,7 +3850,11 @@ void FPwin::filePrint()
         dlg.setOption (QAbstractPrintDialog::PrintSelection);
     dlg.setWindowTitle (tr ("Print Document"));
     if (dlg.exec() == QDialog::Accepted)
+    {
+        waitToMakeBusy();
         textEdit->print (&printer);
+        QTimer::singleShot (0, this, [this]() {unbusy();});
+    }
 
     updateShortcuts (false);
 }

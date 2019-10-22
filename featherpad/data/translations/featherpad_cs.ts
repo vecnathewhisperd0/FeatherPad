@@ -21,7 +21,7 @@
         <location filename="../../fpwin.cpp" line="2633"/>
         <location filename="../../fpwin.cpp" line="2636"/>
         <location filename="../../fpwin.cpp" line="3140"/>
-        <location filename="../../fpwin.cpp" line="3838"/>
+        <location filename="../../fpwin.cpp" line="3840"/>
         <source>Untitled</source>
         <translation>Bez názvu</translation>
     </message>
@@ -832,9 +832,9 @@ tento řádek (Ctrl+Shift+J)</translation>
         <location filename="../../fpwin.cpp" line="2911"/>
         <location filename="../../fpwin.cpp" line="2918"/>
         <location filename="../../fpwin.cpp" line="3665"/>
-        <location filename="../../fpwin.cpp" line="5020"/>
-        <location filename="../../fpwin.cpp" line="5031"/>
-        <location filename="../../fpwin.cpp" line="5038"/>
+        <location filename="../../fpwin.cpp" line="5026"/>
+        <location filename="../../fpwin.cpp" line="5037"/>
+        <location filename="../../fpwin.cpp" line="5044"/>
         <source>Lines</source>
         <translation>Řádky</translation>
     </message>
@@ -1017,7 +1017,7 @@ tento řádek (Ctrl+Shift+J)</translation>
     <message>
         <location filename="../../fpwin.cpp" line="396"/>
         <location filename="../../fpwin.cpp" line="3138"/>
-        <location filename="../../fpwin.cpp" line="5216"/>
+        <location filename="../../fpwin.cpp" line="5222"/>
         <source>Help</source>
         <translation>Nápověda</translation>
     </message>
@@ -1026,9 +1026,9 @@ tento řádek (Ctrl+Shift+J)</translation>
         <location filename="../../fpwin.cpp" line="2902"/>
         <location filename="../../fpwin.cpp" line="2910"/>
         <location filename="../../fpwin.cpp" line="3664"/>
-        <location filename="../../fpwin.cpp" line="5016"/>
         <location filename="../../fpwin.cpp" line="5022"/>
-        <location filename="../../fpwin.cpp" line="5030"/>
+        <location filename="../../fpwin.cpp" line="5028"/>
+        <location filename="../../fpwin.cpp" line="5036"/>
         <source>Syntax</source>
         <translation>Syntaxe</translation>
     </message>
@@ -1050,102 +1050,102 @@ tento řádek (Ctrl+Shift+J)</translation>
         <translation>Buďte opatrní při opětovném načítání nebo ukládání tohoto dokumentu!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3849"/>
+        <location filename="../../fpwin.cpp" line="3851"/>
         <source>Print Document</source>
         <translation>Vytisknout dokument</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4439"/>
-        <location filename="../../fpwin.cpp" line="4507"/>
+        <location filename="../../fpwin.cpp" line="4445"/>
+        <location filename="../../fpwin.cpp" line="4513"/>
         <source>%1 Pages</source>
         <translation>%1 stránek</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4465"/>
-        <location filename="../../fpwin.cpp" line="4535"/>
+        <location filename="../../fpwin.cpp" line="4471"/>
+        <location filename="../../fpwin.cpp" line="4541"/>
         <source>Copy Target Path</source>
         <translation>Zkopírovat cílový popis umístění</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4469"/>
-        <location filename="../../fpwin.cpp" line="4539"/>
+        <location filename="../../fpwin.cpp" line="4475"/>
+        <location filename="../../fpwin.cpp" line="4545"/>
         <source>Open Target Here</source>
         <translation>Otevřít cíl zde</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4657"/>
+        <location filename="../../fpwin.cpp" line="4663"/>
         <source>You need to add a Hunspell dictionary.</source>
         <translation>Je třeba přidat Hunspell slovník.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4658"/>
         <location filename="../../fpwin.cpp" line="4664"/>
-        <location filename="../../fpwin.cpp" line="4673"/>
+        <location filename="../../fpwin.cpp" line="4670"/>
+        <location filename="../../fpwin.cpp" line="4679"/>
         <source>See Preferences → Text → Spell Checking!</source>
         <translation>Viz předvolby → Text → Kontrola pravopisu!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4663"/>
+        <location filename="../../fpwin.cpp" line="4669"/>
         <source>The Hunspell dictionary does not exist.</source>
         <translation>Hunspell slovník neexistuje.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4672"/>
+        <location filename="../../fpwin.cpp" line="4678"/>
         <source>The Hunspell dictionary is not accompanied by an affix file.</source>
         <translation>Hunspell slovník není doprovázen affix souborem.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4694"/>
-        <location filename="../../fpwin.cpp" line="4712"/>
-        <location filename="../../fpwin.cpp" line="4727"/>
+        <location filename="../../fpwin.cpp" line="4700"/>
+        <location filename="../../fpwin.cpp" line="4718"/>
+        <location filename="../../fpwin.cpp" line="4733"/>
         <source>No misspelling in document.</source>
         <translation>V dokumentu nejsou žádné překlepy.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4696"/>
-        <location filename="../../fpwin.cpp" line="4714"/>
-        <location filename="../../fpwin.cpp" line="4729"/>
+        <location filename="../../fpwin.cpp" line="4702"/>
+        <location filename="../../fpwin.cpp" line="4720"/>
+        <location filename="../../fpwin.cpp" line="4735"/>
         <source>No misspelling from text cursor.</source>
         <translation>Žádné překlepy od pozice kurzoru.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4741"/>
+        <location filename="../../fpwin.cpp" line="4747"/>
         <source>Spell Checking</source>
         <translation>Kontrola pravopisu</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5054"/>
+        <location filename="../../fpwin.cpp" line="5060"/>
         <source>Some files cannot be saved!</source>
         <translation>Některé soubory se nepodařilo uložit!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5097"/>
+        <location filename="../../fpwin.cpp" line="5103"/>
         <source>Translators</source>
         <translation>Překladatelé</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5093"/>
+        <location filename="../../fpwin.cpp" line="5099"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translation>Nenáročný editor neformátovaného textu s panely</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5094"/>
+        <location filename="../../fpwin.cpp" line="5100"/>
         <source>based on Qt5</source>
         <translation>založeno na Qt5</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5095"/>
+        <location filename="../../fpwin.cpp" line="5101"/>
         <source>Author</source>
         <translation>Autor</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5096"/>
+        <location filename="../../fpwin.cpp" line="5102"/>
         <source>aka.</source>
         <translation>alias</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5097"/>
-        <location filename="../../fpwin.cpp" line="5098"/>
+        <location filename="../../fpwin.cpp" line="5103"/>
+        <location filename="../../fpwin.cpp" line="5104"/>
         <source>About FeatherPad</source>
         <translation>O aplikaci FeatherPad</translation>
     </message>
