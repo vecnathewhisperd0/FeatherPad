@@ -707,7 +707,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         }
 
         desktopFormat.setForeground (DarkMagenta);
-        rule.pattern.setPattern ("^[^\\=]+=|^[^\\=]+\\[.*\\]=|;|/|%|\\+|-");
+        rule.pattern.setPattern ("^[^\\=\\[]+=|^[^\\=\\[]+\\[.*\\]=|;|/|%|\\+|-");
         rule.format = desktopFormat;
         highlightingRules.append (rule);
 
@@ -720,7 +720,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
         desktopFormat.setForeground (Blue);
         /* [...] and before = (like ...[en]=)*/
-        rule.pattern.setPattern ("^[^\\=]+\\[.*\\](?=\\s*\\=)");
+        rule.pattern.setPattern ("^[^\\=\\[]+\\[.*\\](?=\\s*\\=)");
         rule.format = desktopFormat;
         highlightingRules.append (rule);
 
