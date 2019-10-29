@@ -606,27 +606,27 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
          *   blue  green  magenta bold */
         QTextCharFormat logFormat = neutralFormat;
         logFormat.setFontWeight (QFont::Bold);
-        rule.pattern.setPattern ("\\b(\\d{4}-\\d{2}-\\d{2}|\\d{2}/(\\d{2}|[A-Za-z]{3})/\\d{4}|\\d{4}/(\\d{2}|[A-Za-z]{3})/\\d{2}|[A-Za-z]{3}\\s+\\d{1,2})(T|\\s)\\d{2}:\\d{2}(:\\d{2}(\\+\\d+)?)?(AM|PM|am|pm)?\\s+[A-Za-z0-9_\\s]+(?=\\s*:)");
+        rule.pattern.setPattern ("\\b(\\d{4}-\\d{2}-\\d{2}|\\d{2}/(\\d{2}|[A-Za-z]{3})/\\d{4}|\\d{4}/(\\d{2}|[A-Za-z]{3})/\\d{2}|[A-Za-z]{3}\\s+\\d{1,2})(T|\\s)\\d{2}:\\d{2}(:\\d{2}((\\+|-)\\d+)?)?(AM|PM|am|pm)?\\s+[A-Za-z0-9_\\s]+(?=\\s*:)");
         rule.format = logFormat;
         highlightingRules.append (rule);
 
         QTextCharFormat logFormat1;
         logFormat1.setForeground (Qt::magenta);
-        rule.pattern.setPattern ("\\b(\\d{4}-\\d{2}-\\d{2}|\\d{2}/(\\d{2}|[A-Za-z]{3})/\\d{4}|\\d{4}/(\\d{2}|[A-Za-z]{3})/\\d{2}|[A-Za-z]{3}\\s+\\d{1,2})(T|\\s)\\d{2}:\\d{2}(:\\d{2}(\\+\\d+)?)?(AM|PM|am|pm)?\\s+[A-Za-z0-9_]+(?=\\s|$|:)");
+        rule.pattern.setPattern ("\\b(\\d{4}-\\d{2}-\\d{2}|\\d{2}/(\\d{2}|[A-Za-z]{3})/\\d{4}|\\d{4}/(\\d{2}|[A-Za-z]{3})/\\d{2}|[A-Za-z]{3}\\s+\\d{1,2})(T|\\s)\\d{2}:\\d{2}(:\\d{2}((\\+|-)\\d+)?)?(AM|PM|am|pm)?\\s+[A-Za-z0-9_]+(?=\\s|$|:)");
         rule.format = logFormat1;
         highlightingRules.append (rule);
 
         QTextCharFormat logDateFormat;
         logDateFormat.setFontWeight (QFont::Bold);
         logDateFormat.setForeground (Blue);
-        rule.pattern.setPattern ("\\b(\\d{4}-\\d{2}-\\d{2}|\\d{2}/(\\d{2}|[A-Za-z]{3})/\\d{4}|\\d{4}/(\\d{2}|[A-Za-z]{3})/\\d{2}|[A-Za-z]{3}\\s+\\d{1,2})(?=(T|\\s)\\d{2}:\\d{2}(:\\d{2}(\\+\\d+)?)?(AM|PM|am|pm)?\\b)");
+        rule.pattern.setPattern ("\\b(\\d{4}-\\d{2}-\\d{2}|\\d{2}/(\\d{2}|[A-Za-z]{3})/\\d{4}|\\d{4}/(\\d{2}|[A-Za-z]{3})/\\d{2}|[A-Za-z]{3}\\s+\\d{1,2})(?=(T|\\s)\\d{2}:\\d{2}(:\\d{2}((\\+|-)\\d+)?)?(AM|PM|am|pm)?\\b)");
         rule.format = logDateFormat;
         highlightingRules.append (rule);
 
         QTextCharFormat logTimeFormat;
         logTimeFormat.setFontWeight (QFont::Bold);
         logTimeFormat.setForeground (DarkGreenAlt);
-        rule.pattern.setPattern ("(?<=T|\\s)\\d{2}:\\d{2}(:\\d{2}(\\+\\d+)?)?(AM|PM|am|pm)?\\b");
+        rule.pattern.setPattern ("(?<=T|\\s)\\d{2}:\\d{2}(:\\d{2}((\\+|-)\\d+)?)?(AM|PM|am|pm)?\\b");
         rule.format = logTimeFormat;
         highlightingRules.append (rule);
 
