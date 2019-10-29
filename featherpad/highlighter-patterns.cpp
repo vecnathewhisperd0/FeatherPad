@@ -144,6 +144,11 @@ QStringList Highlighter::keywords (const QString &lang)
         keywordPatterns << "\\b(none|null)(?!(\\.|-|@|#|\\$))\\b"
                         << "\\b(abs|adjust-color|adjust-hue|alpha|append|blue|call|ceil|change-color|comparable|complement|content-exists|darken|desaturate|feature-exists|floor|function-exists|get-function|global-variable-exists|grayscale|green|hsl|hsla|hue|ie-hex-str|if|index|inspect|invert|is-bracketed|is-superselector|join|keywords|length|lighten|lightness|list-separator|map-get|map-has-key|map-keys|map-merge|map-remove|map-values|max|min|mixin-exists|mix|nth|opacify|percentage|quote|random|red|rgb|rgba|round|scale-color|saturate|saturation|selector-nest|selector-append|selector-extend|selector-parse|selector-replace|selector-unify|set-nth|simple-selectors|str-index|str-insert|str-length|str-slice|to-lower-case|to-upper-case|transparentize|type-of|unit|unitless|unquote|variable-exists|zip)(?=\\()"
                         << "\\bunique-id\\(\\s*\\)";
+    else if (lang == "dart")
+            keywordPatterns << "\\b(abstract|as|assert|await|break|case|catch|class|const|continue|covariant|default|deferred|do|dynamic)\\b"
+                            << "\\b(else|enum|export|extends|external|factory|false|final|finally|for|Function|get|hide|if|implements|import|in|interface|is)\\b"
+                            << "\\b(library|mixin|new|null|on|operator|part|rethrow|return|set|show|static|super|switch|sync)\\b"
+                            << "\\b(this|throw|true|try|typedef|var|void|while|with|yield)\\b";
 
     return keywordPatterns;
 }
@@ -168,6 +173,10 @@ QStringList Highlighter::types()
     {
         typePatterns << "\\b(bool|double|enumeration|int|list|real|string|url|var)(?!(@|#|\\$))\\b"
                      << "\\b(color|date|font|matrix4x4|point|quaternion|rect|size|vector2d|vector3d|vector4d)(?!(@|#|\\$))\\b";
+    }
+    else if (progLan == "dart")
+    {
+        typePatterns << "\\b(bool|double|int|num)(?!(@|#|\\$))\\b";
     }
     return typePatterns;
 }

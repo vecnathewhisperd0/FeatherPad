@@ -1182,7 +1182,7 @@
         </translation>
     </message>
     <message>
-        <location filename="../../syntax.cpp" line="272"/>
+        <location filename="../../syntax.cpp" line="274"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
         <translation>Sözdizimi vurgulaması için boyut sınırı aşıldı.</translation>
     </message>

@@ -274,7 +274,8 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     /* may be overridden by the keywords format */
     if (progLan == "c" || progLan == "cpp"
         || Lang == "javascript" || progLan == "qml"
-        || progLan == "lua" || progLan == "python" || progLan == "php")
+        || progLan == "lua" || progLan == "python"
+        || progLan == "php" || progLan == "dart")
     {
         QTextCharFormat functionFormat;
         functionFormat.setFontItalic (true);
@@ -1093,6 +1094,17 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = scssFormat;
         highlightingRules.append (rule);
     }
+    else if (progLan == "dart")
+    {
+        QTextCharFormat dartFormat;
+
+        /* dart:core classes */
+        dartFormat.setFontWeight (QFont::Bold);
+        dartFormat.setForeground (DarkMagenta);
+        rule.pattern.setPattern ("\\b(BidirectionalIterator|BigInt|Comparable|DateTime|Deprecated|Duration|Expando|Function|Future|Invocation|Iterable|Iterator|List|Map|MapEntry|Match|Object|Pattern|RegExp|RegExpMatch|RuneIterator|Runes|Set|Sink|StackTrace|Stopwatch|Stream|String|StringBuffer|StringSink|Symbol|Type|Uri|UriData)\\b");
+        rule.format = dartFormat;
+        highlightingRules.append (rule);
+    }
 
     if (showWhiteSpace)
     {
@@ -1109,7 +1121,8 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     rule.pattern.setPattern (QString());
     if (progLan == "c" || progLan == "cpp"
         || Lang == "javascript" || progLan == "qml"
-        || progLan == "php" || progLan == "scss")
+        || progLan == "php" || progLan == "scss"
+        || progLan == "dart")
     {
         rule.pattern.setPattern ("//.*"); // why had I set it to ("//(?!\\*).*")?
     }
@@ -1145,7 +1158,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     if (progLan == "c" || progLan == "cpp"
         || progLan == "javascript" || progLan == "qml"
         || progLan == "php" || progLan == "css" || progLan == "scss"
-        || progLan == "fountain")
+        || progLan == "fountain" || progLan == "dart")
     {
         commentStartExpression.setPattern ("/\\*");
         commentEndExpression.setPattern ("\\*/");
@@ -1345,6 +1358,7 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
             || progLan == "javascript" || progLan == "qml"
             || progLan == "python"
             || progLan == "perl"
+            || progLan == "dart"
             /* markdown is an exception */
             || progLan == "markdown"
             /* however, in Bash, single quote can be escaped only at start */
@@ -1394,7 +1408,7 @@ bool Highlighter::isQuoted (const QString &text, const int index,
         || progLan == "lua"
         || progLan == "xml" // never used with xml; otherwise, we should consider "&quot;"
         || progLan == "ruby" || progLan == "html" || progLan == "scss"
-        || progLan == "yaml")
+        || progLan == "yaml" || progLan == "dart")
     {
         mixedQuotes = true;
     }
@@ -2443,7 +2457,7 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
         || progLan == "makefile" || progLan == "cmake"
         || progLan == "lua"
         || progLan == "ruby" || progLan == "scss"
-        || progLan == "yaml")
+        || progLan == "yaml" || progLan == "dart")
     {
         mixedQuotes = true;
     }

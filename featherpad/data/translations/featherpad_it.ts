@@ -1168,7 +1168,7 @@ linea (Ctrl + Shift + J)</translation>
         </translation>
     </message>
     <message>
-        <location filename="../../syntax.cpp" line="272"/>
+        <location filename="../../syntax.cpp" line="274"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
         <translation>Il limite di dimensione per l&apos;evidenziazione della sintassi è stato  superato.</translation>
     </message>

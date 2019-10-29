@@ -141,6 +141,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
             progLan = "markdown";
         else if (fname.endsWith (".rst"))
             progLan = "reST";
+        else if (fname.endsWith (".dart"))
+            progLan = "dart";
         else if (baseName.startsWith ("makefile.", Qt::CaseInsensitive) && !baseName.endsWith (".txt", Qt::CaseInsensitive))
             progLan = "makefile";
         else if (baseName.compare ("CMakeLists.txt", Qt::CaseInsensitive) == 0)
