@@ -273,7 +273,6 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
     /* may be overridden by the keywords format */
     if (progLan == "c" || progLan == "cpp"
-        || Lang == "javascript" || progLan == "qml"
         || progLan == "lua" || progLan == "python"
         || progLan == "php" || progLan == "dart")
     {
@@ -300,6 +299,22 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
             rule.format = functionFormat;
             highlightingRules.append (rule);
         }
+    }
+    else if (Lang == "javascript" || progLan == "qml")
+    {
+        QTextCharFormat format;
+        format.setFontItalic (true);
+        format.setForeground (Blue);
+        rule.pattern.setPattern ("\\b[A-Za-z0-9_]+(?=\\s*\\()|\\b[A-Za-z0-9_]+\\s*(?=\\.)|(?<=\\.)\\s*[A-Za-z0-9_]+\\b");
+        rule.format = format;
+        highlightingRules.append (rule);
+
+        /* numbers */
+        format.setFontItalic (false);
+        format.setForeground (Brown);
+        rule.pattern.setPattern ("\\b\\d+\\b");
+        rule.format = format;
+        highlightingRules.append (rule);
     }
 
     /**********************
