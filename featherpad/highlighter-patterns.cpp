@@ -115,10 +115,10 @@ QStringList Highlighter::keywords (const QString &lang)
         keywordPatterns << "\\b(?<!(@|#|\\$))(abstract|arguments|await|break)(?!(@|#|\\$))\\b"
                         << "\\b(?<!(@|#|\\$))(case|catch|class|const|continue)(?!(@|#|\\$))\\b"
                         << "\\b(?<!(@|#|\\$))(debugger|default|delete|do)(?!(@|#|\\$))\\b"
-                        << "\\b(?<!(@|#|\\$))(else|enum|eval|export|extends)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|\\$))(else|enum|eval|extends)(?!(@|#|\\$))\\b"
                         << "\\b(?<!(@|#|\\$))(false|final|finally|for|function|goto)(?!(@|#|\\$))\\b"
-                        << "\\b(?<!(@|#|\\$))(if|implements|import|in|Infinity|instanceof|interface|let)(?!(@|#|\\$))\\b"
-                        << "\\b(?<!(@|#|\\$))(Math|native|new|null)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|\\$))(if|implements|in|Infinity|instanceof|interface|let)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|\\$))(Math|native|new|null|of)(?!(@|#|\\$))\\b"
                         << "\\b(?<!(@|#|\\$))(package|private|protected|prototype|public|return)(?!(@|#|\\$))\\b"
                         << "\\b(?<!(@|#|\\$))(static|super|switch|synchronized)(?!(@|#|\\$))\\b"
                         << "\\b(?<!(@|#|\\$))(throw|throws|this|transient|true|try|typeof)(?!(@|#|\\$))\\b"
@@ -126,7 +126,7 @@ QStringList Highlighter::keywords (const QString &lang)
         if (lang == "javascript")
             keywordPatterns << "\\b(?<!(@|#|\\$))(var)(?!(@|#|\\$))\\b";
         else if (lang == "qml")
-            keywordPatterns << "\\b((?<!(@|#|\\$))alias|id|property|readonly|signal)(?!(@|#|\\$))\\b";
+            keywordPatterns << "\\b(?<!(@|#|\\$))(alias|id|property|readonly|signal)(?!(@|#|\\$))\\b";
     }
     else if (lang == "php")
         keywordPatterns << "\\b(__FILE__|__LINE__|__FUNCTION__|__CLASS__|__METHOD__|__DIR__|__NAMESPACE__)(?!(#|\\$))\\b"
@@ -171,8 +171,8 @@ QStringList Highlighter::types()
     }
     else if (progLan == "qml")
     {
-        typePatterns << "\\b(bool|double|enumeration|int|list|real|string|url|var)(?!(@|#|\\$))\\b"
-                     << "\\b(color|date|font|matrix4x4|point|quaternion|rect|size|vector2d|vector3d|vector4d)(?!(@|#|\\$))\\b";
+        typePatterns << "\\b(?<!(@|#|\\$))(bool|double|enumeration|int|list|real|string|url|var)(?!(@|#|\\$))\\b"
+                     << "\\b(?<!(@|#|\\$))(color|date|font|matrix4x4|point|quaternion|rect|size|vector2d|vector3d|vector4d)(?!(@|#|\\$))\\b";
     }
     else if (progLan == "dart")
     {

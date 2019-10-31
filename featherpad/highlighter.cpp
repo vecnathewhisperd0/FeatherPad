@@ -271,17 +271,24 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     /* there may be javascript inside html */
     QString Lang = progLan == "html" ? "javascript" : progLan;
 
-    /* may be overridden by the keywords format */
+    /* might be overridden by the keywords format */
     if (progLan == "c" || progLan == "cpp"
         || progLan == "lua" || progLan == "python"
         || progLan == "php" || progLan == "dart")
     {
-        QTextCharFormat functionFormat;
-        functionFormat.setFontItalic (true);
-        functionFormat.setForeground (Blue);
+        QTextCharFormat ft;
+
+        /* numbers (including the scientific notation) */
+        ft.setForeground (Brown);
+        rule.pattern.setPattern ("(?<=^|[^\\w\\d\\.])(\\d*\\.?\\d+|\\d+\\.?\\d*)((e|E)(\\+|-)?\\d+)?(?=[^\\w\\d\\.]|$)");
+        rule.format = ft;
+        highlightingRules.append (rule);
+
+        ft.setFontItalic (true);
+        ft.setForeground (Blue);
         /* before parentheses... */
         rule.pattern.setPattern ("\\b[A-Za-z0-9_]+(?=\\s*\\()");
-        rule.format = functionFormat;
+        rule.format = ft;
         highlightingRules.append (rule);
         /* ... but make exception for what comes after "#define" */
         if (progLan == "c" || progLan == "cpp")
@@ -293,27 +300,34 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         }
         else if (progLan == "python")
         { // built-in functions
-            functionFormat.setFontWeight (QFont::Bold);
-            functionFormat.setForeground (Qt::magenta);
+            ft.setFontWeight (QFont::Bold);
+            ft.setForeground (Qt::magenta);
             rule.pattern.setPattern ("\\b(abs|add|all|append|any|as_integer_ratio|ascii|basestring|bin|bit_length|bool|bytearray|bytes|callable|c\\.conjugate|capitalize|center|chr|classmethod|clear|cmp|compile|complex|count|critical|debug|decode|delattr|dict|difference_update|dir|discard|divmod|encode|endswith|enumerate|error|eval|expandtabs|exception|exec|execfile|extend|file|filter|find|float|format|fromhex|fromkeys|frozenset|get|getattr|globals|hasattr|hash|has_key|help|hex|id|index|info|input|insert|int|intersection_update|isalnum|isalpha|isdecimal|isdigit|isinstance|islower|isnumeric|isspace|issubclass|istitle|items|iter|iteritems|iterkeys|itervalues|isupper|is_integer|join|keys|len|list|ljust|locals|log|long|lower|lstrip|map|max|memoryview|min|next|object|oct|open|ord|partition|pop|popitem|pow|print|property|range|raw_input|read|reduce|reload|remove|replace|repr|reverse|reversed|rfind|rindex|rjust|rpartition|round|rsplit|rstrip|run|seek|set|setattr|slice|sort|sorted|split|splitlines|staticmethod|startswith|str|strip|sum|super|symmetric_difference_update|swapcase|title|translate|tuple|type|unichr|unicode|update|upper|values|vars|viewitems|viewkeys|viewvalues|warning|write|xrange|zip|zfill|(__(abs|add|and|cmp|coerce|complex|contains|delattr|delete|delitem|delslice|div|divmod|enter|eq|exit|float|floordiv|ge|get|getattr|getattribute|getitem|getslice|gt|hex|iadd|iand|idiv|ifloordiv|ilshift|invert|imod|import|imul|init|instancecheck|index|int|ior|ipow|irshift|isub|iter|itruediv|ixor|le|len|long|lshift|lt|missing|mod|mul|neg|nonzero|oct|or|pos|pow|radd|rand|rdiv|rdivmod|reversed|rfloordiv|rlshift|rmod|rmul|ror|rpow|rshift|rsub|rrshift|rtruediv|rxor|set|setattr|setitem|setslice|sub|subclasses|subclasscheck|truediv|unicode|xor)__))(?=\\s*\\()");
-            rule.format = functionFormat;
+            rule.format = ft;
             highlightingRules.append (rule);
         }
     }
     else if (Lang == "javascript" || progLan == "qml")
     {
-        QTextCharFormat format;
-        format.setFontItalic (true);
-        format.setForeground (Blue);
-        rule.pattern.setPattern ("\\b[A-Za-z0-9_]+(?=\\s*\\()|\\b[A-Za-z0-9_]+\\s*(?=\\.)|(?<=\\.)\\s*[A-Za-z0-9_]+\\b");
-        rule.format = format;
+        QTextCharFormat ft;
+
+        /* before dot (might be overridden by keywords) */
+        ft.setForeground (Blue);
+        rule.pattern.setPattern ("(?<![A-Za-z0-9_\\$])[A-Za-z0-9_\\$]+\\s*(?=\\.)");
+        rule.format = ft;
         highlightingRules.append (rule);
 
-        /* numbers */
-        format.setFontItalic (false);
-        format.setForeground (Brown);
-        rule.pattern.setPattern ("\\b\\d+\\b");
-        rule.format = format;
+        /* before parentheses */
+        ft.setFontItalic (true);
+        rule.pattern.setPattern ("(?<![A-Za-z0-9_\\$])[A-Za-z0-9_\\$]+(?=\\s*\\()");
+        rule.format = ft;
+        highlightingRules.append (rule);
+
+        ft.setFontItalic (false);
+        ft.setFontWeight (QFont::Bold);
+        ft.setForeground (Qt::magenta);
+        rule.pattern.setPattern ("\\b(?<!(@|#|\\$))(export|from|import|as)(?!(@|#|\\$|(\\s*:)))\\b");
+        rule.format = ft;
         highlightingRules.append (rule);
     }
 
@@ -482,14 +496,35 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = pFormat;
         highlightingRules.append (rule);
     }
-    else if (progLan == "qml")
+    else if (Lang == "javascript" || progLan == "qml")
     {
-        QTextCharFormat qmlFormat;
-        qmlFormat.setFontWeight (QFont::Bold);
-        qmlFormat.setForeground (DarkMagenta);
-        rule.pattern.setPattern ("\\b(Qt[A-Za-z]+|Accessible|AnchorAnimation|AnchorChanges|AnimatedImage|AnimatedSprite|Animation|AnimationController|Animator|Behavior|BorderImage|Canvas|CanvasGradient|CanvasImageData|CanvasPixelArray|ColorAnimation|Column|Context2D|DoubleValidator|Drag|DragEvent|DropArea|EnterKey|Flickable|Flipable|Flow|FocusScope|FontLoader|FontMetrics|Gradient|GradientStop|Grid|GridMesh|GridView|Image|IntValidator|Item|ItemGrabResult|KeyEvent|KeyNavigation|Keys|LayoutMirroring|ListView|Loader|Matrix4x4|MouseArea|MouseEvent|MultiPointTouchArea|NumberAnimation|OpacityAnimator|OpenGLInfo|ParallelAnimation|ParentAnimation|ParentChange|Path|PathAnimation|PathArc|PathAttribute|PathCubic|PathCurve|PathElement|PathInterpolator|PathLine|PathPercent|PathQuad|PathSvg|PathView|PauseAnimation|PinchArea|PinchEvent|Positioner|PropertyAction|PropertyAnimation|PropertyChanges|Rectangle|RegExpValidator|Repeater|Rotation|RotationAnimation|RotationAnimator|Row|Scale|ScaleAnimator|ScriptAction|SequentialAnimation|ShaderEffect|ShaderEffectSource|Shortcut|SmoothedAnimation|SpringAnimation|Sprite|SpriteSequence|State|StateChangeScript|StateGroup|SystemPalette|Text|TextEdit|TextInput|TextMetrics|TouchPoint|Transform|Transition|Translate|UniformAnimator|Vector3dAnimation|ViewTransition|WheelEvent|XAnimator|YAnimator|CloseEvent|ColorDialog|ColumnLayout|Dialog|FileDialog|FontDialog|GridLayout|Layout|MessageDialog|RowLayout|StackLayout|LocalStorage|Screen|SignalSpy|TestCase|Window|XmlListModel|XmlRole|Action|ApplicationWindow|BusyIndicator|Button|Calendar|CheckBox|ComboBox|ExclusiveGroup|GroupBox|Label|Menu|MenuBar|MenuItem|MenuSeparator|ProgressBar|RadioButton|ScrollView|Slider|SpinBox|SplitView|Stack|StackView|StackViewDelegate|StatusBar|Switch|Tab|TabView|TableView|TableViewColumn|TextArea|TextField|ToolBar|ToolButton|TreeView|Affector|Age|AngleDirection|Attractor|CumulativeDirection|CustomParticle|Direction|EllipseShape|Emitter|Friction|Gravity|GroupGoal|ImageParticle|ItemParticle|LineShape|MaskShape|Particle|ParticleGroup|ParticlePainter|ParticleSystem|PointDirection|RectangleShape|Shape|SpriteGoal|TargetDirection|TrailEmitter|Turbulence|Wander|Timer)(?!(\\-|@|#|\\$))\\b");
-        rule.format = qmlFormat;
+        QTextCharFormat ft;
+
+        /* after dot (may override keywords) */
+        ft.setForeground (Blue);
+        ft.setFontItalic (true);
+        rule.pattern.setPattern ("(?<=\\.)\\s*[A-Za-z0-9_\\$]+(?=\\s*\\()"); // before parentheses
+        rule.format = ft;
         highlightingRules.append (rule);
+        ft.setFontItalic (false);
+        rule.pattern.setPattern ("(?<=\\.)\\s*[A-Za-z0-9_\\$]+(?!\\s*\\()(?![A-Za-z0-9_\\$])"); // not before parentheses
+        rule.format = ft;
+        highlightingRules.append (rule);
+
+        /* numbers */
+        ft.setForeground (Brown);
+        rule.pattern.setPattern ("(?<=^|[^\\w\\d|@|#|\\$])(\\d*\\.?\\d+|\\d+\\.?\\d*)((e|E)(\\+|-)?\\d+)?(?=[^\\w\\d]|$)");
+        rule.format = ft;
+        highlightingRules.append (rule);
+
+        if (progLan == "qml")
+        {
+            ft.setFontWeight (QFont::Bold);
+            ft.setForeground (DarkMagenta);
+            rule.pattern.setPattern ("\\b(?<!(@|#|\\$))(Qt([A-Za-z]+)?|Accessible|AnchorAnimation|AnchorChanges|AnimatedImage|AnimatedSprite|Animation|AnimationController|Animator|Behavior|BorderImage|Canvas|CanvasGradient|CanvasImageData|CanvasPixelArray|ColorAnimation|Column|Context2D|DoubleValidator|Drag|DragEvent|DropArea|EnterKey|Flickable|Flipable|Flow|FocusScope|FontLoader|FontMetrics|Gradient|GradientStop|Grid|GridMesh|GridView|Image|IntValidator|Item|ItemGrabResult|KeyEvent|KeyNavigation|Keys|LayoutMirroring|ListView|Loader|Matrix4x4|MouseArea|MouseEvent|MultiPointTouchArea|NumberAnimation|OpacityAnimator|OpenGLInfo|ParallelAnimation|ParentAnimation|ParentChange|Path|PathAnimation|PathArc|PathAttribute|PathCubic|PathCurve|PathElement|PathInterpolator|PathLine|PathPercent|PathQuad|PathSvg|PathView|PauseAnimation|PinchArea|PinchEvent|Positioner|PropertyAction|PropertyAnimation|PropertyChanges|Rectangle|RegExpValidator|Repeater|Rotation|RotationAnimation|RotationAnimator|Row|Scale|ScaleAnimator|ScriptAction|SequentialAnimation|ShaderEffect|ShaderEffectSource|Shortcut|SmoothedAnimation|SpringAnimation|Sprite|SpriteSequence|State|StateChangeScript|StateGroup|SystemPalette|Text|TextEdit|TextInput|TextMetrics|TouchPoint|Transform|Transition|Translate|UniformAnimator|Vector3dAnimation|ViewTransition|WheelEvent|XAnimator|YAnimator|CloseEvent|ColorDialog|ColumnLayout|Dialog|FileDialog|FontDialog|GridLayout|Layout|MessageDialog|RowLayout|StackLayout|LocalStorage|Screen|SignalSpy|TestCase|Window|XmlListModel|XmlRole|Action|ApplicationWindow|BusyIndicator|Button|Calendar|CheckBox|ComboBox|ExclusiveGroup|GroupBox|Label|Menu|MenuBar|MenuItem|MenuSeparator|ProgressBar|RadioButton|ScrollView|Slider|SpinBox|SplitView|Stack|StackView|StackViewDelegate|StatusBar|Switch|Tab|TabView|TableView|TableViewColumn|TextArea|TextField|ToolBar|ToolButton|TreeView|Affector|Age|AngleDirection|Attractor|CumulativeDirection|CustomParticle|Direction|EllipseShape|Emitter|Friction|Gravity|GroupGoal|ImageParticle|ItemParticle|LineShape|MaskShape|Particle|ParticleGroup|ParticlePainter|ParticleSystem|PointDirection|RectangleShape|Shape|SpriteGoal|TargetDirection|TrailEmitter|Turbulence|Wander|Timer)(?!(\\-|@|#|\\$))\\b");
+            rule.format = ft;
+            highlightingRules.append (rule);
+        }
     }
     else if (progLan == "xml")
     {
@@ -769,7 +804,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
         /* non-value numbers (including the scientific notation) */
         yamlFormat.setForeground (Brown);
-        rule.pattern.setPattern ("^((\\s*-\\s)+)?\\s*\\K[-+]?\\d*\\.?\\d+(e(\\+|-)\\d+)?\\s*(?=(#|$))");
+        rule.pattern.setPattern ("^((\\s*-\\s)+)?\\s*\\K[-+]?(\\d*\\.?\\d+|\\d+\\.?\\d*)((e|E)(\\+|-)?\\d+)?\\s*(?=(#|$))");
         rule.format = yamlFormat;
         highlightingRules.append (rule);
 
@@ -4208,7 +4243,7 @@ void Highlighter::highlightBlock (const QString &text)
                         fi = rule.format;
                         if (fi.foreground() == Violet)
                         {
-                            if (txt.indexOf (QRegularExpression ("[-+]?\\d*\\.?\\d+(e(\\+|-)\\d+)?\\s*(?=(#|$))"), 0, &match) == 0)
+                            if (txt.indexOf (QRegularExpression ("[-+]?(\\d*\\.?\\d+|\\d+\\.?\\d*)((e|E)(\\+|-)?\\d+)?\\s*(?=(#|$))"), 0, &match) == 0)
                             { // format numerical values differently
                                 if (match.capturedLength() == length)
                                     fi.setForeground (Brown);

@@ -14,6 +14,8 @@ V0.12.0
  * Added mnemonics to the close prompt dialog.
  * Show the busy cursor on showing the print dialog because Qt's print dialog doesn't appear immediately (an old Qt bug related to CUPS).
  * Added support for Dart syntax highlighting.
+ * Also highlight numbers with some languages.
+ * Better JS syntax highlighting.
 
 V0.11.1
 ---------
