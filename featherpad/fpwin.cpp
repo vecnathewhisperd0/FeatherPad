@@ -257,6 +257,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     connect (ui->actionPreferences, &QAction::triggered, this, &FPwin::prefDialog);
 
     connect (ui->actionCheckSpelling, &QAction::triggered, this, &FPwin::checkSpelling);
+    connect (ui->actionUserDict, &QAction::triggered, this, &FPwin::userDict);
 
     connect (ui->actionReplace, &QAction::triggered, this, &FPwin::replaceDock);
     connect (ui->toolButtonNext, &QAbstractButton::clicked, this, &FPwin::replace);
@@ -4844,6 +4845,22 @@ void FPwin::checkSpelling()
     updateShortcuts (false);
 
     delete spellChecker;
+}
+/*************************/
+void FPwin::userDict()
+{
+    Config config = static_cast<FPsingleton*>(qApp)->getConfig();
+    QString dictPath = config.getDictPath();
+    if (dictPath.isEmpty())
+        showWarningBar ("<center><b><big>" + tr ("The file does not exist.") + "</big></b></center>");
+    else
+    {
+        if (dictPath.endsWith (".dic"))
+            dictPath = dictPath.left (dictPath.size() - 4);
+        QString confPath = QStandardPaths::writableLocation (QStandardPaths::ConfigLocation);
+        QString userDict = confPath + "/featherpad/userDict-" + dictPath.section ("/", -1);
+        newTabFromName (userDict, 0, 0);
+    }
 }
 /*************************/
 void FPwin::manageSessions()

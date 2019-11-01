@@ -16,6 +16,7 @@ V0.12.0
  * Added support for Dart syntax highlighting.
  * Also highlight numbers with some languages.
  * Better JS syntax highlighting.
+ * Added a menu item to open the user dictionary.
 
 V0.11.1
 ---------

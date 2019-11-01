@@ -194,6 +194,7 @@ private slots:
     void toggleSidePane();
     void prefDialog();
     void checkSpelling();
+    void userDict();
     void aboutDialog();
     void helpDoc();
     void matchBrackets();
