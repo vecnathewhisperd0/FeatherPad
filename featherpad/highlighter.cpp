@@ -278,9 +278,9 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     {
         QTextCharFormat ft;
 
-        /* numbers (including the scientific notation) */
+        /* numbers (including the scientific notation and hexadecimal numbers) */
         ft.setForeground (Brown);
-        rule.pattern.setPattern ("(?<=^|[^\\w\\d\\.])(\\d*\\.?\\d+|\\d+\\.?\\d*)((e|E)(\\+|-)?\\d+)?(?=[^\\w\\d\\.]|$)");
+        rule.pattern.setPattern ("(?<=^|[^\\w\\d\\.])((\\d*\\.?\\d+|\\d+\\.?\\d*)((e|E)(\\+|-)?\\d+)?|0[xX][0-9a-fA-F]+)(?=[^\\w\\d\\.]|$)");
         rule.format = ft;
         highlightingRules.append (rule);
 
@@ -513,7 +513,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
         /* numbers */
         ft.setForeground (Brown);
-        rule.pattern.setPattern ("(?<=^|[^\\w\\d|@|#|\\$])(\\d*\\.?\\d+|\\d+\\.?\\d*)((e|E)(\\+|-)?\\d+)?(?=[^\\w\\d]|$)");
+        rule.pattern.setPattern ("(?<=^|[^\\w\\d|@|#|\\$])((\\d*\\.?\\d+|\\d+\\.?\\d*)((e|E)(\\+|-)?\\d+)?|0[xX][0-9a-fA-F]+)(?=[^\\w\\d]|$)");
         rule.format = ft;
         highlightingRules.append (rule);
 
@@ -804,7 +804,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
         /* non-value numbers (including the scientific notation) */
         yamlFormat.setForeground (Brown);
-        rule.pattern.setPattern ("^((\\s*-\\s)+)?\\s*\\K[-+]?(\\d*\\.?\\d+|\\d+\\.?\\d*)((e|E)(\\+|-)?\\d+)?\\s*(?=(#|$))");
+        rule.pattern.setPattern ("^((\\s*-\\s)+)?\\s*\\K([-+]?(\\d*\\.?\\d+|\\d+\\.?\\d*)((e|E)(\\+|-)?\\d+)?|0[xX][0-9a-fA-F]+)\\s*(?=(#|$))");
         rule.format = yamlFormat;
         highlightingRules.append (rule);
 
@@ -4243,7 +4243,7 @@ void Highlighter::highlightBlock (const QString &text)
                         fi = rule.format;
                         if (fi.foreground() == Violet)
                         {
-                            if (txt.indexOf (QRegularExpression ("[-+]?(\\d*\\.?\\d+|\\d+\\.?\\d*)((e|E)(\\+|-)?\\d+)?\\s*(?=(#|$))"), 0, &match) == 0)
+                            if (txt.indexOf (QRegularExpression ("([-+]?(\\d*\\.?\\d+|\\d+\\.?\\d*)((e|E)(\\+|-)?\\d+)?|0[xX][0-9a-fA-F]+)\\s*(?=(#|$))"), 0, &match) == 0)
                             { // format numerical values differently
                                 if (match.capturedLength() == length)
                                     fi.setForeground (Brown);
