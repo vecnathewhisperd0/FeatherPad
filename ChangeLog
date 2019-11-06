@@ -17,6 +17,7 @@ V0.12.0
  * Also highlight numbers with some languages.
  * Better JS syntax highlighting.
  * Added a menu item to open the user dictionary.
+ * Never let the active tab get focus.
 
 V0.11.1
 ---------

@@ -25,7 +25,9 @@ TabWidget::TabWidget (QWidget *parent) : QTabWidget (parent)
 {
     tb_ = new TabBar;
     setTabBar (tb_);
-    tb_->setFocusPolicy (Qt::NoFocus); // there are shortcuts for tab switching
+    setFocusProxy (nullptr); // ensure that the tab bar isn't the focus proxy...
+    tb_->setFocusPolicy (Qt::NoFocus); // ... and don't let the active tab get focus
+    setFocusPolicy (Qt::NoFocus); // also, give the Tab key focus to the page
     curIndx_= -1;
     timerId_ = 0;
     connect (this, &QTabWidget::currentChanged, this, &TabWidget::tabSwitch);
