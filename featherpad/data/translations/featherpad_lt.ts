@@ -12,16 +12,16 @@
 <context>
     <name>FeatherPad::FPwin</name>
     <message>
-        <location filename="../../fpwin.cpp" line="401"/>
-        <location filename="../../fpwin.cpp" line="1266"/>
-        <location filename="../../fpwin.cpp" line="1327"/>
-        <location filename="../../fpwin.cpp" line="1807"/>
-        <location filename="../../fpwin.cpp" line="1859"/>
-        <location filename="../../fpwin.cpp" line="2616"/>
-        <location filename="../../fpwin.cpp" line="2636"/>
-        <location filename="../../fpwin.cpp" line="2639"/>
-        <location filename="../../fpwin.cpp" line="3143"/>
-        <location filename="../../fpwin.cpp" line="3843"/>
+        <location filename="../../fpwin.cpp" line="402"/>
+        <location filename="../../fpwin.cpp" line="1267"/>
+        <location filename="../../fpwin.cpp" line="1328"/>
+        <location filename="../../fpwin.cpp" line="1808"/>
+        <location filename="../../fpwin.cpp" line="1860"/>
+        <location filename="../../fpwin.cpp" line="2617"/>
+        <location filename="../../fpwin.cpp" line="2637"/>
+        <location filename="../../fpwin.cpp" line="2640"/>
+        <location filename="../../fpwin.cpp" line="3144"/>
+        <location filename="../../fpwin.cpp" line="3844"/>
         <source>Untitled</source>
         <translation>Be pavadinimo</translation>
     </message>
@@ -64,9 +64,9 @@
         <translation>&amp;Parinktys</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1289"/>
-        <location filename="../../fpwin.cpp" line="2541"/>
-        <location filename="../../fpwin.cpp" line="3664"/>
+        <location filename="../../fpwin.cpp" line="1290"/>
+        <location filename="../../fpwin.cpp" line="2542"/>
+        <location filename="../../fpwin.cpp" line="3665"/>
         <source>Encoding</source>
         <translation>Koduotė</translation>
     </message>
@@ -133,7 +133,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="516"/>
-        <location filename="../../fpwin.cpp" line="1073"/>
+        <location filename="../../fpwin.cpp" line="1074"/>
         <source>&amp;Save</source>
         <translation>Į&amp;rašyti</translation>
     </message>
@@ -597,7 +597,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="339"/>
-        <location filename="../../fpwin.cpp" line="3241"/>
+        <location filename="../../fpwin.cpp" line="3242"/>
         <location filename="../../replace.cpp" line="62"/>
         <location filename="../../replace.cpp" line="115"/>
         <source>Rep&amp;lacement</source>
@@ -786,373 +786,373 @@
         <translation>Pakeisti visus</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="548"/>
+        <location filename="../../fpwin.cpp" line="549"/>
         <source>&amp;Recently Opened</source>
         <translation>&amp;Paskiausiai atverti</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1677"/>
+        <location filename="../../fpwin.cpp" line="1678"/>
         <source>Close</source>
         <translation>Užverti</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1059"/>
+        <location filename="../../fpwin.cpp" line="1060"/>
         <source>Save changes?</source>
         <translation>Įrašyti pakeitimus?</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="784"/>
+        <location filename="../../fpwin.cpp" line="785"/>
         <source>Please attend to that window or just close its dialog!</source>
         <translation>Apsilankykite tame lange arba, tiesiog, užverkite jo dialogą!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1063"/>
+        <location filename="../../fpwin.cpp" line="1064"/>
         <source>The document has been modified.</source>
         <translation>Dokumentas buvo modifikuotas.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1074"/>
+        <location filename="../../fpwin.cpp" line="1075"/>
         <source>&amp;Discard changes</source>
         <translation>Atmesti &amp;pakeitimus</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1075"/>
+        <location filename="../../fpwin.cpp" line="1076"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Atsisakyti</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1077"/>
+        <location filename="../../fpwin.cpp" line="1078"/>
         <source>&amp;No to all</source>
         <translation>&amp;Visiems ne</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1271"/>
-        <location filename="../../fpwin.cpp" line="1328"/>
+        <location filename="../../fpwin.cpp" line="1272"/>
+        <location filename="../../fpwin.cpp" line="1329"/>
         <source>Unsaved</source>
         <translation>Neįrašytas</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1290"/>
-        <location filename="../../fpwin.cpp" line="2543"/>
-        <location filename="../../fpwin.cpp" line="2903"/>
-        <location filename="../../fpwin.cpp" line="2914"/>
-        <location filename="../../fpwin.cpp" line="2921"/>
-        <location filename="../../fpwin.cpp" line="3668"/>
-        <location filename="../../fpwin.cpp" line="5045"/>
-        <location filename="../../fpwin.cpp" line="5056"/>
-        <location filename="../../fpwin.cpp" line="5063"/>
+        <location filename="../../fpwin.cpp" line="1291"/>
+        <location filename="../../fpwin.cpp" line="2544"/>
+        <location filename="../../fpwin.cpp" line="2904"/>
+        <location filename="../../fpwin.cpp" line="2915"/>
+        <location filename="../../fpwin.cpp" line="2922"/>
+        <location filename="../../fpwin.cpp" line="3669"/>
+        <location filename="../../fpwin.cpp" line="5046"/>
+        <location filename="../../fpwin.cpp" line="5057"/>
+        <location filename="../../fpwin.cpp" line="5064"/>
         <source>Lines</source>
         <translation>Eilutės</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1291"/>
-        <location filename="../../fpwin.cpp" line="3669"/>
-        <location filename="../../fpwin.cpp" line="3683"/>
+        <location filename="../../fpwin.cpp" line="1292"/>
+        <location filename="../../fpwin.cpp" line="3670"/>
+        <location filename="../../fpwin.cpp" line="3684"/>
         <source>Sel. Chars</source>
         <translation>Paž. simbolių</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1292"/>
-        <location filename="../../fpwin.cpp" line="3671"/>
-        <location filename="../../fpwin.cpp" line="3684"/>
+        <location filename="../../fpwin.cpp" line="1293"/>
+        <location filename="../../fpwin.cpp" line="3672"/>
+        <location filename="../../fpwin.cpp" line="3685"/>
         <source>Words</source>
         <translation>Žodžiai</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1580"/>
+        <location filename="../../fpwin.cpp" line="1581"/>
         <source>Another process is running in this tab!</source>
         <translation>Šioje kortelėje yra vykdomas kitas procesas!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1668"/>
+        <location filename="../../fpwin.cpp" line="1669"/>
         <source>Script File</source>
         <translation>Scenarijaus failas</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="783"/>
+        <location filename="../../fpwin.cpp" line="784"/>
         <source>Another FeatherPad window has a modal dialog!</source>
         <translation>Kitame FeatherPad lange yra modalinis dialogas!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="668"/>
-        <location filename="../../fpwin.cpp" line="3710"/>
+        <location filename="../../fpwin.cpp" line="669"/>
+        <location filename="../../fpwin.cpp" line="3711"/>
         <source>Position:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="715"/>
-        <location filename="../../fpwin.cpp" line="3728"/>
-        <location filename="../../fpwin.cpp" line="3748"/>
+        <location filename="../../fpwin.cpp" line="716"/>
+        <location filename="../../fpwin.cpp" line="3729"/>
+        <location filename="../../fpwin.cpp" line="3749"/>
         <source>Normal</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1061"/>
-        <location filename="../../fpwin.cpp" line="2318"/>
-        <location filename="../../fpwin.cpp" line="4857"/>
+        <location filename="../../fpwin.cpp" line="1062"/>
+        <location filename="../../fpwin.cpp" line="2319"/>
+        <location filename="../../fpwin.cpp" line="4858"/>
         <source>The file does not exist.</source>
         <translation>Failo nėra.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1401"/>
+        <location filename="../../fpwin.cpp" line="1402"/>
         <source>Open Link</source>
         <translation>Atverti nuorodą</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1414"/>
+        <location filename="../../fpwin.cpp" line="1415"/>
         <source>Copy Link</source>
         <translation>Kopijuoti nuorodą</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1581"/>
+        <location filename="../../fpwin.cpp" line="1582"/>
         <source>Only one process is allowed per tab.</source>
         <translation>Kiekvienai kortelei leidžiama tik po vieną procesą.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1664"/>
+        <location filename="../../fpwin.cpp" line="1665"/>
         <source>Script Output</source>
         <translation>Scenarijaus išvestis</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1680"/>
+        <location filename="../../fpwin.cpp" line="1681"/>
         <source>Clear</source>
         <translation>Išvalyti</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2285"/>
+        <location filename="../../fpwin.cpp" line="2286"/>
         <source>FeatherPad does not open files larger than 100 MiB.</source>
         <translation>FeatherPad neatveria failų, didesnių nei 100 MiB.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2293"/>
+        <location filename="../../fpwin.cpp" line="2294"/>
         <source>Some file(s) could not be opened!</source>
         <translation>Kai kurių failų nepavyko atverti!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2294"/>
+        <location filename="../../fpwin.cpp" line="2295"/>
         <source>You may not have the permission to read.</source>
         <translation>Gali būti, kad neturite skaitymo teisių.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2304"/>
+        <location filename="../../fpwin.cpp" line="2305"/>
         <source>Uneditable file(s)!</source>
         <translation>Neredaguojami failai!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2305"/>
+        <location filename="../../fpwin.cpp" line="2306"/>
         <source>Non-text files or files with huge lines cannot be edited.</source>
         <translation>Netekstiniai failai ar failai su daug eilučių negali būti redaguojami.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2362"/>
+        <location filename="../../fpwin.cpp" line="2363"/>
         <source>A previous crash detected!</source>
         <translation>Aptikta ankstesnė strigtis!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2363"/>
+        <location filename="../../fpwin.cpp" line="2364"/>
         <source>Preferably, close all FeatherPad windows and start again!</source>
         <translation>Pageidaujama, kad užvertumėte visus FeatherPad langus ir pradėtumėte iš naujo!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2370"/>
+        <location filename="../../fpwin.cpp" line="2371"/>
         <source>Root Instance</source>
         <translation>Šaknies egzempliorius</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2441"/>
-        <location filename="../../fpwin.cpp" line="2598"/>
-        <location filename="../../fpwin.cpp" line="2625"/>
+        <location filename="../../fpwin.cpp" line="2442"/>
+        <location filename="../../fpwin.cpp" line="2599"/>
+        <location filename="../../fpwin.cpp" line="2626"/>
         <source>All Files (*)</source>
         <translation>Visi failai (*)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2446"/>
+        <location filename="../../fpwin.cpp" line="2447"/>
         <source>All Files (*);;.%1 Files (*.%1)</source>
         <translation>Visi failai (*);;.%1 failai (*.%1)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2450"/>
+        <location filename="../../fpwin.cpp" line="2451"/>
         <source>Open file...</source>
         <translation>Atverti failą...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2603"/>
+        <location filename="../../fpwin.cpp" line="2604"/>
         <source>.%1 Files (*.%1);;All Files (*)</source>
         <translation>.%1 failai (*.%1);;Visi failai (*)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2650"/>
-        <location filename="../../fpwin.cpp" line="2682"/>
+        <location filename="../../fpwin.cpp" line="2651"/>
+        <location filename="../../fpwin.cpp" line="2683"/>
         <source>Save as...</source>
         <translation>Įrašyti kaip...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2712"/>
+        <location filename="../../fpwin.cpp" line="2713"/>
         <source>Keep encoding and save as...</source>
         <translation>Išsaugoti koduotę ir įrašyti kaip...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2786"/>
+        <location filename="../../fpwin.cpp" line="2787"/>
         <source>Yes</source>
         <translation>Taip</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2787"/>
+        <location filename="../../fpwin.cpp" line="2788"/>
         <source>No</source>
         <translation>Ne</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2788"/>
+        <location filename="../../fpwin.cpp" line="2789"/>
         <source>Cancel</source>
         <translation>Atsisakyti</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2789"/>
+        <location filename="../../fpwin.cpp" line="2790"/>
         <source>Do you want to use &lt;b&gt;MS Windows&lt;/b&gt; end-of-lines?</source>
         <translation>Ar norite naudoti &lt;b&gt;MS Windows&lt;/b&gt; eilučių pabaigas?</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2790"/>
+        <location filename="../../fpwin.cpp" line="2791"/>
         <source>This may be good for readability under MS Windows.</source>
         <translation>Tai gali praversti skaitomumui, naudojant MS Windows.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2937"/>
+        <location filename="../../fpwin.cpp" line="2938"/>
         <source>Cannot be saved!</source>
         <translation>Nepavyksta įrašyti!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="399"/>
-        <location filename="../../fpwin.cpp" line="3141"/>
-        <location filename="../../fpwin.cpp" line="5241"/>
+        <location filename="../../fpwin.cpp" line="400"/>
+        <location filename="../../fpwin.cpp" line="3142"/>
+        <location filename="../../fpwin.cpp" line="5242"/>
         <source>Help</source>
         <translation>Žinynas</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2899"/>
-        <location filename="../../fpwin.cpp" line="2905"/>
-        <location filename="../../fpwin.cpp" line="2913"/>
-        <location filename="../../fpwin.cpp" line="3667"/>
-        <location filename="../../fpwin.cpp" line="5041"/>
-        <location filename="../../fpwin.cpp" line="5047"/>
-        <location filename="../../fpwin.cpp" line="5055"/>
+        <location filename="../../fpwin.cpp" line="2900"/>
+        <location filename="../../fpwin.cpp" line="2906"/>
+        <location filename="../../fpwin.cpp" line="2914"/>
+        <location filename="../../fpwin.cpp" line="3668"/>
+        <location filename="../../fpwin.cpp" line="5042"/>
+        <location filename="../../fpwin.cpp" line="5048"/>
+        <location filename="../../fpwin.cpp" line="5056"/>
         <source>Syntax</source>
         <translation>Sintaksė</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2284"/>
+        <location filename="../../fpwin.cpp" line="2285"/>
         <source>Huge file(s) not opened!</source>
         <translation>Didžiulis failas(-ai) neatverti!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3153"/>
-        <location filename="../../fpwin.cpp" line="3340"/>
+        <location filename="../../fpwin.cpp" line="3154"/>
+        <location filename="../../fpwin.cpp" line="3341"/>
         <source>This file has been modified elsewhere or in another way!</source>
         <translation>Šis failas buvo modifikuotas kitur arba kitokiu būdu!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3154"/>
-        <location filename="../../fpwin.cpp" line="3341"/>
+        <location filename="../../fpwin.cpp" line="3155"/>
+        <location filename="../../fpwin.cpp" line="3342"/>
         <source>Please be careful about reloading or saving this document!</source>
         <translation>Elkitės atsargiai įkeldami šį dokumentą iš naujo ar jį įrašydami!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3854"/>
+        <location filename="../../fpwin.cpp" line="3855"/>
         <source>Print Document</source>
         <translation>Spausdinti dokumentą</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4448"/>
-        <location filename="../../fpwin.cpp" line="4516"/>
+        <location filename="../../fpwin.cpp" line="4449"/>
+        <location filename="../../fpwin.cpp" line="4517"/>
         <source>%1 Pages</source>
         <translation>%1 puslapiai</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4474"/>
-        <location filename="../../fpwin.cpp" line="4544"/>
+        <location filename="../../fpwin.cpp" line="4475"/>
+        <location filename="../../fpwin.cpp" line="4545"/>
         <source>Copy Target Path</source>
         <translation>Kopijuoti paskirties kelią</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4478"/>
-        <location filename="../../fpwin.cpp" line="4548"/>
+        <location filename="../../fpwin.cpp" line="4479"/>
+        <location filename="../../fpwin.cpp" line="4549"/>
         <source>Open Target Here</source>
         <translation>Atverti paskirtį čia</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4666"/>
+        <location filename="../../fpwin.cpp" line="4667"/>
         <source>You need to add a Hunspell dictionary.</source>
         <translation>Turite pridėti Hunspell žodyną.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4667"/>
-        <location filename="../../fpwin.cpp" line="4673"/>
-        <location filename="../../fpwin.cpp" line="4682"/>
+        <location filename="../../fpwin.cpp" line="4668"/>
+        <location filename="../../fpwin.cpp" line="4674"/>
+        <location filename="../../fpwin.cpp" line="4683"/>
         <source>See Preferences → Text → Spell Checking!</source>
         <translation>Žiūrėkite Nuostatos → Tekstas → Rašybos tikrinimas!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4672"/>
+        <location filename="../../fpwin.cpp" line="4673"/>
         <source>The Hunspell dictionary does not exist.</source>
         <translation>Hunspell žodyno nėra.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4681"/>
+        <location filename="../../fpwin.cpp" line="4682"/>
         <source>The Hunspell dictionary is not accompanied by an affix file.</source>
         <translation>Hunspell žodynas nėra lydimas pridedamo failo.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4703"/>
-        <location filename="../../fpwin.cpp" line="4721"/>
-        <location filename="../../fpwin.cpp" line="4736"/>
+        <location filename="../../fpwin.cpp" line="4704"/>
+        <location filename="../../fpwin.cpp" line="4722"/>
+        <location filename="../../fpwin.cpp" line="4737"/>
         <source>No misspelling in document.</source>
         <translation>Dokumente nėra rašymo su klaidomis.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4705"/>
-        <location filename="../../fpwin.cpp" line="4723"/>
-        <location filename="../../fpwin.cpp" line="4738"/>
+        <location filename="../../fpwin.cpp" line="4706"/>
+        <location filename="../../fpwin.cpp" line="4724"/>
+        <location filename="../../fpwin.cpp" line="4739"/>
         <source>No misspelling from text cursor.</source>
         <translation>Pradedant nuo teksto žymeklio nėra rašymo su klaidomis.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4750"/>
+        <location filename="../../fpwin.cpp" line="4751"/>
         <source>Spell Checking</source>
         <translation>Rašybos tikrinimas</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5079"/>
+        <location filename="../../fpwin.cpp" line="5080"/>
         <source>Some files cannot be saved!</source>
         <translation>Kai kurių failų nepavyksta įrašyti!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5122"/>
+        <location filename="../../fpwin.cpp" line="5123"/>
         <source>Translators</source>
         <translation>Vertėjai</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5118"/>
+        <location filename="../../fpwin.cpp" line="5119"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translation>Supaprastintas, palaikantis korteles, grynųjų tekstų redaktorius</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5119"/>
+        <location filename="../../fpwin.cpp" line="5120"/>
         <source>based on Qt5</source>
         <translation>pagrįstas Qt5</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5120"/>
+        <location filename="../../fpwin.cpp" line="5121"/>
         <source>Author</source>
         <translation>Autorius</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5121"/>
+        <location filename="../../fpwin.cpp" line="5122"/>
         <source>aka.</source>
         <translation>dar žinomas kaip</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5122"/>
         <location filename="../../fpwin.cpp" line="5123"/>
+        <location filename="../../fpwin.cpp" line="5124"/>
         <source>About FeatherPad</source>
         <translation>Apie FeatherPad</translation>
     </message>

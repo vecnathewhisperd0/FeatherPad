@@ -140,6 +140,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     /* exceptions */
     defaultShortcuts_.insert (ui->actionSaveAllFiles, QKeySequence());
     defaultShortcuts_.insert (ui->actionUserDict, QKeySequence());
+    defaultShortcuts_.insert (ui->actionFont, QKeySequence());
 
     applyConfigOnStarting();
 
