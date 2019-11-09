@@ -23,7 +23,7 @@
         <location filename="../../fpwin.cpp" line="3144"/>
         <location filename="../../fpwin.cpp" line="3844"/>
         <source>Untitled</source>
-        <translation>بدون عنوان</translation>
+        <translation>بی‌نام</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="71"/>
@@ -201,7 +201,7 @@
     <message>
         <location filename="../../fp.ui" line="583"/>
         <source>Show/hide replacement dock</source>
-        <translation>آشکار/پنهان کردن قسمت جایگزین</translation>
+        <translation>آشکار/پنهان کردن قسمت جایگزینی</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="586"/>
@@ -321,7 +321,7 @@
     <message>
         <location filename="../../fp.ui" line="699"/>
         <source>&amp;Wrap Lines</source>
-        <translation>چسباندن خطوط</translation>
+        <translation>قالب‌بندی خطوط</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="702"/>
@@ -341,7 +341,7 @@
     <message>
         <location filename="../../fp.ui" line="727"/>
         <source>&amp;Syntax Highlighting</source>
-        <translation>رنگ‌آمیری کد</translation>
+        <translation>رنگ‌آمیری نگارش</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="730"/>
@@ -768,7 +768,7 @@
         <source>Calculate number of words
 (For huge texts, this may be CPU-intensive.)</source>
         <translation>محاسبه تعداد واژگان
-(برای متن بزرگ، این عملیات سنگین خواهد بود.)</translation>
+(برای متنهای بزرگ، این عملیات سنگین خواهد بود.)</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="115"/>
@@ -803,7 +803,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="785"/>
         <source>Please attend to that window or just close its dialog!</source>
-        <translation>لطفا به آن پنجره مراجعه کرده یا دیالوگ آن را ببندید!</translation>
+        <translation>لطفا به آن پنجره رجوع کنيد یا دیالوگ آن را ببندید!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1064"/>
@@ -931,7 +931,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="2295"/>
         <source>You may not have the permission to read.</source>
-        <translation>ممکن است مجوز خواندن را نداشته باشید.</translation>
+        <translation>شايد مجوز خواندن نداشته باشید.</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2305"/>
@@ -951,7 +951,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="2364"/>
         <source>Preferably, close all FeatherPad windows and start again!</source>
-        <translation>همه پنجره‌های FeatherPad را بسته و دوباره آغاز کنید!</translation>
+        <translation>ترجيحا همه پنجره‌های FeatherPad را ببنديد و دوباره آغاز کنید!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2371"/>
@@ -994,12 +994,12 @@
     <message>
         <location filename="../../fpwin.cpp" line="2787"/>
         <source>Yes</source>
-        <translation>بله</translation>
+        <translation>آری</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2788"/>
         <source>No</source>
-        <translation>خیر</translation>
+        <translation>نه</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2789"/>
@@ -1014,7 +1014,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="2791"/>
         <source>This may be good for readability under MS Windows.</source>
-        <translation>اینکار می‌تواند به خوانایی بیشتر در سمت ویندوز کمک کند.</translation>
+        <translation>این کار می‌تواند به خوانایی بیشتر تحت ویندوز کمک کند.</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2938"/>
@@ -1042,7 +1042,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="2285"/>
         <source>Huge file(s) not opened!</source>
-        <translation>فایل(های) بزرگ باز نشدند!</translation>
+        <translation>فایل(های) بسياربزرگ باز نشد!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="3154"/>
@@ -1106,14 +1106,14 @@
         <location filename="../../fpwin.cpp" line="4722"/>
         <location filename="../../fpwin.cpp" line="4737"/>
         <source>No misspelling in document.</source>
-        <translation>تلفظ اشتباه در سند وجود ندارد.</translation>
+        <translation>تلفظ اشتباهی در سند وجود ندارد.</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="4706"/>
         <location filename="../../fpwin.cpp" line="4724"/>
         <location filename="../../fpwin.cpp" line="4739"/>
         <source>No misspelling from text cursor.</source>
-        <translation>تلفظ اشتباه از نشانگر متنی وجود ندارد.</translation>
+        <translation>تلفظ اشتباهی با شروع از نشانگر متنی وجود ندارد.</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="4751"/>
@@ -1123,7 +1123,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="5080"/>
         <source>Some files cannot be saved!</source>
-        <translation>برخی فایل‌ها قابل ذخیره‌سازی نیستند!</translation>
+        <translation>برخی از فایل‌ها قابل ذخیره‌سازی نیستند!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="5123"/>
@@ -1176,7 +1176,7 @@
     <message>
         <location filename="../../syntax.cpp" line="274"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
-        <translation>محدودیت اندازه برای رنگ‌آمیزی نگارش تجاوز کرده است.</translation>
+        <translation>فراتر از محدودیت اندازه برای رنگ‌آمیزی نگارش.</translation>
     </message>
 </context>
 <context>
@@ -1250,7 +1250,7 @@
     <message>
         <location filename="../../fontDialog.ui" line="149"/>
         <source>Preview</source>
-        <translation>پیش نمایش</translation>
+        <translation>پیش‌نمایش</translation>
     </message>
 </context>
 <context>
@@ -1311,7 +1311,7 @@
         <location filename="../../predDialog.ui" line="148"/>
         <source>Enforcing a window position is not recommended
 and may not work with some window managers.</source>
-        <translation>اجبار در موقعیت دستی پنجره توصیه نمی‌شود
+        <translation>تعيين موقعیت پنجره توصیه نمی‌شود
 و ممکن است با برخی مدیر پنجره‌ها سازگار نباشد.</translation>
     </message>
     <message>
@@ -1324,12 +1324,12 @@ and may not work with some window managers.</source>
         <source>Most suitable with sessions
 but without tab functionality.</source>
         <translation>بیشتر با نشست‌ها سازگار است
-اما بدون عملکرد برگه.</translation>
+اما از مزيت برگه‌بندی برخوردار نيست.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="188"/>
         <source>Uncheck for 1/5 of the width.</source>
-        <translation>برای یک پنجم عرض برداشته شود.</translation>
+        <translation>پيشفرض یک پنجم عرض است.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="191"/>
@@ -1362,7 +1362,7 @@ a menu button appears on the toolbar.</source>
         <location filename="../../predDialog.ui" line="225"/>
         <source>By default, each search entry
 has a separate search history.</source>
-        <translation>به صورت پیشفرض، هر عبارت جستجو،
+        <translation>به صورت پیشفرض، هر نوار جستجو،
 یک تاریخچه مختص به خود دارد.</translation>
     </message>
     <message>
@@ -1417,14 +1417,15 @@ has a separate search history.</source>
 after the last tab is activated, and the same for Alt+Left.
 
 Tab navigation with mouse wheel is not affected.</source>
-        <translation>به این معنی که، در زبان چپ به راست، Alt+Right به برگه اول پس از فعالسازی آخرین برگه می‌رود.
-همینکار برای Alt+Left تکرار می‌شود.
+        <translation>به این معنی که، در زبانهای چپ به راست، Alt+Right پس از فعالسازی آخرین برگه،
+به برگه اول می‌رود، و همينگونه برای Alt+Left.
+
 پیمایش برگه با ماوس تغییری نمی‌یابد.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="333"/>
         <source>Tab navigation wraps &amp;around</source>
-        <translation>پیمایش پیرامون برگه</translation>
+        <translation>پیمایش برگه‌ها به طرز دوری</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="353"/>
@@ -1438,9 +1439,10 @@ current desktop, files will be opened in its tabs.
 
 However, some desktop environments may not
 report that they have multiple desktops.</source>
-        <translation>به صورت پیشفرض، اگر پنجره‌ای از FeatherPad روی میزکار موجود باشد،
-فایل‌ها در این برگه باز خواهند شد.
-اگرچه، برخی میزکارها گزارش نمی‌دهند که شامل چندین میزکار هستند.</translation>
+        <translation>به صورت پیشفرض، اگر پنجره‌ای از FeatherPad روی میزکار باشد،
+فایل‌ها در برگه‌های آن باز خواهند شد.
+
+با اين حال برخی از محيطها گزارش نمی‌دهند که شامل چندین میزکار هستند.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="367"/>
@@ -1459,7 +1461,7 @@ Some desktop environments, like KDE and LXQt, provide files dialogs.</source>
     <message>
         <location filename="../../predDialog.ui" line="380"/>
         <source>Native file dialog</source>
-        <translation>دیالوگ فایل بومی</translation>
+        <translation>دیالوگ بومی فایل</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="456"/>
@@ -1486,7 +1488,7 @@ Some desktop environments, like KDE and LXQt, provide files dialogs.</source>
         <source>By default, a triple period is replaced with an ellipsis
 and a double hyphen with a long dash while typing,
 under proper circumstances.</source>
-        <translation>به صورت پیشفرض، یک سه نقطه با یک ellipsis و یک دو خط تیره با یک خط تیره بلند جایگزین می‌شود.</translation>
+        <translation>به صورت پیشفرض، هز سه نقطه با یک ellipsis و هر دو خط تیره با یک خط تیره بلند جایگزین می‌شود.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="495"/>
@@ -1496,7 +1498,7 @@ under proper circumstances.</source>
     <message>
         <location filename="../../predDialog.ui" line="565"/>
         <source>Never highlight syntax for files &gt; </source>
-        <translation>برای این فایل‌ها رنگ‌آمیزی صورت نگیرد &gt; </translation>
+        <translation>برای این فایل‌ها رنگ‌آمیزی نگارش صورت نگیرد &gt; </translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="534"/>
@@ -1507,25 +1509,25 @@ status bar for changing the syntax.</source>
     <message>
         <location filename="../../predDialog.ui" line="538"/>
         <source>Support syntax override</source>
-        <translation>پشتیبانی از بازنویسی نگارش</translation>
+        <translation>امکان بازنویسی نگارش</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="603"/>
         <source>Show spaces, tabs and tab lines
 when the syntax is highlighted.</source>
-        <translation>هنگام رنگ‌آمیزی نگارش، فاصله و تب و خطوط آن نمایش یابند.</translation>
+        <translation>هنگام رنگ‌آمیزی نگارش، فاصله، تب و خطوط تب نمایش داده شوند.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="607"/>
         <source>Show whitespaces</source>
-        <translation>نمایش فضای خالی</translation>
+        <translation>نمایش فضاهای خالی</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="623"/>
         <location filename="../../predDialog.ui" line="634"/>
         <source>The vertical position lines will be drawn only if
 the editor font has a fixed pitch (like Monospace).</source>
-        <translation>خطوط موقعیت عمومی فقط هنگام ثابت بودن اندازه قلم ویرایشگر رسم خواهند شد (مانند Monospace).</translation>
+        <translation>خطوط عمودی موقعیت فقط در صورت ثابت بودن عرض قلم ویرایشگر رسم خواهند شد (مانند Monospace).</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="627"/>
@@ -1546,7 +1548,7 @@ the editor font has a fixed pitch (like Monospace).</source>
         <location filename="../../predDialog.ui" line="823"/>
         <source>Some text editors cannot open a document
 whose last line is not empty.</source>
-        <translation>برخی ویرایشگر‌های متن نمی‌توانند سندی که انتهای آن خط خالی نباشد را باز کنند.</translation>
+        <translation>برخی از ویرایشگر‌های متن نمی‌توانند سندی را که انتهای آن خط خالی نباشد باز کنند.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="827"/>
@@ -1556,7 +1558,7 @@ whose last line is not empty.</source>
     <message>
         <location filename="../../predDialog.ui" line="834"/>
         <source>Remove trailing spaces on saving</source>
-        <translation>حذف فاصله‌های اضافی هنگام ذخیره‌سازی</translation>
+        <translation>حذف فاصله‌های اضافی انتهايی هنگام ذخیره‌سازی</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="852"/>
@@ -1591,8 +1593,10 @@ will be executed directly.
 If the script is not run in a terminal
 emulator, the output and error messages
 will be shown by a popup dialog.</source>
-        <translation>این می‌تواند شامل هر دستوری با آرگومان مانند &quot;xterm -hold&quot; باشد، که فرآیند را در XTerm اجرا می‌کند.
-اگر دستور خالی باشد، فایل به صورت مستقیم اجرار خواهد شد.
+        <translation>این می‌تواند هر دستوری همراه با شناسه باشد، مانند &quot;xterm -hold&quot; که فرآیند را در XTerm اجرا می‌کند.
+
+اگر دستور خالی باشد، فایل به صورت مستقیم اجرا خواهد شد.
+
 اگر اسکریپت در یک محیط ترمینال اجرا نشود، خروجی و خطای آن درون یک دیالوگ محاوره‌ای نمایش می‌یابند.</translation>
     </message>
     <message>
@@ -1603,7 +1607,7 @@ will be shown by a popup dialog.</source>
     <message>
         <location filename="../../predDialog.ui" line="1148"/>
         <source>Command + Arguments</source>
-        <translation>دستور + آرگومان‌ها</translation>
+        <translation>دستور + شناسه‌ها</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="1033"/>
@@ -1628,7 +1632,7 @@ will be shown by a popup dialog.</source>
     <message>
         <location filename="../../predDialog.ui" line="163"/>
         <source>Start with side-pane mode</source>
-        <translation>شروع با حالت صفحه کناری</translation>
+        <translation>شروع با صفحه کناری</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="340"/>
@@ -1636,12 +1640,13 @@ will be shown by a popup dialog.</source>
 tooltip and context menu of a single tab but you could not
 merge a single tabbed window into another one by tab drag-
 and-drop either.</source>
-        <translation>اگر انتخاب شود، نه تنها اطلاعات راهنما و منوی زمینه‌ای برای یک برگه را از دست می‌دهید،‌ بلکه دیگر نمی‌توانید یک پنجره را درون پنجره‌ای دیگر ادغام کنید.</translation>
+        <translation>اگر انتخاب شود، نه تنها اطلاعات راهنما و منوی زمینه‌ای برگه را از دست می‌دهید،
+ بلکه دیگر نمی‌توانید پنجره را به درون پنجره‌ای دیگر ادغام کنید.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="346"/>
         <source>&amp;Do not show a single tab</source>
-        <translation>عدم نمایش برگه واحد</translation>
+        <translation>عدم نمایش برگه تنها</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="411"/>
@@ -1710,7 +1715,10 @@ the Run button, that appears on the toolbar/filemenu
 when needed, or by its shortcut Ctrl+E. Then, the
 process could be killed by Ctrl+Alt+E.</source>
         <translation>این فقط شامل فایل‌های اجرایی به زبان‌های اسکریپتی مانند Shell یا Python می‌شود.
-اگر انتخاب شود و فایل باز شده اجرایی باشد، فایل با کلیک روی دکمه Run اجرا می‌شود، که در نوارابزار/منوی فایل یا کلید میانبر Ctrl+E قرار دارد. سپس، فرآیند می‌تواند توسط Ctrl+Alt+E نابود شود.</translation>
+
+اگر انتخاب شود و فایل باز شده اجرایی باشد، فایل با کلیک روی دکمه Run اجرا می‌شود،
+که در نوارابزار و منوی فایل قرار دارد. همچنين می‌توان کلید میانبر Ctrl+E را به کار برذ.
+سپس، می‌توان فرآیند را توسط Ctrl+Alt+E نابود کرد.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="666"/>
@@ -1745,7 +1753,9 @@ opened files FeatherPad shows. The default
 is 10.
 
 Needs application restart to take effect.</source>
-        <translation>حداکثر تعداد فایل‌های تغییریافته یا بازشده که FeatherPad نمایش می‌دهد. مقدار پیشفرض ۱۰ است.
+        <translation>حداکثر تعداد فایل‌های تغییریافته یا بازشده
+که FeatherPad نمایش می‌دهد. مقدار پیشفرض ۱۰ است
+.
 نیازمند شروع مجدد برنامه است.</translation>
     </message>
     <message>
@@ -1758,7 +1768,9 @@ Takes effect after closing this dialog.
 Leave empty for:
 MMM dd, yyyy, hh:mm:ss</source>
         <translation>برای چسباندن تاریخ و زمان بکار می‌رود.
+
 پس از بستن این دیالوگ اثر می‌کند.
+
 برای MMM dd, yyyy, hh:mm:ss خالی بگذارید</translation>
     </message>
     <message>
@@ -1857,7 +1869,7 @@ trailing spaces of a text file.</source>
     <message>
         <location filename="../../predDialog.ui" line="1218"/>
         <source>Show a warning instead.</source>
-        <translation>یک هشدار در عوض نمایش یابد.</translation>
+        <translation>همراه با نمايش یک هشدار.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="1221"/>
@@ -1910,7 +1922,7 @@ trailing spaces of a text file.</source>
         <location filename="../../pref.cpp" line="332"/>
         <location filename="../../pref.cpp" line="1283"/>
         <source>Warning: Ambiguous shortcut detected!</source>
-        <translation>هشدار: میانبری مبهم شناخته شد!</translation>
+        <translation>هشدار: میانبری مبهم تشخيض داده شد!</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="455"/>
@@ -1935,7 +1947,7 @@ trailing spaces of a text file.</source>
     <message>
         <location filename="../../pref.cpp" line="1266"/>
         <source>The typed shortcut was reserved.</source>
-        <translation>میانبر نوشته شده در حالت رزرو قرار دارد.</translation>
+        <translation>اين میانبر برای کار ديگری کنار گذاشته شده است.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="1470"/>
@@ -1987,7 +1999,7 @@ trailing spaces of a text file.</source>
     <message>
         <location filename="../../sessionDialog.ui" line="14"/>
         <source>Session Manager</source>
-        <translation>مدیر نشست</translation>
+        <translation>مدیر نشست‌ها</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="101"/>
@@ -2032,7 +2044,7 @@ trailing spaces of a text file.</source>
         <location filename="../../sessionDialog.ui" line="159"/>
         <source>By default, all files that are opened in all
 windows will be included in the saved session.</source>
-        <translation>به صورت پیشفرض، همه فایل‌های باز در تمام پنجره‌ها درون نشست قرار می‌گیرند.</translation>
+        <translation>به صورت پیشفرض، همه فایل‌های باز در همه پنجره‌ها به نشست اضافه می‌شوند.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="163"/>
@@ -2048,12 +2060,12 @@ windows will be included in the saved session.</source>
         <location filename="../../sessionDialog.ui" line="226"/>
         <location filename="../../session.cpp" line="330"/>
         <source>&amp;Yes</source>
-        <translation>بله</translation>
+        <translation>آری</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="233"/>
         <source>&amp;No</source>
-        <translation>خیر</translation>
+        <translation>نه</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="283"/>
@@ -2073,7 +2085,7 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../sessionDialog.ui" line="135"/>
         <source>Save the current session under the given title.</source>
-        <translation>نشست جاری تحت عنوان مشخص ذخیره‌سازی گردد.</translation>
+        <translation>نشست جاری تحت عنوان مشخص‌شده ذخیره گردد.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="138"/>
@@ -2083,7 +2095,7 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../sessionDialog.ui" line="149"/>
         <source>Type a name to save session</source>
-        <translation>برای ذخیره‌سازی نشست نامی وارد کنید</translation>
+        <translation>برای ذخیره‌سازی نشست نامی را وارد کنید</translation>
     </message>
     <message>
         <location filename="../../session.cpp" line="174"/>
@@ -2177,7 +2189,7 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../textedit.cpp" line="138"/>
         <source>Double click to center current line</source>
-        <translation>دوبار کلیک برای وسط چین کردن خط جاری</translation>
+        <translation>کلیک دوگانه برای نشان دادن خط جاری</translation>
     </message>
 </context>
 <context>
