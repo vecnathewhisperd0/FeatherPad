@@ -18,6 +18,7 @@ V0.12.0
  * Better JS syntax highlighting.
  * Added a menu item to open the user dictionary.
  * Never let the active tab get focus.
+ * Fixed YAML literal block indentation.
 
 V0.11.1
 ---------

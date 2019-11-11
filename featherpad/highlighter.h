@@ -182,6 +182,7 @@ private:
                          const QRegularExpression &startExp, const QRegularExpression &endExp,
                          int oldOpenNests, bool oldProperty,
                          bool setData);
+    void yamlLiteralBlock(const QString &text);
 
     bool isFountainLineBlank (const QTextBlock &block);
     void highlightFountainBlock (const QString &text);

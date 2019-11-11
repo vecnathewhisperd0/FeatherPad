@@ -783,20 +783,20 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     }
     else if (progLan == "yaml")
     {
-        rule.pattern.setPattern ("#.*");
+        rule.pattern.setPattern ("(?<=^|\\s)#.*");
         rule.format = commentFormat;
         highlightingRules.append (rule);
 
         QTextCharFormat yamlFormat;
 
-        /* keys */
-        // NOTE: This is the first time I use \K with Qt and it seems to work well.
+        /* keys (WARNING: A key shouldn't start with a quote but can contain quotes.) */
         yamlFormat.setForeground (Blue);
-        rule.pattern.setPattern ("[^:,#]*:(\\s+|$)");
+        rule.pattern.setPattern ("\\s*[^\\s\"\'#][^:,#]*:(\\s+|$)");
         rule.format = yamlFormat;
         highlightingRules.append (rule);
 
         /* values */
+        // NOTE: This is the first time I use \K with Qt and it seems to work well.
         yamlFormat.setForeground (Violet);
         rule.pattern.setPattern ("[^:#]*:\\s+\\K[^#]+");
         rule.format = yamlFormat;
@@ -822,10 +822,10 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = yamlFormat;
         highlightingRules.append (rule);
 
-        /* | and > */
+        /* the start of a literal block (-> yamlLiteralBlock()) */
         codeBlockFormat.setForeground (DarkMagenta);
         codeBlockFormat.setFontWeight (QFont::Bold);
-        rule.pattern.setPattern (".*\\s+\\K(\\||>)\\s*$");
+        rule.pattern.setPattern ("^[^#]*\\s+\\K(\\||>)-?\\s*$");
         rule.format = codeBlockFormat;
         highlightingRules.append (rule);
 
@@ -1281,14 +1281,15 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
     {
         if (isStartQuote)
         {
-            if (format (pos) == codeBlockFormat) // inside a block
+            if (format (pos) == codeBlockFormat) // inside a literal block
                 return true;
-            /* skip the start quote if it's inside a key or value */
+            /* Skip the start quote if it's inside a key or value.
+               WARNING: A key shouldn't start with a quote but can contain quotes. */
             QRegularExpressionMatch match;
             if (format (pos) == neutralFormat)
             { // inside preformatted braces, when multiLineQuote() is called (not needed; repeated below)
-                int index = text.lastIndexOf (QRegularExpression ("(^|{|,|\\[)\\s*\\K[^:,#]*:\\s+"), pos, &match);
-                if (index > -1 && index < pos && index + match.capturedLength() > pos)
+                int index = text.lastIndexOf (QRegularExpression ("(^|{|,|\\[)\\s*[^\\s\"\'{\\[,#]\\K[^:,#]*:\\s+"), pos, &match);
+                if (index > -1 && index <= pos && index + match.capturedLength() > pos)
                     return true;
                 index = text.lastIndexOf (QRegularExpression ("(^|{|,|\\[)[^:#]*:\\s+\\K[^{\\[,#\\s][^,#]*"), pos, &match);
                 if (index > -1 && index < pos && index + match.capturedLength() > pos)
@@ -1297,14 +1298,14 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
             else
             {
                 /* inside braces before preformatting (indirectly used by yamlOpenBraces()) */
-                int index = text.lastIndexOf (QRegularExpression ("(^|{|,|\\[)\\s*\\K[^:,#]*:\\s+"), pos, &match);
-                if (index > -1 && index < pos && index + match.capturedLength() > pos)
+                int index = text.lastIndexOf (QRegularExpression ("(^|{|,|\\[)\\s*[^\\s\"\'{\\[,#]\\K[^:,#]*:\\s+"), pos, &match);
+                if (index > -1 && index <= pos && index + match.capturedLength() > pos)
                     return true;
                 index = text.lastIndexOf (QRegularExpression ("(^|{|,|\\[)[^:#]*:\\s+\\K[^{\\[,#\\s][^,#]*"), pos, &match);
                 if (index > -1 && index < pos && index + match.capturedLength() > pos)
                     return true;
                 /* outside braces */
-                index = text.lastIndexOf (QRegularExpression ("^[^:#]*:\\s+"), pos, &match);
+                index = text.lastIndexOf (QRegularExpression ("^\\s*[^\\s\"\'{\\[,#][^:#]*:\\s+"), pos, &match);
                 if (index > -1 && index < pos && index + match.capturedLength() > pos)
                     return true;
                 index = text.lastIndexOf (QRegularExpression ("^[^:#]*:\\s+\\K[^\\[\\s#].*"), pos, &match);
@@ -2329,7 +2330,7 @@ void Highlighter::multiLineComment (const QString &text,
         }
 
         /* if there's a comment end ... */
-        if (/*!hugeText && */endIndex >= 0 && progLan != "xml" && progLan != "yaml")
+        if (/*!hugeText && */endIndex >= 0 && progLan != "xml")
         {
             /* ... clear the comment format from there to reformat later as
                a single-line comment sign may have been commented out now */
@@ -3554,7 +3555,7 @@ static inline bool isYamlBraceEscaped (const QString &text, const QRegularExpres
     if (text.lastIndexOf (QRegularExpression ("(^|{|,|\\[)?[^:#]*:\\s+[^{\\[,#\\s]+\\s*\\K" + start.pattern()), pos) == pos) // inside value
         return true;
     QRegularExpressionMatch match;
-    int indx = text.lastIndexOf (QRegularExpression ("[^:#\\s]+\\s*" + start.pattern() + "[^:#]*:\\s+"), pos, &match);
+    int indx = text.lastIndexOf (QRegularExpression ("[^:#\\s{\\[]+\\s*" + start.pattern() + "[^:#]*:\\s+"), pos, &match);
     if (indx > -1 && indx < pos && indx + match.capturedLength() > pos) // inside key
         return true;
     return false;
@@ -3641,6 +3642,52 @@ bool Highlighter::yamlOpenBraces (const QString &text,
         return (openNests != oldOpenNests || property != oldProperty);
     }
     return false; // don't update the next line if no data is set
+}
+/*************************/
+void Highlighter::yamlLiteralBlock (const QString &text)
+{
+    /* each line of a literal block contains the info on the block's indentation
+       as a whitespace string prefixed by "i" */
+    TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData());
+    if (data == nullptr) return; // impossible
+    QString oldIndent;
+    QTextBlock prevBlock = currentBlock().previous();
+    if (prevBlock.isValid())
+    {
+        if (TextBlockData *prevData = static_cast<TextBlockData *>(prevBlock.userData()))
+        {
+            oldIndent = prevData->labelInfo();
+            if (!oldIndent.startsWith ("i"))
+                oldIndent = QString();
+        }
+    }
+
+    QRegularExpressionMatch match;
+    if (previousBlockState() == codeBlockState) // the literal block may continue
+    {
+        text.indexOf (QRegularExpression ("^\\s*"), 0, &match);
+        QString startingSpaces = "i" + match.captured();
+        if (text == match.captured() // only whitespaces...
+            /* ... or the indentation is wider than that of the literal block */
+            || (startingSpaces != oldIndent
+                && (oldIndent.isEmpty() || startingSpaces.startsWith (oldIndent))))
+        {
+            setFormat (0, text.length(), codeBlockFormat);
+            setCurrentBlockState (codeBlockState);
+            data->insertInfo (oldIndent);
+            return;
+        }
+    }
+
+    QRegularExpression blockStartExp ("^[^#]*\\s+\\K(\\||>)-?\\s*$");
+    int index = text.indexOf (blockStartExp, 0, &match);
+    if (index >= 0)
+    {
+        setCurrentBlockState (codeBlockState);
+        setFormat (index, text.length() - index, codeBlockFormat);
+        text.indexOf (QRegularExpression ("^\\s*"), 0, &match);
+        data->insertInfo ("i" + match.captured());
+    }
 }
 /*************************/
 // Completely commented lines are considered blank.
@@ -3974,7 +4021,7 @@ void Highlighter::highlightBlock (const QString &text)
     bool rehighlightNextBlock = false;
     int oldOpenNests = 0; QSet<int> oldOpenQuotes; // to be used in SH_CmndSubstVar() (and perl)
     bool oldProperty = false; // to be used with yaml
-    QString oldLabel; // to be used with perl
+    QString oldLabel; // to be used with perl and yaml
     if (TextBlockData *oldData = static_cast<TextBlockData *>(currentBlockUserData()))
     {
         oldOpenNests = oldData->openNests();
@@ -4144,7 +4191,11 @@ void Highlighter::highlightBlock (const QString &text)
                 data->setProperty (false);
             }
             if (data->openNests() == 0)
-                multiLineComment (text, 0, -1, QRegularExpression (".*\\s+\\K(\\||>)\\s*$"), QRegularExpression ("^(?=\\S)"), codeBlockState, codeBlockFormat);
+            {
+                yamlLiteralBlock (text);
+                QString newIndent = data->labelInfo();
+                rehighlightNextBlock |= (!oldLabel.isEmpty() && !newIndent.isEmpty() && oldLabel != newIndent);
+            }
 
             rehighlightNextBlock |= multiLineQuote (text);
         }
@@ -4156,9 +4207,8 @@ void Highlighter::highlightBlock (const QString &text)
             for (const HighlightingRule &rule : qAsConst (highlightingRules))
             {
                 if (rule.format != whiteSpaceFormat
-                    && previousBlockState() == codeBlockState
-                    && text.indexOf (QRegularExpression ("^(?=\\S)")) != 0)
-                { // a block
+                    && format (0) == codeBlockFormat) // a literal block
+                {
                     continue;
                 }
                 if (rule.format == commentFormat)
