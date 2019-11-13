@@ -789,7 +789,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
         QTextCharFormat yamlFormat;
 
-        /* keys (WARNING: A key shouldn't start with a quote but can contain quotes.) */
+        /* keys (a key shouldn't start with a quote but can contain quotes) */
         yamlFormat.setForeground (Blue);
         rule.pattern.setPattern ("\\s*[^\\s\"\'#][^:,#]*:(\\s+|$)");
         rule.format = yamlFormat;
@@ -1267,6 +1267,22 @@ bool Highlighter::isEscapedChar (const QString &text, const int pos) const
     return false;
 }
 /*************************/
+static inline bool quoteIsInsideYamlKey (const QString &str, int indx)
+{ // FIXME: This doesn't cover successive quotes.
+    if (indx > 0 && indx < str.length())
+    {
+        while (indx > 0 && str.at (indx - 1).isSpace())
+            --indx;
+        if (indx > 0)
+        {
+            QChar c = str.at (indx - 1);
+            if (c != '\"' && c != '\'')
+                return true;
+        }
+    }
+    return false;
+}
+
 // Check if a start or end quotation mark (positioned at "pos") is escaped.
 // If "skipCommandSign" is true (only for SH), start double quotes are escaped before "$(".
 bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isStartQuote,
@@ -1283,14 +1299,16 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
         {
             if (format (pos) == codeBlockFormat) // inside a literal block
                 return true;
-            /* Skip the start quote if it's inside a key or value.
-               WARNING: A key shouldn't start with a quote but can contain quotes. */
+            /* skip the start quote if it's inside a key or value */
             QRegularExpressionMatch match;
             if (format (pos) == neutralFormat)
             { // inside preformatted braces, when multiLineQuote() is called (not needed; repeated below)
-                int index = text.lastIndexOf (QRegularExpression ("(^|{|,|\\[)\\s*[^\\s\"\'{\\[,#]\\K[^:,#]*:\\s+"), pos, &match);
-                if (index > -1 && index <= pos && index + match.capturedLength() > pos)
+                int index = text.lastIndexOf (QRegularExpression ("(^|{|,|\\[)\\s*\\K[^{\\[:,#]*(:\\s+)?"), pos, &match);
+                if (index > -1 && index <= pos && index + match.capturedLength() > pos
+                    && quoteIsInsideYamlKey (match.captured(), pos - index))
+                {
                     return true;
+                }
                 index = text.lastIndexOf (QRegularExpression ("(^|{|,|\\[)[^:#]*:\\s+\\K[^{\\[,#\\s][^,#]*"), pos, &match);
                 if (index > -1 && index < pos && index + match.capturedLength() > pos)
                     return true;
@@ -1298,16 +1316,22 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
             else
             {
                 /* inside braces before preformatting (indirectly used by yamlOpenBraces()) */
-                int index = text.lastIndexOf (QRegularExpression ("(^|{|,|\\[)\\s*[^\\s\"\'{\\[,#]\\K[^:,#]*:\\s+"), pos, &match);
-                if (index > -1 && index <= pos && index + match.capturedLength() > pos)
+                int index = text.lastIndexOf (QRegularExpression ("(^|{|,|\\[)\\s*\\K[^{\\[:,#]*(:\\s+)?"), pos, &match);
+                if (index > -1 && index <= pos && index + match.capturedLength() > pos
+                    && quoteIsInsideYamlKey (match.captured(), pos - index))
+                {
                     return true;
+                }
                 index = text.lastIndexOf (QRegularExpression ("(^|{|,|\\[)[^:#]*:\\s+\\K[^{\\[,#\\s][^,#]*"), pos, &match);
                 if (index > -1 && index < pos && index + match.capturedLength() > pos)
                     return true;
                 /* outside braces */
-                index = text.lastIndexOf (QRegularExpression ("^\\s*[^\\s\"\'{\\[,#][^:#]*:\\s+"), pos, &match);
-                if (index > -1 && index < pos && index + match.capturedLength() > pos)
+                index = text.lastIndexOf (QRegularExpression ("^\\s*\\K[^{\\[:,#]*(:\\s+)?"), pos, &match);
+                if (index > -1 && index < pos && index + match.capturedLength() > pos
+                    && quoteIsInsideYamlKey (match.captured(), pos - index))
+                {
                     return true;
+                }
                 index = text.lastIndexOf (QRegularExpression ("^[^:#]*:\\s+\\K[^\\[\\s#].*"), pos, &match);
                 if (index > -1 && index < pos && index + match.capturedLength() > pos)
                     return true;

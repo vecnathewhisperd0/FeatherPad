@@ -156,7 +156,7 @@ void FPwin::replace()
         textEdit->setTextCursor (start);
         textEdit->insertPlainText (txtReplace_);
 
-        start = textEdit->textCursor();
+        start = textEdit->textCursor(); // at the end of txtReplace_
         tmp.setPosition (pos);
         tmp.setPosition (start.position(), QTextCursor::KeepAnchor);
         QTextEdit::ExtraSelection extra;
@@ -164,6 +164,15 @@ void FPwin::replace()
         extra.cursor = tmp;
         es.prepend (extra);
         gsel.append (extra);
+
+        if (QObject::sender() != ui->toolButtonNext)
+        {
+            /* With the cursor at the end of the replacing text, if the backward replacement
+               is repeated and the text is matched again (which is especially possible with
+               regex), the replacement won't proceed. So, the cursor should be moved. */
+            start.setPosition (start.position() - txtReplace_.length());
+            textEdit->setTextCursor (start);
+        }
     }
     textEdit->setGreenSel (gsel);
     if (lineNumShown)

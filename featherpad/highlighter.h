@@ -86,7 +86,7 @@ private:
     QVector<ParenthesisInfo *> allParentheses;
     QVector<BraceInfo *> allBraces;
     QVector<BracketInfo *> allBrackets;
-    QString label; // A label (usually, a delimiter string, like that of a here-doc).
+    QString label; // A label (can be a delimiter string, like that of a here-doc).
     bool Highlighted; // Is this block completely highlighted?
     bool Property; // A general boolean property (used with SH, Perl and YAML).
     int LastState; // The state of this block before it is highlighted (again).
@@ -182,7 +182,7 @@ private:
                          const QRegularExpression &startExp, const QRegularExpression &endExp,
                          int oldOpenNests, bool oldProperty,
                          bool setData);
-    void yamlLiteralBlock(const QString &text);
+    void yamlLiteralBlock (const QString &text);
 
     bool isFountainLineBlank (const QTextBlock &block);
     void highlightFountainBlock (const QString &text);
