@@ -1267,22 +1267,34 @@ bool Highlighter::isEscapedChar (const QString &text, const int pos) const
     return false;
 }
 /*************************/
-static inline bool quoteIsInsideYamlKey (const QString &str, int indx)
-{ // FIXME: This doesn't cover successive quotes.
-    if (indx > 0 && indx < str.length())
+// Checks if a start quote is inside a Yaml key (as in ab""c).
+bool Highlighter::isYamlKeyQuote (const QString &key, const int pos)
+{
+    static int lastKeyQuote = -1;
+    int indx = pos;
+    if (indx > 0 && indx < key.length())
     {
-        while (indx > 0 && str.at (indx - 1).isSpace())
+        while (indx > 0 && key.at (indx - 1).isSpace())
             --indx;
         if (indx > 0)
         {
-            QChar c = str.at (indx - 1);
+            QChar c = key.at (indx - 1);
             if (c != '\"' && c != '\'')
+            {
+                lastKeyQuote = pos;
                 return true;
+            }
+            if (lastKeyQuote == indx - 1)
+            {
+                lastKeyQuote = pos;
+                return true;
+            }
         }
     }
+    lastKeyQuote = -1;
     return false;
 }
-
+/*************************/
 // Check if a start or end quotation mark (positioned at "pos") is escaped.
 // If "skipCommandSign" is true (only for SH), start double quotes are escaped before "$(".
 bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isStartQuote,
@@ -1305,7 +1317,7 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
             { // inside preformatted braces, when multiLineQuote() is called (not needed; repeated below)
                 int index = text.lastIndexOf (QRegularExpression ("(^|{|,|\\[)\\s*\\K[^{\\[:,#]*(:\\s+)?"), pos, &match);
                 if (index > -1 && index <= pos && index + match.capturedLength() > pos
-                    && quoteIsInsideYamlKey (match.captured(), pos - index))
+                    && isYamlKeyQuote (match.captured(), pos - index))
                 {
                     return true;
                 }
@@ -1318,7 +1330,7 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
                 /* inside braces before preformatting (indirectly used by yamlOpenBraces()) */
                 int index = text.lastIndexOf (QRegularExpression ("(^|{|,|\\[)\\s*\\K[^{\\[:,#]*(:\\s+)?"), pos, &match);
                 if (index > -1 && index <= pos && index + match.capturedLength() > pos
-                    && quoteIsInsideYamlKey (match.captured(), pos - index))
+                    && isYamlKeyQuote (match.captured(), pos - index))
                 {
                     return true;
                 }
@@ -1328,7 +1340,7 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
                 /* outside braces */
                 index = text.lastIndexOf (QRegularExpression ("^\\s*\\K[^{\\[:,#]*(:\\s+)?"), pos, &match);
                 if (index > -1 && index < pos && index + match.capturedLength() > pos
-                    && quoteIsInsideYamlKey (match.captured(), pos - index))
+                    && isYamlKeyQuote (match.captured(), pos - index))
                 {
                     return true;
                 }
@@ -1339,12 +1351,16 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
         }
         else if (text.length() > pos && text.at (pos) == '\'')
         { // a pair of single quotes means escaping them
-            QRegularExpressionMatch match;
-            if (text.lastIndexOf (QRegularExpression ("('')+"), pos) == pos)
+            static int lastEscapedQuote = -1;
+            if (lastEscapedQuote == pos && pos > 0 && text.at (pos - 1) == '\'') // the second quote
                 return true;
-            int index = text.lastIndexOf (QRegularExpression ("('')+"), pos, &match);
-            if (index > -1 && index < pos && index + match.capturedLength() >= pos)
+            if ((pos == 0 || text.at (pos - 1) != '\'' || lastEscapedQuote == pos - 1)
+                && text.length() > pos + 1 && text.at (pos + 1) == '\'')
+            { // the first quote
+                lastEscapedQuote = pos + 1;
                 return true;
+            }
+            lastEscapedQuote = -1;
         }
     }
 

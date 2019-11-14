@@ -1816,9 +1816,9 @@ void TextEdit::sortLines (bool reverse)
     cursor.endEditBlock();
 }
 
-/*****************************************************
-***** The following functions are for hyperlinks *****
-******************************************************/
+/************************************************************
+***** The following functions are mainly for hyperlinks *****
+*************************************************************/
 
 QString TextEdit::getUrl (const int pos) const
 {
@@ -1865,6 +1865,27 @@ void TextEdit::mouseMoveEvent (QMouseEvent *event)
 /*************************/
 void TextEdit::mousePressEvent (QMouseEvent *event)
 {
+    /* With a triple click, QPlainTextEdit selects the current block
+       plus its newline, if any. But it is better to select only the
+       current block, without any newline (because, for example, the
+       selection clipboard might be pasted into a terminal emulator). */
+    if (tripleClickTimer_.isValid())
+    {
+        if (!tripleClickTimer_.hasExpired (qApp->doubleClickInterval())
+            && event->buttons() == Qt::LeftButton)
+        {
+            tripleClickTimer_.invalidate();
+            QTextCursor txtCur = textCursor();
+            /* The method QTextCursor::select(QTextCursor::BlockUnderCursor)
+               prepends a newline. That's a Qt bug. */
+            txtCur.movePosition (QTextCursor::StartOfBlock);
+            txtCur.movePosition (QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
+            setTextCursor (txtCur);
+            return;
+        }
+        tripleClickTimer_.invalidate();
+    }
+
     /* get the global press position if it's inside a selection to know
        whether there will be a real mouse movement at mouseMoveEvent() */
     if (event->buttons() == Qt::LeftButton
@@ -1930,6 +1951,12 @@ void TextEdit::mouseReleaseEvent (QMouseEvent *event)
             QDesktopServices::openUrl (url);
     }
     pressPoint_ = QPoint();
+}
+/*************************/
+void TextEdit::mouseDoubleClickEvent (QMouseEvent *event)
+{
+    tripleClickTimer_.start();
+    QPlainTextEdit::mouseDoubleClickEvent (event);
 }
 /*************************/
 bool TextEdit::event (QEvent *event)

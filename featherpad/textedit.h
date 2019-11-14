@@ -23,6 +23,7 @@
 #include <QPlainTextEdit>
 #include <QMimeData>
 #include <QDateTime>
+#include <QElapsedTimer>
 #include <QSyntaxHighlighter>
 
 namespace FeatherPad {
@@ -258,6 +259,7 @@ protected:
     void mouseMoveEvent (QMouseEvent *event);
     void mousePressEvent (QMouseEvent *event);
     void mouseReleaseEvent (QMouseEvent *event);
+    void mouseDoubleClickEvent (QMouseEvent *event);
     bool event (QEvent *event);
     bool eventFilter (QObject *watched, QEvent *event);
 
@@ -317,6 +319,7 @@ private:
     QPoint selectionPressPoint_; // used internally to delay dragging until mouse movement
     QFont font_; // used internally for keeping track of the unzoomed font
     QString textTab_; // text tab in terms of spaces
+    QElapsedTimer tripleClickTimer_;
     /********************************************
      ***** All needed information on a page *****
      ********************************************/

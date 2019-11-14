@@ -178,6 +178,7 @@ private:
     int findDelimiter (const QString &text, const int index,
                        const QRegularExpression &delimExp, int &capturedLength) const;
 
+    bool isYamlKeyQuote (const QString &key, const int pos);
     bool yamlOpenBraces (const QString &text,
                          const QRegularExpression &startExp, const QRegularExpression &endExp,
                          int oldOpenNests, bool oldProperty,
