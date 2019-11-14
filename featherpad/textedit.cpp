@@ -1866,9 +1866,10 @@ void TextEdit::mouseMoveEvent (QMouseEvent *event)
 void TextEdit::mousePressEvent (QMouseEvent *event)
 {
     /* With a triple click, QPlainTextEdit selects the current block
-       plus its newline, if any. But it is better to select only the
-       current block, without any newline (because, for example, the
-       selection clipboard might be pasted into a terminal emulator). */
+       plus its newline, if any. But it is better to select the
+       current block without selecting its newline and start and end
+       whitespaces (because, for example, the selection clipboard might
+       be pasted into a terminal emulator). */
     if (tripleClickTimer_.isValid())
     {
         if (!tripleClickTimer_.hasExpired (qApp->doubleClickInterval())
@@ -1876,11 +1877,23 @@ void TextEdit::mousePressEvent (QMouseEvent *event)
         {
             tripleClickTimer_.invalidate();
             QTextCursor txtCur = textCursor();
-            /* The method QTextCursor::select(QTextCursor::BlockUnderCursor)
-               prepends a newline. That's a Qt bug. */
+            const QString txt = txtCur.block().text();
+            const int l = txt.length();
             txtCur.movePosition (QTextCursor::StartOfBlock);
-            txtCur.movePosition (QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
-            setTextCursor (txtCur);
+            int i = 0;
+            while (i < l && txt.at (i).isSpace())
+            {
+                txtCur.movePosition (QTextCursor::NextCharacter);
+                ++i;
+            }
+            if (i < l)
+            {
+                int j = l;
+                while (j > i && txt.at (j -  1).isSpace())
+                    --j;
+                txtCur.movePosition (QTextCursor::NextCharacter, QTextCursor::KeepAnchor, j - i);
+                setTextCursor (txtCur);
+            }
             return;
         }
         tripleClickTimer_.invalidate();

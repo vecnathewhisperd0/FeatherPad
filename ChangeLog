@@ -20,7 +20,7 @@ V0.12.0
  * Never let the active tab get focus.
  * Fixed YAML literal block indentation.
  * Fixed a problem in backward search and replacement, especially with regex.
- * On triple clicking, select the current block without selecting its newline.
+ * On triple clicking, select the current block without selecting its newline and start and end whitespaces.
 
 V0.11.1
 ---------
