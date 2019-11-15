@@ -61,7 +61,7 @@
     <message>
         <location filename="../../fp.ui" line="216"/>
         <source>&amp;Options</source>
-        <translation>E&amp;xtra</translation>
+        <translation>&amp;Opties</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1290"/>

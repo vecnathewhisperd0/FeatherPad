@@ -1133,7 +1133,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="5119"/>
         <source>A lightweight, tabbed, plain-text editor</source>
-        <translation>يک ويرايشگر سبک، برگه‌دار و ساده</translation>
+        <translation>يک ويرايشگر سبک و برگه‌دار برای متن ساده</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="5120"/>

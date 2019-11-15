@@ -1879,6 +1879,7 @@ void TextEdit::mousePressEvent (QMouseEvent *event)
             QTextCursor txtCur = textCursor();
             const QString txt = txtCur.block().text();
             const int l = txt.length();
+            if (l > 10000) return;
             txtCur.movePosition (QTextCursor::StartOfBlock);
             int i = 0;
             while (i < l && txt.at (i).isSpace())
