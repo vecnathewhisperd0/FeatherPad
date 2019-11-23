@@ -1157,17 +1157,17 @@
         <translation>Om FeatherPad</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="241"/>
+        <location filename="../../replace.cpp" line="250"/>
         <source>No Replacement</source>
         <translation>Ingen erstatning</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="243"/>
+        <location filename="../../replace.cpp" line="252"/>
         <source>One Replacement</source>
         <translation>En erstatning</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../replace.cpp" line="245"/>
+        <location filename="../../replace.cpp" line="254"/>
         <source>%Ln Replacements</source>
         <translation>
             <numerusform>%Ln erstatning</numerusform>
@@ -2224,7 +2224,7 @@ vinduer i den gemte session.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="138"/>
+        <location filename="../../textedit.cpp" line="137"/>
         <source>Double click to center current line</source>
         <translation>Dobbeltklik for at centrere nuværende linje</translation>
     </message>

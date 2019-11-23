@@ -353,13 +353,14 @@ private:
       int leftSteps;
       int totalSteps;
     };
-    QTimer *scrollTimer_;
-    QWheelEvent *wheelEvent_;
     QList<scrollData> queuedScrollSteps_;
+    QTimer *scrollTimer_;
 };
 /*************************/
 class LineNumberArea : public QWidget
 {
+    Q_OBJECT
+
 public:
     LineNumberArea (TextEdit *Editor) : QWidget (Editor) {
         editor = Editor;

@@ -1157,17 +1157,17 @@
         <translation>Acerca de Featherpad</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="241"/>
+        <location filename="../../replace.cpp" line="250"/>
         <source>No Replacement</source>
         <translation>Sem substituição</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="243"/>
+        <location filename="../../replace.cpp" line="252"/>
         <source>One Replacement</source>
         <translation>Uma substituição</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../replace.cpp" line="245"/>
+        <location filename="../../replace.cpp" line="254"/>
         <source>%Ln Replacements</source>
         <translation>
             <numerusform>%Ln substituição</numerusform>
@@ -2168,7 +2168,7 @@ abertos serão incluídos na sessão guardada.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="138"/>
+        <location filename="../../textedit.cpp" line="137"/>
         <source>Double click to center current line</source>
         <translation>Duplo clique para centrar a linha atual</translation>
     </message>

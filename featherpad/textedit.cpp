@@ -49,7 +49,6 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     matchedBrackets_ = false;
 
     inertialScrolling_ = false;
-    wheelEvent_ = nullptr;
     scrollTimer_ = nullptr;
 
     prog_ = "url"; // the default language
@@ -1162,62 +1161,74 @@ void TextEdit::wheelEvent (QWheelEvent *event)
             zooming (delta);
             return;
         }
+
         if (event->modifiers() & Qt::ShiftModifier)
         { // line-by-line scrolling when Shift is pressed
-            QWheelEvent e (event->pos(), event->globalPos(),
-                           event->angleDelta().y() / QApplication::wheelScrollLines(),
-                           event->buttons(), Qt::NoModifier, Qt::Vertical);
-            QCoreApplication::sendEvent (verticalScrollBar(), &e);
-            return;
-        }
-        if (!inertialScrolling_
-            || !event->spontaneous()
-            || (event->modifiers() & Qt::AltModifier))
-        { // proceed as in QPlainTextEdit::wheelEvent()
-            QAbstractScrollArea::wheelEvent (event);
-            updateMicroFocus();
+            int delta = event->modifiers() & Qt::AltModifier
+                            ? event->angleDelta().x() : event->angleDelta().y();
+            QWheelEvent e (event->posF(),
+                           event->globalPosF(),
+                           event->pixelDelta(),
+                           QPoint (0, delta / QApplication::wheelScrollLines()),
+                           event->buttons(),
+                           Qt::NoModifier,
+                           event->phase(),
+                           false,
+                           event->source());
+            QCoreApplication::sendEvent (event->modifiers() & Qt::AltModifier
+                                             ? horizontalScrollBar()
+                                             : verticalScrollBar(), &e);
             return;
         }
 
         /* inertial scrolling */
-        if (QScrollBar* vbar = verticalScrollBar())
+        if (inertialScrolling_
+            && event->spontaneous()
+            && !(event->modifiers() & Qt::AltModifier)
+            && event->source() == Qt::MouseEventNotSynthesized)
         {
-            /* always set the initial speed to 3 lines per wheel turn */
-            int delta = event->angleDelta().y() * 3 / QApplication::wheelScrollLines();
-            if((delta > 0 && vbar->value() == vbar->minimum())
-               || (delta < 0 && vbar->value() == vbar->maximum()))
+            if (QScrollBar* vbar = verticalScrollBar())
             {
-                return; // the scrollbar can't move
-            }
-            /* keep track of the wheel event */
-            wheelEvent_ = event;
-            /* find the number of wheel events in 500 ms
-               and set the scroll frames per second accordingly */
-            static QList<qint64> wheelEvents;
-            wheelEvents << QDateTime::currentMSecsSinceEpoch();
-            while (wheelEvents.last() - wheelEvents.first() > 500)
-                wheelEvents.removeFirst();
-            int fps = qMax (SCROLL_FRAMES_PER_SEC / wheelEvents.size(), 5);
+                /* always set the initial speed to 3 lines per wheel turn */
+                int delta = event->angleDelta().y() * 3 / QApplication::wheelScrollLines();
+                if((delta > 0 && vbar->value() == vbar->minimum())
+                   || (delta < 0 && vbar->value() == vbar->maximum()))
+                {
+                    return; // the scrollbar can't move
+                }
+                /* find the number of wheel events in 500 ms
+                   and set the scroll frames per second accordingly */
+                static QList<qint64> wheelEvents;
+                wheelEvents << QDateTime::currentMSecsSinceEpoch();
+                while (wheelEvents.last() - wheelEvents.first() > 500)
+                    wheelEvents.removeFirst();
+                int fps = qMax (SCROLL_FRAMES_PER_SEC / wheelEvents.size(), 5);
 
-            /* set the data for inertial scrolling */
-            scrollData data;
-            data.delta = delta;
-            data.totalSteps = data.leftSteps = fps * SCROLL_DURATION / 1000;
-            queuedScrollSteps_.append (data);
-            if (!scrollTimer_)
-            {
-                scrollTimer_ = new QTimer();
-                scrollTimer_->setTimerType (Qt::PreciseTimer);
-                connect (scrollTimer_, &QTimer::timeout, this, &TextEdit::scrollWithInertia);
+                /* set the data for inertial scrolling */
+                scrollData data;
+                data.delta = delta;
+                data.totalSteps = data.leftSteps = fps * SCROLL_DURATION / 1000;
+                queuedScrollSteps_.append (data);
+                if (!scrollTimer_)
+                {
+                    scrollTimer_ = new QTimer();
+                    scrollTimer_->setTimerType (Qt::PreciseTimer);
+                    connect (scrollTimer_, &QTimer::timeout, this, &TextEdit::scrollWithInertia);
+                }
+                scrollTimer_->start (1000 / SCROLL_FRAMES_PER_SEC);
+                return;
             }
-            scrollTimer_->start (1000 / SCROLL_FRAMES_PER_SEC);
         }
+
+        /* proceed as in QPlainTextEdit::wheelEvent() */
+        QAbstractScrollArea::wheelEvent (event);
+        updateMicroFocus();
     }
 }
 /*************************/
 void TextEdit::scrollWithInertia()
 {
-    if (!wheelEvent_ || !verticalScrollBar()) return;
+    if (!verticalScrollBar()) return;
 
     int totalDelta = 0;
     for (QList<scrollData>::iterator it = queuedScrollSteps_.begin(); it != queuedScrollSteps_.end(); ++it)
@@ -1238,10 +1249,15 @@ void TextEdit::scrollWithInertia()
         }
         else break;
     }
-    /* -> qevent.cpp -> QWheelEvent::QWheelEvent() */
-    QWheelEvent e (wheelEvent_->pos(), wheelEvent_->globalPos(),
-                   totalDelta,
-                   wheelEvent_->buttons(), Qt::NoModifier, Qt::Vertical);
+
+    QWheelEvent e (QPointF(),
+                   QPointF(),
+                   QPoint(),
+                   QPoint (0, totalDelta),
+                   Qt::NoButton,
+                   Qt::NoModifier,
+                   Qt::NoScrollPhase,
+                   false);
     QCoreApplication::sendEvent (verticalScrollBar(), &e);
 
     /* update text selection if the left mouse button is pressed (-> QPlainTextEdit::timerEvent) */

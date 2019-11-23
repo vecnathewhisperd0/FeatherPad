@@ -21,6 +21,7 @@ V0.12.0
  * Fixed YAML literal block indentation.
  * Fixed a problem in backward search and replacement, especially with regex.
  * On triple clicking, select the current block without selecting its newline and start and end whitespaces.
+ * Fixes for the code of inertial scrolling.
 
 V0.11.1
 ---------
