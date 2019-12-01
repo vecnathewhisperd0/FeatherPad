@@ -3367,7 +3367,7 @@ bool Highlighter::markdownMultiLine (const QString &text,
                 /* get the end regex from the start regex */
                 QString str = startMatch.captured();
                 str += QString (str.at (0));
-                endRegex.setPattern ("^\\s*\\K" + str + "*(?!\\s*\\S)");
+                endRegex.setPattern (QStringLiteral ("^\\s*\\K") + str + QStringLiteral ("*(?!\\s*\\S)"));
             }
         }
 
