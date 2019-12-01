@@ -163,7 +163,13 @@ private:
                           TextBlockData *currentBlockData,
                           int oldOpenNests, const QSet<int> &oldOpenQuotes);
 
-    void markDownFonts (const QString &text);
+    bool markdownMultiLine (const QString &text,
+                            const QString &oldStartPattern,
+                            const QRegularExpression &startExp, const QRegularExpression &endExp,
+                            const int state,
+                            const QTextCharFormat &txtFormat);
+    void markdownFonts (const QString &text);
+
     void fountainFonts (const QString &text);
     void reSTMainFormatting (int start, const QString &text);
     void debControlFormatting (const QString &text);

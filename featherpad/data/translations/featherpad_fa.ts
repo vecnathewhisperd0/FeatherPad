@@ -1640,8 +1640,9 @@ will be shown by a popup dialog.</source>
 tooltip and context menu of a single tab but you could not
 merge a single tabbed window into another one by tab drag-
 and-drop either.</source>
-        <translation>اگر انتخاب شود، نه تنها اطلاعات راهنما و منوی زمينه‌ای برگه را از دست می‌دهيد،
- بلکه ديگر نمی‌توانيد پنجره را به درون پنجره‌ای ديگر ادغام کنيد.</translation>
+        <translation>اگر انتخاب شود، نه تنها اطلاعات راهنما و منوی زمينه‌ای برگه را
+از دست می‌دهيد، بلکه ديگر نمی‌توانيد پنجره را به درون پنجره‌ای
+ديگر ادغام کنيد.</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="346"/>
@@ -1736,8 +1737,13 @@ between 230 and 255; for the dark
 background, between 0 and 50.
 
 Needs window reopening to take effect.</source>
-        <translation>مقدار رنگ برای پسزمينه. ۲۵۵ به معنای سفيد و ۰ به معنای سياه است.
-برای پسزمينه روشن مقدار ۲۳۰ تا ۲۵۵ و برای پس زمينه تيره مقدار ۰ تا ۵۰ بکار می‌رود.
+        <translation>مقدار رنگ پسزمينه. 
+۲۵۵ به معنای سفيد و ۰ به معنای سياه است.
+
+برای پسزمينه‌ی روشن، اين مقدار می‌تواند از
+۲۳۰ تا ۲۵۵ باشد و برای پسزمينه‌ی تيره، از
+۰ تا۵۰.
+
 نيازمند بازگشايی پنجره است.</translation>
     </message>
     <message>
@@ -1781,7 +1787,7 @@ MMM dd, yyyy, hh:mm:ss</source>
     <message>
         <location filename="../../predDialog.ui" line="789"/>
         <source> spaces</source>
-        <translation> فاصله‌ها</translation>
+        <translation> فاصله</translation>
     </message>
     <message>
         <location filename="../../predDialog.ui" line="841"/>
@@ -1858,10 +1864,10 @@ be used also when the opened file is not modified.
 This can be useful under certain circumstances,
 e.g. for changing the time stamp or removing the
 trailing spaces of a text file.</source>
-        <translation>اگر انتخاب شود، دکمه يا گزينه‌ی منوی ذخيره‌سازی هنگامی که
-فايل بازشده تغيير نيافته است نيز قابل استفاده خواهد بود.
+        <translation>اگر انتخاب شود، دکمه يا گزينه‌ی منوی ذخيره‌سازی، هنگامی هم
+که فايل بازشده تغيير نيافته باشد، قابل استفاده خواهد بود.
 
-اين کار در برخی از موارد کاربرد دارد. مثلا برای بروزرسانی
+اين کار در برخی از موارد کاربرد دارد، مثلا برای بروزرسانی
 تاريخ ذخیره‌سازی ياحذف فاصله‌های اضافی از فايل‌ها.</translation>
     </message>
     <message>
