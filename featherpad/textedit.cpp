@@ -1166,6 +1166,7 @@ void TextEdit::wheelEvent (QWheelEvent *event)
         { // line-by-line scrolling when Shift is pressed
             int delta = event->modifiers() & Qt::AltModifier
                             ? event->angleDelta().x() : event->angleDelta().y();
+#if (QT_VERSION >= QT_VERSION_CHECK(5,12,0))
             QWheelEvent e (event->posF(),
                            event->globalPosF(),
                            event->pixelDelta(),
@@ -1175,6 +1176,14 @@ void TextEdit::wheelEvent (QWheelEvent *event)
                            event->phase(),
                            false,
                            event->source());
+#else
+            QWheelEvent e (event->posF(),
+                           event->globalPosF(),
+                           delta / QApplication::wheelScrollLines(),
+                           event->buttons(),
+                           Qt::NoModifier,
+                           Qt::Vertical);
+#endif
             QCoreApplication::sendEvent (event->modifiers() & Qt::AltModifier
                                              ? horizontalScrollBar()
                                              : verticalScrollBar(), &e);
@@ -1250,6 +1259,7 @@ void TextEdit::scrollWithInertia()
         else break;
     }
 
+#if (QT_VERSION >= QT_VERSION_CHECK(5,12,0))
     QWheelEvent e (QPointF(),
                    QPointF(),
                    QPoint(),
@@ -1258,6 +1268,14 @@ void TextEdit::scrollWithInertia()
                    Qt::NoModifier,
                    Qt::NoScrollPhase,
                    false);
+#else
+    QWheelEvent e (QPointF(),
+                   QPointF(),
+                   totalDelta,
+                   Qt::NoButton,
+                   Qt::NoModifier,
+                   Qt::Vertical);
+#endif
     QCoreApplication::sendEvent (verticalScrollBar(), &e);
 
     /* update text selection if the left mouse button is pressed (-> QPlainTextEdit::timerEvent) */
