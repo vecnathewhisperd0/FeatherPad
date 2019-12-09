@@ -594,7 +594,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
              if (progLan == "sh")
                  rule.pattern.setPattern ("\\b[A-Za-z0-9_]+(?=\\=)");
              else
-                 rule.pattern.setPattern ("\\b[A-Za-z0-9_]+\\s*(?=\\+{0,1}\\=)");
+                 rule.pattern.setPattern ("\\b[A-Za-z0-9_]+\\s*(?=(\\+|\\?){0,1}\\=)");
             rule.format = shFormat;
             highlightingRules.append (rule);
 
