@@ -23,6 +23,7 @@ V0.12.0
  * On triple clicking, select the current block without selecting its newline and start and end whitespaces.
  * Fixes for the code of inertial scrolling.
  * Several fixes for markdown syntax highlighting.
+ * Fixes for RTL, including a workaround for a Qt bug.
 
 V0.11.1
 ---------

@@ -365,7 +365,7 @@ QString TextEdit::remainingSpaces (const QString& spaceTab, const QTextCursor& c
         qreal x = static_cast<qreal>(cursorRect (tmp).right());
         tmp.setPosition (tmp.position() + 1);
         x = static_cast<qreal>(cursorRect (tmp).right()) - x;
-        n += qMax (qRound (x / spaceL) - 1, 0);
+        n += qMax (qRound (qAbs (x) / spaceL) - 1, 0); // x is negative for RTL
         ++i;
     }
     n += txt.count();
@@ -406,7 +406,7 @@ QTextCursor TextEdit::backTabCursor (const QTextCursor& cursor, bool twoSpace) c
         qreal x = static_cast<qreal>(cursorRect (tmp).right());
         tmp.setPosition (tmp.position() + 1);
         x = static_cast<qreal>(cursorRect (tmp).right()) - x;
-        n += qMax (qRound (x / spaceL) - 1, 0);
+        n += qMax (qRound (qAbs (x) / spaceL) - 1, 0);
         ++i;
     }
     n += txt.count();
@@ -424,7 +424,7 @@ QTextCursor TextEdit::backTabCursor (const QTextCursor& cursor, bool twoSpace) c
         qreal x = static_cast<qreal>(cursorRect (tmp).right());
         tmp.setPosition (txtStart - 1, QTextCursor::KeepAnchor);
         x -= static_cast<qreal>(cursorRect (tmp).right());
-        n -= qRound (x / spaceL);
+        n -= qRound (qAbs (x) / spaceL);
         if (n < 0) n = 0; // impossible without "twoSpace"
         tmp.setPosition (tmp.position() - n, QTextCursor::KeepAnchor);
     }
@@ -1917,18 +1917,20 @@ void TextEdit::mousePressEvent (QMouseEvent *event)
             txtCur.movePosition (QTextCursor::StartOfBlock);
             int i = 0;
             while (i < l && txt.at (i).isSpace())
-            {
-                txtCur.movePosition (QTextCursor::NextCharacter);
                 ++i;
-            }
+            /* WARNING: QTextCursor::movePosition() can be a mess with RTL
+                        but QTextCursor::setPosition() works fine. */
             if (i < l)
             {
+                txtCur.setPosition (txtCur.position() + i);
                 int j = l;
                 while (j > i && txt.at (j -  1).isSpace())
                     --j;
-                txtCur.movePosition (QTextCursor::NextCharacter, QTextCursor::KeepAnchor, j - i);
-                setTextCursor (txtCur);
+                txtCur.setPosition (txtCur.position() + j - i, QTextCursor::KeepAnchor);
             }
+            else
+                txtCur.setPosition (txtCur.position() + i, QTextCursor::KeepAnchor);
+            setTextCursor (txtCur);
             return;
         }
         tripleClickTimer_.invalidate();
