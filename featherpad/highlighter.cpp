@@ -181,6 +181,28 @@ void TextBlockData::insertOpenQuotes (const QSet<int> &openQuotes)
     OpenQuotes.unite (openQuotes);
 }
 /*************************/
+#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+// To work around a nasty bug in Qt 5.14.0
+static QColor overlayColor (const QColor& bgCol, const QColor& overlayCol)
+{
+    if (!overlayCol.isValid()) return QColor(0,0,0);
+    if (!bgCol.isValid()) return overlayCol;
+
+    qreal a1 = overlayCol.alphaF();
+    if (a1 == 1.0) return overlayCol;
+    qreal a0  = bgCol.alphaF();
+    qreal a = (1.0 - a1) * a0 + a1;
+
+    QColor res;
+    res.setAlphaF(a);
+    res.setRedF (((1.0 - a1) * a0 * bgCol.redF() + a1 * overlayCol.redF()) / a);
+    res.setGreenF (((1.0 - a1) * a0 *bgCol.greenF() + a1 * overlayCol.greenF()) / a);
+    res.setBlueF (((1.0 - a1) * a0 * bgCol.blueF() + a1 * overlayCol.blueF()) / a);
+
+    return res;
+}
+#endif
+
 // Here, the order of formatting is important because of overrides.
 Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
                           const QTextCursor &start, const QTextCursor &end,
@@ -230,6 +252,9 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         DarkYellow = QColor (100, 100, 0); // Qt::darkYellow is (180, 180, 0)
         Faded = QColor (180, 180, 180);
         translucent = QColor (0, 0, 0, 190);
+#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+        translucent = overlayColor (QColor (245, 245, 245), translucent);
+#endif
     }
     else
     {
@@ -247,6 +272,9 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         DarkYellow = Qt::yellow;
         Faded = QColor (95, 95, 95);
         translucent = QColor (255, 255, 255, 190);
+#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+        translucent = overlayColor (QColor (10, 10, 10), translucent);
+#endif
     }
     DarkGreenAlt = DarkGreen.lighter (101); // almost identical
 

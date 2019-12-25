@@ -1352,6 +1352,29 @@ static void fillBackground (QPainter *p, const QRectF &rect, QBrush brush, const
     p->fillRect (rect, brush);
     p->restore();
 }
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+// To work around a nasty bug in Qt 5.14.0
+static QColor overlayColor (const QColor& bgCol, const QColor& overlayCol)
+{
+    if (!overlayCol.isValid()) return QColor(0,0,0);
+    if (!bgCol.isValid()) return overlayCol;
+
+    qreal a1 = overlayCol.alphaF();
+    if (a1 == 1.0) return overlayCol;
+    qreal a0  = bgCol.alphaF();
+    qreal a = (1.0 - a1) * a0 + a1;
+
+    QColor res;
+    res.setAlphaF(a);
+    res.setRedF (((1.0 - a1) * a0 * bgCol.redF() + a1 * overlayCol.redF()) / a);
+    res.setGreenF (((1.0 - a1) * a0 *bgCol.greenF() + a1 * overlayCol.greenF()) / a);
+    res.setBlueF (((1.0 - a1) * a0 * bgCol.blueF() + a1 * overlayCol.blueF()) / a);
+
+    return res;
+}
+#endif
+
 // Exactly like QPlainTextEdit::paintEvent(),
 // except for setting layout text option for RTL
 // and drawing vertical indentation lines (if needed).
@@ -1503,11 +1526,17 @@ void TextEdit::paintEvent (QPaintEvent *event)
                     {
                         col = Qt::white;
                         col.setAlpha (90);
+#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+                        col = overlayColor (QColor (10, 10, 10), col);
+#endif
                     }
                     else
                     {
                         col = Qt::black;
                         col.setAlpha (70);
+#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+                        col = overlayColor (QColor (245, 245, 245), col);
+#endif
                     }
                     painter.setPen (col);
                 }

@@ -24,6 +24,7 @@ V0.12.0
  * Fixes for the code of inertial scrolling.
  * Several fixes for markdown syntax highlighting.
  * Fixes for RTL, including a workaround for a Qt bug.
+ * Added a (temporary) workaround for a nasty bug about text translucency in Qt 5.14.0.
 
 V0.11.1
 ---------
