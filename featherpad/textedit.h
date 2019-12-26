@@ -310,6 +310,7 @@ private:
     bool autoBracket;
     bool scrollJumpWorkaround; // for working around Qt5's scroll jump bug
     int darkValue;
+    int bgColorValue_; // only used internally and as a workaround
     int vLineDistance_;
     QString dateFormat_;
     QColor lineHColor;

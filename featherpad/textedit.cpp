@@ -118,6 +118,7 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
             }
         }
     }
+    bgColorValue_ = bgColorValue;
 
     resizeTimerId = 0;
     updateTimerId = 0;
@@ -1526,18 +1527,15 @@ void TextEdit::paintEvent (QPaintEvent *event)
                     {
                         col = Qt::white;
                         col.setAlpha (90);
-#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
-                        col = overlayColor (QColor (10, 10, 10), col);
-#endif
                     }
                     else
                     {
                         col = Qt::black;
                         col.setAlpha (70);
-#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
-                        col = overlayColor (QColor (245, 245, 245), col);
-#endif
                     }
+#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+                    col = overlayColor (QColor (bgColorValue_, bgColorValue_, bgColorValue_), col);
+#endif
                     painter.setPen (col);
                 }
                 layout->draw (&painter, offset, selections, er);
