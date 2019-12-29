@@ -677,12 +677,12 @@ void FPwin::addRemoveLangBtn (bool add)
     static QStringList langList;
     if (langList.isEmpty())
     { // no "url" for the language button
-        langList << "c" << "changelog" << "cmake" << "config" << "cpp"
-                 << "css" << "dart" << "deb" << "desktop" << "diff"
-                 << "fountain" << "gtkrc" << "html" << "javascript" << "log"
-                 << "lua" << "m3u" << "markdown" << "makefile" << "perl"
-                 << "php" << "python" << "qmake" << "qml" << "reST" << "ruby"
-                 << "scss" << "sh" << "troff" << "theme" << "xml" << "yaml";
+        langList << "c" << "cmake" << "config" << "cpp" << "css"
+                 << "dart" << "deb" << "desktop" << "diff" << "fountain"
+                 << "html" << "javascript" << "log" << "lua" << "m3u"
+                 << "markdown" << "makefile" << "perl" << "php" << "python"
+                 << "qmake" << "qml" << "reST" << "ruby" << "scss"
+                 << "sh" << "troff" << "theme" << "xml" << "yaml";
         langList.sort();
     }
 
@@ -722,7 +722,45 @@ void FPwin::addRemoveLangBtn (bool add)
         langButton->setText (normal);
         langButton->setPopupMode (QToolButton::InstantPopup);
 
-        QMenu *menu = new QMenu (langButton);
+        class Menu : public QMenu {
+        public:
+            Menu( QWidget *parent = nullptr) : QMenu (parent) {
+                selectionTimer_ = nullptr;
+            }
+            ~Menu() {
+                if (selectionTimer_) {
+                    if (selectionTimer_->isActive()) selectionTimer_->stop();
+                    delete selectionTimer_;
+                }
+            }
+        protected:
+            void keyPressEvent (QKeyEvent *e) override {
+                if (selectionTimer_ == nullptr) {
+                  selectionTimer_ = new QTimer();
+                  connect (selectionTimer_, &QTimer::timeout, this, [this] {
+                      if (txt_.isEmpty()) return;
+                      const auto allActions = actions();
+                      for (const auto &a : allActions) {
+                          QString aTxt = a->text();
+                          aTxt.remove ('&');
+                          if (aTxt.startsWith (txt_, Qt::CaseInsensitive)) {
+                              setActiveAction (a);
+                              break;
+                          }
+                      }
+                      txt_.clear();
+                  });
+                }
+                selectionTimer_->start (350);
+                txt_ += e->text().simplified();
+                QMenu::keyPressEvent (e);
+            }
+        private:
+            QTimer *selectionTimer_;
+            QString txt_;
+        };
+
+        Menu *menu = new Menu (langButton);
         QActionGroup *aGroup = new QActionGroup (langButton);
         QAction *action;
         for (int i = 0; i < langList.count(); ++i)
@@ -1942,6 +1980,8 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
     {
         if (!fileName.isEmpty() && charset.isEmpty()) // means a very large file
             connect (this, &FPwin::finishedLoading, this, &FPwin::onOpeningHugeFiles, Qt::UniqueConnection);
+        else if (fileName.isEmpty() && !charset.isEmpty()) // means a non-text file that shouldn't be opened
+            connect (this, &FPwin::finishedLoading, this, &FPwin::onOpeninNonTextFiles, Qt::UniqueConnection);
         else
             connect (this, &FPwin::finishedLoading, this, &FPwin::onPermissionDenied, Qt::UniqueConnection);
         -- loadingProcesses_; // can never become negative
@@ -2284,6 +2324,15 @@ void FPwin::onOpeningHugeFiles()
     QTimer::singleShot (0, this, [=]() {
         showWarningBar ("<center><b><big>" + tr ("Huge file(s) not opened!") + "</big></b></center>\n"
                         + "<center>" + tr ("FeatherPad does not open files larger than 100 MiB.") + "</center>");
+    });
+}
+/*************************/
+void FPwin::onOpeninNonTextFiles()
+{
+    disconnect (this, &FPwin::finishedLoading, this, &FPwin::onOpeninNonTextFiles);
+    QTimer::singleShot (0, this, [=]() {
+        showWarningBar ("<center><b><big>" + tr ("Non-text file(s) not opened!") + "</big></b></center>\n"
+                        + "<center><i>" + tr ("See Preferences → Files → Do not permit opening of non-text files") + "</i></center>");
     });
 }
 /*************************/
@@ -3747,7 +3796,15 @@ void FPwin::enforceLang (QAction *action)
     lang.remove ('&'); // because of KAcceleratorManager
     langButton->setText (lang);
     if (lang == tr ("Normal"))
-        lang = "url"; // the default highlighter
+    {
+        if (textEdit->getProg() == "srt" || textEdit->getProg() == "gtkrc"
+            || textEdit->getProg() == "changelog")
+        { // not listed
+            lang = textEdit->getProg();
+        }
+        else
+            lang = "url"; // the default highlighter
+    }
     if (textEdit->getProg() == lang || textEdit->getProg() == "help")
         textEdit->setLang (QString()); // not enforced
     else

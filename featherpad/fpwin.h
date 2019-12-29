@@ -204,6 +204,7 @@ private slots:
                   bool uneditable, // This doc should be uneditable?
                   bool multiple); // Multiple files are being loaded?
     void onOpeningHugeFiles();
+    void onOpeninNonTextFiles();
     void onPermissionDenied();
     void onOpeningUneditable();
     void onOpeningNonexistent();

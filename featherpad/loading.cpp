@@ -121,7 +121,7 @@ void Loading::run()
                             if (skipNonText_)
                             {
                                 file.close();
-                                emit completed();
+                                emit completed (QString(), QString(), "UTF-8"); // shows that a non-text file is skipped
                                 return;
                             }
                             hasNull = true;
@@ -144,7 +144,7 @@ void Loading::run()
                 if (skipNonText_ && hasNull && charset_.isEmpty())
                 {
                     file.close();
-                    emit completed();
+                    emit completed (QString(), QString(), "UTF-8");
                     return;
                 }
                 while (file.read (&c, charSize) > 0)
@@ -155,7 +155,7 @@ void Loading::run()
     file.close();
     if (skipNonText_ && hasNull && charset_.isEmpty())
     {
-        emit completed();
+        emit completed (QString(), QString(), "UTF-8");
         return;
     }
 
