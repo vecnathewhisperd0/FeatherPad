@@ -21,6 +21,7 @@
 #define VSCROLLBAR_H
 
 #include <QScrollBar>
+#include <QWheelEvent>
 
 namespace FeatherPad {
 
@@ -38,6 +39,19 @@ protected:
 private:
     int defaultWheelSpeed;
 };
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+/* Workaround. */
+class HScrollBar : public QScrollBar
+{
+    Q_OBJECT
+public:
+    HScrollBar (QWidget *parent = nullptr) : QScrollBar (parent) {};
+
+protected:
+    void wheelEvent (QWheelEvent *event);
+};
+#endif
 
 }
 

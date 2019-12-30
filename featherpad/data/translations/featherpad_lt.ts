@@ -2235,7 +2235,7 @@ bus įtraukti į įrašytą seansą.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="138"/>
+        <location filename="../../textedit.cpp" line="144"/>
         <source>Double click to center current line</source>
         <translation>Spustelėkite du kartus, norėdami centruoti esamą eilutę</translation>
     </message>

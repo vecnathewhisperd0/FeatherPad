@@ -18,7 +18,7 @@
  */
 
 #include "vscrollbar.h"
-#include <QEvent>
+//#include <QEvent>
 #include <QApplication>
 
 namespace FeatherPad {
@@ -44,6 +44,27 @@ bool VScrollBar::event (QEvent *event)
     }
 
     return QScrollBar::event (event);
+}
+/*************************/
+void HScrollBar::wheelEvent (QWheelEvent *event) {
+    if (event->angleDelta().x() == 0)
+    {
+        int deltaY = event->angleDelta().y();
+        if (deltaY != 0)
+        {
+            QWheelEvent e (event->pos(),
+                           event->globalPos(),
+                           event->pixelDelta(),
+                           QPoint (deltaY, 0),
+                           event->buttons(),
+                           event->modifiers(),
+                           event->phase(),
+                           event->source());
+            QCoreApplication::sendEvent (this, &e);
+            return;
+        }
+    }
+    QScrollBar::wheelEvent (event);
 }
 
 }

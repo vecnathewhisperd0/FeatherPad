@@ -3,6 +3,8 @@ V0.12.1
  * Removed "changelog" and "gtkrc" from the language menu (like "srt") while keeping their syntax highlighting.
  * Allow searching in the language menu by typing continuously.
  * More informative message when a non-text file isn't opened because of preferences.
+ * Considered the new behavior of horizontal wheel scrolling in Qt 5.14.0.
+ * Added a workaround for the bug in horizontal scrollbars of Qt 5.14.0.
 
 V0.12.0
 ---------

@@ -2236,7 +2236,7 @@ in die gespeicherte Sitzung eingeschlossen.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="138"/>
+        <location filename="../../textedit.cpp" line="144"/>
         <source>Double click to center current line</source>
         <translation>Doppel-Klick um die aktuelle Zeile zu zentreieren</translation>
     </message>

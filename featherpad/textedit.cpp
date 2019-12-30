@@ -134,6 +134,12 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     VScrollBar *vScrollBar = new VScrollBar;
     setVerticalScrollBar (vScrollBar);
 
+#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+    /* workaround */
+    HScrollBar *hScrollBar = new HScrollBar;
+    setHorizontalScrollBar (hScrollBar);
+#endif
+
     lineNumberArea = new LineNumberArea (this);
     lineNumberArea->setToolTip (tr ("Double click to center current line"));
     lineNumberArea->hide();
@@ -1163,15 +1169,26 @@ void TextEdit::wheelEvent (QWheelEvent *event)
             return;
         }
 
+#if (QT_VERSION >= QT_VERSION_CHECK(5,12,0))
+            bool horizontal (event->angleDelta().x() != 0);
+#else
+            bool horizontal (event->orientation() == Qt::Horizontal);
+#endif
         if (event->modifiers() & Qt::ShiftModifier)
         { // line-by-line scrolling when Shift is pressed
-            int delta = event->modifiers() & Qt::AltModifier
+            int delta = horizontal
                             ? event->angleDelta().x() : event->angleDelta().y();
 #if (QT_VERSION >= QT_VERSION_CHECK(5,12,0))
             QWheelEvent e (event->posF(),
                            event->globalPosF(),
                            event->pixelDelta(),
+#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+                           horizontal
+                               ? QPoint (delta / QApplication::wheelScrollLines(), 0)
+                               : QPoint (0, delta / QApplication::wheelScrollLines()),
+#else
                            QPoint (0, delta / QApplication::wheelScrollLines()),
+#endif
                            event->buttons(),
                            Qt::NoModifier,
                            event->phase(),
@@ -1185,7 +1202,7 @@ void TextEdit::wheelEvent (QWheelEvent *event)
                            Qt::NoModifier,
                            Qt::Vertical);
 #endif
-            QCoreApplication::sendEvent (event->modifiers() & Qt::AltModifier
+            QCoreApplication::sendEvent (horizontal
                                              ? horizontalScrollBar()
                                              : verticalScrollBar(), &e);
             return;
@@ -1194,7 +1211,7 @@ void TextEdit::wheelEvent (QWheelEvent *event)
         /* inertial scrolling */
         if (inertialScrolling_
             && event->spontaneous()
-            && !(event->modifiers() & Qt::AltModifier)
+            && !horizontal
             && event->source() == Qt::MouseEventNotSynthesized)
         {
             if (QScrollBar* vbar = verticalScrollBar())
