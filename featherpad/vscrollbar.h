@@ -21,7 +21,9 @@
 #define VSCROLLBAR_H
 
 #include <QScrollBar>
+#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
 #include <QWheelEvent>
+#endif
 
 namespace FeatherPad {
 
