@@ -21,7 +21,7 @@
 #include "ui_fp.h"
 
 #include "pref.h"
-#include "ui_predDialog.h"
+#include "ui_prefDialog.h"
 #include "filedialog.h"
 
 #include <QScreen>
@@ -122,7 +122,7 @@ PrefDialog::PrefDialog (QWidget *parent)
         if (QWindow *win = parent->windowHandle())
         {
             if (QScreen *sc = win->screen())
-                ag = sc->availableVirtualGeometry().size();
+                ag = sc->availableGeometry().size();
         }
     }
     if (ag.isEmpty()) ag = QSize (qMax (700, config.getStartSize().width()), qMax (500, config.getStartSize().height()));
@@ -299,7 +299,7 @@ PrefDialog::PrefDialog (QWidget *parent)
     if (FPwin *win = static_cast<FPwin *>(parent_))
     {
         if (DEFAULT_SHORTCUTS.isEmpty())
-        { // NOTE: Shortcut strings hould be in the PortableText format.
+        { // NOTE: Shortcut strings should be in the PortableText format.
             const auto defaultShortcuts = win->defaultShortcuts();
             QHash<QAction*, QKeySequence>::const_iterator iter = defaultShortcuts.constBegin();
             while (iter != defaultShortcuts.constEnd())
@@ -343,7 +343,7 @@ PrefDialog::PrefDialog (QWidget *parent)
         QTableWidgetItem *item = new QTableWidgetItem (it.key());
         item->setFlags (item->flags() & ~Qt::ItemIsEditable & ~Qt::ItemIsSelectable);
         ui->tableWidget->setItem (index, 0, item);
-        /* shortcut texts should added in the NativeText format */
+        /* shortcut texts should be added in the NativeText format */
         ui->tableWidget->setItem (index, 1, new QTableWidgetItem (QKeySequence (it.value(), QKeySequence::PortableText)
                                                                   .toString (QKeySequence::NativeText)));
         ++ it;

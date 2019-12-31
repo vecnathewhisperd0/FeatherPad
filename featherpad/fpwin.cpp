@@ -127,10 +127,10 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     /* get the default (customizable) shortcuts before any change */
     static const QStringList excluded = {"actionCut", "actionCopy", "actionPaste", "actionSelectAll"};
     const auto allMenus = ui->menuBar->findChildren<QMenu*>();
-    for (auto thisMenu : allMenus)
+    for (const auto &thisMenu : allMenus)
     {
         const auto menuActions = thisMenu->actions();
-        for (auto menuAction : menuActions)
+        for (const auto &menuAction : menuActions)
         {
             QKeySequence seq = menuAction->shortcut();
             if (!seq.isEmpty() && !excluded.contains (menuAction->objectName()))
@@ -489,7 +489,7 @@ void FPwin::applyConfigOnStarting()
         QSize startSize = config.getStartSize();
         /*QSize ag;
         if (QScreen *pScreen = QApplication::primaryScreen()) // the window isn't shown yet
-            ag = pScreen->availableVirtualGeometry().size();
+            ag = pScreen->availableGeometry().size();
         if (!ag.isEmpty()
             && (startSize.width() > ag.width() || startSize.height() > ag.height()))
         {
@@ -1468,6 +1468,8 @@ void FPwin::editorContextMenu (const QPoint& p)
             if (textEdit->textCursor().selectedText().contains (QChar (QChar::ParagraphSeparator)))
             {
                 menu->addSeparator();
+                ui->actionSortLines->setEnabled (true);
+                ui->actionRSortLines->setEnabled (true);
                 menu->addAction (ui->actionSortLines);
                 menu->addAction (ui->actionRSortLines);
             }

@@ -15,13 +15,13 @@
         <location filename="../../fpwin.cpp" line="402"/>
         <location filename="../../fpwin.cpp" line="1305"/>
         <location filename="../../fpwin.cpp" line="1366"/>
-        <location filename="../../fpwin.cpp" line="1846"/>
-        <location filename="../../fpwin.cpp" line="1898"/>
-        <location filename="../../fpwin.cpp" line="2666"/>
-        <location filename="../../fpwin.cpp" line="2686"/>
-        <location filename="../../fpwin.cpp" line="2689"/>
-        <location filename="../../fpwin.cpp" line="3193"/>
-        <location filename="../../fpwin.cpp" line="3901"/>
+        <location filename="../../fpwin.cpp" line="1848"/>
+        <location filename="../../fpwin.cpp" line="1900"/>
+        <location filename="../../fpwin.cpp" line="2668"/>
+        <location filename="../../fpwin.cpp" line="2688"/>
+        <location filename="../../fpwin.cpp" line="2691"/>
+        <location filename="../../fpwin.cpp" line="3195"/>
+        <location filename="../../fpwin.cpp" line="3903"/>
         <source>Untitled</source>
         <translation>Be pavadinimo</translation>
     </message>
@@ -65,8 +65,8 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1328"/>
-        <location filename="../../fpwin.cpp" line="2591"/>
-        <location filename="../../fpwin.cpp" line="3714"/>
+        <location filename="../../fpwin.cpp" line="2593"/>
+        <location filename="../../fpwin.cpp" line="3716"/>
         <source>Encoding</source>
         <translation>Koduotė</translation>
     </message>
@@ -597,7 +597,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="339"/>
-        <location filename="../../fpwin.cpp" line="3291"/>
+        <location filename="../../fpwin.cpp" line="3293"/>
         <location filename="../../replace.cpp" line="62"/>
         <location filename="../../replace.cpp" line="115"/>
         <source>Rep&amp;lacement</source>
@@ -791,7 +791,7 @@
         <translation>&amp;Paskiausiai atverti</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1716"/>
+        <location filename="../../fpwin.cpp" line="1718"/>
         <source>Close</source>
         <translation>Užverti</translation>
     </message>
@@ -833,38 +833,38 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1329"/>
-        <location filename="../../fpwin.cpp" line="2593"/>
-        <location filename="../../fpwin.cpp" line="2953"/>
-        <location filename="../../fpwin.cpp" line="2964"/>
-        <location filename="../../fpwin.cpp" line="2971"/>
-        <location filename="../../fpwin.cpp" line="3718"/>
-        <location filename="../../fpwin.cpp" line="5103"/>
-        <location filename="../../fpwin.cpp" line="5114"/>
-        <location filename="../../fpwin.cpp" line="5121"/>
+        <location filename="../../fpwin.cpp" line="2595"/>
+        <location filename="../../fpwin.cpp" line="2955"/>
+        <location filename="../../fpwin.cpp" line="2966"/>
+        <location filename="../../fpwin.cpp" line="2973"/>
+        <location filename="../../fpwin.cpp" line="3720"/>
+        <location filename="../../fpwin.cpp" line="5105"/>
+        <location filename="../../fpwin.cpp" line="5116"/>
+        <location filename="../../fpwin.cpp" line="5123"/>
         <source>Lines</source>
         <translation>Eilutės</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1330"/>
-        <location filename="../../fpwin.cpp" line="3719"/>
-        <location filename="../../fpwin.cpp" line="3733"/>
+        <location filename="../../fpwin.cpp" line="3721"/>
+        <location filename="../../fpwin.cpp" line="3735"/>
         <source>Sel. Chars</source>
         <translation>Paž. simbolių</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1331"/>
-        <location filename="../../fpwin.cpp" line="3721"/>
-        <location filename="../../fpwin.cpp" line="3734"/>
+        <location filename="../../fpwin.cpp" line="3723"/>
+        <location filename="../../fpwin.cpp" line="3736"/>
         <source>Words</source>
         <translation>Žodžiai</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1619"/>
+        <location filename="../../fpwin.cpp" line="1621"/>
         <source>Another process is running in this tab!</source>
         <translation>Šioje kortelėje yra vykdomas kitas procesas!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1707"/>
+        <location filename="../../fpwin.cpp" line="1709"/>
         <source>Script File</source>
         <translation>Scenarijaus failas</translation>
     </message>
@@ -875,21 +875,21 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="669"/>
-        <location filename="../../fpwin.cpp" line="3760"/>
+        <location filename="../../fpwin.cpp" line="3762"/>
         <source>Position:</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="716"/>
-        <location filename="../../fpwin.cpp" line="3778"/>
-        <location filename="../../fpwin.cpp" line="3798"/>
+        <location filename="../../fpwin.cpp" line="3780"/>
+        <location filename="../../fpwin.cpp" line="3800"/>
         <source>Normal</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1100"/>
-        <location filename="../../fpwin.cpp" line="2368"/>
-        <location filename="../../fpwin.cpp" line="4915"/>
+        <location filename="../../fpwin.cpp" line="2370"/>
+        <location filename="../../fpwin.cpp" line="4917"/>
         <source>The file does not exist.</source>
         <translation>Failo nėra.</translation>
     </message>
@@ -904,265 +904,265 @@
         <translation>Kopijuoti nuorodą</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1620"/>
+        <location filename="../../fpwin.cpp" line="1622"/>
         <source>Only one process is allowed per tab.</source>
         <translation>Kiekvienai kortelei leidžiama tik po vieną procesą.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1703"/>
+        <location filename="../../fpwin.cpp" line="1705"/>
         <source>Script Output</source>
         <translation>Scenarijaus išvestis</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1719"/>
+        <location filename="../../fpwin.cpp" line="1721"/>
         <source>Clear</source>
         <translation>Išvalyti</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2326"/>
+        <location filename="../../fpwin.cpp" line="2328"/>
         <source>FeatherPad does not open files larger than 100 MiB.</source>
         <translation>FeatherPad neatveria failų, didesnių nei 100 MiB.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2334"/>
+        <location filename="../../fpwin.cpp" line="2336"/>
         <source>Non-text file(s) not opened!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2335"/>
+        <location filename="../../fpwin.cpp" line="2337"/>
         <source>See Preferences → Files → Do not permit opening of non-text files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2343"/>
+        <location filename="../../fpwin.cpp" line="2345"/>
         <source>Some file(s) could not be opened!</source>
         <translation>Kai kurių failų nepavyko atverti!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2344"/>
+        <location filename="../../fpwin.cpp" line="2346"/>
         <source>You may not have the permission to read.</source>
         <translation>Gali būti, kad neturite skaitymo teisių.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2354"/>
+        <location filename="../../fpwin.cpp" line="2356"/>
         <source>Uneditable file(s)!</source>
         <translation>Neredaguojami failai!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2355"/>
+        <location filename="../../fpwin.cpp" line="2357"/>
         <source>Non-text files or files with huge lines cannot be edited.</source>
         <translation>Netekstiniai failai ar failai su daug eilučių negali būti redaguojami.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2412"/>
+        <location filename="../../fpwin.cpp" line="2414"/>
         <source>A previous crash detected!</source>
         <translation>Aptikta ankstesnė strigtis!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2413"/>
+        <location filename="../../fpwin.cpp" line="2415"/>
         <source>Preferably, close all FeatherPad windows and start again!</source>
         <translation>Pageidaujama, kad užvertumėte visus FeatherPad langus ir pradėtumėte iš naujo!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2420"/>
+        <location filename="../../fpwin.cpp" line="2422"/>
         <source>Root Instance</source>
         <translation>Šaknies egzempliorius</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2491"/>
-        <location filename="../../fpwin.cpp" line="2648"/>
-        <location filename="../../fpwin.cpp" line="2675"/>
+        <location filename="../../fpwin.cpp" line="2493"/>
+        <location filename="../../fpwin.cpp" line="2650"/>
+        <location filename="../../fpwin.cpp" line="2677"/>
         <source>All Files (*)</source>
         <translation>Visi failai (*)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2496"/>
+        <location filename="../../fpwin.cpp" line="2498"/>
         <source>All Files (*);;.%1 Files (*.%1)</source>
         <translation>Visi failai (*);;.%1 failai (*.%1)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2500"/>
+        <location filename="../../fpwin.cpp" line="2502"/>
         <source>Open file...</source>
         <translation>Atverti failą...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2653"/>
+        <location filename="../../fpwin.cpp" line="2655"/>
         <source>.%1 Files (*.%1);;All Files (*)</source>
         <translation>.%1 failai (*.%1);;Visi failai (*)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2700"/>
-        <location filename="../../fpwin.cpp" line="2732"/>
+        <location filename="../../fpwin.cpp" line="2702"/>
+        <location filename="../../fpwin.cpp" line="2734"/>
         <source>Save as...</source>
         <translation>Įrašyti kaip...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2762"/>
+        <location filename="../../fpwin.cpp" line="2764"/>
         <source>Keep encoding and save as...</source>
         <translation>Išsaugoti koduotę ir įrašyti kaip...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2836"/>
+        <location filename="../../fpwin.cpp" line="2838"/>
         <source>Yes</source>
         <translation>Taip</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2837"/>
+        <location filename="../../fpwin.cpp" line="2839"/>
         <source>No</source>
         <translation>Ne</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2838"/>
+        <location filename="../../fpwin.cpp" line="2840"/>
         <source>Cancel</source>
         <translation>Atsisakyti</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2839"/>
+        <location filename="../../fpwin.cpp" line="2841"/>
         <source>Do you want to use &lt;b&gt;MS Windows&lt;/b&gt; end-of-lines?</source>
         <translation>Ar norite naudoti &lt;b&gt;MS Windows&lt;/b&gt; eilučių pabaigas?</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2840"/>
+        <location filename="../../fpwin.cpp" line="2842"/>
         <source>This may be good for readability under MS Windows.</source>
         <translation>Tai gali praversti skaitomumui, naudojant MS Windows.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2987"/>
+        <location filename="../../fpwin.cpp" line="2989"/>
         <source>Cannot be saved!</source>
         <translation>Nepavyksta įrašyti!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="400"/>
-        <location filename="../../fpwin.cpp" line="3191"/>
-        <location filename="../../fpwin.cpp" line="5299"/>
+        <location filename="../../fpwin.cpp" line="3193"/>
+        <location filename="../../fpwin.cpp" line="5301"/>
         <source>Help</source>
         <translation>Žinynas</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2949"/>
-        <location filename="../../fpwin.cpp" line="2955"/>
-        <location filename="../../fpwin.cpp" line="2963"/>
-        <location filename="../../fpwin.cpp" line="3717"/>
-        <location filename="../../fpwin.cpp" line="5099"/>
-        <location filename="../../fpwin.cpp" line="5105"/>
-        <location filename="../../fpwin.cpp" line="5113"/>
+        <location filename="../../fpwin.cpp" line="2951"/>
+        <location filename="../../fpwin.cpp" line="2957"/>
+        <location filename="../../fpwin.cpp" line="2965"/>
+        <location filename="../../fpwin.cpp" line="3719"/>
+        <location filename="../../fpwin.cpp" line="5101"/>
+        <location filename="../../fpwin.cpp" line="5107"/>
+        <location filename="../../fpwin.cpp" line="5115"/>
         <source>Syntax</source>
         <translation>Sintaksė</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2325"/>
+        <location filename="../../fpwin.cpp" line="2327"/>
         <source>Huge file(s) not opened!</source>
         <translation>Didžiulis failas(-ai) neatverti!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3203"/>
-        <location filename="../../fpwin.cpp" line="3390"/>
+        <location filename="../../fpwin.cpp" line="3205"/>
+        <location filename="../../fpwin.cpp" line="3392"/>
         <source>This file has been modified elsewhere or in another way!</source>
         <translation>Šis failas buvo modifikuotas kitur arba kitokiu būdu!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3204"/>
-        <location filename="../../fpwin.cpp" line="3391"/>
+        <location filename="../../fpwin.cpp" line="3206"/>
+        <location filename="../../fpwin.cpp" line="3393"/>
         <source>Please be careful about reloading or saving this document!</source>
         <translation>Elkitės atsargiai įkeldami šį dokumentą iš naujo ar jį įrašydami!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3912"/>
+        <location filename="../../fpwin.cpp" line="3914"/>
         <source>Print Document</source>
         <translation>Spausdinti dokumentą</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4506"/>
-        <location filename="../../fpwin.cpp" line="4574"/>
+        <location filename="../../fpwin.cpp" line="4508"/>
+        <location filename="../../fpwin.cpp" line="4576"/>
         <source>%1 Pages</source>
         <translation>%1 puslapiai</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4532"/>
-        <location filename="../../fpwin.cpp" line="4602"/>
+        <location filename="../../fpwin.cpp" line="4534"/>
+        <location filename="../../fpwin.cpp" line="4604"/>
         <source>Copy Target Path</source>
         <translation>Kopijuoti paskirties kelią</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4536"/>
-        <location filename="../../fpwin.cpp" line="4606"/>
+        <location filename="../../fpwin.cpp" line="4538"/>
+        <location filename="../../fpwin.cpp" line="4608"/>
         <source>Open Target Here</source>
         <translation>Atverti paskirtį čia</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4724"/>
+        <location filename="../../fpwin.cpp" line="4726"/>
         <source>You need to add a Hunspell dictionary.</source>
         <translation>Turite pridėti Hunspell žodyną.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4725"/>
-        <location filename="../../fpwin.cpp" line="4731"/>
-        <location filename="../../fpwin.cpp" line="4740"/>
+        <location filename="../../fpwin.cpp" line="4727"/>
+        <location filename="../../fpwin.cpp" line="4733"/>
+        <location filename="../../fpwin.cpp" line="4742"/>
         <source>See Preferences → Text → Spell Checking!</source>
         <translation>Žiūrėkite Nuostatos → Tekstas → Rašybos tikrinimas!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4730"/>
+        <location filename="../../fpwin.cpp" line="4732"/>
         <source>The Hunspell dictionary does not exist.</source>
         <translation>Hunspell žodyno nėra.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4739"/>
+        <location filename="../../fpwin.cpp" line="4741"/>
         <source>The Hunspell dictionary is not accompanied by an affix file.</source>
         <translation>Hunspell žodynas nėra lydimas pridedamo failo.</translation>
-    </message>
-    <message>
-        <location filename="../../fpwin.cpp" line="4761"/>
-        <location filename="../../fpwin.cpp" line="4779"/>
-        <location filename="../../fpwin.cpp" line="4794"/>
-        <source>No misspelling in document.</source>
-        <translation>Dokumente nėra rašymo su klaidomis.</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="4763"/>
         <location filename="../../fpwin.cpp" line="4781"/>
         <location filename="../../fpwin.cpp" line="4796"/>
+        <source>No misspelling in document.</source>
+        <translation>Dokumente nėra rašymo su klaidomis.</translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="4765"/>
+        <location filename="../../fpwin.cpp" line="4783"/>
+        <location filename="../../fpwin.cpp" line="4798"/>
         <source>No misspelling from text cursor.</source>
         <translation>Pradedant nuo teksto žymeklio nėra rašymo su klaidomis.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4808"/>
+        <location filename="../../fpwin.cpp" line="4810"/>
         <source>Spell Checking</source>
         <translation>Rašybos tikrinimas</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5137"/>
+        <location filename="../../fpwin.cpp" line="5139"/>
         <source>Some files cannot be saved!</source>
         <translation>Kai kurių failų nepavyksta įrašyti!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5180"/>
+        <location filename="../../fpwin.cpp" line="5182"/>
         <source>Translators</source>
         <translation>Vertėjai</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5176"/>
+        <location filename="../../fpwin.cpp" line="5178"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translation>Supaprastintas, palaikantis korteles, grynųjų tekstų redaktorius</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5177"/>
+        <location filename="../../fpwin.cpp" line="5179"/>
         <source>based on Qt5</source>
         <translation>pagrįstas Qt5</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5178"/>
+        <location filename="../../fpwin.cpp" line="5180"/>
         <source>Author</source>
         <translation>Autorius</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5179"/>
+        <location filename="../../fpwin.cpp" line="5181"/>
         <source>aka.</source>
         <translation>dar žinomas kaip</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5180"/>
-        <location filename="../../fpwin.cpp" line="5181"/>
+        <location filename="../../fpwin.cpp" line="5182"/>
+        <location filename="../../fpwin.cpp" line="5183"/>
         <source>About FeatherPad</source>
         <translation>Apie FeatherPad</translation>
     </message>
@@ -1276,155 +1276,155 @@
 <context>
     <name>FeatherPad::PrefDialog</name>
     <message>
-        <location filename="../../predDialog.ui" line="14"/>
+        <location filename="../../prefDialog.ui" line="14"/>
         <source>Preferences</source>
         <translation>Nuostatos</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="30"/>
+        <location filename="../../prefDialog.ui" line="30"/>
         <source>Window</source>
         <translation>Langas</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="69"/>
+        <location filename="../../prefDialog.ui" line="69"/>
         <source>Window Settings</source>
         <translation>Lango nustatymai</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="75"/>
+        <location filename="../../prefDialog.ui" line="75"/>
         <source>Remember window &amp;size on closing</source>
         <translation>Užveriant, prisiminti lango &amp;dydį</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="84"/>
-        <location filename="../../predDialog.ui" line="97"/>
-        <location filename="../../predDialog.ui" line="107"/>
-        <location filename="../../predDialog.ui" line="120"/>
+        <location filename="../../prefDialog.ui" line="84"/>
+        <location filename="../../prefDialog.ui" line="97"/>
+        <location filename="../../prefDialog.ui" line="107"/>
+        <location filename="../../prefDialog.ui" line="120"/>
         <source>Window frame is excluded.</source>
         <translation>Lango rėmelis yra išskiriamas.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="87"/>
+        <location filename="../../prefDialog.ui" line="87"/>
         <source>Start with this size: </source>
         <translation>Pradėti šiuo dydžiu: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="100"/>
-        <location filename="../../predDialog.ui" line="123"/>
+        <location filename="../../prefDialog.ui" line="100"/>
+        <location filename="../../prefDialog.ui" line="123"/>
         <source> px</source>
         <translation> piks.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="110"/>
+        <location filename="../../prefDialog.ui" line="110"/>
         <source>×</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="148"/>
+        <location filename="../../prefDialog.ui" line="148"/>
         <source>Enforcing a window position is not recommended
 and may not work with some window managers.</source>
         <translation>Priverstinai naudoti lango poziciją nėra rekomenduojama
 ir tai gali neveikti su kai kuriomis langų tvarkytuvėmis.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="152"/>
+        <location filename="../../prefDialog.ui" line="152"/>
         <source>Remember window &amp;position on closing</source>
         <translation>Užveriant, prisiminti lango &amp;poziciją</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="159"/>
+        <location filename="../../prefDialog.ui" line="159"/>
         <source>Most suitable with sessions
 but without tab functionality.</source>
         <translation>Labiausia tinka su seansais, tačiau be
 kortelių funkcionalumo.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="188"/>
+        <location filename="../../prefDialog.ui" line="188"/>
         <source>Uncheck for 1/5 of the width.</source>
         <translation>Nuimkite žymėjimą, norėdami naudoti 1/5 pločio.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="191"/>
+        <location filename="../../prefDialog.ui" line="191"/>
         <source>Remember splitter position</source>
         <translation>Prisiminti skirtuko vietą</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="200"/>
+        <location filename="../../prefDialog.ui" line="200"/>
         <source>Do not show &amp;toolbar</source>
         <translation>Nerodyti į&amp;rankių juostos</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="207"/>
+        <location filename="../../prefDialog.ui" line="207"/>
         <source>If the menubar is hidden,
 a menu button appears on the toolbar.</source>
         <translation>Jeigu meniu juosta yra paslėpta,
 meniu mygtukas yra rodomas įrankių juostoje.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="211"/>
+        <location filename="../../prefDialog.ui" line="211"/>
         <source>Do not show &amp;menubar</source>
         <translation>Nerodyti &amp;meniu juostos</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="218"/>
+        <location filename="../../prefDialog.ui" line="218"/>
         <source>Hide search &amp;bar by default</source>
         <translation>Pagal numatymą, slėpti paieškos &amp;juostą</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="225"/>
+        <location filename="../../prefDialog.ui" line="225"/>
         <source>By default, each search entry
 has a separate search history.</source>
         <translation>Pagal numatymą, kiekvienas paieškos
 įrašas turi atskirą paieškos istoriją.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="229"/>
+        <location filename="../../prefDialog.ui" line="229"/>
         <source>Use a shared search history</source>
         <translation>Naudoti bendrinamą paieškos istoriją</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="236"/>
+        <location filename="../../prefDialog.ui" line="236"/>
         <source>Always show st&amp;atus bar</source>
         <translation>Visada rodyti &amp;būsenos juostą</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="261"/>
+        <location filename="../../prefDialog.ui" line="261"/>
         <source>Show cursor position on status bar</source>
         <translation>Rodyti būsenos juostoje žymeklio vietą</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="272"/>
-        <location filename="../../predDialog.ui" line="282"/>
+        <location filename="../../prefDialog.ui" line="272"/>
+        <location filename="../../prefDialog.ui" line="282"/>
         <source>Will take effect after closing this dialog.</source>
         <translation>Įsigalios, užvėrus šį dialogą.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="275"/>
+        <location filename="../../prefDialog.ui" line="275"/>
         <source>Tab position: </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="286"/>
+        <location filename="../../prefDialog.ui" line="286"/>
         <source>North</source>
         <translation>Viršus</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="291"/>
+        <location filename="../../prefDialog.ui" line="291"/>
         <source>South</source>
         <translation>Apačia</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="296"/>
+        <location filename="../../prefDialog.ui" line="296"/>
         <source>West</source>
         <translation>Kairė</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="301"/>
+        <location filename="../../prefDialog.ui" line="301"/>
         <source>East</source>
         <translation>Dešinė</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="327"/>
+        <location filename="../../prefDialog.ui" line="327"/>
         <source>This means that, for LTR, Alt+Right goes to the first tab
 after the last tab is activated, and the same for Alt+Left.
 
@@ -1435,17 +1435,17 @@ ir paspaudus Alt+Dešinėn bus pereita į pirmą kortelę, taip pat ir su Alt+Ka
 Kortelių naršymas pelės ratuku nebus paveiktas.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="333"/>
+        <location filename="../../prefDialog.ui" line="333"/>
         <source>Tab navigation wraps &amp;around</source>
         <translation>&amp;Cikliškai perjunginėti kortelių naršymą</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="353"/>
+        <location filename="../../prefDialog.ui" line="353"/>
         <source>Close window on closing its last tab</source>
         <translation>Užvėrus paskutinę kortelę, užverti langą</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="360"/>
+        <location filename="../../prefDialog.ui" line="360"/>
         <source>By default, if a FeatherPad window exists on the
 current desktop, files will be opened in its tabs.
 
@@ -1458,12 +1458,12 @@ Kita vertus, kai kurios darbalaukio aplinkos gali ir nepranešti,
 kad turi kelis darbalaukius.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="367"/>
+        <location filename="../../prefDialog.ui" line="367"/>
         <source>Always open in separate windows</source>
         <translation>Visada atverti atskiruose languose</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="374"/>
+        <location filename="../../prefDialog.ui" line="374"/>
         <source>If this is checked, the file dialog provided by the current
 desktop environment will be used instead of the Qt file dialog.
 
@@ -1474,32 +1474,32 @@ esamos darbalaukio aplinkos pateikiamas failų dialogas.
 Kai kurios darbalaukio aplinkos, tokios kaip KDE ir LXQt, pateikia failų dialogus.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="380"/>
+        <location filename="../../prefDialog.ui" line="380"/>
         <source>Native file dialog</source>
         <translation>Savas failų dialogas</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="456"/>
+        <location filename="../../prefDialog.ui" line="456"/>
         <source>Uncheck for Monospace.</source>
         <translation>Nuimkite žymėjimą, norėdami naudoti Lygiaplotį (Monospace).</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="459"/>
+        <location filename="../../prefDialog.ui" line="459"/>
         <source>Remember &amp;font</source>
         <translation>Prisiminti šri&amp;ftą</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="480"/>
+        <location filename="../../prefDialog.ui" line="480"/>
         <source>This covers parentheses, braces, brackets and quotes.</source>
         <translation>Tai apima įvairius skliaustelius, riestinius skliaustus ir kabutes.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="483"/>
+        <location filename="../../prefDialog.ui" line="483"/>
         <source>Auto-&amp;bracket</source>
         <translation>Automatiniai &amp;skliaustai</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="490"/>
+        <location filename="../../prefDialog.ui" line="490"/>
         <source>By default, a triple period is replaced with an ellipsis
 and a double hyphen with a long dash while typing,
 under proper circumstances.</source>
@@ -1508,102 +1508,102 @@ trys taškai yra pakeičiami daugtaškiu, o dvigubas brūkšnelis
 ilguoju brūkšniu.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="495"/>
+        <location filename="../../prefDialog.ui" line="495"/>
         <source>Replace triple periods and double hyphens while typing</source>
         <translation>Rašant, pakeisti trys taškus ir dvigubus brūkšnelius</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="565"/>
+        <location filename="../../prefDialog.ui" line="565"/>
         <source>Never highlight syntax for files &gt; </source>
         <translation>Niekada neparyškinti sintaksės failams, kurie &gt; </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="534"/>
+        <location filename="../../prefDialog.ui" line="534"/>
         <source>This creates a menu button on the
 status bar for changing the syntax.</source>
         <translation>Tai būsenos juostoje sukuria meniu mygtuką,
 skirtą keisti sintaksę.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="538"/>
+        <location filename="../../prefDialog.ui" line="538"/>
         <source>Support syntax override</source>
         <translation>Palaikyti sintaksės nustelbimą</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="603"/>
+        <location filename="../../prefDialog.ui" line="603"/>
         <source>Show spaces, tabs and tab lines
 when the syntax is highlighted.</source>
         <translation>Paryškinus sintaksę, rodyti tarpus,
 tabuliavimus ir tabuliavimo eilutes.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="607"/>
+        <location filename="../../prefDialog.ui" line="607"/>
         <source>Show whitespaces</source>
         <translation>Rodyti tarpus</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="623"/>
-        <location filename="../../predDialog.ui" line="634"/>
+        <location filename="../../prefDialog.ui" line="623"/>
+        <location filename="../../prefDialog.ui" line="634"/>
         <source>The vertical position lines will be drawn only if
 the editor font has a fixed pitch (like Monospace).</source>
         <translation>Vertikalių pozicijų eilutės bus nubrėžtos tik tuomet,
 jei redaktoriaus šriftas yra fiksuoto dydžio (pvz., Lygiaplotis).</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="627"/>
+        <location filename="../../prefDialog.ui" line="627"/>
         <source>Show vertical lines starting from this position:</source>
         <translation>Rodyti vertikalias eilutes pradedant nuo šios pozicijos:</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="614"/>
+        <location filename="../../prefDialog.ui" line="614"/>
         <source>Also show line and document ends</source>
         <translation>Taip pat rodyti eilučių ir dokumentų pabaigas</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="753"/>
+        <location filename="../../prefDialog.ui" line="753"/>
         <source>Date and time format:</source>
         <translation>Datos ir laiko formatas:</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="823"/>
+        <location filename="../../prefDialog.ui" line="823"/>
         <source>Some text editors cannot open a document
 whose last line is not empty.</source>
         <translation>Kai kurie tekstų redaktoriai negali atverti dokumentus,
 kuriuose paskutinė eilutė nėra tuščia.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="827"/>
+        <location filename="../../prefDialog.ui" line="827"/>
         <source>Ensure an empty last line on saving</source>
         <translation>Įrašant, užtikrinti kad paskutinė eilutė būtų tuščia</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="834"/>
+        <location filename="../../prefDialog.ui" line="834"/>
         <source>Remove trailing spaces on saving</source>
         <translation>Įrašant, šalinti galinius tarpus</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="852"/>
+        <location filename="../../prefDialog.ui" line="852"/>
         <source>Inertial scrolling with mouse wheel</source>
         <translation>Inercinis slinkimas pelės ratuku</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="952"/>
+        <location filename="../../prefDialog.ui" line="952"/>
         <source>Files</source>
         <translation>Failai</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="958"/>
+        <location filename="../../prefDialog.ui" line="958"/>
         <source>File Management</source>
         <translation>Failų tvarkymas</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1075"/>
+        <location filename="../../prefDialog.ui" line="1075"/>
         <source>Start with files of last window</source>
         <translation>Pradėti su paskutinio lango failais</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1117"/>
-        <location filename="../../predDialog.ui" line="1136"/>
+        <location filename="../../prefDialog.ui" line="1117"/>
+        <location filename="../../prefDialog.ui" line="1136"/>
         <source>This can be any starting command with
 arguments, for example, &quot;xterm -hold&quot;
 for running the process in XTerm.
@@ -1626,42 +1626,42 @@ emuliatoriuje, išvestis ir klaidos pranešimai
 bus rodomi iškylančiajame dialoge.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1129"/>
+        <location filename="../../prefDialog.ui" line="1129"/>
         <source>Start with this command: </source>
         <translation>Pradėti, naudojant šią komandą: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1148"/>
+        <location filename="../../prefDialog.ui" line="1148"/>
         <source>Command + Arguments</source>
         <translation>Komanda + Argumentai</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1033"/>
+        <location filename="../../prefDialog.ui" line="1033"/>
         <source>Show recentl&amp;y modified files</source>
         <translation>Rodyti paskiausia&amp;i modifikuotus failus</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1063"/>
+        <location filename="../../prefDialog.ui" line="1063"/>
         <source>Show recentl&amp;y opened files</source>
         <translation>Rodyti paskiausiai at&amp;vertus failus</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1162"/>
+        <location filename="../../prefDialog.ui" line="1162"/>
         <source>Save changes to opened files every:</source>
         <translation>Įrašyti pakeitimus atvertiems failams kas:</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1307"/>
+        <location filename="../../prefDialog.ui" line="1307"/>
         <source>Help</source>
         <translation>Žinynas</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="163"/>
+        <location filename="../../prefDialog.ui" line="163"/>
         <source>Start with side-pane mode</source>
         <translation>Pradėti, naudojant šoninio polangio veikseną</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="340"/>
+        <location filename="../../prefDialog.ui" line="340"/>
         <source>If this is checked, not only you will lose the informative
 tooltip and context menu of a single tab but you could not
 merge a single tabbed window into another one by tab drag-
@@ -1671,69 +1671,69 @@ ir vienintelės kortelės kontekstinį meniu, tačiau ir negalėsite sulieti
 langų su kortelėmis, velkant korteles.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="346"/>
+        <location filename="../../prefDialog.ui" line="346"/>
         <source>&amp;Do not show a single tab</source>
         <translation>&amp;Nerodyti vienintelės kortelės</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="411"/>
+        <location filename="../../prefDialog.ui" line="411"/>
         <source>Text</source>
         <translation>Tekstas</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="450"/>
+        <location filename="../../prefDialog.ui" line="450"/>
         <source>Text Editor</source>
         <translation>Tekstų redaktorius</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="466"/>
+        <location filename="../../prefDialog.ui" line="466"/>
         <source>&amp;Wrap lines by default</source>
         <translation>Pagal numatymą, s&amp;kaidyti eilutes</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="473"/>
+        <location filename="../../prefDialog.ui" line="473"/>
         <source>Auto-&amp;indent by default</source>
         <translation>Pagal numatymą, daryti automatinę į&amp;trauką</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="502"/>
+        <location filename="../../prefDialog.ui" line="502"/>
         <source>Always show line &amp;numbers</source>
         <translation>Visada rodyti eilučių &amp;numerius</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="509"/>
+        <location filename="../../prefDialog.ui" line="509"/>
         <source>Highlight s&amp;yntax by default</source>
         <translation>Pagal numatymą, paryškinti s&amp;intaksę</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="669"/>
+        <location filename="../../prefDialog.ui" line="669"/>
         <source>Dark c&amp;olor scheme</source>
         <translation>Tamsių s&amp;palvų schema</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="704"/>
+        <location filename="../../prefDialog.ui" line="704"/>
         <source>Background color value: </source>
         <translation>Foninės spalvos reikšmė: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="572"/>
+        <location filename="../../prefDialog.ui" line="572"/>
         <source> MiB</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="859"/>
+        <location filename="../../prefDialog.ui" line="859"/>
         <source>This is not a complete fix but
 prevents annoying scroll jumps.</source>
         <translation>Tai nėra pilnas pataisymas, tačiau
 neleidžia erzinančių slinkimo peršokimų.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="863"/>
+        <location filename="../../prefDialog.ui" line="863"/>
         <source>Workaround for &amp;Qt5&apos;s scroll jump bug</source>
         <translation>&amp;Qt5 slinkimo peršokimų problemos apėjimas</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1082"/>
+        <location filename="../../prefDialog.ui" line="1082"/>
         <source>This only includes executable files written
 in script languages like Shell and Python.
 
@@ -1753,13 +1753,13 @@ Ctrl(Vald)+E. Tuomet, procesą galima nutraukti,
 paspaudus Ctrl(Vald)+Alt+E.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="666"/>
+        <location filename="../../prefDialog.ui" line="666"/>
         <source>Needs window reopening to take effect.</source>
         <translation>Tam, kad įsigaliotų, reikia atverti langą iš naujo.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="694"/>
-        <location filename="../../predDialog.ui" line="711"/>
+        <location filename="../../prefDialog.ui" line="694"/>
+        <location filename="../../prefDialog.ui" line="711"/>
         <source>The color value of the background.
 255 means white while 0 means black.
 
@@ -1778,13 +1778,13 @@ nuo 0 iki 50.
 Tam, kad įsigaliotų, reikia atverti langą iš naujo.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1092"/>
+        <location filename="../../prefDialog.ui" line="1092"/>
         <source>Run executable scripts</source>
         <translation>Vykdyti vykdomuosius scenarijus</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="966"/>
-        <location filename="../../predDialog.ui" line="980"/>
+        <location filename="../../prefDialog.ui" line="966"/>
+        <location filename="../../prefDialog.ui" line="980"/>
         <source>The maximum number of recently modified or
 opened files FeatherPad shows. The default
 is 10.
@@ -1796,8 +1796,8 @@ ar atvertų failų skaičius. Numatytoji reikšmė yra 10.
 Tam, kad įsigaliotų, reikia paleisti programą iš naujo.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="745"/>
-        <location filename="../../predDialog.ui" line="760"/>
+        <location filename="../../prefDialog.ui" line="745"/>
+        <location filename="../../prefDialog.ui" line="760"/>
         <source>Used for pasting the date and time.
 
 Takes effect after closing this dialog.
@@ -1812,35 +1812,35 @@ Palikite tuščią, norėdami naudoti:
 mmm dd, MMMM, vv:mm:ss</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="782"/>
+        <location filename="../../prefDialog.ui" line="782"/>
         <source>Text tab size:</source>
         <translation>Teksto tabuliavimo dydis:</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="789"/>
+        <location filename="../../prefDialog.ui" line="789"/>
         <source> spaces</source>
         <translation> tarpai</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="841"/>
+        <location filename="../../prefDialog.ui" line="841"/>
         <source>Thick text cursor</source>
         <translation>Storas teksto žymeklis</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="848"/>
+        <location filename="../../prefDialog.ui" line="848"/>
         <source>Should the mouse wheel scrolling be inertial
 if the cursor is inside the text view?</source>
         <translation>Ar pelės ratuko slinkimas turėtų būti inercinis,
 jei žymeklis yra teksto rodinio viduje?</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="870"/>
+        <location filename="../../prefDialog.ui" line="870"/>
         <source>Spell Checking</source>
         <translation>Rašybos tikrinimas</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="878"/>
-        <location filename="../../predDialog.ui" line="890"/>
+        <location filename="../../prefDialog.ui" line="878"/>
+        <location filename="../../prefDialog.ui" line="890"/>
         <source>A Hunspell dictionary has a name that ends with &quot;.dic&quot;
 and should be alongside an affix file with the same
 name but ending with &quot;.aff&quot;.</source>
@@ -1849,51 +1849,51 @@ ir turėtų būti kartu su pridedamu tokio pačio pavadinimo failu,
 tačiau turinčiu &quot;.aff&quot; prievardį.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="883"/>
+        <location filename="../../prefDialog.ui" line="883"/>
         <source>Hunspell dictionary path:</source>
         <translation>Hunspell žodyno kelias:</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="902"/>
+        <location filename="../../prefDialog.ui" line="902"/>
         <location filename="../../pref.cpp" line="1468"/>
         <source>Add dictionary...</source>
         <translation>Pridėti žodyną...</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="914"/>
+        <location filename="../../prefDialog.ui" line="914"/>
         <source>If this is unchecked, spell checking
 will be started from the document start.</source>
         <translation>Jei čia žymėjimas yra nuimtas, tuomet rašybos tikrinimas
 bus pradedamas nuo dokumento pradžios.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="918"/>
+        <location filename="../../prefDialog.ui" line="918"/>
         <source>Start spell checking from text cursor</source>
         <translation>Pradėti rašybos tikrinimą nuo teksto žymeklio</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="973"/>
+        <location filename="../../prefDialog.ui" line="973"/>
         <source>Number of recent files: </source>
         <translation>Paskiausiai naudotų failų skaičius: </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1072"/>
+        <location filename="../../prefDialog.ui" line="1072"/>
         <source>Only if their number is not greater than 50.</source>
         <translation>Tik jeigu jų skaičius nėra didesnis už 50.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1159"/>
-        <location filename="../../predDialog.ui" line="1169"/>
+        <location filename="../../prefDialog.ui" line="1159"/>
+        <location filename="../../prefDialog.ui" line="1169"/>
         <source>Only for files that exist and can be saved.</source>
         <translation>Tik failams, kurie yra ir gali būti įrašyti.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1172"/>
+        <location filename="../../prefDialog.ui" line="1172"/>
         <source> min</source>
         <translation> min.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1203"/>
+        <location filename="../../prefDialog.ui" line="1203"/>
         <source>If this is checked, the Save button/menu-item could
 be used also when the opened file is not modified.
 
@@ -1909,47 +1909,47 @@ pvz., laiko žymos keitimui arba tekstinio failo galinių tarpų
 šalinimui.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1211"/>
+        <location filename="../../prefDialog.ui" line="1211"/>
         <source>Allow saving unmodified files</source>
         <translation>Leisti įrašyti nemodifikuotus failus</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1218"/>
+        <location filename="../../prefDialog.ui" line="1218"/>
         <source>Show a warning instead.</source>
         <translation>Vietoj to, rodyti įspėjimą.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1221"/>
+        <location filename="../../prefDialog.ui" line="1221"/>
         <source>Do not permit opening of non-text files</source>
         <translation>Neleisti atverti netekstinius failus</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1248"/>
+        <location filename="../../prefDialog.ui" line="1248"/>
         <source>Shortcuts</source>
         <translation>Spartieji klavišai</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1267"/>
+        <location filename="../../prefDialog.ui" line="1267"/>
         <source>Action</source>
         <translation>Veiksmas</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1272"/>
+        <location filename="../../prefDialog.ui" line="1272"/>
         <source>Shortcut</source>
         <translation>Spartusis klavišas</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1280"/>
+        <location filename="../../prefDialog.ui" line="1280"/>
         <source>Restore default shortcuts.</source>
         <translation>Atkurti numatytuosius sparčiuosius klavišus.</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1283"/>
+        <location filename="../../prefDialog.ui" line="1283"/>
         <source>Default</source>
         <translation>Numatytieji</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1318"/>
+        <location filename="../../prefDialog.ui" line="1318"/>
         <source>Close</source>
         <translation>Užverti</translation>
     </message>

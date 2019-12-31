@@ -70,7 +70,7 @@ HEADERS += singleton.h \
            spellDialog.h
 
 FORMS += fp.ui \
-         predDialog.ui \
+         prefDialog.ui \
          sessionDialog.ui \
          fontDialog.ui \
          about.ui \

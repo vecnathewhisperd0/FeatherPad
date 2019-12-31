@@ -15,13 +15,13 @@
         <location filename="../../fpwin.cpp" line="402"/>
         <location filename="../../fpwin.cpp" line="1305"/>
         <location filename="../../fpwin.cpp" line="1366"/>
-        <location filename="../../fpwin.cpp" line="1846"/>
-        <location filename="../../fpwin.cpp" line="1898"/>
-        <location filename="../../fpwin.cpp" line="2666"/>
-        <location filename="../../fpwin.cpp" line="2686"/>
-        <location filename="../../fpwin.cpp" line="2689"/>
-        <location filename="../../fpwin.cpp" line="3193"/>
-        <location filename="../../fpwin.cpp" line="3901"/>
+        <location filename="../../fpwin.cpp" line="1848"/>
+        <location filename="../../fpwin.cpp" line="1900"/>
+        <location filename="../../fpwin.cpp" line="2668"/>
+        <location filename="../../fpwin.cpp" line="2688"/>
+        <location filename="../../fpwin.cpp" line="2691"/>
+        <location filename="../../fpwin.cpp" line="3195"/>
+        <location filename="../../fpwin.cpp" line="3903"/>
         <source>Untitled</source>
         <translation>未命名</translation>
     </message>
@@ -65,8 +65,8 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1328"/>
-        <location filename="../../fpwin.cpp" line="2591"/>
-        <location filename="../../fpwin.cpp" line="3714"/>
+        <location filename="../../fpwin.cpp" line="2593"/>
+        <location filename="../../fpwin.cpp" line="3716"/>
         <source>Encoding</source>
         <translation>字元編碼</translation>
     </message>
@@ -597,7 +597,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="339"/>
-        <location filename="../../fpwin.cpp" line="3291"/>
+        <location filename="../../fpwin.cpp" line="3293"/>
         <location filename="../../replace.cpp" line="62"/>
         <location filename="../../replace.cpp" line="115"/>
         <source>Rep&amp;lacement</source>
@@ -791,7 +791,7 @@
         <translation>最近開啟(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1716"/>
+        <location filename="../../fpwin.cpp" line="1718"/>
         <source>Close</source>
         <translation>關閉</translation>
     </message>
@@ -833,38 +833,38 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1329"/>
-        <location filename="../../fpwin.cpp" line="2593"/>
-        <location filename="../../fpwin.cpp" line="2953"/>
-        <location filename="../../fpwin.cpp" line="2964"/>
-        <location filename="../../fpwin.cpp" line="2971"/>
-        <location filename="../../fpwin.cpp" line="3718"/>
-        <location filename="../../fpwin.cpp" line="5103"/>
-        <location filename="../../fpwin.cpp" line="5114"/>
-        <location filename="../../fpwin.cpp" line="5121"/>
+        <location filename="../../fpwin.cpp" line="2595"/>
+        <location filename="../../fpwin.cpp" line="2955"/>
+        <location filename="../../fpwin.cpp" line="2966"/>
+        <location filename="../../fpwin.cpp" line="2973"/>
+        <location filename="../../fpwin.cpp" line="3720"/>
+        <location filename="../../fpwin.cpp" line="5105"/>
+        <location filename="../../fpwin.cpp" line="5116"/>
+        <location filename="../../fpwin.cpp" line="5123"/>
         <source>Lines</source>
         <translation>列</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1330"/>
-        <location filename="../../fpwin.cpp" line="3719"/>
-        <location filename="../../fpwin.cpp" line="3733"/>
+        <location filename="../../fpwin.cpp" line="3721"/>
+        <location filename="../../fpwin.cpp" line="3735"/>
         <source>Sel. Chars</source>
         <translation>選取字元</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1331"/>
-        <location filename="../../fpwin.cpp" line="3721"/>
-        <location filename="../../fpwin.cpp" line="3734"/>
+        <location filename="../../fpwin.cpp" line="3723"/>
+        <location filename="../../fpwin.cpp" line="3736"/>
         <source>Words</source>
         <translation>文字</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1619"/>
+        <location filename="../../fpwin.cpp" line="1621"/>
         <source>Another process is running in this tab!</source>
         <translation>在這個分頁中有另一個程序正在執行！</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1707"/>
+        <location filename="../../fpwin.cpp" line="1709"/>
         <source>Script File</source>
         <translation>腳本檔案</translation>
     </message>
@@ -875,21 +875,21 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="669"/>
-        <location filename="../../fpwin.cpp" line="3760"/>
+        <location filename="../../fpwin.cpp" line="3762"/>
         <source>Position:</source>
         <translation>位置：</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="716"/>
-        <location filename="../../fpwin.cpp" line="3778"/>
-        <location filename="../../fpwin.cpp" line="3798"/>
+        <location filename="../../fpwin.cpp" line="3780"/>
+        <location filename="../../fpwin.cpp" line="3800"/>
         <source>Normal</source>
         <translation>正常</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1100"/>
-        <location filename="../../fpwin.cpp" line="2368"/>
-        <location filename="../../fpwin.cpp" line="4915"/>
+        <location filename="../../fpwin.cpp" line="2370"/>
+        <location filename="../../fpwin.cpp" line="4917"/>
         <source>The file does not exist.</source>
         <translation>檔案不存在。</translation>
     </message>
@@ -904,265 +904,265 @@
         <translation>複製連結</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1620"/>
+        <location filename="../../fpwin.cpp" line="1622"/>
         <source>Only one process is allowed per tab.</source>
         <translation>一個分頁只允許一個程序。</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1703"/>
+        <location filename="../../fpwin.cpp" line="1705"/>
         <source>Script Output</source>
         <translation>腳本輸出</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1719"/>
+        <location filename="../../fpwin.cpp" line="1721"/>
         <source>Clear</source>
         <translation>清除</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2326"/>
+        <location filename="../../fpwin.cpp" line="2328"/>
         <source>FeatherPad does not open files larger than 100 MiB.</source>
         <translation>FeatherPad 無法開啟大於 100 MiB 的檔案。</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2334"/>
+        <location filename="../../fpwin.cpp" line="2336"/>
         <source>Non-text file(s) not opened!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2335"/>
+        <location filename="../../fpwin.cpp" line="2337"/>
         <source>See Preferences → Files → Do not permit opening of non-text files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2343"/>
+        <location filename="../../fpwin.cpp" line="2345"/>
         <source>Some file(s) could not be opened!</source>
         <translation>無法開啟一些檔案！</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2344"/>
+        <location filename="../../fpwin.cpp" line="2346"/>
         <source>You may not have the permission to read.</source>
         <translation>您可能沒有讀取權限。</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2354"/>
+        <location filename="../../fpwin.cpp" line="2356"/>
         <source>Uneditable file(s)!</source>
         <translation>無法編輯的檔案！</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2355"/>
+        <location filename="../../fpwin.cpp" line="2357"/>
         <source>Non-text files or files with huge lines cannot be edited.</source>
         <translation>無法編輯非文字檔案或具有長列的檔案。</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2412"/>
+        <location filename="../../fpwin.cpp" line="2414"/>
         <source>A previous crash detected!</source>
         <translation>偵測到之前當機！</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2413"/>
+        <location filename="../../fpwin.cpp" line="2415"/>
         <source>Preferably, close all FeatherPad windows and start again!</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2420"/>
+        <location filename="../../fpwin.cpp" line="2422"/>
         <source>Root Instance</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2491"/>
-        <location filename="../../fpwin.cpp" line="2648"/>
-        <location filename="../../fpwin.cpp" line="2675"/>
+        <location filename="../../fpwin.cpp" line="2493"/>
+        <location filename="../../fpwin.cpp" line="2650"/>
+        <location filename="../../fpwin.cpp" line="2677"/>
         <source>All Files (*)</source>
         <translation>所有檔案 (*)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2496"/>
+        <location filename="../../fpwin.cpp" line="2498"/>
         <source>All Files (*);;.%1 Files (*.%1)</source>
         <translation>所有檔案 (*);;.%1 檔案 (*.%1)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2500"/>
+        <location filename="../../fpwin.cpp" line="2502"/>
         <source>Open file...</source>
         <translation>開啟檔案...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2653"/>
+        <location filename="../../fpwin.cpp" line="2655"/>
         <source>.%1 Files (*.%1);;All Files (*)</source>
         <translation>.%1 檔案 (*.%1);;所有檔案 (*)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2700"/>
-        <location filename="../../fpwin.cpp" line="2732"/>
+        <location filename="../../fpwin.cpp" line="2702"/>
+        <location filename="../../fpwin.cpp" line="2734"/>
         <source>Save as...</source>
         <translation>儲存為...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2762"/>
+        <location filename="../../fpwin.cpp" line="2764"/>
         <source>Keep encoding and save as...</source>
         <translation>保持編碼並儲存為...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2836"/>
+        <location filename="../../fpwin.cpp" line="2838"/>
         <source>Yes</source>
         <translation>是</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2837"/>
+        <location filename="../../fpwin.cpp" line="2839"/>
         <source>No</source>
         <translation>否</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2838"/>
+        <location filename="../../fpwin.cpp" line="2840"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2839"/>
+        <location filename="../../fpwin.cpp" line="2841"/>
         <source>Do you want to use &lt;b&gt;MS Windows&lt;/b&gt; end-of-lines?</source>
         <translation>您要使用 &lt;b&gt;MS Windows&lt;/b&gt; 行尾嗎?</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2840"/>
+        <location filename="../../fpwin.cpp" line="2842"/>
         <source>This may be good for readability under MS Windows.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2987"/>
+        <location filename="../../fpwin.cpp" line="2989"/>
         <source>Cannot be saved!</source>
         <translation>無法儲存！</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="400"/>
-        <location filename="../../fpwin.cpp" line="3191"/>
-        <location filename="../../fpwin.cpp" line="5299"/>
+        <location filename="../../fpwin.cpp" line="3193"/>
+        <location filename="../../fpwin.cpp" line="5301"/>
         <source>Help</source>
         <translation>說明</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2949"/>
-        <location filename="../../fpwin.cpp" line="2955"/>
-        <location filename="../../fpwin.cpp" line="2963"/>
-        <location filename="../../fpwin.cpp" line="3717"/>
-        <location filename="../../fpwin.cpp" line="5099"/>
-        <location filename="../../fpwin.cpp" line="5105"/>
-        <location filename="../../fpwin.cpp" line="5113"/>
+        <location filename="../../fpwin.cpp" line="2951"/>
+        <location filename="../../fpwin.cpp" line="2957"/>
+        <location filename="../../fpwin.cpp" line="2965"/>
+        <location filename="../../fpwin.cpp" line="3719"/>
+        <location filename="../../fpwin.cpp" line="5101"/>
+        <location filename="../../fpwin.cpp" line="5107"/>
+        <location filename="../../fpwin.cpp" line="5115"/>
         <source>Syntax</source>
         <translation>語法</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2325"/>
+        <location filename="../../fpwin.cpp" line="2327"/>
         <source>Huge file(s) not opened!</source>
         <translation>未開啟大檔案！</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3203"/>
-        <location filename="../../fpwin.cpp" line="3390"/>
+        <location filename="../../fpwin.cpp" line="3205"/>
+        <location filename="../../fpwin.cpp" line="3392"/>
         <source>This file has been modified elsewhere or in another way!</source>
         <translation>這個檔案已在其他地方或以另一種方式修改！</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3204"/>
-        <location filename="../../fpwin.cpp" line="3391"/>
+        <location filename="../../fpwin.cpp" line="3206"/>
+        <location filename="../../fpwin.cpp" line="3393"/>
         <source>Please be careful about reloading or saving this document!</source>
         <translation>在重新載入或儲存這個文件時請小心！</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3912"/>
+        <location filename="../../fpwin.cpp" line="3914"/>
         <source>Print Document</source>
         <translation>列印文件</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4506"/>
-        <location filename="../../fpwin.cpp" line="4574"/>
+        <location filename="../../fpwin.cpp" line="4508"/>
+        <location filename="../../fpwin.cpp" line="4576"/>
         <source>%1 Pages</source>
         <translation>%1 頁</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4532"/>
-        <location filename="../../fpwin.cpp" line="4602"/>
+        <location filename="../../fpwin.cpp" line="4534"/>
+        <location filename="../../fpwin.cpp" line="4604"/>
         <source>Copy Target Path</source>
         <translation>複製目標路徑</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4536"/>
-        <location filename="../../fpwin.cpp" line="4606"/>
+        <location filename="../../fpwin.cpp" line="4538"/>
+        <location filename="../../fpwin.cpp" line="4608"/>
         <source>Open Target Here</source>
         <translation>在這裡開啟目標</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4724"/>
+        <location filename="../../fpwin.cpp" line="4726"/>
         <source>You need to add a Hunspell dictionary.</source>
         <translation>您需要加入 Hunspell 字典。</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4725"/>
-        <location filename="../../fpwin.cpp" line="4731"/>
-        <location filename="../../fpwin.cpp" line="4740"/>
+        <location filename="../../fpwin.cpp" line="4727"/>
+        <location filename="../../fpwin.cpp" line="4733"/>
+        <location filename="../../fpwin.cpp" line="4742"/>
         <source>See Preferences → Text → Spell Checking!</source>
         <translation>檢視偏好設定 → 文字 → 拼字檢查！</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4730"/>
+        <location filename="../../fpwin.cpp" line="4732"/>
         <source>The Hunspell dictionary does not exist.</source>
         <translation>Hunspell 字典不存在。</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4739"/>
+        <location filename="../../fpwin.cpp" line="4741"/>
         <source>The Hunspell dictionary is not accompanied by an affix file.</source>
         <translation></translation>
-    </message>
-    <message>
-        <location filename="../../fpwin.cpp" line="4761"/>
-        <location filename="../../fpwin.cpp" line="4779"/>
-        <location filename="../../fpwin.cpp" line="4794"/>
-        <source>No misspelling in document.</source>
-        <translation>文件中沒有拼字錯誤。</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="4763"/>
         <location filename="../../fpwin.cpp" line="4781"/>
         <location filename="../../fpwin.cpp" line="4796"/>
+        <source>No misspelling in document.</source>
+        <translation>文件中沒有拼字錯誤。</translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="4765"/>
+        <location filename="../../fpwin.cpp" line="4783"/>
+        <location filename="../../fpwin.cpp" line="4798"/>
         <source>No misspelling from text cursor.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4808"/>
+        <location filename="../../fpwin.cpp" line="4810"/>
         <source>Spell Checking</source>
         <translation>拼字檢查</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5137"/>
+        <location filename="../../fpwin.cpp" line="5139"/>
         <source>Some files cannot be saved!</source>
         <translation>無法儲存一些檔案！</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5180"/>
+        <location filename="../../fpwin.cpp" line="5182"/>
         <source>Translators</source>
         <translation>譯者</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5176"/>
+        <location filename="../../fpwin.cpp" line="5178"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translation>輕量、具有分頁、純文字編輯器</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5177"/>
+        <location filename="../../fpwin.cpp" line="5179"/>
         <source>based on Qt5</source>
         <translation>基於 Qt5</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5178"/>
+        <location filename="../../fpwin.cpp" line="5180"/>
         <source>Author</source>
         <translation>作者</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5179"/>
+        <location filename="../../fpwin.cpp" line="5181"/>
         <source>aka.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5180"/>
-        <location filename="../../fpwin.cpp" line="5181"/>
+        <location filename="../../fpwin.cpp" line="5182"/>
+        <location filename="../../fpwin.cpp" line="5183"/>
         <source>About FeatherPad</source>
         <translation>關於 FeatherPad</translation>
     </message>
@@ -1274,153 +1274,153 @@
 <context>
     <name>FeatherPad::PrefDialog</name>
     <message>
-        <location filename="../../predDialog.ui" line="14"/>
+        <location filename="../../prefDialog.ui" line="14"/>
         <source>Preferences</source>
         <translation>偏好設定</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="30"/>
+        <location filename="../../prefDialog.ui" line="30"/>
         <source>Window</source>
         <translation>視窗</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="69"/>
+        <location filename="../../prefDialog.ui" line="69"/>
         <source>Window Settings</source>
         <translation>視窗設定</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="75"/>
+        <location filename="../../prefDialog.ui" line="75"/>
         <source>Remember window &amp;size on closing</source>
         <translation>關閉時記住視窗大小(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="84"/>
-        <location filename="../../predDialog.ui" line="97"/>
-        <location filename="../../predDialog.ui" line="107"/>
-        <location filename="../../predDialog.ui" line="120"/>
+        <location filename="../../prefDialog.ui" line="84"/>
+        <location filename="../../prefDialog.ui" line="97"/>
+        <location filename="../../prefDialog.ui" line="107"/>
+        <location filename="../../prefDialog.ui" line="120"/>
         <source>Window frame is excluded.</source>
         <translation>已排除視窗框架。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="87"/>
+        <location filename="../../prefDialog.ui" line="87"/>
         <source>Start with this size: </source>
         <translation>以這個大小啟動： </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="100"/>
-        <location filename="../../predDialog.ui" line="123"/>
+        <location filename="../../prefDialog.ui" line="100"/>
+        <location filename="../../prefDialog.ui" line="123"/>
         <source> px</source>
         <translation> 像素</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="110"/>
+        <location filename="../../prefDialog.ui" line="110"/>
         <source>×</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="148"/>
+        <location filename="../../prefDialog.ui" line="148"/>
         <source>Enforcing a window position is not recommended
 and may not work with some window managers.</source>
         <translation>不推薦強制視窗位置
 並且可能在某些視窗管理程式不適用。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="152"/>
+        <location filename="../../prefDialog.ui" line="152"/>
         <source>Remember window &amp;position on closing</source>
         <translation>關閉時記住視窗位置(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="159"/>
+        <location filename="../../prefDialog.ui" line="159"/>
         <source>Most suitable with sessions
 but without tab functionality.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="188"/>
+        <location filename="../../prefDialog.ui" line="188"/>
         <source>Uncheck for 1/5 of the width.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="191"/>
+        <location filename="../../prefDialog.ui" line="191"/>
         <source>Remember splitter position</source>
         <translation>記住分隔器位置</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="200"/>
+        <location filename="../../prefDialog.ui" line="200"/>
         <source>Do not show &amp;toolbar</source>
         <translation>不顯示工具列(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="207"/>
+        <location filename="../../prefDialog.ui" line="207"/>
         <source>If the menubar is hidden,
 a menu button appears on the toolbar.</source>
         <translation>如果隱藏功能表列，
 會在工具列上顯示選單按鈕。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="211"/>
+        <location filename="../../prefDialog.ui" line="211"/>
         <source>Do not show &amp;menubar</source>
         <translation>不顯示功能表列(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="218"/>
+        <location filename="../../prefDialog.ui" line="218"/>
         <source>Hide search &amp;bar by default</source>
         <translation>預設隱藏搜尋列(&amp;B)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="225"/>
+        <location filename="../../prefDialog.ui" line="225"/>
         <source>By default, each search entry
 has a separate search history.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="229"/>
+        <location filename="../../prefDialog.ui" line="229"/>
         <source>Use a shared search history</source>
         <translation>使用共享的搜尋記錄</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="236"/>
+        <location filename="../../prefDialog.ui" line="236"/>
         <source>Always show st&amp;atus bar</source>
         <translation>總是顯示狀態列(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="261"/>
+        <location filename="../../prefDialog.ui" line="261"/>
         <source>Show cursor position on status bar</source>
         <translation>在狀態列顯示游標位置</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="272"/>
-        <location filename="../../predDialog.ui" line="282"/>
+        <location filename="../../prefDialog.ui" line="272"/>
+        <location filename="../../prefDialog.ui" line="282"/>
         <source>Will take effect after closing this dialog.</source>
         <translation>會在關閉這個對話方塊後生效。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="275"/>
+        <location filename="../../prefDialog.ui" line="275"/>
         <source>Tab position: </source>
         <translation>分頁位置： </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="286"/>
+        <location filename="../../prefDialog.ui" line="286"/>
         <source>North</source>
         <translation>北</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="291"/>
+        <location filename="../../prefDialog.ui" line="291"/>
         <source>South</source>
         <translation>南</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="296"/>
+        <location filename="../../prefDialog.ui" line="296"/>
         <source>West</source>
         <translation>西</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="301"/>
+        <location filename="../../prefDialog.ui" line="301"/>
         <source>East</source>
         <translation>東</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="327"/>
+        <location filename="../../prefDialog.ui" line="327"/>
         <source>This means that, for LTR, Alt+Right goes to the first tab
 after the last tab is activated, and the same for Alt+Left.
 
@@ -1428,17 +1428,17 @@ Tab navigation with mouse wheel is not affected.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="333"/>
+        <location filename="../../prefDialog.ui" line="333"/>
         <source>Tab navigation wraps &amp;around</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="353"/>
+        <location filename="../../prefDialog.ui" line="353"/>
         <source>Close window on closing its last tab</source>
         <translation>在關閉最後一個分頁時關閉視窗</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="360"/>
+        <location filename="../../prefDialog.ui" line="360"/>
         <source>By default, if a FeatherPad window exists on the
 current desktop, files will be opened in its tabs.
 
@@ -1447,12 +1447,12 @@ report that they have multiple desktops.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="367"/>
+        <location filename="../../prefDialog.ui" line="367"/>
         <source>Always open in separate windows</source>
         <translation>總是在個別的視窗中開啟</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="374"/>
+        <location filename="../../prefDialog.ui" line="374"/>
         <source>If this is checked, the file dialog provided by the current
 desktop environment will be used instead of the Qt file dialog.
 
@@ -1460,130 +1460,130 @@ Some desktop environments, like KDE and LXQt, provide files dialogs.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="380"/>
+        <location filename="../../prefDialog.ui" line="380"/>
         <source>Native file dialog</source>
         <translation>原生檔案對話方塊</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="456"/>
+        <location filename="../../prefDialog.ui" line="456"/>
         <source>Uncheck for Monospace.</source>
         <translation>取消勾選以使用等寬字型。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="459"/>
+        <location filename="../../prefDialog.ui" line="459"/>
         <source>Remember &amp;font</source>
         <translation>記住字型(&amp;F)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="480"/>
+        <location filename="../../prefDialog.ui" line="480"/>
         <source>This covers parentheses, braces, brackets and quotes.</source>
         <translation>這包含括號、大括號、中括號和引號。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="483"/>
+        <location filename="../../prefDialog.ui" line="483"/>
         <source>Auto-&amp;bracket</source>
         <translation>自動括弧(&amp;B)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="490"/>
+        <location filename="../../prefDialog.ui" line="490"/>
         <source>By default, a triple period is replaced with an ellipsis
 and a double hyphen with a long dash while typing,
 under proper circumstances.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="495"/>
+        <location filename="../../prefDialog.ui" line="495"/>
         <source>Replace triple periods and double hyphens while typing</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="565"/>
+        <location filename="../../prefDialog.ui" line="565"/>
         <source>Never highlight syntax for files &gt; </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="534"/>
+        <location filename="../../prefDialog.ui" line="534"/>
         <source>This creates a menu button on the
 status bar for changing the syntax.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="538"/>
+        <location filename="../../prefDialog.ui" line="538"/>
         <source>Support syntax override</source>
         <translation>支援語法覆蓋</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="603"/>
+        <location filename="../../prefDialog.ui" line="603"/>
         <source>Show spaces, tabs and tab lines
 when the syntax is highlighted.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="607"/>
+        <location filename="../../prefDialog.ui" line="607"/>
         <source>Show whitespaces</source>
         <translation>顯示空格</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="623"/>
-        <location filename="../../predDialog.ui" line="634"/>
+        <location filename="../../prefDialog.ui" line="623"/>
+        <location filename="../../prefDialog.ui" line="634"/>
         <source>The vertical position lines will be drawn only if
 the editor font has a fixed pitch (like Monospace).</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="627"/>
+        <location filename="../../prefDialog.ui" line="627"/>
         <source>Show vertical lines starting from this position:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="614"/>
+        <location filename="../../prefDialog.ui" line="614"/>
         <source>Also show line and document ends</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="753"/>
+        <location filename="../../prefDialog.ui" line="753"/>
         <source>Date and time format:</source>
         <translation>日期和時間格式：</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="823"/>
+        <location filename="../../prefDialog.ui" line="823"/>
         <source>Some text editors cannot open a document
 whose last line is not empty.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="827"/>
+        <location filename="../../prefDialog.ui" line="827"/>
         <source>Ensure an empty last line on saving</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="834"/>
+        <location filename="../../prefDialog.ui" line="834"/>
         <source>Remove trailing spaces on saving</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="852"/>
+        <location filename="../../prefDialog.ui" line="852"/>
         <source>Inertial scrolling with mouse wheel</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="952"/>
+        <location filename="../../prefDialog.ui" line="952"/>
         <source>Files</source>
         <translation>檔案</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="958"/>
+        <location filename="../../prefDialog.ui" line="958"/>
         <source>File Management</source>
         <translation>檔案管理</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1075"/>
+        <location filename="../../prefDialog.ui" line="1075"/>
         <source>Start with files of last window</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1117"/>
-        <location filename="../../predDialog.ui" line="1136"/>
+        <location filename="../../prefDialog.ui" line="1117"/>
+        <location filename="../../prefDialog.ui" line="1136"/>
         <source>This can be any starting command with
 arguments, for example, &quot;xterm -hold&quot;
 for running the process in XTerm.
@@ -1597,42 +1597,42 @@ will be shown by a popup dialog.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1129"/>
+        <location filename="../../prefDialog.ui" line="1129"/>
         <source>Start with this command: </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1148"/>
+        <location filename="../../prefDialog.ui" line="1148"/>
         <source>Command + Arguments</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1033"/>
+        <location filename="../../prefDialog.ui" line="1033"/>
         <source>Show recentl&amp;y modified files</source>
         <translation>顯示最近修改的檔案(&amp;Y)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1063"/>
+        <location filename="../../prefDialog.ui" line="1063"/>
         <source>Show recentl&amp;y opened files</source>
         <translation>顯示最近開啟的檔案(&amp;Y)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1162"/>
+        <location filename="../../prefDialog.ui" line="1162"/>
         <source>Save changes to opened files every:</source>
         <translation>儲存開啟檔案的變更每：</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1307"/>
+        <location filename="../../prefDialog.ui" line="1307"/>
         <source>Help</source>
         <translation>說明</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="163"/>
+        <location filename="../../prefDialog.ui" line="163"/>
         <source>Start with side-pane mode</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="340"/>
+        <location filename="../../prefDialog.ui" line="340"/>
         <source>If this is checked, not only you will lose the informative
 tooltip and context menu of a single tab but you could not
 merge a single tabbed window into another one by tab drag-
@@ -1640,68 +1640,68 @@ and-drop either.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="346"/>
+        <location filename="../../prefDialog.ui" line="346"/>
         <source>&amp;Do not show a single tab</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="411"/>
+        <location filename="../../prefDialog.ui" line="411"/>
         <source>Text</source>
         <translation>文字</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="450"/>
+        <location filename="../../prefDialog.ui" line="450"/>
         <source>Text Editor</source>
         <translation>文字編輯器</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="466"/>
+        <location filename="../../prefDialog.ui" line="466"/>
         <source>&amp;Wrap lines by default</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="473"/>
+        <location filename="../../prefDialog.ui" line="473"/>
         <source>Auto-&amp;indent by default</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="502"/>
+        <location filename="../../prefDialog.ui" line="502"/>
         <source>Always show line &amp;numbers</source>
         <translation>總是顯示列號(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="509"/>
+        <location filename="../../prefDialog.ui" line="509"/>
         <source>Highlight s&amp;yntax by default</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="669"/>
+        <location filename="../../prefDialog.ui" line="669"/>
         <source>Dark c&amp;olor scheme</source>
         <translation>暗色配色方案(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="704"/>
+        <location filename="../../prefDialog.ui" line="704"/>
         <source>Background color value: </source>
         <translation>背景顏色值： </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="572"/>
+        <location filename="../../prefDialog.ui" line="572"/>
         <source> MiB</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="859"/>
+        <location filename="../../prefDialog.ui" line="859"/>
         <source>This is not a complete fix but
 prevents annoying scroll jumps.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="863"/>
+        <location filename="../../prefDialog.ui" line="863"/>
         <source>Workaround for &amp;Qt5&apos;s scroll jump bug</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1082"/>
+        <location filename="../../prefDialog.ui" line="1082"/>
         <source>This only includes executable files written
 in script languages like Shell and Python.
 
@@ -1713,13 +1713,13 @@ process could be killed by Ctrl+Alt+E.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="666"/>
+        <location filename="../../prefDialog.ui" line="666"/>
         <source>Needs window reopening to take effect.</source>
         <translation>需要重新開啟視窗才能生效。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="694"/>
-        <location filename="../../predDialog.ui" line="711"/>
+        <location filename="../../prefDialog.ui" line="694"/>
+        <location filename="../../prefDialog.ui" line="711"/>
         <source>The color value of the background.
 255 means white while 0 means black.
 
@@ -1731,13 +1731,13 @@ Needs window reopening to take effect.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1092"/>
+        <location filename="../../prefDialog.ui" line="1092"/>
         <source>Run executable scripts</source>
         <translation>執行可執行的腳本</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="966"/>
-        <location filename="../../predDialog.ui" line="980"/>
+        <location filename="../../prefDialog.ui" line="966"/>
+        <location filename="../../prefDialog.ui" line="980"/>
         <source>The maximum number of recently modified or
 opened files FeatherPad shows. The default
 is 10.
@@ -1746,8 +1746,8 @@ Needs application restart to take effect.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="745"/>
-        <location filename="../../predDialog.ui" line="760"/>
+        <location filename="../../prefDialog.ui" line="745"/>
+        <location filename="../../prefDialog.ui" line="760"/>
         <source>Used for pasting the date and time.
 
 Takes effect after closing this dialog.
@@ -1757,84 +1757,84 @@ MMM dd, yyyy, hh:mm:ss</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="782"/>
+        <location filename="../../prefDialog.ui" line="782"/>
         <source>Text tab size:</source>
         <translation>文字 tab 大小</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="789"/>
+        <location filename="../../prefDialog.ui" line="789"/>
         <source> spaces</source>
         <translation> 空格</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="841"/>
+        <location filename="../../prefDialog.ui" line="841"/>
         <source>Thick text cursor</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="848"/>
+        <location filename="../../prefDialog.ui" line="848"/>
         <source>Should the mouse wheel scrolling be inertial
 if the cursor is inside the text view?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="870"/>
+        <location filename="../../prefDialog.ui" line="870"/>
         <source>Spell Checking</source>
         <translation>拼字檢查</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="878"/>
-        <location filename="../../predDialog.ui" line="890"/>
+        <location filename="../../prefDialog.ui" line="878"/>
+        <location filename="../../prefDialog.ui" line="890"/>
         <source>A Hunspell dictionary has a name that ends with &quot;.dic&quot;
 and should be alongside an affix file with the same
 name but ending with &quot;.aff&quot;.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="883"/>
+        <location filename="../../prefDialog.ui" line="883"/>
         <source>Hunspell dictionary path:</source>
         <translation>Hunspell 字典路徑：</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="902"/>
+        <location filename="../../prefDialog.ui" line="902"/>
         <location filename="../../pref.cpp" line="1468"/>
         <source>Add dictionary...</source>
         <translation>加入字典...</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="914"/>
+        <location filename="../../prefDialog.ui" line="914"/>
         <source>If this is unchecked, spell checking
 will be started from the document start.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="918"/>
+        <location filename="../../prefDialog.ui" line="918"/>
         <source>Start spell checking from text cursor</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="973"/>
+        <location filename="../../prefDialog.ui" line="973"/>
         <source>Number of recent files: </source>
         <translation>最近檔案的數量： </translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1072"/>
+        <location filename="../../prefDialog.ui" line="1072"/>
         <source>Only if their number is not greater than 50.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1159"/>
-        <location filename="../../predDialog.ui" line="1169"/>
+        <location filename="../../prefDialog.ui" line="1159"/>
+        <location filename="../../prefDialog.ui" line="1169"/>
         <source>Only for files that exist and can be saved.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1172"/>
+        <location filename="../../prefDialog.ui" line="1172"/>
         <source> min</source>
         <translation> 分鐘</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1203"/>
+        <location filename="../../prefDialog.ui" line="1203"/>
         <source>If this is checked, the Save button/menu-item could
 be used also when the opened file is not modified.
 
@@ -1844,47 +1844,47 @@ trailing spaces of a text file.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1211"/>
+        <location filename="../../prefDialog.ui" line="1211"/>
         <source>Allow saving unmodified files</source>
         <translation>允許儲存未修改的檔案</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1218"/>
+        <location filename="../../prefDialog.ui" line="1218"/>
         <source>Show a warning instead.</source>
         <translation>而是顯示警告。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1221"/>
+        <location filename="../../prefDialog.ui" line="1221"/>
         <source>Do not permit opening of non-text files</source>
         <translation>不允許開啟非文字檔案</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1248"/>
+        <location filename="../../prefDialog.ui" line="1248"/>
         <source>Shortcuts</source>
         <translation>快速鍵</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1267"/>
+        <location filename="../../prefDialog.ui" line="1267"/>
         <source>Action</source>
         <translation>動作</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1272"/>
+        <location filename="../../prefDialog.ui" line="1272"/>
         <source>Shortcut</source>
         <translation>快速鍵</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1280"/>
+        <location filename="../../prefDialog.ui" line="1280"/>
         <source>Restore default shortcuts.</source>
         <translation>還原預設快速鍵。</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1283"/>
+        <location filename="../../prefDialog.ui" line="1283"/>
         <source>Default</source>
         <translation>預設值</translation>
     </message>
     <message>
-        <location filename="../../predDialog.ui" line="1318"/>
+        <location filename="../../prefDialog.ui" line="1318"/>
         <source>Close</source>
         <translation>關閉</translation>
     </message>

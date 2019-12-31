@@ -69,7 +69,7 @@ SpellDialog::SpellDialog (SpellChecker *spellChecker, const QString& word, QWidg
         {
             if (QScreen *sc = win->screen())
             {
-                QSize ag = sc->availableVirtualGeometry().size()
+                QSize ag = sc->availableGeometry().size()
                            - (parent->window()->frameGeometry().size() - parent->window()->geometry().size());
                 resize (size().boundedTo (ag));
             }
