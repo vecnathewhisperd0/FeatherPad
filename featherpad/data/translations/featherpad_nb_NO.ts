@@ -21,7 +21,7 @@
         <location filename="../../fpwin.cpp" line="2688"/>
         <location filename="../../fpwin.cpp" line="2691"/>
         <location filename="../../fpwin.cpp" line="3195"/>
-        <location filename="../../fpwin.cpp" line="3903"/>
+        <location filename="../../fpwin.cpp" line="3898"/>
         <source>Untitled</source>
         <translation>Uten tittel</translation>
     </message>
@@ -66,7 +66,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="1328"/>
         <location filename="../../fpwin.cpp" line="2593"/>
-        <location filename="../../fpwin.cpp" line="3716"/>
+        <location filename="../../fpwin.cpp" line="3711"/>
         <source>Encoding</source>
         <translation>Koding</translation>
     </message>
@@ -583,17 +583,17 @@
     <message>
         <location filename="../../fp.ui" line="231"/>
         <source>&amp;Western European</source>
-        <translation>&amp;Vest-Europeisk</translation>
+        <translation>&amp;Vesteuropeisk</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="239"/>
         <source>&amp;East European</source>
-        <translation>&amp;Øst-Europeisk</translation>
+        <translation>&amp;Østeuropeisk</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="247"/>
         <source>Ea&amp;st Asian</source>
-        <translation>&amp;Øst-Asiatisk</translation>
+        <translation>&amp;Østasiatisk</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="339"/>
@@ -803,7 +803,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="823"/>
         <source>Please attend to that window or just close its dialog!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ta deg av det vinduet eller lukk dets dialog!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1102"/>
@@ -837,24 +837,24 @@
         <location filename="../../fpwin.cpp" line="2955"/>
         <location filename="../../fpwin.cpp" line="2966"/>
         <location filename="../../fpwin.cpp" line="2973"/>
-        <location filename="../../fpwin.cpp" line="3720"/>
-        <location filename="../../fpwin.cpp" line="5105"/>
-        <location filename="../../fpwin.cpp" line="5116"/>
-        <location filename="../../fpwin.cpp" line="5123"/>
+        <location filename="../../fpwin.cpp" line="3715"/>
+        <location filename="../../fpwin.cpp" line="5100"/>
+        <location filename="../../fpwin.cpp" line="5111"/>
+        <location filename="../../fpwin.cpp" line="5118"/>
         <source>Lines</source>
         <translation>Linjer</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1330"/>
-        <location filename="../../fpwin.cpp" line="3721"/>
-        <location filename="../../fpwin.cpp" line="3735"/>
+        <location filename="../../fpwin.cpp" line="3716"/>
+        <location filename="../../fpwin.cpp" line="3730"/>
         <source>Sel. Chars</source>
         <translation>Velg tegn</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1331"/>
-        <location filename="../../fpwin.cpp" line="3723"/>
-        <location filename="../../fpwin.cpp" line="3736"/>
+        <location filename="../../fpwin.cpp" line="3718"/>
+        <location filename="../../fpwin.cpp" line="3731"/>
         <source>Words</source>
         <translation>Ord</translation>
     </message>
@@ -875,21 +875,21 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="669"/>
-        <location filename="../../fpwin.cpp" line="3762"/>
+        <location filename="../../fpwin.cpp" line="3757"/>
         <source>Position:</source>
         <translation>Plassering:</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="716"/>
-        <location filename="../../fpwin.cpp" line="3780"/>
-        <location filename="../../fpwin.cpp" line="3800"/>
+        <location filename="../../fpwin.cpp" line="3775"/>
+        <location filename="../../fpwin.cpp" line="3795"/>
         <source>Normal</source>
         <translation>Normal</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1100"/>
         <location filename="../../fpwin.cpp" line="2370"/>
-        <location filename="../../fpwin.cpp" line="4917"/>
+        <location filename="../../fpwin.cpp" line="4912"/>
         <source>The file does not exist.</source>
         <translation>Filen fins ikke.</translation>
     </message>
@@ -911,7 +911,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="1705"/>
         <source>Script Output</source>
-        <translation>Utdata fra skript</translation>
+        <translation>Resultat fra skript</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1721"/>
@@ -956,7 +956,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="2414"/>
         <source>A previous crash detected!</source>
-        <translation type="unfinished"></translation>
+        <translation>En tidligere krasj detektert!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2415"/>
@@ -1034,7 +1034,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="400"/>
         <location filename="../../fpwin.cpp" line="3193"/>
-        <location filename="../../fpwin.cpp" line="5301"/>
+        <location filename="../../fpwin.cpp" line="5296"/>
         <source>Help</source>
         <translation>Hjelp</translation>
     </message>
@@ -1042,10 +1042,10 @@
         <location filename="../../fpwin.cpp" line="2951"/>
         <location filename="../../fpwin.cpp" line="2957"/>
         <location filename="../../fpwin.cpp" line="2965"/>
-        <location filename="../../fpwin.cpp" line="3719"/>
-        <location filename="../../fpwin.cpp" line="5101"/>
-        <location filename="../../fpwin.cpp" line="5107"/>
-        <location filename="../../fpwin.cpp" line="5115"/>
+        <location filename="../../fpwin.cpp" line="3714"/>
+        <location filename="../../fpwin.cpp" line="5096"/>
+        <location filename="../../fpwin.cpp" line="5102"/>
+        <location filename="../../fpwin.cpp" line="5110"/>
         <source>Syntax</source>
         <translation>Syntaks</translation>
     </message>
@@ -1067,102 +1067,102 @@
         <translation>Vær forsiktig med å laste inn på nytt eller lagre dette dokumentet!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3914"/>
+        <location filename="../../fpwin.cpp" line="3909"/>
         <source>Print Document</source>
         <translation>Skriv ut dokument</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4508"/>
-        <location filename="../../fpwin.cpp" line="4576"/>
+        <location filename="../../fpwin.cpp" line="4503"/>
+        <location filename="../../fpwin.cpp" line="4571"/>
         <source>%1 Pages</source>
         <translation>%1 sider</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4534"/>
-        <location filename="../../fpwin.cpp" line="4604"/>
+        <location filename="../../fpwin.cpp" line="4529"/>
+        <location filename="../../fpwin.cpp" line="4599"/>
         <source>Copy Target Path</source>
         <translation>Kopier målsti</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4538"/>
-        <location filename="../../fpwin.cpp" line="4608"/>
+        <location filename="../../fpwin.cpp" line="4533"/>
+        <location filename="../../fpwin.cpp" line="4603"/>
         <source>Open Target Here</source>
         <translation>Åpne mål her</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4726"/>
+        <location filename="../../fpwin.cpp" line="4721"/>
         <source>You need to add a Hunspell dictionary.</source>
         <translation>Du må legge til en Hunspell-ordbok.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4727"/>
-        <location filename="../../fpwin.cpp" line="4733"/>
-        <location filename="../../fpwin.cpp" line="4742"/>
+        <location filename="../../fpwin.cpp" line="4722"/>
+        <location filename="../../fpwin.cpp" line="4728"/>
+        <location filename="../../fpwin.cpp" line="4737"/>
         <source>See Preferences → Text → Spell Checking!</source>
         <translation>Se Innstillinger → Tekst → Stavekontroll</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4732"/>
+        <location filename="../../fpwin.cpp" line="4727"/>
         <source>The Hunspell dictionary does not exist.</source>
         <translation>Hunspell-ordboken fins ikke.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4741"/>
+        <location filename="../../fpwin.cpp" line="4736"/>
         <source>The Hunspell dictionary is not accompanied by an affix file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Det følger ikke med en affix-fil til Hunspell-ordboken.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4763"/>
-        <location filename="../../fpwin.cpp" line="4781"/>
-        <location filename="../../fpwin.cpp" line="4796"/>
+        <location filename="../../fpwin.cpp" line="4758"/>
+        <location filename="../../fpwin.cpp" line="4776"/>
+        <location filename="../../fpwin.cpp" line="4791"/>
         <source>No misspelling in document.</source>
         <translation>Ingen stavefeil i dokumentet.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4765"/>
-        <location filename="../../fpwin.cpp" line="4783"/>
-        <location filename="../../fpwin.cpp" line="4798"/>
+        <location filename="../../fpwin.cpp" line="4760"/>
+        <location filename="../../fpwin.cpp" line="4778"/>
+        <location filename="../../fpwin.cpp" line="4793"/>
         <source>No misspelling from text cursor.</source>
         <translation>Ingen stavefeil fra tekstmarkøren.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4810"/>
+        <location filename="../../fpwin.cpp" line="4805"/>
         <source>Spell Checking</source>
         <translation>Stavekontroll</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5139"/>
+        <location filename="../../fpwin.cpp" line="5134"/>
         <source>Some files cannot be saved!</source>
         <translation>Noen filer kan ikke lagres!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5182"/>
+        <location filename="../../fpwin.cpp" line="5177"/>
         <source>Translators</source>
         <translation>Oversettere</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5178"/>
+        <location filename="../../fpwin.cpp" line="5173"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translation>Et lettvekts, fanebasert, tekstprogram</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5179"/>
+        <location filename="../../fpwin.cpp" line="5174"/>
         <source>based on Qt5</source>
         <translation>basert på Qt5</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5180"/>
+        <location filename="../../fpwin.cpp" line="5175"/>
         <source>Author</source>
         <translation>Opphavsmann</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5181"/>
+        <location filename="../../fpwin.cpp" line="5176"/>
         <source>aka.</source>
         <translation>også kjent som</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5182"/>
-        <location filename="../../fpwin.cpp" line="5183"/>
+        <location filename="../../fpwin.cpp" line="5177"/>
+        <location filename="../../fpwin.cpp" line="5178"/>
         <source>About FeatherPad</source>
         <translation>Om FeatherPad</translation>
     </message>
@@ -1322,7 +1322,8 @@
         <location filename="../../prefDialog.ui" line="148"/>
         <source>Enforcing a window position is not recommended
 and may not work with some window managers.</source>
-        <translation type="unfinished"></translation>
+        <translation>Det anbefales ikke å tvinge en vinduplassering,
+og det virker kanskje ikke i noen vindubehandlere.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="152"/>
@@ -1333,7 +1334,8 @@ and may not work with some window managers.</source>
         <location filename="../../prefDialog.ui" line="159"/>
         <source>Most suitable with sessions
 but without tab functionality.</source>
-        <translation type="unfinished"></translation>
+        <translation>Best egnet med økter
+men uten fanefunksjonalitet.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="188"/>
@@ -1343,7 +1345,7 @@ but without tab functionality.</source>
     <message>
         <location filename="../../prefDialog.ui" line="191"/>
         <source>Remember splitter position</source>
-        <translation type="unfinished"></translation>
+        <translation>Husk oppdelerens plassering</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="200"/>
@@ -1426,12 +1428,15 @@ en separat søkehistorikk.</translation>
 after the last tab is activated, and the same for Alt+Left.
 
 Tab navigation with mouse wheel is not affected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dette betyr at for LTR, så går Alt+Pil høyre til den første fanen
+etter at den siste fanen er aktivert, og det samme for Alt+Pil venstre.
+
+Fanenavigasjon med musehjul påvirkes ikke.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="333"/>
         <source>Tab navigation wraps &amp;around</source>
-        <translation type="unfinished"></translation>
+        <translation>Fanenavigasjon bryter &amp;rundt</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="353"/>
@@ -1445,7 +1450,11 @@ current desktop, files will be opened in its tabs.
 
 However, some desktop environments may not
 report that they have multiple desktops.</source>
-        <translation type="unfinished"></translation>
+        <translation>Filer åpnes som standard i faner hvis det fins
+et FeatherPad-vindu på gjeldende skrivebord.
+
+Men, noen skrivebordsmiljø rapporterer
+kanskje ikke at de har flere skrivebord.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="367"/>
@@ -1458,17 +1467,20 @@ report that they have multiple desktops.</source>
 desktop environment will be used instead of the Qt file dialog.
 
 Some desktop environments, like KDE and LXQt, provide files dialogs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hvis den er krysset av, brukes fildialogen som leveres av gjeldende
+skrivebordsmiljø i stedet for Qt-fildialogen.
+
+Noen skrivebordsmiljø, som KDE og LXQt, leverer egne fildialoger.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="380"/>
         <source>Native file dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokal fildialog</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="456"/>
         <source>Uncheck for Monospace.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern kryss for Monospace.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="459"/>
@@ -1490,92 +1502,98 @@ Some desktop environments, like KDE and LXQt, provide files dialogs.</source>
         <source>By default, a triple period is replaced with an ellipsis
 and a double hyphen with a long dash while typing,
 under proper circumstances.</source>
-        <translation type="unfinished"></translation>
+        <translation>Som standard erstattes trippel punktum med ellipse
+og dobbel bindestrek med lang tankestrek 
+mens man skriver, under de rette omstendigheter.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="495"/>
         <source>Replace triple periods and double hyphens while typing</source>
-        <translation type="unfinished"></translation>
+        <translation>Erstatt triple punktum og doble bindestreker mens man skriver</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="565"/>
         <source>Never highlight syntax for files &gt; </source>
-        <translation type="unfinished"></translation>
+        <translation>Merk aldri syntaks for filer &gt; </translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="534"/>
         <source>This creates a menu button on the
 status bar for changing the syntax.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dette oppretter en menyknapp på
+statuslinjen for å skifte syntaksen.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="538"/>
         <source>Support syntax override</source>
-        <translation type="unfinished"></translation>
+        <translation>Støtt overstyring av syntaks</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="603"/>
         <source>Show spaces, tabs and tab lines
 when the syntax is highlighted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis mellomrom, tabulatorer og tabulatorlinjer
+når syntaksmerking er aktivert.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="607"/>
         <source>Show whitespaces</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis blanktegn</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="623"/>
         <location filename="../../prefDialog.ui" line="634"/>
         <source>The vertical position lines will be drawn only if
 the editor font has a fixed pitch (like Monospace).</source>
-        <translation type="unfinished"></translation>
+        <translation>De loddrette plasseringslinjene tegnes kun hvis
+editorens skrift har fast tegnbredde (som Monospace).</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="627"/>
         <source>Show vertical lines starting from this position:</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis loddrette linjer startende fra denne plasseringen:</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="614"/>
         <source>Also show line and document ends</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis også linje- og dokumentslutt</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="753"/>
         <source>Date and time format:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dato- og klokkeslettformat:</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="823"/>
         <source>Some text editors cannot open a document
 whose last line is not empty.</source>
-        <translation type="unfinished"></translation>
+        <translation>Noen tekstprogram kan ikke åpne et dokument
+hvor den siste linje ikke er tom.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="827"/>
         <source>Ensure an empty last line on saving</source>
-        <translation type="unfinished"></translation>
+        <translation>Sørg for en tom siste linje under lagring</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="834"/>
         <source>Remove trailing spaces on saving</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern avsluttende mellomrom under lagring</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="852"/>
         <source>Inertial scrolling with mouse wheel</source>
-        <translation type="unfinished"></translation>
+        <translation>Inertial scrolling med musehjul</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="952"/>
         <source>Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Filer</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="958"/>
         <source>File Management</source>
-        <translation type="unfinished"></translation>
+        <translation>Filbehandling</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1075"/>
@@ -1595,7 +1613,16 @@ will be executed directly.
 If the script is not run in a terminal
 emulator, the output and error messages
 will be shown by a popup dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dette kan være en hvilken som helst
+startkommando med argument, f.eks.
+&quot;xterm -hold&quot; for å kjøre prosessen i XTerm.
+
+Hvis kommandoen utelates, så vil
+filen bli utført direkte.
+
+Hvis skriptet ikke kjører i en terminalemulator,
+så vises resultatet og feilmeldinger
+i en sprettoppdialog.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1129"/>
@@ -1605,27 +1632,27 @@ will be shown by a popup dialog.</source>
     <message>
         <location filename="../../prefDialog.ui" line="1148"/>
         <source>Command + Arguments</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommando + Argumenter</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1033"/>
         <source>Show recentl&amp;y modified files</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis n&amp;ylig endrede filer</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1063"/>
         <source>Show recentl&amp;y opened files</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis n&amp;ylige åpnede filer</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1162"/>
         <source>Save changes to opened files every:</source>
-        <translation type="unfinished"></translation>
+        <translation>Lagre endringer til åpnede filer hver:</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1307"/>
         <source>Help</source>
-        <translation type="unfinished">Hjelp</translation>
+        <translation>Hjelp</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="163"/>
@@ -1638,68 +1665,72 @@ will be shown by a popup dialog.</source>
 tooltip and context menu of a single tab but you could not
 merge a single tabbed window into another one by tab drag-
 and-drop either.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hvis dette er krysset av, vil du ikke bare miste informative
+hjelpebobler og lokalmenyen på en enkelt fane, men du vil 
+heller ikke kunne samle et enkelt vindu med faner med et 
+annet ved å dra og slippe et av dem.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="346"/>
         <source>&amp;Do not show a single tab</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ikke vis en enkel fane</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="411"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Tekst</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="450"/>
         <source>Text Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Tekstprogram</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="466"/>
         <source>&amp;Wrap lines by default</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Bryt linjer som standard</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="473"/>
         <source>Auto-&amp;indent by default</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatisk &amp;innrykk som standard</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="502"/>
         <source>Always show line &amp;numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis alltid &amp;linjenumre</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="509"/>
         <source>Highlight s&amp;yntax by default</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Syntaksmerking som standard</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="669"/>
         <source>Dark c&amp;olor scheme</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Mørkt fargeskjema</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="704"/>
         <source>Background color value: </source>
-        <translation type="unfinished"></translation>
+        <translation>Bakgrunnens fargeverdi: </translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="572"/>
         <source> MiB</source>
-        <translation type="unfinished"></translation>
+        <translation> MiB</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="859"/>
         <source>This is not a complete fix but
 prevents annoying scroll jumps.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dette er ikke en fullstendig fiks men
+det forhindrer irriterende scrollehopp.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="863"/>
         <source>Workaround for &amp;Qt5&apos;s scroll jump bug</source>
-        <translation type="unfinished"></translation>
+        <translation>Rette opp &amp;Qt5s scrollehopp-feil</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1082"/>
@@ -1711,12 +1742,19 @@ executable, the file will be executed by clicking
 the Run button, that appears on the toolbar/filemenu
 when needed, or by its shortcut Ctrl+E. Then, the
 process could be killed by Ctrl+Alt+E.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dette inkluderer kun kjørbare filer som er
+skrevet i skriptspråk som Shell og Python.
+
+Hvis den er krysset av og den åpnede fil er
+kjørbar, så vil filen bli kjørt når der klikkes
+på Kjør-knappen, som vises på verktøylinjen/filmenyen
+når det er nødvendig, eller med dens snarvei Ctrl+E. 
+Prosessen drepes med Ctrl+Alt+E.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="666"/>
         <source>Needs window reopening to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Krever at vindu åpnes på nytt før det trer i kraft.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="694"/>
@@ -1729,12 +1767,18 @@ between 230 and 255; for the dark
 background, between 0 and 50.
 
 Needs window reopening to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bakgrunnens fargeverdi.
+255 betyr hvit, mens 0 betyr svart.
+
+Lys bakgrunn er mellom 230 og 255
+og mørk bakgrunn er mellom 0 og 50.
+
+Krevet at vindu åpnes på nytt før det trer i kraft.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1092"/>
         <source>Run executable scripts</source>
-        <translation type="unfinished"></translation>
+        <translation>Kjør kjørbare skript</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="966"/>
@@ -1744,7 +1788,10 @@ opened files FeatherPad shows. The default
 is 10.
 
 Needs application restart to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Det maksimale antallet nylige endrede eller åpnede filer 
+som FeatherPad viser. Standarden er 10.
+
+Krever omstart av programmet før endringene trer i kraft.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="745"/>
@@ -1755,33 +1802,39 @@ Takes effect after closing this dialog.
 
 Leave empty for:
 MMM dd, yyyy, hh:mm:ss</source>
-        <translation type="unfinished"></translation>
+        <translation>Brukes for å lime inn datoen og klokkeslettet.
+
+Trer i kraft når denne dialogen lukkes.
+
+La være tom for:
+MMM dd, åååå, tt:mm:ss</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="782"/>
         <source>Text tab size:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tabulatorstørrelse for tekst:</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="789"/>
         <source> spaces</source>
-        <translation type="unfinished"></translation>
+        <translation> mellomrom</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="841"/>
         <source>Thick text cursor</source>
-        <translation type="unfinished"></translation>
+        <translation>Tykk tekstmarkør</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="848"/>
         <source>Should the mouse wheel scrolling be inertial
 if the cursor is inside the text view?</source>
-        <translation type="unfinished"></translation>
+        <translation>Skal musehjulets scrolling være inertial
+hvis markøren er innenfor tekstvisningen?</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="870"/>
         <source>Spell Checking</source>
-        <translation type="unfinished">Stavekontroll</translation>
+        <translation>Stavekontroll</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="878"/>
@@ -1789,50 +1842,53 @@ if the cursor is inside the text view?</source>
         <source>A Hunspell dictionary has a name that ends with &quot;.dic&quot;
 and should be alongside an affix file with the same
 name but ending with &quot;.aff&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>En Hunspell-ordbok har et navn som slutter med &quot;.dic&quot;
+og skal være sammen med en affix-fil med samme navn
+men som slutter med &quot;.aff&quot;.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="883"/>
         <source>Hunspell dictionary path:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sti til Hunspell-ordbok:</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="902"/>
         <location filename="../../pref.cpp" line="1468"/>
         <source>Add dictionary...</source>
-        <translation type="unfinished"></translation>
+        <translation>Legg til ordbok ...</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="914"/>
         <source>If this is unchecked, spell checking
 will be started from the document start.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hvis den ikke er krysset av, så starter
+stavekontrollen fra dokumentets begynnelse.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="918"/>
         <source>Start spell checking from text cursor</source>
-        <translation type="unfinished"></translation>
+        <translation>Start stavekontroll fra tekstmarkøren</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="973"/>
         <source>Number of recent files: </source>
-        <translation type="unfinished"></translation>
+        <translation>Antall nylige filer: </translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1072"/>
         <source>Only if their number is not greater than 50.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kun hvis antallet er mindre enn 50.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1159"/>
         <location filename="../../prefDialog.ui" line="1169"/>
         <source>Only for files that exist and can be saved.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kun for filer som fins og kan lagres.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1172"/>
         <source> min</source>
-        <translation type="unfinished"></translation>
+        <translation> min</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1203"/>
@@ -1842,17 +1898,22 @@ be used also when the opened file is not modified.
 This can be useful under certain circumstances,
 e.g. for changing the time stamp or removing the
 trailing spaces of a text file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hvis dette er krysset av, kan Lagre-knappen/menypunktet
+også brukes når den åpnede filen ikke er endret.
+
+Det kan være nyttig under bestemte omstendigheter,
+f.eks. for å endre tidsstemplet eller fjerne avsluttende 
+mellomrom i en tekstfil.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1211"/>
         <source>Allow saving unmodified files</source>
-        <translation type="unfinished"></translation>
+        <translation>Tillat at uendrede filer kan lagres</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1218"/>
         <source>Show a warning instead.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis i stedet en advarsel.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1221"/>
@@ -1862,80 +1923,80 @@ trailing spaces of a text file.</source>
     <message>
         <location filename="../../prefDialog.ui" line="1248"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>Snarveier</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1267"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Handling</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1272"/>
         <source>Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Snarvei</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1280"/>
         <source>Restore default shortcuts.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gjenopprett standard snarveier.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1283"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Standard</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1318"/>
         <source>Close</source>
-        <translation type="unfinished">Lukk</translation>
+        <translation>Lukk</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="279"/>
         <location filename="../../pref.cpp" line="1164"/>
         <source>files</source>
-        <translation type="unfinished"></translation>
+        <translation>filer</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="279"/>
         <location filename="../../pref.cpp" line="1164"/>
         <source>file</source>
-        <translation type="unfinished"></translation>
+        <translation>fil</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="332"/>
         <location filename="../../pref.cpp" line="1283"/>
         <source>Warning: Ambiguous shortcut detected!</source>
-        <translation type="unfinished"></translation>
+        <translation>Advarsel: Tvetydig snarvei detektert!</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="455"/>
         <source>Application restart is needed for changes to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Programmet må startes på nytt før endringene trer i kraft.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="467"/>
         <source>Window reopening is needed for changes to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vinduet må åpnes på nytt før endringene trer i kraft.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="1190"/>
         <source>&amp;Recently Opened</source>
-        <translation type="unfinished">&amp;Nylig åpnede</translation>
+        <translation>&amp;Nylig åpnede</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="1191"/>
         <source>Recently &amp;Modified</source>
-        <translation type="unfinished">Nylig &amp;endret</translation>
+        <translation>Nylig &amp;endrede</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="1266"/>
         <source>The typed shortcut was reserved.</source>
-        <translation type="unfinished"></translation>
+        <translation>Den inntastede snarveien er reservert.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="1470"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
-        <translation type="unfinished"></translation>
+        <translation>Hunspell-ordboksfiler (*.dic)</translation>
     </message>
 </context>
 <context>
@@ -1944,37 +2005,37 @@ trailing spaces of a text file.</source>
         <location filename="../../searchbar.cpp" line="43"/>
         <location filename="../../searchbar.cpp" line="122"/>
         <source>Search...</source>
-        <translation type="unfinished"></translation>
+        <translation>Søk...</translation>
     </message>
     <message>
         <location filename="../../searchbar.cpp" line="74"/>
         <source>Match Case</source>
-        <translation type="unfinished"></translation>
+        <translation>Forskjell på store og små bokstaver</translation>
     </message>
     <message>
         <location filename="../../searchbar.cpp" line="81"/>
         <source>Whole Word</source>
-        <translation type="unfinished"></translation>
+        <translation>Hele ord</translation>
     </message>
     <message>
         <location filename="../../searchbar.cpp" line="88"/>
         <source>Regular Expression</source>
-        <translation type="unfinished"></translation>
+        <translation>Regulære uttrykk</translation>
     </message>
     <message>
         <location filename="../../searchbar.cpp" line="120"/>
         <source>Search with regex...</source>
-        <translation type="unfinished"></translation>
+        <translation>Søk med regulære uttrykk...</translation>
     </message>
     <message>
         <location filename="../../searchbar.cpp" line="69"/>
         <source>Next</source>
-        <translation type="unfinished">Neste</translation>
+        <translation>Neste</translation>
     </message>
     <message>
         <location filename="../../searchbar.cpp" line="70"/>
         <source>Previous</source>
-        <translation type="unfinished">Forrige</translation>
+        <translation>Forrige</translation>
     </message>
 </context>
 <context>
@@ -1982,143 +2043,144 @@ trailing spaces of a text file.</source>
     <message>
         <location filename="../../sessionDialog.ui" line="14"/>
         <source>Session Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Øktbehandler</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="101"/>
         <location filename="../../sessionDialog.ui" line="270"/>
         <source>&amp;Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Fjern</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="33"/>
         <source>&lt;b&gt;Save/Restore Session&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Lagre/gjenopprett økt&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="56"/>
         <source>Filter...</source>
-        <translation type="unfinished"></translation>
+        <translation>Filter...</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="69"/>
         <source>Open the selected session(s).</source>
-        <translation type="unfinished"></translation>
+        <translation>Åpne den valgte økten.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="72"/>
         <location filename="../../sessionDialog.ui" line="275"/>
         <source>&amp;Open</source>
-        <translation type="unfinished">&amp;Åpne</translation>
+        <translation>&amp;Åpne</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="98"/>
         <location filename="../../sessionDialog.ui" line="108"/>
         <source>Del</source>
-        <translation type="unfinished"></translation>
+        <translation>Delete</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="115"/>
         <location filename="../../sessionDialog.ui" line="125"/>
         <source>Ctrl+Del</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Delete</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="159"/>
         <source>By default, all files that are opened in all
 windows will be included in the saved session.</source>
-        <translation type="unfinished"></translation>
+        <translation>Som standard inkluderes alle filer som er åpne 
+i alle vinduer, i den lagrede økten.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="163"/>
         <source>Save only from this &amp;window</source>
-        <translation type="unfinished"></translation>
+        <translation>Lagre kun fra dette &amp;vinduet</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="180"/>
         <source>&lt;b&gt;Warning&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Advarsel&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="226"/>
         <location filename="../../session.cpp" line="330"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ja</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="233"/>
         <source>&amp;No</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Nei</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="283"/>
         <source>Re&amp;name</source>
-        <translation type="unfinished"></translation>
+        <translation>Gi &amp;nytt navn</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="118"/>
         <source>Remove &amp;All</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern &amp;alle</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="260"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">&amp;Lukk</translation>
+        <translation>&amp;Lukk</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="135"/>
         <source>Save the current session under the given title.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lagre den gjeldende økten med oppgitt tittel.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="138"/>
         <source>&amp;Save</source>
-        <translation type="unfinished">&amp;Lagre</translation>
+        <translation>&amp;Lagre</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="149"/>
         <source>Type a name to save session</source>
-        <translation type="unfinished"></translation>
+        <translation>Skriv inn et navn for å lagre økten</translation>
     </message>
     <message>
         <location filename="../../session.cpp" line="174"/>
         <source>Nothing saved.&lt;br&gt;No file was opened.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingenting lagret.&lt;br&gt;Ingen fil var åpnet.</translation>
     </message>
     <message>
         <location filename="../../session.cpp" line="267"/>
         <source>No file exists or can be opened.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingen fil fins eller kan bli åpnet.</translation>
     </message>
     <message>
         <location filename="../../session.cpp" line="273"/>
         <source>Not all files exist or can be opened.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ikke alle filer fins eller kan bli åpnet.</translation>
     </message>
     <message>
         <location filename="../../session.cpp" line="316"/>
         <source>&amp;OK</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../../session.cpp" line="335"/>
         <source>Do you really want to remove all saved sessions?</source>
-        <translation type="unfinished"></translation>
+        <translation>Vil du virkelig fjerne alle lagrede økter?</translation>
     </message>
     <message>
         <location filename="../../session.cpp" line="341"/>
         <source>Do you really want to remove the selected sessions?</source>
-        <translation type="unfinished"></translation>
+        <translation>Vil du virkelig fjerne de valgte øktene?</translation>
     </message>
     <message>
         <location filename="../../session.cpp" line="343"/>
         <source>Do you really want to remove the selected session?</source>
-        <translation type="unfinished"></translation>
+        <translation>Vil du virkelig fjerne den valgte økten?</translation>
     </message>
     <message>
         <location filename="../../session.cpp" line="348"/>
         <source>A session with the same name exists.&lt;br&gt;Do you want to overwrite it?</source>
-        <translation type="unfinished"></translation>
+        <translation>En økt med det samme navnet fins.&lt;br&gt;Vil du overskrive den?</translation>
     </message>
 </context>
 <context>
@@ -2126,7 +2188,7 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../sidepane.cpp" line="108"/>
         <source>Filter...</source>
-        <translation type="unfinished"></translation>
+        <translation>Filter...</translation>
     </message>
 </context>
 <context>
@@ -2134,37 +2196,37 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../spellDialog.ui" line="25"/>
         <source>Unknown word:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukjent ord:</translation>
     </message>
     <message>
         <location filename="../../spellDialog.ui" line="51"/>
         <source>Add To Dictionary</source>
-        <translation type="unfinished"></translation>
+        <translation>Legg til i ordboken</translation>
     </message>
     <message>
         <location filename="../../spellDialog.ui" line="62"/>
         <source>Replace with:</source>
-        <translation type="unfinished">Erstatt med:</translation>
+        <translation>Erstatt med:</translation>
     </message>
     <message>
         <location filename="../../spellDialog.ui" line="129"/>
         <source>Correct Once</source>
-        <translation type="unfinished"></translation>
+        <translation>Rett en gang</translation>
     </message>
     <message>
         <location filename="../../spellDialog.ui" line="142"/>
         <source>Correct All</source>
-        <translation type="unfinished"></translation>
+        <translation>Rett alle</translation>
     </message>
     <message>
         <location filename="../../spellDialog.ui" line="87"/>
         <source>Ignore Once</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignorer en gang</translation>
     </message>
     <message>
         <location filename="../../spellDialog.ui" line="100"/>
         <source>Ignore All</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignorer alle</translation>
     </message>
 </context>
 <context>
@@ -2172,7 +2234,7 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../textedit.cpp" line="144"/>
         <source>Double click to center current line</source>
-        <translation type="unfinished"></translation>
+        <translation>Dobbeltklikk for å midtstille gjeldende linje</translation>
     </message>
 </context>
 <context>
@@ -2181,7 +2243,7 @@ windows will be included in the saved session.</source>
         <location filename="../../warningbar.h" line="78"/>
         <location filename="../../warningbar.h" line="83"/>
         <source>Close</source>
-        <translation type="unfinished">Lukk</translation>
+        <translation>Lukk</translation>
     </message>
 </context>
 </TS>

@@ -3532,16 +3532,11 @@ void FPwin::toggleWrapping()
     int count = ui->tabWidget->count();
     if (count == 0) return;
 
-    if (ui->actionWrap->isChecked())
-    {
-        for (int i = 0; i < count; ++i)
-            qobject_cast< TabPage *>(ui->tabWidget->widget (i))->textEdit()->setLineWrapMode (QPlainTextEdit::WidgetWidth);
-    }
-    else
-    {
-        for (int i = 0; i < count; ++i)
-            qobject_cast< TabPage *>(ui->tabWidget->widget (i))->textEdit()->setLineWrapMode (QPlainTextEdit::NoWrap);
-    }
+    bool wrapLines = ui->actionWrap->isChecked();
+    for (int i = 0; i < count; ++i)
+        qobject_cast<TabPage*>(ui->tabWidget->widget (i))->textEdit()->setLineWrapMode (wrapLines ? QPlainTextEdit::WidgetWidth : QPlainTextEdit::NoWrap);
+    if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget()))
+        reformat (tabPage->textEdit());
 }
 /*************************/
 void FPwin::toggleIndent()
