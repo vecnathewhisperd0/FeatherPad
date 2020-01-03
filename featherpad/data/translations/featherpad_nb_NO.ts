@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="149"/>
+        <location filename="../../about.ui" line="151"/>
         <source>License</source>
         <translation>Lisens</translation>
     </message>
@@ -1625,7 +1625,7 @@ will be shown by a popup dialog.</source>
     <message>
         <location filename="../../prefDialog.ui" line="1307"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hjelp</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="163"/>
@@ -1781,7 +1781,7 @@ if the cursor is inside the text view?</source>
     <message>
         <location filename="../../prefDialog.ui" line="870"/>
         <source>Spell Checking</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Stavekontroll</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="878"/>
@@ -1887,7 +1887,7 @@ trailing spaces of a text file.</source>
     <message>
         <location filename="../../prefDialog.ui" line="1318"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lukk</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="279"/>
@@ -1920,12 +1920,12 @@ trailing spaces of a text file.</source>
     <message>
         <location filename="../../pref.cpp" line="1190"/>
         <source>&amp;Recently Opened</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Nylig åpnede</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="1191"/>
         <source>Recently &amp;Modified</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nylig &amp;endret</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="1266"/>
@@ -1969,12 +1969,12 @@ trailing spaces of a text file.</source>
     <message>
         <location filename="../../searchbar.cpp" line="69"/>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Neste</translation>
     </message>
     <message>
         <location filename="../../searchbar.cpp" line="70"/>
         <source>Previous</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Forrige</translation>
     </message>
 </context>
 <context>
@@ -2009,7 +2009,7 @@ trailing spaces of a text file.</source>
         <location filename="../../sessionDialog.ui" line="72"/>
         <location filename="../../sessionDialog.ui" line="275"/>
         <source>&amp;Open</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Åpne</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="98"/>
@@ -2063,7 +2063,7 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../sessionDialog.ui" line="260"/>
         <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Lukk</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="135"/>
@@ -2073,7 +2073,7 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../sessionDialog.ui" line="138"/>
         <source>&amp;Save</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Lagre</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="149"/>
@@ -2144,7 +2144,7 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../spellDialog.ui" line="62"/>
         <source>Replace with:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Erstatt med:</translation>
     </message>
     <message>
         <location filename="../../spellDialog.ui" line="129"/>
@@ -2181,7 +2181,7 @@ windows will be included in the saved session.</source>
         <location filename="../../warningbar.h" line="78"/>
         <location filename="../../warningbar.h" line="83"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lukk</translation>
     </message>
 </context>
 </TS>
