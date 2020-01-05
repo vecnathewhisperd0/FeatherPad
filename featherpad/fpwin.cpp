@@ -722,6 +722,7 @@ void FPwin::addRemoveLangBtn (bool add)
         langButton->setText (normal);
         langButton->setPopupMode (QToolButton::InstantPopup);
 
+        /* a searchable menu */
         class Menu : public QMenu {
         public:
             Menu( QWidget *parent = nullptr) : QMenu (parent) {
@@ -740,10 +741,19 @@ void FPwin::addRemoveLangBtn (bool add)
                   connect (selectionTimer_, &QTimer::timeout, this, [this] {
                       if (txt_.isEmpty()) return;
                       const auto allActions = actions();
-                      for (const auto &a : allActions) {
+                      for (const auto &a : allActions) { // search in starting strings first
                           QString aTxt = a->text();
                           aTxt.remove ('&');
                           if (aTxt.startsWith (txt_, Qt::CaseInsensitive)) {
+                              setActiveAction (a);
+                              txt_.clear();
+                              return;
+                          }
+                      }
+                      for (const auto &a : allActions) { // now, search for containing strings
+                          QString aTxt = a->text();
+                          aTxt.remove ('&');
+                          if (aTxt.contains (txt_, Qt::CaseInsensitive)) {
                               setActiveAction (a);
                               break;
                           }
@@ -751,7 +761,7 @@ void FPwin::addRemoveLangBtn (bool add)
                       txt_.clear();
                   });
                 }
-                selectionTimer_->start (350);
+                selectionTimer_->start (400);
                 txt_ += e->text().simplified();
                 QMenu::keyPressEvent (e);
             }

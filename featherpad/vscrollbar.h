@@ -43,7 +43,7 @@ private:
 };
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
-/* Workaround. */
+/* A (temporary) workaround for Qt's horizontal scrollbar bug. */
 class HScrollBar : public QScrollBar
 {
     Q_OBJECT

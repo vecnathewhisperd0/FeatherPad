@@ -135,7 +135,7 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     setVerticalScrollBar (vScrollBar);
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
-    /* workaround */
+    /* a (temporary) workaround for Qt's horizontal scrollbar bug */
     HScrollBar *hScrollBar = new HScrollBar;
     setHorizontalScrollBar (hScrollBar);
 #endif
