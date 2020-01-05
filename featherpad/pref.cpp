@@ -88,7 +88,7 @@ PrefDialog::PrefDialog (QWidget *parent)
     Delegate *del = new Delegate (ui->tableWidget);
     ui->tableWidget->setItemDelegate (del);
     ui->tableWidget->horizontalHeader()->setSectionResizeMode (QHeaderView::Stretch);
-    ui->tableWidget->horizontalHeader()->setSectionsClickable (false);
+    ui->tableWidget->horizontalHeader()->setSectionsClickable (true);
     ui->tableWidget->sortByColumn (0, Qt::AscendingOrder);
 
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
