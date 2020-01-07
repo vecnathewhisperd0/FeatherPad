@@ -1336,11 +1336,18 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
         {
             if (format (pos) == codeBlockFormat) // inside a literal block
                 return true;
-            /* skip the start quote if it's inside a key or value */
             QRegularExpressionMatch match;
+            if (text.indexOf (QRegularExpression ("^(\\s*-\\s)+\\s*"), 0, &match) == 0)
+            {
+                if (match.capturedLength() == pos)
+                    return false; // a start quote isn't escaped at the beginning of a list
+            }
+            /* Skip the start quote if it's inside a key or value.
+               NOTE: In keys, "(?:(?!(\\{|\\[|,|:\\s|\\s#)).)*" is used instead of "[^{\\[:,#]*"
+                     because ":" should be followed by a space to make a key-value. */
             if (format (pos) == neutralFormat)
             { // inside preformatted braces, when multiLineQuote() is called (not needed; repeated below)
-                int index = text.lastIndexOf (QRegularExpression ("(^|{|,|\\[)\\s*\\K[^{\\[:,#]*(:\\s+)?"), pos, &match);
+                int index = text.lastIndexOf (QRegularExpression ("(^|{|,|\\[)\\s*\\K(?:(?!(\\{|\\[|,|:\\s|\\s#)).)*(:\\s+)?"), pos, &match);
                 if (index > -1 && index <= pos && index + match.capturedLength() > pos
                     && isYamlKeyQuote (match.captured(), pos - index))
                 {
@@ -1353,7 +1360,7 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
             else
             {
                 /* inside braces before preformatting (indirectly used by yamlOpenBraces()) */
-                int index = text.lastIndexOf (QRegularExpression ("(^|{|,|\\[)\\s*\\K[^{\\[:,#]*(:\\s+)?"), pos, &match);
+                int index = text.lastIndexOf (QRegularExpression ("(^|{|,|\\[)\\s*\\K(?:(?!(\\{|\\[|,|:\\s|\\s#)).)*(:\\s+)?"), pos, &match);
                 if (index > -1 && index <= pos && index + match.capturedLength() > pos
                     && isYamlKeyQuote (match.captured(), pos - index))
                 {
@@ -1363,7 +1370,7 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
                 if (index > -1 && index < pos && index + match.capturedLength() > pos)
                     return true;
                 /* outside braces */
-                index = text.lastIndexOf (QRegularExpression ("^\\s*\\K[^{\\[:,#]*(:\\s+)?"), pos, &match);
+                index = text.lastIndexOf (QRegularExpression ("^\\s*\\K(?:(?!(\\{|\\[|,|:\\s|\\s#)).)*(:\\s+)?"), pos, &match);
                 if (index > -1 && index < pos && index + match.capturedLength() > pos
                     && isYamlKeyQuote (match.captured(), pos - index))
                 {
@@ -3741,15 +3748,20 @@ void Highlighter::debControlFormatting (const QString &text)
     }
 }
 /*************************/
-// Check whether the start bracket/brace is escaped. FIXME: This is quite complex.
+// Check whether the start bracket/brace is escaped. FIXME: This only covers keys and values.
 static inline bool isYamlBraceEscaped (const QString &text, const QRegularExpression &start, int pos)
 {
     if (pos < 0 || text.indexOf (start, pos) != pos)
         return false;
-    if (text.lastIndexOf (QRegularExpression ("(^|{|,|\\[)?[^:#]*:\\s+[^{\\[,#\\s]+\\s*\\K" + start.pattern()), pos) == pos) // inside value
-        return true;
+    int indx = text.lastIndexOf (QRegularExpression ("(^|{|,|\\[)?[^:#]*:\\s+\\K"), pos); // the last key
+    if (indx > -1)
+    {
+        QString txt = text.right (text.size() - indx);
+        if (txt.indexOf (QRegularExpression ("^[^{\\[#\\s]")) > -1) // inside value
+            return true;
+    }
     QRegularExpressionMatch match;
-    int indx = text.lastIndexOf (QRegularExpression ("[^:#\\s{\\[]+\\s*" + start.pattern() + "[^:#]*:\\s+"), pos, &match);
+    indx = text.lastIndexOf (QRegularExpression ("[^:#\\s{\\[]+\\s*" + start.pattern() + "[^:#]*:\\s+"), pos, &match);
     if (indx > -1 && indx < pos && indx + match.capturedLength() > pos) // inside key
         return true;
     return false;

@@ -4,6 +4,7 @@ V0.12.1
  * Allow searching in the language menu by typing continuously.
  * More informative message when a non-text file isn't opened because of preferences.
  * Fixed disabled sort line actions in context menu.
+ * Fixed a case of escaped quote/brace/bracket in YAML.
  * Reformat the visible text rectangle on toggling line wrapping.
  * Considered the new behavior of horizontal wheel scrolling in Qt 5.14.0.
  * Added a workaround for the bug in horizontal scrollbars of Qt 5.14.0.
