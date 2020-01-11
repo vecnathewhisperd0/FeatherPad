@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="151"/>
+        <location filename="../../about.ui" line="153"/>
         <source>License</source>
         <translation>Άδεια</translation>
     </message>
@@ -1180,6 +1180,7 @@
         <source>%Ln Replacements</source>
         <translation type="unfinished">
             <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message>
@@ -1194,7 +1195,7 @@
         <location filename="../../filedialog.h" line="48"/>
         <source>Ctrl+H</source>
         <comment>Toggle showing hidden files</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ctrl+H</translation>
     </message>
     <message>
         <location filename="../../filedialog.h" line="49"/>
@@ -2005,7 +2006,7 @@ trailing spaces of a text file.</source>
         <location filename="../../sessionDialog.ui" line="72"/>
         <location filename="../../sessionDialog.ui" line="275"/>
         <source>&amp;Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Άνοι&amp;γμα</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="98"/>
@@ -2059,7 +2060,7 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../sessionDialog.ui" line="260"/>
         <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Κ&amp;λείσιμο</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="135"/>
@@ -2069,7 +2070,7 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../sessionDialog.ui" line="138"/>
         <source>&amp;Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Α&amp;ποθήκευση</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="149"/>
@@ -2140,7 +2141,7 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../spellDialog.ui" line="62"/>
         <source>Replace with:</source>
-        <translation type="unfinished"></translation>
+        <translation>Αντικατάσταση με:</translation>
     </message>
     <message>
         <location filename="../../spellDialog.ui" line="129"/>
