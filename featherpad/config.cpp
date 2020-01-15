@@ -286,6 +286,8 @@ void Config::readConfig()
     spellCheckFromStart_ = settings.value ("spellCheckFromStart").toBool();
 
     settings.endGroup();
+
+    readSyntaxColors();
 }
 /*************************/
 void Config::resetFont()
@@ -327,6 +329,29 @@ QStringList Config::getLastFiles()
     while (lastFiles.count() > 50) // never more than 50 files
         lastFiles.removeLast();
     return lastFiles;
+}
+/*************************/
+void Config::readSyntaxColors()// may be called multiple times
+{
+    setDfaultSyntaxColors();
+    customSyntaxColors_.clear();
+    Settings settingsColors ("featherpad", darkColScheme_ ? "fp_dark_syntax_colors" : "fp_light_syntax_colors");
+    const auto syntaxes = defaultLightSyntaxColors_.keys();
+    QList<QColor> l;
+    for (auto &syntax : syntaxes)
+    {
+        QColor col;
+        col.setNamedColor (settingsColors.value (syntax).toString());
+        if (col.isValid())
+            col.setAlpha (255); // only opaque custom colors)
+        if (!col.isValid() || l.contains (col))
+        { // an invalid or repeated color shows a corrupted configuration
+            customSyntaxColors_.clear();
+            break;
+        }
+        l << col;
+        customSyntaxColors_.insert (syntax, col);
+    }
 }
 /*************************/
 void Config::writeConfig()
@@ -460,6 +485,8 @@ void Config::writeConfig()
     settings.endGroup();
 
     writeCursorPos();
+
+    writeSyntaxColors();
 }
 /*************************/
 void Config::readCursorPos()
@@ -499,6 +526,22 @@ void Config::writeCursorPos()
             settingsLastCur.setValue ("cursorPositions", lasFilesCursorPos_);
         else
             settingsLastCur.remove ("cursorPositions");
+    }
+}
+/*************************/
+void Config::writeSyntaxColors()
+{
+    Settings settingsColors ("featherpad", darkColScheme_ ? "fp_dark_syntax_colors" : "fp_light_syntax_colors");
+    if (customSyntaxColors_.isEmpty())
+        settingsColors.clear(); // remove the corrupted configuration
+    else
+    {
+        QHash<QString, QColor>::const_iterator it = customSyntaxColors_.constBegin();
+        while (it != customSyntaxColors_.constEnd())
+        {
+            settingsColors.setValue (it.key(), it.value().name());
+            ++it;
+        }
     }
 }
 /*************************/
@@ -544,6 +587,36 @@ QString Config::validatedShortcut (const QVariant v, bool *isValid)
 
     *isValid = false;
     return QString();
+}
+/*************************/
+void Config::setDfaultSyntaxColors()
+{
+    if (defaultLightSyntaxColors_.isEmpty())
+    {
+        defaultLightSyntaxColors_.insert ("function", QColor (Qt::blue));
+        defaultLightSyntaxColors_.insert ("BuiltinFunction", QColor (Qt::magenta));
+        defaultLightSyntaxColors_.insert ("comment", QColor (Qt::red));
+        defaultLightSyntaxColors_.insert ("quote", QColor (Qt::darkGreen));
+        defaultLightSyntaxColors_.insert ("type", QColor (Qt::darkMagenta));
+        defaultLightSyntaxColors_.insert ("keyWord", QColor (Qt::darkBlue));
+        defaultLightSyntaxColors_.insert ("number", QColor (160, 80, 0));
+        defaultLightSyntaxColors_.insert ("regex", QColor (150, 0, 0));
+        defaultLightSyntaxColors_.insert ("xmlElement", QColor (126, 0, 230));
+        defaultLightSyntaxColors_.insert ("cssValue", QColor (0, 110, 110));
+        defaultLightSyntaxColors_.insert ("other", QColor (100, 100, 0));
+
+        defaultDarkSyntaxColors_.insert ("function", QColor (85, 227, 255));
+        defaultDarkSyntaxColors_.insert ("BuiltinFunction", QColor (Qt::magenta));
+        defaultDarkSyntaxColors_.insert ("comment", QColor (255, 120, 120));
+        defaultDarkSyntaxColors_.insert ("quote", QColor (Qt::green));
+        defaultDarkSyntaxColors_.insert ("type", QColor (255, 153, 255));
+        defaultDarkSyntaxColors_.insert ("keyWord", QColor (65, 154, 255));
+        defaultDarkSyntaxColors_.insert ("number", QColor (255, 200, 0));
+        defaultDarkSyntaxColors_.insert ("regex", QColor (255, 160, 0));
+        defaultDarkSyntaxColors_.insert ("xmlElement", QColor (255, 255, 1));
+        defaultDarkSyntaxColors_.insert ("cssValue", QColor (150, 255, 0));
+        defaultDarkSyntaxColors_.insert ("other", QColor (Qt::yellow));
+    }
 }
 
 }

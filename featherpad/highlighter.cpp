@@ -25,7 +25,7 @@ Q_DECLARE_METATYPE(QTextBlock)
 namespace FeatherPad {
 
 /* NOTE: It is supposed that a URL does not end with punctuation marks, parentheses or brackets. */
-static const QRegularExpression urlPattern ("[A-Za-z0-9_]+://((?!&quot;|&gt;|&lt;)[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)\\[\\]])+(?<!\\.|\\?|:|\\(|\\)|\\[|\\])|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+(?<!\\.)");
+static const QRegularExpression urlPattern ("[A-Za-z0-9_\\-]+://((?!&quot;|&gt;|&lt;)[A-Za-z0-9_.+/\\?\\=~&%#\\-:\\(\\)\\[\\]])+(?<!\\.|\\?|:|\\(|\\)|\\[|\\])|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+(?<!\\.)");
 static const QRegularExpression notePattern ("\\b(NOTE|TODO|FIXME|WARNING)\\b");
 
 TextBlockData::~TextBlockData()
@@ -207,7 +207,9 @@ static QColor overlayColor (const QColor& bgCol, const QColor& overlayCol)
 Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
                           const QTextCursor &start, const QTextCursor &end,
                           bool darkColorScheme,
-                          bool showWhiteSpace, bool showEndings) : QSyntaxHighlighter (parent)
+                          bool showWhiteSpace,
+                          bool showEndings,
+                          const QHash<QString, QColor> &syntaxColors) : QSyntaxHighlighter (parent)
 {
     if (lang.isEmpty()) return;
 
@@ -235,49 +237,157 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     quoteMark.setPattern ("\""); // the standard quote mark (always a single character)
 
     HighlightingRule rule;
-    QColor Faded, translucent;
-    if (!darkColorScheme)
-    {
-        mainFormat.setForeground (Qt::black);
-        neutralFormat.setForeground (QColor (1, 1, 1));
-        Blue = Qt::blue;
-        DarkBlue = Qt::darkBlue;
-        Red = Qt::red;
-        DarkRed = QColor (150, 0, 0);
-        Verda = QColor (0, 110, 110);
-        DarkGreen = Qt::darkGreen;
-        DarkMagenta = Qt::darkMagenta;
-        Violet = QColor (126, 0, 230); // #7e00e6
-        Brown = QColor (160, 80, 0);
-        DarkYellow = QColor (100, 100, 0); // Qt::darkYellow is (180, 180, 0)
-        Faded = QColor (180, 180, 180);
-        translucent = QColor (0, 0, 0, 190);
-#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
-        translucent = overlayColor (QColor (245, 245, 245), translucent);
-#endif
-    }
-    else
-    {
-        mainFormat.setForeground (Qt::white);
-        neutralFormat.setForeground (QColor (254, 254, 254));
-        Blue = QColor (85, 227, 255);
-        DarkBlue = QColor (65, 154, 255);
-        Red = QColor (255, 120, 120);
-        DarkRed = QColor (255, 160, 0);
-        Verda = QColor (150, 255, 0);
-        DarkGreen = Qt::green;
-        DarkMagenta = QColor (255, 153, 255);
-        Violet = QColor (255, 255, 0); // == DarkYellow == Qt::yellow
-        Brown = QColor (255, 200, 0);
-        DarkYellow = Qt::yellow;
-        Faded = QColor (95, 95, 95);
-        translucent = QColor (255, 255, 255, 190);
-#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
-        translucent = overlayColor (QColor (10, 10, 10), translucent);
-#endif
-    }
-    DarkGreenAlt = DarkGreen.lighter (101); // almost identical
 
+    QColor TextColor, neutralColor, Faded, translucent;
+    if (syntaxColors.size() == 11)
+    {
+        /* NOTE: All 11 colors should be valid, opaque and different from each other
+                 but we don't check them here because "FeatherPad::Config" gets them so. */
+        Blue = syntaxColors.value ("function");
+        Magenta = syntaxColors.value ("BuiltinFunction");
+        Red = syntaxColors.value ("comment");
+        DarkGreen = syntaxColors.value ("quote");
+        DarkMagenta = syntaxColors.value ("type");
+        DarkBlue = syntaxColors.value ("keyWord");
+        Brown = syntaxColors.value ("number");
+        DarkRed = syntaxColors.value ("regex");
+        Violet = syntaxColors.value ("xmlElement");
+        Verda = syntaxColors.value ("cssValue");
+        DarkYellow = syntaxColors.value ("other");
+
+        QList<QColor> colors;
+        colors << Blue << Magenta << Red << DarkGreen << DarkMagenta << DarkBlue << Brown << DarkRed << Violet << Verda << DarkYellow;
+
+        /* extra colors */
+        if (!darkColorScheme)
+        {
+            TextColor =  QColor (Qt::black);
+            neutralColor = QColor (1, 1, 1);
+            Faded = QColor (180, 180, 180); // for whitespaces
+            translucent = QColor (0, 0, 0, 190); // for huge lines
+#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+            translucent = overlayColor (QColor (245, 245, 245), translucent);
+#endif
+        }
+        else
+        {
+            TextColor =  QColor (Qt::white);
+            neutralColor = QColor (254, 254, 254);
+            Faded = QColor (95, 95, 95);
+            translucent = QColor (255, 255, 255, 190);
+#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+            translucent = overlayColor (QColor (10, 10, 10), translucent);
+#endif
+        }
+
+        int i = 0;
+        while (colors.contains (TextColor))
+        {
+            ++i;
+            if (!darkColorScheme)
+                TextColor = QColor (i, i, i);
+            else
+                TextColor = QColor (255 - i, 255 - i, 255 - i);
+        }
+        colors << TextColor;
+
+        while (colors.contains (neutralColor))
+        {
+            ++i;
+            if (!darkColorScheme)
+                neutralColor = QColor (i, i, i);
+            else
+                neutralColor = QColor (255 - i, 255 - i, 255 - i);
+        }
+        colors << neutralColor;
+
+        i = 0;
+        while (colors.contains (Faded))
+        {
+            ++i;
+            if (!darkColorScheme)
+                Faded = QColor (180 + i, 180 + i, 180 + i);
+            else
+                Faded = QColor (95 - i, 95 - i, 95 - i);
+        }
+        colors << Faded;
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+        i = 0;
+        int tr = translucent.red();
+        while (colors.contains (translucent))
+        {
+            ++i;
+            if (!darkColorScheme)
+                translucent = QColor (tr + i, tr + i, tr + i);
+            else
+                translucent = QColor (tr - i, tr - i, tr - i);
+        }
+        colors << translucent;
+#endif
+
+        DarkGreenAlt = DarkGreen.lighter (101);
+        if (DarkGreenAlt == DarkGreen)
+        {
+            DarkGreenAlt = QColor (DarkGreen.red() > 127 ? DarkGreen.red() - 1 : DarkGreen.red() + 1,
+                                   DarkGreen.green() > 127 ? DarkGreen.green() - 1 : DarkGreen.green() + 1,
+                                   DarkGreen.blue() > 127 ? DarkGreen.blue() - 1 : DarkGreen.blue() + 1);
+        }
+        while (colors.contains (DarkGreenAlt))
+        {
+            DarkGreenAlt = QColor (DarkGreen.red() > 127 ? DarkGreenAlt.red() - 1 : DarkGreenAlt.red() + 1,
+                                   DarkGreen.green() > 127 ? DarkGreenAlt.green() - 1 : DarkGreenAlt.green() + 1,
+                                   DarkGreen.blue() > 127 ? DarkGreenAlt.blue() - 1 : DarkGreenAlt.blue() + 1);
+        }
+    }
+    else // built-in colors (this block is never reached but is kept for the sake of consistency)
+    {
+        if (!darkColorScheme)
+        {
+            TextColor =  QColor (Qt::black);
+            neutralColor = QColor (1, 1, 1);
+            Blue = QColor (Qt::blue);
+            DarkBlue = QColor (Qt::darkBlue);
+            Red = QColor (Qt::red);
+            DarkRed = QColor (150, 0, 0);
+            Verda = QColor (0, 110, 110);
+            DarkGreen = QColor (Qt::darkGreen);
+            DarkMagenta = QColor (Qt::darkMagenta);
+            Violet = QColor (126, 0, 230); // #7e00e6
+            Brown = QColor (160, 80, 0);
+            DarkYellow = QColor (100, 100, 0); // Qt::darkYellow is (180, 180, 0)
+            Faded = QColor (180, 180, 180);
+            translucent = QColor (0, 0, 0, 190);
+#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+            translucent = overlayColor (QColor (245, 245, 245), translucent);
+#endif
+        }
+        else
+        {
+            TextColor =  QColor (Qt::white);
+            neutralColor = QColor (254, 254, 254);
+            Blue = QColor (85, 227, 255);
+            DarkBlue = QColor (65, 154, 255);
+            Red = QColor (255, 120, 120);
+            DarkRed = QColor (255, 160, 0);
+            Verda = QColor (150, 255, 0);
+            DarkGreen = QColor (Qt::green);
+            DarkMagenta = QColor (255, 153, 255);
+            Violet = QColor (255, 255, 0); // == DarkYellow == Qt::yellow
+            Brown = QColor (255, 200, 0);
+            DarkYellow = QColor (Qt::yellow);
+            Faded = QColor (95, 95, 95);
+            translucent = QColor (255, 255, 255, 190);
+#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+            translucent = overlayColor (QColor (10, 10, 10), translucent);
+#endif
+        }
+        Magenta = QColor (Qt::magenta);
+        DarkGreenAlt = DarkGreen.lighter (101); // almost identical
+    }
+
+    mainFormat.setForeground (TextColor);
+    neutralFormat.setForeground (neutralColor);
     whiteSpaceFormat.setForeground (Faded);
     translucentFormat.setForeground (translucent);
     translucentFormat.setFontItalic (true);
@@ -329,7 +439,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         else if (progLan == "python")
         { // built-in functions
             ft.setFontWeight (QFont::Bold);
-            ft.setForeground (Qt::magenta);
+            ft.setForeground (Magenta);
             rule.pattern.setPattern ("\\b(abs|add|all|append|any|as_integer_ratio|ascii|basestring|bin|bit_length|bool|bytearray|bytes|callable|c\\.conjugate|capitalize|center|chr|classmethod|clear|cmp|compile|complex|count|critical|debug|decode|delattr|dict|difference_update|dir|discard|divmod|encode|endswith|enumerate|error|eval|expandtabs|exception|exec|execfile|extend|file|filter|find|float|format|fromhex|fromkeys|frozenset|get|getattr|globals|hasattr|hash|has_key|help|hex|id|index|info|input|insert|int|intersection_update|isalnum|isalpha|isdecimal|isdigit|isinstance|islower|isnumeric|isspace|issubclass|istitle|items|iter|iteritems|iterkeys|itervalues|isupper|is_integer|join|keys|len|list|ljust|locals|log|long|lower|lstrip|map|max|memoryview|min|next|object|oct|open|ord|partition|pop|popitem|pow|print|property|range|raw_input|read|reduce|reload|remove|replace|repr|reverse|reversed|rfind|rindex|rjust|rpartition|round|rsplit|rstrip|run|seek|set|setattr|slice|sort|sorted|split|splitlines|staticmethod|startswith|str|strip|sum|super|symmetric_difference_update|swapcase|title|translate|tuple|type|unichr|unicode|update|upper|values|vars|viewitems|viewkeys|viewvalues|warning|write|xrange|zip|zfill|(__(abs|add|and|cmp|coerce|complex|contains|delattr|delete|delitem|delslice|div|divmod|enter|eq|exit|float|floordiv|ge|get|getattr|getattribute|getitem|getslice|gt|hex|iadd|iand|idiv|ifloordiv|ilshift|invert|imod|import|imul|init|instancecheck|index|int|ior|ipow|irshift|isub|iter|itruediv|ixor|le|len|long|lshift|lt|missing|mod|mul|neg|nonzero|oct|or|pos|pow|radd|rand|rdiv|rdivmod|reversed|rfloordiv|rlshift|rmod|rmul|ror|rpow|rshift|rsub|rrshift|rtruediv|rxor|set|setattr|setitem|setslice|sub|subclasses|subclasscheck|truediv|unicode|xor)__))(?=\\s*\\()");
             rule.format = ft;
             highlightingRules.append (rule);
@@ -353,7 +463,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
         ft.setFontItalic (false);
         ft.setFontWeight (QFont::Bold);
-        ft.setForeground (Qt::magenta);
+        ft.setForeground (Magenta);
         rule.pattern.setPattern ("\\b(?<!(@|#|\\$))(export|from|import|as)(?!(@|#|\\$|(\\s*:)))\\b");
         rule.format = ft;
         highlightingRules.append (rule);
@@ -423,7 +533,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
             keywordFormat.setFontItalic (false);
         }
         keywordFormat.setFontWeight (QFont::Bold);
-        keywordFormat.setForeground (Qt::magenta);
+        keywordFormat.setForeground (Magenta);
         rule.pattern.setPattern ("((^\\s*|[\\(\\);&`\\|{}]+\\s*)((if|then|elif|elseif|else|fi|while|do|done|esac)\\s+)*)\\K(?<!\\${)(sudo\\s+)?((kill|killall|torify|proxychains)\\s+)?(adduser|addgroup|apropos|apt|apt-get|aspell|awk|basename|bash|bc|bsdtar|bunzip2|bzip2|cal|cat|cd|cfdisk|chgrp|chmod|chown|chroot|chkconfig|cksum|clear|cmake|cmp|comm|cp|cron|crontab|csplit|curl|cut|cvs|date|dc|dd|ddrescue|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|dpkg|du|egrep|eject|emacs|env|ethtool|expect|expand|expr|fdformat|fdisk|featherpad|fgrep|file|find|finger|fmt|fold|format|fpad|free|fsck|ftp|function|fuser|gawk|gcc|gio|git|grep|groups|gunzip|gzip|head|hostname|id|ifconfig|ifdown|ifup|import|install|java|javac|jobs|join|kdialog|kill|killall|less|links|ln|locate|logname|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|lynx|mail|make|makepkg|man|mkdir|mkfifo|mkisofs|mknod|mktemp|more|mount|mtools|mv|mmv|nano|netstat|nice|nl|nohup|nslookup|open|op|pacman|passwd|paste|pathchk|perl|pico|pine|ping|pkill|popd|pr|printcap|printenv|proxychains|ps|pwd|python|qarma|qmake(-qt[3-9])*|quota|quotacheck|quotactl|ram|rcp|readarray|reboot|rename|renice|remsync|rev|rm|rmdir|rsync|ruby|screen|scp|sdiff|sed|sftp|shutdown|sleep|slocate|sort|split|ssh|strace|su|sudo|sum|svn|symlink|sync|tail|tar|tee|time|touch|top|torify|traceroute|tr|tsort|tty|type|ulimit|umask|umount|uname|unexpand|uniq|units|unshar|unzip|useradd|usermod|users|usleep|uuencode|uudecode|vdir|vi|vim|vmstat|wall|watch|wc|whereis|which|who|whoami|wget|write|xargs|xeyes|yad|yes|zenity|zip|zypper|7z)(?!(\\.|-|@|#|\\$))\\b");
         rule.format = keywordFormat;
         highlightingRules.append (rule);
@@ -503,7 +613,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
             highlightingRules.append (rule);
             cFormat.setFontItalic (false);
 
-            cFormat.setForeground (Qt::magenta);
+            cFormat.setForeground (Magenta);
             rule.pattern.setPattern ("\\bQt\\s*::\\s*(white|black|red|darkRed|green|darkGreen|blue|darkBlue|cyan|darkCyan|magenta|darkMagenta|yellow|darkYellow|gray|darkGray|lightGray|transparent|color0|color1)(?!(\\.|-|@|#|\\$))\\b");
             rule.format = cFormat;
             highlightingRules.append (rule);
@@ -690,7 +800,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         highlightingRules.append (rule);
 
         QTextCharFormat logFormat1;
-        logFormat1.setForeground (Qt::magenta);
+        logFormat1.setForeground (Magenta);
         rule.pattern.setPattern ("\\b(\\d{4}-\\d{2}-\\d{2}|\\d{2}/(\\d{2}|[A-Za-z]{3})/\\d{4}|\\d{4}/(\\d{2}|[A-Za-z]{3})/\\d{2}|[A-Za-z]{3}\\s+\\d{1,2})(T|\\s)\\d{2}:\\d{2}(:\\d{2}((\\+|-)\\d+)?)?(AM|PM|am|pm)?\\s+[A-Za-z0-9_]+(?=\\s|$|:)");
         rule.format = logFormat1;
         highlightingRules.append (rule);

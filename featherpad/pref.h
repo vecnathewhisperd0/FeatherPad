@@ -118,6 +118,8 @@ private slots:
     void prefCloseWithLastTab (int checked);
     void addDict();
     void prefSpellCheck (int checked);
+    void changeSyntaxColor (int row, int column);
+    void restoreDefaultSyntaxColors();
 
 private:
     void closeEvent (QCloseEvent *event);
@@ -135,6 +137,7 @@ private:
     QHash<QString, QString> shortcuts_, newShortcuts_;
     QString prevtMsg_;
     QTimer *promptTimer_;
+    QHash<QString, QColor> prefCustomSyntaxColors_; // customization in Preferences
 };
 
 }

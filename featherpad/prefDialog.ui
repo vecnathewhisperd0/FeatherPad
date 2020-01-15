@@ -1289,6 +1289,46 @@ trailing spaces of a text file.</string>
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="tab_5">
+      <attribute name="title">
+       <string>Syntax Colors</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QTableWidget" name="syntaxTableWidget">
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::SingleSelection</enum>
+         </property>
+         <attribute name="verticalHeaderVisible">
+          <bool>false</bool>
+         </attribute>
+         <column>
+          <property name="text">
+           <string>Element</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Text Color</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+       <item row="1" column="0" alignment="Qt::AlignRight">
+        <widget class="QPushButton" name="defaultSyntaxButton">
+         <property name="text">
+          <string>Default</string>
+         </property>
+         <property name="toolTip">
+          <string>Restore default syntax colors.</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
    <item row="1" column="0" colspan="2">

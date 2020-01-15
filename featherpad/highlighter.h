@@ -109,7 +109,9 @@ public:
     Highlighter (QTextDocument *parent, const QString& lang,
                  const QTextCursor &start, const QTextCursor &end,
                  bool darkColorScheme,
-                 bool showWhiteSpace = false, bool showEndings = false);
+                 bool showWhiteSpace,
+                 bool showEndings,
+                 const QHash<QString, QColor> &syntaxColors = QHash<QString, QColor>());
     ~Highlighter();
 
     void setLimit (const QTextCursor &start, const QTextCursor &end) {
@@ -222,7 +224,7 @@ private:
     QString progLan;
 
     QRegularExpression quoteMark;
-    QColor Blue, DarkBlue, Red, DarkRed, Verda, DarkGreen, DarkGreenAlt, DarkMagenta, Violet, Brown, DarkYellow;
+    QColor Blue, DarkBlue, Red, DarkRed, Verda, DarkGreen, DarkGreenAlt, Magenta, DarkMagenta, Violet, Brown, DarkYellow;
 
     /* The start and end cursors of the visible text: */
     QTextCursor startCursor, endCursor;

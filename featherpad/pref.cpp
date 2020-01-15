@@ -29,6 +29,7 @@
 #include <QWhatsThis>
 #include <QFileInfo>
 #include <QFileDialog>
+#include <QColorDialog>
 
 namespace FeatherPad {
 
@@ -90,6 +91,11 @@ PrefDialog::PrefDialog (QWidget *parent)
     ui->tableWidget->horizontalHeader()->setSectionResizeMode (QHeaderView::Stretch);
     ui->tableWidget->horizontalHeader()->setSectionsClickable (true);
     ui->tableWidget->sortByColumn (0, Qt::AscendingOrder);
+
+    ui->syntaxTableWidget->horizontalHeader()->setSectionResizeMode (QHeaderView::Stretch);
+    ui->syntaxTableWidget->horizontalHeader()->setSectionsClickable (false);
+    ui->syntaxTableWidget->sortByColumn (0, Qt::AscendingOrder);
+    ui->syntaxTableWidget->setToolTip (tr ("Double click a color to change it."));
 
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
     darkBg_ = config.getDarkColScheme();
@@ -354,6 +360,61 @@ PrefDialog::PrefDialog (QWidget *parent)
     connect (ui->tableWidget, &QTableWidget::itemChanged, this, &PrefDialog::onShortcutChange);
     connect (ui->defaultButton, &QAbstractButton::clicked, this, &PrefDialog::restoreDefaultShortcuts);
     ui->defaultButton->setDisabled (ca.isEmpty());
+
+    /*********************
+     *** Syntax Colors ***
+     *********************/
+
+    static QHash<QString, QString> syntaxNames;
+    if (syntaxNames.isEmpty())
+    { // it's a shame that QObject::tr() doesn't work in FeatherPad::Config
+        syntaxNames.insert ("function", tr ("Functions, URLs,…"));
+        syntaxNames.insert ("BuiltinFunction", tr ("Functions (Built-in)"));
+        syntaxNames.insert ("comment", tr ("Comments"));
+        syntaxNames.insert ("quote", tr ("Quotations"));
+        syntaxNames.insert ("type", tr ("Types"));
+        syntaxNames.insert ("keyWord", tr ("Key Words"));
+        syntaxNames.insert ("number", tr ("Numbers"));
+        syntaxNames.insert ("regex", tr ("Regular Expressions, code blocks,…"));
+        syntaxNames.insert ("xmlElement", tr ("XML Elements"));
+        syntaxNames.insert ("cssValue", tr ("CSS Values"));
+        syntaxNames.insert ("other", tr ("Extra Elements"));
+    }
+
+    ui->syntaxTableWidget->setSortingEnabled (false);
+    auto syntaxColors = !config.customSyntaxColors().isEmpty() ? config.customSyntaxColors()
+                                                               : config.getDarkColScheme() ? config.darkSyntaxColors()
+                                                                                           : config.lightSyntaxColors();
+    ui->syntaxTableWidget->setRowCount (syntaxColors.size());
+    index = 0;
+    QHash<QString, QColor>::const_iterator sIter = syntaxColors.constBegin();
+    while (sIter != syntaxColors.constEnd())
+    {
+        QTableWidgetItem *item = new QTableWidgetItem (syntaxNames.value (sIter.key()));
+        item->setData (Qt::UserRole, sIter.key()); // remember syntax independently of translations
+        item->setFlags (item->flags() & ~Qt::ItemIsEditable & ~Qt::ItemIsSelectable);
+        ui->syntaxTableWidget->setItem (index, 0, item);
+
+        QWidget* pWidget = new QWidget();
+        QHBoxLayout* pLayout = new QHBoxLayout (pWidget);
+        pLayout->setAlignment (Qt::AlignCenter);
+        pLayout->setContentsMargins (3, 3, 3, 3);
+        QLabel *label = new QLabel();
+        label->setSizePolicy (QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+        QColor col = sIter.value();
+        label->setStyleSheet (QString ("QLabel {background-color: rgb(%1, %2, %3);}")
+                              .arg (col.red()).arg (col.green()).arg (col.blue()));
+        pLayout->addWidget (label);
+        pWidget->setLayout (pLayout);
+        ui->syntaxTableWidget->setCellWidget(index, 1, pWidget);
+        ++ sIter;
+        ++ index;
+    }
+    ui->syntaxTableWidget->setSortingEnabled (true);
+    ui->syntaxTableWidget->setCurrentCell (0, 1);
+    connect (ui->syntaxTableWidget, &QTableWidget::cellDoubleClicked, this, &PrefDialog::changeSyntaxColor);
+    connect (ui->defaultSyntaxButton, &QAbstractButton::clicked, this, &PrefDialog::restoreDefaultSyntaxColors);
+    ui->defaultSyntaxButton->setDisabled (config.customSyntaxColors().isEmpty());
 
     /*************
      *** Other ***
@@ -937,6 +998,9 @@ void PrefDialog::prefEndings (int checked)
 void PrefDialog::prefDarkColScheme (int checked)
 {
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+
+    prefCustomSyntaxColors_.clear(); // forget customized syntax colors
+
     disconnect (ui->colorValueSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::prefColValue);
     if (checked == Qt::Checked)
     {
@@ -955,6 +1019,41 @@ void PrefDialog::prefDarkColScheme (int checked)
     connect (ui->colorValueSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::prefColValue);
 
     showPrompt();
+
+    /* There are different syntax color settings for light and dark color schemes.
+       So, the syntax colors should be read again. */
+    config.readSyntaxColors();
+    /* update the state of default button */
+    ui->defaultSyntaxButton->setEnabled (!config.customSyntaxColors().isEmpty());
+    /* update row colors */
+    for (int i = 0; i < ui->syntaxTableWidget->rowCount(); ++i)
+    {
+        if (QTableWidgetItem *item = ui->syntaxTableWidget->item (i, 0))
+        {
+            QString syntax = item->data (Qt::UserRole).toString();
+            QColor col;
+            if (!config.customSyntaxColors().isEmpty()) // customization was done before
+                col = config.customSyntaxColors().value (syntax);
+            else // no custom syntax color
+            {
+                if (config.getDarkColScheme())
+                    col = config.darkSyntaxColors().value (syntax);
+                else
+                    col = config.lightSyntaxColors().value (syntax);
+            }
+            if (const auto cw = ui->syntaxTableWidget->cellWidget (i, 1))
+            {
+                if (cw->layout())
+                {
+                    if (const auto label = qobject_cast<QLabel*>(cw->layout()->itemAt (0)->widget()))
+                    {
+                        label->setStyleSheet (QString ("QLabel {background-color: rgb(%1, %2, %3);}")
+                                              .arg (col.red()).arg (col.green()).arg (col.blue()));
+                    }
+                }
+            }
+        }
+    }
 }
 /*************************/
 void PrefDialog::prefColValue (int value)
@@ -1492,6 +1591,99 @@ void PrefDialog::addDict()
         {
             ui->dictEdit->setText (files.at (0));
             config.setDictPath (files.at (0));
+        }
+    }
+}/*************************/
+void PrefDialog::restoreDefaultSyntaxColors()
+{
+    prefCustomSyntaxColors_.clear();
+    ui->defaultSyntaxButton->setDisabled (true);
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    config.setCustomSyntaxColors (prefCustomSyntaxColors_);
+    /* update row colors */
+    for (int i = 0; i < ui->syntaxTableWidget->rowCount(); ++i)
+    {
+        if (QTableWidgetItem *item = ui->syntaxTableWidget->item (i, 0))
+        {
+            QString syntax = item->data (Qt::UserRole).toString();
+            QColor col;
+            if (config.getDarkColScheme())
+                col = config.darkSyntaxColors().value (syntax);
+            else
+                col = config.lightSyntaxColors().value (syntax);
+            if (const auto cw = ui->syntaxTableWidget->cellWidget (i, 1))
+            {
+                if (cw->layout())
+                {
+                    if (const auto label = qobject_cast<QLabel*>(cw->layout()->itemAt (0)->widget()))
+                    {
+                        label->setStyleSheet (QString ("QLabel {background-color: rgb(%1, %2, %3);}")
+                                              .arg (col.red()).arg (col.green()).arg (col.blue()));
+                    }
+                }
+            }
+        }
+    }
+}
+/*************************/
+void PrefDialog::changeSyntaxColor (int row, int column)
+{
+    if (column != 1) return;
+    if (const auto cw = ui->syntaxTableWidget->cellWidget (row, column))
+    {
+        if (cw->layout())
+        {
+            if (const auto label = qobject_cast<QLabel*>(cw->layout()->itemAt (0)->widget()))
+            {
+                QColor prevColor = label->palette().color (QPalette::Background);
+                QColor color = QColorDialog::getColor (prevColor,
+                                                       this,
+                                                       tr ("Select Syntax Color"));
+                if (color.isValid() && color != prevColor)
+                {
+                    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+                    if (QTableWidgetItem *item = ui->syntaxTableWidget->item (row, 0))
+                    {
+                        QString syntax = item->data (Qt::UserRole).toString();
+
+                        if (prefCustomSyntaxColors_.isEmpty()) // first customization in Preferences
+                        {
+                            if (!config.customSyntaxColors().isEmpty())
+                                prefCustomSyntaxColors_ = config.customSyntaxColors();
+                            else if (config.getDarkColScheme())
+                                prefCustomSyntaxColors_ = config.darkSyntaxColors();
+                            else
+                                prefCustomSyntaxColors_ = config.lightSyntaxColors();
+                        }
+                        prefCustomSyntaxColors_.remove (syntax); // will be added correctly below
+                        const auto colors = prefCustomSyntaxColors_.values();
+                        /* modify the color if it already exists */
+                        int r = color.red(); int g = color.green(); int b = color.blue();
+                        while (colors.contains (color))
+                        {
+                            color = QColor (r > 127 ? color.red() - 1 : color.red() + 1,
+                                            g > 127 ? color.green() - 1 : color.green() + 1,
+                                            b > 127 ? color.blue() - 1 : color.blue() + 1);
+                        }
+                        prefCustomSyntaxColors_.insert (syntax, color);
+                        /* also, set the row color */
+                        label->setStyleSheet (QString ("QLabel {background-color: rgb(%1, %2, %3);}")
+                                              .arg (color.red()).arg (color.green()).arg (color.blue()));
+                    }
+
+                    /* apply customization immediately for the user to be able to check it in a new window */
+                    if (prefCustomSyntaxColors_ ==
+                        (config.getDarkColScheme() ? config.darkSyntaxColors()
+                                                   : config.lightSyntaxColors())) // no customization
+                    {
+                        prefCustomSyntaxColors_.clear();
+                        ui->defaultSyntaxButton->setEnabled (false);
+                    }
+                    else
+                        ui->defaultSyntaxButton->setEnabled (true);
+                    config.setCustomSyntaxColors (prefCustomSyntaxColors_);
+                }
+            }
         }
     }
 }

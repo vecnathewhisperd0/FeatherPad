@@ -1653,7 +1653,7 @@ zobrazena ve vyskakovacím dialogu.</translation>
         <translation>Uložit změny v otevřených souborech každých:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1307"/>
+        <location filename="../../prefDialog.ui" line="1347"/>
         <source>Help</source>
         <translation>Nápověda</translation>
     </message>
@@ -1859,7 +1859,7 @@ názvu ale končící na „.aff“.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="902"/>
-        <location filename="../../pref.cpp" line="1468"/>
+        <location filename="../../pref.cpp" line="1567"/>
         <source>Add dictionary...</source>
         <translation>Přidat slovník…</translation>
     </message>
@@ -1949,61 +1949,147 @@ mezer na konci textového souboru.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1283"/>
+        <location filename="../../prefDialog.ui" line="1323"/>
         <source>Default</source>
         <translation>Výchozí</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1318"/>
+        <location filename="../../prefDialog.ui" line="1294"/>
+        <source>Syntax Colors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../prefDialog.ui" line="1310"/>
+        <source>Element</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../prefDialog.ui" line="1315"/>
+        <source>Text Color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../prefDialog.ui" line="1326"/>
+        <source>Restore default syntax colors.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../prefDialog.ui" line="1358"/>
         <source>Close</source>
         <translation>Zavřít</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="279"/>
-        <location filename="../../pref.cpp" line="1164"/>
+        <location filename="../../pref.cpp" line="98"/>
+        <source>Double click a color to change it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="285"/>
+        <location filename="../../pref.cpp" line="1263"/>
         <source>files</source>
         <translation>soubory</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="279"/>
-        <location filename="../../pref.cpp" line="1164"/>
+        <location filename="../../pref.cpp" line="285"/>
+        <location filename="../../pref.cpp" line="1263"/>
         <source>file</source>
         <translation>soubor</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="332"/>
-        <location filename="../../pref.cpp" line="1283"/>
+        <location filename="../../pref.cpp" line="338"/>
+        <location filename="../../pref.cpp" line="1382"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Varování: zjištěna opakující se zkratka!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="455"/>
+        <location filename="../../pref.cpp" line="371"/>
+        <source>Functions, URLs,…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="372"/>
+        <source>Functions (Built-in)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="373"/>
+        <source>Comments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="374"/>
+        <source>Quotations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="375"/>
+        <source>Types</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="376"/>
+        <source>Key Words</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="377"/>
+        <source>Numbers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="378"/>
+        <source>Regular Expressions, code blocks,…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="379"/>
+        <source>XML Elements</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="380"/>
+        <source>CSS Values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="381"/>
+        <source>Extra Elements</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="516"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Aby se změny projevily, je třeba aplikaci restartovat.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="467"/>
+        <location filename="../../pref.cpp" line="528"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Aby se změny projevily, je třeba okno zavřít a otevřít znovu.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1190"/>
+        <location filename="../../pref.cpp" line="1289"/>
         <source>&amp;Recently Opened</source>
         <translation>&amp;Nedávno otevřené</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1191"/>
+        <location filename="../../pref.cpp" line="1290"/>
         <source>Recently &amp;Modified</source>
         <translation>Nedávno z&amp;měněné</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1266"/>
+        <location filename="../../pref.cpp" line="1365"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Zadaná klávesová zkratka je vyhrazena pro něco jiného.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1470"/>
+        <location filename="../../pref.cpp" line="1569"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>Soubory hunspell slovníků (*.dic)</translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="1641"/>
+        <source>Select Syntax Color</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

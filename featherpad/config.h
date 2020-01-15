@@ -24,6 +24,7 @@
 #include <QSize>
 #include <QPoint>
 #include <QFont>
+#include <QColor>
 
 namespace FeatherPad {
 
@@ -510,11 +511,29 @@ public:
     void setSpellCheckFromStart (bool fromStart) {
         spellCheckFromStart_ = fromStart;
     }
+/*************************/
+    QHash<QString, QColor> lightSyntaxColors() const {
+        return defaultLightSyntaxColors_;
+    }
+    QHash<QString, QColor> darkSyntaxColors() const {
+        return defaultDarkSyntaxColors_;
+    }
+
+    QHash<QString, QColor> customSyntaxColors() const {
+        return customSyntaxColors_;
+    }
+    void setCustomSyntaxColors (const QHash<QString, QColor>& colors) {
+        customSyntaxColors_ = colors;
+    }
+
+    void readSyntaxColors();
 
 private:
     QString validatedShortcut (const QVariant v, bool *isValid);
     void readCursorPos();
     void writeCursorPos();
+    void setDfaultSyntaxColors();
+    void writeSyntaxColors();
 
     bool remSize_, remPos_, remSplitterPos_,
          noToolbar_, noMenubar_,
@@ -568,6 +587,8 @@ private:
 
     QString dictPath_;
     bool spellCheckFromStart_;
+
+    QHash<QString, QColor> defaultLightSyntaxColors_, defaultDarkSyntaxColors_, customSyntaxColors_;
 };
 
 }

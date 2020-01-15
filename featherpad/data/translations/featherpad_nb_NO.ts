@@ -1503,7 +1503,7 @@ Noen skrivebordsmiljø, som KDE og LXQt, leverer egne fildialoger.</translation>
 and a double hyphen with a long dash while typing,
 under proper circumstances.</source>
         <translation>Som standard erstattes trippel punktum med ellipse
-og dobbel bindestrek med lang tankestrek 
+og dobbel bindestrek med lang tankestrek
 mens man skriver, under de rette omstendigheter.</translation>
     </message>
     <message>
@@ -1650,7 +1650,7 @@ i en sprettoppdialog.</translation>
         <translation>Lagre endringer til åpnede filer hver:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1307"/>
+        <location filename="../../prefDialog.ui" line="1347"/>
         <source>Help</source>
         <translation>Hjelp</translation>
     </message>
@@ -1666,8 +1666,8 @@ tooltip and context menu of a single tab but you could not
 merge a single tabbed window into another one by tab drag-
 and-drop either.</source>
         <translation>Hvis dette er krysset av, vil du ikke bare miste informative
-hjelpebobler og lokalmenyen på en enkelt fane, men du vil 
-heller ikke kunne samle et enkelt vindu med faner med et 
+hjelpebobler og lokalmenyen på en enkelt fane, men du vil
+heller ikke kunne samle et enkelt vindu med faner med et
 annet ved å dra og slippe et av dem.</translation>
     </message>
     <message>
@@ -1748,7 +1748,7 @@ skrevet i skriptspråk som Shell og Python.
 Hvis den er krysset av og den åpnede fil er
 kjørbar, så vil filen bli kjørt når der klikkes
 på Kjør-knappen, som vises på verktøylinjen/filmenyen
-når det er nødvendig, eller med dens snarvei Ctrl+E. 
+når det er nødvendig, eller med dens snarvei Ctrl+E.
 Prosessen drepes med Ctrl+Alt+E.</translation>
     </message>
     <message>
@@ -1788,7 +1788,7 @@ opened files FeatherPad shows. The default
 is 10.
 
 Needs application restart to take effect.</source>
-        <translation>Det maksimale antallet nylige endrede eller åpnede filer 
+        <translation>Det maksimale antallet nylige endrede eller åpnede filer
 som FeatherPad viser. Standarden er 10.
 
 Krever omstart av programmet før endringene trer i kraft.</translation>
@@ -1853,7 +1853,7 @@ men som slutter med &quot;.aff&quot;.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="902"/>
-        <location filename="../../pref.cpp" line="1468"/>
+        <location filename="../../pref.cpp" line="1567"/>
         <source>Add dictionary...</source>
         <translation>Legg til ordbok ...</translation>
     </message>
@@ -1902,7 +1902,7 @@ trailing spaces of a text file.</source>
 også brukes når den åpnede filen ikke er endret.
 
 Det kan være nyttig under bestemte omstendigheter,
-f.eks. for å endre tidsstemplet eller fjerne avsluttende 
+f.eks. for å endre tidsstemplet eller fjerne avsluttende
 mellomrom i en tekstfil.</translation>
     </message>
     <message>
@@ -1942,61 +1942,147 @@ mellomrom i en tekstfil.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1283"/>
+        <location filename="../../prefDialog.ui" line="1323"/>
         <source>Default</source>
         <translation>Standard</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1318"/>
+        <location filename="../../prefDialog.ui" line="1294"/>
+        <source>Syntax Colors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../prefDialog.ui" line="1310"/>
+        <source>Element</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../prefDialog.ui" line="1315"/>
+        <source>Text Color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../prefDialog.ui" line="1326"/>
+        <source>Restore default syntax colors.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../prefDialog.ui" line="1358"/>
         <source>Close</source>
         <translation>Lukk</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="279"/>
-        <location filename="../../pref.cpp" line="1164"/>
+        <location filename="../../pref.cpp" line="98"/>
+        <source>Double click a color to change it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="285"/>
+        <location filename="../../pref.cpp" line="1263"/>
         <source>files</source>
         <translation>filer</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="279"/>
-        <location filename="../../pref.cpp" line="1164"/>
+        <location filename="../../pref.cpp" line="285"/>
+        <location filename="../../pref.cpp" line="1263"/>
         <source>file</source>
         <translation>fil</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="332"/>
-        <location filename="../../pref.cpp" line="1283"/>
+        <location filename="../../pref.cpp" line="338"/>
+        <location filename="../../pref.cpp" line="1382"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Advarsel: Tvetydig snarvei detektert!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="455"/>
+        <location filename="../../pref.cpp" line="371"/>
+        <source>Functions, URLs,…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="372"/>
+        <source>Functions (Built-in)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="373"/>
+        <source>Comments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="374"/>
+        <source>Quotations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="375"/>
+        <source>Types</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="376"/>
+        <source>Key Words</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="377"/>
+        <source>Numbers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="378"/>
+        <source>Regular Expressions, code blocks,…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="379"/>
+        <source>XML Elements</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="380"/>
+        <source>CSS Values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="381"/>
+        <source>Extra Elements</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="516"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Programmet må startes på nytt før endringene trer i kraft.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="467"/>
+        <location filename="../../pref.cpp" line="528"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Vinduet må åpnes på nytt før endringene trer i kraft.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1190"/>
+        <location filename="../../pref.cpp" line="1289"/>
         <source>&amp;Recently Opened</source>
         <translation>&amp;Nylig åpnede</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1191"/>
+        <location filename="../../pref.cpp" line="1290"/>
         <source>Recently &amp;Modified</source>
         <translation>Nylig &amp;endrede</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1266"/>
+        <location filename="../../pref.cpp" line="1365"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Den inntastede snarveien er reservert.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1470"/>
+        <location filename="../../pref.cpp" line="1569"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>Hunspell-ordboksfiler (*.dic)</translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="1641"/>
+        <source>Select Syntax Color</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2088,7 +2174,7 @@ mellomrom i en tekstfil.</translation>
         <location filename="../../sessionDialog.ui" line="159"/>
         <source>By default, all files that are opened in all
 windows will be included in the saved session.</source>
-        <translation>Som standard inkluderes alle filer som er åpne 
+        <translation>Som standard inkluderes alle filer som er åpne
 i alle vinduer, i den lagrede økten.</translation>
     </message>
     <message>

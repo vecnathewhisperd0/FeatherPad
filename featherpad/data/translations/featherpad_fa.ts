@@ -1635,7 +1635,7 @@ will be shown by a popup dialog.</source>
         <translation>ذخيره‌سازی تغييرات فايل‌های باز در هر:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1307"/>
+        <location filename="../../prefDialog.ui" line="1347"/>
         <source>Help</source>
         <translation>راهنما</translation>
     </message>
@@ -1830,7 +1830,7 @@ name but ending with &quot;.aff&quot;.</source>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="902"/>
-        <location filename="../../pref.cpp" line="1468"/>
+        <location filename="../../pref.cpp" line="1567"/>
         <source>Add dictionary...</source>
         <translation>افزودن لغتنامه...</translation>
     </message>
@@ -1917,61 +1917,147 @@ trailing spaces of a text file.</source>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1283"/>
+        <location filename="../../prefDialog.ui" line="1323"/>
         <source>Default</source>
         <translation>پيشفرض</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1318"/>
+        <location filename="../../prefDialog.ui" line="1294"/>
+        <source>Syntax Colors</source>
+        <translation>رنگ‌آميری نگارش</translation>
+    </message>
+    <message>
+        <location filename="../../prefDialog.ui" line="1310"/>
+        <source>Element</source>
+        <translation>عنصر</translation>
+    </message>
+    <message>
+        <location filename="../../prefDialog.ui" line="1315"/>
+        <source>Text Color</source>
+        <translation>رنگ متن</translation>
+    </message>
+    <message>
+        <location filename="../../prefDialog.ui" line="1326"/>
+        <source>Restore default syntax colors.</source>
+        <translation>بازنشانی رنگ‌آميری نگارش.</translation>
+    </message>
+    <message>
+        <location filename="../../prefDialog.ui" line="1358"/>
         <source>Close</source>
         <translation>بستن</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="279"/>
-        <location filename="../../pref.cpp" line="1164"/>
+        <location filename="../../pref.cpp" line="98"/>
+        <source>Double click a color to change it.</source>
+        <translation>برای تغيير رنگ، دو بار روی آن کليک کنيد.</translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="285"/>
+        <location filename="../../pref.cpp" line="1263"/>
         <source>files</source>
         <translation>فايل‌ها</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="279"/>
-        <location filename="../../pref.cpp" line="1164"/>
+        <location filename="../../pref.cpp" line="285"/>
+        <location filename="../../pref.cpp" line="1263"/>
         <source>file</source>
         <translation>فايل</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="332"/>
-        <location filename="../../pref.cpp" line="1283"/>
+        <location filename="../../pref.cpp" line="338"/>
+        <location filename="../../pref.cpp" line="1382"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>هشدار: ميانبری مبهم تشخيض داده شد!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="455"/>
+        <location filename="../../pref.cpp" line="371"/>
+        <source>Functions, URLs,…</source>
+        <translation>تابعها، URLها،…</translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="372"/>
+        <source>Functions (Built-in)</source>
+        <translation>تابعها (ی پيشفرض)</translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="373"/>
+        <source>Comments</source>
+        <translation>توضيحات درون کد</translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="374"/>
+        <source>Quotations</source>
+        <translation>نقل قولها</translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="375"/>
+        <source>Types</source>
+        <translation>گونه‌ها</translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="376"/>
+        <source>Key Words</source>
+        <translation>واژه‌های کليدی</translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="377"/>
+        <source>Numbers</source>
+        <translation>عددها</translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="378"/>
+        <source>Regular Expressions, code blocks,…</source>
+        <translation>عبارتهای منظم، بخشهای ويژه‌ی کد،…</translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="379"/>
+        <source>XML Elements</source>
+        <translation>عنصرهای XML</translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="380"/>
+        <source>CSS Values</source>
+        <translation>مقدارهای CSS</translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="381"/>
+        <source>Extra Elements</source>
+        <translation>عنصرهای اضافی</translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="516"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>شروع مجدد برنامه برای اعمال تغييرات لازم است.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="467"/>
+        <location filename="../../pref.cpp" line="528"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>بازگشايی پنجره‌ها برای اعمال تغييرات لازم است.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1190"/>
+        <location filename="../../pref.cpp" line="1289"/>
         <source>&amp;Recently Opened</source>
         <translation>تازه بازشده</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1191"/>
+        <location filename="../../pref.cpp" line="1290"/>
         <source>Recently &amp;Modified</source>
         <translation>تازه تغييريافته</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1266"/>
+        <location filename="../../pref.cpp" line="1365"/>
         <source>The typed shortcut was reserved.</source>
         <translation>اين ميانبر برای کار ديگری کنار گذاشته شده است.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1470"/>
+        <location filename="../../pref.cpp" line="1569"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>فايل‌های لغتنامه Hunspell (*.dic)</translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="1641"/>
+        <source>Select Syntax Color</source>
+        <translation>انتخاب رنگ‌آميری نگارش</translation>
     </message>
 </context>
 <context>

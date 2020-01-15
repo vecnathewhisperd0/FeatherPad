@@ -289,7 +289,11 @@ void FPwin::syntaxHighlighting (TextEdit *textEdit, bool highlight, const QStrin
             Highlighter *highlighter = new Highlighter (textEdit->document(), progLan, start, end,
                                                         textEdit->hasDarkScheme(),
                                                         config.getShowWhiteSpace(),
-                                                        config.getShowEndings());
+                                                        config.getShowEndings(),
+                                                        config.customSyntaxColors().isEmpty()
+                                                            ? textEdit->hasDarkScheme() ? config.darkSyntaxColors()
+                                                                                        : config.lightSyntaxColors()
+                                                            : config.customSyntaxColors());
             textEdit->setHighlighter (highlighter);
         }
         /* if the highlighter is created just now, it's necessary

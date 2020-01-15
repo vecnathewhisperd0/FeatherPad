@@ -1648,7 +1648,7 @@ serão exibidas por um diálogo pop-up.</translation>
         <translation>Salvar alterações em arquivos abertos a cada:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1307"/>
+        <location filename="../../prefDialog.ui" line="1347"/>
         <source>Help</source>
         <translation>Ajuda</translation>
     </message>
@@ -1853,7 +1853,7 @@ nome, mas terminando com &quot;.aff&quot;.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="902"/>
-        <location filename="../../pref.cpp" line="1468"/>
+        <location filename="../../pref.cpp" line="1567"/>
         <source>Add dictionary...</source>
         <translation>Adicionar dicionário...</translation>
     </message>
@@ -1942,61 +1942,147 @@ espaços à direita de um arquivo de texto.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1283"/>
+        <location filename="../../prefDialog.ui" line="1323"/>
         <source>Default</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1318"/>
+        <location filename="../../prefDialog.ui" line="1294"/>
+        <source>Syntax Colors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../prefDialog.ui" line="1310"/>
+        <source>Element</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../prefDialog.ui" line="1315"/>
+        <source>Text Color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../prefDialog.ui" line="1326"/>
+        <source>Restore default syntax colors.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../prefDialog.ui" line="1358"/>
         <source>Close</source>
         <translation>Fechar</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="279"/>
-        <location filename="../../pref.cpp" line="1164"/>
+        <location filename="../../pref.cpp" line="98"/>
+        <source>Double click a color to change it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="285"/>
+        <location filename="../../pref.cpp" line="1263"/>
         <source>files</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="279"/>
-        <location filename="../../pref.cpp" line="1164"/>
+        <location filename="../../pref.cpp" line="285"/>
+        <location filename="../../pref.cpp" line="1263"/>
         <source>file</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="332"/>
-        <location filename="../../pref.cpp" line="1283"/>
+        <location filename="../../pref.cpp" line="338"/>
+        <location filename="../../pref.cpp" line="1382"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Atenção: Atalho ambíguo detectado!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="455"/>
+        <location filename="../../pref.cpp" line="371"/>
+        <source>Functions, URLs,…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="372"/>
+        <source>Functions (Built-in)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="373"/>
+        <source>Comments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="374"/>
+        <source>Quotations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="375"/>
+        <source>Types</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="376"/>
+        <source>Key Words</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="377"/>
+        <source>Numbers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="378"/>
+        <source>Regular Expressions, code blocks,…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="379"/>
+        <source>XML Elements</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="380"/>
+        <source>CSS Values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="381"/>
+        <source>Extra Elements</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="516"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>A reinicialização do aplicativo é necessária para que as alterações entrem em vigor.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="467"/>
+        <location filename="../../pref.cpp" line="528"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>A reabertura da janela é necessária para que as alterações entrem em vigor.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1190"/>
+        <location filename="../../pref.cpp" line="1289"/>
         <source>&amp;Recently Opened</source>
         <translation>&amp;Recentemente Aberto</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1191"/>
+        <location filename="../../pref.cpp" line="1290"/>
         <source>Recently &amp;Modified</source>
         <translation>Recentemente &amp;Modificado</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1266"/>
+        <location filename="../../pref.cpp" line="1365"/>
         <source>The typed shortcut was reserved.</source>
         <translation>O atalho digitado foi reservado.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1470"/>
+        <location filename="../../pref.cpp" line="1569"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>Arquivos de Dicionário Hunspell  (*.dic)</translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="1641"/>
+        <source>Select Syntax Color</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
