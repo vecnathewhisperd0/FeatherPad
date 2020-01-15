@@ -2034,7 +2034,7 @@ Tio povas esti uzebla ĉe iuj cirkonstancoj, ekz. por
     </message>
     <message>
         <location filename="../../pref.cpp" line="378"/>
-        <source>Regular Expressions, code blocks,…</source>
+        <source>Regular Expressions, Code Blocks,…</source>
         <translation>Regulaj Esprimoj, kodbloko,…</translation>
     </message>
     <message>

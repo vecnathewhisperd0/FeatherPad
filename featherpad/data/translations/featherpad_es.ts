@@ -2043,7 +2043,7 @@ los espacios finales de un archivo de texto.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="378"/>
-        <source>Regular Expressions, code blocks,…</source>
+        <source>Regular Expressions, Code Blocks,…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

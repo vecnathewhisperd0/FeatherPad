@@ -375,7 +375,7 @@ PrefDialog::PrefDialog (QWidget *parent)
         syntaxNames.insert ("type", tr ("Types"));
         syntaxNames.insert ("keyWord", tr ("Key Words"));
         syntaxNames.insert ("number", tr ("Numbers"));
-        syntaxNames.insert ("regex", tr ("Regular Expressions, code blocks,…"));
+        syntaxNames.insert ("regex", tr ("Regular Expressions, Code Blocks,…"));
         syntaxNames.insert ("xmlElement", tr ("XML Elements"));
         syntaxNames.insert ("cssValue", tr ("CSS Values"));
         syntaxNames.insert ("other", tr ("Extra Elements"));

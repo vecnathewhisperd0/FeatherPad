@@ -2034,7 +2034,7 @@ pvz., laiko žymos keitimui arba tekstinio failo galinių tarpų
     </message>
     <message>
         <location filename="../../pref.cpp" line="378"/>
-        <source>Regular Expressions, code blocks,…</source>
+        <source>Regular Expressions, Code Blocks,…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

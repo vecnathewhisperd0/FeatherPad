@@ -1970,7 +1970,7 @@ trailing spaces of a text file.</source>
     </message>
     <message>
         <location filename="../../pref.cpp" line="378"/>
-        <source>Regular Expressions, code blocks,…</source>
+        <source>Regular Expressions, Code Blocks,…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
