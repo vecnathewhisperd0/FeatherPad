@@ -2036,7 +2036,7 @@ mellomrom i en tekstfil.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="380"/>
-        <source>Document Blocks, XML Elements,…</source>
+        <source>Document Blocks, XML/HTML Elements,…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -2011,8 +2011,8 @@ trailing spaces of a text file.</source>
     </message>
     <message>
         <location filename="../../pref.cpp" line="380"/>
-        <source>Document Blocks, XML Elements,…</source>
-        <translation>بخشهای ويژه‌ی گنجاندن سند، عنصرهای XML،…</translation>
+        <source>Document Blocks, XML/HTML Elements,…</source>
+        <translation>بخشهای ويژه‌ی گنجاندن سند، عنصرهای XML/HTML،…</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="381"/>

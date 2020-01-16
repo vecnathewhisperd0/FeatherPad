@@ -2039,8 +2039,8 @@ Tio povas esti uzebla ĉe iuj cirkonstancoj, ekz. por
     </message>
     <message>
         <location filename="../../pref.cpp" line="380"/>
-        <source>Document Blocks, XML Elements,…</source>
-        <translation>Dokumentaj blokoj, XML-Elementoj,…</translation>
+        <source>Document Blocks, XML/HTML Elements,…</source>
+        <translation>Dokumentaj blokoj, XML/HTML-Elementoj,…</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="381"/>

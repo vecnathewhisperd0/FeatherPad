@@ -2037,7 +2037,7 @@ de fin de ligne d&apos;un fichier texte.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="380"/>
-        <source>Document Blocks, XML Elements,…</source>
+        <source>Document Blocks, XML/HTML Elements,…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
