@@ -92,7 +92,8 @@ PrefDialog::PrefDialog (QWidget *parent)
     ui->tableWidget->horizontalHeader()->setSectionsClickable (true);
     ui->tableWidget->sortByColumn (0, Qt::AscendingOrder);
 
-    ui->syntaxTableWidget->horizontalHeader()->setSectionResizeMode (QHeaderView::Stretch);
+    ui->syntaxTableWidget->horizontalHeader()->setSectionResizeMode (0, QHeaderView::Stretch);
+    ui->syntaxTableWidget->horizontalHeader()->setSectionResizeMode (1, QHeaderView::ResizeToContents);
     ui->syntaxTableWidget->horizontalHeader()->setSectionsClickable (false);
     ui->syntaxTableWidget->sortByColumn (0, Qt::AscendingOrder);
     ui->syntaxTableWidget->setToolTip (tr ("Double click a color to change it."));
@@ -376,8 +377,8 @@ PrefDialog::PrefDialog (QWidget *parent)
         syntaxNames.insert ("keyWord", tr ("Key Words"));
         syntaxNames.insert ("number", tr ("Numbers"));
         syntaxNames.insert ("regex", tr ("Regular Expressions, Code Blocks,…"));
-        syntaxNames.insert ("xmlElement", tr ("XML Elements"));
-        syntaxNames.insert ("cssValue", tr ("CSS Values"));
+        syntaxNames.insert ("xmlElement", tr ("Document Blocks, XML Elements,…"));
+        syntaxNames.insert ("cssValue", tr ("Markdown Headings, CSS Values,…"));
         syntaxNames.insert ("other", tr ("Extra Elements"));
     }
 
@@ -395,18 +396,19 @@ PrefDialog::PrefDialog (QWidget *parent)
         item->setFlags (item->flags() & ~Qt::ItemIsEditable & ~Qt::ItemIsSelectable);
         ui->syntaxTableWidget->setItem (index, 0, item);
 
-        QWidget* pWidget = new QWidget();
-        QHBoxLayout* pLayout = new QHBoxLayout (pWidget);
-        pLayout->setAlignment (Qt::AlignCenter);
-        pLayout->setContentsMargins (3, 3, 3, 3);
+        QWidget *container = new QWidget();
+        QHBoxLayout *layout = new QHBoxLayout (container);
+        layout->setAlignment (Qt::AlignCenter);
+        layout->setContentsMargins (3, 3, 3, 3);
         QLabel *label = new QLabel();
+        label->setMinimumWidth (100);
         label->setSizePolicy (QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         QColor col = sIter.value();
         label->setStyleSheet (QString ("QLabel {background-color: rgb(%1, %2, %3);}")
                               .arg (col.red()).arg (col.green()).arg (col.blue()));
-        pLayout->addWidget (label);
-        pWidget->setLayout (pLayout);
-        ui->syntaxTableWidget->setCellWidget(index, 1, pWidget);
+        layout->addWidget (label);
+        container->setLayout (layout);
+        ui->syntaxTableWidget->setCellWidget(index, 1, container);
         ++ sIter;
         ++ index;
     }

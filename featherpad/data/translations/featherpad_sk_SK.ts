@@ -1795,7 +1795,7 @@ name but ending with &quot;.aff&quot;.</source>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="902"/>
-        <location filename="../../pref.cpp" line="1567"/>
+        <location filename="../../pref.cpp" line="1569"/>
         <source>Add dictionary...</source>
         <translation>Pridať slovník...</translation>
     </message>
@@ -1908,115 +1908,115 @@ trailing spaces of a text file.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="98"/>
+        <location filename="../../pref.cpp" line="99"/>
         <source>Double click a color to change it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="285"/>
-        <location filename="../../pref.cpp" line="1263"/>
+        <location filename="../../pref.cpp" line="286"/>
+        <location filename="../../pref.cpp" line="1265"/>
         <source>files</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="285"/>
-        <location filename="../../pref.cpp" line="1263"/>
+        <location filename="../../pref.cpp" line="286"/>
+        <location filename="../../pref.cpp" line="1265"/>
         <source>file</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="338"/>
-        <location filename="../../pref.cpp" line="1382"/>
+        <location filename="../../pref.cpp" line="339"/>
+        <location filename="../../pref.cpp" line="1384"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="371"/>
+        <location filename="../../pref.cpp" line="372"/>
         <source>Functions, URLs,…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="372"/>
+        <location filename="../../pref.cpp" line="373"/>
         <source>Functions (Built-in)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="373"/>
+        <location filename="../../pref.cpp" line="374"/>
         <source>Comments</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="374"/>
+        <location filename="../../pref.cpp" line="375"/>
         <source>Quotations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="375"/>
+        <location filename="../../pref.cpp" line="376"/>
         <source>Types</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="376"/>
+        <location filename="../../pref.cpp" line="377"/>
         <source>Key Words</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="377"/>
+        <location filename="../../pref.cpp" line="378"/>
         <source>Numbers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="378"/>
+        <location filename="../../pref.cpp" line="379"/>
         <source>Regular Expressions, Code Blocks,…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="379"/>
-        <source>XML Elements</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../pref.cpp" line="380"/>
-        <source>CSS Values</source>
+        <source>Document Blocks, XML Elements,…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="381"/>
+        <source>Markdown Headings, CSS Values,…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="382"/>
         <source>Extra Elements</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="516"/>
+        <location filename="../../pref.cpp" line="518"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="528"/>
+        <location filename="../../pref.cpp" line="530"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1289"/>
+        <location filename="../../pref.cpp" line="1291"/>
         <source>&amp;Recently Opened</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1290"/>
+        <location filename="../../pref.cpp" line="1292"/>
         <source>Recently &amp;Modified</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1365"/>
+        <location filename="../../pref.cpp" line="1367"/>
         <source>The typed shortcut was reserved.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1569"/>
+        <location filename="../../pref.cpp" line="1571"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>Súbor slovníka hunspell (*.dic)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1641"/>
+        <location filename="../../pref.cpp" line="1643"/>
         <source>Select Syntax Color</source>
         <translation type="unfinished"></translation>
     </message>

@@ -1830,7 +1830,7 @@ name but ending with &quot;.aff&quot;.</source>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="902"/>
-        <location filename="../../pref.cpp" line="1567"/>
+        <location filename="../../pref.cpp" line="1569"/>
         <source>Add dictionary...</source>
         <translation>افزودن لغتنامه...</translation>
     </message>
@@ -1947,115 +1947,115 @@ trailing spaces of a text file.</source>
         <translation>بستن</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="98"/>
+        <location filename="../../pref.cpp" line="99"/>
         <source>Double click a color to change it.</source>
         <translation>برای تغيير رنگ، دو بار روی آن کليک کنيد.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="285"/>
-        <location filename="../../pref.cpp" line="1263"/>
+        <location filename="../../pref.cpp" line="286"/>
+        <location filename="../../pref.cpp" line="1265"/>
         <source>files</source>
         <translation>فايل‌ها</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="285"/>
-        <location filename="../../pref.cpp" line="1263"/>
+        <location filename="../../pref.cpp" line="286"/>
+        <location filename="../../pref.cpp" line="1265"/>
         <source>file</source>
         <translation>فايل</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="338"/>
-        <location filename="../../pref.cpp" line="1382"/>
+        <location filename="../../pref.cpp" line="339"/>
+        <location filename="../../pref.cpp" line="1384"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>هشدار: ميانبری مبهم تشخيض داده شد!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="371"/>
+        <location filename="../../pref.cpp" line="372"/>
         <source>Functions, URLs,…</source>
         <translation>تابعها، URLها،…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="372"/>
+        <location filename="../../pref.cpp" line="373"/>
         <source>Functions (Built-in)</source>
         <translation>تابعها (ی پيشفرض)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="373"/>
+        <location filename="../../pref.cpp" line="374"/>
         <source>Comments</source>
         <translation>توضيحات درون کد</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="374"/>
+        <location filename="../../pref.cpp" line="375"/>
         <source>Quotations</source>
         <translation>نقل قولها</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="375"/>
+        <location filename="../../pref.cpp" line="376"/>
         <source>Types</source>
         <translation>گونه‌ها</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="376"/>
+        <location filename="../../pref.cpp" line="377"/>
         <source>Key Words</source>
         <translation>واژه‌های کليدی</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="377"/>
+        <location filename="../../pref.cpp" line="378"/>
         <source>Numbers</source>
         <translation>عددها</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="378"/>
-        <source>Regular Expressions, Code Blocks,…</source>
-        <translation>عبارتهای منظم، بخشهای ويژه‌ی کد،…</translation>
-    </message>
-    <message>
         <location filename="../../pref.cpp" line="379"/>
-        <source>XML Elements</source>
-        <translation>عنصرهای XML</translation>
+        <source>Regular Expressions, Code Blocks,…</source>
+        <translation>عبارتهای منظم، بخشهای ويژه‌ی گنجاندن کد،…</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="380"/>
-        <source>CSS Values</source>
-        <translation>مقدارهای CSS</translation>
+        <source>Document Blocks, XML Elements,…</source>
+        <translation>بخشهای ويژه‌ی گنجاندن سند، عنصرهای XML،…</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="381"/>
+        <source>Markdown Headings, CSS Values,…</source>
+        <translation>عنوانهای Markdown، مقدارهای CSS،…</translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="382"/>
         <source>Extra Elements</source>
         <translation>عنصرهای اضافی</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="516"/>
+        <location filename="../../pref.cpp" line="518"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>شروع مجدد برنامه برای اعمال تغييرات لازم است.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="528"/>
+        <location filename="../../pref.cpp" line="530"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>بازگشايی پنجره‌ها برای اعمال تغييرات لازم است.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1289"/>
+        <location filename="../../pref.cpp" line="1291"/>
         <source>&amp;Recently Opened</source>
         <translation>تازه بازشده</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1290"/>
+        <location filename="../../pref.cpp" line="1292"/>
         <source>Recently &amp;Modified</source>
         <translation>تازه تغييريافته</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1365"/>
+        <location filename="../../pref.cpp" line="1367"/>
         <source>The typed shortcut was reserved.</source>
         <translation>اين ميانبر برای کار ديگری کنار گذاشته شده است.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1569"/>
+        <location filename="../../pref.cpp" line="1571"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>فايل‌های لغتنامه Hunspell (*.dic)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1641"/>
+        <location filename="../../pref.cpp" line="1643"/>
         <source>Select Syntax Color</source>
         <translation>انتخاب رنگ‌آميری نگارش</translation>
     </message>
