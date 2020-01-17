@@ -370,7 +370,7 @@ PrefDialog::PrefDialog (QWidget *parent)
     if (syntaxNames.isEmpty())
     { // it's a shame that QObject::tr() doesn't work in FeatherPad::Config
         syntaxNames.insert ("function", tr ("Functions, URLs,…"));
-        syntaxNames.insert ("BuiltinFunction", tr ("Functions (Built-in)"));
+        syntaxNames.insert ("BuiltinFunction", tr ("Built-in Functions"));
         syntaxNames.insert ("comment", tr ("Comments"));
         syntaxNames.insert ("quote", tr ("Quotations"));
         syntaxNames.insert ("type", tr ("Types"));

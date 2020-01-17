@@ -1993,6 +1993,7 @@ void Highlighter::pythonMLComment (const QString &text, const int indx)
 
         QTextCharFormat fi = format (index);
         while ((index > 0 && isQuoted (text, index - 1)) // because two quotes may follow an end quote
+               || (index == 0 && (prevState == doubleQuoteState || prevState == singleQuoteState))
                || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat) // not needed
         {
             index = text.indexOf (commentStartExpression, index + 3);
@@ -2104,6 +2105,7 @@ void Highlighter::pythonMLComment (const QString &text, const int indx)
         index = text.indexOf (commentStartExpression, index + quoteLength);
         QTextCharFormat fi = format (index);
         while ((index > 0 && isQuoted (text, index - 1))
+               || (index == 0 && (prevState == doubleQuoteState || prevState == singleQuoteState))
                || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat)
         {
             index = text.indexOf (commentStartExpression, index + 3);

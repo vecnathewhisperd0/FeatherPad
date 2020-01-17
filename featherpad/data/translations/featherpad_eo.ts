@@ -2004,8 +2004,8 @@ Tio povas esti uzebla ĉe iuj cirkonstancoj, ekz. por
     </message>
     <message>
         <location filename="../../pref.cpp" line="373"/>
-        <source>Functions (Built-in)</source>
-        <translation>Funkcioj (Enkonstruitaj)</translation>
+        <source>Built-in Functions</source>
+        <translation>Funkcioj enkonstruitaj</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="374"/>
@@ -2035,22 +2035,22 @@ Tio povas esti uzebla ĉe iuj cirkonstancoj, ekz. por
     <message>
         <location filename="../../pref.cpp" line="379"/>
         <source>Regular Expressions, Code Blocks,…</source>
-        <translation>Regulaj Esprimoj, kodblokoj,…</translation>
+        <translation>Regulaj esprimoj, kodblokoj,…</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="380"/>
         <source>Document Blocks, XML/HTML Elements,…</source>
-        <translation>Dokumentaj blokoj, XML/HTML-Elementoj,…</translation>
+        <translation>Dokumentaj blokoj, XML/HTML-elementoj,…</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="381"/>
         <source>Markdown Headings, CSS Values,…</source>
-        <translation>Titoloj de Markdown, CSS-Valoroj,…</translation>
+        <translation>Titoloj de Markdown, CSS-valoroj,…</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="382"/>
         <source>Extra Elements</source>
-        <translation>Ekstraj Elementoj</translation>
+        <translation>Ekstraj elementoj</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="518"/>

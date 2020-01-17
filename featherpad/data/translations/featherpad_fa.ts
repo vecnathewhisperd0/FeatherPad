@@ -1976,8 +1976,8 @@ trailing spaces of a text file.</source>
     </message>
     <message>
         <location filename="../../pref.cpp" line="373"/>
-        <source>Functions (Built-in)</source>
-        <translation>تابعها (ی پيشفرض)</translation>
+        <source>Built-in Functions</source>
+        <translation>تابعهای پيشفرض</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="374"/>

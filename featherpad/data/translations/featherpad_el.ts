@@ -1937,7 +1937,7 @@ trailing spaces of a text file.</source>
     </message>
     <message>
         <location filename="../../pref.cpp" line="373"/>
-        <source>Functions (Built-in)</source>
+        <source>Built-in Functions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
