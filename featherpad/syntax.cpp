@@ -51,8 +51,7 @@ void FPwin::toggleSyntaxHighlighting()
 
     if (enableSH)
     {
-        QCoreApplication::processEvents();
-        unbusy();
+        QTimer::singleShot (0, this, [this]() {unbusy();});
     }
 }
 /*************************/

@@ -2003,8 +2003,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
             updateShortcuts (false, false);
             closeWarningBar();
             emit finishedLoading();
-            QCoreApplication::processEvents(); // see the end of this function
-            unbusy();
+            QTimer::singleShot (0, this, [this]() {unbusy();});
         }
         return;
     }
@@ -2320,8 +2319,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
         emit finishedLoading();
         /* remove the busy cursor only after all events are processed
            (e.g., highlighting the syntax of a huge text may take a while) */
-        QCoreApplication::processEvents();
-        unbusy();
+        QTimer::singleShot (0, this, [this]() {unbusy();});
     }
 }
 /*************************/
