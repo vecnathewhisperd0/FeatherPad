@@ -316,6 +316,8 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
                 QTextCharFormat encodedFormat;
                 encodedFormat.setForeground (DarkMagenta);
                 encodedFormat.setFontItalic (true);
+                QTextCharFormat specialFormat = encodedFormat;
+                specialFormat.setFontWeight (QFont::Bold);
 
                 index = text.indexOf (ampersand, start);
                 while (index >= 0 && format (index) != mainFormat)
@@ -324,14 +326,34 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
                 {
                     QString str = text.mid (index, 6);
                     if (str == "&nbsp;")
-                        setFormat (index, 6, encodedFormat);
+                    {
+                        setFormat (index, 6, specialFormat);
+                        index = text.indexOf (ampersand, index + 6);
+                    }
                     else if (str.startsWith("&amp;"))
-                        setFormat (index, 5, encodedFormat);
+                    {
+                        setFormat (index, 5, specialFormat);
+                        index = text.indexOf (ampersand, index + 5);
+                    }
                     else if (str.startsWith ("&lt;") || str.startsWith ("&gt;"))
-                        setFormat (index, 4, encodedFormat);
+                    {
+                        setFormat (index, 4, specialFormat);
+                        index = text.indexOf (ampersand, index + 4);
+                    }
                     else
-                        setFormat (index, 1, errorFormat);
-                    index = text.indexOf (ampersand, index + 1);
+                    {
+                        str = text.mid (index);
+                        if (str.indexOf(QRegularExpression("^&(#[0-9]+|[a-zA-Z]+[a-zA-Z0-9_:\\.\\-]*|#[xX][0-9a-fA-F]+);"), 0, &match) > -1)
+                        { // accept "&name;", "&number;" and "&hexadecimal;" but format them differently
+                            setFormat (index, match.capturedLength(), encodedFormat);
+                            index = text.indexOf (ampersand, index + match.capturedLength());
+                        }
+                        else
+                        {
+                            setFormat (index, 1, errorFormat);
+                            index = text.indexOf (ampersand, index + 1);
+                        }
+                    }
                     while (index >= 0 && format (index) != mainFormat)
                         index = text.indexOf (ampersand, index + 1);
                 }
