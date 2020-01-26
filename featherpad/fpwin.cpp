@@ -1655,7 +1655,7 @@ void FPwin::executeProcess()
     }
 }
 /*************************/
-bool FPwin::isScriptLang (const QString& lang)
+bool FPwin::isScriptLang (const QString& lang) const
 {
     return (lang == "sh" || lang == "python"
             || lang == "ruby" || lang == "lua"

@@ -4,6 +4,7 @@ V0.13.0
  * Support syntax color customization, with two separate settings for light and dark color schemes.
  * Never use processEvents(); it makes single-instance apps prone to crash in rare cases.
  * Consider the HTML ampersand valid in "&name;", "&number;" and "&hexadecimal;".
+ * Yet smarter Shift+Enter with alphabetical lists.
 
 V0.12.1
 ---------

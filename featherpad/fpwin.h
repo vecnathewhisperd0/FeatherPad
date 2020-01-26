@@ -65,9 +65,9 @@ public:
     explicit FPwin (QWidget *parent = nullptr);
     ~FPwin();
 
-    bool isScriptLang (const QString& lang);
+    bool isScriptLang (const QString& lang) const;
 
-    bool isLoading() {
+    bool isLoading() const {
         return (loadingProcesses_ > 0);
     }
     bool isReady() {
@@ -79,7 +79,7 @@ public:
         return false;
     }
 
-    bool hasSidePane()const {
+    bool hasSidePane() const {
         return (sidePane_ != nullptr);
     }
 
