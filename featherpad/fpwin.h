@@ -269,6 +269,7 @@ private:
     void disconnectLambda();
     void updateLangBtn (TextEdit *textEdit);
     void updateGUIForSingleTab (bool single);
+    void stealFocus();
 
     QActionGroup *aGroup_;
     QString lastFile_; // The last opened or saved file (for file dialogs).

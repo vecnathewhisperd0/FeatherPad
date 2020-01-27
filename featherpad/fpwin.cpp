@@ -1397,11 +1397,7 @@ TabPage* FPwin::createEmptyTab (bool setCurrent, bool allowNormalHighlighter)
     if (static_cast<FPsingleton*>(qApp)->isX11() && isWindowShaded (winId()))
         unshadeWindow (winId());
 #endif
-    if (setCurrent)
-    {
-        raise();
-        activateWindow();
-    }
+    if (setCurrent) stealFocus();
 
     return tabPage;
 }
@@ -2044,8 +2040,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
         if (static_cast<FPsingleton*>(qApp)->isX11() && isWindowShaded (winId()))
             unshadeWindow (winId());
 #endif
-        raise();
-        activateWindow();
+        stealFocus();
     }
     textEdit->setSaveCursor (restoreCursor == 1);
 
@@ -4253,8 +4248,7 @@ void FPwin::detachTab()
 
     textEdit->setFocus();
 
-    dropTarget->raise();
-    dropTarget->activateWindow();
+    dropTarget->stealFocus();
 }
 /*************************/
 void FPwin::dropTab (const QString& str)
@@ -4487,8 +4481,7 @@ void FPwin::dropTab (const QString& str)
 
     textEdit->setFocus();
 
-    raise();
-    activateWindow();
+    stealFocus();
 
     if (count == 0)
         QTimer::singleShot (0, dragSource, &QWidget::close);
@@ -5312,6 +5305,14 @@ void FPwin::helpDoc()
         cur->setText (title);
         cur->setToolTip (title);
     }
+}
+/*************************/
+void FPwin::stealFocus()
+{
+    QTimer::singleShot (0, this, [this]() {
+        raise();
+        activateWindow();
+    });
 }
 
 }
