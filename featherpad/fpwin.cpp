@@ -35,7 +35,7 @@
 #include <QPrintDialog>
 #include <QToolTip>
 //#include <QScreen>
-//#include <QWindow>
+#include <QWindow>
 #include <QScrollBar>
 #include <QWidgetAction>
 #include <fstream> // std::ofstream
@@ -5309,9 +5309,11 @@ void FPwin::helpDoc()
 /*************************/
 void FPwin::stealFocus()
 {
+    raise();
+    activateWindow();
     QTimer::singleShot (0, this, [this]() {
-        raise();
-        activateWindow();
+        if (QWindow *win = windowHandle())
+            win->requestActivate();
     });
 }
 
