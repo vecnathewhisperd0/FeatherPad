@@ -6,6 +6,7 @@ V0.13.0
  * Consider the HTML ampersand valid in "&name;", "&number;" and "&hexadecimal;".
  * Yet smarter Shift+Enter with alphabetical lists.
  * Bypass medium focus stealing prevention.
+ * Fixed a problem in highlighting of multiline comments (with languages that have regex).
 
 V0.12.1
 ---------

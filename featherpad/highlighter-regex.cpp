@@ -312,6 +312,7 @@ void Highlighter::multiLineRegex(const QString &text, const int index)
             endIndex = text.indexOf (endExp, indx, &endMatch);
         }
 
+        int badIndex = -1;
         int len;
         if (endIndex == -1)
         {
@@ -322,10 +323,28 @@ void Highlighter::multiLineRegex(const QString &text, const int index)
         {
             len = endIndex - startIndex
                   + endMatch.capturedLength();
+            /* a multi-line comment start sign may have become invalid */
+            if (!commentStartExpression.pattern().isEmpty())
+            {
+                QRegularExpression commentExp ("^" + commentStartExpression.pattern());
+                if (text.mid (endIndex).indexOf (commentExp) == 0)
+                {
+                    badIndex = endIndex + endMatch.capturedLength();
+                    setFormat (badIndex, text.length() - badIndex, neutralFormat);
+                    setCurrentBlockState (0); // restore the neutral state
+                }
+            }
         }
         setFormat (startIndex, len, regexFormat);
 
         startIndex = text.indexOf (startExp, startIndex + len, &startMatch);
+
+        if (badIndex >= 0)
+        { // reformat from here, as in highlightBlock()
+            singleLineComment (text, badIndex);
+            multiLineQuote (text, badIndex); // always returns false
+            multiLineComment (text, badIndex, -1, commentStartExpression, commentEndExpression, commentState, commentFormat);
+        }
 
         /* skip comments and quotations again */
         fi = format (startIndex);

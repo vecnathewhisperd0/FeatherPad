@@ -1720,8 +1720,9 @@ bool Highlighter::isQuoted (const QString &text, const int index,
         ++N;
         if ((N % 2 == 0 // an escaped end quote...
              && isEscapedQuote (text, nxtPos, false))
-            || (N % 2 != 0 // ... or an escaped start quote Bash
-                && (isEscapedQuote (text, nxtPos, true, skipCommandSign) || isInsideRegex (text, nxtPos))))
+            || (N % 2 != 0 // ... or an escaped start quote Bash...
+                && (isEscapedQuote (text, nxtPos, true, skipCommandSign)
+                    || isInsideRegex (text, nxtPos)))) // ... or a start quote inside regex
         {
             if (res && hasRegex)
             { // -> isEscapedRegex()
@@ -1934,10 +1935,13 @@ bool Highlighter::isMLCommented (const QString &text, const int index, int comSt
 
     while ((pos = text.indexOf (commentExpression, pos + 1, &commentMatch)) >= 0)
     {
-        /* skip formatted quotations */
+        /* skip formatted quotations and regex */
         QTextCharFormat fi = format (pos);
-        if (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat)
+        if (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
+            || fi == regexFormat) // see multiLineRegex() for the reason
+        {
             continue;
+        }
 
         ++N;
 
@@ -2523,11 +2527,11 @@ void Highlighter::multiLineComment (const QString &text,
         }
 
         /* if there's a comment end ... */
-        if (/*!hugeText && */endIndex >= 0 && progLan != "xml")
+        if (/*!hugeText && */endIndex >= 0 && progLan != "xml" && progLan != "html")
         {
             /* ... clear the comment format from there to reformat later as
                a single-line comment sign may have been commented out now */
-            badIndex = endIndex + 1;
+            badIndex = endIndex + endMatch.capturedLength();
             for (int i = badIndex; i < text.length(); ++i)
             {
                 if (format (i) == commentFormat || format (i) == urlFormat)
@@ -2723,7 +2727,7 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
         /* skip escaped start quotes and all comments */
         while (isEscapedQuote (text, index, true)
                || isInsideRegex (text, index)
-               || isMLCommented (text, index, comState)) // multiline
+               || isMLCommented (text, index, comState))
         {
             index = text.indexOf (quoteExpression, index + 1);
         }
