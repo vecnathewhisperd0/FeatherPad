@@ -247,6 +247,8 @@ signals:
 public slots:
     void copy();
     void cut();
+    void undo();
+    void redo();
 
 protected:
     void keyPressEvent (QKeyEvent *event);
@@ -321,6 +323,10 @@ private:
     QFont font_; // used internally for keeping track of the unzoomed font
     QString textTab_; // text tab in terms of spaces
     QElapsedTimer tripleClickTimer_;
+    /* To keep text cursor's horizontal position with Up/Down keys
+       (also used in a workaround for a Qt regression): */
+    bool keepTxtCurHPos_;
+    int txtCurHPos_;
     /********************************************
      ***** All needed information on a page *****
      ********************************************/

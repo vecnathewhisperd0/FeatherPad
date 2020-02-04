@@ -51,6 +51,9 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     inertialScrolling_ = false;
     scrollTimer_ = nullptr;
 
+    keepTxtCurHPos_ = false;
+    txtCurHPos_ = -1;
+
     prog_ = "url"; // the default language
 
     textTab_ = "    "; // the default text tab is four spaces
@@ -146,7 +149,11 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     lineNumberArea->installEventFilter (this);
 
     connect (this, &QPlainTextEdit::updateRequest, this, &TextEdit::onUpdateRequesting);
-    connect (this, &QPlainTextEdit::cursorPositionChanged, this, &TextEdit::updateBracketMatching);
+    connect (this, &QPlainTextEdit::cursorPositionChanged, [this] {
+        if (!keepTxtCurHPos_)
+            txtCurHPos_ = -1; // forget the last cursor position if it shouldn't be remembered
+        emit updateBracketMatching();
+    });
     connect (this, &QPlainTextEdit::selectionChanged, this, &TextEdit::onSelectionChanged);
 
     setContextMenuPolicy (Qt::CustomContextMenu);
@@ -454,6 +461,8 @@ static inline bool isOnlySpaces (const QString &str)
 
 void TextEdit::keyPressEvent (QKeyEvent *event)
 {
+    keepTxtCurHPos_ = false;
+
     /* workarounds for copy/cut -- see TextEdit::copy()/cut() */
     if (event == QKeySequence::Copy)
     {
@@ -522,8 +531,27 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
         return;
     }
 
-    if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter)
+    if (event->key() == Qt::Key_Backspace)
     {
+        keepTxtCurHPos_ = true;
+        if (txtCurHPos_ < 0)
+        {
+            QTextCursor startCur = textCursor();
+            startCur.movePosition (QTextCursor::StartOfLine);
+            txtCurHPos_ = qAbs (cursorRect().left() - cursorRect (startCur).left()); // is negative for RTL
+        }
+
+    }
+    else if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter)
+    {
+        keepTxtCurHPos_ = true;
+        if (txtCurHPos_ < 0)
+        {
+            QTextCursor startCur = textCursor();
+            startCur.movePosition (QTextCursor::StartOfLine);
+            txtCurHPos_ = qAbs (cursorRect().left() - cursorRect (startCur).left());
+        }
+
         QTextCursor cur = textCursor();
         QString selTxt = cur.selectedText();
 
@@ -838,34 +866,6 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
     }
     else if (event->key() == Qt::Key_Down || event->key() == Qt::Key_Up)
     {
-        /*if (event->modifiers() == Qt::NoModifier || event->modifiers() == Qt::ShiftModifier)
-        {
-            // NOTE: This reverses a Qt feature with Down/Up after Backspace/Enter and is commented out
-            QTextCursor cursor = textCursor();
-            if (!cursor.hasSelection())
-            { // go to the same position in the next/previous line
-                int hPos = cursorRect().center().x();
-                QTextCursor::MoveMode mode = (event->modifiers() == Qt::ShiftModifier
-                                                  ? QTextCursor::KeepAnchor
-                                                  : QTextCursor::MoveAnchor);
-                cursor.movePosition (event->key() == Qt::Key_Down
-                                         ? QTextCursor::EndOfLine
-                                         : QTextCursor::StartOfLine,
-                                                         mode);
-                if (cursor.movePosition (event->key() == Qt::Key_Down
-                                             ? QTextCursor::NextCharacter
-                                             : QTextCursor::PreviousCharacter,
-                                         mode))
-                { // next/previous line or block
-                    cursor.movePosition (QTextCursor::StartOfLine, mode);
-                    cursor.setPosition (cursorForPosition (QPoint (hPos, cursorRect(cursor).center().y())).position(), mode);
-                }
-                setTextCursor (cursor);
-                ensureCursorVisible();
-                event->accept();
-                return;
-            }
-        }*/
         if (event->modifiers() == Qt::ControlModifier)
         {
             if (QScrollBar* vbar = verticalScrollBar())
@@ -874,29 +874,6 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                 event->accept();
                 return;
             }
-        }
-        else if (event->modifiers() == Qt::MetaModifier || event->modifiers() == (Qt::ShiftModifier | Qt::MetaModifier))
-        { // go to the same position in the next/previous block
-            QTextCursor cursor = textCursor();
-            int hPos = cursorRect().center().x();
-            QTextCursor::MoveMode mode = ((event->modifiers() & Qt::ShiftModifier)
-                                              ? QTextCursor::KeepAnchor
-                                              : QTextCursor::MoveAnchor);
-            cursor.movePosition (event->key() == Qt::Key_Down
-                                     ? QTextCursor::EndOfBlock
-                                     : QTextCursor::StartOfBlock,
-                                 mode);
-            if (cursor.movePosition (event->key() == Qt::Key_Down
-                                         ? QTextCursor::NextBlock
-                                         : QTextCursor::PreviousBlock,
-                                     mode))
-            {
-                cursor.setPosition (cursorForPosition (QPoint (hPos, cursorRect(cursor).center().y())).position(), mode);
-            }
-            setTextCursor (cursor);
-            ensureCursorVisible();
-            event->accept();
-            return;
         }
         else if (event->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier))
         { // move the line(s)
@@ -982,6 +959,69 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                 else cursor.endEditBlock();
             }
         }
+        else if (event->modifiers() == Qt::NoModifier
+                || (!(event->modifiers() & Qt::AltModifier)
+                    && ((event->modifiers() & Qt::ShiftModifier)
+                        || (event->modifiers() & Qt::MetaModifier)
+                        || (event->modifiers() & Qt::KeypadModifier))))
+        {
+            /* NOTE: This also includes a useful Qt feature with Down/Up after Backspace/Enter.
+                     The feature was removed with Backspace due to a regression in Qt 5.14.1. */
+            QTextCursor cursor = textCursor();
+            int hPos;
+            if (txtCurHPos_ >= 0)
+                hPos = txtCurHPos_;
+            else
+            {
+                QTextCursor startCur = cursor;
+                startCur.movePosition (QTextCursor::StartOfLine);
+                hPos = qAbs (cursorRect().left() - cursorRect (startCur).left()); // is negative for RTL
+            }
+            QTextCursor::MoveMode mode = ((event->modifiers() & Qt::ShiftModifier)
+                                              ? QTextCursor::KeepAnchor
+                                              : QTextCursor::MoveAnchor);
+            if ((event->modifiers() & Qt::MetaModifier))
+            { // try to restore the cursor pixel position between blocks
+                cursor.movePosition (event->key() == Qt::Key_Down
+                                         ? QTextCursor::EndOfBlock
+                                         : QTextCursor::StartOfBlock,
+                                     mode);
+                if (cursor.movePosition (event->key() == Qt::Key_Down
+                                             ? QTextCursor::NextBlock
+                                             : QTextCursor::PreviousBlock,
+                                         mode))
+                {
+                    setTextCursor (cursor); // WARNING: This is needed because of a Qt bug.
+                    bool rtl (cursor.block().text().isRightToLeft());
+                    QPoint cc = cursorRect (cursor).center();
+                    cursor.setPosition (cursorForPosition (QPoint (cc.x() + (rtl ? -1 : 1) * hPos, cc.y())).position(), mode);
+                }
+            }
+            else
+            { // try to restore the cursor pixel position between lines
+                cursor.movePosition (event->key() == Qt::Key_Down
+                                         ? QTextCursor::EndOfLine
+                                         : QTextCursor::StartOfLine,
+                                     mode);
+                if (cursor.movePosition (event->key() == Qt::Key_Down
+                                             ? QTextCursor::NextCharacter
+                                             : QTextCursor::PreviousCharacter,
+                                         mode))
+                { // next/previous line or block
+                    cursor.movePosition (QTextCursor::StartOfLine, mode);
+                    setTextCursor (cursor); // WARNING: This is needed because of a Qt bug.
+                    bool rtl (cursor.block().text().isRightToLeft());
+                    QPoint cc = cursorRect (cursor).center();
+                    cursor.setPosition (cursorForPosition (QPoint (cc.x() + (rtl ? -1 : 1) * hPos, cc.y())).position(), mode);
+                }
+            }
+            setTextCursor (cursor);
+            ensureCursorVisible();
+            event->accept();
+            txtCurHPos_ = hPos;
+            keepTxtCurHPos_ = true;
+            return;
+        }
     }
     else if (event->key() == Qt::Key_Tab)
     {
@@ -1011,6 +1051,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                     break; // not needed
             }
             cursor.endEditBlock();
+            ensureCursorVisible();
             event->accept();
             return;
         }
@@ -1020,6 +1061,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
             tmp.setPosition (qMin (tmp.anchor(), tmp.position()));
             cursor.insertText (remainingSpaces (event->modifiers() & Qt::MetaModifier
                                                 ? "  " : textTab_, tmp));
+            ensureCursorVisible();
             event->accept();
             return;
         }
@@ -1046,6 +1088,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                 break; // not needed
         }
         cursor.endEditBlock();
+        ensureCursorVisible();
 
         /* otherwise, do nothing with SHIFT+TAB */
         event->accept();
@@ -1151,6 +1194,20 @@ void TextEdit::cut()
         QApplication::clipboard()->setText (cursor.selection().toPlainText());
         cursor.removeSelectedText();
     }
+}
+/*************************/
+// Forget the horizontal position of the text cursor with undo/redo.
+void TextEdit::undo()
+{
+    keepTxtCurHPos_ = false;
+    txtCurHPos_ = -1;
+    QPlainTextEdit::undo();
+}
+void TextEdit::redo()
+{
+    keepTxtCurHPos_ = false;
+    txtCurHPos_ = -1;
+    QPlainTextEdit::redo();
 }
 /*************************/
 void TextEdit::keyReleaseEvent (QKeyEvent *event)
@@ -1817,12 +1874,16 @@ void TextEdit::onSelectionChanged()
 /*************************/
 void TextEdit::zooming (float range)
 {
+    /* forget the horizontal position of the text cursor */
+    keepTxtCurHPos_ = false;
+    txtCurHPos_ = -1;
+
     QFont f = document()->defaultFont();
     if (range == 0.f) // means unzooming
     {
         setEditorFont (font_, false);
         if (font_.pointSizeF() < f.pointSizeF())
-            zoomedOut (this); // ses the explanation below
+            emit zoomedOut (this); // see the explanation below
     }
     else
     {
@@ -1948,6 +2009,10 @@ void TextEdit::mouseMoveEvent (QMouseEvent *event)
 /*************************/
 void TextEdit::mousePressEvent (QMouseEvent *event)
 {
+    /* forget the last cursor position */
+    keepTxtCurHPos_ = false;
+    txtCurHPos_ = -1;
+
     /* With a triple click, QPlainTextEdit selects the current block
        plus its newline, if any. But it is better to select the
        current block without selecting its newline and start and end

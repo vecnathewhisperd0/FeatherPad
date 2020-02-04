@@ -5223,6 +5223,18 @@ void FPwin::helpDoc()
     QString helpPath (QStringLiteral (DATADIR) + "/featherpad/help_" + lang);
 #endif
 
+    if (!QFile::exists (helpPath) && !langs.isEmpty())
+    { // shouldn't be needed
+        lang = langs.first().split (QLatin1Char ('_')).first();
+#if defined(Q_OS_HAIKU)
+        helpPath = QStringLiteral (DATADIR) + "/help_" + lang;
+#elif defined(Q_OS_MAC)
+        helpPath = qApp->applicationDirPath() + QStringLiteral ("/../Resources/") + "/help_" + lang);
+#else
+        helpPath = QStringLiteral (DATADIR) + "/featherpad/help_" + lang;
+#endif
+    }
+
     if (!QFile::exists (helpPath))
     {
 #if defined(Q_OS_HAIKU)

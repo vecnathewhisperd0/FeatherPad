@@ -1125,7 +1125,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="400"/>
         <location filename="../../fpwin.cpp" line="3196"/>
-        <location filename="../../fpwin.cpp" line="5297"/>
+        <location filename="../../fpwin.cpp" line="5309"/>
         <source>Help</source>
         <translation>Aide</translation>
     </message>
@@ -2319,7 +2319,7 @@ fenêtres seront inclus dans la session sauvegardée.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="144"/>
+        <location filename="../../textedit.cpp" line="147"/>
         <source>Double click to center current line</source>
         <translation>Double clic pour centrer la ligne utilisée</translation>
     </message>

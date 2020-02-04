@@ -1034,7 +1034,7 @@ linea (Ctrl + Shift + J)</translation>
     <message>
         <location filename="../../fpwin.cpp" line="400"/>
         <location filename="../../fpwin.cpp" line="3196"/>
-        <location filename="../../fpwin.cpp" line="5297"/>
+        <location filename="../../fpwin.cpp" line="5309"/>
         <source>Help</source>
         <translation>Aiuto</translation>
     </message>
@@ -2320,7 +2320,7 @@ inclusi nella sessione salvata.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="144"/>
+        <location filename="../../textedit.cpp" line="147"/>
         <source>Double click to center current line</source>
         <translation>Fare doppio clic per centrare la linea corrente</translation>
     </message>

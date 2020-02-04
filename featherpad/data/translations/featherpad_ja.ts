@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ja_JP">
+<TS version="2.1" language="ja">
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
@@ -767,7 +767,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="400"/>
         <location filename="../../fpwin.cpp" line="3196"/>
-        <location filename="../../fpwin.cpp" line="5297"/>
+        <location filename="../../fpwin.cpp" line="5309"/>
         <source>Help</source>
         <translation>ヘルプ</translation>
     </message>
@@ -2318,7 +2318,7 @@ windows will be included in the saved session.</source>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="144"/>
+        <location filename="../../textedit.cpp" line="147"/>
         <source>Double click to center current line</source>
         <translation>ダブルクリックすると現在の行を中央に表示します</translation>
     </message>
