@@ -7,6 +7,7 @@ V0.13.0
  * Yet smarter Shift+Enter with alphabetical lists.
  * Bypass medium focus stealing prevention.
  * Fixed a problem in highlighting of multiline comments (with languages that have regex).
+ * Fixed highlighting of Markdown code blocks without language.
  * Remember cursor's horizontal pixel position before Backspace/Enter and restore it after Down/Up. This feature was removed with Backspace due to a regression in Qt 5.14.1.
  * Found and fixed a potential issue in translations (thanks to Masamichi Ito — ito32bit at GitHub).
 

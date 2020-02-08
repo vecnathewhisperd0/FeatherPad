@@ -3510,7 +3510,8 @@ bool Highlighter::markdownMultiLine (const QString &text,
         }
     }
 
-    int endIndex = text.indexOf (endRegex, 0, &endMatch);
+    int endIndex = !isBlockQuote && prevState != state ? // the start of a code block can be ```
+                       -1 : text.indexOf (endRegex, 0, &endMatch);
     int L;
     if (endIndex == -1)
     {
