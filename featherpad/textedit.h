@@ -233,6 +233,11 @@ public:
         matchedBrackets_ = true;
     }
 
+    void forgetTxtCurHPos() {
+        keepTxtCurHPos_ = false;
+        txtCurHPos_ = -1;
+    }
+
 signals:
     /* inform the main widget */
     void fileDropped (const QString& localFile,
@@ -249,6 +254,9 @@ public slots:
     void cut();
     void undo();
     void redo();
+    void paste();
+    void selectAll();
+    void insertPlainText (const QString &text);
 
 protected:
     void keyPressEvent (QKeyEvent *event);

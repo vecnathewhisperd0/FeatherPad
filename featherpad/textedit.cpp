@@ -495,6 +495,8 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                     return;
                 }
             }
+            else if (event->key() == Qt::Key_A)
+                txtCurHPos_ = -1; // Qt bug: cursorPositionChanged() isn't emitted with selectAll()
             /* handle undoing */
             else if (!isReadOnly() && event->key() == Qt::Key_Z)
             {
@@ -967,6 +969,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
         {
             /* NOTE: This also includes a useful Qt feature with Down/Up after Backspace/Enter.
                      The feature was removed with Backspace due to a regression in Qt 5.14.1. */
+            keepTxtCurHPos_ = true;
             QTextCursor cursor = textCursor();
             int hPos;
             if (txtCurHPos_ >= 0)
@@ -976,6 +979,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                 QTextCursor startCur = cursor;
                 startCur.movePosition (QTextCursor::StartOfLine);
                 hPos = qAbs (cursorRect().left() - cursorRect (startCur).left()); // is negative for RTL
+                txtCurHPos_ = hPos;
             }
             QTextCursor::MoveMode mode = ((event->modifiers() & Qt::ShiftModifier)
                                               ? QTextCursor::KeepAnchor
@@ -1018,8 +1022,6 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
             setTextCursor (cursor);
             ensureCursorVisible();
             event->accept();
-            txtCurHPos_ = hPos;
-            keepTxtCurHPos_ = true;
             return;
         }
     }
@@ -1191,12 +1193,14 @@ void TextEdit::cut()
     QTextCursor cursor = textCursor();
     if (cursor.hasSelection())
     {
+        keepTxtCurHPos_ = false;
+        txtCurHPos_ = -1;
         QApplication::clipboard()->setText (cursor.selection().toPlainText());
         cursor.removeSelectedText();
     }
 }
 /*************************/
-// Forget the horizontal position of the text cursor with undo/redo.
+// These methods are overridden only to forget the horizontal position of the text cursor.
 void TextEdit::undo()
 {
     keepTxtCurHPos_ = false;
@@ -1208,6 +1212,23 @@ void TextEdit::redo()
     keepTxtCurHPos_ = false;
     txtCurHPos_ = -1;
     QPlainTextEdit::redo();
+}
+void TextEdit::paste()
+{
+    keepTxtCurHPos_ = false; // there may be nothing to paste
+    QPlainTextEdit::paste();
+}
+void TextEdit::selectAll()
+{
+    keepTxtCurHPos_ = false;
+    txtCurHPos_ = -1; // Qt bug: cursorPositionChanged() isn't emitted with selectAll()
+    QPlainTextEdit::selectAll();
+}
+void TextEdit::insertPlainText (const QString &text)
+{
+    keepTxtCurHPos_ = false;
+    txtCurHPos_ = -1;
+    QPlainTextEdit::insertPlainText (text);
 }
 /*************************/
 void TextEdit::keyReleaseEvent (QKeyEvent *event)

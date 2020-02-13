@@ -1576,11 +1576,11 @@ void FPwin::defaultSize()
        widget to guarantee resizing under all DEs */
     /*Qt::WindowFlags flags = windowFlags();
     setParent (dummyWidget, Qt::SubWindow);*/
-    hide();
+    //hide();
     resize (s);
     /*if (parent() != nullptr)
         setParent (nullptr, flags);*/
-    QTimer::singleShot (0, this, &FPwin::show);
+    //QTimer::singleShot (0, this, &FPwin::show);
 }
 /*************************/
 /*void FPwin::align()
@@ -2088,6 +2088,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
     int scrollbarValue = -1;
     if (reload)
     {
+        textEdit->forgetTxtCurHPos();
         pos = textEdit->textCursor().position();
         anchor = textEdit->textCursor().anchor();
         if (QScrollBar *scrollbar = textEdit->verticalScrollBar())
