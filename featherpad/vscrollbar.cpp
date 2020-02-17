@@ -19,7 +19,7 @@
 
 #include "vscrollbar.h"
 #include <QApplication>
-#if (QT_VERSION < QT_VERSION_CHECK(5,14,0))
+#if (QT_VERSION != QT_VERSION_CHECK(5,14,0))
 #include <QEvent>
 #endif
 
@@ -48,7 +48,7 @@ bool VScrollBar::event (QEvent *event)
     return QScrollBar::event (event);
 }
 /*************************/
-#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
 void HScrollBar::wheelEvent (QWheelEvent *event) {
     if (event->angleDelta().x() == 0)
     {

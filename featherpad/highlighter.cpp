@@ -181,7 +181,7 @@ void TextBlockData::insertOpenQuotes (const QSet<int> &openQuotes)
     OpenQuotes.unite (openQuotes);
 }
 /*************************/
-#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
 // To work around a nasty bug in Qt 5.14.0
 static QColor overlayColor (const QColor& bgCol, const QColor& overlayCol)
 {
@@ -265,7 +265,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
             neutralColor = QColor (1, 1, 1);
             Faded = QColor (180, 180, 180); // for whitespaces
             translucent = QColor (0, 0, 0, 190); // for huge lines
-#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
             translucent = overlayColor (QColor (245, 245, 245), translucent);
 #endif
         }
@@ -275,7 +275,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
             neutralColor = QColor (254, 254, 254);
             Faded = QColor (95, 95, 95);
             translucent = QColor (255, 255, 255, 190);
-#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
             translucent = overlayColor (QColor (10, 10, 10), translucent);
 #endif
         }
@@ -312,7 +312,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         }
         colors << Faded;
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
         i = 0;
         int tr = translucent.red();
         while (colors.contains (translucent))
@@ -358,7 +358,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
             DarkYellow = QColor (100, 100, 0); // Qt::darkYellow is (180, 180, 0)
             Faded = QColor (180, 180, 180);
             translucent = QColor (0, 0, 0, 190);
-#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
             translucent = overlayColor (QColor (245, 245, 245), translucent);
 #endif
         }
@@ -378,7 +378,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
             DarkYellow = QColor (Qt::yellow);
             Faded = QColor (95, 95, 95);
             translucent = QColor (255, 255, 255, 190);
-#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
             translucent = overlayColor (QColor (10, 10, 10), translucent);
 #endif
         }

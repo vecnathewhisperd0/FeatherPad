@@ -137,7 +137,7 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     VScrollBar *vScrollBar = new VScrollBar;
     setVerticalScrollBar (vScrollBar);
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
     /* a (temporary) workaround for Qt's horizontal scrollbar bug */
     HScrollBar *hScrollBar = new HScrollBar;
     setHorizontalScrollBar (hScrollBar);
@@ -1265,7 +1265,7 @@ void TextEdit::wheelEvent (QWheelEvent *event)
             QWheelEvent e (event->posF(),
                            event->globalPosF(),
                            event->pixelDelta(),
-#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
                            horizontal
                                ? QPoint (delta / QApplication::wheelScrollLines(), 0)
                                : QPoint (0, delta / QApplication::wheelScrollLines()),
@@ -1454,7 +1454,7 @@ static void fillBackground (QPainter *p, const QRectF &rect, QBrush brush, const
     p->restore();
 }
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
 // To work around a nasty bug in Qt 5.14.0
 static QColor overlayColor (const QColor& bgCol, const QColor& overlayCol)
 {
@@ -1633,7 +1633,7 @@ void TextEdit::paintEvent (QPaintEvent *event)
                         col = Qt::black;
                         col.setAlpha (70);
                     }
-#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
                     col = overlayColor (QColor (bgColorValue_, bgColorValue_, bgColorValue_), col);
 #endif
                     painter.setPen (col);

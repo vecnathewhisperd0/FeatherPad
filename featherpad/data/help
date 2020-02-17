@@ -171,12 +171,13 @@ Ctrl+Up/Down        Scroll up/down by one wrapped line without moving text curso
 
 Moving text cursor:
 ********************
-Up/Down             Go to the same position in the previous/next wrapped line
 Home                Go to to the line start
 End                 Go to to the line end
 Ctrl+Home           Go to to the text start
 Ctrl+End            Go to to the text end
+Right/Left          Move the cursor one character to the right/left
 Ctrl+Right/Left     Move the cursor one word to the right/left
+Up/Down             Go to the same position in the previous/next wrapped line
 Shift+Up/Down       Go to the same position in the previous/next wrapped line while selecting text
 Meta+Up/Down        Go to the same position in the previous/next (real) line
 Meta+Shift+Up/Down  Go to the same position in the previous/next (real) line while selecting text
@@ -192,6 +193,7 @@ Shift+Meta+Tab      2-space Backtab, as far as possible
 Text editing:
 **************
 Insert              Toggle overwrite mode
+Backspace           Delete to the left of the text cursor
 Delete              Delete to the right of the text cursor (the opposite of Backspace)
 Ctrl+K              Delete to the end of the line (when the editor has focus)
 Ctrl+Shift+Up/Down  Move the current line or selected lines upward/downward

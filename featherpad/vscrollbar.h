@@ -21,7 +21,7 @@
 #define VSCROLLBAR_H
 
 #include <QScrollBar>
-#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
 #include <QWheelEvent>
 #endif
 
@@ -42,7 +42,7 @@ private:
     int defaultWheelSpeed;
 };
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
+#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
 /* A (temporary) workaround for Qt's horizontal scrollbar bug. */
 class HScrollBar : public QScrollBar
 {
