@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="153"/>
+        <location filename="../../about.ui" line="155"/>
         <source>License</source>
         <translation>Licencia</translation>
     </message>
@@ -1654,7 +1654,7 @@ de salida y de error se mostrarán en una ventana emergente.</translation>
         <translation>Guardar los cambios en los archivos abiertos cada:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1347"/>
+        <location filename="../../prefDialog.ui" line="1377"/>
         <source>Help</source>
         <translation>Ayuda</translation>
     </message>
@@ -1864,7 +1864,7 @@ nombre pero terminando en &quot;.aff&quot;.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="902"/>
-        <location filename="../../pref.cpp" line="1569"/>
+        <location filename="../../pref.cpp" line="1581"/>
         <source>Add dictionary...</source>
         <translation>Agregar un diccionario...</translation>
     </message>
@@ -1954,7 +1954,7 @@ los espacios finales de un archivo de texto.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1283"/>
-        <location filename="../../prefDialog.ui" line="1323"/>
+        <location filename="../../prefDialog.ui" line="1353"/>
         <source>Default</source>
         <translation>Predeterminado</translation>
     </message>
@@ -1974,12 +1974,17 @@ los espacios finales de un archivo de texto.</translation>
         <translation>Color de texto</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1326"/>
+        <location filename="../../prefDialog.ui" line="1328"/>
+        <source>Whitespace color value:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../prefDialog.ui" line="1356"/>
         <source>Restore default syntax colors.</source>
         <translation>Restaurar colores de sintaxis predeterminados.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1358"/>
+        <location filename="../../prefDialog.ui" line="1388"/>
         <source>Close</source>
         <translation>Cerrar</translation>
     </message>
@@ -1990,19 +1995,19 @@ los espacios finales de un archivo de texto.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="286"/>
-        <location filename="../../pref.cpp" line="1265"/>
+        <location filename="../../pref.cpp" line="1277"/>
         <source>files</source>
         <translation>archivos</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="286"/>
-        <location filename="../../pref.cpp" line="1265"/>
+        <location filename="../../pref.cpp" line="1277"/>
         <source>file</source>
         <translation>archivo</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="339"/>
-        <location filename="../../pref.cpp" line="1384"/>
+        <location filename="../../pref.cpp" line="1396"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Advertencia: ¡Se detectó un atajo que podría ser problemático!</translation>
     </message>
@@ -2062,37 +2067,37 @@ los espacios finales de un archivo de texto.</translation>
         <translation>Elementos adicionales</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="518"/>
+        <location filename="../../pref.cpp" line="523"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Es necesario reiniciar la aplicación para que los cambios tengan efecto.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="530"/>
+        <location filename="../../pref.cpp" line="535"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Los cambios tendrán efecto después de reiniciar la aplicación.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1291"/>
+        <location filename="../../pref.cpp" line="1303"/>
         <source>&amp;Recently Opened</source>
         <translation>Abiertos &amp;recientemente</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1292"/>
+        <location filename="../../pref.cpp" line="1304"/>
         <source>Recently &amp;Modified</source>
         <translation>&amp;Modificados recientemente</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1367"/>
+        <location filename="../../pref.cpp" line="1379"/>
         <source>The typed shortcut was reserved.</source>
         <translation>El atajo escrito esta reservado.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1571"/>
+        <location filename="../../pref.cpp" line="1583"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>Archivos de diccionario en formato Hunspell (*.dic)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1643"/>
+        <location filename="../../pref.cpp" line="1660"/>
         <source>Select Syntax Color</source>
         <translation>Seleccionar color de sintaxis</translation>
     </message>

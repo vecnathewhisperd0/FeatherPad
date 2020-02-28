@@ -111,6 +111,7 @@ public:
                  bool darkColorScheme,
                  bool showWhiteSpace,
                  bool showEndings,
+                 int whitespaceValue,
                  const QHash<QString, QColor> &syntaxColors = QHash<QString, QColor>());
     ~Highlighter();
 

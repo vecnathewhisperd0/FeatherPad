@@ -289,6 +289,7 @@ void FPwin::syntaxHighlighting (TextEdit *textEdit, bool highlight, const QStrin
                                                         textEdit->hasDarkScheme(),
                                                         config.getShowWhiteSpace(),
                                                         config.getShowEndings(),
+                                                        config.getWhiteSpaceValue(),
                                                         config.customSyntaxColors().isEmpty()
                                                             ? textEdit->hasDarkScheme() ? config.darkSyntaxColors()
                                                                                         : config.lightSyntaxColors()

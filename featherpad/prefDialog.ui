@@ -1317,7 +1317,37 @@ trailing spaces of a text file.</string>
          </column>
         </widget>
        </item>
-       <item row="1" column="0" alignment="Qt::AlignRight">
+       <item row="1" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_16">
+         <property name="spacing">
+          <number>5</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="whiteSpaceLabel">
+           <property name="text">
+            <string>Whitespace color value:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="whiteSpaceSpin"/>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_16">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>5</width>
+             <height>5</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item row="2" column="0" alignment="Qt::AlignRight">
         <widget class="QPushButton" name="defaultSyntaxButton">
          <property name="text">
           <string>Default</string>

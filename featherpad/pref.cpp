@@ -415,8 +415,13 @@ PrefDialog::PrefDialog (QWidget *parent)
     ui->syntaxTableWidget->setSortingEnabled (true);
     ui->syntaxTableWidget->setCurrentCell (0, 1);
     connect (ui->syntaxTableWidget, &QTableWidget::cellDoubleClicked, this, &PrefDialog::changeSyntaxColor);
+    ui->whiteSpaceSpin->setMinimum (config.getMinWhiteSpaceValue());
+    ui->whiteSpaceSpin->setMaximum (config.getMaxWhiteSpaceValue());
+    ui->whiteSpaceSpin->setValue (config.getWhiteSpaceValue());
+    connect (ui->whiteSpaceSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::changeWhitespaceValue);
     connect (ui->defaultSyntaxButton, &QAbstractButton::clicked, this, &PrefDialog::restoreDefaultSyntaxColors);
-    ui->defaultSyntaxButton->setDisabled (config.customSyntaxColors().isEmpty());
+    ui->defaultSyntaxButton->setDisabled (config.customSyntaxColors().isEmpty()
+                                          && config.getWhiteSpaceValue() == config.getDefaultWhiteSpaceValue());
 
     /*************
      *** Other ***
@@ -1026,7 +1031,8 @@ void PrefDialog::prefDarkColScheme (int checked)
        So, the syntax colors should be read again. */
     config.readSyntaxColors();
     /* update the state of default button */
-    ui->defaultSyntaxButton->setEnabled (!config.customSyntaxColors().isEmpty());
+    ui->defaultSyntaxButton->setEnabled (!config.customSyntaxColors().isEmpty()
+                                         || config.getWhiteSpaceValue() != config.getDefaultWhiteSpaceValue());
     /* update row colors */
     for (int i = 0; i < ui->syntaxTableWidget->rowCount(); ++i)
     {
@@ -1056,6 +1062,12 @@ void PrefDialog::prefDarkColScheme (int checked)
             }
         }
     }
+    /* update whiteSpace spin box */
+    disconnect (ui->whiteSpaceSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::changeWhitespaceValue);
+    ui->whiteSpaceSpin->setMinimum (config.getMinWhiteSpaceValue());
+    ui->whiteSpaceSpin->setMaximum (config.getMaxWhiteSpaceValue());
+    ui->whiteSpaceSpin->setValue (config.getWhiteSpaceValue());
+    connect (ui->whiteSpaceSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::changeWhitespaceValue);
 }
 /*************************/
 void PrefDialog::prefColValue (int value)
@@ -1602,6 +1614,7 @@ void PrefDialog::restoreDefaultSyntaxColors()
     ui->defaultSyntaxButton->setDisabled (true);
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
     config.setCustomSyntaxColors (prefCustomSyntaxColors_);
+    config.setWhiteSpaceValue (config.getDefaultWhiteSpaceValue());
     /* update row colors */
     for (int i = 0; i < ui->syntaxTableWidget->rowCount(); ++i)
     {
@@ -1626,6 +1639,10 @@ void PrefDialog::restoreDefaultSyntaxColors()
             }
         }
     }
+    /* update whiteSpace value */
+    disconnect (ui->whiteSpaceSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::changeWhitespaceValue);
+    ui->whiteSpaceSpin->setValue (config.getWhiteSpaceValue());
+    connect (ui->whiteSpaceSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::changeWhitespaceValue);
 }
 /*************************/
 void PrefDialog::changeSyntaxColor (int row, int column)
@@ -1658,7 +1675,10 @@ void PrefDialog::changeSyntaxColor (int row, int column)
                                 prefCustomSyntaxColors_ = config.lightSyntaxColors();
                         }
                         prefCustomSyntaxColors_.remove (syntax); // will be added correctly below
-                        const auto colors = prefCustomSyntaxColors_.values();
+                        auto colors = prefCustomSyntaxColors_.values();
+                        int ws = config.getWhiteSpaceValue();
+                        colors << QColor (ws, ws, ws);
+                        colors << (config.getDarkColScheme() ? QColor (Qt::white) : QColor (Qt::black));
                         /* modify the color if it already exists */
                         int r = color.red(); int g = color.green(); int b = color.blue();
                         while (colors.contains (color))
@@ -1679,7 +1699,7 @@ void PrefDialog::changeSyntaxColor (int row, int column)
                                                    : config.lightSyntaxColors())) // no customization
                     {
                         prefCustomSyntaxColors_.clear();
-                        ui->defaultSyntaxButton->setEnabled (false);
+                        ui->defaultSyntaxButton->setEnabled (config.getWhiteSpaceValue() != config.getDefaultWhiteSpaceValue());
                     }
                     else
                         ui->defaultSyntaxButton->setEnabled (true);
@@ -1688,6 +1708,14 @@ void PrefDialog::changeSyntaxColor (int row, int column)
             }
         }
     }
+}
+/*************************/
+void PrefDialog::changeWhitespaceValue (int value)
+{
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    config.setWhiteSpaceValue (value); // takes care of repeated colors
+    ui->defaultSyntaxButton->setEnabled (!config.customSyntaxColors().isEmpty()
+                                         || config.getWhiteSpaceValue() != config.getDefaultWhiteSpaceValue());
 }
 
 }

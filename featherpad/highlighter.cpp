@@ -209,6 +209,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
                           bool darkColorScheme,
                           bool showWhiteSpace,
                           bool showEndings,
+                          int whitespaceValue,
                           const QHash<QString, QColor> &syntaxColors) : QSyntaxHighlighter (parent)
 {
     if (lang.isEmpty()) return;
@@ -238,10 +239,11 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
     HighlightingRule rule;
 
-    QColor TextColor, neutralColor, Faded, translucent;
+    QColor Faded (whitespaceValue, whitespaceValue, whitespaceValue);
+    QColor TextColor, neutralColor, translucent;
     if (syntaxColors.size() == 11)
     {
-        /* NOTE: All 11 colors should be valid, opaque and different from each other
+        /* NOTE: All 11 + 1 colors should be valid, opaque and different from each other
                  but we don't check them here because "FeatherPad::Config" gets them so. */
         Blue = syntaxColors.value ("function");
         Magenta = syntaxColors.value ("BuiltinFunction");
@@ -256,14 +258,13 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         DarkYellow = syntaxColors.value ("other");
 
         QList<QColor> colors;
-        colors << Blue << Magenta << Red << DarkGreen << DarkMagenta << DarkBlue << Brown << DarkRed << Violet << Verda << DarkYellow;
+        colors << Blue << Magenta << Red << DarkGreen << DarkMagenta << DarkBlue << Brown << DarkRed << Violet << Verda << DarkYellow << Faded;
 
         /* extra colors */
         if (!darkColorScheme)
         {
             TextColor =  QColor (Qt::black);
             neutralColor = QColor (1, 1, 1);
-            Faded = QColor (180, 180, 180); // for whitespaces
             translucent = QColor (0, 0, 0, 190); // for huge lines
 #if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
             translucent = overlayColor (QColor (245, 245, 245), translucent);
@@ -273,7 +274,6 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         {
             TextColor =  QColor (Qt::white);
             neutralColor = QColor (254, 254, 254);
-            Faded = QColor (95, 95, 95);
             translucent = QColor (255, 255, 255, 190);
 #if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
             translucent = overlayColor (QColor (10, 10, 10), translucent);
@@ -300,17 +300,6 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
                 neutralColor = QColor (255 - i, 255 - i, 255 - i);
         }
         colors << neutralColor;
-
-        i = 0;
-        while (colors.contains (Faded))
-        {
-            ++i;
-            if (!darkColorScheme)
-                Faded = QColor (180 + i, 180 + i, 180 + i);
-            else
-                Faded = QColor (95 - i, 95 - i, 95 - i);
-        }
-        colors << Faded;
 
 #if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
         i = 0;
@@ -356,7 +345,6 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
             Violet = QColor (126, 0, 230); // #7e00e6
             Brown = QColor (160, 80, 0);
             DarkYellow = QColor (100, 100, 0); // Qt::darkYellow is (180, 180, 0)
-            Faded = QColor (180, 180, 180);
             translucent = QColor (0, 0, 0, 190);
 #if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
             translucent = overlayColor (QColor (245, 245, 245), translucent);
@@ -376,7 +364,6 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
             Violet = QColor (255, 255, 0); // == DarkYellow == Qt::yellow
             Brown = QColor (255, 200, 0);
             DarkYellow = QColor (Qt::yellow);
-            Faded = QColor (95, 95, 95);
             translucent = QColor (255, 255, 255, 190);
 #if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
             translucent = overlayColor (QColor (10, 10, 10), translucent);

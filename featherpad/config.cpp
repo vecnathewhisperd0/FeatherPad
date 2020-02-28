@@ -78,7 +78,8 @@ Config::Config():
     recentOpened_ (false),
     saveLastFilesList_ (false),
     cursorPosRetrieved_ (false),
-    spellCheckFromStart_ (false){}
+    spellCheckFromStart_ (false),
+    whiteSpaceValue_ (180) {}
 /*************************/
 Config::~Config() {}
 /*************************/
@@ -301,7 +302,6 @@ void Config::readShortcuts()
     Settings settings ("featherpad", "fp");
     settings.beginGroup ("shortcuts");
     QStringList actions = settings.childKeys();
-
     for (int i = 0; i < actions.size(); ++i)
     {
         QVariant v = settings.value (actions.at (i));
@@ -336,14 +336,25 @@ void Config::readSyntaxColors()// may be called multiple times
     setDfaultSyntaxColors();
     customSyntaxColors_.clear();
     Settings settingsColors ("featherpad", darkColScheme_ ? "fp_dark_syntax_colors" : "fp_light_syntax_colors");
+
+    settingsColors.beginGroup ("whiteSpace");
+    int ws = settingsColors.value ("value").toInt();
+    settingsColors.endGroup();
+    if (ws < getMinWhiteSpaceValue() || ws > getMaxWhiteSpaceValue())
+        whiteSpaceValue_ = getDefaultWhiteSpaceValue();
+    else
+        whiteSpaceValue_ = ws;
+
     const auto syntaxes = defaultLightSyntaxColors_.keys();
     QList<QColor> l;
+    l << (darkColScheme_ ? QColor (Qt::white) : QColor (Qt::black));
+    l << QColor (whiteSpaceValue_, whiteSpaceValue_, whiteSpaceValue_);
     for (auto &syntax : syntaxes)
     {
         QColor col;
         col.setNamedColor (settingsColors.value (syntax).toString());
         if (col.isValid())
-            col.setAlpha (255); // only opaque custom colors)
+            col.setAlpha (255); // only opaque custom colors
         if (!col.isValid() || l.contains (col))
         { // an invalid or repeated color shows a corrupted configuration
             customSyntaxColors_.clear();
@@ -532,8 +543,20 @@ void Config::writeCursorPos()
 void Config::writeSyntaxColors()
 {
     Settings settingsColors ("featherpad", darkColScheme_ ? "fp_dark_syntax_colors" : "fp_light_syntax_colors");
+
     if (customSyntaxColors_.isEmpty())
-        settingsColors.clear(); // remove the corrupted configuration
+    { // avoid redundant writing as far as possible
+        if (whiteSpaceValue_ != getDefaultWhiteSpaceValue())
+        {
+            if (settingsColors.allKeys().size() > 1)
+                settingsColors.clear();
+        }
+        else
+        {
+            settingsColors.clear();
+            return;
+        }
+    }
     else
     {
         QHash<QString, QColor>::const_iterator it = customSyntaxColors_.constBegin();
@@ -543,6 +566,41 @@ void Config::writeSyntaxColors()
             ++it;
         }
     }
+
+    /* NOTE: QSettings has a strange bug that makes it unreliable. If the config file can
+       have a subkey but has none, QSettings might empty the file when a new window is
+       opened. This happens when nothing is written to the config file by the code. It
+       should be related to some kind of cache because I've also seen cases, where a key
+       has been removed from the code but is created after reading the config file. Since
+       we write the settings on quitting, the bug has no effect under usual circumstances,
+       but if a crash happens or the system is shut down inappropriately, the settings
+       might be lost. So, we always add a subkey if there is color customization. */
+    settingsColors.beginGroup ("whiteSpace");
+    settingsColors.setValue ("value", whiteSpaceValue_);
+    settingsColors.endGroup();
+}
+/*************************/
+void Config::setWhiteSpaceValue (int value)
+{
+    value = qBound (getMinWhiteSpaceValue(), value, getMaxWhiteSpaceValue());
+    QList<QColor> colors;
+    colors << (darkColScheme_ ? QColor (Qt::white) : QColor (Qt::black));
+    if (!customSyntaxColors_.isEmpty())
+        colors = customSyntaxColors_.values();
+    else if (darkColScheme_)
+        colors = defaultDarkSyntaxColors_.values();
+    else
+        colors = defaultLightSyntaxColors_.values();
+    const int average = (getMinWhiteSpaceValue() + getMaxWhiteSpaceValue()) / 2;
+    QColor ws (value, value, value);
+    while (colors.contains (ws))
+    {
+        int r = ws.red();
+        if (value >= average) --r;
+        else ++r;
+        ws = QColor (r, r, r);
+    }
+    whiteSpaceValue_ = ws.red();
 }
 /*************************/
 void Config::addRecentFile (const QString& file)

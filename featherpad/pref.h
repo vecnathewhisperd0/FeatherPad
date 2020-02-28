@@ -119,6 +119,7 @@ private slots:
     void addDict();
     void prefSpellCheck (int checked);
     void changeSyntaxColor (int row, int column);
+    void changeWhitespaceValue (int value);
     void restoreDefaultSyntaxColors();
 
 private:

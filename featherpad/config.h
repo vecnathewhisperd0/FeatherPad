@@ -526,6 +526,21 @@ public:
         customSyntaxColors_ = colors;
     }
 
+    int getDefaultWhiteSpaceValue() const {
+        return darkColScheme_ ? 95 : 180;
+    }
+    int getMinWhiteSpaceValue() const {
+        return darkColScheme_ ? 50 : 130;
+    }
+    int getMaxWhiteSpaceValue() const {
+        return darkColScheme_ ? 140 : 230;
+    }
+
+    int getWhiteSpaceValue() const {
+        return whiteSpaceValue_;
+    }
+    void setWhiteSpaceValue (int value);
+
     void readSyntaxColors();
 
 private:
@@ -589,6 +604,7 @@ private:
     bool spellCheckFromStart_;
 
     QHash<QString, QColor> defaultLightSyntaxColors_, defaultDarkSyntaxColors_, customSyntaxColors_;
+    int whiteSpaceValue_;
 };
 
 }

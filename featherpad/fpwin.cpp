@@ -1638,16 +1638,16 @@ void FPwin::executeProcess()
 
         QProcess *process = new QProcess (tabPage);
         process->setObjectName (fName); // to put it into the message dialog
-        connect(process, &QProcess::readyReadStandardOutput,this, &FPwin::displayOutput);
-        connect(process, &QProcess::readyReadStandardError,this, &FPwin::displayError);
+        connect (process, &QProcess::readyReadStandardOutput,this, &FPwin::displayOutput);
+        connect (process, &QProcess::readyReadStandardError,this, &FPwin::displayError);
         QString command = config.getExecuteCommand();
         if (!command.isEmpty())
             command +=  " ";
         fName.replace ("\"", "\"\"\""); // literal quotes in the command are shown by triple quotes
         process->start (command + "\"" + fName + "\"");
         /* old-fashioned: connect(process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),... */
-        connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
-                [=](int /*exitCode*/, QProcess::ExitStatus /*exitStatus*/){ process->deleteLater(); });
+        connect (process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+                 [=](int /*exitCode*/, QProcess::ExitStatus /*exitStatus*/) {process->deleteLater();});
     }
 }
 /*************************/

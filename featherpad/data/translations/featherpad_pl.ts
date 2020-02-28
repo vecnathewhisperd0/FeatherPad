@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="153"/>
+        <location filename="../../about.ui" line="155"/>
         <source>License</source>
         <translation>Licencja</translation>
     </message>
@@ -1646,7 +1646,7 @@ pokazane w okienku dialogowym.</translation>
         <translation>Zapisuj zmiany w otwieranych plikach co:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1347"/>
+        <location filename="../../prefDialog.ui" line="1377"/>
         <source>Help</source>
         <translation>Pomoc</translation>
     </message>
@@ -1847,7 +1847,7 @@ name but ending with &quot;.aff&quot;.</source>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="902"/>
-        <location filename="../../pref.cpp" line="1569"/>
+        <location filename="../../pref.cpp" line="1581"/>
         <source>Add dictionary...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1935,7 +1935,7 @@ na końcu pliku.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1283"/>
-        <location filename="../../prefDialog.ui" line="1323"/>
+        <location filename="../../prefDialog.ui" line="1353"/>
         <source>Default</source>
         <translation>Domyślne</translation>
     </message>
@@ -1955,12 +1955,17 @@ na końcu pliku.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1326"/>
+        <location filename="../../prefDialog.ui" line="1328"/>
+        <source>Whitespace color value:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../prefDialog.ui" line="1356"/>
         <source>Restore default syntax colors.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1358"/>
+        <location filename="../../prefDialog.ui" line="1388"/>
         <source>Close</source>
         <translation>Zamknij</translation>
     </message>
@@ -1971,19 +1976,19 @@ na końcu pliku.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="286"/>
-        <location filename="../../pref.cpp" line="1265"/>
+        <location filename="../../pref.cpp" line="1277"/>
         <source>files</source>
         <translation>pliki</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="286"/>
-        <location filename="../../pref.cpp" line="1265"/>
+        <location filename="../../pref.cpp" line="1277"/>
         <source>file</source>
         <translation>plik</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="339"/>
-        <location filename="../../pref.cpp" line="1384"/>
+        <location filename="../../pref.cpp" line="1396"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Ostrzeżenie: Wykryto niejednoznaczny skrót!</translation>
     </message>
@@ -2043,37 +2048,37 @@ na końcu pliku.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="518"/>
+        <location filename="../../pref.cpp" line="523"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Restart aplikacji jest wymagany, aby uzyskać efekt.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="530"/>
+        <location filename="../../pref.cpp" line="535"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Ponowne otwarcie okna jest wymagane, aby uzyskać efekt.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1291"/>
+        <location filename="../../pref.cpp" line="1303"/>
         <source>&amp;Recently Opened</source>
         <translation>Ostatnio otwie&amp;rane</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1292"/>
+        <location filename="../../pref.cpp" line="1304"/>
         <source>Recently &amp;Modified</source>
         <translation>Ostatnio &amp;modyfikowane</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1367"/>
+        <location filename="../../pref.cpp" line="1379"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Wprowadzony skrót został zarejestrowany.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1571"/>
+        <location filename="../../pref.cpp" line="1583"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1643"/>
+        <location filename="../../pref.cpp" line="1660"/>
         <source>Select Syntax Color</source>
         <translation type="unfinished"></translation>
     </message>
