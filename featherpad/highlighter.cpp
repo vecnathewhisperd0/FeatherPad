@@ -758,13 +758,23 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     {
         QTextCharFormat diffMinusFormat;
         diffMinusFormat.setForeground (Red);
-        rule.pattern.setPattern ("^\\-\\s*.*");
+        rule.pattern.setPattern ("^\\-.*");
         rule.format = diffMinusFormat;
         highlightingRules.append (rule);
 
         QTextCharFormat diffPlusFormat;
         diffPlusFormat.setForeground (Blue);
-        rule.pattern.setPattern ("^\\+\\s*.*");
+        rule.pattern.setPattern ("^\\+.*");
+        rule.format = diffPlusFormat;
+        highlightingRules.append (rule);
+
+        diffMinusFormat.setFontWeight (QFont::Bold);
+        rule.pattern.setPattern ("^\\-{3}.*");
+        rule.format = diffMinusFormat;
+        highlightingRules.append (rule);
+
+        diffPlusFormat.setFontWeight (QFont::Bold);
+        rule.pattern.setPattern ("^\\+{3}.*");
         rule.format = diffPlusFormat;
         highlightingRules.append (rule);
 
