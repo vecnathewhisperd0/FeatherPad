@@ -778,8 +778,12 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = diffPlusFormat;
         highlightingRules.append (rule);
 
-        QTextCharFormat diffLinesFormat;
+        QTextCharFormat diffLinesFormat = neutralFormat;
         diffLinesFormat.setFontWeight (QFont::Bold);
+        rule.pattern.setPattern ("^diff.*");
+        rule.format = diffLinesFormat;
+        highlightingRules.append (rule);
+
         diffLinesFormat.setForeground (DarkGreenAlt);
         rule.pattern.setPattern ("^@{2}[\\d,\\-\\+\\s]+@{2}");
         rule.format = diffLinesFormat;
