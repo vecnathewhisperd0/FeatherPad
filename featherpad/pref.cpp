@@ -283,7 +283,7 @@ PrefDialog::PrefDialog (QWidget *parent)
     connect (ui->commandEdit, &QLineEdit::textEdited, this, &PrefDialog::prefCommand);
 
     ui->recentSpin->setValue (config.getRecentFilesNumber());
-    ui->recentSpin->setSuffix(" " + (ui->recentSpin->value() > 1 ? tr ("files") : tr ("file")));
+    ui->recentSpin->setSuffix (" " + (ui->recentSpin->value() > 1 ? tr ("files") : tr ("file")));
     connect (ui->recentSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::prefRecentFilesNumber);
 
     ui->lastFilesBox->setChecked (config.getSaveLastFilesList());
@@ -422,6 +422,18 @@ PrefDialog::PrefDialog (QWidget *parent)
     connect (ui->defaultSyntaxButton, &QAbstractButton::clicked, this, &PrefDialog::restoreDefaultSyntaxColors);
     ui->defaultSyntaxButton->setDisabled (config.customSyntaxColors().isEmpty()
                                           && config.getWhiteSpaceValue() == config.getDefaultWhiteSpaceValue());
+    /* also, context menus for changing syntax colors */
+    ui->syntaxTableWidget->setContextMenuPolicy (Qt::CustomContextMenu);
+    connect (ui->syntaxTableWidget, &QWidget::customContextMenuRequested, [this] (const QPoint& p) {
+        QModelIndex index = ui->syntaxTableWidget->indexAt (p);
+        if (!index.isValid() || index.column() != 1) return;
+        QMenu menu;
+        QAction *action = menu.addAction (tr ("Select Syntax Color"));
+        connect (action, &QAction::triggered, this, [this, index] {
+            changeSyntaxColor (index.row(), 1);
+        });
+        menu.exec (ui->syntaxTableWidget->viewport()->mapToGlobal (p));
+    });
 
     /*************
      *** Other ***

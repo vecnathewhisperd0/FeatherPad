@@ -1855,7 +1855,7 @@ men hvor det slutter med &quot;.aff&quot;.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="902"/>
-        <location filename="../../pref.cpp" line="1581"/>
+        <location filename="../../pref.cpp" line="1593"/>
         <source>Add dictionary...</source>
         <translation>Tilføj ordbog ...</translation>
     </message>
@@ -1985,19 +1985,19 @@ efterstillede mellemrum i en tekstfil.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="286"/>
-        <location filename="../../pref.cpp" line="1277"/>
+        <location filename="../../pref.cpp" line="1289"/>
         <source>files</source>
         <translation>filer</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="286"/>
-        <location filename="../../pref.cpp" line="1277"/>
+        <location filename="../../pref.cpp" line="1289"/>
         <source>file</source>
         <translation>fil</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="339"/>
-        <location filename="../../pref.cpp" line="1396"/>
+        <location filename="../../pref.cpp" line="1408"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Advarsel: Tvetydig genvej registreret!</translation>
     </message>
@@ -2057,37 +2057,38 @@ efterstillede mellemrum i en tekstfil.</translation>
         <translation>Ekstra elementer</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="523"/>
+        <location filename="../../pref.cpp" line="535"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Programmet skal genstartes før ændringerne træder i kraft.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="535"/>
+        <location filename="../../pref.cpp" line="547"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Vinduet skal genåbnes før ændringerne træder i kraft.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1303"/>
+        <location filename="../../pref.cpp" line="1315"/>
         <source>&amp;Recently Opened</source>
         <translation>&amp;Seneste åbnede</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1304"/>
+        <location filename="../../pref.cpp" line="1316"/>
         <source>Recently &amp;Modified</source>
         <translation>Seneste &amp;ændrede</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1379"/>
+        <location filename="../../pref.cpp" line="1391"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Den indtastede genvej var reserveret.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1583"/>
+        <location filename="../../pref.cpp" line="1595"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>Hunspell-ordbogsfiler (*.dic)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1660"/>
+        <location filename="../../pref.cpp" line="431"/>
+        <location filename="../../pref.cpp" line="1672"/>
         <source>Select Syntax Color</source>
         <translation>Vælg syntaksfarve</translation>
     </message>

@@ -4529,11 +4529,11 @@ void FPwin::tabContextMenu (const QPoint& p)
         {
             menu.addSeparator();
             QAction *action = menu.addAction (QIcon (":icons/link.svg"), tr ("Copy Target Path"));
-            connect (action, &QAction::triggered, action, [info] {
+            connect (action, &QAction::triggered, [info] {
                 QApplication::clipboard()->setText (info.symLinkTarget());
             });
             action = menu.addAction (QIcon (":icons/link.svg"), tr ("Open Target Here"));
-            connect (action, &QAction::triggered, action, [this, info] {
+            connect (action, &QAction::triggered, this, [this, info] {
                 QString targetName = info.symLinkTarget();
                 for (int i = 0; i < ui->tabWidget->count(); ++i)
                 {
@@ -4599,11 +4599,11 @@ void FPwin::listContextMenu (const QPoint& p)
         {
             menu.addSeparator();
             QAction *action = menu.addAction (QIcon (":icons/link.svg"), tr ("Copy Target Path"));
-            connect (action, &QAction::triggered, action, [info] {
+            connect (action, &QAction::triggered, [info] {
                 QApplication::clipboard()->setText (info.symLinkTarget());
             });
             action = menu.addAction (QIcon (":icons/link.svg"), tr ("Open Target Here"));
-            connect (action, &QAction::triggered, action, [this, info] {
+            connect (action, &QAction::triggered, this, [this, info] {
                 QString targetName = info.symLinkTarget();
                 for (int i = 0; i < ui->tabWidget->count(); ++i)
                 {

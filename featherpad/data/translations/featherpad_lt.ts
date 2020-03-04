@@ -1855,7 +1855,7 @@ tačiau turinčiu &quot;.aff&quot; prievardį.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="902"/>
-        <location filename="../../pref.cpp" line="1581"/>
+        <location filename="../../pref.cpp" line="1593"/>
         <source>Add dictionary...</source>
         <translation>Pridėti žodyną...</translation>
     </message>
@@ -1986,19 +1986,19 @@ pvz., laiko žymos keitimui arba tekstinio failo galinių tarpų
     </message>
     <message>
         <location filename="../../pref.cpp" line="286"/>
-        <location filename="../../pref.cpp" line="1277"/>
+        <location filename="../../pref.cpp" line="1289"/>
         <source>files</source>
         <translation>failų</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="286"/>
-        <location filename="../../pref.cpp" line="1277"/>
+        <location filename="../../pref.cpp" line="1289"/>
         <source>file</source>
         <translation>failas</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="339"/>
-        <location filename="../../pref.cpp" line="1396"/>
+        <location filename="../../pref.cpp" line="1408"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Įspėjimas: Aptiktas dviprasmiškas spartusis klavišas!</translation>
     </message>
@@ -2058,37 +2058,38 @@ pvz., laiko žymos keitimui arba tekstinio failo galinių tarpų
         <translation>Papildomi elementai</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="523"/>
+        <location filename="../../pref.cpp" line="535"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Tam, kad įsigaliotų pakeitimai, reikia paleisti programą iš naujo.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="535"/>
+        <location filename="../../pref.cpp" line="547"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Tam, kad įsigaliotų pakeitimai, reikia langą atverti iš naujo.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1303"/>
+        <location filename="../../pref.cpp" line="1315"/>
         <source>&amp;Recently Opened</source>
         <translation>Pas&amp;kiausiai atverti</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1304"/>
+        <location filename="../../pref.cpp" line="1316"/>
         <source>Recently &amp;Modified</source>
         <translation>Paskiausiai &amp;modifikuoti</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1379"/>
+        <location filename="../../pref.cpp" line="1391"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Įrašytas spartusis klavišas buvo rezervuotas.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1583"/>
+        <location filename="../../pref.cpp" line="1595"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>Hunspell žodyno failai (*.dic)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1660"/>
+        <location filename="../../pref.cpp" line="431"/>
+        <location filename="../../pref.cpp" line="1672"/>
         <source>Select Syntax Color</source>
         <translation>Pasirinkti sintaksės spalvą</translation>
     </message>

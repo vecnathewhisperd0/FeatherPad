@@ -1825,7 +1825,7 @@ name but ending with &quot;.aff&quot;.</source>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="902"/>
-        <location filename="../../pref.cpp" line="1581"/>
+        <location filename="../../pref.cpp" line="1593"/>
         <source>Add dictionary...</source>
         <translation>添加词典......</translation>
     </message>
@@ -1955,19 +1955,19 @@ trailing spaces of a text file.</source>
     </message>
     <message>
         <location filename="../../pref.cpp" line="286"/>
-        <location filename="../../pref.cpp" line="1277"/>
+        <location filename="../../pref.cpp" line="1289"/>
         <source>files</source>
         <translation>文件</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="286"/>
-        <location filename="../../pref.cpp" line="1277"/>
+        <location filename="../../pref.cpp" line="1289"/>
         <source>file</source>
         <translation>文件</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="339"/>
-        <location filename="../../pref.cpp" line="1396"/>
+        <location filename="../../pref.cpp" line="1408"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>警告：检测到不明确的快捷方式！</translation>
     </message>
@@ -2027,37 +2027,38 @@ trailing spaces of a text file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="523"/>
+        <location filename="../../pref.cpp" line="535"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>需要重新启动应用程序以使更改生效。</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="535"/>
+        <location filename="../../pref.cpp" line="547"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>需要重新开启窗口以生效。</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1303"/>
+        <location filename="../../pref.cpp" line="1315"/>
         <source>&amp;Recently Opened</source>
         <translation>最近打开的文件(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1304"/>
+        <location filename="../../pref.cpp" line="1316"/>
         <source>Recently &amp;Modified</source>
         <translation>最近更改的文件(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1379"/>
+        <location filename="../../pref.cpp" line="1391"/>
         <source>The typed shortcut was reserved.</source>
         <translation>输入的快捷方式已被保留。</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1583"/>
+        <location filename="../../pref.cpp" line="1595"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>Hunspell字典文件（* .dic）</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1660"/>
+        <location filename="../../pref.cpp" line="431"/>
+        <location filename="../../pref.cpp" line="1672"/>
         <source>Select Syntax Color</source>
         <translation type="unfinished"></translation>
     </message>

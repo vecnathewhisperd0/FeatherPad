@@ -1866,7 +1866,7 @@ name but ending with &quot;.aff&quot;.</source>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="902"/>
-        <location filename="../../pref.cpp" line="1581"/>
+        <location filename="../../pref.cpp" line="1593"/>
         <source>Add dictionary...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1994,20 +1994,20 @@ güncellemek veya dosya sonundaki boşlukları kırpmak için.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="286"/>
-        <location filename="../../pref.cpp" line="1277"/>
+        <location filename="../../pref.cpp" line="1289"/>
         <source>files</source>
         <translatorcomment>Reminder: Enumerated items are used in singular (e.g. &quot;7 file&quot; instead of &quot;7 files&quot;).</translatorcomment>
         <translation>dosya</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="286"/>
-        <location filename="../../pref.cpp" line="1277"/>
+        <location filename="../../pref.cpp" line="1289"/>
         <source>file</source>
         <translation>dosya</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="339"/>
-        <location filename="../../pref.cpp" line="1396"/>
+        <location filename="../../pref.cpp" line="1408"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Uyarı: Muğlak kısayol tespit edildi!</translation>
     </message>
@@ -2067,37 +2067,38 @@ güncellemek veya dosya sonundaki boşlukları kırpmak için.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="523"/>
+        <location filename="../../pref.cpp" line="535"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Uygulama tekrar başlatılınca değişiklikler etkinleşir.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="535"/>
+        <location filename="../../pref.cpp" line="547"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Değişikliklerin etkinleşmesi için yeni pencere açılmalıdır.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1303"/>
+        <location filename="../../pref.cpp" line="1315"/>
         <source>&amp;Recently Opened</source>
         <translation>&amp;Son Açılanlar</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1304"/>
+        <location filename="../../pref.cpp" line="1316"/>
         <source>Recently &amp;Modified</source>
         <translation>&amp;Son Değiştirilenler</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1379"/>
+        <location filename="../../pref.cpp" line="1391"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Girilen kısayol tahsisli (kullanılamaz).</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1583"/>
+        <location filename="../../pref.cpp" line="1595"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1660"/>
+        <location filename="../../pref.cpp" line="431"/>
+        <location filename="../../pref.cpp" line="1672"/>
         <source>Select Syntax Color</source>
         <translation type="unfinished"></translation>
     </message>

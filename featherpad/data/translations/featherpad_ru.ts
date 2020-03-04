@@ -1586,7 +1586,7 @@ name but ending with &quot;.aff&quot;.</source>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="902"/>
-        <location filename="../../pref.cpp" line="1581"/>
+        <location filename="../../pref.cpp" line="1593"/>
         <source>Add dictionary...</source>
         <translation>Добавить словарь...</translation>
     </message>
@@ -1989,19 +1989,19 @@ if the cursor is inside the text view?</source>
     </message>
     <message>
         <location filename="../../pref.cpp" line="286"/>
-        <location filename="../../pref.cpp" line="1277"/>
+        <location filename="../../pref.cpp" line="1289"/>
         <source>files</source>
         <translation>файлы</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="286"/>
-        <location filename="../../pref.cpp" line="1277"/>
+        <location filename="../../pref.cpp" line="1289"/>
         <source>file</source>
         <translation>файл</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="339"/>
-        <location filename="../../pref.cpp" line="1396"/>
+        <location filename="../../pref.cpp" line="1408"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Внимание: обнаружена неоднозначная комбинация!</translation>
     </message>
@@ -2061,37 +2061,38 @@ if the cursor is inside the text view?</source>
         <translation>Дополнительные элементы</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="523"/>
+        <location filename="../../pref.cpp" line="535"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Для вступления изменений в силу, необходим перезапуск приложения.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="535"/>
+        <location filename="../../pref.cpp" line="547"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Для вступления изменений в силу, требуется повторное открытие окна.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1303"/>
+        <location filename="../../pref.cpp" line="1315"/>
         <source>&amp;Recently Opened</source>
         <translation>&amp;Недавно открытые</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1304"/>
+        <location filename="../../pref.cpp" line="1316"/>
         <source>Recently &amp;Modified</source>
         <translation>&amp;Недавно изменённые</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1379"/>
+        <location filename="../../pref.cpp" line="1391"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Введённая комбинация клавиш уже используется.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1583"/>
+        <location filename="../../pref.cpp" line="1595"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>Файлы словаря Hunspell (*.dic)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1660"/>
+        <location filename="../../pref.cpp" line="431"/>
+        <location filename="../../pref.cpp" line="1672"/>
         <source>Select Syntax Color</source>
         <translation>Выбор цвета синтаксиса</translation>
     </message>
