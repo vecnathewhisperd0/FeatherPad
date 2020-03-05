@@ -35,6 +35,8 @@ class Settings : public QSettings
 public:
     Settings (const QString &organization, const QString &application = QString(), QObject *parent = nullptr)
              : QSettings (organization, application, parent) {}
+    Settings (const QString &fileName, QSettings::Format format, QObject *parent = nullptr)
+             : QSettings (fileName, format, parent) {}
 
     void setValue (const QString &key, const QVariant &v) {
         if (value (key) == v)

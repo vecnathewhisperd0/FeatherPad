@@ -299,7 +299,11 @@ void Config::resetFont()
 /*************************/
 void Config::readShortcuts()
 {
-    Settings settings ("featherpad", "fp");
+    /* NOTE: We don't read the custom shortcuts from global config files
+             because we want the user to be able to restore their default values. */
+    Settings tmp ("featherpad", "fp");
+    Settings settings (tmp.fileName(), QSettings::NativeFormat);
+
     settings.beginGroup ("shortcuts");
     QStringList actions = settings.childKeys();
     for (int i = 0; i < actions.size(); ++i)
@@ -335,7 +339,11 @@ void Config::readSyntaxColors()// may be called multiple times
 {
     setDfaultSyntaxColors();
     customSyntaxColors_.clear();
-    Settings settingsColors ("featherpad", darkColScheme_ ? "fp_dark_syntax_colors" : "fp_light_syntax_colors");
+
+    /* NOTE: We don't read the custom syntax colors from global config files
+             because we want the user to be able to restore their default values. */
+    Settings tmp ("featherpad", darkColScheme_ ? "fp_dark_syntax_colors" : "fp_light_syntax_colors");
+    Settings settingsColors (tmp.fileName(), QSettings::NativeFormat);
 
     settingsColors.beginGroup ("whiteSpace");
     int ws = settingsColors.value ("value").toInt();
@@ -461,7 +469,7 @@ void Config::writeConfig()
     while (recentFiles_.count() > recentFilesNumber_) // recentFilesNumber_ may have decreased
         recentFiles_.removeLast();
     if (recentFiles_.isEmpty()) // don't save "@Invalid()"
-        settings.remove ("recentFiles");
+        settings.setValue ("recentFiles", "");
     else
         settings.setValue ("recentFiles", recentFiles_);
     settings.setValue ("recentOpened", recentOpened_);
