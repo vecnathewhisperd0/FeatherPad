@@ -56,7 +56,7 @@ void TabPage::focusSearchBar()
     searchBar_->focusLineEdit();
 }
 /*************************/
-bool TabPage::searchBarHasFocus()
+bool TabPage::searchBarHasFocus() const
 {
     return searchBar_->lineEditHasFocus();
 }

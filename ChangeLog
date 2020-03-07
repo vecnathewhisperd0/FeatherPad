@@ -12,6 +12,7 @@ V0.13.0
  * Remember cursor's horizontal pixel position before Backspace/Enter and restore it after Down/Up. This feature was removed with Backspace due to a regression in Qt 5.14.1.
  * Found and fixed a potential issue in translations (thanks to Masamichi Ito — ito32bit at GitHub).
  * Don't read custom shortcuts and syntax colors from global config files because the user should be able to restore their default values.
+ * Allowed more special characters in URLs (,;!@*').
 
 V0.12.1
 ---------

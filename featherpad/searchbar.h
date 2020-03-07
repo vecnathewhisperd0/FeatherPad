@@ -69,7 +69,7 @@ public:
 
     void setSearchModel (QStandardItemModel *model);
     void focusLineEdit();
-    bool lineEditHasFocus();
+    bool lineEditHasFocus() const;
     QString searchEntry() const;
     void clearSearchEntry();
 

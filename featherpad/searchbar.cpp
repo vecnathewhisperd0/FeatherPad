@@ -206,7 +206,7 @@ void SearchBar::focusLineEdit()
     lineEdit_->selectAll();
 }
 /*************************/
-bool SearchBar::lineEditHasFocus()
+bool SearchBar::lineEditHasFocus() const
 {
     return lineEdit_->hasFocus();
 }
