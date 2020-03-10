@@ -1393,9 +1393,9 @@ void TextEdit::scrollWithInertia()
         scrollTimer_->stop();
 }
 /*************************/
-void TextEdit::resizeEvent (QResizeEvent *e)
+void TextEdit::resizeEvent (QResizeEvent *event)
 {
-    QPlainTextEdit::resizeEvent (e);
+    QPlainTextEdit::resizeEvent (event);
 
     QRect cr = contentsRect();
     lineNumberArea->setGeometry (QRect (QApplication::layoutDirection() == Qt::RightToLeft ? cr.width() - lineNumberAreaWidth() : cr.left(),
@@ -1409,19 +1409,19 @@ void TextEdit::resizeEvent (QResizeEvent *e)
     resizeTimerId = startTimer (UPDATE_INTERVAL);
 }
 /*************************/
-void TextEdit::timerEvent (QTimerEvent *e)
+void TextEdit::timerEvent (QTimerEvent *event)
 {
-    QPlainTextEdit::timerEvent (e);
+    QPlainTextEdit::timerEvent (event);
 
-    if (e->timerId() == resizeTimerId)
+    if (event->timerId() == resizeTimerId)
     {
-        killTimer (e->timerId());
+        killTimer (event->timerId());
         resizeTimerId = 0;
         emit resized();
     }
-    else if (e->timerId() == updateTimerId)
+    else if (event->timerId() == updateTimerId)
     {
-        killTimer (e->timerId());
+        killTimer (event->timerId());
         updateTimerId = 0;
         /* we use TextEdit's rect because the last rect that
            updateRequest() provides after 50ms may be null */

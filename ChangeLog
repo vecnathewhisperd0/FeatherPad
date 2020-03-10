@@ -1,6 +1,10 @@
+V0.13.1
+---------
+ * Don't preserve the last file's extension on saving a new tab.
+
 V0.13.0
 ---------
- * Allow dash and some other characters (-,;!@*') in URL schemes.
+ * Allow dash in URL schemes (as in "google-drive") and also some special characters (-,;!@*') in URLs.
  * Support syntax color customization, with two separate settings for light and dark color schemes.
  * Also added an option for the whitespace color value.
  * Never use processEvents(); it makes single-instance apps prone to crash in rare cases.

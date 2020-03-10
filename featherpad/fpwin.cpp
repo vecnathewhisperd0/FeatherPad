@@ -2650,10 +2650,10 @@ bool FPwin::saveFile (bool keepSyntax)
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
     TextEdit *textEdit = tabPage->textEdit();
     QString fname = textEdit->getFileName();
-    if (fname.isEmpty()) fname = lastFile_;
     QString filter = tr ("All Files (*)");
-    if (!fname.isEmpty()
-        && QFileInfo (fname).fileName().contains ('.'))
+    if (fname.isEmpty())
+        fname = lastFile_;
+    else if (QFileInfo (fname).fileName().contains ('.'))
     {
         /* if relevant, do filtering to prevent disastrous overwritings */
         filter = tr (".%1 Files (*.%1);;All Files (*)").arg (fname.section ('.', -1, -1));

@@ -970,7 +970,7 @@ tento řádek (Ctrl+Shift+J)</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2497"/>
-        <location filename="../../fpwin.cpp" line="2654"/>
+        <location filename="../../fpwin.cpp" line="2653"/>
         <location filename="../../fpwin.cpp" line="2681"/>
         <source>All Files (*)</source>
         <translation>Všechny soubory (*)</translation>
