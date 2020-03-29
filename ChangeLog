@@ -1,3 +1,7 @@
+V0.13.2
+---------
+ * Get the locale name by using Qt methods when guessing the encoding.
+
 V0.13.1
 ---------
  * Don't preserve the last file's extension on saving a new tab.

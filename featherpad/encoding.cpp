@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2019 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2020 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -25,8 +25,8 @@
  * Homepage: http://tarot.freeshell.org/leafpad/
  */
 
-
-#include <stdlib.h> // getenv
+#include <QLocale>
+#include <stdlib.h> // getenv (not used but, maybe, for *BSD
 #include <langinfo.h> // CODESET, nl_langinfo
 #include <stdint.h> // uint8_t, uint32_t
 #include <locale.h> // needed by FreeBSD for setlocale
@@ -119,33 +119,33 @@ static const std::string encodingTable[TOTAL_NUM][ENCODING_MAX_ITEM_NUM] =
 static unsigned int getLocaleNum()
 {
     static unsigned int code = 0; // for me
-    std::string env;
-    const char *lcAll = getenv ("LC_ALL");
-    const char *lang = getenv ("LANG");
-    int j = 1;
-
-    if (lcAll)
-        env = lcAll;
-    if (env.empty() && lang != NULL)
-        /* if there's no value for all locales,
-           get the native language, e.g. en_US.utf8*/
-        env = lang;
-    if (!env.empty() && env.length() >= 2)
-        while (code == 0 && j < TOTAL_NUM)
+    QStringList langs (QLocale::system().uiLanguages());
+    if (!langs.isEmpty())
+    {
+        QString lang = langs.first().replace ('-', '_');
+        if (lang.length() >= 2)
         {
-            for (int i = 0; i < MAX_COUNTRY_NUM; i++)
+            std::string env = lang.toStdString();
+            if (!env.empty() && env.length() >= 2)
             {
-                if (countryTable[j][i].empty())
-                    break;
-                if (env.compare (0, countryTable[j][i].length(), countryTable[j][i]) == 0)
+                int j = 1;
+                while (code == 0 && j < TOTAL_NUM)
                 {
-                    code = j;
-                    break;
+                    for (int i = 0; i < MAX_COUNTRY_NUM; i++)
+                    {
+                        if (countryTable[j][i].empty())
+                            break;
+                        if (env.compare (0, countryTable[j][i].length(), countryTable[j][i]) == 0)
+                        {
+                            code = j;
+                            break;
+                        }
+                    }
+                    j++;
                 }
             }
-            j++;
         }
-
+    }
     return code;
 }
 /*************************/
@@ -166,8 +166,10 @@ static const std::string detectCharsetLatin (const char *text)
     while (c != '\0')
     {
         if (c >= 0x41 && c <= 0x7A)
+        {
             /* ordinary Latin letters */
             xl ++;
+        }
         else if (c >= 0x80 && c <= 0x9F)
         {
             noniso = true;
@@ -177,15 +179,19 @@ static const std::string detectCharsetLatin (const char *text)
             /* Arabic or Cyrillic letters */
             xac ++;
             if (c >= 0xC0 && c <= 0xCF)
+            {
                 /* Cyrillic capital letters */
                 xcC++;
+            }
             else if (c >= 0xD0 && c <= 0xDF)
             {
                 /* Cyrillic capital letters again */
                 xcC1++;
                 if (c == 0xDE || c == 0xDF)
+                {
                     /* not used in ISO-8859-15 (Icelandic or German) */
                     noniso15 = true;
+                }
             }
             else if (c >= 0xE0)
             {
@@ -195,11 +201,15 @@ static const std::string detectCharsetLatin (const char *text)
                 if (c == 0xE0 || c == 0xE2 || (c >= 0xE7 && c <= 0xEB)
                     || c == 0xEE || c == 0xEF || c == 0xF4 || c == 0xF9
                     || c == 0xFB || c == 0xFC)
+                {
                     xcna ++;
+                }
                 /* Arabic LAM to HEH */
                 else if (c == 0xE1 || c == 0xE3 || c == 0xE4
                          || c == 0xE5 || c == 0xE6)
+                {
                     xa++;
+                }
             }
         }
         c = *text++;
@@ -260,10 +270,14 @@ static const std::string detectCharsetCyrillic (const char *text)
                 if (c == 0xE0 || c == 0xE2 || (c >= 0xE7 && c <= 0xEB)
                     || c == 0xEE || c == 0xEF || c == 0xF4 || c == 0xF9
                     || c == 0xFB || c == 0xFC)
+                {
                     xcna ++;
+                }
                 else if (c == 0xE1 || c == 0xE3 || c == 0xE4
                          || c == 0xE5 || c == 0xE6)
+                {
                     xa++;
+                }
             }
         }
         c = *text++;
@@ -425,7 +439,9 @@ static const std::string detectCharsetKorean (const char *text)
             else if (c == 0x52 || c == 0x72 || c == 0x92 || (c > 0x9D && c < 0xA1)
                      || c == 0xB2 || (c > 0xBD && c < 0xC1) || c == 0xD2
                      || (c > 0xDD && c < 0xE1) || c == 0xF2 || c == 0xFE)
+            {
                 charset = "CP949";
+            }
         }
         else if (c >= 0xA1 && c <= 0xC6)
         {
@@ -439,7 +455,9 @@ static const std::string detectCharsetKorean (const char *text)
                     charset = "CP949";
                 else if (c == 0xB2 || (c > 0xBD && c < 0xC1) || c == 0xD2
                          || (c > 0xDD && c < 0xE1) || c == 0xF2 || c == 0xFE)
+                {
                     nonjohab = true;
+                }
             }
         }
         else if (c > 0xC6 && c <= 0xD3)
