@@ -170,7 +170,7 @@ void Loading::run()
             charset_ = detectCharset (data);
     }
 
-    QTextCodec *codec = QTextCodec::codecForName (charset_.toUtf8()); // or charset.toStdString().c_str()
+    QTextCodec *codec = QTextCodec::codecForName (charset_.toUtf8()); // or charset_.toStdString().c_str()
     if (!codec) // prevent any chance of crash if there's a bug
     {
         charset_ = "UTF-8";

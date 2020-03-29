@@ -3585,7 +3585,7 @@ void FPwin::encodingToCheck (const QString& encoding)
         ui->actionCyrillic_ISO_8859_5->setChecked (true);
     else if (encoding == "BIG5")
         ui->actionChinese_BIG5->setChecked (true);
-    else if (encoding == "B18030")
+    else if (encoding == "GB18030")
         ui->actionChinese_GB18030->setChecked (true);
     else if (encoding == "ISO-2022-JP")
         ui->actionJapanese_ISO_2022_JP->setChecked (true);
@@ -3635,7 +3635,7 @@ const QString FPwin::checkToEncoding() const
     else if (ui->actionChinese_BIG5->isChecked())
         encoding = "BIG5";
     else if (ui->actionChinese_GB18030->isChecked())
-        encoding = "B18030";
+        encoding = "GB18030";
     else if (ui->actionJapanese_ISO_2022_JP->isChecked())
         encoding = "ISO-2022-JP";
     else if (ui->actionJapanese_ISO_2022_JP_2->isChecked())
