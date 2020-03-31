@@ -33,9 +33,9 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
     int braIndex = start;
     int indx = 0;
     QRegularExpressionMatch startMatch;
-    QRegularExpression braStartExp ("<(?!\\!)/{0,1}[A-Za-z0-9_\\-]+");
+    static const QRegularExpression braStartExp ("<(?!\\!)/{0,1}[A-Za-z0-9_\\-]+");
     QRegularExpressionMatch endMatch;
-    QRegularExpression braEndExp (">");
+    static const QRegularExpression braEndExp (">");
     QRegularExpression styleExp ("<(style|STYLE)$|<(style|STYLE)\\s+[^>]*");
     bool isStyle (false);
     QTextCharFormat htmlBraFormat;
@@ -243,7 +243,7 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
             htmlAttributeFormat.setFontItalic (true);
             htmlAttributeFormat.setForeground (Brown);
             QRegularExpressionMatch attMatch;
-            QRegularExpression attExp ("[A-Za-z0-9_\\-]+(?=\\s*\\=)");
+            static const QRegularExpression attExp ("[A-Za-z0-9_\\-]+(?=\\s*\\=)");
             int attIndex = text.indexOf (attExp, braIndex, &attMatch);
             QTextCharFormat fi = format (attIndex);
             while (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat)
@@ -371,11 +371,11 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
     int cssIndex = start;
 
     QRegularExpressionMatch startMatch;
-    QRegularExpression cssStartExp ("<(style|STYLE)>|<(style|STYLE)\\s+[^>]*>");
+    static const QRegularExpression cssStartExp ("<(style|STYLE)>|<(style|STYLE)\\s+[^>]*>");
     QRegularExpressionMatch endMatch;
-    QRegularExpression cssEndExp ("</(style|STYLE)\\s*>");
+    static const QRegularExpression cssEndExp ("</(style|STYLE)\\s*>");
     QRegularExpressionMatch braMatch;
-    QRegularExpression braEndExp (">");
+    static const QRegularExpression braEndExp (">");
 
     /* switch to css temporarily */
     commentStartExpression.setPattern ("/\\*");
@@ -531,9 +531,9 @@ void Highlighter::htmlJavascript (const QString &text)
 
     QRegularExpressionMatch startMatch;
     //QRegularExpression javaStartExp ("<(script|SCRIPT)\\s+[^<>]*(((language|LANGUAGE)\\s*\\=\\s*\"\\s*)|((TYPE|type)\\s*\\=\\s*\"\\s*(TEXT|text)/))(JavaScript|javascript)\\s*\"[^<>]*>");
-    QRegularExpression javaStartExp ("<(script|SCRIPT)\\s*>|<(script|SCRIPT)\\s+[^<>]*>");
+    static const QRegularExpression javaStartExp ("<(script|SCRIPT)\\s*>|<(script|SCRIPT)\\s+[^<>]*>");
     QRegularExpressionMatch endMatch;
-    QRegularExpression javaEndExp ("</(script|SCRIPT)\\s*>");
+    static const QRegularExpression javaEndExp ("</(script|SCRIPT)\\s*>");
 
     /* switch to javascript temporarily */
     commentStartExpression.setPattern ("/\\*");

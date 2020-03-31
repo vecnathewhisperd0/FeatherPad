@@ -1,6 +1,7 @@
 V0.13.2
 ---------
  * Get the locale name by using Qt methods when guessing the encoding.
+ * Use static variables inside some functions to speed up syntax highlighting, especially with HTML.
 
 V0.13.1
 ---------

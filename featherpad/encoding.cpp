@@ -26,7 +26,7 @@
  */
 
 #include <QLocale>
-#include <stdlib.h> // getenv (not used but, maybe, for *BSD
+#include <stdlib.h> // getenv (not used but, maybe, for *BSD)
 #include <langinfo.h> // CODESET, nl_langinfo
 #include <stdint.h> // uint8_t, uint32_t
 #include <locale.h> // needed by FreeBSD for setlocale

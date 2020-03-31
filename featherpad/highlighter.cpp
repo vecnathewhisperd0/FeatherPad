@@ -3138,8 +3138,8 @@ void Highlighter::xmlQuotes (const QString &text)
        but they're harmless and easy to handle */
     QRegularExpressionMatch quoteMatch;
     QRegularExpression quoteExpression ("\"|&quot;|\'");
-    QRegularExpression doubleQuote ("\"|&quot;");
-    QRegularExpression virtualQuote ("&quot;");
+    static const QRegularExpression doubleQuote ("\"|&quot;");
+    static const QRegularExpression virtualQuote ("&quot;");
     int quote = doubleQuoteState;
 
     /* find the start quote */
@@ -3575,13 +3575,13 @@ void Highlighter::markdownFonts (const QString &text)
              It also seems that five successive asterisks are ignored at start. */
 
     QRegularExpressionMatch italicMatch;
-    const QRegularExpression italicExp ("(?<!\\\\|\\*{4})\\*([^*]|(?:(?<!\\*)\\*\\*))+\\*|(?<!\\\\|_{4})_([^_]|(?:(?<!_)__))+_"); // allow double asterisks inside
+    static const QRegularExpression italicExp ("(?<!\\\\|\\*{4})\\*([^*]|(?:(?<!\\*)\\*\\*))+\\*|(?<!\\\\|_{4})_([^_]|(?:(?<!_)__))+_"); // allow double asterisks inside
 
     QRegularExpressionMatch boldcMatch;
     //const QRegularExpression boldExp ("\\*\\*(?!\\*)(?:(?!\\*\\*).)+\\*\\*|__(?:(?!__).)+__}");
-    const QRegularExpression boldExp ("(?<!\\\\|\\*{3})\\*\\*([^*]|(?:(?<!\\*)\\*))+\\*\\*|(?<!\\\\|_{3})__([^_]|(?:(?<!_)_))+__"); // allow single asterisks inside
+    static const QRegularExpression boldExp ("(?<!\\\\|\\*{3})\\*\\*([^*]|(?:(?<!\\*)\\*))+\\*\\*|(?<!\\\\|_{3})__([^_]|(?:(?<!_)_))+__"); // allow single asterisks inside
 
-    const QRegularExpression boldItalicExp ("(?<!\\\\|\\*{2})\\*{3}([^*]|(?:(?<!\\*)\\*))+\\*{3}|(?<!\\\\|_{2})_{3}([^_]|(?:(?<!_)_))+_{3}");
+    static const QRegularExpression boldItalicExp ("(?<!\\\\|\\*{2})\\*{3}([^*]|(?:(?<!\\*)\\*))+\\*{3}|(?<!\\\\|_{2})_{3}([^_]|(?:(?<!_)_))+_{3}");
 
     QRegularExpressionMatch expMatch;
     const QRegularExpression exp (boldExp.pattern() + "|" + italicExp.pattern() + "|" + boldItalicExp.pattern());
