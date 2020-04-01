@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2019 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2020 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -436,13 +436,15 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     {
         QTextCharFormat ft;
 
-        /* before dot (might be overridden by keywords) */
+        /* before dot but not after it (might be overridden by keywords) */
         ft.setForeground (Blue);
-        rule.pattern.setPattern ("(?<![A-Za-z0-9_\\$])[A-Za-z0-9_\\$]+\\s*(?=\\.)");
+        ft.setFontWeight (QFont::Bold);
+        rule.pattern.setPattern ("(?<!\\.)\\s*[A-Za-z0-9_\\$]+\\s*(?=\\.)"); // "(?<![A-Za-z0-9_\\$])[A-Za-z0-9_\\$]+\\s*(?=\\.)"
         rule.format = ft;
         highlightingRules.append (rule);
 
         /* before parentheses */
+        ft.setFontWeight (QFont::Normal);
         ft.setFontItalic (true);
         rule.pattern.setPattern ("(?<![A-Za-z0-9_\\$])[A-Za-z0-9_\\$]+(?=\\s*\\()");
         rule.format = ft;
