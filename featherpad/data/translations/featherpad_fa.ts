@@ -321,7 +321,7 @@
     <message>
         <location filename="../../fp.ui" line="699"/>
         <source>&amp;Wrap Lines</source>
-        <translation>قالب‌بندی خطوط</translation>
+        <translation>قالب‌بندی خطها</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="702"/>
@@ -495,13 +495,13 @@
         <location filename="../../fp.ui" line="1168"/>
         <location filename="../../fp.ui" line="1171"/>
         <source>Sort Lines</source>
-        <translation>مرتب‌سازی خطوط</translation>
+        <translation>مرتب‌سازی خطها</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1176"/>
         <location filename="../../fp.ui" line="1179"/>
         <source>Sort Lines Reversely</source>
-        <translation>مرتب‌سازی برعکس خطوط</translation>
+        <translation>مرتب‌سازی برعکس خطها</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1184"/>
@@ -951,7 +951,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="2361"/>
         <source>Non-text files or files with huge lines cannot be edited.</source>
-        <translation>فايل‌های غير متنی يا فايل‌هايی با خطوط بسيار زياد ويرايش‌ناپذيرند.</translation>
+        <translation>فايل‌های غير متنی يا فايل‌هايی با خطهای بسيار زياد ويرايش‌ناپذيرند.</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2418"/>
@@ -1019,7 +1019,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="2845"/>
         <source>Do you want to use &lt;b&gt;MS Windows&lt;/b&gt; end-of-lines?</source>
-        <translation>آيا می‌خواهيد از انتهای خطوط &lt;b&gt;ويندوز مايکروسافت&lt;/b&gt; استفاده کنيد؟</translation>
+        <translation>آيا می‌خواهيد از انتهای خطهای &lt;b&gt;ويندوز مايکروسافت&lt;/b&gt; استفاده کنيد؟</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2846"/>
@@ -1525,7 +1525,7 @@ status bar for changing the syntax.</source>
         <location filename="../../prefDialog.ui" line="603"/>
         <source>Show spaces, tabs and tab lines
 when the syntax is highlighted.</source>
-        <translation>هنگام رنگ‌آميزی نگارش، فاصله، تب و خطوط تب نمايش داده شوند.</translation>
+        <translation>هنگام رنگ‌آميزی نگارش، فاصله، تب و خطهای عمودی تب نمايش داده شوند.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="607"/>
@@ -1537,12 +1537,12 @@ when the syntax is highlighted.</source>
         <location filename="../../prefDialog.ui" line="634"/>
         <source>The vertical position lines will be drawn only if
 the editor font has a fixed pitch (like Monospace).</source>
-        <translation>خطوط عمودی موقعيت فقط در صورت ثابت بودن عرض قلم ويرايشگر رسم خواهند شد (مانند Monospace).</translation>
+        <translation>خطهای عمودی موقعيت فقط در صورت ثابت بودن عرض قلم ويرايشگر رسم خواهند شد (مانند Monospace).</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="627"/>
         <source>Show vertical lines starting from this position:</source>
-        <translation>نمايش خطوط عمودی که از اين موقعيت شروع می‌شوند:</translation>
+        <translation>نمايش خطهای عمودی که از اين موقعيت شروع می‌شوند:</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="614"/>
@@ -1672,7 +1672,7 @@ and-drop either.</source>
     <message>
         <location filename="../../prefDialog.ui" line="466"/>
         <source>&amp;Wrap lines by default</source>
-        <translation>قالب‌بندی خطوط به صورت پيشفرض</translation>
+        <translation>قالب‌بندی خطها به صورت پيشفرض</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="473"/>
@@ -1939,7 +1939,7 @@ trailing spaces of a text file.</source>
     <message>
         <location filename="../../prefDialog.ui" line="1328"/>
         <source>Whitespace color value:</source>
-        <translation type="unfinished"></translation>
+        <translation>مقدار رنگ فضاهای خالی:</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1356"/>

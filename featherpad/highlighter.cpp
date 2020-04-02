@@ -3285,21 +3285,35 @@ bool Highlighter::isHereDocument (const QString &text)
     /* Kate uses something like "<<(?:\\s*)([\\\\]{0,1}[^\\s]+)" */
     QRegularExpression delim;
     if (progLan == "sh" || progLan == "makefile" || progLan == "cmake") // "<<-" can be used instead of "<<"
-        delim.setPattern ("<<-?(?:\\s*)(\\\\{0,1}[A-Za-z0-9_]+)|<<-?(?:\\s*)(\'[A-Za-z0-9_]+\')|<<-?(?:\\s*)(\"[A-Za-z0-9_]+\")");
+    {
+        static const QRegularExpression delimSH ("<<-?(?:\\s*)(\\\\{0,1}[A-Za-z0-9_]+)|<<-?(?:\\s*)(\'[A-Za-z0-9_]+\')|<<-?(?:\\s*)(\"[A-Za-z0-9_]+\")");
+        delim = delimSH; // much faster than QRegularExpression::setPattern()
+    }
     /*else if (progLan == "perl") // without space after "<<" and with ";" at the end
         delim.setPattern ("<<([A-Za-z0-9_]+)(?:;)|<<(\'[A-Za-z0-9_]+\')(?:;)|<<(\"[A-Za-z0-9_]+\")(?:;)");*/
     else if (progLan == "perl") // can contain spaces inside quote marks or backquotes and usually has ";" at the end
-        delim.setPattern ("<<([A-Za-z0-9_]+)(?:;{0,1})|<<(?:\\s*)(\'[A-Za-z0-9_\\s]+\')(?:;{0,1})|<<(?:\\s*)(\"[A-Za-z0-9_\\s]+\")(?:;{0,1})|<<(?:\\s*)(`[A-Za-z0-9_\\s]+`)(?:;{0,1})");
+    {
+        static const QRegularExpression delimPerl ("<<([A-Za-z0-9_]+)(?:;{0,1})|<<(?:\\s*)(\'[A-Za-z0-9_\\s]+\')(?:;{0,1})|<<(?:\\s*)(\"[A-Za-z0-9_\\s]+\")(?:;{0,1})|<<(?:\\s*)(`[A-Za-z0-9_\\s]+`)(?:;{0,1})");
+        delim = delimPerl;
+    }
     else if (progLan == "ruby")
-        delim.setPattern ("<<(?:-|~){0,1}([A-Za-z0-9_]+)|<<(\'[A-Za-z0-9_]+\')|<<(\"[A-Za-z0-9_]+\")");
+    {
+        static const QRegularExpression delimRuby ("<<(?:-|~){0,1}([A-Za-z0-9_]+)|<<(\'[A-Za-z0-9_]+\')|<<(\"[A-Za-z0-9_]+\")");
+        delim = delimRuby;
+    }
     else // FIXME: No language.
         delim.setPattern ("<<([A-Za-z0-9_]+)|<<(\'[A-Za-z0-9_]+\')|<<(\"[A-Za-z0-9_]+\")");
-    QRegularExpression comment;
+    int insideCommentPos;
     if (progLan == "sh" || progLan == "makefile" || progLan == "cmake")
-        comment.setPattern ("^#.*|\\s+#.*");
+    {
+        static const QRegularExpression commentSH ("^#.*|\\s+#.*");
+        insideCommentPos = text.indexOf (commentSH);
+    }
     else
-        comment.setPattern ("#.*");
-    int insideCommentPos = text.indexOf (comment);
+    {
+        static const QRegularExpression commentOthers ("#.*");
+        insideCommentPos = text.indexOf (commentOthers);
+    }
     int pos = 0;
 
     /* format the start delimiter */
