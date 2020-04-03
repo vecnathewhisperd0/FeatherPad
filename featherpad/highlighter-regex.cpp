@@ -82,7 +82,8 @@ bool Highlighter::isEscapedRegex (const QString &text, const int pos)
         {
             prev.setUserState (updateState); // update the next line if this one changes
             if (ch.isLetterOrNumber() || ch == '_'
-                || ch == ')' || ch == ']') // as with Kate
+                /* as with Kate */
+                || ch == ')' || ch == ']' || ch == '\"' || ch == '\'' || ch == '`')
             { // a regex isn't escaped if it follows a JavaScript keyword
                 if (progLan == "javascript")
                 {
@@ -107,7 +108,8 @@ bool Highlighter::isEscapedRegex (const QString &text, const int pos)
     {
         QChar ch = text.at (i);
         if (format (i) != regexFormat && (ch.isLetterOrNumber() || ch == '_'
-                                          || ch == ')' || ch == ']')) // as with Kate
+                                          /* as with Kate */
+                                          || ch == ')' || ch == ']' || ch == '\"' || ch == '\'' || ch == '`'))
         { // a regex isn't escaped if it follows another one or a JavaScript keyword
             int j;
             if ((j = text.lastIndexOf (QRegularExpression("/\\w+"), i + 1, &keyMatch)) > -1 && j + keyMatch.capturedLength() == i + 1)

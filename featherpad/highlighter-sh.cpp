@@ -28,7 +28,7 @@ void Highlighter::SH_MultiLineQuote (const QString &text)
 
     int index = 0;
     QRegularExpressionMatch quoteMatch;
-    QRegularExpression quoteExpression ("\"|\'");
+    QRegularExpression quoteExpression = mixedQuoteMark;
     int initialState = currentBlockState();
     int prevState = previousBlockState();
 
@@ -89,7 +89,7 @@ void Highlighter::SH_MultiLineQuote (const QString &text)
     while (index >= 0)
     {
         /* if the search is continued... */
-        if (quoteExpression.pattern() == "\"|\'")
+        if (quoteExpression == mixedQuoteMark)
         {
             /* ... distinguish between double and single quotes
                again because the quote mark may have changed */
@@ -150,7 +150,7 @@ void Highlighter::SH_MultiLineQuote (const QString &text)
         }
 
         /* the next quote may be different */
-        quoteExpression.setPattern ("\"|\'");
+        quoteExpression = mixedQuoteMark;
         index = text.indexOf (quoteExpression, index + quoteLength);
 
         /* skip escaped start quotes and all comments */

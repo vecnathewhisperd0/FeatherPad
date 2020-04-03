@@ -1,8 +1,9 @@
 V0.13.2
 ---------
  * Get the locale name by using Qt methods when guessing the encoding.
- * Use static variables inside some functions to speed up syntax highlighting, especially with HTML, Bash and Perl.
+ * Use static variables inside some functions to speed up syntax highlighting, especially with HTML, XML, Bash and Perl.
  * Use bold font before the first dot in JS property accessors.
+ * Support JS template literals (and highlight them like single quotes).
 
 V0.13.1
 ---------

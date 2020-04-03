@@ -132,6 +132,7 @@ private:
     bool isQuoted (const QString &text, const int index,
                    bool skipCommandSign = false);
     bool isPerlQuoted (const QString &text, const int index);
+    bool isJSQuoted (const QString &text, const int index);
     bool isMLCommented (const QString &text, const int index, int comState = commentState,
                         const int start = 0);
     bool isHereDocument (const QString &text);
@@ -151,6 +152,7 @@ private:
                          const int start = 0,
                          int comState = commentState);
     void multiLinePerlQuote(const QString &text);
+    void multiLineJSlQuote (const QString &text, const int start, int comState);
     void xmlQuotes (const QString &text);
     void setFormatWithoutOverwrite (int start,
                                     int count,
@@ -224,7 +226,8 @@ private:
     /* Programming language: */
     QString progLan;
 
-    QRegularExpression quoteMark;
+    QRegularExpression quoteMark, mixedQuoteMark;
+    QRegularExpression xmlLt, xmlGt;
     QColor Blue, DarkBlue, Red, DarkRed, Verda, DarkGreen, DarkGreenAlt, Magenta, DarkMagenta, Violet, Brown, DarkYellow;
 
     /* The start and end cursors of the visible text: */
@@ -259,6 +262,9 @@ private:
         /* Markdown and reStructuredText */
         codeBlockState,
 
+        /* JavaScript template literals */
+        JS_templateLiteralState,
+
         /* Regex inside JavaScript, QML and Perl: */
         regexSearchState, // search and replace (only in Perl)
         regexState,
@@ -282,7 +288,7 @@ private:
         /* Used to update the format of the next line (as in JavaScript): */
         updateState,
 
-        endState // 28
+        endState // 29
 
         /* For here-docs, state >= endState or state < -1. */
     };

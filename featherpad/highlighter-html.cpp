@@ -127,7 +127,7 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
 
         int quoteIndex = braIndex;
         QRegularExpressionMatch quoteMatch;
-        QRegularExpression quoteExpression ("\"|\'");
+        QRegularExpression quoteExpression = mixedQuoteMark;
         int quote = doubleQuoteState;
 
         /* find the start quote */
@@ -171,7 +171,7 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
         while (quoteIndex >= braIndex && quoteIndex <= endLimit)
         {
             /* if the search is continued... */
-            if (quoteExpression.pattern() == "\"|\'")
+            if (quoteExpression == mixedQuoteMark)
             {
                 /* ... distinguish between double and single quotes
                    again because the quote mark may have changed */
@@ -229,7 +229,7 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
                                                                              : altQuoteFormat);
 
             /* the next quote may be different */
-            quoteExpression.setPattern ("\"|\'");
+            quoteExpression = mixedQuoteMark;
             quoteIndex = text.indexOf (quoteExpression, quoteIndex + quoteLength);
         }
 
