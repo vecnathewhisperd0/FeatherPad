@@ -210,6 +210,9 @@ private:
     QRegularExpression commentStartExpression;
     QRegularExpression commentEndExpression;
 
+    QRegularExpression htmlCommetStart, htmlCommetEnd;
+    QRegularExpression htmlSubcommetStart, htmlSubcommetEnd; // For CSS and JS inside HTML
+
     QTextCharFormat mainFormat; // The format before highlighting.
     QTextCharFormat neutralFormat; // When a color near that of mainFormat is needed.
     QTextCharFormat commentFormat;

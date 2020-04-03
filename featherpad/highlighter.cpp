@@ -1359,10 +1359,22 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         commentStartExpression.setPattern ("\"\"\"|\'\'\'");
         commentEndExpression = commentStartExpression;
     }
-    else if (progLan == "xml" || progLan == "html")
+    else if (progLan == "xml")
     {
         commentStartExpression.setPattern ("<!--");
         commentEndExpression.setPattern ("-->");
+    }
+    else if (progLan == "html")
+    {
+        htmlCommetStart.setPattern ("<!--");
+        htmlCommetEnd.setPattern ("-->");
+
+        /* CSS and JS inside HTML (see htmlCSSHighlighter and htmlJavascript) */
+        htmlSubcommetStart.setPattern ("/\\*");
+        htmlSubcommetEnd.setPattern ("\\*/");
+
+        commentStartExpression = htmlCommetStart;
+        commentEndExpression = htmlCommetEnd;
     }
     else if (progLan == "perl")
     {
@@ -3369,8 +3381,7 @@ void Highlighter::setFormatWithoutOverwrite (int start,
 void Highlighter::xmlQuotes (const QString &text)
 {
     int index = 0;
-    /* mixed quotes aren't really needed here
-       but they're harmless and easy to handle */
+    /* mixed quotes aren't really needed here but they're harmless and easy to handle */
     static const QRegularExpression xmlMixedQuote ("\"|&quot;|\'");
     static const QRegularExpression doubleQuote ("\"|&quot;");
     static const QRegularExpression virtualQuote ("&quot;");
@@ -3426,7 +3437,7 @@ void Highlighter::xmlQuotes (const QString &text)
     while (index >= 0)
     {
         /* if the search is continued... */
-        if (quoteExpression.pattern() == "\"|&quot;|\'")
+        if (quoteExpression == xmlMixedQuote)
         {
             /* ... distinguish between double, virtual and single
                quotes again because the quote mark may have changed */

@@ -36,7 +36,7 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
     static const QRegularExpression braStartExp ("<(?!\\!)/{0,1}[A-Za-z0-9_\\-]+");
     QRegularExpressionMatch endMatch;
     static const QRegularExpression braEndExp (">");
-    QRegularExpression styleExp ("<(style|STYLE)$|<(style|STYLE)\\s+[^>]*");
+    static const QRegularExpression styleExp ("<(style|STYLE)$|<(style|STYLE)\\s+[^>]*");
     bool isStyle (false);
     QTextCharFormat htmlBraFormat;
     htmlBraFormat.setFontWeight (QFont::Bold);
@@ -378,8 +378,8 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
     static const QRegularExpression braEndExp (">");
 
     /* switch to css temporarily */
-    commentStartExpression.setPattern ("/\\*");
-    commentEndExpression.setPattern ("\\*/");
+    commentStartExpression = htmlSubcommetStart;
+    commentEndExpression = htmlSubcommetEnd;
     progLan = "css";
 
     bool wasCSS (false);
@@ -519,8 +519,8 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
 
     /* revert to html */
     progLan = "html";
-    commentStartExpression.setPattern ("<!--");
-    commentEndExpression.setPattern ("-->");
+    commentStartExpression = htmlCommetStart;
+    commentEndExpression = htmlCommetEnd;
 }
 /*************************/
 void Highlighter::htmlJavascript (const QString &text)
@@ -536,8 +536,8 @@ void Highlighter::htmlJavascript (const QString &text)
     static const QRegularExpression javaEndExp ("</(script|SCRIPT)\\s*>");
 
     /* switch to javascript temporarily */
-    commentStartExpression.setPattern ("/\\*");
-    commentEndExpression.setPattern ("\\*/");
+    commentStartExpression = htmlSubcommetStart;
+    commentEndExpression = htmlSubcommetEnd;
     progLan = "javascript";
 
     bool wasJavascript (false);
@@ -688,8 +688,8 @@ void Highlighter::htmlJavascript (const QString &text)
 
     /* revert to html */
     progLan = "html";
-    commentStartExpression.setPattern ("<!--");
-    commentEndExpression.setPattern ("-->");
+    commentStartExpression = htmlCommetStart;
+    commentEndExpression = htmlCommetEnd;
 }
 
 }
