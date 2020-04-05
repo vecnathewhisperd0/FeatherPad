@@ -703,11 +703,28 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     {
         /* # is the sh comment sign when it doesn't follow a character */
         if (progLan == "sh" || progLan == "makefile" || progLan == "cmake")
+        {
             rule.pattern.setPattern ("(?<=^|\\s|;)#.*");
-        else if (progLan == "perl") // $# isn't a comment
-            rule.pattern.setPattern ("(?<!\\$)#.*");
+
+            /* Kate uses something like: "<<(?:\\s*)([\\\\]{0,1}[^\\s]+)"
+               "<<-" can be used instead of "<<" */
+            hereDocDelimiter.setPattern ("<<-?(?:\\s*)(\\\\{0,1}[A-Za-z0-9_]+)|<<-?(?:\\s*)(\'[A-Za-z0-9_]+\')|<<-?(?:\\s*)(\"[A-Za-z0-9_]+\")");
+        }
+        else if (progLan == "perl")
+        {
+            rule.pattern.setPattern ("(?<!\\$)#.*"); // $# isn't a comment
+
+            /* without space after "<<" and with ";" at the end */
+            //hereDocDelimiter.setPattern ("<<([A-Za-z0-9_]+)(?:;)|<<(\'[A-Za-z0-9_]+\')(?:;)|<<(\"[A-Za-z0-9_]+\")(?:;)");
+            /* can contain spaces inside quote marks or backquotes and usually has ";" at the end */
+            hereDocDelimiter.setPattern ("<<([A-Za-z0-9_]+)(?:;{0,1})|<<(?:\\s*)(\'[A-Za-z0-9_\\s]+\')(?:;{0,1})|<<(?:\\s*)(\"[A-Za-z0-9_\\s]+\")(?:;{0,1})|<<(?:\\s*)(`[A-Za-z0-9_\\s]+`)(?:;{0,1})");
+        }
         else
+        {
             rule.pattern.setPattern ("#.*");
+
+            hereDocDelimiter.setPattern ("<<(?:-|~){0,1}([A-Za-z0-9_]+)|<<(\'[A-Za-z0-9_]+\')|<<(\"[A-Za-z0-9_]+\")");
+        }
         rule.format = commentFormat;
         highlightingRules.append (rule);
 
@@ -2495,13 +2512,22 @@ void Highlighter::singleLineComment (const QString &text, const int start)
                         setFormat (pIndex + startIndex, urlMatch.capturedLength(), noteFormat);
                     pIndex += urlMatch.capturedLength();
                 }
-                /* take care of next-line comments with languages, for which
-                   no highlighting function is called after singleLineComment()
-                   and before the main formatting in highlightBlock()
-                   (only c and c++ for now) */
-                if ((progLan == "c" || progLan == "cpp")
-                    && text.endsWith (QLatin1Char('\\')))
+
+                if (progLan == "javascript" || progLan == "qml")
                 {
+                    /* If this line ends with a single-line comment, give it a special
+                       state to decide about the probable regex of its following line
+                       and also for that line to be updated when this state is toggled.
+                       See isEscapedRegex() and the end of multiLineRegex(). */
+                    setCurrentBlockState (regexEndState);
+                }
+                else if ((progLan == "c" || progLan == "cpp")
+                         && text.endsWith (QLatin1Char('\\')))
+                {
+                    /* Take care of next-line comments with languages, for which
+                       no highlighting function is called after singleLineComment()
+                       and before the main formatting in highlightBlock()
+                       (only c and c++ for now). */
                     setCurrentBlockState (nextLineCommentState);
                 }
             }
@@ -3517,119 +3543,114 @@ void Highlighter::xmlQuotes (const QString &text)
 // (Open quotes aren't taken into account when they happen after the start delimiter.)
 bool Highlighter::isHereDocument (const QString &text)
 {
+    /*if (progLan != "sh" && progLan != "makefile" && progLan != "cmake"
+        && progLan != "perl" && progLan != "ruby")
+    {
+        return false;
+        // "<<([A-Za-z0-9_]+)|<<(\'[A-Za-z0-9_]+\')|<<(\"[A-Za-z0-9_]+\")"
+    }*/
+
     QTextBlock prevBlock = currentBlock().previous();
-    TextBlockData *prevData = nullptr;
-    if (prevBlock.isValid())
-        prevData = static_cast<TextBlockData *>(prevBlock.userData());
+    int prevState = previousBlockState();
 
     QTextCharFormat blockFormat;
     blockFormat.setForeground (Violet);
     QTextCharFormat delimFormat = blockFormat;
     delimFormat.setFontWeight (QFont::Bold);
     QString delimStr;
-    /* Kate uses something like "<<(?:\\s*)([\\\\]{0,1}[^\\s]+)" */
-    QRegularExpression delim;
-    if (progLan == "sh" || progLan == "makefile" || progLan == "cmake") // "<<-" can be used instead of "<<"
-    {
-        static const QRegularExpression delimSH ("<<-?(?:\\s*)(\\\\{0,1}[A-Za-z0-9_]+)|<<-?(?:\\s*)(\'[A-Za-z0-9_]+\')|<<-?(?:\\s*)(\"[A-Za-z0-9_]+\")");
-        delim = delimSH; // much faster than QRegularExpression::setPattern()
-    }
-    /*else if (progLan == "perl") // without space after "<<" and with ";" at the end
-        delim.setPattern ("<<([A-Za-z0-9_]+)(?:;)|<<(\'[A-Za-z0-9_]+\')(?:;)|<<(\"[A-Za-z0-9_]+\")(?:;)");*/
-    else if (progLan == "perl") // can contain spaces inside quote marks or backquotes and usually has ";" at the end
-    {
-        static const QRegularExpression delimPerl ("<<([A-Za-z0-9_]+)(?:;{0,1})|<<(?:\\s*)(\'[A-Za-z0-9_\\s]+\')(?:;{0,1})|<<(?:\\s*)(\"[A-Za-z0-9_\\s]+\")(?:;{0,1})|<<(?:\\s*)(`[A-Za-z0-9_\\s]+`)(?:;{0,1})");
-        delim = delimPerl;
-    }
-    else if (progLan == "ruby")
-    {
-        static const QRegularExpression delimRuby ("<<(?:-|~){0,1}([A-Za-z0-9_]+)|<<(\'[A-Za-z0-9_]+\')|<<(\"[A-Za-z0-9_]+\")");
-        delim = delimRuby;
-    }
-    else // FIXME: No language.
-        delim.setPattern ("<<([A-Za-z0-9_]+)|<<(\'[A-Za-z0-9_]+\')|<<(\"[A-Za-z0-9_]+\")");
-    int insideCommentPos;
-    if (progLan == "sh" || progLan == "makefile" || progLan == "cmake")
-    {
-        static const QRegularExpression commentSH ("^#.*|\\s+#.*");
-        insideCommentPos = text.indexOf (commentSH);
-    }
-    else
-    {
-        static const QRegularExpression commentOthers ("#.*");
-        insideCommentPos = text.indexOf (commentOthers);
-    }
-    int pos = 0;
 
     /* format the start delimiter */
-    QRegularExpressionMatch match;
-    int prevState = previousBlockState();
-    if ((!prevBlock.isValid()
-         || (prevState >= 0 && prevState < endState))
-        && (pos = text.indexOf (delim, 0, &match)) >= 0
-        && !isQuoted (text, pos, true) // escaping start double quote before "$("
-        /* the whole line isn't commented out */
-        && (insideCommentPos == -1 || pos < insideCommentPos
-            || isQuoted (text, insideCommentPos, true)))
+    if (!prevBlock.isValid()
+        || (prevState >= 0 && prevState < endState))
     {
-        int i = 1;
-        while ((delimStr = match.captured (i)).isEmpty() && i <= 3)
-        {
-            ++i;
-            delimStr = match.captured (i);
-        }
+        int pos = 0;
+        QRegularExpressionMatch match;
+        while ((pos = text.indexOf (hereDocDelimiter, pos, &match)) >= 0
+               && isQuoted (text, pos, true)) // escaping start double quote before "$("
 
-        if (progLan == "perl")
         {
-            bool ok;
-            delimStr.toInt (&ok, 10);
-            if (ok)
-                delimStr = QString(); // don't mistake shift-left operator with here-doc delimiter
-            else if (delimStr.contains ('`')) // Perl's delimiter can have backquotes
-                delimStr = delimStr.split ('`').at (1);
+            pos += match.capturedLength();
         }
-
-        if (!delimStr.isEmpty())
+        if (pos >= 0)
         {
-            /* remove quotes */
-            if (delimStr.contains ('\''))
-                delimStr = delimStr.split ('\'').at (1);
-            if (delimStr.contains ('\"'))
-                delimStr = delimStr.split ('\"').at (1);
-            /* remove the start backslash if it exists */
-            if (QString (delimStr.at (0)) == "\\")
-                delimStr = delimStr.remove (0, 1);
-        }
-
-        if (!delimStr.isEmpty())
-        {
-            int n = static_cast<int>(qHash (delimStr));
-            int state = 2 * (n + (n >= 0 ? endState/2 + 1 : 0)); // always an even number but maybe negative
-            if (isQuoted (text, pos, false))
-            { // to know whether a double quote is added/removed before "$(" in the current line
-                state > 0 ? state += 2 : state -= 2;
+            int insideCommentPos;
+            if (progLan == "sh" || progLan == "makefile" || progLan == "cmake")
+            {
+                static const QRegularExpression commentSH ("^#.*|\\s+#.*");
+                insideCommentPos = text.indexOf (commentSH);
             }
-            if (prevState == doubleQuoteState || prevState == SH_DoubleQuoteState)
-            { // to know whether a double quote is added/removed before "$(" in a previous line
-                state > 0 ? state += 4 : state -= 4; // not 2 -> not to be canceled above
+            else
+            {
+                static const QRegularExpression commentOthers ("#.*");
+                insideCommentPos = text.indexOf (commentOthers);
             }
-            setCurrentBlockState (state);
-            setFormat (text.indexOf (delimStr, pos),
-                       delimStr.length(),
-                       delimFormat);
+            if (insideCommentPos == -1 || pos < insideCommentPos
+                || isQuoted (text, insideCommentPos, true))
+            { // the delimiter isn't (single-)commented out
+                int i = 1;
+                while ((delimStr = match.captured (i)).isEmpty() && i <= 3)
+                {
+                    ++i;
+                    delimStr = match.captured (i);
+                }
 
-            TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData());
-            if (!data) return false;
-            data->insertInfo (delimStr);
-            setCurrentBlockUserData (data);
+                if (progLan == "perl")
+                {
+                    bool ok;
+                    delimStr.toInt (&ok, 10);
+                    if (ok)
+                        delimStr = QString(); // don't mistake shift-left operator with here-doc delimiter
+                    else if (delimStr.contains ('`')) // Perl's delimiter can have backquotes
+                        delimStr = delimStr.split ('`').at (1);
+                }
 
-            return false;
+                if (!delimStr.isEmpty())
+                {
+                    /* remove quotes */
+                    if (delimStr.contains ('\''))
+                        delimStr = delimStr.split ('\'').at (1);
+                    if (delimStr.contains ('\"'))
+                        delimStr = delimStr.split ('\"').at (1);
+                    /* remove the start backslash if it exists */
+                    if (QString (delimStr.at (0)) == "\\")
+                        delimStr = delimStr.remove (0, 1);
+                }
+
+                if (!delimStr.isEmpty())
+                {
+                    int n = static_cast<int>(qHash (delimStr));
+                    int state = 2 * (n + (n >= 0 ? endState/2 + 1 : 0)); // always an even number but maybe negative
+                    if (isQuoted (text, pos, false))
+                    { // to know whether a double quote is added/removed before "$(" in the current line
+                        state > 0 ? state += 2 : state -= 2;
+                    }
+                    if (prevState == doubleQuoteState || prevState == SH_DoubleQuoteState)
+                    { // to know whether a double quote is added/removed before "$(" in a previous line
+                        state > 0 ? state += 4 : state -= 4; // not 2 -> not to be canceled above
+                    }
+                    setCurrentBlockState (state);
+                    setFormat (text.indexOf (delimStr, pos),
+                               delimStr.length(),
+                               delimFormat);
+
+                    TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData());
+                    if (!data) return false;
+                    data->insertInfo (delimStr);
+                    setCurrentBlockUserData (data);
+
+                    return false;
+                }
+            }
         }
     }
 
     if (prevState >= endState || prevState < -1)
     {
+        TextBlockData *prevData = nullptr;
+        if (prevBlock.isValid())
+            prevData = static_cast<TextBlockData *>(prevBlock.userData());
         if (!prevData) return false;
+
         delimStr = prevData->labelInfo();
         int l = 0;
         if (progLan == "perl" || progLan == "ruby")

@@ -24,7 +24,8 @@ namespace FeatherPad {
 // multi/single-line quote highlighting for bash.
 void Highlighter::SH_MultiLineQuote (const QString &text)
 {
-    static const QRegularExpression urlPattern ("[A-Za-z0-9_]+://[A-Za-z0-9_.+/\\?\\=~&%#\\-:]+|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+");
+    /* exactly as defined in "highlighter.cpp" */
+    static const QRegularExpression urlPattern ("[A-Za-z0-9_\\-]+://((?!&quot;|&gt;|&lt;)[A-Za-z0-9_.+/\\?\\=~&%#,;!@\\*\'\\-:\\(\\)\\[\\]])+(?<!\\.|\\?|!|:|;|,|\\(|\\)|\\[|\\])|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+(?<!\\.)");
 
     int index = 0;
     QRegularExpressionMatch quoteMatch;
@@ -50,8 +51,11 @@ void Highlighter::SH_MultiLineQuote (const QString &text)
     int hereDocDelimPos = -1;
     if (!curData->labelInfo().isEmpty()) // the label is delimStr
     {
-        QRegularExpression delim ("<<(?:\\s*)(\\\\{0,1}[A-Za-z0-9_]+)|<<(?:\\s*)(\'[A-Za-z0-9_]+\')|<<(?:\\s*)(\"[A-Za-z0-9_]+\")");
-        hereDocDelimPos = text.indexOf (delim);
+        hereDocDelimPos = text.indexOf (hereDocDelimiter);
+        while (hereDocDelimPos > -1 && isQuoted (text, hereDocDelimPos, true))
+        { // see isHereDocument()
+            hereDocDelimPos = text.indexOf (hereDocDelimiter, hereDocDelimPos + 2);
+        }
     }
 
     /* find the start quote */
@@ -193,8 +197,8 @@ int Highlighter::formatInsideCommand (const QString &text,
             ++ indx;
         if (indx == text.length())
             break;
-        QString c = text.at (indx);
-        if (c == "\'")
+        const QChar c = text.at (indx);
+        if (c == '\'')
         {
             if (comment)
             {
@@ -231,7 +235,7 @@ int Highlighter::formatInsideCommand (const QString &text,
                 }
             }
         }
-        else if (c == "\"")
+        else if (c == '\"')
         {
             if (comment)
                 setFormat (indx, 1, commentFormat);
@@ -242,7 +246,7 @@ int Highlighter::formatInsideCommand (const QString &text,
             }
             ++ indx;
         }
-        else if (c == "$") // may start a new code block
+        else if (c == '$') // may start a new code block
         {
             if (comment)
             {
@@ -271,7 +275,7 @@ int Highlighter::formatInsideCommand (const QString &text,
                 }
             }
         }
-        else if (c == "(")
+        else if (c == '(')
         {
             if (doubleQuoted)
                 setFormat (indx, 1, quoteFormat);
@@ -286,7 +290,7 @@ int Highlighter::formatInsideCommand (const QString &text,
             }
             ++ indx;
         }
-        else if (c == ")") // may end a code block
+        else if (c == ')') // may end a code block
         {
             if (doubleQuoted)
                 setFormat (indx, 1, quoteFormat);
@@ -316,7 +320,7 @@ int Highlighter::formatInsideCommand (const QString &text,
             }
             ++ indx;
         }
-        else if (c == "#") // may be comment sign
+        else if (c == '#') // may be comment sign
         {
             if (comment)
                 setFormat (indx, 1, commentFormat);
@@ -437,7 +441,8 @@ bool Highlighter::SH_CmndSubstVar (const QString &text,
     {
         if (N == 0)
         { // search for the first code block (after the previous one is closed)
-            int start = text.indexOf (QRegularExpression ("\\$\\("), indx);
+            static const QRegularExpression codeBlockStart ("\\$\\(");
+            int start = text.indexOf (codeBlockStart, indx);
             if (start == -1 || format (start) == commentFormat)
                 goto FINISH;
             else

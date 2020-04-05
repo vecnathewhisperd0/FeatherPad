@@ -3,7 +3,9 @@ V0.13.2
  * Get the locale name by using Qt methods when guessing the encoding.
  * Use more private member variables and also static local variables to speed up syntax highlighting, especially with HTML, XML, Bash and Perl.
  * Use bold font before the first dot in JS property accessors.
+ * Highlight a JS regex at line start if the previous line ends with a single-line comment.
  * Support JS template literals (and highlight them like single quotes).
+ * Considered a rare case of here-docs, where a delimiter is commented out but another valid delimiter comes after it.
 
 V0.13.1
 ---------

@@ -206,6 +206,8 @@ private:
     };
     QVector<HighlightingRule> highlightingRules;
 
+    QRegularExpression hereDocDelimiter;
+
     /* Multiline comments: */
     QRegularExpression commentStartExpression;
     QRegularExpression commentEndExpression;

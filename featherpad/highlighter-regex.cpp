@@ -77,7 +77,7 @@ bool Highlighter::isEscapedRegex (const QString &text, const int pos)
             ch = txt.at (last);
         }
         if (prev.userState() == regexEndState)
-            return false; // a regex isn't escaped if it follows another one
+            return false; // a regex isn't escaped if it follows another one or a single-line comment
         else
         {
             prev.setUserState (updateState); // update the next line if this one changes
@@ -362,7 +362,8 @@ void Highlighter::multiLineRegex(const QString &text, const int index)
 
     /* If this line ends with a regex plus spaces, give it a special
        state to decide about the probable regex of its following line
-       and also for that line to be updated when this state is toggled. */
+       and also for that line to be updated when this state is toggled.
+       See isEscapedRegex(). */
     if (currentBlockState() == 0 && !text.isEmpty())
     {
         int last = text.length() - 1;
