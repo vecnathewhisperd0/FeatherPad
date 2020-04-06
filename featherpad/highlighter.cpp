@@ -2981,7 +2981,7 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
                 if (quoteExpression.pattern() == "\'"
                     || (quoteExpression == quoteMark && delimStr.isEmpty() && !textEndsWithBackSlash (text)))
                 {
-                    endIndex = text.size();
+                    endIndex = text.length();
                 }
             }
             else if (progLan == "markdown")
@@ -3021,7 +3021,7 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
         }
         else
             quoteLength = endIndex - index
-                          + quoteMatch.capturedLength(); // 1 (or 0 with backslash)
+                          + quoteMatch.capturedLength(); // 1 or 0 (open quotation without ending backslash)
         if (isQuotation)
         {
             setFormat (index, quoteLength, quoteExpression == quoteMark ? quoteFormat
@@ -3327,7 +3327,7 @@ void Highlighter::multiLineJSlQuote (const QString &text, const int start, int c
         }
         else
             quoteLength = endIndex - index
-                          + quoteMatch.capturedLength(); // 1 (or 0 with backslash)
+                          + quoteMatch.capturedLength(); // 1
 
         setFormat (index, quoteLength, quoteExpression == quoteMark ? quoteFormat
                                                                     : altQuoteFormat);
