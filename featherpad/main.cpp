@@ -116,7 +116,7 @@ int main (int argc, char **argv)
     for (int i = 1; i < argc; ++i)
     {
         QString str = QString::fromUtf8 (argv[i]);
-        if (str.contains ("/"))
+        if (!str.isEmpty())
         {
             if (str.startsWith ("file://"))
                 str = QUrl (str).toLocalFile();

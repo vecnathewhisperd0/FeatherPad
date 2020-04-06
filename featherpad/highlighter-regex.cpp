@@ -56,14 +56,23 @@ bool Highlighter::isEscapedRegex (const QString &text, const int pos)
     int i = pos - 1;
     while (i >= 0 && (text.at (i) == ' ' || text.at (i) == '\t'))
         --i;
-    if (i == -1)
-    { // examine the previous line(s)
+    if (i == -1) // examine the previous line(s)
+    {
+        /* NOTE: regexEndState is already applied to:
+                 1) Single-line comments;
+                 2) Lines ending with single/double quotations
+                    but without end quote; and
+                 3) Lines ending with regex plus spaces. */
         QTextBlock prev = currentBlock().previous();
         if (!prev.isValid()) return false;
         QString txt = prev.text();
         QRegularExpression nonSpace ("[^\\s]+");
         while (txt.indexOf (nonSpace, 0) == -1)
         {
+            if (prev.userState() == regexEndState)
+            { // a quoted line with only witespaces (backslashed mutil-line quote)
+                return false;
+            }
             prev.setUserState (updateState); // update the next line if this one changes
             prev = prev.previous();
             if (!prev.isValid()) return false;
@@ -77,7 +86,11 @@ bool Highlighter::isEscapedRegex (const QString &text, const int pos)
             ch = txt.at (last);
         }
         if (prev.userState() == regexEndState)
-            return false; // a regex isn't escaped if it follows another one or a single-line comment
+        {
+            /* a regex isn't escaped if it follows another one,
+               a single-line comment or a quotation (without an end quote) */
+            return false;
+        }
         else
         {
             prev.setUserState (updateState); // update the next line if this one changes

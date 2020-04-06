@@ -1,5 +1,6 @@
 V0.13.2
 ---------
+ * Handle relative file paths correctly when they contain no slash.
  * Get the locale name by using Qt methods when guessing the encoding.
  * Use more private member variables and also static local variables to speed up syntax highlighting, especially with HTML, XML, Bash and Perl.
  * Use bold font before the first dot in JS property accessors.

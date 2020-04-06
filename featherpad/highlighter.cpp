@@ -2515,10 +2515,7 @@ void Highlighter::singleLineComment (const QString &text, const int start)
 
                 if (progLan == "javascript" || progLan == "qml")
                 {
-                    /* If this line ends with a single-line comment, give it a special
-                       state to decide about the probable regex of its following line
-                       and also for that line to be updated when this state is toggled.
-                       See isEscapedRegex() and the end of multiLineRegex(). */
+                    /* see NOTE of isEscapedRegex() and also the end of multiLineRegex() */
                     setCurrentBlockState (regexEndState);
                 }
                 else if ((progLan == "c" || progLan == "cpp")
@@ -2984,7 +2981,7 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
                 if (quoteExpression.pattern() == "\'"
                     || (quoteExpression == quoteMark && delimStr.isEmpty() && !textEndsWithBackSlash (text)))
                 {
-                    endIndex = text.size() + 1; // quoteMatch.capturedLength() is 1 here
+                    endIndex = text.size();
                 }
             }
             else if (progLan == "markdown")
@@ -3024,7 +3021,7 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
         }
         else
             quoteLength = endIndex - index
-                          + quoteMatch.capturedLength(); // 1
+                          + quoteMatch.capturedLength(); // 1 (or 0 with backslash)
         if (isQuotation)
         {
             setFormat (index, quoteLength, quoteExpression == quoteMark ? quoteFormat
@@ -3315,25 +3312,22 @@ void Highlighter::multiLineJSlQuote (const QString &text, const int start, int c
         while (isEscapedQuote (text, endIndex, false))
             endIndex = text.indexOf (quoteExpression, endIndex + 1, &quoteMatch);
 
+        int quoteLength;
         if (endIndex == -1)
         {
             /* In JS, multiline double and single quotes need backslash. */
             if ((quoteExpression.pattern() == "\'" || quoteExpression == quoteMark)
                 && !textEndsWithBackSlash (text))
-            {
-                endIndex = text.size() + 1; // quoteMatch.capturedLength() is 1 here
+            { // see NOTE of isEscapedRegex() and also the end of multiLineRegex()
+                setCurrentBlockState (regexEndState);
             }
-        }
-
-        int quoteLength;
-        if (endIndex == -1)
-        {
-            setCurrentBlockState (quote);
+            else
+                setCurrentBlockState (quote);
             quoteLength = text.length() - index;
         }
         else
             quoteLength = endIndex - index
-                          + quoteMatch.capturedLength(); // 1
+                          + quoteMatch.capturedLength(); // 1 (or 0 with backslash)
 
         setFormat (index, quoteLength, quoteExpression == quoteMark ? quoteFormat
                                                                     : altQuoteFormat);
