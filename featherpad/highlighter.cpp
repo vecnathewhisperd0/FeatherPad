@@ -2595,16 +2595,16 @@ void Highlighter::multiLineComment (const QString &text,
             }
             /* no comment start sign inside footnotes, images or links */
             QRegularExpressionMatch mMatch;
-            QRegularExpression mExp ("\\[\\^[^\\]]+\\]"
-                                     "|"
-                                     "\\!\\[[^\\]\\^]*\\]\\s*"
-                                     "(\\(\\s*[^\\)\\(\\s]+(\\s+\\\".*\\\")*\\s*\\)|\\s*\\[[^\\]]*\\])"
-                                     "|"
-                                     "\\[[^\\]\\^]*\\]\\s*\\[[^\\]\\s]*\\]"
-                                     "|"
-                                     "\\[[^\\]\\^]*\\]\\s*\\(\\s*[^\\)\\(\\s]+(\\s+\\\".*\\\")*\\s*\\)"
-                                     "|"
-                                     "\\[[^\\]\\^]*\\]:\\s+\\s*[^\\)\\(\\s]+(\\s+\\\".*\\\")*");
+            static const QRegularExpression mExp ("\\[\\^[^\\]]+\\]"
+                                                  "|"
+                                                  "\\!\\[[^\\]\\^]*\\]\\s*"
+                                                  "(\\(\\s*[^\\)\\(\\s]+(\\s+\\\".*\\\")*\\s*\\)|\\s*\\[[^\\]]*\\])"
+                                                  "|"
+                                                  "\\[[^\\]\\^]*\\]\\s*\\[[^\\]\\s]*\\]"
+                                                  "|"
+                                                  "\\[[^\\]\\^]*\\]\\s*\\(\\s*[^\\)\\(\\s]+(\\s+\\\".*\\\")*\\s*\\)"
+                                                  "|"
+                                                  "\\[[^\\]\\^]*\\]:\\s+\\s*[^\\)\\(\\s]+(\\s+\\\".*\\\")*");
             int mStart = text.indexOf (mExp, 0, &mMatch);
             while (mStart >= 0 && mStart < startIndex)
             {
@@ -4280,7 +4280,7 @@ void Highlighter::yamlLiteralBlock (const QString &text)
         }
     }
 
-    QRegularExpression blockStartExp ("^[^#]*\\s+\\K(\\||>)-?\\s*$");
+    static const QRegularExpression blockStartExp ("^[^#]*\\s+\\K(\\||>)-?\\s*$");
     int index = text.indexOf (blockStartExp, 0, &match);
     if (index >= 0)
     {
@@ -4978,10 +4978,13 @@ void Highlighter::highlightBlock (const QString &text)
             }
             /* the ``` code block shouldn't be formatted inside a comment or block quote */
             if (prevState != commentState && prevState != markdownBlockQuoteState)
+            {
+                static const QRegularExpression codeStartRegex ("^ {0,3}\\K(`{3,}(?!`)|~{3,}(?!~))");
                 rehighlightNextBlock |= markdownMultiLine (text, oldLabel,
-                                                           QRegularExpression ("^ {0,3}\\K(`{3,}(?!`)|~{3,}(?!~))"),
+                                                           codeStartRegex,
                                                            QRegularExpression(),
                                                            codeBlockState, codeBlockFormat);
+            }
 
             if (currentBlockState() != markdownBlockQuoteState && currentBlockState() != codeBlockState)
             {
@@ -5013,7 +5016,7 @@ void Highlighter::highlightBlock (const QString &text)
                 }
 
                 /* code block with indentation */
-                QRegularExpression codeRegex ("^( {4,}|\\s*\\t+\\s*).*");
+                static const QRegularExpression codeRegex ("^( {4,}|\\s*\\t+\\s*).*");
                 index = text.indexOf (codeRegex, 0, &match);
                 fi = format (index);
                 while (index >= 0
@@ -5134,15 +5137,31 @@ void Highlighter::highlightBlock (const QString &text)
         * reST Code and Comment Blocks *
         ********************************/
         QTextBlock prevBlock = currentBlock().previous();
+        static const QRegularExpression codeBlockStart1 ("^\\.{2} code-block::");
+        static const QRegularExpression codeBlockStart2 ("^(?!\\s*\\.{2}\\s+).*::$");
+        static const QRegularExpression restComment ("^\\s*\\.{2}"
+                                                     "(?!("
+                                                         /* not a label or substitution (".. _X:" or ".. |X| Y::") */
+                                                         " _[\\w\\s\\-+]*:(?!\\S)"
+                                                         "|"
+                                                         " \\|[\\w\\s]+\\|\\s+\\w+::(?!\\S)"
+                                                         "|"
+                                                         /* not a footnote (".. [#X]") */
+                                                         " (\\[(\\w|\\s|-|\\+|\\*)+\\]|\\[#(\\w|\\s|-|\\+)*\\])\\s+"
+                                                         "|"
+                                                         /* not ".. X::" */
+                                                         " (\\w|-)+::(?!\\S)"
+                                                     "))"
+                                                     "\\s+.*");
         /* definitely, the start of a code block */
-        if (text.indexOf (QRegularExpression ("^\\.{2} code-block::"), 0, &match) == 0)
+        if (text.indexOf (codeBlockStart1, 0, &match) == 0)
         { // also overwrites commentFormat
             /* the ".. code-block::" part will be formatted later */
             setFormat (match.capturedLength(), text.count() - match.capturedLength(), codeBlockFormat);
             setCurrentBlockState (codeBlockState);
         }
         /* perhaps the start of a code block */
-        else if (text.indexOf (QRegularExpression ("^(?!\\s*\\.{2}).*::$")) == 0)
+        else if (text.indexOf (codeBlockStart2) == 0)
         {
             bool isCommented (false);
             if (previousBlockState() >= endState || previousBlockState() < -1)
@@ -5173,20 +5192,7 @@ void Highlighter::highlightBlock (const QString &text)
             }
         }
         /* perhaps a comment */
-        else if (text.indexOf (QRegularExpression ("^\\s*\\.{2}"
-                                                   "(?!("
-                                                       /* not a label or substitution (".. _X:" or ".. |X| Y::") */
-                                                       " _[\\w\\s\\-+]*:(?!\\S)"
-                                                       "|"
-                                                       " \\|[\\w\\s]+\\|\\s+\\w+::(?!\\S)"
-                                                       "|"
-                                                       /* not a footnote (".. [#X]") */
-                                                       " (\\[(\\w|\\s|-|\\+|\\*)+\\]|\\[#(\\w|\\s|-|\\+)*\\])\\s+"
-                                                       "|"
-                                                       /* not ".. X::" */
-                                                       " (\\w|-)+::(?!\\S)"
-                                                   "))"
-                                                   "\\s+.*")) == 0)
+        else if (text.indexOf (restComment) == 0)
         {
             bool isCodeLine (false);
             QString prevLabel;
