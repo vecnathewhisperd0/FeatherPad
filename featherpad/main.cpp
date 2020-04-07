@@ -117,7 +117,7 @@ int main (int argc, char **argv)
     info += "\n\r";
     for (int i = 1; i < argc; ++i)
     {
-        info += QString::fromUtf8 (argv[i]);;
+        info += QString::fromUtf8 (argv[i]);
         if (i < argc - 1)
             info += "\n\r";
     }
