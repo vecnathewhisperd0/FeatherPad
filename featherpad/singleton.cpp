@@ -264,10 +264,10 @@ QStringList FPsingleton::processInfo (const QString& message,
     QStringList realList;
     for (const auto &path : qAsConst (sl))
     {
-        QString realPath;
-        if (path.startsWith ("file://"))
-            realPath = QUrl (path).toLocalFile();
-        realPath = curDir.absoluteFilePath (path);
+        QString realPath = path;
+        if (realPath.startsWith ("file://"))
+            realPath = QUrl (realPath).toLocalFile();
+        realPath = curDir.absoluteFilePath (realPath);
         realList << QDir::cleanPath (realPath);
     }
     return realList;
