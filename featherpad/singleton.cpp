@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2019 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2020 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -17,6 +17,7 @@
  * @license GPL-3.0+ <https://spdx.org/licenses/GPL-3.0+.html>
  */
 
+#include <QDir>
 #include <QScreen>
 #include <QLocalSocket>
 #include <QDialog>
@@ -213,13 +214,15 @@ QStringList FPsingleton::processInfo (const QString& message,
     lineNum = 0; // no cursor placing
     posInLine = 0;
     QStringList sl = message.split ("\n\r"); // "\n\r" was used as the splitter
-    if (sl.count() < 2) // impossible because "\n\r" is appended to desktop number
+    if (sl.count() < 3) // impossible because "\n\r" is appended to desktop number plus current directory
     {
         *newWin = true;
         return QStringList();
     }
     *newWin = false;
     desktop = sl.at (0).toInt();
+    sl.removeFirst();
+    QDir curDir (sl.at (0));
     sl.removeFirst();
     bool hasCurInfo = cursorInfo (sl.at (0), lineNum, posInLine);
     if (hasCurInfo)
@@ -249,10 +252,25 @@ QStringList FPsingleton::processInfo (const QString& message,
     {
         if (hasCurInfo)
             qDebug ("FeatherPad: File path/name is missing.");
+        return sl;
     }
     else if (sl.count() == 1 && sl.at (0).isEmpty())
+    {
         sl.clear(); // no empty path/name
-    return sl;
+        return sl;
+    }
+
+    /* always return absolute clean paths (works around KDE's double slash bug too) */
+    QStringList realList;
+    for (const auto &path : qAsConst (sl))
+    {
+        QString realPath;
+        if (path.startsWith ("file://"))
+            realPath = QUrl (path).toLocalFile();
+        realPath = curDir.absoluteFilePath (path);
+        realList << QDir::cleanPath (realPath);
+    }
+    return realList;
 }
 /*************************/
 void FPsingleton::firstWin (const QString& message)

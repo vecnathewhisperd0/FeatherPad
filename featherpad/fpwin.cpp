@@ -44,6 +44,7 @@
 #include <QProcess>
 #include <QTextDocumentWriter>
 #include <QTextCodec>
+#include <QFileInfo>
 #include <QStandardPaths>
 #include <QDesktopServices>
 

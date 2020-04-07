@@ -18,7 +18,7 @@
  */
 
 #include "config.h"
-#include <QFileInfo>
+//#include <QFileInfo>
 #include <QKeySequence>
 
 namespace FeatherPad {
