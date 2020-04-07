@@ -26,6 +26,7 @@
 #include <signal.h>
 #include <QLibraryInfo>
 #include <QTranslator>
+#include <QRegularExpression>
 #include <QFileInfo>
 
 void handleQuitSignals (const std::vector<int>& quitSignals)
@@ -113,16 +114,45 @@ int main (int argc, char **argv)
 #endif
     info.setNum (d);
     info += "\n\r"; // a string that can't be used in file names
+    bool isPath = false, hasWinOpt = false, hasNumOpt = false;
+    const QRegularExpression lineOption ("^\\+(\\d+(,-?\\d+)?)?$");
     for (int i = 1; i < argc; ++i)
     {
         QString str = QString::fromUtf8 (argv[i]);
         if (!str.isEmpty())
         {
             if (str.startsWith ("file://"))
+            {
                 str = QUrl (str).toLocalFile();
-            /* always an absolute path (works around KDE's double slash bug too) */
-            QFileInfo fInfo (str);
-            str = fInfo.absoluteFilePath();
+                isPath = true;
+            }
+            else if (!isPath)
+            {
+                if (i == 1)
+                {
+                    hasWinOpt = (str == "--win" || str == "-w");
+                    if (!hasWinOpt)
+                        hasNumOpt = str.contains (lineOption);
+                    if (!hasWinOpt && !hasNumOpt)
+                        isPath = true;
+                }
+                else if (i == 2)
+                {
+                    if (!hasWinOpt)
+                        hasWinOpt = (str == "--win" || str == "-w");
+                    else
+                        hasNumOpt = str.contains (lineOption);
+                    if (!hasWinOpt || !hasNumOpt)
+                        isPath = true;
+                }
+                else
+                    isPath = true;
+            }
+            if (isPath)
+            {
+                /* always an absolute path (works around KDE's double slash bug too) */
+                str = QFileInfo (str).absoluteFilePath();
+            }
         }
         info += str;
         if (i < argc - 1)
