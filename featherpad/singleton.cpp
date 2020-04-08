@@ -248,29 +248,22 @@ QStringList FPsingleton::processInfo (const QString& message,
             sl.removeFirst();
     }
 
-    if (sl.isEmpty())
-    {
-        if (hasCurInfo)
-            qDebug ("FeatherPad: File path/name is missing.");
-        return sl;
-    }
-    else if (sl.count() == 1 && sl.at (0).isEmpty())
-    {
-        sl.clear(); // no empty path/name
-        return sl;
-    }
-
     /* always return absolute clean paths (works around KDE's double slash bug too) */
-    QStringList realList;
+    QStringList filesList;
     for (const auto &path : qAsConst (sl))
     {
-        QString realPath = path;
-        if (realPath.startsWith ("file://"))
-            realPath = QUrl (realPath).toLocalFile();
-        realPath = curDir.absoluteFilePath (realPath);
-        realList << QDir::cleanPath (realPath);
+        if (!path.isEmpty()) // no empty path/name
+        {
+            QString realPath = path;
+            if (realPath.startsWith ("file://"))
+                realPath = QUrl (realPath).toLocalFile();
+            realPath = curDir.absoluteFilePath (realPath); // also works with absolute paths outside curDir
+            filesList << QDir::cleanPath (realPath);
+        }
     }
-    return realList;
+    if (filesList.isEmpty() && hasCurInfo)
+        qDebug ("FeatherPad: File path/name is missing.");
+    return filesList;
 }
 /*************************/
 void FPsingleton::firstWin (const QString& message)
