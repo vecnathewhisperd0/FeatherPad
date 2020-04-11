@@ -1242,22 +1242,23 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         /* after "," */
         plFormat.setFontWeight (QFont::Normal);
         plFormat.setForeground (DarkRed);
-        rule.pattern.setPattern ("^#EXTINF\\s*:\\s*-*\\d+\\s*,.*|^#EXTINF\\s*:\\s*,.*");
+        rule.pattern.setPattern ("^#EXTINF\\s*:[^,]*,\\K.*"); // "^#EXTINF\\s*:\\s*-*\\d+\\s*,.*|^#EXTINF\\s*:\\s*,.*"
         rule.format = plFormat;
         highlightingRules.append (rule);
 
         /* before "," and after "EXTINF:" */
         plFormat.setForeground (DarkYellow);
-        rule.pattern.setPattern ("^#EXTINF\\s*:\\s*-*\\d+\\b");
+        rule.pattern.setPattern ("^#EXTINF\\s*:\\s*\\K-*\\d+\\b"); // "^#EXTINF\\s*:\\s*-*\\d+\\b"
         rule.format = plFormat;
         highlightingRules.append (rule);
 
-        plFormat = neutralFormat;
+        /*plFormat = neutralFormat;
         rule.pattern.setPattern ("^#EXTINF\\s*:");
         rule.format = plFormat;
-        highlightingRules.append (rule);
+        highlightingRules.append (rule);*/
 
         plFormat.setForeground (DarkGreen);
+        plFormat.setFontWeight (QFont::Bold);
         rule.pattern.setPattern ("^#EXTINF\\b");
         rule.format = plFormat;
         highlightingRules.append (rule);
