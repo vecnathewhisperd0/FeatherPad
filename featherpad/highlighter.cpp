@@ -872,7 +872,8 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         /* hh:mm:ss,ttt */
         srtFormat = neutralFormat;
         srtFormat.setFontItalic (true);
-        rule.pattern.setPattern ("^\\d+$|^\\d{2}:\\d{2}:\\d{2},\\d{3}\\s-->\\s\\d{2}:\\d{2}:\\d{2},\\d{3}$");
+        srtFormat.setFontWeight (QFont::Bold);
+        rule.pattern.setPattern ("^\\s*\\d{2}:\\d{2}:\\d{2},\\d{3}\\s+-->\\s+\\d{2}:\\d{2}:\\d{2},\\d{3}\\s*$");
         rule.format = srtFormat;
         highlightingRules.append (rule);
 
@@ -882,22 +883,28 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = srtFormat;
         highlightingRules.append (rule);
 
-        /* mm */
-        srtFormat.setForeground (DarkGreenAlt);
-        rule.pattern.setPattern ("\\d{2}(?=:\\d{2},\\d{3}\\s-->\\s\\d{2}:\\d{2}:\\d{2},\\d{3}$)|\\d{2}(?=:\\d{2},\\d{3}$)");
-        rule.format = srtFormat;
-        highlightingRules.append (rule);
-
         /* hh */
         srtFormat.setForeground (Blue);
-        rule.pattern.setPattern ("^\\d{2}(?=:\\d{2}:\\d{2},\\d{3}\\s-->\\s\\d{2}:\\d{2}:\\d{2},\\d{3}$)|\\s\\d{2}(?=:\\d{2}:\\d{2},\\d{3}$)");
+        rule.pattern.setPattern ("^\\s*\\d{2}(?=:\\d{2}:\\d{2},\\d{3}\\s+-->\\s+\\d{2}:\\d{2}:\\d{2},\\d{3}\\s*$)");
         rule.format = srtFormat;
+        highlightingRules.append (rule);
+        rule.pattern.setPattern ("^\\s*\\d{2}:\\d{2}:\\d{2},\\d{3}\\s+-->\\s+\\K\\d{2}(?=:\\d{2}:\\d{2},\\d{3}\\s*$)");
+        highlightingRules.append (rule);
+
+        /* mm */
+        srtFormat.setForeground (DarkGreenAlt);
+        rule.pattern.setPattern ("^\\s*\\d{2}:\\K\\d{2}(?=:\\d{2},\\d{3}\\s+-->\\s+\\d{2}:\\d{2}:\\d{2},\\d{3}\\s*$)");
+        rule.format = srtFormat;
+        highlightingRules.append (rule);
+        rule.pattern.setPattern ("^\\s*\\d{2}:\\d{2}:\\d{2},\\d{3}\\s+-->\\s+\\d{2}:\\K\\d{2}(?=:\\d{2},\\d{3}\\s*$)");
         highlightingRules.append (rule);
 
         /* ss */
         srtFormat.setForeground (Brown);
-        rule.pattern.setPattern ("\\d{2}(?=,\\d{3}\\s-->\\s\\d{2}:\\d{2}:\\d{2},\\d{3}$)|\\d{2}(?=,\\d{3}$)");
+        rule.pattern.setPattern ("^\\s*\\d{2}:\\d{2}:\\K\\d{2}(?=,\\d{3}\\s+-->\\s+\\d{2}:\\d{2}:\\d{2},\\d{3}\\s*$)");
         rule.format = srtFormat;
+        highlightingRules.append (rule);
+        rule.pattern.setPattern ("^\\s*\\d{2}:\\d{2}:\\d{2},\\d{3}\\s+-->\\s+\\d{2}:\\d{2}:\\K\\d{2}(?=,\\d{3}\\s*$)");
         highlightingRules.append (rule);
     }
     else if (progLan == "desktop" || progLan == "config" || progLan == "theme")
