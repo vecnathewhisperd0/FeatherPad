@@ -140,10 +140,27 @@ private:
     void htmlCSSHighlighter (const QString &text, const int start = 0);
     void htmlBrackets (const QString &text, const int start = 0);
     void htmlJavascript (const QString &text);
-    int cssHighlighter (const QString &text, bool mainFormatting, const int start = 0);
+    bool isCSSCommented (const QString &text,
+                         const QList<int> &valueRegions,
+                         const int index,
+                         bool prevQuote = false,
+                         bool prevUrl = false);
+    bool isQuotedInCSSValue (const QString &text,
+                             const int valueStart,
+                             const int index,
+                             bool prevQuote = false,
+                             bool prevUrl = false);
+   bool isInsideCSSValueUrl (const QString &text,
+                             const int valueStart,
+                             const int index,
+                             bool prevQuote = false,
+                             bool prevUrl = false);
+   void formatAttrSelectors (const QString &text, const int start, const int pos);
+   bool isInsideAttrSelector (const QString &text, const int pos, const int start);
+    void cssHighlighter(const QString &text, bool mainFormatting, const int start = 0);
     void singleLineComment (const QString &text, const int start);
     void multiLineComment (const QString &text,
-                           const int index, const int cssIndx,
+                           const int index,
                            const QRegularExpression &commentStartExp, const QRegularExpression &commentEndExp,
                            const int commState,
                            const QTextCharFormat &comFormat);
@@ -287,13 +304,14 @@ private:
 
         /* CSS: */
         cssBlockState,
-        commentInCssState,
+        commentInCssBlockState,
+        commentInCssValueState,
         cssValueState,
 
         /* Used to update the format of the next line (as in JavaScript): */
         updateState,
 
-        endState // 29
+        endState // 30
 
         /* For here-docs, state >= endState or state < -1. */
     };

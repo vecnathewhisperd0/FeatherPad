@@ -439,9 +439,9 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
 
         /* ... and apply the css formats */
         multiLineQuote (text, cssIndex + matched, htmlCSSCommentState);
-        int cssIndx = cssHighlighter (text, mainFormatting, cssIndex + matched);
+        cssHighlighter (text, mainFormatting, cssIndex + matched);
         multiLineComment (text,
-                          cssIndex + matched, cssIndx,
+                          cssIndex + matched,
                           commentStartExpression, commentEndExpression,
                           htmlCSSCommentState,
                           commentFormat);
@@ -501,7 +501,11 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
             setFormat (cssEndIndex, text.length() - cssEndIndex, mainFormat);
             setCurrentBlockState (0);
             progLan = "html";
+            commentStartExpression = htmlCommetStart;
+            commentEndExpression = htmlCommetEnd;
             htmlBrackets (text, cssEndIndex);
+            commentStartExpression = htmlSubcommetStart;
+            commentEndExpression = htmlSubcommetEnd;
             progLan = "css";
         }
 
@@ -580,13 +584,39 @@ void Highlighter::htmlJavascript (const QString &text)
 
         /* ... and apply the javascript formats */
         singleLineComment (text, javaIndex + matched);
-        multiLineQuote (text, javaIndex + matched, htmlJavaCommentState);
-        multiLineComment (text,
-                          javaIndex + matched, -1,
-                          commentStartExpression, commentEndExpression,
-                          htmlJavaCommentState,
-                          commentFormat);
-        multiLineRegex (text, javaIndex + matched);
+        /* javascript single-line comment doesn't comment out
+           the end of a javascript block inside HTML */
+        int tmpIndx = -1;
+        if (currentBlockState() == regexEndState)
+        {
+            tmpIndx = javaIndex + matched;
+            while (tmpIndx < text.length() && format (tmpIndx) != commentFormat)
+                ++ tmpIndx;
+            tmpIndx = text.indexOf (javaEndExp, tmpIndx);
+        }
+        if (tmpIndx > -1)
+        {
+            setCurrentBlockState (0);
+            setFormat (tmpIndx, text.length() - tmpIndx, mainFormat);
+            QString txt = text.left (tmpIndx);
+            multiLineQuote (txt, javaIndex + matched, htmlJavaCommentState);
+            multiLineComment (txt,
+                              javaIndex + matched,
+                              commentStartExpression, commentEndExpression,
+                              htmlJavaCommentState,
+                              commentFormat);
+            multiLineRegex (txt, javaIndex + matched);
+        }
+        else
+        {
+            multiLineQuote (text, javaIndex + matched, htmlJavaCommentState);
+            multiLineComment (text,
+                              javaIndex + matched,
+                              commentStartExpression, commentEndExpression,
+                              htmlJavaCommentState,
+                              commentFormat);
+            multiLineRegex (text, javaIndex + matched);
+        }
         if (mainFormatting)
         {
             for (const HighlightingRule &rule : qAsConst (highlightingRules))
@@ -670,8 +700,12 @@ void Highlighter::htmlJavascript (const QString &text)
             setFormat (javaEndIndex, text.length() - javaEndIndex, mainFormat);
             setCurrentBlockState (0);
             progLan = "html";
+            commentStartExpression = htmlCommetStart;
+            commentEndExpression = htmlCommetEnd;
             htmlBrackets (text, javaEndIndex);
             htmlCSSHighlighter (text, javaEndIndex);
+            commentStartExpression = htmlSubcommetStart;
+            commentEndExpression = htmlSubcommetEnd;
             progLan = "javascript";
         }
 

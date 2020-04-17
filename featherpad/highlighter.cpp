@@ -915,7 +915,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
             desktopFormat.setFontWeight (QFont::Bold);
             desktopFormat.setFontItalic (true);
             /* color values */
-            rule.pattern.setPattern ("#([A-Fa-f0-9]{3}){0,2}(?![A-Za-z0-9_]+)|#([A-Fa-f0-9]{3}){2}[A-Fa-f0-9]{2}(?![A-Za-z0-9_]+)");
+            rule.pattern.setPattern ("#([A-Fa-f0-9]{3}){1,2}(?![A-Za-z0-9_]+)|#([A-Fa-f0-9]{3}){2}[A-Fa-f0-9]{2}(?![A-Za-z0-9_]+)");
             rule.format = desktopFormat;
             highlightingRules.append (rule);
             desktopFormat.setFontItalic (false);
@@ -1038,7 +1038,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         gtkrcFormat.setFontWeight (QFont::Bold);
         /* color value format (#xyz) */
         /*gtkrcFormat.setForeground (DarkGreenAlt);
-        rule.pattern.setPattern ("#([A-Fa-f0-9]{3}){0,2}(?![A-Za-z0-9_]+)|#([A-Fa-f0-9]{3}){2}[A-Fa-f0-9]{2}(?![A-Za-z0-9_]+)");
+        rule.pattern.setPattern ("#([A-Fa-f0-9]{3}){1,2}(?![A-Za-z0-9_]+)|#([A-Fa-f0-9]{3}){2}[A-Fa-f0-9]{2}(?![A-Za-z0-9_]+)");
         rule.format = gtkrcFormat;
         highlightingRules.append (rule);*/
 
@@ -1285,7 +1285,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         /* colors */
         scssFormat.setForeground (Verda);
         scssFormat.setFontWeight (QFont::Bold);
-        rule.pattern.setPattern ("#([A-Fa-f0-9]{3}){0,2}(?![A-Za-z0-9_]+)|#([A-Fa-f0-9]{3}){2}[A-Fa-f0-9]{2}(?![A-Za-z0-9_]+)");
+        rule.pattern.setPattern ("#([A-Fa-f0-9]{3}){1,2}(?![A-Za-z0-9_]+)|#([A-Fa-f0-9]{3}){2}[A-Fa-f0-9]{2}(?![A-Za-z0-9_]+)");
         rule.format = scssFormat;
         highlightingRules.append (rule);
 
@@ -2242,239 +2242,6 @@ void Highlighter::pythonMLComment (const QString &text, const int indx)
     }
 }
 /*************************/
-// This should come before multiline comments highlighting.
-int Highlighter::cssHighlighter (const QString &text, bool mainFormatting, const int start)
-{
-    if (progLan != "css") return -1;
-
-    int cssIndx = -1;
-    /* CSS can have huge lines, which will take
-       a lot of CPU time if they're formatted completely. */
-    /*bool hugeText (text.length() > 50000);
-    if (hugeText)
-        mainFormatting = false;*/
-
-    /**************************
-     * (Multiline) CSS Blocks *
-     **************************/
-
-    QRegularExpressionMatch cssStartMatch;
-    QRegularExpression cssStartExpression ("\\{");
-    QRegularExpressionMatch cssEndtMatch;
-    QRegularExpression cssEndExpression ("\\}");
-    QRegularExpressionMatch numMatch;
-    QRegularExpression numExpression ("(-|\\+){0,1}\\b\\d*\\.{0,1}\\d+");
-    int index = start;
-
-    QTextCharFormat cssValueFormat;
-    cssValueFormat.setFontItalic (true);
-    cssValueFormat.setForeground (Verda);
-
-    QTextCharFormat numFormat;
-    numFormat.setFontItalic (true);
-    numFormat.setForeground (Brown);
-
-    /*QTextCharFormat cssErrorFormat;
-    cssErrorFormat.setFontUnderline (true);
-    cssErrorFormat.setForeground (Red);*/
-
-    int prevState = previousBlockState();
-    if (index > 0
-        || (prevState != cssBlockState
-            && prevState != commentInCssState
-            && prevState != cssValueState))
-    {
-        index = text.indexOf (cssStartExpression, index, &cssStartMatch);
-        if (index >= 0) cssIndx = index;
-    }
-
-    while (index >= 0)
-    {
-        /*if (hugeText)
-            setFormat (index, text.length() - index, translucentFormat);*/
-        int endIndex;
-        /* when the css block starts in the previous line
-           and the search for its end has just begun... */
-        if ((prevState == cssBlockState
-             || prevState == commentInCssState
-             || prevState == cssValueState) // subset of cssBlockState
-            && index == 0)
-            /* ... search for its end from the line start */
-            endIndex = text.indexOf (cssEndExpression, 0, &cssEndtMatch);
-        else
-            endIndex = text.indexOf (cssEndExpression,
-                                     index + cssStartMatch.capturedLength(),
-                                     &cssEndtMatch);
-
-        int cssLength;
-        if (endIndex == -1)
-        {
-            endIndex = text.length() - 1;
-            setCurrentBlockState (cssBlockState);
-            cssLength = text.length() - index;
-        }
-        else
-            cssLength = endIndex - index
-                        + cssEndtMatch.capturedLength();
-
-        if (mainFormatting)
-        {
-            /* at first, we suppose all syntax is wrong */
-            QRegularExpressionMatch match;
-            QRegularExpression expression ("[^\\{\\}\\s]+");
-            int indxTmp = text.indexOf (expression, index, &match);
-            while (isQuoted (text, indxTmp))
-                indxTmp = text.indexOf (expression, indxTmp + 1, &match);
-            while (indxTmp >= 0 && indxTmp < endIndex)
-            {
-                setFormat (indxTmp, match.capturedLength(), neutralFormat);
-                indxTmp = text.indexOf (expression, indxTmp + match.capturedLength(), &match);
-            }
-
-            /* css attribute format (before :...;) */
-            QTextCharFormat cssAttFormat;
-            cssAttFormat.setFontItalic (true);
-            cssAttFormat.setForeground (Blue);
-            expression.setPattern ("[A-Za-z0-9_\\-]+(?=\\s*(?<!:):(?!:))");
-            indxTmp = text.indexOf (expression, index, &match);
-            while (isQuoted (text, indxTmp))
-                indxTmp = text.indexOf (expression, indxTmp + 1, &match);
-            while (indxTmp >= 0 && indxTmp < endIndex)
-            {
-                setFormat (indxTmp, match.capturedLength(), cssAttFormat);
-                indxTmp = text.indexOf (expression, indxTmp + match.capturedLength(), &match);
-            }
-        }
-
-        index = text.indexOf (cssStartExpression, index + cssLength, &cssStartMatch);
-    }
-
-    /**************************
-     * (Multiline) CSS Values *
-     **************************/
-
-    cssStartExpression.setPattern ("(?<!:):(?!:)");
-    cssEndExpression.setPattern (";|\\}");
-    index = 0;
-    if (prevState != cssValueState || start > 0)
-    {
-        index = text.indexOf (cssStartExpression, start, &cssStartMatch);
-        if (index > -1)
-        {
-            while (format (index) != neutralFormat)
-            {
-                index = text.indexOf (cssStartExpression, index + 1, &cssStartMatch);
-                if (index == -1) break;
-            }
-        }
-    }
-
-    while (index >= 0)
-    {
-        int endIndex;
-        int startMatch = 0;
-        if (prevState == cssValueState
-            && index == 0)
-            endIndex = text.indexOf (cssEndExpression, 0, &cssEndtMatch);
-        else
-        {
-            startMatch = cssStartMatch.capturedLength();
-            endIndex = text.indexOf (cssEndExpression,
-                                     index + startMatch,
-                                     &cssEndtMatch);
-        }
-
-        int cssLength;
-        if (endIndex == -1)
-        {
-            setCurrentBlockState (cssValueState);
-            cssLength = text.length() - index;
-        }
-        else
-            cssLength = endIndex - index
-                        + cssEndtMatch.capturedLength();
-        if (mainFormatting)
-        {
-            /* css value format */
-            setFormat (index, cssLength, cssValueFormat);
-
-            /* numbers in css values */
-            int nIndex = text.indexOf (numExpression, index + startMatch, &numMatch);
-            while (nIndex > -1
-                   && nIndex + numMatch.capturedLength() <= index + cssLength)
-            {
-                setFormat (nIndex, numMatch.capturedLength(), numFormat);
-                nIndex = text.indexOf (numExpression, nIndex + numMatch.capturedLength(), &numMatch);
-            }
-
-            setFormat (index, startMatch, mainFormat);
-            if (endIndex > -1)
-                setFormat (endIndex, 1, mainFormat);
-        }
-
-        index = text.indexOf (cssStartExpression, index + cssLength, &cssStartMatch);
-        if (index > -1)
-        {
-            if (!mainFormatting) break; // there's no neutralFormat
-            while (format (index) != neutralFormat)
-            {
-                index = text.indexOf (cssStartExpression, index + 1, &cssStartMatch);
-                if (index == -1) break;
-            }
-        }
-    }
-
-    if (mainFormatting)
-    {
-        /* color value format (#xyz, #abcdef, #abcdefxy) */
-        QTextCharFormat cssColorFormat;
-
-        cssColorFormat.setForeground (Verda);
-        cssColorFormat.setFontWeight (QFont::Bold);
-        cssColorFormat.setFontItalic (true);
-        QRegularExpressionMatch match;
-        // previously: "#\\b([A-Za-z0-9]{3}){0,4}(?![A-Za-z0-9_]+)"
-        QRegularExpression expression ("#([A-Fa-f0-9]{3}){0,2}(?![A-Za-z0-9_]+)|#([A-Fa-f0-9]{3}){2}[A-Fa-f0-9]{2}(?![A-Za-z0-9_]+)");
-        int indxTmp = text.indexOf (expression, start, &match);
-        while (isQuoted (text, indxTmp))
-            indxTmp = text.indexOf (expression, indxTmp + 1, &match);
-        while (indxTmp >= 0)
-        {
-            if (/*format (indxTmp) == cssValueFormat // should be a value
-                    &&*/ format (indxTmp) != neutralFormat) // not an error
-            {
-                setFormat (indxTmp, match.capturedLength(), cssColorFormat);
-            }
-            indxTmp = text.indexOf (expression, indxTmp + match.capturedLength(), &match);
-        }
-
-        /* definitions (starting with @) */
-        QTextCharFormat cssDefinitionFormat;
-        cssDefinitionFormat.setForeground (Brown);
-        expression.setPattern ("^\\s*@[A-Za-z-]+\\s+|;\\s*@[A-Za-z-]+\\s+");
-        indxTmp = text.indexOf (expression, start, &match);
-        while (isQuoted (text, indxTmp))
-            indxTmp = text.indexOf (expression, indxTmp + 1, &match);
-        while (indxTmp >= 0)
-        {
-            int length = match.capturedLength();
-            if (format (indxTmp) != cssValueFormat
-                    && format (indxTmp) != neutralFormat)
-            {
-                if (text.at (indxTmp) == ';')
-                {
-                    ++indxTmp;
-                    --length;
-                }
-                setFormat (indxTmp, length, cssDefinitionFormat);
-            }
-            indxTmp = text.indexOf (expression, indxTmp + length, &match);
-        }
-    }
-
-    return cssIndx;
-}
-/*************************/
 void Highlighter::singleLineComment (const QString &text, const int start)
 {
     for (const HighlightingRule &rule : qAsConst (highlightingRules))
@@ -2542,7 +2309,7 @@ void Highlighter::singleLineComment (const QString &text, const int start)
 }
 /*************************/
 void Highlighter::multiLineComment (const QString &text,
-                                    const int index, const int cssIndx,
+                                    const int index,
                                     const QRegularExpression &commentStartExp, const QRegularExpression &commentEndExp,
                                     const int commState,
                                     const QTextCharFormat &comFormat)
@@ -2556,7 +2323,6 @@ void Highlighter::multiLineComment (const QString &text,
        a lot of CPU time if they're formatted completely. */
     //bool hugeText = ((progLan == "css" || progLan == "scss" ) && text.length() > 50000);
 
-    bool commentBeforeBrace = false; // in css, not as: "{...
     int startIndex = index;
     QTextCharFormat noteFormat;
     noteFormat.setFontWeight (QFont::Bold);
@@ -2566,9 +2332,10 @@ void Highlighter::multiLineComment (const QString &text,
     QRegularExpressionMatch startMatch;
     QRegularExpressionMatch endMatch;
 
-    if ((prevState != commState
-         && prevState != commentInCssState)
-        || startIndex > 0)
+    if (startIndex > 0
+        || (prevState != commState
+            && prevState != commentInCssBlockState
+            && prevState != commentInCssValueState))
     {
         startIndex = text.indexOf (commentStartExp, startIndex, &startMatch);
         /* skip single-line comments */
@@ -2581,8 +2348,6 @@ void Highlighter::multiLineComment (const QString &text,
             startIndex = text.indexOf (commentStartExp, startIndex + 1, &startMatch);
             fi = format (startIndex);
         }
-        if (startIndex >= 0 && startIndex < cssIndx)
-            commentBeforeBrace = true;
 
         /* special handling for markdown */
         if (progLan == "markdown" && startIndex > 0)
@@ -2634,7 +2399,8 @@ void Highlighter::multiLineComment (const QString &text,
         /* when the comment start is in the prvious line
            and the search for the comment end has just begun... */
         if ((prevState == commState
-             || prevState == commentInCssState)
+             || prevState == commentInCssBlockState
+             || prevState == commentInCssValueState)
             && startIndex == 0)
             /* ... search for the comment end from the line start */
             endIndex = text.indexOf (commentEndExp, 0, &endMatch);
@@ -2670,28 +2436,23 @@ void Highlighter::multiLineComment (const QString &text,
         int commentLength;
         if (endIndex == -1)
         {
-            if ((currentBlockState() != cssBlockState
-                 && currentBlockState() != cssValueState)
-                || commentBeforeBrace)
+            if (currentBlockState() != cssBlockState
+                && currentBlockState() != cssValueState)
             {
                 setCurrentBlockState (commState);
             }
             else
-                setCurrentBlockState (commentInCssState);
+            { // CSS
+                if (currentBlockState() == cssValueState)
+                    setCurrentBlockState (commentInCssValueState);
+                else
+                    setCurrentBlockState (commentInCssBlockState);
+            }
             commentLength = text.length() - startIndex;
         }
         else
-        {
-            if (/*!hugeText && */cssIndx >= startIndex && cssIndx < endIndex)
-            {
-                /* if '{' is inside the comment,
-                   this isn't a CSS block */
-                setCurrentBlockState (-1);
-                setFormat (endIndex + 1, text.length() - endIndex - 1, neutralFormat);
-            }
             commentLength = endIndex - startIndex
                             + endMatch.capturedLength();
-        }
         //if (!hugeText)
         //{
             setFormat (startIndex, commentLength, comFormat);
@@ -4367,9 +4128,9 @@ void Highlighter::highlightFountainBlock (const QString &text)
     static const QRegularExpression lyricRegex ("^\\s*~");
 
     /* notes */
-    multiLineComment (text, 0, -1, leftNoteBracket, QRegularExpression ("^ ?$|\\]\\]"), markdownBlockQuoteState, altQuoteFormat);
+    multiLineComment (text, 0, leftNoteBracket, QRegularExpression ("^ ?$|\\]\\]"), markdownBlockQuoteState, altQuoteFormat);
     /* boneyards (like a multi-line comment -- skips altQuoteFormat in notes with commentStartExpression) */
-    multiLineComment (text, 0, -1, commentStartExpression, commentEndExpression, commentState, commentFormat);
+    multiLineComment (text, 0, commentStartExpression, commentEndExpression, commentState, commentFormat);
 
     QTextBlock prevBlock = currentBlock().previous();
     QTextBlock nxtBlock = currentBlock().next();
@@ -4628,7 +4389,7 @@ void Highlighter::highlightBlock (const QString &text)
     }
 
     bool rehighlightNextBlock = false;
-    int oldOpenNests = 0; QSet<int> oldOpenQuotes; // to be used in SH_CmndSubstVar() (and perl)
+    int oldOpenNests = 0; QSet<int> oldOpenQuotes; // to be used in SH_CmndSubstVar() (and perl and css)
     bool oldProperty = false; // to be used with yaml, markdown and perl
     QString oldLabel; // to be used with yaml and perl
     if (TextBlockData *oldData = static_cast<TextBlockData *>(currentBlockUserData()))
@@ -4713,15 +4474,20 @@ void Highlighter::highlightBlock (const QString &text)
     if (progLan == "xml")
     {
         /* value is handled as a kind of comment */
-        multiLineComment (text, 0, -1, xmlGt, xmlLt, xmlValueState, neutralFormat);
+        multiLineComment (text, 0, xmlGt, xmlLt, xmlValueState, neutralFormat);
         /* multiline quotes as signs of errors in the xml doc */
         xmlQuotes (text);
     }
-    /**************************
-     * (Multiline) Quotations *
-     **************************/
+    /*****************************************
+     * (Multiline) Quotations as well as CSS *
+     *****************************************/
     else if (progLan == "sh") // bash has its own method
         SH_MultiLineQuote (text);
+    else if (progLan == "css")
+    { // double quotes and urls are highlighted by cssHighlighter() inside CSS values
+        cssHighlighter (text, mainFormatting);
+        rehighlightNextBlock |= (data->openNests() != oldOpenNests);
+    }
     else if (progLan != "diff" && progLan != "log"
              && progLan != "desktop" && progLan != "config" && progLan != "theme"
              && progLan != "changelog" && progLan != "url"
@@ -4733,19 +4499,12 @@ void Highlighter::highlightBlock (const QString &text)
         rehighlightNextBlock |= multiLineQuote (text);
     }
 
-    /*******
-     * CSS *
-     *******/
-
-    /* helps seeing if a comment destroys a css block */
-    int cssIndx = cssHighlighter (text, mainFormatting);
-
     /**********************
      * Multiline Comments *
      **********************/
 
     if (!commentStartExpression.pattern().isEmpty() && progLan != "python")
-        multiLineComment (text, 0, cssIndx, commentStartExpression, commentEndExpression, commentState, commentFormat);
+        multiLineComment (text, 0, commentStartExpression, commentEndExpression, commentState, commentFormat);
 
     /* only javascript, qml and perl */
     multiLineRegex (text, 0);
@@ -5333,6 +5092,8 @@ void Highlighter::highlightBlock (const QString &text)
         htmlBrackets (text);
         htmlCSSHighlighter (text);
         htmlJavascript (text);
+        /* also consider double quotes and URLs inside CSS values */
+        rehighlightNextBlock |= (data->openNests() != oldOpenNests);
         /* go to braces matching */
     }
 

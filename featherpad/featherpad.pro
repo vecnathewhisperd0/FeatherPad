@@ -30,6 +30,7 @@ SOURCES += main.cpp \
            brackets.cpp \
            syntax.cpp \
            highlighter-sh.cpp \
+           highlighter-css.cpp \
            highlighter-html.cpp \
            highlighter-patterns.cpp \
            highlighter-regex.cpp \

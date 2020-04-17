@@ -7,6 +7,7 @@ V0.13.2
  * Highlight a JS regex at line start if the previous line ends with a single-line comment.
  * Support JS template literals (and highlight them like single quotes).
  * Considered a rare case of here-docs, where a delimiter is commented out but another valid delimiter comes after it.
+ * Fixed and improved CSS highlighting.
 
 V0.13.1
 ---------

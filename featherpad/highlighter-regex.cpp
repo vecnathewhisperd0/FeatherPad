@@ -358,7 +358,7 @@ void Highlighter::multiLineRegex(const QString &text, const int index)
         { // reformat from here, as in highlightBlock()
             singleLineComment (text, badIndex);
             multiLineQuote (text, badIndex); // always returns false
-            multiLineComment (text, badIndex, -1, commentStartExpression, commentEndExpression, commentState, commentFormat);
+            multiLineComment (text, badIndex, commentStartExpression, commentEndExpression, commentState, commentFormat);
         }
 
         /* skip comments and quotations again */
