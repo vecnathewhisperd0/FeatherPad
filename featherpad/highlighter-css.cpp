@@ -25,7 +25,7 @@ static const QRegularExpression cssOpenUrl ("\\burl\\([^\\)]*$");
 
 /* NOTE: Comments can be everywhere, inside and outside CSS blocks/values,
          but a start comment sign may be escaped by a quotation or URL inside
-         CSS values. Therefore, to know whether a position is commented out,
+         a CSS value. Therefore, to know whether a position is commented out,
          we need to know whether it is inside a value or not and, for that,
          we have to divide the text line to regions of CSS values. */
 
@@ -475,7 +475,7 @@ void Highlighter::cssHighlighter (const QString &text, bool mainFormatting, cons
             }
 
             if (blockEndIndex == text.length())
-            { // value regions have been found and their quotes and URLs are formatted
+            { // value regions are found and their quotes and URLs are formatted
                 blockEndIndex = -1;
                 break;
             }
