@@ -89,7 +89,7 @@ bool Highlighter::isCSSCommented (const QString &text,
             continue;
 
         ++N;
-        if (index < pos)
+        if (pos >= index)
         {
             if (N % 2 == 0) res = true;
             else res = false;
@@ -154,7 +154,7 @@ bool Highlighter::isQuotedInCSSValue (const QString &text,
     while ((nxtPos = text.indexOf (quoteMark, pos + 1)) >= 0)
     {
         ++N;
-        if (index < nxtPos)
+        if (nxtPos >= index)
         {
             if (N % 2 == 0)
             {
@@ -229,7 +229,7 @@ bool Highlighter::isInsideCSSValueUrl (const QString &text,
         indx = text.left (index).indexOf (cssOpenUrl, indx + 1);
     }
 
-    /* format all URLs up to indx */
+    /* format all URLs up to index */
     QRegularExpressionMatch match;
     static const QRegularExpression url ("\\burl\\([^\\)]*\\)");
     int urlIndx = text.indexOf (url, valueStart, &match);

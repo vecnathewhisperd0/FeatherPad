@@ -24,8 +24,8 @@ Q_DECLARE_METATYPE(QTextBlock)
 
 namespace FeatherPad {
 
-/* NOTE: It is supposed that a URL does not end with punctuation marks, parentheses or brackets. */
-static const QRegularExpression urlPattern ("[A-Za-z0-9_\\-]+://((?!&quot;|&gt;|&lt;)[A-Za-z0-9_.+/\\?\\=~&%#,;!@\\*\'\\-:\\(\\)\\[\\]])+(?<!\\.|\\?|!|:|;|,|\\(|\\)|\\[|\\])|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+(?<!\\.)");
+/* NOTE: It is supposed that a URL does not end with a punctuation mark, parenthesis, bracket or single-quotation mark. */
+static const QRegularExpression urlPattern ("[A-Za-z0-9_\\-]+://((?!&quot;|&gt;|&lt;)[A-Za-z0-9_.+/\\?\\=~&%#,;!@\\*\'\\-:\\(\\)\\[\\]])+(?<!\\.|\\?|!|:|;|,|\\(|\\)|\\[|\\]|\')|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+(?<!\\.)");
 static const QRegularExpression notePattern ("\\b(NOTE|TODO|FIXME|WARNING)\\b");
 
 TextBlockData::~TextBlockData()
@@ -1737,7 +1737,7 @@ bool Highlighter::isQuoted (const QString &text, const int index,
     while ((nxtPos = text.indexOf (quoteExpression, pos + 1)) >= 0)
     {
         /* skip formatted comments */
-        if (format (nxtPos) == commentFormat)
+        if (format (nxtPos) == commentFormat || format (nxtPos) == urlFormat)
         {
             pos = nxtPos;
             continue;
@@ -1837,7 +1837,7 @@ bool Highlighter::isPerlQuoted (const QString &text, const int index)
     while ((nxtPos = text.indexOf (quoteExpression, pos + 1)) >= 0)
     {
         /* skip formatted comments */
-        if (format (nxtPos) == commentFormat
+        if (format (nxtPos) == commentFormat || format (nxtPos) == urlFormat
             || (N % 2 == 0 && isMLCommented (text, nxtPos, commentState)))
         {
             pos = nxtPos;
@@ -1950,7 +1950,7 @@ bool Highlighter::isJSQuoted (const QString &text, const int index)
     while ((nxtPos = text.indexOf (quoteExpression, pos + 1)) >= 0)
     {
         /* skip formatted comments */
-        if (format (nxtPos) == commentFormat
+        if (format (nxtPos) == commentFormat || format (nxtPos) == urlFormat
             || (N % 2 == 0
                 && (isMLCommented (text, nxtPos, commentState)
                     || isMLCommented (text, nxtPos, htmlJavaCommentState))))
@@ -2125,8 +2125,8 @@ void Highlighter::pythonMLComment (const QString &text, const int indx)
             index = text.indexOf (commentStartExpression, index + 3);
             fi = format (index);
         }
-        if (format (index) == commentFormat)
-            return;
+        if (format (index) == commentFormat || format (index) == urlFormat)
+            return; // inside a single-line comment
 
         /* if the comment start is found... */
         if (index >= indx)
@@ -2237,7 +2237,7 @@ void Highlighter::pythonMLComment (const QString &text, const int indx)
             index = text.indexOf (commentStartExpression, index + 3);
             fi = format (index);
         }
-        if (format (index) == commentFormat)
+        if (format (index) == commentFormat || format (index) == urlFormat)
             return;
     }
 }

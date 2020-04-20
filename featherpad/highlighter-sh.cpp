@@ -25,7 +25,7 @@ namespace FeatherPad {
 void Highlighter::SH_MultiLineQuote (const QString &text)
 {
     /* exactly as defined in "highlighter.cpp" */
-    static const QRegularExpression urlPattern ("[A-Za-z0-9_\\-]+://((?!&quot;|&gt;|&lt;)[A-Za-z0-9_.+/\\?\\=~&%#,;!@\\*\'\\-:\\(\\)\\[\\]])+(?<!\\.|\\?|!|:|;|,|\\(|\\)|\\[|\\])|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+(?<!\\.)");
+    static const QRegularExpression urlPattern ("[A-Za-z0-9_\\-]+://((?!&quot;|&gt;|&lt;)[A-Za-z0-9_.+/\\?\\=~&%#,;!@\\*\'\\-:\\(\\)\\[\\]])+(?<!\\.|\\?|!|:|;|,|\\(|\\)|\\[|\\]|\')|[A-Za-z0-9_.\\-]+@[A-Za-z0-9_\\-]+\\.[A-Za-z0-9.]+(?<!\\.)");
 
     int index = 0;
     QRegularExpressionMatch quoteMatch;
@@ -175,6 +175,7 @@ bool Highlighter::SH_SkipQuote (const QString &text, const int pos, bool isStart
     QTextCharFormat fi = format (pos);
     return (fi == neutralFormat // not needed
             || fi == commentFormat
+            || fi == urlFormat
             || fi == quoteFormat
             || fi == altQuoteFormat
             || fi == urlInsideQuoteFormat);

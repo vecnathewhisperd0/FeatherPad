@@ -1,4 +1,4 @@
-V0.13.2
+V0.14.0
 ---------
  * Handle relative file paths correctly when they contain no slash.
  * Get the locale name by using Qt methods when guessing the encoding.
@@ -8,6 +8,7 @@ V0.13.2
  * Support JS template literals (and highlight them like single quotes).
  * Considered a rare case of here-docs, where a delimiter is commented out but another valid delimiter comes after it.
  * Fixed and improved CSS highlighting.
+ * Don't include an ending single quote in an URL pattern.
 
 V0.13.1
 ---------
