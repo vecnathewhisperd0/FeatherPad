@@ -21,6 +21,10 @@
 
 namespace FeatherPad {
 
+/* NOTE: We cheat and include "q", "qq", "qw", "qx" and "qr" here to have a simpler code.
+         Moreover, the => operator is excluded. */
+static const QRegularExpression rExp ("/|\\b(?<!(@|#|\\$))(m|qr|q|qq|qw|qx|qr|(?<!-)s|y|tr)\\s*(?!\\=>)[^\\w\\}\\)\\]>\\s]");
+
 // This is only for the start.
 bool Highlighter::isEscapedPerlRegex (const QString &text, const int pos)
 {
@@ -180,10 +184,6 @@ bool Highlighter::isInsidePerlRegex (const QString &text, const int index)
         if (index <= pos) return false;
     }
 
-    /* NOTE: We cheat and include "q", "qq", "qw", "qx" and "qr" here to have a simpler code.
-             Moreover, the => operator is excluded. */
-    QString rPattern ("/|\\b(?<!(@|#|\\$))(m|qr|q|qq|qw|qx|qr|(?<!-)s|y|tr)\\s*(?!\\=>)[^\\w\\}\\)\\]>\\s]");
-
     QRegularExpression exp;
     bool res = false;
     bool searchedToReplace = false;
@@ -193,7 +193,7 @@ bool Highlighter::isInsidePerlRegex (const QString &text, const int index)
     {
         if (previousBlockState() != regexState && previousBlockState() != regexSearchState)
         {
-            exp.setPattern (rPattern);
+            exp = rExp;
             N = 0;
         }
         else
@@ -243,7 +243,7 @@ bool Highlighter::isInsidePerlRegex (const QString &text, const int index)
     }
     else // a new search from the last position
     {
-        exp.setPattern (rPattern);
+        exp = rExp;
         N = 0;
     }
 
@@ -253,7 +253,8 @@ bool Highlighter::isInsidePerlRegex (const QString &text, const int index)
         /* skip formatted comments and quotes */
         QTextCharFormat fi = format (nxtPos);
         if (N % 2 == 0
-            && (fi == commentFormat || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
+            && (fi == commentFormat || fi == urlFormat
+                || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
         {
             pos = nxtPos +capturedLength - 1;
             continue;
@@ -265,7 +266,7 @@ bool Highlighter::isInsidePerlRegex (const QString &text, const int index)
             : (capturedLength > 1
               ? isEscapedPerlRegex (text, nxtPos) // an escaped start sign
               : (isEscapedRegexEndSign (text, qMax (0, pos + 1), nxtPos) // an escaped middle sign
-                 || (exp.pattern() == rPattern
+                 || (exp == rExp
                      && isEscapedPerlRegex (text, nxtPos))))) // an escaped start slash
         {
             if (res)
@@ -305,7 +306,7 @@ bool Highlighter::isInsidePerlRegex (const QString &text, const int index)
         searchedToReplace = false;
         if (N % 2 == 0)
         {
-            exp.setPattern (rPattern);
+            exp = rExp;
             res = false;
         }
         else
@@ -352,8 +353,6 @@ void Highlighter::multiLinePerlRegex(const QString &text)
 {
     int startIndex = 0;
     QRegularExpressionMatch startMatch;
-    /* NOTE: "q", "qq", "qw", "qx" and "qr" are intentionally included here. */
-    QRegularExpression startExp ("/|\\b(?<!(@|#|\\$))(m|qr|q|qq|qw|qx|qr|(?<!-)s|y|tr)\\s*(?!\\=>)[^\\w\\}\\)\\]>\\s]");
     QRegularExpressionMatch endMatch;
     QRegularExpression endExp;
     QTextCharFormat fi;
@@ -388,15 +387,15 @@ void Highlighter::multiLinePerlRegex(const QString &text)
     }
     else
     {
-        startIndex = text.indexOf (startExp, startIndex, &startMatch);
+        startIndex = text.indexOf (rExp, startIndex, &startMatch);
         /* skip comments and quotations (all formatted to this point) */
         fi = format (startIndex);
         while (startIndex >= 0
                && (isEscapedPerlRegex (text, startIndex)
-                   || fi == commentFormat
+                   || fi == commentFormat || fi == urlFormat
                    || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
         {
-            startIndex = text.indexOf (startExp, startIndex + startMatch.capturedLength(), &startMatch);
+            startIndex = text.indexOf (rExp, startIndex + startMatch.capturedLength(), &startMatch);
             fi = format (startIndex);
         }
         if (startIndex >= 0 && startMatch.capturedLength() > 1)
@@ -531,16 +530,16 @@ void Highlighter::multiLinePerlRegex(const QString &text)
         }
         setFormat (startIndex + keywordLength, len - keywordLength, regexFormat);
 
-        startIndex = text.indexOf (startExp, startIndex + len, &startMatch);
+        startIndex = text.indexOf (rExp, startIndex + len, &startMatch);
 
         /* skip comments and quotations again */
         fi = format (startIndex);
         while (startIndex >= 0
                && (isEscapedPerlRegex (text, startIndex)
-                   || fi == commentFormat
+                   || fi == commentFormat || fi == urlFormat
                    || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
         {
-            startIndex = text.indexOf (startExp, startIndex + startMatch.capturedLength(), &startMatch);
+            startIndex = text.indexOf (rExp, startIndex + startMatch.capturedLength(), &startMatch);
             fi = format (startIndex);
         }
         if (startIndex >= 0 && startMatch.capturedLength() > 1)

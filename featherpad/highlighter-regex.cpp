@@ -217,7 +217,8 @@ bool Highlighter::isInsideRegex (const QString &text, const int index)
         /* skip formatted comments and quotes */
         QTextCharFormat fi = format (nxtPos);
         if (N % 2 == 0
-            && (fi == commentFormat || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
+            && (fi == commentFormat || fi == urlFormat
+                || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
         {
             pos = nxtPos;
             continue;
@@ -296,7 +297,7 @@ void Highlighter::multiLineRegex(const QString &text, const int index)
         fi = format (startIndex);
         while (startIndex >= 0
                && (isEscapedRegex (text, startIndex)
-                   || fi == commentFormat
+                   || fi == commentFormat || fi == urlFormat
                    || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
         {
             startIndex = text.indexOf (startExp, startIndex + 1, &startMatch);
@@ -365,7 +366,7 @@ void Highlighter::multiLineRegex(const QString &text, const int index)
         fi = format (startIndex);
         while (startIndex >= 0
                && (isEscapedRegex (text, startIndex)
-                   || fi == commentFormat
+                   || fi == commentFormat || fi == urlFormat
                    || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
         {
             startIndex = text.indexOf (startExp, startIndex + 1, &startMatch);

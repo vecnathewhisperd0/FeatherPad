@@ -401,7 +401,7 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
         cssIndex = text.indexOf (cssStartExp, start, &startMatch);
         fi = format (cssIndex);
         while (cssIndex >= 0
-               && (fi == commentFormat
+               && (fi == commentFormat || fi == urlFormat
                    || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
         {
             cssIndex = text.indexOf (cssStartExp, cssIndex + startMatch.capturedLength(), &startMatch);
