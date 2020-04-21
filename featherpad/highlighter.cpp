@@ -237,6 +237,8 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
     quoteMark.setPattern ("\""); // the standard quote mark (always a single character)
     mixedQuoteMark.setPattern ("\"|\'");
+    /* includes Perl's backquote operator and JavaScript's template literal */
+    mixedQuoteBackquote.setPattern ("\"|\'|`");
 
     HighlightingRule rule;
 
@@ -1802,7 +1804,7 @@ bool Highlighter::isPerlQuoted (const QString &text, const int index)
 
     bool res = false;
     int N;
-    QRegularExpression quoteExpression ("\"|\'|`");
+    QRegularExpression quoteExpression = mixedQuoteBackquote;
     if (pos == -1)
     {
         int prevState = previousBlockState();
@@ -1895,7 +1897,7 @@ bool Highlighter::isPerlQuoted (const QString &text, const int index)
                 quoteExpression.setPattern ("`");
         }
         else
-            quoteExpression.setPattern ("\"|\'|`");
+            quoteExpression = mixedQuoteBackquote;
         pos = nxtPos;
     }
 
@@ -1922,7 +1924,7 @@ bool Highlighter::isJSQuoted (const QString &text, const int index)
 
     bool res = false;
     int N;
-    QRegularExpression quoteExpression ("\"|\'|`");
+    QRegularExpression quoteExpression = mixedQuoteBackquote;
     if (pos == -1)
     {
         int prevState = previousBlockState();
@@ -2010,7 +2012,7 @@ bool Highlighter::isJSQuoted (const QString &text, const int index)
                 quoteExpression.setPattern ("`");
         }
         else
-            quoteExpression.setPattern ("\"|\'|`");
+            quoteExpression = mixedQuoteBackquote;
         pos = nxtPos;
     }
 
@@ -2848,7 +2850,7 @@ void Highlighter::multiLinePerlQuote (const QString &text)
 {
     int index = 0;
     QRegularExpressionMatch quoteMatch;
-    QRegularExpression quoteExpression ("\"|\'|`");
+    QRegularExpression quoteExpression = mixedQuoteBackquote;
     int quote = doubleQuoteState;
 
     /* find the start quote */
@@ -2907,7 +2909,7 @@ void Highlighter::multiLinePerlQuote (const QString &text)
     while (index >= 0)
     {
         /* if the search is continued... */
-        if (quoteExpression.pattern() == "\"|\'|`")
+        if (quoteExpression == mixedQuoteBackquote)
         {
             /* ... distinguish between the three kinds of quote
                again because the quote mark may have changed */
@@ -2969,7 +2971,7 @@ void Highlighter::multiLinePerlQuote (const QString &text)
         }
 
         /* the next quote may be different */
-        quoteExpression.setPattern ("\"|\'|`");
+        quoteExpression = mixedQuoteBackquote;
         index = text.indexOf (quoteExpression, index + quoteLength);
 
         /* skip escaped start quotes and all comments */
@@ -2986,7 +2988,7 @@ void Highlighter::multiLineJSlQuote (const QString &text, const int start, int c
 {
     int index = start;
     QRegularExpressionMatch quoteMatch;
-    QRegularExpression quoteExpression ("\"|\'|`");
+    QRegularExpression quoteExpression = mixedQuoteBackquote;
     int quote = doubleQuoteState;
 
     /* find the start quote */
@@ -3044,7 +3046,7 @@ void Highlighter::multiLineJSlQuote (const QString &text, const int start, int c
     while (index >= 0)
     {
         /* if the search is continued... */
-        if (quoteExpression.pattern() == "\"|\'|`")
+        if (quoteExpression == mixedQuoteBackquote)
         {
             /* ... distinguish between double and single quotes
                again because the quote mark may have changed */
@@ -3111,7 +3113,7 @@ void Highlighter::multiLineJSlQuote (const QString &text, const int start, int c
         }
 
         /* the next quote may be different */
-        quoteExpression.setPattern ("\"|\'|`");
+        quoteExpression = mixedQuoteBackquote;
         index = text.indexOf (quoteExpression, index + quoteLength);
 
         /* skip escaped start quotes and all comments */
