@@ -500,7 +500,10 @@ void Highlighter::cssHighlighter (const QString &text, bool mainFormatting, cons
         if (blockEndIndex == -1)
         {
             blockEndIndex = text.length();
-            setCurrentBlockState (cssBlockState);
+            if (regions.size() % 2 != 0)
+                setCurrentBlockState (cssValueState);
+            else
+                setCurrentBlockState (cssBlockState);
             cssLength = text.length() - blockStartIndex;
         }
         else
@@ -566,7 +569,6 @@ void Highlighter::cssHighlighter (const QString &text, bool mainFormatting, cons
             {
                 if (i == valueRegions.size() - 1)
                 {
-                    setCurrentBlockState (cssValueState);
                     valueStartIndex = valueRegions.at (i);
                     cssLength = text.length() - valueRegions.at (i);
                 }

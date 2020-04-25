@@ -1,3 +1,7 @@
+V0.14.1
+---------
+ * Fixed a miscalculation in highlighting of multiline CSS values.
+
 V0.14.0
 ---------
  * Handle relative file paths correctly when they contain no slash.
