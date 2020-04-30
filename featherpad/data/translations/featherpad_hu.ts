@@ -6,7 +6,7 @@
     <message>
         <location filename="../../about.ui" line="155"/>
         <source>License</source>
-        <translation type="unfinished">Licensz</translation>
+        <translation>Licensz</translation>
     </message>
 </context>
 <context>
@@ -191,7 +191,7 @@
     <message>
         <location filename="../../fp.ui" line="569"/>
         <source>&amp;Find</source>
-        <translation type="unfinished">&amp;Keresés</translation>
+        <translation>&amp;Keresés</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="575"/>
@@ -311,7 +311,7 @@
     <message>
         <location filename="../../fp.ui" line="685"/>
         <source>&amp;Line Numbers</source>
-        <translation type="unfinished">&amp;Sorszámok</translation>
+        <translation>&amp;Sorszámok</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="688"/>
@@ -396,7 +396,7 @@
     <message>
         <location filename="../../fp.ui" line="980"/>
         <source>Edit text</source>
-        <translation type="unfinished">Szöveg szerkesztése</translation>
+        <translation>Szöveg szerkesztése</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="983"/>
@@ -871,7 +871,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="833"/>
         <source>Another FeatherPad window has a modal dialog!</source>
-        <translation type="unfinished">Egy másik FeatherPad ablaknak már van egy párbeszédablaka!</translation>
+        <translation>Egy másik FeatherPad ablaknak már van egy párbeszédablaka!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="670"/>
@@ -1058,7 +1058,7 @@
         <location filename="../../fpwin.cpp" line="3210"/>
         <location filename="../../fpwin.cpp" line="3397"/>
         <source>This file has been modified elsewhere or in another way!</source>
-        <translation type="unfinished">Ezt a fájlt máshol vagy máshogyan módosították!</translation>
+        <translation>Ezt a fájlt máshol vagy máshogyan módosították!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="3211"/>
@@ -1081,13 +1081,13 @@
         <location filename="../../fpwin.cpp" line="4532"/>
         <location filename="../../fpwin.cpp" line="4602"/>
         <source>Copy Target Path</source>
-        <translation type="unfinished">Cél útvonalának másolása</translation>
+        <translation>Cél útvonalának másolása</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="4536"/>
         <location filename="../../fpwin.cpp" line="4606"/>
         <source>Open Target Here</source>
-        <translation type="unfinished">Cél megnyitása itt</translation>
+        <translation>Cél megnyitása itt</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="4724"/>
@@ -1109,7 +1109,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="4739"/>
         <source>The Hunspell dictionary is not accompanied by an affix file.</source>
-        <translation type="unfinished">A Hunspell szótárhoz nem kapcsolódik affix fájl.</translation>
+        <translation>A Hunspell szótárhoz nem kapcsolódik affix fájl.</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="4761"/>
@@ -1143,7 +1143,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="5176"/>
         <source>A lightweight, tabbed, plain-text editor</source>
-        <translation type="unfinished">Egy könnyed, lapokkal ellátott, egyszerű szövegszerkesztő</translation>
+        <translation>Egy könnyed, lapokkal ellátott, egyszerű szövegszerkesztő</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="5177"/>
@@ -1169,24 +1169,24 @@
     <message>
         <location filename="../../replace.cpp" line="250"/>
         <source>No Replacement</source>
-        <translation type="unfinished">Nincs csere</translation>
+        <translation>Nincs csere</translation>
     </message>
     <message>
         <location filename="../../replace.cpp" line="252"/>
         <source>One Replacement</source>
-        <translation type="unfinished">Egy csere</translation>
+        <translation>Egy csere</translation>
     </message>
     <message numerus="yes">
         <location filename="../../replace.cpp" line="254"/>
         <source>%Ln Replacements</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%Ln csere</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../../syntax.cpp" line="273"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
-        <translation type="unfinished">A szintaxiskiemelés méretkorlátja túllépve.</translation>
+        <translation>A szintaxiskiemelés méretkorlátja túllépve.</translation>
     </message>
 </context>
 <context>
@@ -1299,7 +1299,7 @@
         <location filename="../../prefDialog.ui" line="107"/>
         <location filename="../../prefDialog.ui" line="120"/>
         <source>Window frame is excluded.</source>
-        <translation type="unfinished">Az ablakkeret nincs hozzá számolva.</translation>
+        <translation>Az ablakkeret nincs hozzá számolva.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="87"/>
@@ -1321,7 +1321,7 @@
         <location filename="../../prefDialog.ui" line="148"/>
         <source>Enforcing a window position is not recommended
 and may not work with some window managers.</source>
-        <translation type="unfinished">Az ablakpozíció kényszerítése nem ajánlott,
+        <translation>Az ablakpozíció kényszerítése nem ajánlott,
 és lehet, hogy néhány ablakkezelővel nem működik együtt.</translation>
     </message>
     <message>
@@ -1366,7 +1366,7 @@ a menü gomb megjelenik az eszköztáron.</translation>
     <message>
         <location filename="../../prefDialog.ui" line="218"/>
         <source>Hide search &amp;bar by default</source>
-        <translation type="unfinished">K&amp;eresősáv elrejtése alapértelmezetten</translation>
+        <translation>K&amp;eresősáv elrejtése alapértelmezetten</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="225"/>
@@ -1378,12 +1378,12 @@ külön keresési előzményei vannak.</translation>
     <message>
         <location filename="../../prefDialog.ui" line="229"/>
         <source>Use a shared search history</source>
-        <translation type="unfinished">Megosztott keresési előzmények használata</translation>
+        <translation>Megosztott keresési előzmények használata</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="236"/>
         <source>Always show st&amp;atus bar</source>
-        <translation type="unfinished">Áll&amp;apotsor megjelenítése mindig</translation>
+        <translation>Áll&amp;apotsor megjelenítése mindig</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="261"/>
@@ -1404,7 +1404,7 @@ külön keresési előzményei vannak.</translation>
     <message>
         <location filename="../../prefDialog.ui" line="286"/>
         <source>North</source>
-        <translation type="unfinished">Fent</translation>
+        <translation>Fent</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="291"/>
@@ -1414,12 +1414,12 @@ külön keresési előzményei vannak.</translation>
     <message>
         <location filename="../../prefDialog.ui" line="296"/>
         <source>West</source>
-        <translation type="unfinished">Balra</translation>
+        <translation>Balra</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="301"/>
         <source>East</source>
-        <translation type="unfinished">Jobbra</translation>
+        <translation>Jobbra</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="327"/>
@@ -1427,7 +1427,7 @@ külön keresési előzményei vannak.</translation>
 after the last tab is activated, and the same for Alt+Left.
 
 Tab navigation with mouse wheel is not affected.</source>
-        <translation type="unfinished">Ez azt jelenti, hogy az utolsó lap esetén az Alt+Jobbra az első lapra lép
+        <translation>Ez azt jelenti, hogy az utolsó lap esetén az Alt+Jobbra az első lapra lép
 az utolsó lap után, és ugyanez igaz fordítva is.
 
 A lapok egérkerékkel történő váltását ez nem érinti.</translation>
@@ -1449,7 +1449,7 @@ current desktop, files will be opened in its tabs.
 
 However, some desktop environments may not
 report that they have multiple desktops.</source>
-        <translation type="unfinished">Alapértelmezés szerint, ha van egy FeatherPad ablak a
+        <translation>Alapértelmezés szerint, ha van egy FeatherPad ablak a
 az aktuális asztalon, a fájlok a lapjain lesznek megnyitva.
 
 Néhány asztali környezet azonban nem
@@ -1458,7 +1458,7 @@ jelenti, hogy több asztaluk van.</translation>
     <message>
         <location filename="../../prefDialog.ui" line="367"/>
         <source>Always open in separate windows</source>
-        <translation type="unfinished">Mindig külön ablakban nyissa meg</translation>
+        <translation>Mindig külön ablakban nyissa meg</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="374"/>
@@ -1466,7 +1466,7 @@ jelenti, hogy több asztaluk van.</translation>
 desktop environment will be used instead of the Qt file dialog.
 
 Some desktop environments, like KDE and LXQt, provide files dialogs.</source>
-        <translation type="unfinished">Ha ez be van jelölve, akkor a Qt fájl-párbeszédpanel helyett az
+        <translation>Ha ez be van jelölve, akkor a Qt fájl-párbeszédpanel helyett az
 aktuális asztali környezet által biztosított fájl-párbeszédpanel kerül felhasználásra.
 
 Néhány asztali környezet, például a KDE és az LXQt, biztosít fájl-párbeszédpanelt.</translation>
@@ -1479,7 +1479,7 @@ Néhány asztali környezet, például a KDE és az LXQt, biztosít fájl-párbe
     <message>
         <location filename="../../prefDialog.ui" line="456"/>
         <source>Uncheck for Monospace.</source>
-        <translation type="unfinished">Ne jelölje be, ha a Monospace-t szeretné.</translation>
+        <translation>Ne jelölje be, ha a Monospace-t szeretné.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="459"/>
@@ -1501,25 +1501,25 @@ Néhány asztali környezet, például a KDE és az LXQt, biztosít fájl-párbe
         <source>By default, a triple period is replaced with an ellipsis
 and a double hyphen with a long dash while typing,
 under proper circumstances.</source>
-        <translation type="unfinished">Alapértelmezés szerint a három pont helyébe hármaspont kerül
+        <translation>Alapértelmezés szerint a három pont helyébe hármaspont kerül
 és a dupla kötőjelet hosszú kötőjel váltja fel gépelés közben,
 a megfelelő körülmények között.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="495"/>
         <source>Replace triple periods and double hyphens while typing</source>
-        <translation type="unfinished">Három pont és a dupla kötőjel lecserélése gépelés közben</translation>
+        <translation>Három pont és a dupla kötőjel lecserélése gépelés közben</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="565"/>
         <source>Never highlight syntax for files &gt; </source>
-        <translation type="unfinished">Ne legyen kiemelés azoknál a fájloknál, amelyek nagyobbak mint </translation>
+        <translation>Ne legyen kiemelés azoknál a fájloknál, amelyek nagyobbak mint </translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="534"/>
         <source>This creates a menu button on the
 status bar for changing the syntax.</source>
-        <translation type="unfinished">Ez létrehoz egy menügombot az
+        <translation>Ez létrehoz egy menügombot az
 állapotsoron a szintaxis megváltoztatásához.</translation>
     </message>
     <message>
@@ -1531,7 +1531,7 @@ status bar for changing the syntax.</source>
         <location filename="../../prefDialog.ui" line="603"/>
         <source>Show spaces, tabs and tab lines
 when the syntax is highlighted.</source>
-        <translation type="unfinished">Szóközök, behúzások, behúzásvonalak megjelenítése
+        <translation>Szóközök, behúzások, behúzásvonalak megjelenítése
 amikor a szintaxiskiemelés be van kapcsolva.</translation>
     </message>
     <message>
@@ -1544,18 +1544,18 @@ amikor a szintaxiskiemelés be van kapcsolva.</translation>
         <location filename="../../prefDialog.ui" line="634"/>
         <source>The vertical position lines will be drawn only if
 the editor font has a fixed pitch (like Monospace).</source>
-        <translation type="unfinished">A függőleges vonalakat csak akkor lehet megjeleníteni, ha
+        <translation>A függőleges vonalakat csak akkor lehet megjeleníteni, ha
 a betűtípus rögzített szélességű (pl. Monospace).</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="627"/>
         <source>Show vertical lines starting from this position:</source>
-        <translation type="unfinished">Függőleges vonalak megjelenítése innentől:</translation>
+        <translation>Függőleges vonalak megjelenítése innentől:</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="614"/>
         <source>Also show line and document ends</source>
-        <translation type="unfinished">Sorvégek és dokumentumvég megjelenítése</translation>
+        <translation>Sorvégek és dokumentumvég megjelenítése</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="753"/>
@@ -1612,7 +1612,7 @@ will be executed directly.
 If the script is not run in a terminal
 emulator, the output and error messages
 will be shown by a popup dialog.</source>
-        <translation type="unfinished">Ez bármilyen parancs lehet bármilyen
+        <translation>Ez bármilyen parancs lehet bármilyen
 kapcsolóval, például az &quot;xterm -hold&quot;
 a folyamatot aXTermben futtatja.
 
@@ -1626,7 +1626,7 @@ felugró ablakban lesznek megjelenítve.</translation>
     <message>
         <location filename="../../prefDialog.ui" line="1129"/>
         <source>Start with this command: </source>
-        <translation type="unfinished">Indítás ezzel a paranccsal: </translation>
+        <translation>Indítás ezzel a paranccsal: </translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1148"/>
@@ -1651,12 +1651,12 @@ felugró ablakban lesznek megjelenítve.</translation>
     <message>
         <location filename="../../prefDialog.ui" line="1377"/>
         <source>Help</source>
-        <translation type="unfinished">Segítség</translation>
+        <translation>Segítség</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="163"/>
         <source>Start with side-pane mode</source>
-        <translation type="unfinished">Indulás oldalsávval</translation>
+        <translation>Indulás oldalsávval</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="340"/>
@@ -1664,13 +1664,13 @@ felugró ablakban lesznek megjelenítve.</translation>
 tooltip and context menu of a single tab but you could not
 merge a single tabbed window into another one by tab drag-
 and-drop either.</source>
-        <translation type="unfinished">Ha ez be van jelölve, egy lapnál nem lehet elérni a lap menüjét,
+        <translation>Ha ez be van jelölve, egy lapnál nem lehet elérni a lap menüjét,
 és nem lehet a lapot áttenni másik ablakba.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="346"/>
         <source>&amp;Do not show a single tab</source>
-        <translation type="unfinished">Eg&amp;y lapnál lapsáv elrejtése</translation>
+        <translation>Eg&amp;y lapnál lapsáv elrejtése</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="411"/>
@@ -1739,7 +1739,7 @@ executable, the file will be executed by clicking
 the Run button, that appears on the toolbar/filemenu
 when needed, or by its shortcut Ctrl+E. Then, the
 process could be killed by Ctrl+Alt+E.</source>
-        <translation type="unfinished">Ez csak a futtatható fájlokkal működik,
+        <translation>Ez csak a futtatható fájlokkal működik,
 mint például a Shell vagy a Python.
 
 Ha ez be van jelölve, és a megnyitott fájl futtatható,
@@ -1752,7 +1752,7 @@ megnyomásával lehet megszakítani.</translation>
     <message>
         <location filename="../../prefDialog.ui" line="666"/>
         <source>Needs window reopening to take effect.</source>
-        <translation type="unfinished">A beállítás érvényesítéséhez újra meg kell nyitni az ablakot.</translation>
+        <translation>A beállítás érvényesítéséhez újra meg kell nyitni az ablakot.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="694"/>
@@ -1765,7 +1765,7 @@ between 230 and 255; for the dark
 background, between 0 and 50.
 
 Needs window reopening to take effect.</source>
-        <translation type="unfinished">A háttérszín értéke.
+        <translation>A háttérszín értéke.
 255 a fehér, 0 pedig a fekete.
 
 A világos háttérnél ez lehet
@@ -1777,7 +1777,7 @@ Az érvényesítéshez újra meg kell nyitni az ablakot.</translation>
     <message>
         <location filename="../../prefDialog.ui" line="1092"/>
         <source>Run executable scripts</source>
-        <translation type="unfinished">Futtatható szkriptek futtatása</translation>
+        <translation>Futtatható szkriptek futtatása</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="966"/>
@@ -1787,7 +1787,7 @@ opened files FeatherPad shows. The default
 is 10.
 
 Needs application restart to take effect.</source>
-        <translation type="unfinished">A nemrég módosított vagy megnyitott fájlok maximális száma
+        <translation>A nemrég módosított vagy megnyitott fájlok maximális száma
 amit FeatherPad mutat. Az alapértelmezett
 10.
 
@@ -1822,13 +1822,13 @@ MMM dd, yyyy, hh:mm:ss</translation>
     <message>
         <location filename="../../prefDialog.ui" line="841"/>
         <source>Thick text cursor</source>
-        <translation type="unfinished">Vastag szövegkurzor</translation>
+        <translation>Vastag szövegkurzor</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="848"/>
         <source>Should the mouse wheel scrolling be inertial
 if the cursor is inside the text view?</source>
-        <translation type="unfinished">Az egérgörgetés fokozatosan lassuljon,
+        <translation>Az egérgörgetés fokozatosan lassuljon,
 ha a szöveg felett görget?</translation>
     </message>
     <message>
@@ -1842,7 +1842,7 @@ ha a szöveg felett görget?</translation>
         <source>A Hunspell dictionary has a name that ends with &quot;.dic&quot;
 and should be alongside an affix file with the same
 name but ending with &quot;.aff&quot;.</source>
-        <translation type="unfinished">A Hunspell szótárfájlnak &quot;.dic&quot;-re kell végződnie
+        <translation>A Hunspell szótárfájlnak &quot;.dic&quot;-re kell végződnie
 és kell mellette lennie egy affix fájlnak aminek ugyanaz a neve
 csak &quot;.aff&quot;-ra végződik.</translation>
     </message>
@@ -1861,13 +1861,13 @@ csak &quot;.aff&quot;-ra végződik.</translation>
         <location filename="../../prefDialog.ui" line="914"/>
         <source>If this is unchecked, spell checking
 will be started from the document start.</source>
-        <translation type="unfinished">Ha ez nincs bejelölve, a helyesírás-ellenőrzés
+        <translation>Ha ez nincs bejelölve, a helyesírás-ellenőrzés
 a dokumentum kezdetétől indul.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="918"/>
         <source>Start spell checking from text cursor</source>
-        <translation type="unfinished">Helyesírás-ellenőrzés a szövegkurzortól</translation>
+        <translation>Helyesírás-ellenőrzés a szövegkurzortól</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="973"/>
@@ -1906,7 +1906,7 @@ Ez néhány körülmény között hasznos lehet: pl. az időbélyeg megváltozta
     <message>
         <location filename="../../prefDialog.ui" line="1211"/>
         <source>Allow saving unmodified files</source>
-        <translation type="unfinished">Nem módosított fájlok mentésének engedélyezése</translation>
+        <translation>Nem módosított fájlok mentésének engedélyezése</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="1218"/>
@@ -1995,7 +1995,7 @@ Ez néhány körülmény között hasznos lehet: pl. az időbélyeg megváltozta
         <location filename="../../pref.cpp" line="339"/>
         <location filename="../../pref.cpp" line="1408"/>
         <source>Warning: Ambiguous shortcut detected!</source>
-        <translation type="unfinished">Figyelmeztetés: Nem egyértelmű gyorsbillentyű található!</translation>
+        <translation>Figyelmeztetés: Nem egyértelmű gyorsbillentyű található!</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="372"/>
@@ -2005,7 +2005,7 @@ Ez néhány körülmény között hasznos lehet: pl. az időbélyeg megváltozta
     <message>
         <location filename="../../pref.cpp" line="373"/>
         <source>Built-in Functions</source>
-        <translation type="unfinished">Beépített függvények</translation>
+        <translation>Beépített függvények</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="374"/>
@@ -2301,7 +2301,7 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../spellDialog.ui" line="129"/>
         <source>Correct Once</source>
-        <translation type="unfinished">Javítás egyszer</translation>
+        <translation>Javítás egyszer</translation>
     </message>
     <message>
         <location filename="../../spellDialog.ui" line="142"/>
@@ -2311,7 +2311,7 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../spellDialog.ui" line="87"/>
         <source>Ignore Once</source>
-        <translation type="unfinished">Mellőzés egyszer</translation>
+        <translation>Mellőzés egyszer</translation>
     </message>
     <message>
         <location filename="../../spellDialog.ui" line="100"/>
@@ -2324,7 +2324,7 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../textedit.cpp" line="147"/>
         <source>Double click to center current line</source>
-        <translation type="unfinished">Dupla kattintás, hogy a legutóbbi sor középre kerüljön</translation>
+        <translation>Dupla kattintás, hogy a legutóbbi sor középre kerüljön</translation>
     </message>
 </context>
 <context>

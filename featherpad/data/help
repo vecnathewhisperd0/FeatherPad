@@ -113,7 +113,9 @@ For fast mouse wheel scrolling, put the cursor on the scrollbar. If it is inside
 
 The (selected multi-line) text can be tabbed by the Tab key and untabbed by Shift+Tab.
 
-If Ctrl+Tab is used, the tabulation will be done by 4 spaces instead of a tab (or the number of spaces that is set by the user in the related option of the Preferences dialog).
+If Ctrl+Tab is used, the tabulation will be done by 4 spaces instead of a tab (the number of spaces can be changed in the Preferences dialog). This is sometimes called "soft tab".
+
+In FeatherPad, "hard" and "soft" tabs are not mutually exclusive because some texts may need one and some the other.
 
 With Ctrl+Meta+Tab, the text will be tabbed by 2 spaces, while Shift+Meta+Tab is for 2-space untabbing as far as possible.
 
