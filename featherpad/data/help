@@ -183,7 +183,7 @@ Ctrl+Up/Down        Scroll up/down by one wrapped line without moving text curso
 
 Moving text cursor:
 ********************
-Home                Go to to the line start
+Home                Go to to the line start plus the indentation
 End                 Go to to the line end
 Ctrl+Home           Go to to the text start
 Ctrl+End            Go to to the text end

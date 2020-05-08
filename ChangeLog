@@ -1,3 +1,8 @@
+V0.14.2
+---------
+ * Overrode Qt's default behavior with the Home key.
+ * Fixed a bug that allowed cutting of read-only texts.
+
 V0.14.1
 ---------
  * Fixed a miscalculation in highlighting of multiline CSS values.
