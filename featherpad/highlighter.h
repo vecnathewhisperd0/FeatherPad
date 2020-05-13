@@ -235,6 +235,7 @@ private:
     QTextCharFormat mainFormat; // The format before highlighting.
     QTextCharFormat neutralFormat; // When a color near that of mainFormat is needed.
     QTextCharFormat commentFormat;
+    QTextCharFormat noteFormat;
     QTextCharFormat quoteFormat; // Usually for double quote.
     QTextCharFormat altQuoteFormat; // Usually for single quote.
     QTextCharFormat urlInsideQuoteFormat;

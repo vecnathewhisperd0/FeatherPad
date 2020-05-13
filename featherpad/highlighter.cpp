@@ -576,6 +576,10 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     /* these are used for all comments */
     commentFormat.setForeground (Red);
     commentFormat.setFontItalic (true);
+    /* WARNING: This is used by Fountain's synopses too. */
+    noteFormat.setFontWeight (QFont::Bold);
+    noteFormat.setFontItalic (true);
+    noteFormat.setForeground (DarkRed);
 
     /* these can also be used inside multiline comments */
     urlFormat.setFontUnderline (true);
@@ -2100,11 +2104,6 @@ void Highlighter::pythonMLComment (const QString &text, const int indx)
 {
     if (progLan != "python") return;
 
-    QTextCharFormat noteFormat;
-    noteFormat.setFontWeight (QFont::Bold);
-    noteFormat.setFontItalic (true);
-    noteFormat.setForeground (DarkRed);
-
     /* we reset the block state because this method is also called
        during the multiline quotation formatting after clearing formats */
     setCurrentBlockState (-1);
@@ -2270,10 +2269,6 @@ void Highlighter::singleLineComment (const QString &text, const int start)
 
                 /* also format urls and email addresses inside the comment */
                 QString str = text.mid (startIndex, l - startIndex);
-                QTextCharFormat noteFormat;
-                noteFormat.setFontWeight (QFont::Bold);
-                noteFormat.setFontItalic (true);
-                noteFormat.setForeground (DarkRed);
                 int pIndex = 0;
                 QRegularExpressionMatch urlMatch;
                 while ((pIndex = str.indexOf (urlPattern, pIndex, &urlMatch)) > -1)
@@ -2326,10 +2321,6 @@ void Highlighter::multiLineComment (const QString &text,
     //bool hugeText = ((progLan == "css" || progLan == "scss" ) && text.length() > 50000);
 
     int startIndex = index;
-    QTextCharFormat noteFormat;
-    noteFormat.setFontWeight (QFont::Bold);
-    noteFormat.setFontItalic (true);
-    noteFormat.setForeground (DarkRed);
 
     QRegularExpressionMatch startMatch;
     QRegularExpressionMatch endMatch;
@@ -3591,10 +3582,6 @@ bool Highlighter::markdownMultiLine (const QString &text,
     }
     /* format note patterns too */
     pIndex = 0;
-    QTextCharFormat noteFormat;
-    noteFormat.setFontWeight (QFont::Bold);
-    noteFormat.setFontItalic (true);
-    noteFormat.setForeground (DarkRed);
     while ((pIndex = str.indexOf (notePattern, pIndex, &urlMatch)) > -1)
     {
         if (format (pIndex) != urlFormat)
@@ -4591,7 +4578,8 @@ void Highlighter::highlightBlock (const QString &text)
                     fi = format (index);
                     while (index >= 0
                            && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
-                               || fi == commentFormat || fi == urlFormat))
+                               || fi == commentFormat || fi == urlFormat
+                               || fi == noteFormat)) // because of Yaml keys (as in "# TODO:...")
                     {
                         index = text.indexOf (rule.pattern, index + 1, &match);
                         fi = format (index);
@@ -4686,7 +4674,7 @@ void Highlighter::highlightBlock (const QString &text)
                         fi = format (index);
                         while (index >= 0
                                && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
-                                   || fi == commentFormat || fi == urlFormat))
+                                   || fi == commentFormat || fi == urlFormat || fi == noteFormat))
                         {
                             index = text.indexOf (rule.pattern, index + 1, &match);
                             fi = format (index);
