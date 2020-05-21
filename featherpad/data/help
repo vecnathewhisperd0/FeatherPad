@@ -197,10 +197,10 @@ Meta+Shift+Up/Down  Go to the same position in the previous/next (real) line whi
 Text tabulation:
 *****************
 Tab                 Ordinary text tabulation (its length can be changed in Preferences)
-Shift+Tab           Backtab (the reverse of Tab)
+Shift+Tab           BackTab (the reverse of Tab)
 Ctrl+Tab            4-space text tabulation (can be changed in Preferences)
 Ctrl+Meta+Tab       2-space text tabulation
-Shift+Meta+Tab      2-space Backtab, as far as possible
+Shift+Meta+Tab      2-space BackTab, as far as possible
 
 Text editing:
 **************

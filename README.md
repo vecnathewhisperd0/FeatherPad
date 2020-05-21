@@ -24,7 +24,7 @@ FeatherPad (by Pedram Pourang, a.k.a. Tsu Jan <tsujan2000@gmail.com>) is a light
   * macOS support (by [Pavel Shlyak](https://github.com/shlyakpavel)); and
   * Other features that can be found in its settings, on its menus or when it is actually used.
 
-Please see [INSTALL](INSTALL) for instructions on compilation, installation and translation! (For translations, also see below.)
+Please see [INSTALL](INSTALL) for instructions on compilation, installation and translation!
 
 FeatherPad was written in GTK+ at first, then ported to Qt with more features. Its homepage is <https://github.com/tsujan/FeatherPad>.
 
@@ -34,11 +34,3 @@ The active Qt widget style determines the look and feel of every Qt application.
 
 ![Tabs](screenshots/Tabs.png?raw=true "Tabs")
 ![Side-Pane](screenshots/Side-Pane.png?raw=true "Side-Pane")
-
-## Translations
-FeatherPad can be translated by using Weblate, a web tool designed to ease translating for both developers and translators.
-If you would like to translate FeatherPad by using Weblate, you need to register on the following server:
-
-<a href="https://weblate.lxqt.org/projects/tsujan/featherpad/?utm_source=widget">
-<img src="https://weblate.lxqt.org/widgets/tsujan/-/featherpad/multi-auto.svg" alt="Translation status" />
-</a>
