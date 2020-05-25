@@ -3,6 +3,7 @@ V0.14.2
  * Overrode Qt's default behavior with the Home key.
  * Fixed a bug that allowed cutting of read-only texts.
  * Don't mistake a (commented) Yaml note followed by a colon with a Yaml key.
+ * Considered the single quote in CSS values.
 
 V0.14.1
 ---------

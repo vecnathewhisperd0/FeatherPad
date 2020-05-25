@@ -4473,7 +4473,7 @@ void Highlighter::highlightBlock (const QString &text)
     else if (progLan == "sh") // bash has its own method
         SH_MultiLineQuote (text);
     else if (progLan == "css")
-    { // double quotes and urls are highlighted by cssHighlighter() inside CSS values
+    { // quotes and urls are highlighted by cssHighlighter() inside CSS values
         cssHighlighter (text, mainFormatting);
         rehighlightNextBlock |= (data->openNests() != oldOpenNests);
     }
@@ -5082,7 +5082,7 @@ void Highlighter::highlightBlock (const QString &text)
         htmlBrackets (text);
         htmlCSSHighlighter (text);
         htmlJavascript (text);
-        /* also consider double quotes and URLs inside CSS values */
+        /* also consider quotes and URLs inside CSS values */
         rehighlightNextBlock |= (data->openNests() != oldOpenNests);
         /* go to braces matching */
     }

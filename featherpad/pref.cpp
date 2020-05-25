@@ -1619,7 +1619,8 @@ void PrefDialog::addDict()
             config.setDictPath (files.at (0));
         }
     }
-}/*************************/
+}
+/*************************/
 void PrefDialog::restoreDefaultSyntaxColors()
 {
     prefCustomSyntaxColors_.clear();

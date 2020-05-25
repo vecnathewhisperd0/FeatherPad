@@ -438,7 +438,6 @@ void Highlighter::htmlCSSHighlighter (const QString &text, const int start)
         setCurrentBlockState (0);
 
         /* ... and apply the css formats */
-        multiLineQuote (text, cssIndex + matched, htmlCSSCommentState);
         cssHighlighter (text, mainFormatting, cssIndex + matched);
         multiLineComment (text,
                           cssIndex + matched,

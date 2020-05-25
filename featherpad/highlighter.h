@@ -143,17 +143,17 @@ private:
     bool isCSSCommented (const QString &text,
                          const QList<int> &valueRegions,
                          const int index,
-                         bool prevQuote = false,
+                         int prevQuote = 0,
                          bool prevUrl = false);
-    bool isQuotedInCSSValue (const QString &text,
-                             const int valueStart,
-                             const int index,
-                             bool prevQuote = false,
-                             bool prevUrl = false);
+    int isQuotedInCSSValue (const QString &text,
+                            const int valueStart,
+                            const int index,
+                            int prevQuote = 0,
+                            bool prevUrl = false);
    bool isInsideCSSValueUrl (const QString &text,
                              const int valueStart,
                              const int index,
-                             bool prevQuote = false,
+                             int prevQuote = 0,
                              bool prevUrl = false);
    void formatAttrSelectors (const QString &text, const int start, const int pos);
    bool isInsideAttrSelector (const QString &text, const int pos, const int start);

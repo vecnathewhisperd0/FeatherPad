@@ -21,8 +21,6 @@
 
 namespace FeatherPad {
 
-static const QRegularExpression cssOpenUrl ("\\burl\\([^\\)]*$");
-
 /* NOTE: Comments can be everywhere, inside and outside CSS blocks/values,
          but a start comment sign may be escaped by a quotation or URL inside
          a CSS value. Therefore, to know whether a position is commented out,
@@ -53,7 +51,7 @@ static inline int getSectionStart (const int pos, const QList<int> &regions, boo
 bool Highlighter::isCSSCommented (const QString &text,
                                   const QList<int> &valueRegions,
                                   const int index,
-                                  bool prevQuote,
+                                  int prevQuote,
                                   bool prevUrl)
 {
     if (index < 0)  return false;
@@ -102,7 +100,7 @@ bool Highlighter::isCSSCommented (const QString &text,
             if ((!insideValue && isInsideAttrSelector (text, start, pos))
                  /* ... or inside a quotation or URL */
                  || (insideValue  // quotations and URLs exist only inside values
-                     && (isQuotedInCSSValue (text, start, pos, prevQuote, prevUrl)
+                     && (isQuotedInCSSValue (text, start, pos, prevQuote, prevUrl) > 0
                          || isInsideCSSValueUrl (text, start, pos, prevQuote, prevUrl))))
             {
                 --N;
@@ -123,45 +121,59 @@ bool Highlighter::isCSSCommented (const QString &text,
 }
 /*************************/
 // Also formats quotations.
-bool Highlighter::isQuotedInCSSValue (const QString &text,
-                                      const int valueStart,
-                                      const int index,
-                                      bool prevQuote,
-                                      bool prevUrl)
+int Highlighter::isQuotedInCSSValue (const QString &text,
+                                     const int valueStart,
+                                     const int index,
+                                     int prevQuote,
+                                     bool prevUrl)
 {
     if (index < 0 || valueStart < 0 || index < valueStart)
-        return false;
-    if (format (index) == quoteFormat)
-        return true;
+        return 0;
+    //if (format (index) == quoteFormat)
+        //return ?;
     if (format (index) == altQuoteFormat)
-        return false;
+        return 0;
 
-    bool res;
+    int res; // 1 for single quote, 2 for double quote
     int N;
-    if (prevQuote && valueStart == 0)
+    QRegularExpression quoteExpression;
+    if (prevQuote > 0 && valueStart == 0)
     {
-        res = true;
+        if (prevQuote == 1)
+        {
+            res = 1;
+            quoteExpression.setPattern ("\'");
+        }
+        else
+        {
+            res = 2;
+            quoteExpression = quoteMark;
+        }
         N = 1;
     }
     else
     {
-        res = false;
+        quoteExpression = mixedQuoteMark;
+        res = 0;
         N = 0;
     }
     int pos = valueStart - 1;
     int start = 0;
     int nxtPos;
-    while ((nxtPos = text.indexOf (quoteMark, pos + 1)) >= 0)
+    while ((nxtPos = text.indexOf (quoteExpression, pos + 1)) >= 0)
     {
         ++N;
         if (nxtPos >= index)
         {
             if (N % 2 == 0)
             {
-                res = true;
+                if (text.at (nxtPos) == quoteMark.pattern().at (0))
+                    res = 2;
+                else
+                    res = 1;
                 setFormat (start, nxtPos - start + 1, quoteFormat);
             }
-            else res = false;
+            else res = 0;
             break;
         }
 
@@ -176,14 +188,28 @@ bool Highlighter::isQuotedInCSSValue (const QString &text,
                 continue;
             }
 
-            res = true;
+            if (text.at (nxtPos) == quoteMark.pattern().at (0))
+                res = 2;
+            else
+                res = 1;
             start = nxtPos;
         }
         else
         {
-            res = false;
+            res = 0;
             setFormat (start, nxtPos - start + 1, quoteFormat);
         }
+
+        /* determine the next quotation mark */
+        if (N % 2 != 0)
+        {
+            if (text.at (nxtPos) == quoteMark.pattern().at (0))
+                quoteExpression = quoteMark;
+            else
+                quoteExpression.setPattern ("\'");
+        }
+        else
+            quoteExpression = mixedQuoteMark;
 
         pos = nxtPos;
     }
@@ -193,11 +219,46 @@ bool Highlighter::isQuotedInCSSValue (const QString &text,
     return res;
 }
 /*************************/
+/* FIXME: This is temporary solution for url("...") and url('...')
+          and only works with whole URLs in a line. */
+static inline bool isWholeCSSdUrl (const QString &text, const int start, int &length)
+{
+    int indx = start + 4; // "url("
+    while (indx < start + length && text.at (indx).isSpace())
+        ++ indx;
+    if (indx < start + length)
+    {
+        if (text.at (indx) == '\'')
+        {
+            int end = text.indexOf ('\'', indx + 1);
+            if (end == -1) return false;
+            if (end >= start + length)
+            {
+                end = text.indexOf (')', end + 1);
+                if (end == -1) return false;
+                length = end - start + 1;
+            }
+        }
+        else if (text.at (indx) == '\"')
+        {
+            int end = text.indexOf ('\"', indx + 1);
+            if (end == -1) return false;
+            if (end >= start + length)
+            {
+                end = text.indexOf (')', end + 1);
+                if (end == -1) return false;
+                length = end - start + 1;
+            }
+        }
+    }
+    return true;
+}
+
 // Also formats URLs.
 bool Highlighter::isInsideCSSValueUrl (const QString &text,
                                        const int valueStart,
                                        const int index,
-                                       bool prevQuote,
+                                       int prevQuote,
                                        bool prevUrl)
 {
     if (index < 0 || valueStart < 0 || index < valueStart)
@@ -208,7 +269,7 @@ bool Highlighter::isInsideCSSValueUrl (const QString &text,
         return false;
 
     int indx;
-    if (valueStart == 0 && prevUrl) // prevQuote is false
+    if (valueStart == 0 && prevUrl) // prevQuote is 0
     {
         /* format the first URL completely */
         indx = text.indexOf (QRegularExpression ("\\)"));
@@ -222,41 +283,47 @@ bool Highlighter::isInsideCSSValueUrl (const QString &text,
         return isInsideCSSValueUrl (text, indx + 1, index);
     }
 
-    indx = text.left (index).indexOf (cssOpenUrl, valueStart);
-    while (isCSSCommented (text, QList<int>() << valueStart, indx, prevQuote, prevUrl)
-           || isQuotedInCSSValue (text, valueStart, indx, prevQuote, prevUrl))
-    {
-        indx = text.left (index).indexOf (cssOpenUrl, indx + 1);
-    }
-
-    /* format all URLs up to index */
+    /* format whole URLs up to index */
     QRegularExpressionMatch match;
-    static const QRegularExpression url ("\\burl\\([^\\)]*\\)");
-    int urlIndx = text.indexOf (url, valueStart, &match);
+    static const QRegularExpression cssUrl ("\\burl\\([^\\)]*\\)");
+    int urlIndx = text.indexOf (cssUrl, valueStart, &match);
     while (urlIndx < index
            && (isCSSCommented (text, QList<int>() << valueStart, urlIndx, prevQuote, prevUrl)
-               || isQuotedInCSSValue (text, valueStart, urlIndx, prevQuote, prevUrl)))
+               || isQuotedInCSSValue (text, valueStart, urlIndx, prevQuote, prevUrl) > 0))
     {
-        urlIndx = text.indexOf (url, urlIndx + 1, &match);
+        urlIndx = text.indexOf (cssUrl, urlIndx + 1, &match);
     }
+    int L = match.capturedLength();
     while (urlIndx > -1 && urlIndx < index)
     {
-        setFormat (urlIndx, match.capturedLength(), altQuoteFormat);
-        if (urlIndx + match.capturedLength() >= index)
+        if (!isWholeCSSdUrl (text, urlIndx, L))
             break;
-        urlIndx = text.indexOf (url, urlIndx + match.capturedLength(), &match);
+        setFormat (urlIndx, L, altQuoteFormat);
+        if (urlIndx + L >= index)
+            break;
+        urlIndx = text.indexOf (cssUrl, urlIndx + L, &match);
         while (urlIndx < index
                && (isCSSCommented (text, QList<int>() << valueStart, urlIndx, prevQuote, prevUrl)
-                   || isQuotedInCSSValue (text, valueStart, urlIndx, prevQuote, prevUrl)))
+                   || isQuotedInCSSValue (text, valueStart, urlIndx, prevQuote, prevUrl) > 0))
         {
-            urlIndx = text.indexOf (url, urlIndx + 1, &match);
+            urlIndx = text.indexOf (cssUrl, urlIndx + 1, &match);
         }
+        L = match.capturedLength();
     }
 
+    static const QRegularExpression cssOpenUrl ("\\burl\\([^\\)]*$");
+    const QString txt = text.left (index);
+    indx = txt.indexOf (cssOpenUrl, valueStart);
+    while (isCSSCommented (text, QList<int>() << valueStart, indx, prevQuote, prevUrl)
+           || isQuotedInCSSValue (text, valueStart, indx, prevQuote, prevUrl) > 0)
+    {
+        indx = txt.indexOf (cssOpenUrl, indx + 1);
+    }
     if (indx == -1) return false;
-
     /* also, format this URL completely if it's open */
-    if (text.indexOf (QRegularExpression ("\\)"), indx) == -1)
+    int end = text.indexOf (')', indx);
+    L = end - indx + 1;
+    if (end == -1 || !isWholeCSSdUrl (text, indx, L))
         setFormat (indx, text.length() - indx, altQuoteFormat);
 
     return true;
@@ -305,8 +372,8 @@ void Highlighter::cssHighlighter (const QString &text, bool mainFormatting, cons
     /* NOTE: Since we need to know whether the previous value had an open quote or an
              open URL, we use the "OpenNests" variable to not add another one just for
              this case. Although it isn't intended for such a case, it can be safely
-             used with values "1" and "2" because it isn't used anywhere else with
-             CSS or HTML. The next block will be rehighlighted at highlightBlock()
+             used with values "1", "2" and "3" because it isn't used anywhere else
+             with CSS or HTML. The next block will be rehighlighted at highlightBlock()
              (after "cssHighlighter (text, mainFormatting);") if it's changed. */
 
     /**************************
@@ -334,7 +401,7 @@ void Highlighter::cssHighlighter (const QString &text, bool mainFormatting, cons
     cssValueFormat.setForeground (Verda);
 
 
-    bool prevQuote = false;
+    int prevQuote = 0;
     bool prevUrl = false;
     QTextBlock prevBlock = currentBlock().previous();
     if (prevBlock.isValid())
@@ -342,8 +409,10 @@ void Highlighter::cssHighlighter (const QString &text, bool mainFormatting, cons
         if (TextBlockData *prevData = static_cast<TextBlockData *>(prevBlock.userData()))
         {
             if (prevData->openNests() == 1)
-                prevQuote = true;
+                prevQuote = 1; // single quote
             else if (prevData->openNests() == 2)
+                prevQuote = 2; // double quote
+            else if (prevData->openNests() == 3)
                 prevUrl = true;
         }
     }
@@ -428,7 +497,7 @@ void Highlighter::cssHighlighter (const QString &text, bool mainFormatting, cons
                     valueEndIndex = text.indexOf (cssValueEndExp, 0, &cssEndtMatch);
                     while (valueEndIndex > -1
                            && (isCSSCommented (text, QList<int>() << 0, valueEndIndex, prevQuote, prevUrl)
-                               || isQuotedInCSSValue (text, 0, valueEndIndex, prevQuote, prevUrl)
+                               || isQuotedInCSSValue (text, 0, valueEndIndex, prevQuote, prevUrl) > 0
                                || isInsideCSSValueUrl (text, 0, valueEndIndex, prevQuote, prevUrl)))
                     {
                         valueEndIndex = text.indexOf (cssValueEndExp, valueEndIndex + cssEndtMatch.capturedLength(), &cssEndtMatch);
@@ -439,7 +508,7 @@ void Highlighter::cssHighlighter (const QString &text, bool mainFormatting, cons
                     valueEndIndex = text.indexOf (cssValueEndExp, valueStartIndex, &cssEndtMatch);
                     while (valueEndIndex > -1
                            && (isCSSCommented (text, QList<int>() << valueStartIndex, valueEndIndex)
-                               || isQuotedInCSSValue (text, valueStartIndex, valueEndIndex)
+                               || isQuotedInCSSValue (text, valueStartIndex, valueEndIndex) > 0
                                || isInsideCSSValueUrl (text, valueStartIndex, valueEndIndex)))
                     {
                         valueEndIndex = text.indexOf (cssValueEndExp, valueEndIndex + cssEndtMatch.capturedLength(), &cssEndtMatch);
@@ -460,15 +529,16 @@ void Highlighter::cssHighlighter (const QString &text, bool mainFormatting, cons
                 }
                 else
                 {
-                    if (isQuotedInCSSValue (text, valueStartIndex, text.length(), prevQuote, prevUrl))
+                    int q = isQuotedInCSSValue (text, valueStartIndex, text.length(), prevQuote, prevUrl);
+                    if (q > 0)
                     {
                         if (TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData()))
-                            data->insertNestInfo (1);
+                            data->insertNestInfo (q);
                     }
                     else if (isInsideCSSValueUrl (text, valueStartIndex, text.length(), prevQuote, prevUrl))
                     {
                         if (TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData()))
-                            data->insertNestInfo (2);
+                            data->insertNestInfo (3);
                     }
                     valueStartIndex = -1; // exit the loop
                 }
