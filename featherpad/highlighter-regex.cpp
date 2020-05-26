@@ -111,8 +111,11 @@ bool Highlighter::isEscapedRegex (const QString &text, const int pos)
                 int len = qMin (12, last + 1);
                 QString str = txt.mid (last - len + 1, len);
                 int j;
-                if ((j = str.lastIndexOf (progLan == "javascript" ? jsKeys : qmlKeys, -1, &keyMatch)) > -1 && j + keyMatch.capturedLength() == len)
+                if ((j = str.lastIndexOf (progLan == "javascript" ? jsKeys : qmlKeys, -1, &keyMatch)) > -1
+                    && j + keyMatch.capturedLength() == len)
+                {
                     return false;
+                }
                 return true;
             }
         }
@@ -125,8 +128,11 @@ bool Highlighter::isEscapedRegex (const QString &text, const int pos)
                                           || ch == ')' || ch == ']' || ch == '$' || ch == '\"' || ch == '\'' || ch == '`'))
         { // a regex isn't escaped if it follows another one or a JavaScript keyword
             int j;
-            if ((j = text.lastIndexOf (QRegularExpression("/\\w+"), i + 1, &keyMatch)) > -1 && j + keyMatch.capturedLength() == i + 1)
+            if ((j = text.lastIndexOf (QRegularExpression("/\\w+"), i + 1, &keyMatch)) > -1
+                && j + keyMatch.capturedLength() == i + 1 && format (j) == regexFormat)
+            {
                 return false;
+            }
             if (progLan == "javascript")
             {
                 if (jsKeys.pattern().isEmpty())
@@ -139,8 +145,11 @@ bool Highlighter::isEscapedRegex (const QString &text, const int pos)
             }
             int len = qMin (12, i + 1);
             QString str = text.mid (i - len + 1, len);
-            if ((j = str.lastIndexOf (progLan == "javascript" ? jsKeys : qmlKeys, -1, &keyMatch)) > -1 && j + keyMatch.capturedLength() == len)
+            if ((j = str.lastIndexOf (progLan == "javascript" ? jsKeys : qmlKeys, -1, &keyMatch)) > -1
+                && j + keyMatch.capturedLength() == len)
+            {
                 return false;
+            }
             return true;
         }
     }
