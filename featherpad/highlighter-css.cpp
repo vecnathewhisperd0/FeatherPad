@@ -293,14 +293,20 @@ bool Highlighter::isInsideCSSValueUrl (const QString &text,
     {
         urlIndx = text.indexOf (cssUrl, urlIndx + 1, &match);
     }
-    int L = match.capturedLength();
+    int L;
     while (urlIndx > -1 && urlIndx < index)
     {
+        L = match.capturedLength();
         if (!isWholeCSSdUrl (text, urlIndx, L))
-            break;
+        {
+            setFormat (urlIndx, text.length() - urlIndx, altQuoteFormat);
+            return true;
+        }
         setFormat (urlIndx, L, altQuoteFormat);
-        if (urlIndx + L >= index)
-            break;
+        if (urlIndx + L > index)
+            return true;
+        if (urlIndx + L == index)
+            return false;
         urlIndx = text.indexOf (cssUrl, urlIndx + L, &match);
         while (urlIndx < index
                && (isCSSCommented (text, QList<int>() << valueStart, urlIndx, prevQuote, prevUrl)
@@ -308,7 +314,6 @@ bool Highlighter::isInsideCSSValueUrl (const QString &text,
         {
             urlIndx = text.indexOf (cssUrl, urlIndx + 1, &match);
         }
-        L = match.capturedLength();
     }
 
     static const QRegularExpression cssOpenUrl ("\\burl\\([^\\)]*$");
@@ -320,10 +325,9 @@ bool Highlighter::isInsideCSSValueUrl (const QString &text,
         indx = txt.indexOf (cssOpenUrl, indx + 1);
     }
     if (indx == -1) return false;
+
     /* also, format this URL completely if it's open */
-    int end = text.indexOf (')', indx);
-    L = end - indx + 1;
-    if (end == -1 || !isWholeCSSdUrl (text, indx, L))
+    if (text.indexOf (')', indx) == -1)
         setFormat (indx, text.length() - indx, altQuoteFormat);
 
     return true;

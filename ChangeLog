@@ -4,6 +4,7 @@ V0.14.2
  * Fixed a bug that allowed cutting of read-only texts.
  * Don't mistake a (commented) Yaml note followed by a colon with a Yaml key.
  * Considered the single quote in CSS values.
+ * Highlight JavaScript's hash-bang (don't mistake it with a regex).
 
 V0.14.1
 ---------

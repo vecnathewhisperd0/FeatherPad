@@ -43,8 +43,8 @@ bool Highlighter::isEscapedRegex (const QString &text, const int pos)
     }
 
     /* escape "<.../>", "</...>" and the single-line comment sign ("//") */
-    if ((text.length() > pos + 1 && ((progLan == "javascript" && text.at (pos + 1) == '>')
-                                     || text.at (pos + 1) == '/'))
+    if ((text.length() > pos + 1 && (/*(progLan == "javascript" && text.at (pos + 1) == '>')
+                                     || */text.at (pos + 1) == '/'))
         || (pos > 0 && progLan == "javascript" && text.at (pos - 1) == '<'))
     {
         return true;
@@ -96,7 +96,7 @@ bool Highlighter::isEscapedRegex (const QString &text, const int pos)
             prev.setUserState (updateState); // update the next line if this one changes
             if (ch.isLetterOrNumber() || ch == '_'
                 /* as with Kate */
-                || ch == ')' || ch == ']' || ch == '\"' || ch == '\'' || ch == '`')
+                || ch == ')' || ch == ']' || ch == '$' || ch == '\"' || ch == '\'' || ch == '`')
             { // a regex isn't escaped if it follows a JavaScript keyword
                 if (progLan == "javascript")
                 {
@@ -122,7 +122,7 @@ bool Highlighter::isEscapedRegex (const QString &text, const int pos)
         QChar ch = text.at (i);
         if (format (i) != regexFormat && (ch.isLetterOrNumber() || ch == '_'
                                           /* as with Kate */
-                                          || ch == ')' || ch == ']' || ch == '\"' || ch == '\'' || ch == '`'))
+                                          || ch == ')' || ch == ']' || ch == '$' || ch == '\"' || ch == '\'' || ch == '`'))
         { // a regex isn't escaped if it follows another one or a JavaScript keyword
             int j;
             if ((j = text.lastIndexOf (QRegularExpression("/\\w+"), i + 1, &keyMatch)) > -1 && j + keyMatch.capturedLength() == i + 1)
@@ -282,6 +282,14 @@ void Highlighter::multiLineRegex(const QString &text, const int index)
     if (progLan != "javascript" && progLan != "qml")
         return;
 
+    int prevState = previousBlockState();
+
+    if (index == 0 && prevState == -1 && text.startsWith ("#!"))
+    { // a special case at the start of the first line (hash-bang)
+        setFormat (0, text.length(), commentFormat);
+        return;
+    }
+
     int startIndex = index;
     QRegularExpressionMatch startMatch;
     QRegularExpression startExp ("/");
@@ -289,7 +297,6 @@ void Highlighter::multiLineRegex(const QString &text, const int index)
     QRegularExpression endExp ("/[A-Za-z0-9_]*");
     QTextCharFormat fi;
 
-    int prevState = previousBlockState();
     if (prevState != regexState || startIndex > 0)
     {
         startIndex = text.indexOf (startExp, startIndex, &startMatch);
