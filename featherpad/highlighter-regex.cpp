@@ -43,8 +43,9 @@ bool Highlighter::isEscapedRegex (const QString &text, const int pos)
     }
 
     /* escape "<.../>", "</...>" and the single-line comment sign ("//") */
-    if ((text.length() > pos + 1 && (/*(progLan == "javascript" && text.at (pos + 1) == '>')
-                                     || */text.at (pos + 1) == '/'))
+    static const QRegularExpression braExp ("<[^<>]*$");
+    if ((text.length() > pos + 1 && ((progLan == "javascript" && text.at (pos + 1) == '>' && text.left (pos).indexOf (braExp) > -1)
+                                     || text.at (pos + 1) == '/'))
         || (pos > 0 && progLan == "javascript" && text.at (pos - 1) == '<'))
     {
         return true;
