@@ -1667,7 +1667,7 @@ void PrefDialog::changeSyntaxColor (int row, int column)
         {
             if (const auto label = qobject_cast<QLabel*>(cw->layout()->itemAt (0)->widget()))
             {
-                QColor prevColor = label->palette().color (QPalette::Background);
+                QColor prevColor = label->palette().color (QPalette::Window);
                 QColor color = QColorDialog::getColor (prevColor,
                                                        this,
                                                        tr ("Select Syntax Color"));
