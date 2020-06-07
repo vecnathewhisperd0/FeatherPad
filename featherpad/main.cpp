@@ -61,13 +61,23 @@ int main (int argc, char **argv)
                "                 but a negative value means line end).\n"\
                "\nNOTE1: <X> means number X without brackets.\n"\
                "NOTE2: --win or -w can come before or after cursor option, with a space\n"\
-               "       in between." << endl;
+               "       in between."
+#if (QT_VERSION >= QT_VERSION_CHECK(5,15,0))
+            << Qt::endl;
+#else
+            << endl;
+#endif
         return 0;
     }
     else if (option == "--version" || option == "-v")
     {
         QTextStream out (stdout);
-        out << name << " " << version <<  endl;
+        out << name << " " << version
+#if (QT_VERSION >= QT_VERSION_CHECK(5,15,0))
+            << Qt::endl;
+#else
+            << endl;
+#endif
         return 0;
     }
 

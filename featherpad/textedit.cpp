@@ -1288,8 +1288,13 @@ void TextEdit::wheelEvent (QWheelEvent *event)
             int delta = horizontal
                             ? event->angleDelta().x() : event->angleDelta().y();
 #if (QT_VERSION >= QT_VERSION_CHECK(5,12,0))
+#if (QT_VERSION >= QT_VERSION_CHECK(5,15,0))
+            QWheelEvent e (event->position(),
+                           event->globalPosition(),
+#else
             QWheelEvent e (event->posF(),
                            event->globalPosF(),
+#endif
                            event->pixelDelta(),
 #if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
                            horizontal

@@ -5,6 +5,7 @@ V0.14.2
  * Don't mistake a (commented) Yaml note followed by a colon with a Yaml key.
  * Considered the single quote in CSS values.
  * Highlight JavaScript's hash-bang (don't mistake it with a regex).
+ * Updated the code for Qt 5.15.
 
 V0.14.1
 ---------

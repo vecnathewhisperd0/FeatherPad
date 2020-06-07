@@ -1642,10 +1642,29 @@ void FPwin::executeProcess()
         connect (process, &QProcess::readyReadStandardOutput,this, &FPwin::displayOutput);
         connect (process, &QProcess::readyReadStandardError,this, &FPwin::displayError);
         QString command = config.getExecuteCommand();
+#if (QT_VERSION >= QT_VERSION_CHECK(5,15,0))
+        /* Qt 5.15 has made things more complex and, at the same time, better:
+           on the one hand, we should see if there is a command argument ; on the
+           other hand, we don't need to worry about spaces and quotes in file names. */
+        if (!command.isEmpty())
+        {
+            QStringList commandParts = command.split (QRegularExpression ("\\s+"), Qt::SkipEmptyParts);
+            if (!commandParts.isEmpty())
+            {
+                command = commandParts.takeAt (0); // there may be arguments
+                process->start (command, QStringList() << commandParts << fName);
+            }
+            else
+                process->start (fName, QStringList());
+        }
+        else
+            process->start (fName, QStringList());
+#else
         if (!command.isEmpty())
             command +=  " ";
         fName.replace ("\"", "\"\"\""); // literal quotes in the command are shown by triple quotes
         process->start (command + "\"" + fName + "\"");
+#endif
         /* old-fashioned: connect(process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),... */
         connect (process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
                  [=](int /*exitCode*/, QProcess::ExitStatus /*exitStatus*/) {process->deleteLater();});
@@ -3838,7 +3857,11 @@ void FPwin::updateWordInfo (int /*position*/, int charsRemoved, int charsAdded)
         if (words == -1)
         {
             words = textEdit->toPlainText()
+#if (QT_VERSION >= QT_VERSION_CHECK(5,15,0))
+                    .split (QRegularExpression ("(\\s|\\n|\\r)+"), Qt::SkipEmptyParts)
+#else
                     .split (QRegularExpression ("(\\s|\\n|\\r)+"), QString::SkipEmptyParts)
+#endif
                     .count();
             textEdit->setWordNumber (words);
         }
@@ -4255,7 +4278,11 @@ void FPwin::detachTab()
 /*************************/
 void FPwin::dropTab (const QString& str)
 {
+#if (QT_VERSION >= QT_VERSION_CHECK(5,15,0))
+    QStringList list = str.split ("+", Qt::SkipEmptyParts);
+#else
     QStringList list = str.split ("+", QString::SkipEmptyParts);
+#endif
     if (list.count() != 2)
     {
         ui->tabWidget->tabBar()->finishMouseMoveEvent();
@@ -5146,7 +5173,11 @@ void FPwin::aboutDialog()
 
     class AboutDialog : public QDialog {
     public:
+#if (QT_VERSION >= QT_VERSION_CHECK(5,15,0))
+        explicit AboutDialog (QWidget* parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags()) : QDialog (parent, f) {
+#else
         explicit AboutDialog (QWidget* parent = nullptr, Qt::WindowFlags f = nullptr) : QDialog (parent, f) {
+#endif
             aboutUi.setupUi (this);
             aboutUi.textLabel->setOpenExternalLinks (true);
         }
