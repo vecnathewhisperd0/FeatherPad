@@ -109,6 +109,7 @@ PrefDialog::PrefDialog (QWidget *parent)
     textTabSize_ = config.getTextTabSize();
     saveUnmodified_ = config.getSaveUnmodified();
     sharedSearchHistory_ = config.getSharedSearchHistory();
+    selHighlighting_ = config.getSelectionHighlighting();
 
     /**************
      *** Window ***
@@ -241,6 +242,8 @@ PrefDialog::PrefDialog (QWidget *parent)
     connect (ui->colorValueSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::prefColValue);
 
     ui->thickCursorBox->setChecked (config.getThickCursor());
+
+    ui->selHighlightBox->setChecked (selHighlighting_);
 
     ui->dateEdit->setText (config.getDateFormat());
 
@@ -494,6 +497,7 @@ void PrefDialog::onClosing()
     prefTextTab();
     prefSaveUnmodified();
     prefThickCursor();
+    prefSelHighlight();
 
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
     config.setPrefSize (size());
@@ -1109,6 +1113,25 @@ void PrefDialog::prefThickCursor()
             if (j == 0 && textedit->getThickCursor() == thick)
                 return;
             textedit->setThickCursor (thick);
+        }
+    }
+}
+/*************************/
+void PrefDialog::prefSelHighlight()
+{
+    bool selHighlighting = ui->selHighlightBox->isChecked();
+    if (selHighlighting == selHighlighting_)
+        return;
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    Config& config = singleton->getConfig();
+    config.setSelectionHighlighting (selHighlighting);
+    for (int i = 0; i < singleton->Wins.count(); ++i)
+    {
+        int count = singleton->Wins.at (i)->ui->tabWidget->count();
+        for (int j = 0; j < count; ++j)
+        {
+            qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
+                    ->textEdit()->setSelectionHighlighting (selHighlighting);
         }
     }
 }

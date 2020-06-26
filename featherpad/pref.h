@@ -90,7 +90,6 @@ private slots:
     void prefEndings (int checked);
     void prefDarkColScheme (int checked);
     void prefColValue (int value);
-    void prefThickCursor();
     void prefAppendEmptyLine (int checked);
     void prefRemoveTrailingSpaces (int checked);
     void prefScrollJumpWorkaround (int checked);
@@ -129,11 +128,13 @@ private:
     void prefApplyAutoSave();
     void prefApplySyntax();
     void prefApplyDateFormat();
+    void prefThickCursor();
+    void prefSelHighlight();
     void showPrompt (const QString& str = QString(), bool temporary = false);
 
     Ui::PrefDialog *ui;
     QWidget * parent_;
-    bool darkBg_, showWhiteSpace_, showEndings_, saveUnmodified_, sharedSearchHistory_;
+    bool darkBg_, showWhiteSpace_, showEndings_, saveUnmodified_, sharedSearchHistory_, selHighlighting_;
     int vLineDistance_, darkColValue_, lightColValue_, recentNumber_, textTabSize_;
     QHash<QString, QString> shortcuts_, newShortcuts_;
     QString prevtMsg_;

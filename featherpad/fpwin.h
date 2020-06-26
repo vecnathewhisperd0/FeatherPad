@@ -244,9 +244,6 @@ private:
     QTextDocument::FindFlags getSearchFlags() const;
     void enableWidgets (bool enable) const;
     void updateShortcuts (bool disable, bool page = true);
-    QTextCursor finding (const QString& str, const QTextCursor& start,
-                         QTextDocument::FindFlags flags = QTextDocument::FindFlags(),
-                         bool isRegex = false, const int end = 0) const;
     void setProgLang (TextEdit *textEdit);
     void syntaxHighlighting (TextEdit *textEdit, bool highlight = true, const QString& lang = QString());
     void encodingToCheck (const QString& encoding);

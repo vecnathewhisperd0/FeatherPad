@@ -24,10 +24,13 @@ namespace FeatherPad {
 
 TabPage::TabPage (int bgColorValue,
                   const QList<QKeySequence> &searchShortcuts,
+                  bool selectionHighlighting,
                   QWidget *parent)
     : QWidget (parent)
 {
     textEdit_ = new TextEdit (this, bgColorValue);
+    if (selectionHighlighting)
+        textEdit_->setSelectionHighlighting (true);
     searchBar_ = new SearchBar (this, searchShortcuts);
 
     QGridLayout *mainGrid = new QGridLayout;

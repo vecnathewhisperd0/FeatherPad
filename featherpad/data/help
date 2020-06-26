@@ -87,6 +87,14 @@ Each search entry has a search history that can be shown as a popup list by clic
 
 The 'Replace' docked window respects the settings for 'Match Case', 'Whole Word' and 'Regular Expression' on the search bar (in the last case, the matching text should be a regular expression, while the replacing text is always an ordinary string). It can be detached from and reattached to the main window at top or bottom. To remove the green highlights after replacing text, you could either hide/close the 'Replace' docked window or do as in the case of removing yellow search highlights (without closing the dock).
 
+******************************
+*   Selection Highlighting   *
+******************************
+
+If "Preferences → Text → Selection highlighting" is checked, all case-sensitive and whole matches of the selected text will be highlighted by a light blue color (or dark blue when the dark color scheme is used). The selected text does not need to be a whole string but the highlighted matches are always whole strings.
+
+Selection highlighting can be used for finding nearby whole strings quickly. It is separate from the (yellow) search highlighting and can be used besides it.
+
 ***********************
 *   Going to A Line   *
 ***********************

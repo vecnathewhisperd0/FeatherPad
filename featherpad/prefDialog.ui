@@ -504,6 +504,17 @@ under proper circumstances.</string>
                </widget>
               </item>
               <item>
+               <widget class="QCheckBox" name="selHighlightBox">
+                <property name="toolTip">
+                 <string>Highlight case-sensitive and whole matches
+of the selected text.</string>
+                </property>
+                <property name="text">
+                 <string>Selection highlighting</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QCheckBox" name="syntaxBox">
                 <property name="text">
                  <string>Highlight s&amp;yntax by default</string>

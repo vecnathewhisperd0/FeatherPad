@@ -870,6 +870,8 @@ void FPwin::deleteTabPage (int tabIndex, bool saveToList, bool closeWithLastTab)
        it is better to disconnect contentsChange() here to prevent a crash */
     disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::hlight);
     disconnect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::updateWordInfo);
+    if (config.getSelectionHighlighting())
+        disconnect (textEdit->document(), &QTextDocument::contentsChange, textEdit, &TextEdit::onContentsChange);
     syntaxHighlighting (textEdit, false);
     ui->tabWidget->removeTab (tabIndex);
     delete tabPage; tabPage = nullptr;
@@ -1286,6 +1288,7 @@ TabPage* FPwin::createEmptyTab (bool setCurrent, bool allowNormalHighlighter)
     TabPage *tabPage = new TabPage (config.getDarkColScheme() ? config.getDarkBgColorValue()
                                                               : config.getLightBgColorValue(),
                                     searchShortcuts,
+                                    config.getSelectionHighlighting(),
                                     nullptr);
     tabPage->setSearchModel (singleton->searchModel());
     TextEdit *textEdit = tabPage->textEdit();
@@ -1537,6 +1540,7 @@ void FPwin::reformat (TextEdit *textEdit)
     formatTextRect (textEdit->rect()); // in "syntax.cpp"
     if (!textEdit->getSearchedText().isEmpty())
         hlight(); // in "find.cpp"
+    textEdit->selectionHlight();
 }
 /*************************/
 void FPwin::zoomIn()
@@ -3160,12 +3164,8 @@ void FPwin::makeEditable()
 /*************************/
 void FPwin::undoing()
 {
-    int index = ui->tabWidget->currentIndex();
-    if (index == -1) return;
-
-    TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
-    textEdit->removeGreenHighlights(); // always remove replacing highlights before undoing
-    textEdit->undo();
+    if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget()))
+        tabPage->textEdit()->undo();
 }
 /*************************/
 void FPwin::redoing()
@@ -3453,6 +3453,7 @@ void FPwin::showHideSearch()
             textEdit->setGreenSel (es); // not needed
             if (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible())
                 es.prepend (textEdit->currentLineSelection());
+            es.append (textEdit->getBlueSel());
             es.append (textEdit->getRedSel());
             textEdit->setExtraSelections (es);
             /* ... and empty all search entries */
@@ -4094,6 +4095,7 @@ void FPwin::detachTab()
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
     TextEdit *textEdit = tabPage->textEdit();
 
+    disconnect (textEdit, &TextEdit::resized, this, &FPwin::hlight);
     disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::hlighting);
     disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::hlight);
     if (status)
@@ -4210,6 +4212,7 @@ void FPwin::detachTab()
     {
         connect (textEdit, &QPlainTextEdit::textChanged, dropTarget, &FPwin::hlight);
         connect (textEdit, &TextEdit::updateRect, dropTarget, &FPwin::hlighting);
+        connect (textEdit, &TextEdit::resized, dropTarget, &FPwin::hlight);
         /* restore yellow highlights, which will automatically
            set the current line highlight if needed because the
            spin button and line number menuitem are set above */
@@ -4329,6 +4332,7 @@ void FPwin::dropTab (const QString& str)
     TabPage *tabPage = qobject_cast< TabPage *>(dragSource->ui->tabWidget->widget (index));
     TextEdit *textEdit = tabPage->textEdit();
 
+    disconnect (textEdit, &TextEdit::resized, dragSource, &FPwin::hlight);
     disconnect (textEdit, &TextEdit::updateRect, dragSource, &FPwin::hlighting);
     disconnect (textEdit, &QPlainTextEdit::textChanged, dragSource, &FPwin::hlight);
     if (dragSource->ui->statusBar->isVisible())
@@ -4459,6 +4463,7 @@ void FPwin::dropTab (const QString& str)
     {
         connect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::hlight);
         connect (textEdit, &TextEdit::updateRect, this, &FPwin::hlighting);
+        connect (textEdit, &TextEdit::resized, this, &FPwin::hlight);
         /* restore yellow highlights, which will automatically
            set the current line highlight if needed because the
            spin button and line number menuitem are set above */
@@ -4827,6 +4832,7 @@ void FPwin::checkSpelling()
             word = cur.selectedText();
         }
     }
+    textEdit->skipSelectionHighlighting();
     textEdit->setTextCursor (cur);
     textEdit->ensureCursorVisible();
 
@@ -4867,6 +4873,7 @@ void FPwin::checkSpelling()
         cur.setPosition (cur.position());
         if (cur.atEnd())
         {
+            textEdit->skipSelectionHighlighting();
             textEdit->setTextCursor (cur);
             textEdit->ensureCursorVisible();
             dlg.close();
@@ -4881,6 +4888,7 @@ void FPwin::checkSpelling()
             cur.setPosition (cur.anchor());
             if (!cur.movePosition (QTextCursor::NextCharacter))
             {
+                textEdit->skipSelectionHighlighting();
                 textEdit->setTextCursor (cur);
                 textEdit->ensureCursorVisible();
                 dlg.close();
@@ -4901,6 +4909,7 @@ void FPwin::checkSpelling()
                 cur.setPosition (cur.position());
             if (cur.atEnd())
             {
+                textEdit->skipSelectionHighlighting();
                 textEdit->setTextCursor (cur);
                 textEdit->ensureCursorVisible();
                 dlg.close();
@@ -4914,6 +4923,7 @@ void FPwin::checkSpelling()
                 cur.setPosition (cur.anchor());
                 if (!cur.movePosition (QTextCursor::NextCharacter))
                 {
+                    textEdit->skipSelectionHighlighting();
                     textEdit->setTextCursor (cur);
                     textEdit->ensureCursorVisible();
                     dlg.close();
@@ -4923,6 +4933,7 @@ void FPwin::checkSpelling()
                 word = cur.selectedText();
             }
         }
+        textEdit->skipSelectionHighlighting();
         textEdit->setTextCursor (cur);
         textEdit->ensureCursorVisible();
         dlg.checkWord (word);

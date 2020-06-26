@@ -59,6 +59,7 @@ Config::Config():
     scrollJumpWorkaround_ (false),
     skipNonText_ (true),
     saveUnmodified_ (false),
+    selectionHighlighting_ (false),
     closeWithLastTab_ (false),
     sharedSearchHistory_ (false),
     vLineDistance_ (-80),
@@ -244,6 +245,9 @@ void Config::readConfig()
 
     if (settings.value ("saveUnmodified").toBool())
         saveUnmodified_ = true; // false by default
+
+    if (settings.value ("selectionHighlighting").toBool())
+        selectionHighlighting_ = true; // false by default
 
     maxSHSize_ = qBound (1, settings.value ("maxSHSize", 2).toInt(), 10);
 
@@ -453,6 +457,7 @@ void Config::writeConfig()
     settings.setValue ("scrollJumpWorkaround", scrollJumpWorkaround_);
     settings.setValue ("skipNonText", skipNonText_);
     settings.setValue ("saveUnmodified", saveUnmodified_);
+    settings.setValue ("selectionHighlighting", selectionHighlighting_);
     settings.setValue ("maxSHSize", maxSHSize_);
 
     settings.setValue ("lightBgColorValue", lightBgColorValue_);

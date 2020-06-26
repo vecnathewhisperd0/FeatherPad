@@ -486,6 +486,13 @@ public:
         saveUnmodified_ = save;
     }
 /*************************/
+    bool getSelectionHighlighting() const {
+        return selectionHighlighting_;
+    }
+    void setSelectionHighlighting (bool enable) {
+        selectionHighlighting_ = enable;
+    }
+/*************************/
     bool getCloseWithLastTab() const {
         return closeWithLastTab_;
     }
@@ -573,6 +580,7 @@ private:
          scrollJumpWorkaround_, // Should a workaround for Qt5's "scroll jump" bug be applied?
          skipNonText_,
          saveUnmodified_,
+         selectionHighlighting_,
          closeWithLastTab_,
          sharedSearchHistory_;
     int vLineDistance_,

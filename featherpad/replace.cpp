@@ -25,7 +25,7 @@ namespace FeatherPad {
 void FPwin::removeGreenSel()
 {
     /* remove green highlights, considering the selection order, namely,
-       current line -> replacement -> found matches -> bracket matches */
+       current line -> replacement -> found matches -> selection highlights -> bracket matches */
     int count = ui->tabWidget->count();
     for (int i = 0; i < count; ++i)
     {
@@ -126,9 +126,9 @@ void FPwin::replace()
 
     bool lineNumShown (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible());
 
-    /* remember all previous (yellow and) green highlights */
+    /* remember all previous (yellow and) green and blue highlights */
     QList<QTextEdit::ExtraSelection> es = textEdit->extraSelections();
-    int n = textEdit->getRedSel().count();
+    int n = textEdit->getRedSel().count() + textEdit->getBlueSel().count();
     while (n > 0 && !es.isEmpty())
     {
         es.removeLast();
@@ -142,9 +142,9 @@ void FPwin::replace()
     QTextCursor tmp = start;
     QTextCursor found;
     if (QObject::sender() == ui->toolButtonNext)
-        found = finding (txtFind, start, searchFlags, tabPage->matchRegex());
+        found = textEdit->finding (txtFind, start, searchFlags, tabPage->matchRegex());
     else// if (QObject::sender() == ui->toolButtonPrv)
-        found = finding (txtFind, start, searchFlags | QTextDocument::FindBackward, tabPage->matchRegex());
+        found = textEdit->finding (txtFind, start, searchFlags | QTextDocument::FindBackward, tabPage->matchRegex());
     QColor color = QColor (textEdit->hasDarkScheme() ? Qt::darkGreen : Qt::green);
     int pos;
     QList<QTextEdit::ExtraSelection> gsel = textEdit->getGreenSel();
@@ -153,6 +153,7 @@ void FPwin::replace()
         start.setPosition (found.anchor());
         pos = found.anchor();
         start.setPosition (found.position(), QTextCursor::KeepAnchor);
+        textEdit->skipSelectionHighlighting();
         textEdit->setTextCursor (start);
         textEdit->insertPlainText (txtReplace_);
 
@@ -180,8 +181,9 @@ void FPwin::replace()
     /* append red highlights */
     es.append (textEdit->getRedSel());
     textEdit->setExtraSelections (es);
-    /* yellow highlights may need correction */
+    /* yellow and blue highlights may need correction */
     hlight();
+    textEdit->selectionHlight();
 }
 /*************************/
 void FPwin::replaceAll()
@@ -217,7 +219,7 @@ void FPwin::replaceAll()
     QList<QTextEdit::ExtraSelection> gsel = textEdit->getGreenSel();
     QList<QTextEdit::ExtraSelection> es;
     int count = 0;
-    while (!(found = finding (txtFind, start, searchFlags, tabPage->matchRegex())).isNull())
+    while (!(found = textEdit->finding (txtFind, start, searchFlags, tabPage->matchRegex())).isNull())
     {
         start.setPosition (found.anchor());
         pos = found.anchor();

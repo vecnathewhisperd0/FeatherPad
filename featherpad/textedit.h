@@ -53,8 +53,6 @@ public:
     int lineNumberAreaWidth();
     void showLineNumbers (bool show);
 
-    void removeGreenHighlights();
-
     void sortLines (bool reverse = false);
 
     QString getUrl (const int pos) const;
@@ -187,11 +185,16 @@ public:
     void setGreenSel (QList<QTextEdit::ExtraSelection> sel) {
         greenSel_ = sel;
     }
+
     QList<QTextEdit::ExtraSelection> getRedSel() const {
         return redSel_;
     }
     void setRedSel (QList<QTextEdit::ExtraSelection> sel) {
         redSel_ = sel;
+    }
+
+    QList<QTextEdit::ExtraSelection> getBlueSel() const {
+        return blueSel_;
     }
 
     bool isUneditable() const {
@@ -239,6 +242,15 @@ public:
         txtCurHPos_ = -1;
     }
 
+    bool getSelectionHighlighting() const {
+        return selectionHighlighting_;
+    }
+    void setSelectionHighlighting (bool enable);
+
+    void skipSelectionHighlighting() {
+        highlightThisSelection_ = false;
+    }
+
 signals:
     /* inform the main widget */
     void fileDropped (const QString& localFile,
@@ -258,6 +270,11 @@ public slots:
     void paste();
     void selectAll();
     void insertPlainText (const QString &text);
+    void selectionHlight();
+    void onContentsChange (int position, int charsRemoved, int charsAdded);
+    QTextCursor finding (const QString& str, const QTextCursor& start,
+                         QTextDocument::FindFlags flags = QTextDocument::FindFlags(),
+                         bool isRegex = false, const int end = 0) const;
 
 protected:
     void keyPressEvent (QKeyEvent *event);
@@ -304,6 +321,7 @@ private slots:
     void onUpdateRequesting (const QRect&, int dy);
     void onSelectionChanged();
     void scrollWithInertia();
+    void selectionhlighting (const QRect&, int dy);
 
 private:
     QString computeIndentation (const QTextCursor &cur) const;
@@ -325,7 +343,7 @@ private:
     int vLineDistance_;
     QString dateFormat_;
     QColor lineHColor;
-    int resizeTimerId, updateTimerId; // for not wasting CPU's time
+    int resizeTimerId, updateTimerId, selectionTimerId; // for not wasting CPU's time
     int Dy;
     QPoint pressPoint_; // used internally for hyperlinks
     QPoint selectionPressPoint_; // used internally to delay dragging until mouse movement
@@ -356,6 +374,10 @@ private:
     */
     QList<QTextEdit::ExtraSelection> greenSel_; // for replaced matches
     QList<QTextEdit::ExtraSelection> redSel_; // for bracket matching
+    QList<QTextEdit::ExtraSelection> blueSel_; // for selection highlighting
+    QString selectedWithDelay_; // the selection that should be highlighted
+    bool selectionHighlighting_; // should selections be highlighted?
+    bool highlightThisSelection_; // should this selection be highlighted?
     bool matchedBrackets_; // is bracket matching done (is FPwin::matchBrackets called)?
     bool uneditable_; // the doc should be made uneditable because of its contents
     QSyntaxHighlighter *highlighter_; // syntax highlighter
