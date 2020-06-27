@@ -375,9 +375,9 @@ private:
     QList<QTextEdit::ExtraSelection> greenSel_; // for replaced matches
     QList<QTextEdit::ExtraSelection> redSel_; // for bracket matching
     QList<QTextEdit::ExtraSelection> blueSel_; // for selection highlighting
-    QString selectedWithDelay_; // the selection that should be highlighted
     bool selectionHighlighting_; // should selections be highlighted?
     bool highlightThisSelection_; // should this selection be highlighted?
+    bool removeSelectionHighlights_; // used only internally
     bool matchedBrackets_; // is bracket matching done (is FPwin::matchBrackets called)?
     bool uneditable_; // the doc should be made uneditable because of its contents
     QSyntaxHighlighter *highlighter_; // syntax highlighter

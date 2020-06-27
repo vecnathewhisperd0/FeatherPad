@@ -93,7 +93,7 @@ The 'Replace' docked window respects the settings for 'Match Case', 'Whole Word'
 
 If "Preferences → Text → Selection highlighting" is checked, all case-sensitive and whole matches of the selected text will be highlighted by a light blue color (or dark blue when the dark color scheme is used). The selected text does not need to be a whole string but the highlighted matches are always whole strings.
 
-Selection highlighting can be used for finding nearby whole strings quickly. It is separate from the (yellow) search highlighting and can be used besides it.
+The selection highlighting can be used for finding nearby whole strings quickly. It is separate from the (yellow) search highlighting and can be used besides it.
 
 ***********************
 *   Going to A Line   *

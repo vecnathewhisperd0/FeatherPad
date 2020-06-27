@@ -2273,7 +2273,7 @@ windows will be included in the saved session.</source>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="150"/>
+        <location filename="../../textedit.cpp" line="151"/>
         <source>Double click to center current line</source>
         <translation></translation>
     </message>

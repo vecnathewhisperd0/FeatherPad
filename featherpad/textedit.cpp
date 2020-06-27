@@ -128,6 +128,7 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     selectionTimerId = 0;
     selectionHighlighting_ = false;
     highlightThisSelection_ = true;
+    removeSelectionHighlights_ = false;
     Dy = 0;
     size_ = 0;
     wordNumber_ = -1; // not calculated yet
@@ -1236,7 +1237,7 @@ void TextEdit::undo()
 
     /* because of a bug in Qt, "QPlainTextEdit::selectionChanged()"
        may not be emitted after undoing */
-    selectedWithDelay_.clear();
+    removeSelectionHighlights_ = true;
     selectionHlight();
 }
 void TextEdit::redo()
@@ -1245,7 +1246,7 @@ void TextEdit::redo()
     txtCurHPos_ = -1;
     QPlainTextEdit::redo();
 
-    selectedWithDelay_.clear();
+    removeSelectionHighlights_ = true;
     selectionHlight();
 }
 void TextEdit::paste()
@@ -1921,11 +1922,10 @@ void TextEdit::onUpdateRequesting (const QRect& /*rect*/, int dy)
 /*************************/
 void TextEdit::onSelectionChanged()
 {
-    QTextCursor cur = textCursor();
-
     /* Bracket matching isn't only based on the signal "cursorPositionChanged()"
        because it isn't emitted when a selected text is removed while the cursor
        is at its start. So, an appropriate signal should be emitted in such cases. */
+    QTextCursor cur = textCursor();
     if (!cur.hasSelection())
     {
         if (cur.position() == prevPos && cur.position() < prevAnchor)
@@ -1941,11 +1941,11 @@ void TextEdit::onSelectionChanged()
     /* selection highlighting */
     if (!selectionHighlighting_) return;
     if (highlightThisSelection_)
-        selectedWithDelay_ = cur.selectedText();
+        removeSelectionHighlights_ = false; // reset
     else
     {
-        selectedWithDelay_.clear();
-        highlightThisSelection_ = true;
+        removeSelectionHighlights_ = true;
+        highlightThisSelection_ = true; // reset
     }
     if (selectionTimerId)
     {
@@ -2072,8 +2072,11 @@ QString TextEdit::getUrl (const int pos) const
 void TextEdit::mouseMoveEvent (QMouseEvent *event)
 {
     /* prevent dragging if there is no real mouse movement */
-    if (event->buttons() == Qt::LeftButton && event->globalPos() == selectionPressPoint_)
+    if (event->buttons() == Qt::LeftButton
+        && (event->globalPos() - selectionPressPoint_).manhattanLength() <= qApp->startDragDistance())
+    {
         return;
+    }
 
     QPlainTextEdit::mouseMoveEvent (event);
 
@@ -2596,7 +2599,7 @@ void TextEdit::setSelectionHighlighting (bool enable)
 {
     selectionHighlighting_ = enable;
     highlightThisSelection_ = true; // reset
-    selectedWithDelay_.clear(); // reset
+    removeSelectionHighlights_ = true; // start without highlighting if "enable" is true
     if (enable)
     {
         connect (document(), &QTextDocument::contentsChange, this, &TextEdit::onContentsChange);
@@ -2610,7 +2613,6 @@ void TextEdit::setSelectionHighlighting (bool enable)
         disconnect (this, &TextEdit::resized, this, &TextEdit::selectionHlight);
         if (selectionTimerId)
         {
-            highlightThisSelection_ = true;
             killTimer (selectionTimerId);
             selectionTimerId = 0;
         }
@@ -2634,6 +2636,8 @@ void TextEdit::selectionHlight()
     if (!selectionHighlighting_) return;
 
     QList<QTextEdit::ExtraSelection> es = extraSelections();
+    QTextCursor selCursor = textCursor();
+    const QString selTxt = selCursor.selectedText();
     int nRed = redSel_.count(); // bracket highlights (come last)
 
     /* remove all blue highlights */
@@ -2645,34 +2649,26 @@ void TextEdit::selectionHlight()
     }
     blueSel_.clear();
 
-    if (selectedWithDelay_.isEmpty())
+    if (removeSelectionHighlights_ || selTxt.isEmpty())
     {
         setExtraSelections (es);
         return;
     }
 
-    QTextDocument::FindFlags searchFlags = (QTextDocument::FindWholeWords | QTextDocument::FindCaseSensitively);
-    /* blue highlights */
-    QColor color = hasDarkScheme() ? QColor (0, 77, 160) : QColor (130, 255, 255);
-
-    QTextCursor found;
     /* first put a start cursor at the top left edge... */
     QPoint Point (0, 0);
     QTextCursor start = cursorForPosition (Point);
     /* ... then move it backward by the search text length */
-    int startPos = start.position() - selectedWithDelay_.length();
+    int startPos = start.position() - selTxt.length();
     if (startPos >= 0)
         start.setPosition (startPos);
     else
         start.setPosition (0);
-    int w = geometry().width();
-    int h = geometry().height();
-    /* get the visible text to check if
-       the search string is inside it */
-    Point = QPoint (w, h);
+    /* get the visible text to check if the search string is inside it */
+    Point = QPoint (geometry().width(), geometry().height());
     QTextCursor end = cursorForPosition (Point);
     int endLimit = end.anchor();
-    int endPos = end.position() + selectedWithDelay_.length();
+    int endPos = end.position() + selTxt.length();
     end.movePosition (QTextCursor::End);
     if (endPos <= end.position())
         end.setPosition (endPos);
@@ -2680,11 +2676,17 @@ void TextEdit::selectionHlight()
     visCur.setPosition (end.position(), QTextCursor::KeepAnchor);
     const QString str = visCur.selection().toPlainText(); // '\n' is included in this way
     Qt::CaseSensitivity cs = Qt::CaseInsensitive;
-    if (str.contains (selectedWithDelay_, cs)) // don't waste time if the searched text isn't visible
+    if (str.contains (selTxt, cs)) // don't waste time if the searched text isn't visible
     {
-        while (!(found = finding (selectedWithDelay_, start, searchFlags,  false, endLimit)).isNull())
+        QTextDocument::FindFlags searchFlags = (QTextDocument::FindWholeWords | QTextDocument::FindCaseSensitively);
+        QColor color = hasDarkScheme() ? QColor (0, 77, 160) : QColor (130, 255, 255); // blue highlights
+        QTextCursor found;
+
+        while (!(found = finding (selTxt, start, searchFlags,  false, endLimit)).isNull())
         {
-            if (found != textCursor())
+            if (selCursor.anchor() <= selCursor.position()
+                    ? (found.anchor() != selCursor.anchor() || found.position() != selCursor.position())
+                    : (found.anchor() != selCursor.position() || found.position() != selCursor.anchor()))
             {
                 QTextEdit::ExtraSelection extra;
                 extra.format.setBackground (color);
