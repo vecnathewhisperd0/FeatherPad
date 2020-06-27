@@ -125,7 +125,7 @@ void TabBar::mouseMoveEvent (QMouseEvent *event)
     }
     else
     {
-        QTabBar::mouseMoveEvent(event);
+        QTabBar::mouseMoveEvent (event);
         int index = tabAt (event->pos());
         if (index > -1)
             QToolTip::showText (event->globalPos(), tabToolTip (index));

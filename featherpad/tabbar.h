@@ -55,15 +55,15 @@ signals:
 
 protected:
     /* from qtabbar.cpp */
-    virtual void mousePressEvent (QMouseEvent *event);
-    virtual void mouseReleaseEvent (QMouseEvent *event);
-    virtual void mouseMoveEvent (QMouseEvent *event);
-    virtual bool event (QEvent *event);
-    virtual void wheelEvent (QWheelEvent *event);
-    virtual QSize tabSizeHint(int index) const;
-    virtual QSize minimumTabSizeHint (int index) const;
-    void tabRemoved (int);
-    void tabInserted (int);
+    void mousePressEvent (QMouseEvent *event) override;
+    void mouseReleaseEvent (QMouseEvent *event) override;
+    void mouseMoveEvent (QMouseEvent *event) override;
+    bool event (QEvent *event) override;
+    void wheelEvent (QWheelEvent *event) override;
+    QSize tabSizeHint (int index) const override;
+    QSize minimumTabSizeHint (int index) const override;
+    void tabRemoved (int index) override;
+    void tabInserted (int index) override;
 
 private:
     QPoint dragStartPosition_;

@@ -2647,13 +2647,20 @@ void TextEdit::selectionHlight()
         es.removeAt (es.size() - 1 - nRed);
         --n;
     }
-    blueSel_.clear();
 
     if (removeSelectionHighlights_ || selTxt.isEmpty())
     {
-        setExtraSelections (es);
+        /* avoid the computations of QWidgetTextControl::setExtraSelections
+           if possible */
+        if (!blueSel_.isEmpty())
+        {
+            blueSel_.clear();
+            setExtraSelections (es);
+        }
         return;
     }
+
+    blueSel_.clear();
 
     /* first put a start cursor at the top left edge... */
     QPoint Point (0, 0);

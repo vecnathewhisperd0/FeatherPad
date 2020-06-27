@@ -126,7 +126,7 @@ void FPwin::replace()
 
     bool lineNumShown (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible());
 
-    /* remember all previous (yellow and) green and blue highlights */
+    /* remember all previous (yellow and) green highlights */
     QList<QTextEdit::ExtraSelection> es = textEdit->extraSelections();
     int n = textEdit->getRedSel().count() + textEdit->getBlueSel().count();
     while (n > 0 && !es.isEmpty())
@@ -178,12 +178,12 @@ void FPwin::replace()
     textEdit->setGreenSel (gsel);
     if (lineNumShown)
         es.prepend (textEdit->currentLineSelection());
-    /* append red highlights */
+    /* append blue and red highlights */
+    es.append (textEdit->getBlueSel());
     es.append (textEdit->getRedSel());
     textEdit->setExtraSelections (es);
-    /* yellow and blue highlights may need correction */
+    /* yellow highlights may need correction */
     hlight();
-    textEdit->selectionHlight();
 }
 /*************************/
 void FPwin::replaceAll()
@@ -240,6 +240,7 @@ void FPwin::replaceAll()
     start.endEditBlock();
     if ((ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible()))
         es.prepend (textEdit->currentLineSelection());
+    es.append (textEdit->getBlueSel());
     es.append (textEdit->getRedSel());
     textEdit->setExtraSelections (es);
     hlight();
