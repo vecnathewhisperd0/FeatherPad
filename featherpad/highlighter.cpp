@@ -600,13 +600,19 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = cFormat;
         highlightingRules.append (rule);
 
-        /* QtGlobal functions and enum Qt::GlobalColor */
+        /* Qt's global functions, enums and global colors */
         if (progLan == "cpp")
         {
             cFormat.setFontItalic (true);
             rule.pattern.setPattern ("\\bq(App)(?!(\\@|#|\\$))\\b|\\bq(Abs|Bound|Critical|Debug|Fatal|FuzzyCompare|InstallMsgHandler|MacVersion|Max|Min|Round64|Round|Version|Warning|getenv|putenv|rand|srand|tTrId|unsetenv|_check_ptr|t_set_sequence_auto_mnemonic|t_symbian_exception2Error|t_symbian_exception2LeaveL|t_symbian_throwIfError)(?!(\\.|-|@|#|\\$))\\b");
             rule.format = cFormat;
             highlightingRules.append (rule);
+
+            cFormat.setFontWeight (QFont::Normal);
+            rule.pattern.setPattern ("\\bQt\\s*::\\s*[A-Z][A-Za-z0-9_]+(?!(\\.|-|@|#|\\$))\\b");
+            rule.format = cFormat;
+            highlightingRules.append (rule);
+            cFormat.setFontWeight (QFont::Bold);
             cFormat.setFontItalic (false);
 
             cFormat.setForeground (Magenta);
