@@ -2617,16 +2617,19 @@ void TextEdit::setSelectionHighlighting (bool enable)
             selectionTimerId = 0;
         }
         /* remove all blue highlights */
-        QList<QTextEdit::ExtraSelection> es = extraSelections();
-        int n = blueSel_.count();
-        int nRed = redSel_.count();
-        while (n > 0 && es.size() - nRed > 0)
+        if (!blueSel_.isEmpty())
         {
-            es.removeAt (es.size() - 1 - nRed);
-            --n;
+            QList<QTextEdit::ExtraSelection> es = extraSelections();
+            int nRed = redSel_.count();
+            int n = blueSel_.count();
+            while (n > 0 && es.size() - nRed > 0)
+            {
+                es.removeAt (es.size() - 1 - nRed);
+                --n;
+            }
+            blueSel_.clear();
+            setExtraSelections (es);
         }
-        blueSel_.clear();
-        setExtraSelections (es);
     }
 }
 
@@ -2651,7 +2654,7 @@ void TextEdit::selectionHlight()
     if (removeSelectionHighlights_ || selTxt.isEmpty())
     {
         /* avoid the computations of QWidgetTextControl::setExtraSelections
-           if possible */
+           as far as possible */
         if (!blueSel_.isEmpty())
         {
             blueSel_.clear();
@@ -2682,8 +2685,7 @@ void TextEdit::selectionHlight()
     QTextCursor visCur = start;
     visCur.setPosition (end.position(), QTextCursor::KeepAnchor);
     const QString str = visCur.selection().toPlainText(); // '\n' is included in this way
-    Qt::CaseSensitivity cs = Qt::CaseInsensitive;
-    if (str.contains (selTxt, cs)) // don't waste time if the searched text isn't visible
+    if (str.contains (selTxt)) // don't waste time if the selected text isn't visible
     {
         QTextDocument::FindFlags searchFlags = (QTextDocument::FindWholeWords | QTextDocument::FindCaseSensitively);
         QColor color = hasDarkScheme() ? QColor (0, 77, 160) : QColor (130, 255, 255); // blue highlights

@@ -123,11 +123,8 @@ void FPwin::hlight() const
         start.setPosition (startPos);
     else
         start.setPosition (0);
-    int w = textEdit->geometry().width();
-    int h = textEdit->geometry().height();
-    /* get the visible text to check if
-       the search string is inside it */
-    Point = QPoint (w, h);
+    /* get the visible text to check if the search string is inside it */
+    Point = QPoint (textEdit->geometry().width(), textEdit->geometry().height());
     QTextCursor end = textEdit->cursorForPosition (Point);
     int endLimit = end.anchor();
     int endPos = end.position() + (!tabPage->matchRegex() ? txt.length() : 0);
