@@ -369,12 +369,13 @@ private:
     /*
        Highlighting order: (1) current line;
                            (2) replacing;
-                           (3) found matches;
-                           (4) bracket matches.
+                           (3) search matches;
+                           (4) selection matches;
+                           (5) bracket matches.
     */
     QList<QTextEdit::ExtraSelection> greenSel_; // for replaced matches
-    QList<QTextEdit::ExtraSelection> redSel_; // for bracket matching
     QList<QTextEdit::ExtraSelection> blueSel_; // for selection highlighting
+    QList<QTextEdit::ExtraSelection> redSel_; // for bracket matching
     bool selectionHighlighting_; // should selections be highlighted?
     bool highlightThisSelection_; // should this selection be highlighted?
     bool removeSelectionHighlights_; // used only internally

@@ -2632,7 +2632,7 @@ void TextEdit::setSelectionHighlighting (bool enable)
         }
     }
 }
-
+/*************************/
 // Set the blue selection highlights (before the red bracket highlights).
 void TextEdit::selectionHlight()
 {
@@ -2640,7 +2640,7 @@ void TextEdit::selectionHlight()
 
     QList<QTextEdit::ExtraSelection> es = extraSelections();
     QTextCursor selCursor = textCursor();
-    const QString selTxt = selCursor.selectedText();
+    const QString selTxt = selCursor.selection().toPlainText();
     int nRed = redSel_.count(); // bracket highlights (come last)
 
     /* remove all blue highlights */
