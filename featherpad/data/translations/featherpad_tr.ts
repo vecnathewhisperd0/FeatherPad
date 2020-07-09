@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="155"/>
+        <location filename="../../about.ui" line="157"/>
         <source>License</source>
         <translation>Lisans</translation>
     </message>
@@ -1180,18 +1180,18 @@
         <translation>FeatherPad Hakkında</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="252"/>
+        <location filename="../../replace.cpp" line="253"/>
         <source>No Replacement</source>
         <translatorcomment>Reminder: Literally &quot;Zero Replacement&quot; (in English &quot;no&quot; negates the expression, whereas in Turkish it should (also) be negated at the verb. Since the verb will either be non-existent or fixed as positive, then &quot;zero replacement [done]&quot; is the only acceptable wording left in Turkish, AFAIK.)</translatorcomment>
         <translation>Sıfır Değişiklik</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="254"/>
+        <location filename="../../replace.cpp" line="255"/>
         <source>One Replacement</source>
         <translation>Bir Değişiklik</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../replace.cpp" line="256"/>
+        <location filename="../../replace.cpp" line="257"/>
         <source>%Ln Replacements</source>
         <translatorcomment>Reminder: Must be singular for enumerated items as in &quot;7 file&quot; but NOT &quot;7 files&quot;</translatorcomment>
         <translation>

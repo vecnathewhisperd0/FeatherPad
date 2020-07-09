@@ -3,6 +3,7 @@ V0.15.0
  * Added optional selection highlighting (without interfering with search highlighting).
  * Fixed a small bug in search highlighting with tab DND/detachment.
  * Added simple Haxe highlighting (by using JS codes).
+ * Fixed multiline "<…/>" in JS.
 
 V0.14.2
 ---------

@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="155"/>
+        <location filename="../../about.ui" line="157"/>
         <source>License</source>
         <translation>Licenco</translation>
     </message>
@@ -1167,17 +1167,17 @@
         <translation>Pri FeatherPad</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="252"/>
+        <location filename="../../replace.cpp" line="253"/>
         <source>No Replacement</source>
         <translation>Neniu Anstataŭigo</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="254"/>
+        <location filename="../../replace.cpp" line="255"/>
         <source>One Replacement</source>
         <translation>Unu Anstataŭigo</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../replace.cpp" line="256"/>
+        <location filename="../../replace.cpp" line="257"/>
         <source>%Ln Replacements</source>
         <translation>
             <numerusform>%Ln Anstataŭigo</numerusform>

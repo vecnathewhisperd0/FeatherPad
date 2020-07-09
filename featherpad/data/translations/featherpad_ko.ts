@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="155"/>
+        <location filename="../../about.ui" line="157"/>
         <source>License</source>
         <translation>라이센스</translation>
     </message>
@@ -1167,17 +1167,17 @@
         <translation>FeatherPad 정보</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="252"/>
+        <location filename="../../replace.cpp" line="253"/>
         <source>No Replacement</source>
         <translation type="unfinished">바꾸지 않기</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="254"/>
+        <location filename="../../replace.cpp" line="255"/>
         <source>One Replacement</source>
         <translation type="unfinished">이번 한 번만 바꾸기</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../replace.cpp" line="256"/>
+        <location filename="../../replace.cpp" line="257"/>
         <source>%Ln Replacements</source>
         <translation type="unfinished">
             <numerusform>%Ln회 바꾸기</numerusform>
@@ -1791,7 +1791,7 @@ if the cursor is inside the text view?</source>
     <message>
         <location filename="../../prefDialog.ui" line="881"/>
         <source>Spell Checking</source>
-        <translation type="unfinished"></translation>
+        <translation>맞춤법 검사</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="889"/>
@@ -2016,12 +2016,12 @@ trailing spaces of a text file.</source>
     <message>
         <location filename="../../pref.cpp" line="1338"/>
         <source>&amp;Recently Opened</source>
-        <translation type="unfinished"></translation>
+        <translation>최근 열어본 파일(&amp;R)</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="1339"/>
         <source>Recently &amp;Modified</source>
-        <translation type="unfinished"></translation>
+        <translation>최근 수정(&amp;M)</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="1414"/>

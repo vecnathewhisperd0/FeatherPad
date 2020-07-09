@@ -42,9 +42,9 @@ bool Highlighter::isEscapedRegex (const QString &text, const int pos)
         return true;
     }
 
-    /* escape "<.../>", "</...>" and the single-line comment sign ("//") */
-    static const QRegularExpression braExp ("<[^<>]*$");
-    if ((text.length() > pos + 1 && ((progLan == "javascript" && text.at (pos + 1) == '>' && text.left (pos).indexOf (braExp) > -1)
+    /* escape "<.../>", "</...>" and the single-line comment sign ("//")
+       FIXME: In this way and with what follows, "/>/g" isn't highlighted. */
+    if ((text.length() > pos + 1 && ((progLan == "javascript" && text.at (pos + 1) == '>')
                                      || text.at (pos + 1) == '/'))
         || (pos > 0 && progLan == "javascript" && text.at (pos - 1) == '<'))
     {
@@ -95,9 +95,15 @@ bool Highlighter::isEscapedRegex (const QString &text, const int pos)
         else
         {
             prev.setUserState (updateState); // update the next line if this one changes
-            if (ch.isLetterOrNumber() || ch == '_'
+            if (ch.isNumber() || ch == '_'
                 /* as with Kate */
-                || ch == ')' || ch == ']' || ch == '$' || ch == '\"' || ch == '\'' || ch == '`')
+                || ch == ')' || ch == ']' || ch == '$' || ch == '\"' || ch == '\'' || ch == '`'
+                /* also skip "/>" */
+                || (last > 0 && ch == '>' && txt.at (last - 1) == '/' && progLan == "javascript"))
+            {
+                return true;
+            }
+            if (ch.isLetter())
             { // a regex isn't escaped if it follows a JavaScript keyword
                 if (progLan == "javascript")
                 {
@@ -122,34 +128,44 @@ bool Highlighter::isEscapedRegex (const QString &text, const int pos)
         }
     }
     else
-    {
+    { // a regex isn't escaped if it follows another one or a JavaScript keyword
+        if (format (i) == regexFormat)
+            return false;
         QChar ch = text.at (i);
-        if (format (i) != regexFormat && (ch.isLetterOrNumber() || ch == '_'
-                                          /* as with Kate */
-                                          || ch == ')' || ch == ']' || ch == '$' || ch == '\"' || ch == '\'' || ch == '`'))
-        { // a regex isn't escaped if it follows another one or a JavaScript keyword
+        if (/* as with Kate */
+            ch == ')' || ch == ']' || ch == '$' || ch == '\"' || ch == '\'' || ch == '`'
+            /* also skip "/>" */
+            || (i > 0 && ch == '>' && text.at (i - 1) == '/' && progLan == "javascript"))
+        {
+            return true;
+        }
+        if (ch.isLetterOrNumber() || ch == '_')
+        {
             int j;
             if ((j = text.lastIndexOf (QRegularExpression("/\\w+"), i + 1, &keyMatch)) > -1
                 && j + keyMatch.capturedLength() == i + 1 && format (j) == regexFormat)
             {
                 return false;
             }
-            if (progLan == "javascript")
+            if (ch.isLetter())
             {
-                if (jsKeys.pattern().isEmpty())
-                    jsKeys.setPattern (keywords (progLan).join ('|'));
-            }
-            else
-            {
-                if (qmlKeys.pattern().isEmpty())
-                    qmlKeys.setPattern (keywords (progLan).join ('|'));
-            }
-            int len = qMin (12, i + 1);
-            QString str = text.mid (i - len + 1, len);
-            if ((j = str.lastIndexOf (progLan == "javascript" ? jsKeys : qmlKeys, -1, &keyMatch)) > -1
-                && j + keyMatch.capturedLength() == len)
-            {
-                return false;
+                if (progLan == "javascript")
+                {
+                    if (jsKeys.pattern().isEmpty())
+                        jsKeys.setPattern (keywords (progLan).join ('|'));
+                }
+                else
+                {
+                    if (qmlKeys.pattern().isEmpty())
+                        qmlKeys.setPattern (keywords (progLan).join ('|'));
+                }
+                int len = qMin (12, i + 1);
+                QString str = text.mid (i - len + 1, len);
+                if ((j = str.lastIndexOf (progLan == "javascript" ? jsKeys : qmlKeys, -1, &keyMatch)) > -1
+                    && j + keyMatch.capturedLength() == len)
+                {
+                    return false;
+                }
             }
             return true;
         }
