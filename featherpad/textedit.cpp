@@ -1564,7 +1564,8 @@ void TextEdit::paintEvent (QPaintEvent *event)
             QTextOption opt = document()->defaultTextOption();
             if (rtl)
             {
-                opt.setAlignment (Qt::AlignRight);
+                if (lineWrapMode() == QPlainTextEdit::WidgetWidth)
+                    opt.setAlignment (Qt::AlignRight); // doesn't work without wrapping
                 opt.setTextDirection (Qt::RightToLeft);
                 layout->setTextOption (opt);
             }

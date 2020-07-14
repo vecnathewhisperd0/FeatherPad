@@ -4,6 +4,7 @@ V0.15.0
  * Fixed a small bug in search highlighting with tab DND/detachment.
  * Added simple Haxe highlighting (by using JS codes).
  * Fixed multiline "<…/>" in JS.
+ * Disabled the RTL workaround when lines aren't wrapped.
 
 V0.14.2
 ---------
