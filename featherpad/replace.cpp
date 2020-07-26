@@ -77,7 +77,7 @@ void FPwin::replaceDock()
 // for a moment and then visible again.
 void FPwin::closeReplaceDock (bool visible)
 {
-    if (visible) return;
+    if (visible || isMinimized()) return;
 
     txtReplace_.clear();
     removeGreenSel();

@@ -5,6 +5,7 @@ V0.15.0
  * Added simple Haxe highlighting (by using JS codes).
  * Fixed multiline "<…/>" in JS.
  * Disabled the RTL workaround when lines aren't wrapped.
+ * Don't clear replacement highlights when the window is minimized.
 
 V0.14.2
 ---------
