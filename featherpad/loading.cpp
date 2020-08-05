@@ -68,15 +68,26 @@ void Loading::run()
     QByteArray data;
     char c;
     qint64 charSize = sizeof (char); // 1
+    int num = 0;
     if (enforced)
     { // no need to check for the null character here
         while (file.read (&c, charSize) > 0)
-            data.append (c);
+        {
+            if (c == '\n' || c == '\r')
+                num = 0;
+            if (num <= 500000)
+                data.append (c);
+            else if (num == 500001)
+            {
+                data += QByteArray ("    HUGE LINE TRUNCATED: NO LINE WITH MORE THAN 500000 CHARACTERS");
+                forceUneditable_ = true;
+            }
+            ++num;
+        }
     }
     else
     {
         unsigned char C[4];
-        int num = 0;
         /* checking 4 bytes is enough to guess
            whether the encoding is UTF-16 or UTF-32 */
         while (num < 4 && file.read (&c, charSize) > 0)
@@ -109,9 +120,9 @@ void Loading::run()
                 }
             }
             /* reading may still be possible */
+            num = 0;
             if (charset_.isEmpty() && !hasNull)
             {
-                int num = 0;
                 while (file.read (&c, charSize) > 0)
                 {
                     if (c == '\0')
@@ -148,7 +159,18 @@ void Loading::run()
                     return;
                 }
                 while (file.read (&c, charSize) > 0)
-                    data.append (c);
+                {
+                    if (c == '\n' || c == '\r')
+                        num = 0;
+                    if (num <= 500000)
+                        data.append (c);
+                    else if (num == 500001)
+                    {
+                        data += QByteArray ("    HUGE LINE TRUNCATED: NO LINE WITH MORE THAN 500000 CHARACTERS");
+                        forceUneditable_ = true;
+                    }
+                    ++num;
+                }
             }
         }
     }
