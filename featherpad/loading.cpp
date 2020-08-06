@@ -75,13 +75,10 @@ void Loading::run()
         {
             if (c == '\n' || c == '\r')
                 num = 0;
-            if (num <= 500000)
+            if (num < 500004) // a multiplier of 4 (for UTF-16/32)
                 data.append (c);
-            else if (num == 500001)
-            {
-                data += QByteArray ("    HUGE LINE TRUNCATED: NO LINE WITH MORE THAN 500000 CHARACTERS");
+            else
                 forceUneditable_ = true;
-            }
             ++num;
         }
     }
@@ -162,13 +159,10 @@ void Loading::run()
                 {
                     if (c == '\n' || c == '\r')
                         num = 0;
-                    if (num <= 500000)
+                    if (num < 500004) // a multiplier of 4 (for UTF-16/32)
                         data.append (c);
-                    else if (num == 500001)
-                    {
-                        data += QByteArray ("    HUGE LINE TRUNCATED: NO LINE WITH MORE THAN 500000 CHARACTERS");
+                    else
                         forceUneditable_ = true;
-                    }
                     ++num;
                 }
             }
