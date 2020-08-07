@@ -75,7 +75,7 @@ void Loading::run()
         {
             if (c == '\n' || c == '\r')
                 num = 0;
-            if (num < 500004) // a multiplier of 4 (for UTF-16/32)
+            if (num < 500004) // a multiple of 4 (for UTF-16/32)
                 data.append (c);
             else
                 forceUneditable_ = true;
@@ -117,9 +117,9 @@ void Loading::run()
                 }
             }
             /* reading may still be possible */
-            num = 0;
             if (charset_.isEmpty() && !hasNull)
             {
+                num = 5; // 4 characters are already read
                 while (file.read (&c, charSize) > 0)
                 {
                     if (c == '\0')
@@ -155,11 +155,12 @@ void Loading::run()
                     emit completed (QString(), QString(), "UTF-8");
                     return;
                 }
+                num = 0;
                 while (file.read (&c, charSize) > 0)
                 {
                     if (c == '\n' || c == '\r')
                         num = 0;
-                    if (num < 500004) // a multiplier of 4 (for UTF-16/32)
+                    if (num < 500004) // a multiple of 4 (for UTF-16/32)
                         data.append (c);
                     else
                         forceUneditable_ = true;

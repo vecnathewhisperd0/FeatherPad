@@ -2879,7 +2879,7 @@ bool FPwin::saveFile (bool keepSyntax)
             contents = textEdit->document()->toPlainText();
             contents.replace ("\n", "\r\n");
             ln = static_cast<size_t>(contents.length()); // for fwrite();
-            codec = QTextCodec::codecForName (checkToEncoding().toUtf8());
+            codec = QTextCodec::codecForName (encoding.toUtf8());
             encodedString = codec->fromUnicode (contents);
             txt = encodedString.constData();
             if (encoding != "UTF-16")
@@ -2899,7 +2899,7 @@ bool FPwin::saveFile (bool keepSyntax)
                 file = fopen (fname.toUtf8().constData(), "wb");
                 if (file != nullptr)
                 {
-                    /* this worked correctly as I far as I tested */
+                    /* this worked correctly as far as I tested */
                     fwrite (txt , 2 , ln + 1 , file);
                     fclose (file);
                     success = true;
