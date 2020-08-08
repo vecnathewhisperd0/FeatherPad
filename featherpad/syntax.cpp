@@ -304,7 +304,7 @@ void FPwin::syntaxHighlighting (TextEdit *textEdit, bool highlight, const QStrin
             connect (textEdit, &TextEdit::updateBracketMatching, this, &FPwin::matchBrackets);
             /* visible text may change on block removal */
             connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
-            connect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
+            connect (textEdit, &TextEdit::updateRect, this, &FPwin::formatTextRect);
             connect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
             /* this is needed when the whole visible text is pasted */
             connect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::formatOnTextChange);
@@ -314,7 +314,7 @@ void FPwin::syntaxHighlighting (TextEdit *textEdit, bool highlight, const QStrin
     {
         disconnect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::formatOnTextChange);
         disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
-        disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
+        disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatTextRect);
         disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
         disconnect (textEdit, &TextEdit::updateBracketMatching, this, &FPwin::matchBrackets);
 
@@ -352,12 +352,6 @@ void FPwin::formatOnBlockChange (int/* newBlockCount*/) const
     formatOnResizing();
 }
 /*************************/
-void FPwin::formatVisibleText (const QRect &rect, int dy) const
-{
-    if (dy == 0) return;
-    formatTextRect (rect);
-}
-/*************************/
 void FPwin::formatOnResizing() const
 {
     int index = ui->tabWidget->currentIndex();
@@ -367,7 +361,7 @@ void FPwin::formatOnResizing() const
     formatTextRect (textEdit->rect());
 }
 /*************************/
-void FPwin::formatTextRect (QRect rect) const
+void FPwin::formatTextRect (const QRect &rect) const
 {
     if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget()))
     {

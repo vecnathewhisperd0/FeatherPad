@@ -121,21 +121,10 @@ void FPwin::replace()
     if (txtReplace_ != ui->lineEditReplace->text())
     {
         txtReplace_ = ui->lineEditReplace->text();
-        removeGreenSel();
+        textEdit->setGreenSel (QList<QTextEdit::ExtraSelection>());
     }
 
     bool lineNumShown (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible());
-
-    /* remember all previous (yellow and) green highlights */
-    QList<QTextEdit::ExtraSelection> es = textEdit->extraSelections();
-    int n = textEdit->getRedSel().count() + textEdit->getBlueSel().count();
-    while (n > 0 && !es.isEmpty())
-    {
-        es.removeLast();
-        --n;
-    }
-    if (!es.isEmpty() && lineNumShown)
-        es.removeFirst();
 
     QTextDocument::FindFlags searchFlags = getSearchFlags();
     QTextCursor start = textEdit->textCursor();
@@ -147,7 +136,7 @@ void FPwin::replace()
         found = textEdit->finding (txtFind, start, searchFlags | QTextDocument::FindBackward, tabPage->matchRegex());
     QColor color = QColor (textEdit->hasDarkScheme() ? Qt::darkGreen : Qt::green);
     int pos;
-    QList<QTextEdit::ExtraSelection> gsel = textEdit->getGreenSel();
+    QList<QTextEdit::ExtraSelection> es = textEdit->getGreenSel();
     if (!found.isNull())
     {
         start.setPosition (found.anchor());
@@ -163,8 +152,7 @@ void FPwin::replace()
         QTextEdit::ExtraSelection extra;
         extra.format.setBackground (color);
         extra.cursor = tmp;
-        es.prepend (extra);
-        gsel.append (extra);
+        es.append (extra);
 
         if (QObject::sender() != ui->toolButtonNext)
         {
@@ -175,14 +163,14 @@ void FPwin::replace()
             textEdit->setTextCursor (start);
         }
     }
-    textEdit->setGreenSel (gsel);
+    textEdit->setGreenSel (es);
     if (lineNumShown)
         es.prepend (textEdit->currentLineSelection());
     /* append blue and red highlights */
     es.append (textEdit->getBlueSel());
     es.append (textEdit->getRedSel());
     textEdit->setExtraSelections (es);
-    /* yellow highlights may need correction */
+    /* add yellow highlights (perhaps with corrections) */
     hlight();
 }
 /*************************/
@@ -204,21 +192,24 @@ void FPwin::replaceAll()
     if (txtReplace_ != ui->lineEditReplace->text())
     {
         txtReplace_ = ui->lineEditReplace->text();
-        removeGreenSel();
+        textEdit->setGreenSel (QList<QTextEdit::ExtraSelection>());
     }
 
     QTextDocument::FindFlags searchFlags = getSearchFlags();
 
     QTextCursor orig = textEdit->textCursor();
-    QTextCursor start = orig;
+    orig.setPosition (orig.anchor());
+    textEdit->setTextCursor (orig);
     QColor color = QColor (textEdit->hasDarkScheme() ? Qt::darkGreen : Qt::green);
     int pos; QTextCursor found;
+    QTextCursor start = orig;
     start.beginEditBlock();
     start.setPosition (0);
     QTextCursor tmp = start;
-    QList<QTextEdit::ExtraSelection> gsel = textEdit->getGreenSel();
-    QList<QTextEdit::ExtraSelection> es;
+    QList<QTextEdit::ExtraSelection> es = textEdit->getGreenSel();
     int count = 0;
+    QTextEdit::ExtraSelection extra;
+    extra.format.setBackground (color);
     while (!(found = textEdit->finding (txtFind, start, searchFlags, tabPage->matchRegex())).isNull())
     {
         start.setPosition (found.anchor());
@@ -226,17 +217,17 @@ void FPwin::replaceAll()
         start.setPosition (found.position(), QTextCursor::KeepAnchor);
         start.insertText (txtReplace_);
 
-        tmp.setPosition (pos);
-        tmp.setPosition (start.position(), QTextCursor::KeepAnchor);
+        if (count < 1000)
+        {
+            tmp.setPosition (pos);
+            tmp.setPosition (start.position(), QTextCursor::KeepAnchor);
+            extra.cursor = tmp;
+            es.append (extra);
+        }
         start.setPosition (start.position());
-        QTextEdit::ExtraSelection extra;
-        extra.format.setBackground (color);
-        extra.cursor = tmp;
-        es.prepend (extra);
-        gsel.append (extra);
         ++count;
     }
-    textEdit->setGreenSel (gsel);
+    textEdit->setGreenSel (es);
     start.endEditBlock();
     if ((ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible()))
         es.prepend (textEdit->currentLineSelection());
@@ -244,9 +235,6 @@ void FPwin::replaceAll()
     es.append (textEdit->getRedSel());
     textEdit->setExtraSelections (es);
     hlight();
-    /* restore the original cursor without selection */
-    orig.setPosition (orig.anchor());
-    textEdit->setTextCursor (orig);
 
     QString title;
     if (count == 0)
@@ -257,6 +245,8 @@ void FPwin::replaceAll()
         title = tr("%Ln Replacements", "", count);
     ui->dockReplace->setWindowTitle (title);
     textEdit->setReplaceTitle (title);
+    if (count > 1000)
+        showWarningBar ("<center><b><big>" + tr ("The first 1000 replacements are highlighted.") + "</big></b></center>");
 }
 
 }

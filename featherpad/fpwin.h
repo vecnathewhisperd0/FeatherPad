@@ -133,6 +133,7 @@ private slots:
     void cutText();
     void copyText();
     void pasteText();
+    void toSoftTabs();
     void insertDate();
     void deleteText();
     void selectAllText();
@@ -148,14 +149,13 @@ private slots:
     void fontDialog();
     void find (bool forward);
     void hlight() const;
-    void hlighting (const QRect&, int dy) const;
     void searchFlagChanged();
     void showHideSearch();
     void showLN (bool checked);
     void toggleSyntaxHighlighting();
     void formatOnBlockChange (int) const;
     void formatOnTextChange (int, int charsRemoved, int charsAdded) const;
-    void formatVisibleText (const QRect &rect, int dy) const;
+    void formatTextRect (const QRect &rect) const;
     void formatOnResizing() const;
     void toggleWrapping();
     void toggleIndent();
@@ -256,7 +256,6 @@ private:
     bool matchLeftBracket (QTextBlock currentBlock, int index, int numRightBrackets);
     bool matchRightBracket (QTextBlock currentBlock, int index, int numLeftBrackets);
     void createSelection (int pos);
-    void formatTextRect (QRect rect) const;
     void removeGreenSel();
     void waitToMakeBusy();
     void unbusy();

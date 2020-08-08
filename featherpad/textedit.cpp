@@ -129,7 +129,6 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     selectionHighlighting_ = false;
     highlightThisSelection_ = true;
     removeSelectionHighlights_ = false;
-    Dy = 0;
     size_ = 0;
     wordNumber_ = -1; // not calculated yet
     encoding_= "UTF-8";
@@ -1466,7 +1465,7 @@ void TextEdit::timerEvent (QTimerEvent *event)
         updateTimerId = 0;
         /* we use TextEdit's rect because the last rect that
            updateRequest() provides after 50ms may be null */
-        emit updateRect (rect(), Dy);
+        emit updateRect (rect());
         /* the text-edit may have been invisible before and so,
            FPwin::matchBrackets() may have not be called for it */
         if (!matchedBrackets_ && isVisible())
@@ -1909,15 +1908,15 @@ void TextEdit::adjustScrollbars()
 /*************************/
 void TextEdit::onUpdateRequesting (const QRect& /*rect*/, int dy)
 {
+    /* here, we're interested only in the vertical text scrolling
+       (and, definitely, not in the blinking cursor updates) */
+    if (dy == 0) return;
+
     if (updateTimerId)
     {
         killTimer (updateTimerId);
         updateTimerId = 0;
-        if (Dy == 0 || dy != 0) // dy can be zero at the end of 50ms
-            Dy = dy;
     }
-    else Dy = dy;
-
     updateTimerId = startTimer (UPDATE_INTERVAL);
 }
 /*************************/
@@ -1992,7 +1991,7 @@ void TextEdit::zooming (float range)
 // be emitted when the text page isn't visible, while "updateRequest()"
 // might not be emitted when it becomes visible again. That will result in
 // an incomplete syntax highlighting. Therefore, we restart "updateTimerId"
-// and give a positive value to "Dy" whenever the text page is shown.
+// whenever the text page is shown.
 void TextEdit::showEvent (QShowEvent *event)
 {
     QPlainTextEdit::showEvent (event);
@@ -2001,7 +2000,6 @@ void TextEdit::showEvent (QShowEvent *event)
         killTimer (updateTimerId);
         updateTimerId = 0;
     }
-    Dy = 1;
     updateTimerId = startTimer (UPDATE_INTERVAL);
 }
 /*************************/
@@ -2604,13 +2602,13 @@ void TextEdit::setSelectionHighlighting (bool enable)
     if (enable)
     {
         connect (document(), &QTextDocument::contentsChange, this, &TextEdit::onContentsChange);
-        connect (this, &TextEdit::updateRect, this, &TextEdit::selectionhlighting);
+        connect (this, &TextEdit::updateRect, this, &TextEdit::selectionHlight);
         connect (this, &TextEdit::resized, this, &TextEdit::selectionHlight);
     }
     else
     {
         disconnect (document(), &QTextDocument::contentsChange, this, &TextEdit::onContentsChange);
-        disconnect (this, &TextEdit::updateRect, this, &TextEdit::selectionhlighting);
+        disconnect (this, &TextEdit::updateRect, this, &TextEdit::selectionHlight);
         disconnect (this, &TextEdit::resized, this, &TextEdit::selectionHlight);
         if (selectionTimerId)
         {
@@ -2710,10 +2708,28 @@ void TextEdit::selectionHlight()
     setExtraSelections (es);
 }
 /*************************/
-void TextEdit::selectionhlighting (const QRect&, int dy)
+bool TextEdit::toSoftTabs()
 {
-    if (!selectionHighlighting_) return;
-    if (dy) selectionHlight();
+    bool res = false;
+    QString tab = QString (QChar (QChar::Tabulation));
+    QTextCursor orig = textCursor();
+    orig.setPosition (orig.anchor());
+    setTextCursor (orig);
+    QTextCursor found;
+    QTextCursor start = orig;
+    start.beginEditBlock();
+    start.setPosition (0);
+    while (!(found = finding (tab, start)).isNull())
+    {
+        res = true;
+        start.setPosition (found.anchor());
+        QString softTab = remainingSpaces (textTab_, start);
+        start.setPosition (found.position(), QTextCursor::KeepAnchor);
+        start.insertText (softTab);
+        start.setPosition (start.position());
+    }
+    start.endEditBlock();
+    return res;
 }
 /*************************/
 void TextEdit::onContentsChange (int /*position*/, int charsRemoved, int charsAdded)

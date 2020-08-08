@@ -140,6 +140,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     }
     /* exceptions */
     defaultShortcuts_.insert (ui->actionSaveAllFiles, QKeySequence());
+    defaultShortcuts_.insert (ui->actionSoftTab, QKeySequence());
     defaultShortcuts_.insert (ui->actionUserDict, QKeySequence());
     defaultShortcuts_.insert (ui->actionFont, QKeySequence());
 
@@ -209,6 +210,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     connect (ui->actionCut, &QAction::triggered, this, &FPwin::cutText);
     connect (ui->actionCopy, &QAction::triggered, this, &FPwin::copyText);
     connect (ui->actionPaste, &QAction::triggered, this, &FPwin::pasteText);
+    connect (ui->actionSoftTab, &QAction::triggered, this, &FPwin::toSoftTabs);
     connect (ui->actionDate, &QAction::triggered, this, &FPwin::insertDate);
     connect (ui->actionDelete, &QAction::triggered, this, &FPwin::deleteText);
     connect (ui->actionSelectAll, &QAction::triggered, this, &FPwin::selectAllText);
@@ -1199,6 +1201,7 @@ void FPwin::enableWidgets (bool enable) const
         ui->actionCut->setEnabled (false);
         ui->actionCopy->setEnabled (false);
         ui->actionPaste->setEnabled (false);
+        ui->actionSoftTab->setEnabled (false);
         ui->actionDate->setEnabled (false);
         ui->actionDelete->setEnabled (false);
 
@@ -1471,6 +1474,8 @@ void FPwin::editorContextMenu (const QPoint& p)
     }
     if (!textEdit->isReadOnly())
     {
+        menu->addAction (ui->actionSoftTab);
+        menu->addSeparator();
         if (textEdit->textCursor().hasSelection())
         {
             menu->addAction (ui->actionUpperCase);
@@ -2265,6 +2270,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
                 ui->actionSaveAs->setDisabled (true);
             ui->actionCut->setDisabled (true);
             ui->actionPaste->setDisabled (true);
+            ui->actionSoftTab->setDisabled (true);
             ui->actionDate->setDisabled (true);
             ui->actionDelete->setDisabled (true);
             ui->actionUpperCase->setDisabled (true);
@@ -3042,6 +3048,17 @@ void FPwin::pasteText()
         tabPage->textEdit()->paste();
 }
 /*************************/
+void FPwin::toSoftTabs()
+{
+    if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget()))
+    {
+        bool res = tabPage->textEdit()->toSoftTabs();
+        reformat (tabPage->textEdit()); // the text may get smaller with non-mono fonts
+        if (res)
+            showWarningBar ("<center><b><big>" + tr ("Text tabs are converted to spaces.") + "</big></b></center>");
+    }
+}
+/*************************/
 void FPwin::insertDate()
 {
     if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget()))
@@ -3148,6 +3165,7 @@ void FPwin::makeEditable()
     ui->actionEdit->setVisible (false);
 
     ui->actionPaste->setEnabled (true);
+    ui->actionSoftTab->setEnabled (true);
     ui->actionDate->setEnabled (true);
     ui->actionCopy->setEnabled (textIsSelected);
     ui->actionCut->setEnabled (textIsSelected);
@@ -3264,6 +3282,7 @@ void FPwin::tabSwitch (int index)
         ui->actionSaveAs->setEnabled (!textEdit->isUneditable());
     }
     ui->actionPaste->setEnabled (!readOnly);
+    ui->actionSoftTab->setEnabled (!readOnly);
     ui->actionDate->setEnabled (!readOnly);
     bool textIsSelected = textEdit->textCursor().hasSelection();
     ui->actionCopy->setEnabled (textIsSelected);
@@ -4096,7 +4115,7 @@ void FPwin::detachTab()
     TextEdit *textEdit = tabPage->textEdit();
 
     disconnect (textEdit, &TextEdit::resized, this, &FPwin::hlight);
-    disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::hlighting);
+    disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::hlight);
     disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::hlight);
     if (status)
     {
@@ -4115,7 +4134,7 @@ void FPwin::detachTab()
     disconnect (textEdit, &TextEdit::fileDropped, this, &FPwin::newTabFromName);
     disconnect (textEdit, &TextEdit::updateBracketMatching, this, &FPwin::matchBrackets);
     disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
-    disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatVisibleText);
+    disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatTextRect);
     disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
 
     disconnect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::updateWordInfo);
@@ -4211,7 +4230,7 @@ void FPwin::detachTab()
     if (!textEdit->getSearchedText().isEmpty())
     {
         connect (textEdit, &QPlainTextEdit::textChanged, dropTarget, &FPwin::hlight);
-        connect (textEdit, &TextEdit::updateRect, dropTarget, &FPwin::hlighting);
+        connect (textEdit, &TextEdit::updateRect, dropTarget, &FPwin::hlight);
         connect (textEdit, &TextEdit::resized, dropTarget, &FPwin::hlight);
         /* restore yellow highlights, which will automatically
            set the current line highlight if needed because the
@@ -4333,7 +4352,7 @@ void FPwin::dropTab (const QString& str)
     TextEdit *textEdit = tabPage->textEdit();
 
     disconnect (textEdit, &TextEdit::resized, dragSource, &FPwin::hlight);
-    disconnect (textEdit, &TextEdit::updateRect, dragSource, &FPwin::hlighting);
+    disconnect (textEdit, &TextEdit::updateRect, dragSource, &FPwin::hlight);
     disconnect (textEdit, &QPlainTextEdit::textChanged, dragSource, &FPwin::hlight);
     if (dragSource->ui->statusBar->isVisible())
     {
@@ -4352,7 +4371,7 @@ void FPwin::dropTab (const QString& str)
     disconnect (textEdit, &TextEdit::fileDropped, dragSource, &FPwin::newTabFromName);
     disconnect (textEdit, &TextEdit::updateBracketMatching, dragSource, &FPwin::matchBrackets);
     disconnect (textEdit, &QPlainTextEdit::blockCountChanged, dragSource, &FPwin::formatOnBlockChange);
-    disconnect (textEdit, &TextEdit::updateRect, dragSource, &FPwin::formatVisibleText);
+    disconnect (textEdit, &TextEdit::updateRect, dragSource, &FPwin::formatTextRect);
     disconnect (textEdit, &TextEdit::resized, dragSource, &FPwin::formatOnResizing);
 
     disconnect (textEdit->document(), &QTextDocument::contentsChange, dragSource, &FPwin::updateWordInfo);
@@ -4462,7 +4481,7 @@ void FPwin::dropTab (const QString& str)
     if (!textEdit->getSearchedText().isEmpty())
     {
         connect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::hlight);
-        connect (textEdit, &TextEdit::updateRect, this, &FPwin::hlighting);
+        connect (textEdit, &TextEdit::updateRect, this, &FPwin::hlight);
         connect (textEdit, &TextEdit::resized, this, &FPwin::hlight);
         /* restore yellow highlights, which will automatically
            set the current line highlight if needed because the
@@ -5328,6 +5347,7 @@ void FPwin::helpDoc()
                                              "background-color: rgb(0, 60, 110);}");
     ui->actionCut->setDisabled (true);
     ui->actionPaste->setDisabled (true);
+    ui->actionSoftTab->setDisabled (true);
     ui->actionDate->setDisabled (true);
     ui->actionDelete->setDisabled (true);
     ui->actionUpperCase->setDisabled (true);

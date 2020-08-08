@@ -44,7 +44,7 @@ void FPwin::find (bool forward)
     }
 
     disconnect (textEdit, &TextEdit::resized, this, &FPwin::hlight);
-    disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::hlighting);
+    disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::hlight);
     disconnect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::hlight);
 
     if (txt.isEmpty())
@@ -89,7 +89,7 @@ void FPwin::find (bool forward)
        scrolled and even when no match is found (it may be added later) */
     hlight();
     connect (textEdit, &QPlainTextEdit::textChanged, this, &FPwin::hlight);
-    connect (textEdit, &TextEdit::updateRect, this, &FPwin::hlighting);
+    connect (textEdit, &TextEdit::updateRect, this, &FPwin::hlight);
     connect (textEdit, &TextEdit::resized, this, &FPwin::hlight);
 }
 /*************************/
@@ -155,11 +155,6 @@ void FPwin::hlight() const
     es.append (textEdit->getBlueSel());
     es.append (textEdit->getRedSel());
     textEdit->setExtraSelections (es);
-}
-/*************************/
-void FPwin::hlighting (const QRect&, int dy) const
-{
-    if (dy) hlight();
 }
 /*************************/
 void FPwin::searchFlagChanged()

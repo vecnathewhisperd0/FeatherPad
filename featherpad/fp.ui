@@ -200,6 +200,8 @@
     <addaction name="separator"/>
     <addaction name="actionSelectAll"/>
     <addaction name="separator"/>
+    <addaction name="actionSoftTab"/>
+    <addaction name="separator"/>
     <addaction name="actionUpperCase"/>
     <addaction name="actionLowerCase"/>
     <addaction name="separator"/>
@@ -1201,6 +1203,11 @@
    </property>
    <property name="toolTip">
     <string>User Dictionary</string>
+   </property>
+  </action>
+  <action name="actionSoftTab">
+   <property name="text">
+    <string>Text Tabs to Spaces</string>
    </property>
   </action>
  </widget>

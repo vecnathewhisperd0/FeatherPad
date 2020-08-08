@@ -42,7 +42,7 @@ public:
     void setTextCursor (const QTextCursor &cursor)
     {
         QPlainTextEdit::setTextCursor (cursor);
-        /* this is needed for formatVisibleText() to be called (for syntax highlighting) */
+        /* this is needed for formatTextRect() to be called (for syntax highlighting) */
         emit QPlainTextEdit::updateRequest (rect(), 1);
     }
 
@@ -54,6 +54,8 @@ public:
     void showLineNumbers (bool show);
 
     void sortLines (bool reverse = false);
+
+    bool toSoftTabs();
 
     QString getUrl (const int pos) const;
 
@@ -258,7 +260,7 @@ signals:
                       int posInLine, // Only for connecting to FPwin::newTabFromName().
                       bool multiple); // Multiple files are dropped?
     void resized(); // needed by syntax highlighting
-    void updateRect (const QRect &rect, int dy);
+    void updateRect (const QRect &rect);
     void zoomedOut (TextEdit *textEdit); // needed for reformatting text
     void updateBracketMatching();
 
@@ -321,7 +323,6 @@ private slots:
     void onUpdateRequesting (const QRect&, int dy);
     void onSelectionChanged();
     void scrollWithInertia();
-    void selectionhlighting (const QRect&, int dy);
 
 private:
     QString computeIndentation (const QTextCursor &cur) const;

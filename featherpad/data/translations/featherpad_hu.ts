@@ -12,16 +12,16 @@
 <context>
     <name>FeatherPad::FPwin</name>
     <message>
-        <location filename="../../fpwin.cpp" line="403"/>
-        <location filename="../../fpwin.cpp" line="1319"/>
-        <location filename="../../fpwin.cpp" line="1380"/>
-        <location filename="../../fpwin.cpp" line="1878"/>
-        <location filename="../../fpwin.cpp" line="1930"/>
-        <location filename="../../fpwin.cpp" line="2696"/>
-        <location filename="../../fpwin.cpp" line="2716"/>
-        <location filename="../../fpwin.cpp" line="2719"/>
-        <location filename="../../fpwin.cpp" line="3219"/>
-        <location filename="../../fpwin.cpp" line="3927"/>
+        <location filename="../../fpwin.cpp" line="405"/>
+        <location filename="../../fpwin.cpp" line="1322"/>
+        <location filename="../../fpwin.cpp" line="1383"/>
+        <location filename="../../fpwin.cpp" line="1883"/>
+        <location filename="../../fpwin.cpp" line="1935"/>
+        <location filename="../../fpwin.cpp" line="2702"/>
+        <location filename="../../fpwin.cpp" line="2722"/>
+        <location filename="../../fpwin.cpp" line="2725"/>
+        <location filename="../../fpwin.cpp" line="3237"/>
+        <location filename="../../fpwin.cpp" line="3946"/>
         <source>Untitled</source>
         <translation>Névtelen</translation>
     </message>
@@ -54,514 +54,519 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="189"/>
-        <location filename="../../fp.ui" line="977"/>
+        <location filename="../../fp.ui" line="979"/>
         <source>&amp;Edit</source>
         <translation>S&amp;zerkesztés</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="216"/>
+        <location filename="../../fp.ui" line="218"/>
         <source>&amp;Options</source>
         <translation>&amp;Beállítások</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1342"/>
-        <location filename="../../fpwin.cpp" line="2621"/>
-        <location filename="../../fpwin.cpp" line="3736"/>
+        <location filename="../../fpwin.cpp" line="1345"/>
+        <location filename="../../fpwin.cpp" line="2627"/>
+        <location filename="../../fpwin.cpp" line="3755"/>
         <source>Encoding</source>
         <translation>Kódolás</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="279"/>
+        <location filename="../../fp.ui" line="281"/>
         <source>&amp;Search</source>
         <translation>&amp;Keresés</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="287"/>
-        <location filename="../../fp.ui" line="743"/>
+        <location filename="../../fp.ui" line="289"/>
+        <location filename="../../fp.ui" line="745"/>
         <source>&amp;Help</source>
         <translation>&amp;Súgó</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="387"/>
+        <location filename="../../fp.ui" line="389"/>
         <source>Find:</source>
         <translation>Ezt:</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="403"/>
+        <location filename="../../fp.ui" line="405"/>
         <source>To be replaced</source>
         <translation>lecserélni</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="416"/>
+        <location filename="../../fp.ui" line="418"/>
         <source>Replace with:</source>
         <translation>Erre:</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="432"/>
+        <location filename="../../fp.ui" line="434"/>
         <source>Replacing text</source>
         <translation>a szövegre</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="491"/>
+        <location filename="../../fp.ui" line="493"/>
         <source>&amp;New</source>
         <translation>Ú&amp;j</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="494"/>
+        <location filename="../../fp.ui" line="496"/>
         <source>New tab</source>
         <translation>Új lap</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="497"/>
+        <location filename="../../fp.ui" line="499"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="502"/>
+        <location filename="../../fp.ui" line="504"/>
         <source>&amp;Open</source>
         <translation>&amp;Megnyitás</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="505"/>
+        <location filename="../../fp.ui" line="507"/>
         <source>Open a file</source>
         <translation>Fájl megnyitása</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="508"/>
+        <location filename="../../fp.ui" line="510"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="516"/>
-        <location filename="../../fpwin.cpp" line="1125"/>
+        <location filename="../../fp.ui" line="518"/>
+        <location filename="../../fpwin.cpp" line="1127"/>
         <source>&amp;Save</source>
         <translation>Menté&amp;s</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="519"/>
+        <location filename="../../fp.ui" line="521"/>
         <source>Save the current tab</source>
         <translation>Aktuális lap mentése</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="522"/>
+        <location filename="../../fp.ui" line="524"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="530"/>
+        <location filename="../../fp.ui" line="532"/>
         <source>&amp;Undo</source>
         <translation>&amp;Visszavonás</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="533"/>
+        <location filename="../../fp.ui" line="535"/>
         <source>Undo</source>
         <translation>Visszavonás</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="536"/>
+        <location filename="../../fp.ui" line="538"/>
         <source>Ctrl+Z</source>
         <translation>Ctrl+Z</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="544"/>
+        <location filename="../../fp.ui" line="546"/>
         <source>&amp;Redo</source>
         <translation>&amp;Mégis</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="547"/>
+        <location filename="../../fp.ui" line="549"/>
         <source>Redo</source>
         <translation>Mégis</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="550"/>
+        <location filename="../../fp.ui" line="552"/>
         <source>Ctrl+Shift+Z</source>
         <translation>Ctrl+Shift+Z</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="558"/>
-        <location filename="../../fp.ui" line="561"/>
+        <location filename="../../fp.ui" line="560"/>
+        <location filename="../../fp.ui" line="563"/>
         <source>Reload</source>
         <translation>Újratöltés</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="564"/>
+        <location filename="../../fp.ui" line="566"/>
         <source>Ctrl+Shift+R</source>
         <translation>Ctrl+Shift+R</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="569"/>
+        <location filename="../../fp.ui" line="571"/>
         <source>&amp;Find</source>
         <translation>&amp;Keresés</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="575"/>
+        <location filename="../../fp.ui" line="577"/>
         <source>Ctrl+F</source>
         <translation>Ctrl+F</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="583"/>
+        <location filename="../../fp.ui" line="585"/>
         <source>Show/hide replacement dock</source>
         <translation>Csere panel megjelenítése/elrejtése</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="586"/>
+        <location filename="../../fp.ui" line="588"/>
         <source>Ctrl+R</source>
         <translation>Ctrl+R</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="591"/>
+        <location filename="../../fp.ui" line="593"/>
         <source>Save &amp;As</source>
         <translation>Me&amp;ntés másként</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="594"/>
+        <location filename="../../fp.ui" line="596"/>
         <source>Ctrl+Shift+S</source>
         <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="599"/>
+        <location filename="../../fp.ui" line="601"/>
         <source>&amp;Print</source>
         <translation>N&amp;yomtatás</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="602"/>
+        <location filename="../../fp.ui" line="604"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="607"/>
+        <location filename="../../fp.ui" line="609"/>
         <source>Documen&amp;t Properties</source>
         <translation>Dokument&amp;umtulajdonságok</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="610"/>
+        <location filename="../../fp.ui" line="612"/>
         <source>Ctrl+Shift+D</source>
         <translation>Ctrl+Shift+D</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="615"/>
+        <location filename="../../fp.ui" line="617"/>
         <source>&amp;Close</source>
         <translation>&amp;Bezárás</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="618"/>
+        <location filename="../../fp.ui" line="620"/>
         <source>Ctrl+Shift+Q</source>
         <translation>Ctrl+Shift+Q</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="623"/>
+        <location filename="../../fp.ui" line="625"/>
         <source>&amp;Quit</source>
         <translation>K&amp;ilépés</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="626"/>
+        <location filename="../../fp.ui" line="628"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="634"/>
+        <location filename="../../fp.ui" line="636"/>
         <source>&amp;Cut</source>
         <translation>&amp;Kivágás</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="637"/>
+        <location filename="../../fp.ui" line="639"/>
         <source>Ctrl+X</source>
         <translation>Ctrl+X</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="645"/>
+        <location filename="../../fp.ui" line="647"/>
         <source>C&amp;opy</source>
         <translation>Má&amp;solás</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="648"/>
+        <location filename="../../fp.ui" line="650"/>
         <source>Ctrl+C</source>
         <translation>Ctrl+C</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="653"/>
+        <location filename="../../fp.ui" line="655"/>
         <source>&amp;Paste</source>
         <translation>&amp;Beillesztés</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="656"/>
+        <location filename="../../fp.ui" line="658"/>
         <source>Ctrl+V</source>
         <translation>Ctrl+V</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="664"/>
+        <location filename="../../fp.ui" line="666"/>
         <source>&amp;Delete</source>
         <translation>&amp;Törlés</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="669"/>
+        <location filename="../../fp.ui" line="671"/>
         <source>&amp;Select All</source>
         <translation>Össz&amp;es kijelölése</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="672"/>
+        <location filename="../../fp.ui" line="674"/>
         <source>Ctrl+A</source>
         <translation>Ctrl+A</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="677"/>
+        <location filename="../../fp.ui" line="679"/>
         <source>&amp;Font</source>
         <translation>&amp;Betűtípus</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="685"/>
+        <location filename="../../fp.ui" line="687"/>
         <source>&amp;Line Numbers</source>
         <translation>&amp;Sorszámok</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="688"/>
+        <location filename="../../fp.ui" line="690"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="699"/>
+        <location filename="../../fp.ui" line="701"/>
         <source>&amp;Wrap Lines</source>
         <translation>Sortö&amp;rés</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="702"/>
+        <location filename="../../fp.ui" line="704"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="713"/>
+        <location filename="../../fp.ui" line="715"/>
         <source>&amp;Auto-Indentation</source>
         <translation>&amp;Automatikus behúzás</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="716"/>
+        <location filename="../../fp.ui" line="718"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="727"/>
+        <location filename="../../fp.ui" line="729"/>
         <source>&amp;Syntax Highlighting</source>
         <translation>Szinta&amp;xiskiemelés</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="730"/>
+        <location filename="../../fp.ui" line="732"/>
         <source>Ctrl+Shift+H</source>
         <translation>Ctrl+Shift+H</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="735"/>
+        <location filename="../../fp.ui" line="737"/>
         <source>&amp;Preferences</source>
         <translation>Beá&amp;llítások</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="738"/>
+        <location filename="../../fp.ui" line="740"/>
         <source>Ctrl+Shift+P</source>
         <translation>Ctrl+Shift+P</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="746"/>
+        <location filename="../../fp.ui" line="748"/>
         <source>Ctrl+H</source>
         <translation>Ctrl+H</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="751"/>
+        <location filename="../../fp.ui" line="753"/>
         <source>&amp;About</source>
         <translation>&amp;Névjegy</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="778"/>
+        <location filename="../../fp.ui" line="780"/>
         <source>Enforce UTF-8</source>
         <translation>UTF-8 kényszerítése</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="961"/>
+        <location filename="../../fp.ui" line="963"/>
         <source>Save with &amp;Encoding</source>
         <translation>Mentés kó&amp;dolással</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="966"/>
+        <location filename="../../fp.ui" line="968"/>
         <source>&amp;Jump to</source>
         <translation>&amp;Ugrás</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="969"/>
+        <location filename="../../fp.ui" line="971"/>
         <source>Show/hide jump bar</source>
         <translation>Ugrás panel megjelenítése/elrejtése</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="972"/>
+        <location filename="../../fp.ui" line="974"/>
         <source>Ctrl+J</source>
         <translation>Ctrl+J</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="980"/>
+        <location filename="../../fp.ui" line="982"/>
         <source>Edit text</source>
         <translation>Szöveg szerkesztése</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="983"/>
+        <location filename="../../fp.ui" line="985"/>
         <source>Ctrl+Shift+E</source>
         <translation>Ctrl+Shift+E</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1086"/>
+        <location filename="../../fp.ui" line="1088"/>
         <source>&amp;Run</source>
         <translation>&amp;Futtatás</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1092"/>
+        <location filename="../../fp.ui" line="1094"/>
         <source>Ctrl+E</source>
         <translation>Ctrl+E</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1097"/>
+        <location filename="../../fp.ui" line="1099"/>
         <source>&amp;Clear</source>
         <translation>&amp;Tisztítás</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1100"/>
+        <location filename="../../fp.ui" line="1102"/>
         <source>Clear the list of recently modified files</source>
         <translation>Nemrég módosított fájlok listájának törlése</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1105"/>
+        <location filename="../../fp.ui" line="1107"/>
         <source>Save/Restore Session</source>
         <translation>Munkamenet mentése/betöltése</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1108"/>
+        <location filename="../../fp.ui" line="1110"/>
         <source>Sa&amp;ve/Restore Session</source>
         <translation>Munk&amp;amenet mentése/visszaállítása</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1111"/>
+        <location filename="../../fp.ui" line="1113"/>
         <source>Ctrl+M</source>
         <translation>Ctrl+M</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1116"/>
+        <location filename="../../fp.ui" line="1118"/>
         <source>Side-Pane</source>
         <translation>Oldalsáv</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1119"/>
+        <location filename="../../fp.ui" line="1121"/>
         <source>Ctrl+Alt+P</source>
         <translation>Ctrl+Alt+P</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1124"/>
+        <location filename="../../fp.ui" line="1126"/>
         <source>Paste Date and Time</source>
         <translation>Dátum és idő beillesztése</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1127"/>
+        <location filename="../../fp.ui" line="1129"/>
         <source>Ctrl+Shift+V</source>
         <translation>Ctrl+Shift+V</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1132"/>
-        <location filename="../../fp.ui" line="1135"/>
+        <location filename="../../fp.ui" line="1134"/>
+        <location filename="../../fp.ui" line="1137"/>
         <source>To Upper Case</source>
         <translation>Nagybetűssé</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1138"/>
+        <location filename="../../fp.ui" line="1140"/>
         <source>Ctrl+Shift+U</source>
         <translation>Ctrl+Shift+U</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1143"/>
-        <location filename="../../fp.ui" line="1146"/>
+        <location filename="../../fp.ui" line="1145"/>
+        <location filename="../../fp.ui" line="1148"/>
         <source>To Lower Case</source>
         <translation>Kisbetűssé</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1149"/>
+        <location filename="../../fp.ui" line="1151"/>
         <source>Ctrl+Shift+L</source>
         <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1157"/>
-        <location filename="../../fp.ui" line="1160"/>
+        <location filename="../../fp.ui" line="1159"/>
+        <location filename="../../fp.ui" line="1162"/>
         <source>Last Active Tab</source>
         <translation>Utolsó aktív lap</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1163"/>
+        <location filename="../../fp.ui" line="1165"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1168"/>
-        <location filename="../../fp.ui" line="1171"/>
+        <location filename="../../fp.ui" line="1170"/>
+        <location filename="../../fp.ui" line="1173"/>
         <source>Sort Lines</source>
         <translation>Sorok rendezése</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1176"/>
-        <location filename="../../fp.ui" line="1179"/>
+        <location filename="../../fp.ui" line="1178"/>
+        <location filename="../../fp.ui" line="1181"/>
         <source>Sort Lines Reversely</source>
         <translation>Sorok rendezése fordítva</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1184"/>
+        <location filename="../../fp.ui" line="1186"/>
         <source>Check Spelling</source>
         <translation>Helyesírás-ellenőrzés</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1187"/>
+        <location filename="../../fp.ui" line="1189"/>
         <source>F2</source>
         <translation>F2</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1192"/>
-        <location filename="../../fp.ui" line="1195"/>
+        <location filename="../../fp.ui" line="1194"/>
+        <location filename="../../fp.ui" line="1197"/>
         <source>Save All Files</source>
         <translation>Minden fájl mentése</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1200"/>
-        <location filename="../../fp.ui" line="1203"/>
+        <location filename="../../fp.ui" line="1202"/>
+        <location filename="../../fp.ui" line="1205"/>
         <source>User Dictionary</source>
         <translation>Felhasználói szótár</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="991"/>
+        <location filename="../../fp.ui" line="1210"/>
+        <source>Text Tabs to Spaces</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fp.ui" line="993"/>
         <source>&amp;Detach Tab</source>
         <translation>Lap le&amp;választása</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="994"/>
+        <location filename="../../fp.ui" line="996"/>
         <source>Ctrl+T</source>
         <translation>Ctrl+T</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1007"/>
+        <location filename="../../fp.ui" line="1009"/>
         <source>Close Ne&amp;xt Tabs</source>
         <translation>Következő lapok be&amp;zárása</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1012"/>
+        <location filename="../../fp.ui" line="1014"/>
         <source>Close &amp;Previous Tabs</source>
         <translation>Előző lapok &amp;bezárása</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1040"/>
+        <location filename="../../fp.ui" line="1042"/>
         <source>Ne&amp;xt Tab</source>
         <translation>&amp;Következő lap</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1051"/>
+        <location filename="../../fp.ui" line="1053"/>
         <source>Previous Ta&amp;b</source>
         <translation>&amp;Előző lap</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1089"/>
+        <location filename="../../fp.ui" line="1091"/>
         <source>Execute</source>
         <translation>Futtatás</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1017"/>
+        <location filename="../../fp.ui" line="1019"/>
         <source>Close &amp;All Tabs</source>
         <translation>Ö&amp;sszes lap bezárása</translation>
     </message>
@@ -571,195 +576,195 @@
         <translation>Nem&amp;rég módosított</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="220"/>
+        <location filename="../../fp.ui" line="222"/>
         <source>&amp;Encoding</source>
         <translation>&amp;Kódolás</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="224"/>
+        <location filename="../../fp.ui" line="226"/>
         <source>&amp;Unicode</source>
         <translation>&amp;Unicode</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="231"/>
+        <location filename="../../fp.ui" line="233"/>
         <source>&amp;Western European</source>
         <translation>&amp;Nyugat-Európai</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="239"/>
+        <location filename="../../fp.ui" line="241"/>
         <source>&amp;East European</source>
         <translation>&amp;Kelet-Európai</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="247"/>
+        <location filename="../../fp.ui" line="249"/>
         <source>Ea&amp;st Asian</source>
         <translation>K&amp;elet-Ázsiai</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="339"/>
-        <location filename="../../fpwin.cpp" line="3317"/>
+        <location filename="../../fp.ui" line="341"/>
+        <location filename="../../fpwin.cpp" line="3336"/>
         <location filename="../../replace.cpp" line="62"/>
         <location filename="../../replace.cpp" line="115"/>
         <source>Rep&amp;lacement</source>
         <translation>&amp;Csere</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="572"/>
+        <location filename="../../fp.ui" line="574"/>
         <source>Focus/hide search bar</source>
         <translation>Ugrás a keresősávra/keresősáv elrejtése</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="580"/>
+        <location filename="../../fp.ui" line="582"/>
         <source>&amp;Replace</source>
         <translation>&amp;Csere</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="762"/>
+        <location filename="../../fp.ui" line="764"/>
         <source>Windows Arabic (&amp;CP1256)</source>
         <translation>Windows Arab (&amp;CP1256)</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="770"/>
+        <location filename="../../fp.ui" line="772"/>
         <source>&amp;Other</source>
         <translation>&amp;Egyéb</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="789"/>
+        <location filename="../../fp.ui" line="791"/>
         <source>&amp;UTF-8</source>
         <translation>&amp;UTF-8</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="800"/>
+        <location filename="../../fp.ui" line="802"/>
         <source>UTF-&amp;16</source>
         <translation>UTF-&amp;16</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="811"/>
+        <location filename="../../fp.ui" line="813"/>
         <source>&amp;ISO-8859-1</source>
         <translation>&amp;ISO-8859-1</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="822"/>
+        <location filename="../../fp.ui" line="824"/>
         <source>&amp;Windows-1252</source>
         <translation>&amp;Windows-1252</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="833"/>
+        <location filename="../../fp.ui" line="835"/>
         <source>&amp;Cyrillic (CP1251)</source>
         <translation>&amp;Cirill(CP1251)</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="844"/>
+        <location filename="../../fp.ui" line="846"/>
         <source>Cyrillic (&amp;KOI8-U)</source>
         <translation>Cirill (&amp;KOI8-U)</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="855"/>
+        <location filename="../../fp.ui" line="857"/>
         <source>Cyrillic (&amp;ISO-8859-5)</source>
         <translation>Cirill (&amp;ISO-8859-5)</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="866"/>
+        <location filename="../../fp.ui" line="868"/>
         <source>&amp;Chinese (BIG5)</source>
         <translation>&amp;Kínai (BIG5)</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="877"/>
+        <location filename="../../fp.ui" line="879"/>
         <source>Chinese (&amp;GB18030)</source>
         <translation>Kínai (&amp;GB18030)</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="888"/>
+        <location filename="../../fp.ui" line="890"/>
         <source>&amp;Japanese (ISO-2022-JP)</source>
         <translation>&amp;Japán (ISO-2022-JP)</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="899"/>
+        <location filename="../../fp.ui" line="901"/>
         <source>Japanese (&amp;ISO-2022-JP-2)</source>
         <translation>Japán (&amp;ISO-2022-JP-2)</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="910"/>
+        <location filename="../../fp.ui" line="912"/>
         <source>Japanese (ISO-&amp;2022-KR)</source>
         <translation>Japán (ISO-&amp;2022-KR)</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="921"/>
+        <location filename="../../fp.ui" line="923"/>
         <source>Ja&amp;panese (CP932)</source>
         <translation>Ja&amp;pán (CP932)</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="932"/>
+        <location filename="../../fp.ui" line="934"/>
         <source>Japa&amp;nese (EUC-JP)</source>
         <translation>Japá&amp;n (EUC-JP)</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="940"/>
+        <location filename="../../fp.ui" line="942"/>
         <source>&amp;Korean (CP949)</source>
         <translation>Ko&amp;reai (CP949)</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="948"/>
+        <location filename="../../fp.ui" line="950"/>
         <source>K&amp;orean (CP1361)</source>
         <translation>K&amp;oreai (CP1361)</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="956"/>
+        <location filename="../../fp.ui" line="958"/>
         <source>Korean (&amp;EUC-KR)</source>
         <translation>Koreai (&amp;EUC-KR)</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1002"/>
+        <location filename="../../fp.ui" line="1004"/>
         <source>ISO-&amp;8859-15</source>
         <translation>ISO-&amp;8859-15</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1022"/>
+        <location filename="../../fp.ui" line="1024"/>
         <source>Close &amp;Other Tabs</source>
         <translation>&amp;Többi lap bezárása</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1027"/>
+        <location filename="../../fp.ui" line="1029"/>
         <source>&amp;Copy File Name</source>
         <translation>&amp;Fájlnév másolása</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1032"/>
+        <location filename="../../fp.ui" line="1034"/>
         <source>Copy File &amp;Path</source>
         <translation>Fájl &amp;útvonalának másolása</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1043"/>
+        <location filename="../../fp.ui" line="1045"/>
         <source>Alt+Right</source>
         <translation>Alt+Jobb</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1054"/>
+        <location filename="../../fp.ui" line="1056"/>
         <source>Alt+Left</source>
         <translation>Alt+Bal</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1062"/>
+        <location filename="../../fp.ui" line="1064"/>
         <source>&amp;First Tab</source>
         <translation>Első la&amp;p</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1065"/>
+        <location filename="../../fp.ui" line="1067"/>
         <source>Alt+Down</source>
         <translation>Alt+Le</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1073"/>
+        <location filename="../../fp.ui" line="1075"/>
         <source>&amp;Last Tab</source>
         <translation>Utolsó &amp;lap</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1076"/>
+        <location filename="../../fp.ui" line="1078"/>
         <source>Alt+Up</source>
         <translation>Alt+Fel</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1081"/>
+        <location filename="../../fp.ui" line="1083"/>
         <source>Menu</source>
         <translation>Menü</translation>
     </message>
@@ -786,402 +791,412 @@
         <translation>Összes cseréje</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="550"/>
+        <location filename="../../fpwin.cpp" line="552"/>
         <source>&amp;Recently Opened</source>
         <translation>Nem&amp;rég megnyitott</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1748"/>
+        <location filename="../../fpwin.cpp" line="1753"/>
         <source>Close</source>
         <translation>Bezárás</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1111"/>
+        <location filename="../../fpwin.cpp" line="1113"/>
         <source>Save changes?</source>
         <translation>Menti a változtatásokat?</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="834"/>
+        <location filename="../../fpwin.cpp" line="836"/>
         <source>Please attend to that window or just close its dialog!</source>
         <translation>Látogasson el arra az ablakra, vagy csak zárja be a párbeszédablakát!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1115"/>
+        <location filename="../../fpwin.cpp" line="1117"/>
         <source>The document has been modified.</source>
         <translation>A dokumentum módosult.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1126"/>
+        <location filename="../../fpwin.cpp" line="1128"/>
         <source>&amp;Discard changes</source>
         <translation>&amp;Elvetés</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1127"/>
+        <location filename="../../fpwin.cpp" line="1129"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Mégse</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1129"/>
+        <location filename="../../fpwin.cpp" line="1131"/>
         <source>&amp;No to all</source>
         <translation>&amp;Nem az összeset</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1324"/>
-        <location filename="../../fpwin.cpp" line="1381"/>
+        <location filename="../../fpwin.cpp" line="1327"/>
+        <location filename="../../fpwin.cpp" line="1384"/>
         <source>Unsaved</source>
         <translation>Nincs mentve</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1343"/>
-        <location filename="../../fpwin.cpp" line="2623"/>
-        <location filename="../../fpwin.cpp" line="2983"/>
-        <location filename="../../fpwin.cpp" line="2994"/>
-        <location filename="../../fpwin.cpp" line="3001"/>
-        <location filename="../../fpwin.cpp" line="3740"/>
-        <location filename="../../fpwin.cpp" line="5141"/>
-        <location filename="../../fpwin.cpp" line="5152"/>
-        <location filename="../../fpwin.cpp" line="5159"/>
+        <location filename="../../fpwin.cpp" line="1346"/>
+        <location filename="../../fpwin.cpp" line="2629"/>
+        <location filename="../../fpwin.cpp" line="2989"/>
+        <location filename="../../fpwin.cpp" line="3000"/>
+        <location filename="../../fpwin.cpp" line="3007"/>
+        <location filename="../../fpwin.cpp" line="3759"/>
+        <location filename="../../fpwin.cpp" line="5160"/>
+        <location filename="../../fpwin.cpp" line="5171"/>
+        <location filename="../../fpwin.cpp" line="5178"/>
         <source>Lines</source>
         <translation>Sorok</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1344"/>
-        <location filename="../../fpwin.cpp" line="3741"/>
-        <location filename="../../fpwin.cpp" line="3755"/>
+        <location filename="../../fpwin.cpp" line="1347"/>
+        <location filename="../../fpwin.cpp" line="3760"/>
+        <location filename="../../fpwin.cpp" line="3774"/>
         <source>Sel. Chars</source>
         <translation>Kijelölt karakterek</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1345"/>
-        <location filename="../../fpwin.cpp" line="3743"/>
-        <location filename="../../fpwin.cpp" line="3756"/>
+        <location filename="../../fpwin.cpp" line="1348"/>
+        <location filename="../../fpwin.cpp" line="3762"/>
+        <location filename="../../fpwin.cpp" line="3775"/>
         <source>Words</source>
         <translation>Szavak</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1632"/>
+        <location filename="../../fpwin.cpp" line="1637"/>
         <source>Another process is running in this tab!</source>
         <translation>Egy másik folyamat már fut ezen a lapon!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1739"/>
+        <location filename="../../fpwin.cpp" line="1744"/>
         <source>Script File</source>
         <translation>Parancsfájl</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="833"/>
+        <location filename="../../fpwin.cpp" line="835"/>
         <source>Another FeatherPad window has a modal dialog!</source>
         <translation>Egy másik FeatherPad ablaknak már van egy párbeszédablaka!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="670"/>
-        <location filename="../../fpwin.cpp" line="3782"/>
+        <location filename="../../fpwin.cpp" line="672"/>
+        <location filename="../../fpwin.cpp" line="3801"/>
         <source>Position:</source>
         <translation>Helyzet:</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="717"/>
-        <location filename="../../fpwin.cpp" line="3800"/>
-        <location filename="../../fpwin.cpp" line="3820"/>
+        <location filename="../../fpwin.cpp" line="719"/>
+        <location filename="../../fpwin.cpp" line="3819"/>
+        <location filename="../../fpwin.cpp" line="3839"/>
         <source>Normal</source>
         <translation>Normál</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1113"/>
-        <location filename="../../fpwin.cpp" line="2398"/>
-        <location filename="../../fpwin.cpp" line="4953"/>
+        <location filename="../../fpwin.cpp" line="1115"/>
+        <location filename="../../fpwin.cpp" line="2404"/>
+        <location filename="../../fpwin.cpp" line="4972"/>
         <source>The file does not exist.</source>
         <translation>A fájl nem létezik.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1450"/>
+        <location filename="../../fpwin.cpp" line="1453"/>
         <source>Open Link</source>
         <translation>Link megnyitása</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1463"/>
+        <location filename="../../fpwin.cpp" line="1466"/>
         <source>Copy Link</source>
         <translation>Link másolása</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1633"/>
+        <location filename="../../fpwin.cpp" line="1638"/>
         <source>Only one process is allowed per tab.</source>
         <translation>Laponként csak egy folyamat megengedett.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1735"/>
+        <location filename="../../fpwin.cpp" line="1740"/>
         <source>Script Output</source>
         <translation>Szkriptkimenet</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1751"/>
+        <location filename="../../fpwin.cpp" line="1756"/>
         <source>Clear</source>
         <translation>Tisztítás</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2356"/>
+        <location filename="../../fpwin.cpp" line="2362"/>
         <source>FeatherPad does not open files larger than 100 MiB.</source>
         <translation>A FeatherPad nem tud 100 MiB-nál nagyobb fájlokat megnyitni.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2364"/>
+        <location filename="../../fpwin.cpp" line="2370"/>
         <source>Non-text file(s) not opened!</source>
         <translation>A nem szöveges fájlok nem lettek megnyitva!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2365"/>
+        <location filename="../../fpwin.cpp" line="2371"/>
         <source>See Preferences → Files → Do not permit opening of non-text files</source>
         <translation>Lásd: Beállítások → Fájlok → Nem szöveges fájlok megnyitásának letiltása</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2373"/>
+        <location filename="../../fpwin.cpp" line="2379"/>
         <source>Some file(s) could not be opened!</source>
         <translation>Néhány fájlt nem lehet megnyitni!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2374"/>
+        <location filename="../../fpwin.cpp" line="2380"/>
         <source>You may not have the permission to read.</source>
         <translation>Lehet, hogy nincs engedélye az olvasásra.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2384"/>
+        <location filename="../../fpwin.cpp" line="2390"/>
         <source>Uneditable file(s)!</source>
         <translation>Nem szerkeszthető fájl(ok)!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2385"/>
+        <location filename="../../fpwin.cpp" line="2391"/>
         <source>Non-text files or files with huge lines cannot be edited.</source>
         <translation>A nem szöveges fájlok vagy a hatalmas sorokkal rendelkező fájlok nem szerkeszthetők.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2442"/>
+        <location filename="../../fpwin.cpp" line="2448"/>
         <source>A previous crash detected!</source>
         <translation>Korábbi összeomlás észlelve!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2443"/>
+        <location filename="../../fpwin.cpp" line="2449"/>
         <source>Preferably, close all FeatherPad windows and start again!</source>
         <translation>Lehetőleg zárja be az összes FeatherPad ablakot, és indítsa újra!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2450"/>
+        <location filename="../../fpwin.cpp" line="2456"/>
         <source>Root Instance</source>
         <translation>Rendszergazdaként</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2521"/>
-        <location filename="../../fpwin.cpp" line="2677"/>
-        <location filename="../../fpwin.cpp" line="2705"/>
+        <location filename="../../fpwin.cpp" line="2527"/>
+        <location filename="../../fpwin.cpp" line="2683"/>
+        <location filename="../../fpwin.cpp" line="2711"/>
         <source>All Files (*)</source>
         <translation>Minden fájl (*)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2526"/>
+        <location filename="../../fpwin.cpp" line="2532"/>
         <source>All Files (*);;.%1 Files (*.%1)</source>
         <translation>Minden fájl (*);;.%1 Fájlok (*.%1)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2530"/>
+        <location filename="../../fpwin.cpp" line="2536"/>
         <source>Open file...</source>
         <translation>Fájl megnyitása...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2683"/>
+        <location filename="../../fpwin.cpp" line="2689"/>
         <source>.%1 Files (*.%1);;All Files (*)</source>
         <translation>%1 Fájlok (*.%1);;Minden fájl (*)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2730"/>
-        <location filename="../../fpwin.cpp" line="2762"/>
+        <location filename="../../fpwin.cpp" line="2736"/>
+        <location filename="../../fpwin.cpp" line="2768"/>
         <source>Save as...</source>
         <translation>Mentés másként...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2792"/>
+        <location filename="../../fpwin.cpp" line="2798"/>
         <source>Keep encoding and save as...</source>
         <translation>Kódolás megtartása és mentés másként...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2866"/>
+        <location filename="../../fpwin.cpp" line="2872"/>
         <source>Yes</source>
         <translation>Igen</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2867"/>
+        <location filename="../../fpwin.cpp" line="2873"/>
         <source>No</source>
         <translation>Nem</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2868"/>
+        <location filename="../../fpwin.cpp" line="2874"/>
         <source>Cancel</source>
         <translation>Mégse</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2869"/>
+        <location filename="../../fpwin.cpp" line="2875"/>
         <source>Do you want to use &lt;b&gt;MS Windows&lt;/b&gt; end-of-lines?</source>
         <translation>Biztos &lt;b&gt;MS Windows&lt;/b&gt; sorvégeket akar használni?</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2870"/>
+        <location filename="../../fpwin.cpp" line="2876"/>
         <source>This may be good for readability under MS Windows.</source>
         <translation>Ez jó lehet, ha MS Windowson is meg szeretné nyitni.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3017"/>
+        <location filename="../../fpwin.cpp" line="3023"/>
         <source>Cannot be saved!</source>
         <translation>Nem menthető!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="401"/>
-        <location filename="../../fpwin.cpp" line="3217"/>
-        <location filename="../../fpwin.cpp" line="5353"/>
+        <location filename="../../fpwin.cpp" line="403"/>
+        <location filename="../../fpwin.cpp" line="3235"/>
+        <location filename="../../fpwin.cpp" line="5373"/>
         <source>Help</source>
         <translation>Súgó</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2979"/>
         <location filename="../../fpwin.cpp" line="2985"/>
-        <location filename="../../fpwin.cpp" line="2993"/>
-        <location filename="../../fpwin.cpp" line="3739"/>
-        <location filename="../../fpwin.cpp" line="5137"/>
-        <location filename="../../fpwin.cpp" line="5143"/>
-        <location filename="../../fpwin.cpp" line="5151"/>
+        <location filename="../../fpwin.cpp" line="2991"/>
+        <location filename="../../fpwin.cpp" line="2999"/>
+        <location filename="../../fpwin.cpp" line="3758"/>
+        <location filename="../../fpwin.cpp" line="5156"/>
+        <location filename="../../fpwin.cpp" line="5162"/>
+        <location filename="../../fpwin.cpp" line="5170"/>
         <source>Syntax</source>
         <translation>Szintaxis</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2355"/>
+        <location filename="../../fpwin.cpp" line="2361"/>
         <source>Huge file(s) not opened!</source>
         <translation>A nagy fájl(ok) nem lett(ek) megnyitva!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3229"/>
-        <location filename="../../fpwin.cpp" line="3416"/>
+        <location filename="../../fpwin.cpp" line="3058"/>
+        <source>Text tabs are converted to spaces.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="3247"/>
+        <location filename="../../fpwin.cpp" line="3435"/>
         <source>This file has been modified elsewhere or in another way!</source>
         <translation>Ezt a fájlt máshol vagy máshogyan módosították!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3230"/>
-        <location filename="../../fpwin.cpp" line="3417"/>
+        <location filename="../../fpwin.cpp" line="3248"/>
+        <location filename="../../fpwin.cpp" line="3436"/>
         <source>Please be careful about reloading or saving this document!</source>
         <translation>Legyen óvatos a dokumentum újratöltésével vagy mentésével kapcsolatban!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3938"/>
+        <location filename="../../fpwin.cpp" line="3957"/>
         <source>Print Document</source>
         <translation>Dokumentum nyomtatása</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4538"/>
-        <location filename="../../fpwin.cpp" line="4606"/>
+        <location filename="../../fpwin.cpp" line="4557"/>
+        <location filename="../../fpwin.cpp" line="4625"/>
         <source>%1 Pages</source>
         <translation>%1 lap</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4564"/>
-        <location filename="../../fpwin.cpp" line="4634"/>
+        <location filename="../../fpwin.cpp" line="4583"/>
+        <location filename="../../fpwin.cpp" line="4653"/>
         <source>Copy Target Path</source>
         <translation>Cél útvonalának másolása</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4568"/>
-        <location filename="../../fpwin.cpp" line="4638"/>
+        <location filename="../../fpwin.cpp" line="4587"/>
+        <location filename="../../fpwin.cpp" line="4657"/>
         <source>Open Target Here</source>
         <translation>Cél megnyitása itt</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4756"/>
+        <location filename="../../fpwin.cpp" line="4775"/>
         <source>You need to add a Hunspell dictionary.</source>
         <translation>Fel kell vennie egy Hunspell szótárt.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4757"/>
-        <location filename="../../fpwin.cpp" line="4763"/>
-        <location filename="../../fpwin.cpp" line="4772"/>
+        <location filename="../../fpwin.cpp" line="4776"/>
+        <location filename="../../fpwin.cpp" line="4782"/>
+        <location filename="../../fpwin.cpp" line="4791"/>
         <source>See Preferences → Text → Spell Checking!</source>
         <translation>Lásd: Beállítások → Szöveg → Helyesírás-ellenőrzés!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4762"/>
+        <location filename="../../fpwin.cpp" line="4781"/>
         <source>The Hunspell dictionary does not exist.</source>
         <translation>A Hunspell szótár nem létezik.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4771"/>
+        <location filename="../../fpwin.cpp" line="4790"/>
         <source>The Hunspell dictionary is not accompanied by an affix file.</source>
         <translation>A Hunspell szótárhoz nem kapcsolódik affix fájl.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4793"/>
-        <location filename="../../fpwin.cpp" line="4811"/>
-        <location filename="../../fpwin.cpp" line="4826"/>
+        <location filename="../../fpwin.cpp" line="4812"/>
+        <location filename="../../fpwin.cpp" line="4830"/>
+        <location filename="../../fpwin.cpp" line="4845"/>
         <source>No misspelling in document.</source>
         <translation>Nincs helyesírási hiba a dokumentumban.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4795"/>
-        <location filename="../../fpwin.cpp" line="4813"/>
-        <location filename="../../fpwin.cpp" line="4828"/>
+        <location filename="../../fpwin.cpp" line="4814"/>
+        <location filename="../../fpwin.cpp" line="4832"/>
+        <location filename="../../fpwin.cpp" line="4847"/>
         <source>No misspelling from text cursor.</source>
         <translation>Nincs helyesírási hiba a kijelölt szövegben.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4841"/>
+        <location filename="../../fpwin.cpp" line="4860"/>
         <source>Spell Checking</source>
         <translation>Helyesírás-ellenőrzés</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5175"/>
+        <location filename="../../fpwin.cpp" line="5194"/>
         <source>Some files cannot be saved!</source>
         <translation>Néhány fájlt nem lehet menteni!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5222"/>
+        <location filename="../../fpwin.cpp" line="5241"/>
         <source>Translators</source>
         <translation>Fordítók</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5218"/>
+        <location filename="../../fpwin.cpp" line="5237"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translation>Egy könnyed, lapokkal ellátott, egyszerű szövegszerkesztő</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5219"/>
+        <location filename="../../fpwin.cpp" line="5238"/>
         <source>based on Qt5</source>
         <translation>amely a Qt5-ön alapul</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5220"/>
+        <location filename="../../fpwin.cpp" line="5239"/>
         <source>Author</source>
         <translation>Szerző</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5221"/>
+        <location filename="../../fpwin.cpp" line="5240"/>
         <source>aka.</source>
         <translation>más néven</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5222"/>
-        <location filename="../../fpwin.cpp" line="5223"/>
+        <location filename="../../fpwin.cpp" line="5241"/>
+        <location filename="../../fpwin.cpp" line="5242"/>
         <source>About FeatherPad</source>
         <translation>FeatherPad névjegye</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="253"/>
+        <location filename="../../replace.cpp" line="241"/>
         <source>No Replacement</source>
         <translation>Nincs csere</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="255"/>
+        <location filename="../../replace.cpp" line="243"/>
         <source>One Replacement</source>
         <translation>Egy csere</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../replace.cpp" line="257"/>
+        <location filename="../../replace.cpp" line="245"/>
         <source>%Ln Replacements</source>
         <translation>
             <numerusform>%Ln csere</numerusform>
         </translation>
+    </message>
+    <message>
+        <location filename="../../replace.cpp" line="249"/>
+        <source>The first 1000 replacements are highlighted.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../syntax.cpp" line="273"/>
@@ -2334,7 +2349,7 @@ windows will be included in the saved session.</source>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="151"/>
+        <location filename="../../textedit.cpp" line="150"/>
         <source>Double click to center current line</source>
         <translation>Dupla kattintás, hogy a legutóbbi sor középre kerüljön</translation>
     </message>

@@ -7,6 +7,9 @@ V0.15.0
  * Disabled the RTL workaround when lines aren't wrapped.
  * Don't clear replacement highlights when the window is minimized.
  * Always truncate absurdly huge lines in uneditable documents.
+ * Fixed a rare case, where the text's format and highlight weren't updated. The fix also simplifies the code.
+ * Highlight only the first 1000 replacements if there are more.
+ * Added an item (to the Edit menu as well as the context menu) for converting all text tabs to spaces.
 
 V0.14.2
 ---------
