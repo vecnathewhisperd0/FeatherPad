@@ -245,7 +245,7 @@ void FPwin::replaceAll()
         title = tr("%Ln Replacements", "", count);
     ui->dockReplace->setWindowTitle (title);
     textEdit->setReplaceTitle (title);
-    if (count > 1000)
+    if (count > 1000 && !txtReplace_.isEmpty())
         showWarningBar ("<center><b><big>" + tr ("The first 1000 replacements are highlighted.") + "</big></b></center>");
 }
 
