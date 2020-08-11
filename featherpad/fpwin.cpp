@@ -1968,9 +1968,9 @@ void FPwin::waitToMakeBusy()
     BusyMaker *makeBusy = new BusyMaker();
     makeBusy->moveToThread (busyThread_);
     connect (busyThread_, &QThread::started, makeBusy, &BusyMaker::waiting);
-    connect (busyThread_, &QThread::finished, busyThread_, &QObject::deleteLater);
-    connect (busyThread_, &QThread::finished, makeBusy, &QObject::deleteLater);
     connect (makeBusy, &BusyMaker::finished, busyThread_, &QThread::quit);
+    connect (busyThread_, &QThread::finished, makeBusy, &QObject::deleteLater);
+    connect (busyThread_, &QThread::finished, busyThread_, &QObject::deleteLater);
     busyThread_->start();
 }
 /*************************/

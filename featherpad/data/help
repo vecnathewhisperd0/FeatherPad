@@ -127,6 +127,8 @@ In FeatherPad, "hard" and "soft" tabs are not mutually exclusive because some te
 
 With Ctrl+Meta+Tab, the text will be tabbed by 2 spaces, while Shift+Meta+Tab is for 2-space untabbing as far as possible.
 
+All text tabs of a document can be converted to spaces (soft tabs) by using the menu item "Text Tabs to Spaces" in the right-click menu or the "Edit" menu. This conversion is done based on the value of Preferences → Text → Text tab size, which is 4 by default. The document needs to be saved after the conversion.
+
 ********************
 *   Auto-Bracket   *
 ********************
