@@ -210,6 +210,8 @@ void FPwin::replaceAll()
     int count = 0;
     QTextEdit::ExtraSelection extra;
     extra.format.setBackground (color);
+
+    waitToMakeBusy();
     while (!(found = textEdit->finding (txtFind, start, searchFlags, tabPage->matchRegex())).isNull())
     {
         start.setPosition (found.anchor());
@@ -227,6 +229,8 @@ void FPwin::replaceAll()
         start.setPosition (start.position());
         ++count;
     }
+    unbusy();
+
     textEdit->setGreenSel (es);
     start.endEditBlock();
     if ((ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible()))

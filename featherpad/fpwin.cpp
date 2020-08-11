@@ -3052,10 +3052,14 @@ void FPwin::toSoftTabs()
 {
     if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget()))
     {
+        waitToMakeBusy();
         bool res = tabPage->textEdit()->toSoftTabs();
-        reformat (tabPage->textEdit()); // the text may get smaller with non-mono fonts
+        unbusy();
         if (res)
+        {
+            removeGreenSel();
             showWarningBar ("<center><b><big>" + tr ("Text tabs are converted to spaces.") + "</big></b></center>");
+        }
     }
 }
 /*************************/
