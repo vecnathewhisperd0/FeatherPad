@@ -46,8 +46,8 @@ void FPwin::toggleSyntaxHighlighting()
         syntaxHighlighting (textEdit, enableSH, textEdit->getLang());
     }
 
-    if (QToolButton *langButton = ui->statusBar->findChild<QToolButton *>("langButton"))
-        langButton->setEnabled (enableSH);
+    if (TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget()))
+        updateLangBtn (tabPage->textEdit());
 
     if (enableSH)
     {
