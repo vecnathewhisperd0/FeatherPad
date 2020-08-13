@@ -412,6 +412,12 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = ft;
         highlightingRules.append (rule);
 
+        /* POSIX signals */
+        ft.setForeground (DarkYellow);
+        rule.pattern.setPattern ("\\b(SIGABRT|SIGIOT|SIGALRM|SIGVTALRM|SIGPROF|SIGBUS|SIGCHLD|SIGCONT|SIGFPE|SIGHUP|SIGILL|SIGINT|SIGKILL|SIGPIPE|SIGPOLL|SIGRTMIN|SIGRTMAX|SIGQUIT|SIGSEGV|SIGSTOP|SIGSYS|SIGTERM|SIGTSTP|SIGTTIN|SIGTTOU|SIGTRAP|SIGURG|SIGUSR1|SIGUSR2|SIGXCPU|SIGXFSZ|SIGWINCH)(?!(\\.|-|@|#|\\$))\\b");
+        rule.format = ft;
+        highlightingRules.append (rule);
+
         ft.setFontItalic (true);
         ft.setForeground (Blue);
         /* before parentheses... */
