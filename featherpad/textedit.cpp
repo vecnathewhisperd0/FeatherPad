@@ -1274,7 +1274,10 @@ void TextEdit::paste()
                 cur.beginEditBlock();
                 for (const auto &thisUrl : urls)
                 {
-                    cur.insertText (thisUrl.toString());
+                    /* encode spaces of non-local paths to have a good highlighting
+                       but remove the schemes of local paths */
+                    cur.insertText (thisUrl.isLocalFile() ? thisUrl.toLocalFile()
+                                                          : thisUrl.toString(QUrl::EncodeSpaces));
                     if (multiple)
                         cur.insertText ("\n");
                 }
