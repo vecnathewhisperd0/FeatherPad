@@ -110,6 +110,7 @@ PrefDialog::PrefDialog (QWidget *parent)
     saveUnmodified_ = config.getSaveUnmodified();
     sharedSearchHistory_ = config.getSharedSearchHistory();
     selHighlighting_ = config.getSelectionHighlighting();
+    pastePaths_ = config.getPastePaths();
 
     /**************
      *** Window ***
@@ -258,6 +259,8 @@ PrefDialog::PrefDialog (QWidget *parent)
 
     ui->skipNonTextBox->setChecked (config.getSkipNonText());
     connect (ui->skipNonTextBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSkipNontext);
+
+    ui->pastePathsBox->setChecked (pastePaths_);
 
     ui->spinBox->setValue (config.getMaxSHSize());
     connect (ui->spinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::prefMaxSHSize);
@@ -498,6 +501,7 @@ void PrefDialog::onClosing()
     prefSaveUnmodified();
     prefThickCursor();
     prefSelHighlight();
+    prefPastePaths();
 
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
     config.setPrefSize (size());
@@ -1132,6 +1136,25 @@ void PrefDialog::prefSelHighlight()
         {
             qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
                     ->textEdit()->setSelectionHighlighting (selHighlighting);
+        }
+    }
+}
+/*************************/
+void PrefDialog::prefPastePaths()
+{
+    bool pastePaths = ui->pastePathsBox->isChecked();
+    if (pastePaths == pastePaths_)
+        return;
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    Config& config = singleton->getConfig();
+    config.setPastePaths (pastePaths);
+    for (int i = 0; i < singleton->Wins.count(); ++i)
+    {
+        int count = singleton->Wins.at (i)->ui->tabWidget->count();
+        for (int j = 0; j < count; ++j)
+        {
+            qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
+                    ->textEdit()->setPastePaths (pastePaths);
         }
     }
 }

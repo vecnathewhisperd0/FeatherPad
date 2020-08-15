@@ -1234,6 +1234,17 @@ trailing spaces of a text file.</string>
            </widget>
           </item>
           <item>
+           <widget class="QCheckBox" name="pastePathsBox">
+            <property name="toolTip">
+             <string>By default, when files are copied, they will
+be opened if they are pasted into FeatherPad.</string>
+            </property>
+            <property name="text">
+             <string>Paste paths instead of files</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <spacer name="verticalSpacer_2">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
@@ -1360,11 +1371,11 @@ trailing spaces of a text file.</string>
        </item>
        <item row="2" column="0" alignment="Qt::AlignRight">
         <widget class="QPushButton" name="defaultSyntaxButton">
-         <property name="text">
-          <string>Default</string>
-         </property>
          <property name="toolTip">
           <string>Restore default syntax colors.</string>
+         </property>
+         <property name="text">
+          <string>Default</string>
          </property>
         </widget>
        </item>

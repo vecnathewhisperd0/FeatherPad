@@ -1292,6 +1292,7 @@ TabPage* FPwin::createEmptyTab (bool setCurrent, bool allowNormalHighlighter)
                                                               : config.getLightBgColorValue(),
                                     searchShortcuts,
                                     config.getSelectionHighlighting(),
+                                    config.getPastePaths(),
                                     nullptr);
     tabPage->setSearchModel (singleton->searchModel());
     TextEdit *textEdit = tabPage->textEdit();
@@ -1434,7 +1435,7 @@ void FPwin::editorContextMenu (const QPoint& p)
                 txt = txt.split ('\t').first();
             if (!txt.isEmpty())
                 thisAction->setText(txt);
-            /* correct the slots of copy and cut actions */
+            /* correct the slots of some actions */
             if (thisAction->objectName() == "edit-copy")
             {
                 disconnect (thisAction, &QAction::triggered, nullptr, nullptr);
@@ -1444,6 +1445,26 @@ void FPwin::editorContextMenu (const QPoint& p)
             {
                 disconnect (thisAction, &QAction::triggered, nullptr, nullptr);
                 connect (thisAction, &QAction::triggered, textEdit, &TextEdit::cut);
+            }
+            else if (thisAction->objectName() == "edit-paste")
+            {
+                disconnect (thisAction, &QAction::triggered, nullptr, nullptr);
+                connect (thisAction, &QAction::triggered, textEdit, &TextEdit::paste);
+            }
+            else if (thisAction->objectName() == "edit-undo")
+            {
+                disconnect (thisAction, &QAction::triggered, nullptr, nullptr);
+                connect (thisAction, &QAction::triggered, textEdit, &TextEdit::undo);
+            }
+            else if (thisAction->objectName() == "edit-redo")
+            {
+                disconnect (thisAction, &QAction::triggered, nullptr, nullptr);
+                connect (thisAction, &QAction::triggered, textEdit, &TextEdit::redo);
+            }
+            else if (thisAction->objectName() == "select-all")
+            {
+                disconnect (thisAction, &QAction::triggered, nullptr, nullptr);
+                connect (thisAction, &QAction::triggered, textEdit, &TextEdit::selectAll);
             }
         }
         QString str = textEdit->getUrl (textEdit->textCursor().position());

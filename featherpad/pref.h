@@ -130,11 +130,12 @@ private:
     void prefApplyDateFormat();
     void prefThickCursor();
     void prefSelHighlight();
+    void prefPastePaths();
     void showPrompt (const QString& str = QString(), bool temporary = false);
 
     Ui::PrefDialog *ui;
     QWidget * parent_;
-    bool darkBg_, showWhiteSpace_, showEndings_, saveUnmodified_, sharedSearchHistory_, selHighlighting_;
+    bool darkBg_, showWhiteSpace_, showEndings_, saveUnmodified_, sharedSearchHistory_, selHighlighting_, pastePaths_;
     int vLineDistance_, darkColValue_, lightColValue_, recentNumber_, textTabSize_;
     QHash<QString, QString> shortcuts_, newShortcuts_;
     QString prevtMsg_;

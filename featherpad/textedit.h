@@ -253,6 +253,10 @@ public:
         highlightThisSelection_ = false;
     }
 
+    void setPastePaths (bool pastePaths) {
+        pastePaths_ = pastePaths;
+    }
+
 signals:
     /* inform the main widget */
     void fileDropped (const QString& localFile,
@@ -384,6 +388,7 @@ private:
     bool uneditable_; // the doc should be made uneditable because of its contents
     QSyntaxHighlighter *highlighter_; // syntax highlighter
     bool saveCursor_;
+    bool pastePaths_;
     /******************************
      ***** Inertial scrolling *****
      ******************************/

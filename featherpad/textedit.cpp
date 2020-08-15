@@ -45,6 +45,7 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     scrollJumpWorkaround = false;
     drawIndetLines = false;
     saveCursor_ = false;
+    pastePaths_ = false;
     vLineDistance_ = 0;
     matchedBrackets_ = false;
 
@@ -454,7 +455,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
 {
     keepTxtCurHPos_ = false;
 
-    /* workarounds for copy/cut -- see TextEdit::copy()/cut() */
+    /* workarounds for copy/cut/... -- see TextEdit::copy()/cut()/... */
     if (event == QKeySequence::Copy)
     {
         copy();
@@ -465,6 +466,39 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
     {
         if (!isReadOnly())
             cut();
+        event->accept();
+        return;
+    }
+    if (event == QKeySequence::Paste)
+    {
+        if (!isReadOnly())
+            paste();
+        event->accept();
+        return;
+    }
+    if (event == QKeySequence::SelectAll)
+    {
+        selectAll();
+        event->accept();
+        return;
+    }
+    if (event == QKeySequence::Undo)
+    {
+        /* QWidgetTextControl::undo() callls ensureCursorVisible() even when there's nothing to undo.
+           Users may press Ctrl+Z just to know whether a document is in its original state and
+           a scroll jump can confuse them when there's nothing to undo. Also see "TextEdit::undo()". */
+        if (!isReadOnly() && document()->isUndoAvailable())
+            undo();
+        event->accept();
+        return;
+    }
+    if (event == QKeySequence::Redo)
+    {
+        /* QWidgetTextControl::redo() calls ensureCursorVisible() even when there's nothing to redo.
+           That may cause a scroll jump, which can be confusing when nothing else has happened.
+           Also see "TextEdit::redo()". */
+        if (!isReadOnly() && document()->isRedoAvailable())
+            redo();
         event->accept();
         return;
     }
@@ -487,34 +521,11 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                     return;
                 }
             }
-            else if (event->key() == Qt::Key_A)
-                txtCurHPos_ = -1; // Qt bug: cursorPositionChanged() isn't emitted with selectAll()
-            /* handle undoing */
-            else if (!isReadOnly() && event->key() == Qt::Key_Z)
-            {
-                /* QWidgetTextControl::undo() callls ensureCursorVisible() even when there's nothing to undo.
-                   Users may press Ctrl+Z just to know whether a document is in its original state and
-                   a scroll jump can confuse them when there's nothing to undo. Also see "TextEdit::undo()". */
-                if (document()->isUndoAvailable())
-                    undo();
-                event->accept();
-                return;
-            }
         }
         if (event->key() != Qt::Key_Control) // another modifier/key is pressed
         {
             if (highlighter_)
                 viewport()->setCursor (Qt::IBeamCursor);
-            /* QWidgetTextControl::redo() calls ensureCursorVisible() even when there's nothing to redo.
-               That may cause a scroll jump, which can be confusing when nothing else has happened.
-               Also see "TextEdit::redo()". */
-            if (!isReadOnly() && (event->modifiers() & Qt::ShiftModifier) && event->key() == Qt::Key_Z)
-            {
-                if (document()->isRedoAvailable())
-                    redo();
-                event->accept();
-                return;
-            }
         }
     }
 
@@ -1251,6 +1262,27 @@ void TextEdit::redo()
 void TextEdit::paste()
 {
     keepTxtCurHPos_ = false; // there may be nothing to paste
+    if (pastePaths_)
+    {
+        if (const QMimeData *mimeData = QGuiApplication::clipboard()->mimeData())
+        {
+            const QList<QUrl> urls = mimeData->urls();
+            if (!urls.isEmpty())
+            {
+                bool multiple (urls.size() > 1);
+                QTextCursor cur = textCursor();
+                cur.beginEditBlock();
+                for (const auto &thisUrl : urls)
+                {
+                    cur.insertText (thisUrl.toString());
+                    if (multiple)
+                        cur.insertText ("\n");
+                }
+                cur.endEditBlock();
+                return;
+            }
+        }
+    }
     QPlainTextEdit::paste();
 }
 void TextEdit::selectAll()

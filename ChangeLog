@@ -11,6 +11,7 @@ V0.15.0
  * Fixed a rare case, where the text's format and highlight weren't updated. The fix also simplifies the code.
  * Highlight only the first 1000 replacements if there are more.
  * Added an item (to the Edit menu as well as the context menu) for converting all text tabs to spaces.
+ * Added an option to paste file paths instead of files (by default, FeatherPad opens pasted files).
 
 V0.14.2
 ---------

@@ -493,6 +493,13 @@ public:
         selectionHighlighting_ = enable;
     }
 /*************************/
+    bool getPastePaths() const {
+        return pastePaths_;
+    }
+    void setPastePaths (bool pastPaths) {
+        pastePaths_ = pastPaths;
+    }
+/*************************/
     bool getCloseWithLastTab() const {
         return closeWithLastTab_;
     }
@@ -581,6 +588,7 @@ private:
          skipNonText_,
          saveUnmodified_,
          selectionHighlighting_,
+         pastePaths_,
          closeWithLastTab_,
          sharedSearchHistory_;
     int vLineDistance_,
