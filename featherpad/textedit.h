@@ -299,14 +299,14 @@ protected:
 
     /* we want to pass dropping of files to
        the main widget with a custom signal */
-    bool canInsertFromMimeData (const QMimeData* source) const
-    {
+    bool canInsertFromMimeData (const QMimeData* source) const {
         return source->hasUrls() || QPlainTextEdit::canInsertFromMimeData (source);
     }
-    void insertFromMimeData (const QMimeData* source)
-    {
+    void insertFromMimeData (const QMimeData* source) {
+        keepTxtCurHPos_ = false;
         if (source->hasUrls())
         {
+            txtCurHPos_ = -1; // Qt bug: cursorPositionChanged() isn't emitted with file dropping
             const QList<QUrl> urlList = source->urls();
             bool multiple (urlList.count() > 1);
             for (const QUrl &url : urlList)

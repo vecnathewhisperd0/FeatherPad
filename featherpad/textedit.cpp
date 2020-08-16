@@ -1261,7 +1261,7 @@ void TextEdit::redo()
 }
 void TextEdit::paste()
 {
-    keepTxtCurHPos_ = false; // there may be nothing to paste
+    keepTxtCurHPos_ = false; // txtCurHPos_ isn't reset because there may be nothing to paste
     if (pastePaths_)
     {
         if (const QMimeData *mimeData = QGuiApplication::clipboard()->mimeData())
