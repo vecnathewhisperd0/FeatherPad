@@ -36,7 +36,7 @@ public:
     FPsingleton (int &argc, char **argv);
     ~FPsingleton();
 
-    bool sendMessage (const QString &message);
+    bool sendMessage (const QString& message);
     void firstWin(const QString& message);
     FPwin* newWin (const QStringList &filesList = QStringList(),
                    int lineNum = 0, int posInLine = 0);
@@ -60,18 +60,18 @@ public slots:
     void quitting();
 
 signals:
-    void messageReceived (QString message);
+    void messageReceived (const QString& message);
 
 private:
-    bool cursorInfo(const QString &commndOpt, int& lineNum, int& posInLine);
+    bool cursorInfo (const QString &commndOpt, int& lineNum, int& posInLine);
     QStringList processInfo (const QString& message,
                              long &desktop, int& lineNum, int& posInLine,
-                             bool *newWin);
+                             bool *newWindow);
 
     QString uniqueKey_;
     QLockFile *lockFile_;
-    QLocalServer *localServer;
-    static const int timeout = 1000;
+    QLocalServer *localServer_;
+    static const int timeout_ = 1000;
     Config config_;
     QStringList lastFiles_;
     bool isX11_;

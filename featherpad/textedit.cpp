@@ -38,12 +38,13 @@ namespace FeatherPad {
 
 TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
 {
-    prevAnchor = prevPos = -1;
-    autoIndentation = true;
-    autoReplace = true;
-    autoBracket = false;
-    scrollJumpWorkaround = false;
-    drawIndetLines = false;
+    prevAnchor_ = prevPos_ = -1;
+    widestDigit_ = 0;
+    autoIndentation_ = true;
+    autoReplace_ = true;
+    autoBracket_ = false;
+    scrollJumpWorkaround_ = false;
+    drawIndetLines_ = false;
     saveCursor_ = false;
     pastePaths_ = false;
     vLineDistance_ = 0;
@@ -70,10 +71,10 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
         bgColorValue = 230;
     if (bgColorValue < 230)
     {
-        darkValue = bgColorValue;
+        darkValue_ = bgColorValue;
         /* a quadratic equation for bgColorValue -> opacity: 0 -> 20,  27 -> 8, 50 -> 2 */
         int opacity = qBound (1, qRound (static_cast<qreal>(bgColorValue * (19 * bgColorValue - 2813)) / static_cast<qreal>(5175)) + 20, 30);
-        lineHColor = QColor (255, 255, 255, opacity);
+        lineHColor_ = QColor (255, 255, 255, opacity);
         viewport()->setStyleSheet (QString (".QWidget {"
                                             "color: white;"
                                             "background-color: rgb(%1, %1, %1);}")
@@ -98,8 +99,8 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     }
     else
     {
-        darkValue = -1;
-        lineHColor = QColor (0, 0, 0, 4);
+        darkValue_ = -1;
+        lineHColor_ = QColor (0, 0, 0, 4);
         viewport()->setStyleSheet (QString (".QWidget {"
                                             "color: black;"
                                             "background-color: rgb(%1, %1, %1);}")
@@ -124,9 +125,9 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     }
     bgColorValue_ = bgColorValue;
 
-    resizeTimerId = 0;
-    updateTimerId = 0;
-    selectionTimerId = 0;
+    resizeTimerId_ = 0;
+    updateTimerId_ = 0;
+    selectionTimerId_ = 0;
     selectionHighlighting_ = false;
     highlightThisSelection_ = true;
     removeSelectionHighlights_ = false;
@@ -147,10 +148,10 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     setHorizontalScrollBar (hScrollBar);
 #endif
 
-    lineNumberArea = new LineNumberArea (this);
-    lineNumberArea->setToolTip (tr ("Double click to center current line"));
-    lineNumberArea->hide();
-    lineNumberArea->installEventFilter (this);
+    lineNumberArea_ = new LineNumberArea (this);
+    lineNumberArea_->setToolTip (tr ("Double click to center current line"));
+    lineNumberArea_->hide();
+    lineNumberArea_->installEventFilter (this);
 
     connect (this, &QPlainTextEdit::updateRequest, this, &TextEdit::onUpdateRequesting);
     connect (this, &QPlainTextEdit::cursorPositionChanged, [this] {
@@ -165,7 +166,7 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
 /*************************/
 bool TextEdit::eventFilter (QObject *watched, QEvent *event)
 {
-    if (watched == lineNumberArea && event->type() == QEvent::Wheel)
+    if (watched == lineNumberArea_ && event->type() == QEvent::Wheel)
     {
         if (QWheelEvent *we = static_cast<QWheelEvent*>(event))
         {
@@ -200,13 +201,13 @@ void TextEdit::setEditorFont (const QFont &f, bool setDefault)
     if (f.bold())
     {
         F.setBold (false);
-        lineNumberArea->setFont (F);
+        lineNumberArea_->setFont (F);
     }
     else
-        lineNumberArea->setFont (f);
+        lineNumberArea_->setFont (f);
     /* find the widest digit (used in calculating line number area width)*/
     F.setBold (true); // it's bold for the current line
-    widestDigit = 0;
+    widestDigit_ = 0;
     int maxW = 0;
     for (int i = 0; i < 10; ++i)
     {
@@ -218,7 +219,7 @@ void TextEdit::setEditorFont (const QFont &f, bool setDefault)
         if (w > maxW)
         {
             maxW = w;
-            widestDigit = i;
+            widestDigit_ = i;
         }
     }
 }
@@ -231,14 +232,14 @@ TextEdit::~TextEdit()
         scrollTimer_->stop();
         delete scrollTimer_;
     }
-    delete lineNumberArea;
+    delete lineNumberArea_;
 }
 /*************************/
 void TextEdit::showLineNumbers (bool show)
 {
     if (show)
     {
-        lineNumberArea->show();
+        lineNumberArea_->show();
         connect (this, &QPlainTextEdit::blockCountChanged, this, &TextEdit::updateLineNumberAreaWidth);
         connect (this, &QPlainTextEdit::updateRequest, this, &TextEdit::updateLineNumberArea);
         connect (this, &QPlainTextEdit::cursorPositionChanged, this, &TextEdit::highlightCurrentLine);
@@ -252,20 +253,20 @@ void TextEdit::showLineNumbers (bool show)
         disconnect (this, &QPlainTextEdit::updateRequest, this, &TextEdit::updateLineNumberArea);
         disconnect (this, &QPlainTextEdit::cursorPositionChanged, this, &TextEdit::highlightCurrentLine);
 
-        lineNumberArea->hide();
+        lineNumberArea_->hide();
         setViewportMargins (0, 0, 0, 0);
         QList<QTextEdit::ExtraSelection> es = extraSelections();
-        if (!es.isEmpty() && !currentLine.cursor.isNull())
+        if (!es.isEmpty() && !currentLine_.cursor.isNull())
             es.removeFirst();
         setExtraSelections (es);
-        currentLine.cursor = QTextCursor(); // nullify currentLine
-        lastCurrentLine = QRect();
+        currentLine_.cursor = QTextCursor(); // nullify currentLine_
+        lastCurrentLine_ = QRect();
     }
 }
 /*************************/
 int TextEdit::lineNumberAreaWidth()
 {
-    QString digit = QString::number (widestDigit);
+    QString digit = QString::number (widestDigit_);
     QString num = digit;
     int max = qMax (1, blockCount());
     while (max >= 10)
@@ -293,13 +294,13 @@ void TextEdit::updateLineNumberAreaWidth (int /* newBlockCount */)
 void TextEdit::updateLineNumberArea (const QRect &rect, int dy)
 {
     if (dy)
-        lineNumberArea->scroll (0, dy);
+        lineNumberArea_->scroll (0, dy);
     else
     {
         /* since the current line number is distinguished from other numbers,
            its rectangle should be updated also when the line is wrapped */
-        if (lastCurrentLine.isValid())
-            lineNumberArea->update (0, lastCurrentLine.y(), lineNumberArea->width(), lastCurrentLine.height());
+        if (lastCurrentLine_.isValid())
+            lineNumberArea_->update (0, lastCurrentLine_.y(), lineNumberArea_->width(), lastCurrentLine_.height());
         QRect totalRect;
         QTextCursor cur = cursorForPosition (rect.center());
         if (rect.contains (cursorRect (cur).center()))
@@ -309,7 +310,7 @@ void TextEdit::updateLineNumberArea (const QRect &rect, int dy)
         }
         else
             totalRect = rect;
-        lineNumberArea->update (0, totalRect.y(), lineNumberArea->width(), totalRect.height());
+        lineNumberArea_->update (0, totalRect.y(), lineNumberArea_->width(), totalRect.height());
     }
 
     if (rect.contains (viewport()->rect()))
@@ -559,7 +560,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
         QTextCursor cur = textCursor();
         QString selTxt = cur.selectedText();
 
-        if (autoReplace && selTxt.isEmpty())
+        if (autoReplace_ && selTxt.isEmpty())
         {
             const int p = cur.positionInBlock();
             if (p > 1)
@@ -701,13 +702,13 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
         else
         {
             /* find the indentation */
-            if (autoIndentation)
+            if (autoIndentation_)
                 indent = computeIndentation (cur);
             /* check whether a bracketed text is selected
                so that the cursor position is at its start */
             QTextCursor anchorCur = cur;
             anchorCur.setPosition (cur.anchor());
-            if (autoBracket
+            if (autoBracket_
                 && cur.position() == cur.selectionStart()
                 && !cur.atBlockStart() && !anchorCur.atBlockEnd())
             {
@@ -723,7 +724,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
             }
         }
 
-        if (withShift || autoIndentation || isBracketed)
+        if (withShift || autoIndentation_ || isBracketed)
         {
             cur.beginEditBlock();
             /* first press Enter normally... */
@@ -780,7 +781,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
              || event->key() == Qt::Key_BracketLeft
              || event->key() == Qt::Key_QuoteDbl)
     {
-        if (autoBracket)
+        if (autoBracket_)
         {
             QTextCursor cursor = textCursor();
             bool autoB (false);
@@ -1118,7 +1119,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
     }
     else if (event->key() == Qt::Key_Space)
     {
-        if (autoReplace && event->modifiers() == Qt::NoModifier)
+        if (autoReplace_ && event->modifiers() == Qt::NoModifier)
         {
             QTextCursor cur = textCursor();
             if (!cur.hasSelection())
@@ -1311,7 +1312,7 @@ void TextEdit::keyReleaseEvent (QKeyEvent *event)
 /*************************/
 void TextEdit::wheelEvent (QWheelEvent *event)
 {
-    if (scrollJumpWorkaround && event->angleDelta().manhattanLength() > 240)
+    if (scrollJumpWorkaround_ && event->angleDelta().manhattanLength() > 240)
         event->ignore(); // a workaround for Qt5's scroll jump bug
     else
     {
@@ -1473,31 +1474,31 @@ void TextEdit::resizeEvent (QResizeEvent *event)
     QPlainTextEdit::resizeEvent (event);
 
     QRect cr = contentsRect();
-    lineNumberArea->setGeometry (QRect (QApplication::layoutDirection() == Qt::RightToLeft ? cr.width() - lineNumberAreaWidth() : cr.left(),
-                                        cr.top(), lineNumberAreaWidth(), cr.height()));
+    lineNumberArea_->setGeometry (QRect (QApplication::layoutDirection() == Qt::RightToLeft ? cr.width() - lineNumberAreaWidth() : cr.left(),
+                                         cr.top(), lineNumberAreaWidth(), cr.height()));
 
-    if (resizeTimerId)
+    if (resizeTimerId_)
     {
-        killTimer (resizeTimerId);
-        resizeTimerId = 0;
+        killTimer (resizeTimerId_);
+        resizeTimerId_ = 0;
     }
-    resizeTimerId = startTimer (UPDATE_INTERVAL);
+    resizeTimerId_ = startTimer (UPDATE_INTERVAL);
 }
 /*************************/
 void TextEdit::timerEvent (QTimerEvent *event)
 {
     QPlainTextEdit::timerEvent (event);
 
-    if (event->timerId() == resizeTimerId)
+    if (event->timerId() == resizeTimerId_)
     {
         killTimer (event->timerId());
-        resizeTimerId = 0;
+        resizeTimerId_ = 0;
         emit resized();
     }
-    else if (event->timerId() == updateTimerId)
+    else if (event->timerId() == updateTimerId_)
     {
         killTimer (event->timerId());
-        updateTimerId = 0;
+        updateTimerId_ = 0;
         /* we use TextEdit's rect because the last rect that
            updateRequest() provides after 50ms may be null */
         emit updateRect (rect());
@@ -1506,7 +1507,7 @@ void TextEdit::timerEvent (QTimerEvent *event)
         if (!matchedBrackets_ && isVisible())
             emit updateBracketMatching();
     }
-    else if (event->timerId() == selectionTimerId)
+    else if (event->timerId() == selectionTimerId_)
     {
         killTimer (event->timerId());
         selectionHlight();
@@ -1623,7 +1624,7 @@ void TextEdit::paintEvent (QPaintEvent *event)
                 {
                     contentsRect.setTop (cursorRect().top() - 1);
                     contentsRect.setBottom (cursorRect().bottom() + 1);
-                    fillBackground (&painter, contentsRect, lineHColor);
+                    fillBackground (&painter, contentsRect, lineHColor_);
                 }
             }
 
@@ -1672,7 +1673,7 @@ void TextEdit::paintEvent (QPaintEvent *event)
                     QTextLayout::FormatRange o;
                     o.start = context.cursorPosition - blpos;
                     o.length = 1;
-                    if (darkValue > -1)
+                    if (darkValue_ > -1)
                     {
                         o.format.setForeground (Qt::black);
                         o.format.setBackground (Qt::white);
@@ -1704,7 +1705,7 @@ void TextEdit::paintEvent (QPaintEvent *event)
                     /* Use alpha with the painter to gray out the paragraph separators and
                        document terminators. The real text will be formatted by the highlgihter. */
                     QColor col;
-                    if (darkValue > -1)
+                    if (darkValue_ > -1)
                     {
                         col = Qt::white;
                         col.setAlpha (90);
@@ -1737,7 +1738,7 @@ void TextEdit::paintEvent (QPaintEvent *event)
             }
 
             /* indentation and position lines should be drawn after selections */
-            if (drawIndetLines)
+            if (drawIndetLines_)
             {
                 QRegularExpressionMatch match;
                 if (block.text().indexOf (QRegularExpression ("\\s+"), 0, &match) == 0)
@@ -1786,7 +1787,7 @@ void TextEdit::paintEvent (QPaintEvent *event)
             {
                 painter.save();
                 QColor col;
-                if (darkValue > -1)
+                if (darkValue_ > -1)
                 {
                     col = QColor (65, 154, 255);
                     col.setAlpha (90);
@@ -1836,30 +1837,31 @@ void TextEdit::paintEvent (QPaintEvent *event)
 /************************************************
 ***** End of the Workaround for the RTL bug *****
 *************************************************/
+
 void TextEdit::highlightCurrentLine()
 {
-    /* keep yellow and green highlights
-       (related to searching and replacing) */
+    /* keep yellow, green and blue highlights
+       (related to searching, replacing and selecting) */
     QList<QTextEdit::ExtraSelection> es = extraSelections();
-    if (!es.isEmpty() && !currentLine.cursor.isNull())
+    if (!es.isEmpty() && !currentLine_.cursor.isNull())
         es.removeFirst(); // line highlight always comes first when it exists
 
-    currentLine.format.setBackground (document()->defaultTextOption().flags() & QTextOption::ShowLineAndParagraphSeparators
-                                      ? Qt::transparent // workaround for a Qt bug (see TextEdit::paintEvent)
-                                      : lineHColor);
-    currentLine.format.setProperty (QTextFormat::FullWidthSelection, true);
-    currentLine.cursor = textCursor();
-    currentLine.cursor.clearSelection();
-    es.prepend (currentLine);
+    currentLine_.format.setBackground (document()->defaultTextOption().flags() & QTextOption::ShowLineAndParagraphSeparators
+                                       ? Qt::transparent // workaround for a Qt bug (see TextEdit::paintEvent)
+                                       : lineHColor_);
+    currentLine_.format.setProperty (QTextFormat::FullWidthSelection, true);
+    currentLine_.cursor = textCursor();
+    currentLine_.cursor.clearSelection();
+    es.prepend (currentLine_);
 
     setExtraSelections (es);
 }
 /*************************/
 void TextEdit::lineNumberAreaPaintEvent (QPaintEvent *event)
 {
-    QPainter painter (lineNumberArea);
+    QPainter painter (lineNumberArea_);
     QColor currentBlockFg, currentLineBg, currentLineFg;
-    if (darkValue > -1)
+    if (darkValue_ > -1)
     {
         painter.fillRect (event->rect(), QColor (200, 200 , 200));
         painter.setPen (Qt::black);
@@ -1877,7 +1879,7 @@ void TextEdit::lineNumberAreaPaintEvent (QPaintEvent *event)
     }
 
     bool rtl (QApplication::layoutDirection() == Qt::RightToLeft);
-    int w = lineNumberArea->width();
+    int w = lineNumberArea_->width();
     int left = rtl ? 3 : 0;
 
     QTextBlock block = firstVisibleBlock();
@@ -1896,7 +1898,7 @@ void TextEdit::lineNumberAreaPaintEvent (QPaintEvent *event)
             QString number = QString::number (blockNumber + 1);
             if (blockNumber == curBlock)
             {
-                lastCurrentLine = QRect (0, top, 1, top + h);
+                lastCurrentLine_ = QRect (0, top, 1, top + h);
 
                 painter.save();
                 int cur = cursorRect().center().y();
@@ -1947,12 +1949,12 @@ void TextEdit::onUpdateRequesting (const QRect& /*rect*/, int dy)
        (and, definitely, not in the blinking cursor updates) */
     if (dy == 0) return;
 
-    if (updateTimerId)
+    if (updateTimerId_)
     {
-        killTimer (updateTimerId);
-        updateTimerId = 0;
+        killTimer (updateTimerId_);
+        updateTimerId_ = 0;
     }
-    updateTimerId = startTimer (UPDATE_INTERVAL);
+    updateTimerId_ = startTimer (UPDATE_INTERVAL);
 }
 /*************************/
 void TextEdit::onSelectionChanged()
@@ -1963,14 +1965,14 @@ void TextEdit::onSelectionChanged()
     QTextCursor cur = textCursor();
     if (!cur.hasSelection())
     {
-        if (cur.position() == prevPos && cur.position() < prevAnchor)
+        if (cur.position() == prevPos_ && cur.position() < prevAnchor_)
             emit updateBracketMatching();
-        prevAnchor = prevPos = -1;
+        prevAnchor_ = prevPos_ = -1;
     }
     else
     {
-        prevAnchor = cur.anchor();
-        prevPos = cur.position();
+        prevAnchor_ = cur.anchor();
+        prevPos_ = cur.position();
     }
 
     /* selection highlighting */
@@ -1982,12 +1984,12 @@ void TextEdit::onSelectionChanged()
         removeSelectionHighlights_ = true;
         highlightThisSelection_ = true; // reset
     }
-    if (selectionTimerId)
+    if (selectionTimerId_)
     {
-        killTimer (selectionTimerId);
-        selectionTimerId = 0;
+        killTimer (selectionTimerId_);
+        selectionTimerId_ = 0;
     }
-    selectionTimerId = startTimer (UPDATE_INTERVAL);
+    selectionTimerId_ = startTimer (UPDATE_INTERVAL);
 }
 /*************************/
 void TextEdit::zooming (float range)
@@ -2025,17 +2027,17 @@ void TextEdit::zooming (float range)
 // active tab is changed quickly several times), "updateRect()" might
 // be emitted when the text page isn't visible, while "updateRequest()"
 // might not be emitted when it becomes visible again. That will result in
-// an incomplete syntax highlighting. Therefore, we restart "updateTimerId"
+// an incomplete syntax highlighting. Therefore, we restart "updateTimerId_"
 // whenever the text page is shown.
 void TextEdit::showEvent (QShowEvent *event)
 {
     QPlainTextEdit::showEvent (event);
-    if (updateTimerId)
+    if (updateTimerId_)
     {
-        killTimer (updateTimerId);
-        updateTimerId = 0;
+        killTimer (updateTimerId_);
+        updateTimerId_ = 0;
     }
-    updateTimerId = startTimer (UPDATE_INTERVAL);
+    updateTimerId_ = startTimer (UPDATE_INTERVAL);
 }
 /*************************/
 void TextEdit::sortLines (bool reverse)
@@ -2645,10 +2647,10 @@ void TextEdit::setSelectionHighlighting (bool enable)
         disconnect (document(), &QTextDocument::contentsChange, this, &TextEdit::onContentsChange);
         disconnect (this, &TextEdit::updateRect, this, &TextEdit::selectionHlight);
         disconnect (this, &TextEdit::resized, this, &TextEdit::selectionHlight);
-        if (selectionTimerId)
+        if (selectionTimerId_)
         {
-            killTimer (selectionTimerId);
-            selectionTimerId = 0;
+            killTimer (selectionTimerId_);
+            selectionTimerId_ = 0;
         }
         /* remove all blue highlights */
         if (!blueSel_.isEmpty())
@@ -2743,6 +2745,17 @@ void TextEdit::selectionHlight()
     setExtraSelections (es);
 }
 /*************************/
+void TextEdit::onContentsChange (int /*position*/, int charsRemoved, int charsAdded)
+{
+    if (!selectionHighlighting_) return;
+    if (charsRemoved > 0 || charsAdded > 0)
+    {
+        /* wait until the document's layout manager is notified about the change;
+           otherwise, the end cursor might be out of range */
+        QTimer::singleShot (0, this, &TextEdit::selectionHlight);
+    }
+}
+/*************************/
 bool TextEdit::toSoftTabs()
 {
     bool res = false;
@@ -2765,17 +2778,6 @@ bool TextEdit::toSoftTabs()
     }
     start.endEditBlock();
     return res;
-}
-/*************************/
-void TextEdit::onContentsChange (int /*position*/, int charsRemoved, int charsAdded)
-{
-    if (!selectionHighlighting_) return;
-    if (charsRemoved > 0 || charsAdded > 0)
-    {
-        /* wait until the document's layout manager is notified about the change;
-           otherwise, the end cursor might be out of range */
-        QTimer::singleShot (0, this, &TextEdit::selectionHlight);
-    }
 }
 
 }

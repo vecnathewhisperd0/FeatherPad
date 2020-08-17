@@ -71,25 +71,25 @@ public:
     }
 
     QTextEdit::ExtraSelection currentLineSelection() {
-        return currentLine;
+        return currentLine_;
     }
 
     void setAutoIndentation (bool indent) {
-        autoIndentation = indent;
+        autoIndentation_ = indent;
     }
     bool getAutoIndentation() const {
-        return autoIndentation;
+        return autoIndentation_;
     }
 
     void setAutoReplace (bool replace) {
-        autoReplace = replace;
+        autoReplace_ = replace;
     }
     bool getAutoReplace() const {
-        return autoReplace;
+        return autoReplace_;
     }
 
     void setDrawIndetLines (bool draw) {
-        drawIndetLines = draw;
+        drawIndetLines_ = draw;
     }
 
     void setVLineDistance (int distance) {
@@ -101,18 +101,18 @@ public:
     }
 
     void setAutoBracket (bool autoB) {
-        autoBracket = autoB;
+        autoBracket_ = autoB;
     }
 
     bool hasDarkScheme() const {
-        return (darkValue > -1);
+        return (darkValue_ > -1);
     }
     int getDarkValue() const {
-        return darkValue;
+        return darkValue_;
     }
 
     void setScrollJumpWorkaround (bool apply){
-        scrollJumpWorkaround = apply;
+        scrollJumpWorkaround_ = apply;
     }
 
     void zooming (float range);
@@ -333,23 +333,22 @@ private:
     QString remainingSpaces (const QString& spaceTab, const QTextCursor& cursor) const;
     QTextCursor backTabCursor(const QTextCursor& cursor, bool twoSpace) const;
 
-    int prevAnchor, prevPos; // used only for bracket matching
-    QWidget *lineNumberArea;
-    QTextEdit::ExtraSelection currentLine;
-    QRect lastCurrentLine;
-    int widestDigit;
-    bool autoIndentation;
-    bool autoReplace;
-    bool drawIndetLines;
-    bool autoBracket;
-    bool scrollJumpWorkaround; // for working around Qt5's scroll jump bug
-    int darkValue;
+    int prevAnchor_, prevPos_; // used only for bracket matching
+    QWidget *lineNumberArea_;
+    QTextEdit::ExtraSelection currentLine_;
+    QRect lastCurrentLine_;
+    int widestDigit_;
+    bool autoIndentation_;
+    bool autoReplace_;
+    bool drawIndetLines_;
+    bool autoBracket_;
+    bool scrollJumpWorkaround_; // for working around Qt5's scroll jump bug
+    int darkValue_;
     int bgColorValue_; // only used internally and as a workaround
     int vLineDistance_;
     QString dateFormat_;
-    QColor lineHColor;
-    int resizeTimerId, updateTimerId, selectionTimerId; // for not wasting CPU's time
-    int Dy;
+    QColor lineHColor_;
+    int resizeTimerId_, updateTimerId_, selectionTimerId_; // for not wasting CPU's time
     QPoint pressPoint_; // used internally for hyperlinks
     QPoint selectionPressPoint_; // used internally to delay dragging until mouse movement
     QFont font_; // used internally for keeping track of the unzoomed font

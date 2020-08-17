@@ -76,12 +76,12 @@ FPsingleton::FPsingleton (int &argc, char **argv) : QApplication (argc, argv)
 
     if (lockFile_->tryLock())
     { // create a local server and listen to incoming messages from other instances
-        localServer = new QLocalServer (this);
-        connect (localServer, &QLocalServer::newConnection, this, &FPsingleton::receiveMessage);
-        if (!localServer->listen (uniqueKey_))
+        localServer_ = new QLocalServer (this);
+        connect (localServer_, &QLocalServer::newConnection, this, &FPsingleton::receiveMessage);
+        if (!localServer_->listen (uniqueKey_))
         {
-            if (localServer->removeServer (uniqueKey_))
-                localServer->listen (uniqueKey_);
+            if (localServer_->removeServer (uniqueKey_))
+                localServer_->listen (uniqueKey_);
             else
                 qDebug ("Unable to remove server instance (from a previous crash).");
         }
@@ -89,7 +89,7 @@ FPsingleton::FPsingleton (int &argc, char **argv) : QApplication (argc, argv)
     else
     {
         delete lockFile_; lockFile_ = nullptr;
-        localServer = nullptr;
+        localServer_ = nullptr;
     }
 }
 /*************************/
@@ -111,13 +111,13 @@ void FPsingleton::quitting()
 /*************************/
 void FPsingleton::receiveMessage()
 {
-    QLocalSocket *localSocket = localServer->nextPendingConnection();
+    QLocalSocket *localSocket = localServer_->nextPendingConnection();
     if (!localSocket)
     {
         qDebug ("Unable to find local socket.");
         return;
     }
-    if (!localSocket->waitForReadyRead (timeout))
+    if (!localSocket->waitForReadyRead (timeout_))
     {
         qDebug ("%s", (const char *) localSocket->errorString().toLatin1());
         return;
@@ -129,9 +129,9 @@ void FPsingleton::receiveMessage()
 }
 /*************************/
 // A new instance will be started only if this function returns false.
-bool FPsingleton::sendMessage (const QString &message)
+bool FPsingleton::sendMessage (const QString& message)
 {
-    if (localServer != nullptr) // no other instance was running
+    if (localServer_ != nullptr) // no other instance was running
         return false;
 
     QLocalSocket localSocket (this);
@@ -139,13 +139,13 @@ bool FPsingleton::sendMessage (const QString &message)
     /* NOTE: If "QStandardPaths::TempLocation" isn't on RAM, the socket may not be
              ready yet. So, we retry a few times to make sure this isn't about a crash. */
     int waiting = 0;
-    while (waiting < 5 && !localSocket.waitForConnected (timeout))
+    while (waiting < 5 && !localSocket.waitForConnected (timeout_))
     {
         QThread::msleep(500);
         localSocket.connectToServer (uniqueKey_, QIODevice::WriteOnly);
         ++ waiting;
     }
-    if (waiting == 5 && !localSocket.waitForConnected (timeout))
+    if (waiting == 5 && !localSocket.waitForConnected (timeout_))
     {
         socketFailure_ = true;
         qDebug ("%s", (const char *) localSocket.errorString().toLatin1());
@@ -153,7 +153,7 @@ bool FPsingleton::sendMessage (const QString &message)
     }
 
     localSocket.write (message.toUtf8());
-    if (!localSocket.waitForBytesWritten (timeout))
+    if (!localSocket.waitForBytesWritten (timeout_))
     {
         socketFailure_ = true;
         qDebug ("%s", (const char *) localSocket.errorString().toLatin1());
@@ -208,7 +208,7 @@ bool FPsingleton::cursorInfo (const QString& commndOpt, int& lineNum, int& posIn
 /*************************/
 QStringList FPsingleton::processInfo (const QString& message,
                                       long &desktop, int& lineNum, int& posInLine,
-                                      bool *newWin)
+                                      bool *newWindow)
 {
     desktop = -1;
     lineNum = 0; // no cursor placing
@@ -216,10 +216,10 @@ QStringList FPsingleton::processInfo (const QString& message,
     QStringList sl = message.split ("\n\r"); // "\n\r" was used as the splitter
     if (sl.count() < 3) // impossible because "\n\r" is appended to desktop number plus current directory
     {
-        *newWin = true;
+        *newWindow = true;
         return QStringList();
     }
-    *newWin = false;
+    *newWindow = false;
     desktop = sl.at (0).toInt();
     sl.removeFirst();
     QDir curDir (sl.at (0));
@@ -232,7 +232,7 @@ QStringList FPsingleton::processInfo (const QString& message,
         { // check if the second option is --win/-w
             if (sl.at (0) == "--win" || sl.at (0) == "-w")
             {
-                *newWin = true;
+                *newWindow = true;
                 sl.removeFirst();
             }
         }
@@ -240,7 +240,7 @@ QStringList FPsingleton::processInfo (const QString& message,
     // check if the first option is --win/-w
     else if (sl.at (0) == "--win" || sl.at (0) == "-w")
     {
-        *newWin = true;
+        *newWindow = true;
         sl.removeFirst();
         if (!sl.isEmpty())
             hasCurInfo = cursorInfo (sl.at (0), lineNum, posInLine);

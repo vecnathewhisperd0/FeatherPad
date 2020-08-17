@@ -392,9 +392,9 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     quoteEndExpression.setPattern ("([^\"'])\"");*/
     regexFormat.setForeground (DarkRed);
 
-    /*************
-     * Functions *
-     *************/
+    /*************************
+     * Functions and Numbers *
+     *************************/
 
     /* there may be javascript inside html */
     QString Lang = progLan == "html" ? "javascript" : progLan;
