@@ -91,8 +91,8 @@
         <location filename="../../fpwin.cpp" line="3361"/>
         <location filename="../../replace.cpp" line="62"/>
         <location filename="../../replace.cpp" line="115"/>
-        <source>Rep&amp;lacement</source>
-        <translation>&amp;Замена</translation>
+        <source>Replacement</source>
+        <translation>Замена</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="389"/>

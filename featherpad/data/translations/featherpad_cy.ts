@@ -604,7 +604,7 @@
         <location filename="../../fpwin.cpp" line="3361"/>
         <location filename="../../replace.cpp" line="62"/>
         <location filename="../../replace.cpp" line="115"/>
-        <source>Rep&amp;lacement</source>
+        <source>Replacement</source>
         <translation></translation>
     </message>
     <message>

@@ -605,8 +605,8 @@ linea (Ctrl + Shift + J)</translation>
         <location filename="../../fpwin.cpp" line="3361"/>
         <location filename="../../replace.cpp" line="62"/>
         <location filename="../../replace.cpp" line="115"/>
-        <source>Rep&amp;lacement</source>
-        <translation>&amp;Sostituzione</translation>
+        <source>Replacement</source>
+        <translation>Sostituzione</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="574"/>
@@ -1892,7 +1892,7 @@ nome ma che termina con &quot;.aff&quot;.</translation>
         <location filename="../../prefDialog.ui" line="925"/>
         <source>If this is unchecked, spell checking
 will be started from the document start.</source>
-        <translation>Se non spuntato, il controllo ortografico 
+        <translation>Se non spuntato, il controllo ortografico
 parte dall&apos;inizio del documento.</translation>
     </message>
     <message>

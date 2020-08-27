@@ -605,8 +605,8 @@
         <location filename="../../fpwin.cpp" line="3361"/>
         <location filename="../../replace.cpp" line="62"/>
         <location filename="../../replace.cpp" line="115"/>
-        <source>Rep&amp;lacement</source>
-        <translation>&amp;Csere</translation>
+        <source>Replacement</source>
+        <translation>Csere</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="574"/>

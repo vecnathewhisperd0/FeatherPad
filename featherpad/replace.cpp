@@ -59,7 +59,7 @@ void FPwin::replaceDock()
         int count = ui->tabWidget->count();
         for (int i = 0; i < count; ++i) // replace dock needs searchbar
             qobject_cast< TabPage *>(ui->tabWidget->widget (i))->setSearchBarVisible (true);
-        ui->dockReplace->setWindowTitle (tr ("Rep&lacement"));
+        ui->dockReplace->setWindowTitle (tr ("Replacement"));
         ui->dockReplace->setVisible (true);
         ui->dockReplace->raise();
         ui->dockReplace->activateWindow();
@@ -112,7 +112,7 @@ void FPwin::replace()
     if (textEdit->isReadOnly()) return;
 
     textEdit->setReplaceTitle (QString());
-    ui->dockReplace->setWindowTitle (tr ("Rep&lacement"));
+    ui->dockReplace->setWindowTitle (tr ("Replacement"));
 
     QString txtFind = ui->lineEditFind->text();
     if (txtFind.isEmpty()) return;

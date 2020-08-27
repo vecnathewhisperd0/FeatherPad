@@ -605,7 +605,7 @@
         <location filename="../../fpwin.cpp" line="3361"/>
         <location filename="../../replace.cpp" line="62"/>
         <location filename="../../replace.cpp" line="115"/>
-        <source>Rep&amp;lacement</source>
+        <source>Replacement</source>
         <translation>Sustitución</translation>
     </message>
     <message>
@@ -936,7 +936,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="2392"/>
         <source>See Preferences → Files → Do not permit opening of non-text files</source>
-        <translation>Vea Preferencias ▸ Archivos ▸ No permitir apertura de archivos que no sean de texto</translation>
+        <translation>Vea Preferencias ▸ Archivos ▸ No permitir apertura de archivos que no sean de texto</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2400"/>

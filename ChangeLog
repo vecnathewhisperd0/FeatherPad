@@ -1,3 +1,7 @@
+V0.15.1
+---------
+ * Removed the redundant ampersand from the title of the replacement widget.
+
 V0.15.0
 ---------
  * Added optional selection highlighting (without interfering with search highlighting).

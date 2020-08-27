@@ -338,7 +338,7 @@
     <set>Qt::BottomDockWidgetArea|Qt::TopDockWidgetArea</set>
    </property>
    <property name="windowTitle">
-    <string>Rep&amp;lacement</string>
+    <string>Replacement</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>8</number>

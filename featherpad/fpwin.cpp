@@ -3358,7 +3358,7 @@ void FPwin::tabSwitch (int index)
         if (!title.isEmpty())
             ui->dockReplace->setWindowTitle (title);
         else
-            ui->dockReplace->setWindowTitle (tr ("Rep&lacement"));
+            ui->dockReplace->setWindowTitle (tr ("Replacement"));
     }
     else
         textEdit->setReplaceTitle (QString());
