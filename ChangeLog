@@ -1,6 +1,8 @@
 V0.15.1
 ---------
  * Removed the redundant ampersand from the title of the replacement widget.
+ * Added a tooltip to shortcut editor.
+ * Fixed a small problem in highlighting of Yaml braces.
 
 V0.15.0
 ---------

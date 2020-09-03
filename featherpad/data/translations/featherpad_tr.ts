@@ -1891,7 +1891,7 @@ name but ending with &quot;.aff&quot;.</source>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="913"/>
-        <location filename="../../pref.cpp" line="1639"/>
+        <location filename="../../pref.cpp" line="1640"/>
         <source>Add dictionary...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2024,117 +2024,123 @@ be opened if they are pasted into FeatherPad.</source>
         <translation>Kapat</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="99"/>
+        <location filename="../../pref.cpp" line="94"/>
+        <source>Press a modifier key to clear a shortcut
+in the editing mode.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="100"/>
         <source>Double click a color to change it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="292"/>
-        <location filename="../../pref.cpp" line="1335"/>
+        <location filename="../../pref.cpp" line="293"/>
+        <location filename="../../pref.cpp" line="1336"/>
         <source>files</source>
         <translatorcomment>Reminder: Enumerated items are used in singular (e.g. &quot;7 file&quot; instead of &quot;7 files&quot;).</translatorcomment>
         <translation>dosya</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="292"/>
-        <location filename="../../pref.cpp" line="1335"/>
+        <location filename="../../pref.cpp" line="293"/>
+        <location filename="../../pref.cpp" line="1336"/>
         <source>file</source>
         <translation>dosya</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="345"/>
-        <location filename="../../pref.cpp" line="1454"/>
+        <location filename="../../pref.cpp" line="346"/>
+        <location filename="../../pref.cpp" line="1455"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Uyarı: Muğlak kısayol tespit edildi!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="378"/>
+        <location filename="../../pref.cpp" line="379"/>
         <source>Functions, URLs,…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="379"/>
+        <location filename="../../pref.cpp" line="380"/>
         <source>Built-in Functions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="380"/>
+        <location filename="../../pref.cpp" line="381"/>
         <source>Comments</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="381"/>
+        <location filename="../../pref.cpp" line="382"/>
         <source>Quotations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="382"/>
+        <location filename="../../pref.cpp" line="383"/>
         <source>Types</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="383"/>
+        <location filename="../../pref.cpp" line="384"/>
         <source>Key Words</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="384"/>
+        <location filename="../../pref.cpp" line="385"/>
         <source>Numbers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="385"/>
+        <location filename="../../pref.cpp" line="386"/>
         <source>Regular Expressions, Code Blocks,…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="386"/>
+        <location filename="../../pref.cpp" line="387"/>
         <source>Document Blocks, XML/HTML Elements,…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="387"/>
+        <location filename="../../pref.cpp" line="388"/>
         <source>Markdown Headings, CSS Values,…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="388"/>
+        <location filename="../../pref.cpp" line="389"/>
         <source>Extra Elements</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="543"/>
+        <location filename="../../pref.cpp" line="544"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Uygulama tekrar başlatılınca değişiklikler etkinleşir.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="555"/>
+        <location filename="../../pref.cpp" line="556"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Değişikliklerin etkinleşmesi için yeni pencere açılmalıdır.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1361"/>
+        <location filename="../../pref.cpp" line="1362"/>
         <source>&amp;Recently Opened</source>
         <translation>&amp;Son Açılanlar</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1362"/>
+        <location filename="../../pref.cpp" line="1363"/>
         <source>Recently &amp;Modified</source>
         <translation>&amp;Son Değiştirilenler</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1437"/>
+        <location filename="../../pref.cpp" line="1438"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Girilen kısayol tahsisli (kullanılamaz).</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1641"/>
+        <location filename="../../pref.cpp" line="1642"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="437"/>
-        <location filename="../../pref.cpp" line="1719"/>
+        <location filename="../../pref.cpp" line="438"/>
+        <location filename="../../pref.cpp" line="1720"/>
         <source>Select Syntax Color</source>
         <translation type="unfinished"></translation>
     </message>

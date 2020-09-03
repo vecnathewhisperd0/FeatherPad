@@ -91,6 +91,7 @@ PrefDialog::PrefDialog (QWidget *parent)
     ui->tableWidget->horizontalHeader()->setSectionResizeMode (QHeaderView::Stretch);
     ui->tableWidget->horizontalHeader()->setSectionsClickable (true);
     ui->tableWidget->sortByColumn (0, Qt::AscendingOrder);
+    ui->tableWidget->setToolTip (tr ("Press a modifier key to clear a shortcut\nin the editing mode."));
 
     ui->syntaxTableWidget->horizontalHeader()->setSectionResizeMode (0, QHeaderView::Stretch);
     ui->syntaxTableWidget->horizontalHeader()->setSectionResizeMode (1, QHeaderView::ResizeToContents);

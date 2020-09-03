@@ -4519,6 +4519,7 @@ void Highlighter::highlightBlock (const QString &text)
 
     if (progLan == "yaml")
     {
+        bool isCodeBlock = previousBlockState() == codeBlockState;
         bool braces (true);
         int openNests = 0;
         QTextBlock prevBlock = currentBlock().previous();
@@ -4529,6 +4530,16 @@ void Highlighter::highlightBlock (const QString &text)
                 openNests = prevData->openNests();
                 if (openNests != 0) // braces take priority over brackets
                     braces = !prevData->getProperty();
+
+                if (isCodeBlock)
+                {
+                    QString spaces = prevData->labelInfo();
+                    if (!spaces.startsWith ("i"))
+                        spaces = QString();
+                    else
+                        spaces.remove (0, 1);
+                    isCodeBlock = text.startsWith (spaces + " ");
+                }
             }
         }
         if (text.indexOf (QRegularExpression("^---")) == 0) // pass the data
@@ -4539,7 +4550,7 @@ void Highlighter::highlightBlock (const QString &text)
         }
         else // format braces and brackets before formatting multi-line quotes
         {
-            if (previousBlockState() != codeBlockState || text.indexOf (QRegularExpression ("^\\S")) == 0)
+            if (!isCodeBlock)
             {
                 if (braces)
                 {
@@ -4569,7 +4580,7 @@ void Highlighter::highlightBlock (const QString &text)
             rehighlightNextBlock |= multiLineQuote (text);
         }
 
-        /* yaml Main Formatting  */
+        /* yaml Main Formatting */
         if (mainFormatting)
         {
             data->setHighlighted();

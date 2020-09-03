@@ -1884,7 +1884,7 @@ nomon se kun la finaĵo &quot;.aff&quot;.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="913"/>
-        <location filename="../../pref.cpp" line="1639"/>
+        <location filename="../../pref.cpp" line="1640"/>
         <source>Add dictionary...</source>
         <translation>Aldoni vortaron...</translation>
     </message>
@@ -2019,116 +2019,123 @@ malfermitaj se ili estus algluitaj en FeatherPad.</translation>
         <translation>Fermi</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="99"/>
+        <location filename="../../pref.cpp" line="94"/>
+        <source>Press a modifier key to clear a shortcut
+in the editing mode.</source>
+        <translation>Premu modifan klavon por forigi fulmoklavon
+en la redakta reĝimo.</translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="100"/>
         <source>Double click a color to change it.</source>
         <translation>Duoble klaku koloron por ŝanĝi ĝin.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="292"/>
-        <location filename="../../pref.cpp" line="1335"/>
+        <location filename="../../pref.cpp" line="293"/>
+        <location filename="../../pref.cpp" line="1336"/>
         <source>files</source>
         <translation>dosieroj</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="292"/>
-        <location filename="../../pref.cpp" line="1335"/>
+        <location filename="../../pref.cpp" line="293"/>
+        <location filename="../../pref.cpp" line="1336"/>
         <source>file</source>
         <translation>dosiero</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="345"/>
-        <location filename="../../pref.cpp" line="1454"/>
+        <location filename="../../pref.cpp" line="346"/>
+        <location filename="../../pref.cpp" line="1455"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Averto: Ambigua fulmoklavo estas detektita!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="378"/>
+        <location filename="../../pref.cpp" line="379"/>
         <source>Functions, URLs,…</source>
         <translation>Funkcioj, URL-oj,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="379"/>
+        <location filename="../../pref.cpp" line="380"/>
         <source>Built-in Functions</source>
         <translation>Funkcioj enkonstruitaj</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="380"/>
+        <location filename="../../pref.cpp" line="381"/>
         <source>Comments</source>
         <translation>Komentoj</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="381"/>
+        <location filename="../../pref.cpp" line="382"/>
         <source>Quotations</source>
         <translation>Citoj</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="382"/>
+        <location filename="../../pref.cpp" line="383"/>
         <source>Types</source>
         <translation>Tipoj</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="383"/>
+        <location filename="../../pref.cpp" line="384"/>
         <source>Key Words</source>
         <translation>Ĉefvortoj</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="384"/>
+        <location filename="../../pref.cpp" line="385"/>
         <source>Numbers</source>
         <translation>Numeroj</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="385"/>
+        <location filename="../../pref.cpp" line="386"/>
         <source>Regular Expressions, Code Blocks,…</source>
         <translation>Regulaj esprimoj, kodblokoj,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="386"/>
+        <location filename="../../pref.cpp" line="387"/>
         <source>Document Blocks, XML/HTML Elements,…</source>
         <translation>Dokumentaj blokoj, XML/HTML-elementoj,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="387"/>
+        <location filename="../../pref.cpp" line="388"/>
         <source>Markdown Headings, CSS Values,…</source>
         <translation>Titoloj de Markdown, CSS-valoroj,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="388"/>
+        <location filename="../../pref.cpp" line="389"/>
         <source>Extra Elements</source>
         <translation>Ekstraj elementoj</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="543"/>
+        <location filename="../../pref.cpp" line="544"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Restartigo de la aplikaĵo necesas por ke la ŝanĝoj efektiviĝu.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="555"/>
+        <location filename="../../pref.cpp" line="556"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Remalfermado de la fenestro necesas por ke la ŝanĝoj efektiviĝu.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1361"/>
+        <location filename="../../pref.cpp" line="1362"/>
         <source>&amp;Recently Opened</source>
         <translation>Lastatempe Malfermita&amp;j</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1362"/>
+        <location filename="../../pref.cpp" line="1363"/>
         <source>Recently &amp;Modified</source>
         <translation>Lastatempe Mod&amp;ifitaj</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1437"/>
+        <location filename="../../pref.cpp" line="1438"/>
         <source>The typed shortcut was reserved.</source>
         <translation>La fulmoklavo tajpita estis rezervita.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1641"/>
+        <location filename="../../pref.cpp" line="1642"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>Hunspell-Vortaraj Dosieroj (*.dic)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="437"/>
-        <location filename="../../pref.cpp" line="1719"/>
+        <location filename="../../pref.cpp" line="438"/>
+        <location filename="../../pref.cpp" line="1720"/>
         <source>Select Syntax Color</source>
         <translation>Elekti Sintaks-Koloron</translation>
     </message>

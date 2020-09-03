@@ -1612,7 +1612,7 @@ name but ending with &quot;.aff&quot;.</source>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="913"/>
-        <location filename="../../pref.cpp" line="1639"/>
+        <location filename="../../pref.cpp" line="1640"/>
         <source>Add dictionary...</source>
         <translation>Добавить словарь...</translation>
     </message>
@@ -2020,116 +2020,122 @@ if the cursor is inside the text view?</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="99"/>
+        <location filename="../../pref.cpp" line="94"/>
+        <source>Press a modifier key to clear a shortcut
+in the editing mode.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../pref.cpp" line="100"/>
         <source>Double click a color to change it.</source>
         <translation>Дважды щёлкните по цвету для его изменения.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="292"/>
-        <location filename="../../pref.cpp" line="1335"/>
+        <location filename="../../pref.cpp" line="293"/>
+        <location filename="../../pref.cpp" line="1336"/>
         <source>files</source>
         <translation>файлы</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="292"/>
-        <location filename="../../pref.cpp" line="1335"/>
+        <location filename="../../pref.cpp" line="293"/>
+        <location filename="../../pref.cpp" line="1336"/>
         <source>file</source>
         <translation>файл</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="345"/>
-        <location filename="../../pref.cpp" line="1454"/>
+        <location filename="../../pref.cpp" line="346"/>
+        <location filename="../../pref.cpp" line="1455"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Внимание: обнаружена неоднозначная комбинация!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="378"/>
+        <location filename="../../pref.cpp" line="379"/>
         <source>Functions, URLs,…</source>
         <translation>Функции, URLs,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="379"/>
+        <location filename="../../pref.cpp" line="380"/>
         <source>Built-in Functions</source>
         <translation>Встроенные функции</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="380"/>
+        <location filename="../../pref.cpp" line="381"/>
         <source>Comments</source>
         <translation>Комментарии</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="381"/>
+        <location filename="../../pref.cpp" line="382"/>
         <source>Quotations</source>
         <translation>Цитаты</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="382"/>
+        <location filename="../../pref.cpp" line="383"/>
         <source>Types</source>
         <translation>Типы</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="383"/>
+        <location filename="../../pref.cpp" line="384"/>
         <source>Key Words</source>
         <translation>Ключевые слова</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="384"/>
+        <location filename="../../pref.cpp" line="385"/>
         <source>Numbers</source>
         <translation>Числа</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="385"/>
+        <location filename="../../pref.cpp" line="386"/>
         <source>Regular Expressions, Code Blocks,…</source>
         <translation>Регулярные выражения, блоки кода,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="386"/>
+        <location filename="../../pref.cpp" line="387"/>
         <source>Document Blocks, XML/HTML Elements,…</source>
         <translation>Блоки документов, элементы XML/HTML,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="387"/>
+        <location filename="../../pref.cpp" line="388"/>
         <source>Markdown Headings, CSS Values,…</source>
         <translation>Заголовки Headings, CSS Значения,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="388"/>
+        <location filename="../../pref.cpp" line="389"/>
         <source>Extra Elements</source>
         <translation>Дополнительные элементы</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="543"/>
+        <location filename="../../pref.cpp" line="544"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Для вступления изменений в силу, необходим перезапуск приложения.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="555"/>
+        <location filename="../../pref.cpp" line="556"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Для вступления изменений в силу, требуется повторное открытие окна.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1361"/>
+        <location filename="../../pref.cpp" line="1362"/>
         <source>&amp;Recently Opened</source>
         <translation>&amp;Недавно открытые</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1362"/>
+        <location filename="../../pref.cpp" line="1363"/>
         <source>Recently &amp;Modified</source>
         <translation>&amp;Недавно изменённые</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1437"/>
+        <location filename="../../pref.cpp" line="1438"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Введённая комбинация клавиш уже используется.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1641"/>
+        <location filename="../../pref.cpp" line="1642"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>Файлы словаря Hunspell (*.dic)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="437"/>
-        <location filename="../../pref.cpp" line="1719"/>
+        <location filename="../../pref.cpp" line="438"/>
+        <location filename="../../pref.cpp" line="1720"/>
         <source>Select Syntax Color</source>
         <translation>Выбор цвета синтаксиса</translation>
     </message>
