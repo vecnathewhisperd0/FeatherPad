@@ -4580,6 +4580,7 @@ void FPwin::tabContextMenu (const QPoint& p)
     {
         QWidgetAction *labelAction = new QWidgetAction (&menu);
         QLabel *label = new QLabel ("<center><b>" + tr ("%1 Pages").arg (tabNum) + "</b></center>");
+        label->setMargin (4);
         labelAction->setDefaultWidget (label);
         menu.addAction (labelAction);
         menu.addSeparator();
@@ -4648,6 +4649,7 @@ void FPwin::listContextMenu (const QPoint& p)
     {
         QWidgetAction *labelAction = new QWidgetAction (&menu);
         QLabel *label = new QLabel ("<center><b>" + tr ("%1 Pages").arg (lw->count()) + "</b></center>");
+        label->setMargin (4);
         labelAction->setDefaultWidget (label);
         menu.insertAction (ui->actionClose, labelAction);
         menu.insertSeparator (ui->actionClose);

@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="157"/>
+        <location filename="../../about.ui" line="159"/>
         <source>License</source>
         <translation>Licenc</translation>
     </message>
@@ -843,9 +843,9 @@
         <location filename="../../fpwin.cpp" line="3021"/>
         <location filename="../../fpwin.cpp" line="3028"/>
         <location filename="../../fpwin.cpp" line="3784"/>
-        <location filename="../../fpwin.cpp" line="5185"/>
-        <location filename="../../fpwin.cpp" line="5196"/>
-        <location filename="../../fpwin.cpp" line="5203"/>
+        <location filename="../../fpwin.cpp" line="5187"/>
+        <location filename="../../fpwin.cpp" line="5198"/>
+        <location filename="../../fpwin.cpp" line="5205"/>
         <source>Lines</source>
         <translation>Sorok</translation>
     </message>
@@ -894,7 +894,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="1115"/>
         <location filename="../../fpwin.cpp" line="2425"/>
-        <location filename="../../fpwin.cpp" line="4997"/>
+        <location filename="../../fpwin.cpp" line="4999"/>
         <source>The file does not exist.</source>
         <translation>A fájl nem létezik.</translation>
     </message>
@@ -1039,7 +1039,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="403"/>
         <location filename="../../fpwin.cpp" line="3260"/>
-        <location filename="../../fpwin.cpp" line="5398"/>
+        <location filename="../../fpwin.cpp" line="5400"/>
         <source>Help</source>
         <translation>Súgó</translation>
     </message>
@@ -1048,9 +1048,9 @@
         <location filename="../../fpwin.cpp" line="3012"/>
         <location filename="../../fpwin.cpp" line="3020"/>
         <location filename="../../fpwin.cpp" line="3783"/>
-        <location filename="../../fpwin.cpp" line="5181"/>
-        <location filename="../../fpwin.cpp" line="5187"/>
-        <location filename="../../fpwin.cpp" line="5195"/>
+        <location filename="../../fpwin.cpp" line="5183"/>
+        <location filename="../../fpwin.cpp" line="5189"/>
+        <location filename="../../fpwin.cpp" line="5197"/>
         <source>Syntax</source>
         <translation>Szintaxis</translation>
     </message>
@@ -1083,96 +1083,96 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="4582"/>
-        <location filename="../../fpwin.cpp" line="4650"/>
+        <location filename="../../fpwin.cpp" line="4651"/>
         <source>%1 Pages</source>
         <translation>%1 lap</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4608"/>
-        <location filename="../../fpwin.cpp" line="4678"/>
+        <location filename="../../fpwin.cpp" line="4609"/>
+        <location filename="../../fpwin.cpp" line="4680"/>
         <source>Copy Target Path</source>
         <translation>Cél útvonalának másolása</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4612"/>
-        <location filename="../../fpwin.cpp" line="4682"/>
+        <location filename="../../fpwin.cpp" line="4613"/>
+        <location filename="../../fpwin.cpp" line="4684"/>
         <source>Open Target Here</source>
         <translation>Cél megnyitása itt</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4800"/>
+        <location filename="../../fpwin.cpp" line="4802"/>
         <source>You need to add a Hunspell dictionary.</source>
         <translation>Fel kell vennie egy Hunspell szótárt.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4801"/>
-        <location filename="../../fpwin.cpp" line="4807"/>
-        <location filename="../../fpwin.cpp" line="4816"/>
+        <location filename="../../fpwin.cpp" line="4803"/>
+        <location filename="../../fpwin.cpp" line="4809"/>
+        <location filename="../../fpwin.cpp" line="4818"/>
         <source>See Preferences → Text → Spell Checking!</source>
         <translation>Lásd: Beállítások → Szöveg → Helyesírás-ellenőrzés!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4806"/>
+        <location filename="../../fpwin.cpp" line="4808"/>
         <source>The Hunspell dictionary does not exist.</source>
         <translation>A Hunspell szótár nem létezik.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4815"/>
+        <location filename="../../fpwin.cpp" line="4817"/>
         <source>The Hunspell dictionary is not accompanied by an affix file.</source>
         <translation>A Hunspell szótárhoz nem kapcsolódik affix fájl.</translation>
-    </message>
-    <message>
-        <location filename="../../fpwin.cpp" line="4837"/>
-        <location filename="../../fpwin.cpp" line="4855"/>
-        <location filename="../../fpwin.cpp" line="4870"/>
-        <source>No misspelling in document.</source>
-        <translation>Nincs helyesírási hiba a dokumentumban.</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="4839"/>
         <location filename="../../fpwin.cpp" line="4857"/>
         <location filename="../../fpwin.cpp" line="4872"/>
+        <source>No misspelling in document.</source>
+        <translation>Nincs helyesírási hiba a dokumentumban.</translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="4841"/>
+        <location filename="../../fpwin.cpp" line="4859"/>
+        <location filename="../../fpwin.cpp" line="4874"/>
         <source>No misspelling from text cursor.</source>
         <translation>Nincs helyesírási hiba a kijelölt szövegben.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4885"/>
+        <location filename="../../fpwin.cpp" line="4887"/>
         <source>Spell Checking</source>
         <translation>Helyesírás-ellenőrzés</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5219"/>
+        <location filename="../../fpwin.cpp" line="5221"/>
         <source>Some files cannot be saved!</source>
         <translation>Néhány fájlt nem lehet menteni!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5266"/>
+        <location filename="../../fpwin.cpp" line="5268"/>
         <source>Translators</source>
         <translation>Fordítók</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5262"/>
+        <location filename="../../fpwin.cpp" line="5264"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translation>Egy könnyed, lapokkal ellátott, egyszerű szövegszerkesztő</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5263"/>
+        <location filename="../../fpwin.cpp" line="5265"/>
         <source>based on Qt5</source>
         <translation>amely a Qt5-ön alapul</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5264"/>
+        <location filename="../../fpwin.cpp" line="5266"/>
         <source>Author</source>
         <translation>Szerző</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5265"/>
+        <location filename="../../fpwin.cpp" line="5267"/>
         <source>aka.</source>
         <translation>más néven</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5266"/>
-        <location filename="../../fpwin.cpp" line="5267"/>
+        <location filename="../../fpwin.cpp" line="5268"/>
+        <location filename="../../fpwin.cpp" line="5269"/>
         <source>About FeatherPad</source>
         <translation>FeatherPad névjegye</translation>
     </message>

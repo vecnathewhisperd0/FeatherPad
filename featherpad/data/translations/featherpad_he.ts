@@ -1,10 +1,10 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
 <TS version="2.1" language="he-IL">
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="157"/>
+        <location filename="../../about.ui" line="159"/>
         <source>License</source>
         <translation>רישיון</translation>
     </message>
@@ -240,7 +240,7 @@
     <message>
         <location filename="../../fp.ui" line="617"/>
         <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;סגירה</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="620"/>
@@ -841,9 +841,9 @@
         <location filename="../../fpwin.cpp" line="3021"/>
         <location filename="../../fpwin.cpp" line="3028"/>
         <location filename="../../fpwin.cpp" line="3784"/>
-        <location filename="../../fpwin.cpp" line="5185"/>
-        <location filename="../../fpwin.cpp" line="5196"/>
-        <location filename="../../fpwin.cpp" line="5203"/>
+        <location filename="../../fpwin.cpp" line="5187"/>
+        <location filename="../../fpwin.cpp" line="5198"/>
+        <location filename="../../fpwin.cpp" line="5205"/>
         <source>Lines</source>
         <translation>שורות</translation>
     </message>
@@ -892,7 +892,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="1115"/>
         <location filename="../../fpwin.cpp" line="2425"/>
-        <location filename="../../fpwin.cpp" line="4997"/>
+        <location filename="../../fpwin.cpp" line="4999"/>
         <source>The file does not exist.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1021,7 +1021,7 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2896"/>
-        <source>Do you want to use &lt;b>MS Windows&lt;/b> end-of-lines?</source>
+        <source>Do you want to use &lt;b&gt;MS Windows&lt;/b&gt; end-of-lines?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1037,7 +1037,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="403"/>
         <location filename="../../fpwin.cpp" line="3260"/>
-        <location filename="../../fpwin.cpp" line="5398"/>
+        <location filename="../../fpwin.cpp" line="5400"/>
         <source>Help</source>
         <translation>עזרה</translation>
     </message>
@@ -1046,9 +1046,9 @@
         <location filename="../../fpwin.cpp" line="3012"/>
         <location filename="../../fpwin.cpp" line="3020"/>
         <location filename="../../fpwin.cpp" line="3783"/>
-        <location filename="../../fpwin.cpp" line="5181"/>
-        <location filename="../../fpwin.cpp" line="5187"/>
-        <location filename="../../fpwin.cpp" line="5195"/>
+        <location filename="../../fpwin.cpp" line="5183"/>
+        <location filename="../../fpwin.cpp" line="5189"/>
+        <location filename="../../fpwin.cpp" line="5197"/>
         <source>Syntax</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1081,96 +1081,96 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="4582"/>
-        <location filename="../../fpwin.cpp" line="4650"/>
+        <location filename="../../fpwin.cpp" line="4651"/>
         <source>%1 Pages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4608"/>
-        <location filename="../../fpwin.cpp" line="4678"/>
+        <location filename="../../fpwin.cpp" line="4609"/>
+        <location filename="../../fpwin.cpp" line="4680"/>
         <source>Copy Target Path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4612"/>
-        <location filename="../../fpwin.cpp" line="4682"/>
+        <location filename="../../fpwin.cpp" line="4613"/>
+        <location filename="../../fpwin.cpp" line="4684"/>
         <source>Open Target Here</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4800"/>
+        <location filename="../../fpwin.cpp" line="4802"/>
         <source>You need to add a Hunspell dictionary.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4801"/>
-        <location filename="../../fpwin.cpp" line="4807"/>
-        <location filename="../../fpwin.cpp" line="4816"/>
+        <location filename="../../fpwin.cpp" line="4803"/>
+        <location filename="../../fpwin.cpp" line="4809"/>
+        <location filename="../../fpwin.cpp" line="4818"/>
         <source>See Preferences → Text → Spell Checking!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4806"/>
+        <location filename="../../fpwin.cpp" line="4808"/>
         <source>The Hunspell dictionary does not exist.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4815"/>
+        <location filename="../../fpwin.cpp" line="4817"/>
         <source>The Hunspell dictionary is not accompanied by an affix file.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../fpwin.cpp" line="4837"/>
-        <location filename="../../fpwin.cpp" line="4855"/>
-        <location filename="../../fpwin.cpp" line="4870"/>
-        <source>No misspelling in document.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="4839"/>
         <location filename="../../fpwin.cpp" line="4857"/>
         <location filename="../../fpwin.cpp" line="4872"/>
+        <source>No misspelling in document.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="4841"/>
+        <location filename="../../fpwin.cpp" line="4859"/>
+        <location filename="../../fpwin.cpp" line="4874"/>
         <source>No misspelling from text cursor.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4885"/>
+        <location filename="../../fpwin.cpp" line="4887"/>
         <source>Spell Checking</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5219"/>
+        <location filename="../../fpwin.cpp" line="5221"/>
         <source>Some files cannot be saved!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5266"/>
+        <location filename="../../fpwin.cpp" line="5268"/>
         <source>Translators</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5262"/>
+        <location filename="../../fpwin.cpp" line="5264"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5263"/>
+        <location filename="../../fpwin.cpp" line="5265"/>
         <source>based on Qt5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5264"/>
+        <location filename="../../fpwin.cpp" line="5266"/>
         <source>Author</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5265"/>
+        <location filename="../../fpwin.cpp" line="5267"/>
         <source>aka.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5266"/>
-        <location filename="../../fpwin.cpp" line="5267"/>
+        <location filename="../../fpwin.cpp" line="5268"/>
+        <location filename="../../fpwin.cpp" line="5269"/>
         <source>About FeatherPad</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1189,8 +1189,8 @@
         <source>%Ln Replacements</source>
         <translation type="unfinished">
             <numerusform></numerusform>
-        <numerusform></numerusform>
-            </translation>
+            <numerusform></numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../../replace.cpp" line="253"/>
@@ -1521,7 +1521,7 @@ of the selected text.</source>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="576"/>
-        <source>Never highlight syntax for files > </source>
+        <source>Never highlight syntax for files &gt; </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1608,7 +1608,7 @@ whose last line is not empty.</source>
         <location filename="../../prefDialog.ui" line="1128"/>
         <location filename="../../prefDialog.ui" line="1147"/>
         <source>This can be any starting command with
-arguments, for example, "xterm -hold"
+arguments, for example, &quot;xterm -hold&quot;
 for running the process in XTerm.
 
 If the command is left empty, the file
@@ -1720,7 +1720,7 @@ prevents annoying scroll jumps.</source>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="874"/>
-        <source>Workaround for &amp;Qt5's scroll jump bug</source>
+        <source>Workaround for &amp;Qt5&apos;s scroll jump bug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1808,9 +1808,9 @@ if the cursor is inside the text view?</source>
     <message>
         <location filename="../../prefDialog.ui" line="889"/>
         <location filename="../../prefDialog.ui" line="901"/>
-        <source>A Hunspell dictionary has a name that ends with ".dic"
+        <source>A Hunspell dictionary has a name that ends with &quot;.dic&quot;
 and should be alongside an affix file with the same
-name but ending with ".aff".</source>
+name but ending with &quot;.aff&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2123,7 +2123,7 @@ in the editing mode.</source>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="33"/>
-        <source>&lt;b>Save/Restore Session&lt;/b></source>
+        <source>&lt;b&gt;Save/Restore Session&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2167,7 +2167,7 @@ windows will be included in the saved session.</source>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="180"/>
-        <source>&lt;b>Warning&lt;/b></source>
+        <source>&lt;b&gt;Warning&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2213,7 +2213,7 @@ windows will be included in the saved session.</source>
     </message>
     <message>
         <location filename="../../session.cpp" line="174"/>
-        <source>Nothing saved.&lt;br>No file was opened.</source>
+        <source>Nothing saved.&lt;br&gt;No file was opened.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2248,7 +2248,7 @@ windows will be included in the saved session.</source>
     </message>
     <message>
         <location filename="../../session.cpp" line="348"/>
-        <source>A session with the same name exists.&lt;br>Do you want to overwrite it?</source>
+        <source>A session with the same name exists.&lt;br&gt;Do you want to overwrite it?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
