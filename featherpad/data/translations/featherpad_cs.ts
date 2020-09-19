@@ -2245,7 +2245,7 @@ zahrnuty všechny v oknech otevřené soubory.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="226"/>
-        <location filename="../../session.cpp" line="330"/>
+        <location filename="../../session.cpp" line="338"/>
         <source>&amp;Yes</source>
         <translation>&amp;Ano</translation>
     </message>
@@ -2285,42 +2285,42 @@ zahrnuty všechny v oknech otevřené soubory.</translation>
         <translation>Zadejte název pro uložení relace</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="174"/>
+        <location filename="../../session.cpp" line="179"/>
         <source>Nothing saved.&lt;br&gt;No file was opened.</source>
         <translation>Nic neuloženo.&lt;br&gt;Nebyl otevřený žádný soubor.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="267"/>
+        <location filename="../../session.cpp" line="275"/>
         <source>No file exists or can be opened.</source>
         <translation>Neexistuje žádný soubor nebo nemůže být otevřen.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="273"/>
+        <location filename="../../session.cpp" line="281"/>
         <source>Not all files exist or can be opened.</source>
         <translation>Ne všechny soubory existují nebo nemohou být otevřeny.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="316"/>
+        <location filename="../../session.cpp" line="324"/>
         <source>&amp;OK</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="335"/>
+        <location filename="../../session.cpp" line="343"/>
         <source>Do you really want to remove all saved sessions?</source>
         <translation>Opravdu chcete odebrat veškeré uložené relace?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="341"/>
+        <location filename="../../session.cpp" line="349"/>
         <source>Do you really want to remove the selected sessions?</source>
         <translation>Opravdu chcete odebrat veškeré označené relace?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="343"/>
+        <location filename="../../session.cpp" line="351"/>
         <source>Do you really want to remove the selected session?</source>
         <translation>Opravdu chcete označené relace odebrat?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="348"/>
+        <location filename="../../session.cpp" line="356"/>
         <source>A session with the same name exists.&lt;br&gt;Do you want to overwrite it?</source>
         <translation>Relace s tímto názvem už existuje.&lt;br&gt;Chcete ji přepsat?</translation>
     </message>
@@ -2328,7 +2328,7 @@ zahrnuty všechny v oknech otevřené soubory.</translation>
 <context>
     <name>FeatherPad::SidePane</name>
     <message>
-        <location filename="../../sidepane.cpp" line="108"/>
+        <location filename="../../sidepane.cpp" line="122"/>
         <source>Filter...</source>
         <translation>Filtrovat…</translation>
     </message>

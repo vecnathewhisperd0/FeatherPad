@@ -2244,7 +2244,7 @@ fenestroj estos inkluzivitaj de la konservota sesio.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="226"/>
-        <location filename="../../session.cpp" line="330"/>
+        <location filename="../../session.cpp" line="338"/>
         <source>&amp;Yes</source>
         <translation>&amp;Jes</translation>
     </message>
@@ -2284,42 +2284,42 @@ fenestroj estos inkluzivitaj de la konservota sesio.</translation>
         <translation>Tajpu nomon por konservi sesion</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="174"/>
+        <location filename="../../session.cpp" line="179"/>
         <source>Nothing saved.&lt;br&gt;No file was opened.</source>
         <translation>Nenio estas konservita.&lt;br&gt;Neniu dosiero estis malfermita.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="267"/>
+        <location filename="../../session.cpp" line="275"/>
         <source>No file exists or can be opened.</source>
         <translation>Neniu dosiero ekzistas aŭ poveas esti malfermita.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="273"/>
+        <location filename="../../session.cpp" line="281"/>
         <source>Not all files exist or can be opened.</source>
         <translation>Ne ĉiuj dosieroj ekzistas aŭ povas esti malfermitaj.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="316"/>
+        <location filename="../../session.cpp" line="324"/>
         <source>&amp;OK</source>
         <translation>&amp;Bone</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="335"/>
+        <location filename="../../session.cpp" line="343"/>
         <source>Do you really want to remove all saved sessions?</source>
         <translation>Ĉu vi vere volas forviŝi ĉiujn konservitajn sesiojn?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="341"/>
+        <location filename="../../session.cpp" line="349"/>
         <source>Do you really want to remove the selected sessions?</source>
         <translation>Ĉu vi vere volas forviŝi la elektitajn sesiojn?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="343"/>
+        <location filename="../../session.cpp" line="351"/>
         <source>Do you really want to remove the selected session?</source>
         <translation>Ĉu vi vere volas forviŝi la elektitan sesion?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="348"/>
+        <location filename="../../session.cpp" line="356"/>
         <source>A session with the same name exists.&lt;br&gt;Do you want to overwrite it?</source>
         <translation>Samnama sesio ĉeestas.&lt;br&gt;Ĉu vi volas anstataŭigi ĝin?</translation>
     </message>
@@ -2327,7 +2327,7 @@ fenestroj estos inkluzivitaj de la konservota sesio.</translation>
 <context>
     <name>FeatherPad::SidePane</name>
     <message>
-        <location filename="../../sidepane.cpp" line="108"/>
+        <location filename="../../sidepane.cpp" line="122"/>
         <source>Filter...</source>
         <translation>Filtru...</translation>
     </message>

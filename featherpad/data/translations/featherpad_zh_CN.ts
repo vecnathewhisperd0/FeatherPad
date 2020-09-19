@@ -2210,7 +2210,7 @@ windows will be included in the saved session.</source>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="226"/>
-        <location filename="../../session.cpp" line="330"/>
+        <location filename="../../session.cpp" line="338"/>
         <source>&amp;Yes</source>
         <translation>是(&amp;Y)</translation>
     </message>
@@ -2250,42 +2250,42 @@ windows will be included in the saved session.</source>
         <translation>输入名称以保存会话</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="174"/>
+        <location filename="../../session.cpp" line="179"/>
         <source>Nothing saved.&lt;br&gt;No file was opened.</source>
         <translation>未保存任何文件。&lt;br&gt;未打开任何文件。</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="267"/>
+        <location filename="../../session.cpp" line="275"/>
         <source>No file exists or can be opened.</source>
         <translation>没有可以打开的文件。</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="273"/>
+        <location filename="../../session.cpp" line="281"/>
         <source>Not all files exist or can be opened.</source>
         <translation>某些文件不存在或无法打开。</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="316"/>
+        <location filename="../../session.cpp" line="324"/>
         <source>&amp;OK</source>
         <translation>确定(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="335"/>
+        <location filename="../../session.cpp" line="343"/>
         <source>Do you really want to remove all saved sessions?</source>
         <translation>您确定要移除所有已保存的会话吗？</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="341"/>
+        <location filename="../../session.cpp" line="349"/>
         <source>Do you really want to remove the selected sessions?</source>
         <translation>您确定要移除选中的会话吗？</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="343"/>
+        <location filename="../../session.cpp" line="351"/>
         <source>Do you really want to remove the selected session?</source>
         <translation>您确定要移除选中的会话吗？</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="348"/>
+        <location filename="../../session.cpp" line="356"/>
         <source>A session with the same name exists.&lt;br&gt;Do you want to overwrite it?</source>
         <translation>已有同名会话。&lt;br&gt;是否覆盖？</translation>
     </message>
@@ -2293,7 +2293,7 @@ windows will be included in the saved session.</source>
 <context>
     <name>FeatherPad::SidePane</name>
     <message>
-        <location filename="../../sidepane.cpp" line="108"/>
+        <location filename="../../sidepane.cpp" line="122"/>
         <source>Filter...</source>
         <translation>过滤器...</translation>
     </message>

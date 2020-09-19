@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2017 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2017-2020 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -27,6 +27,18 @@
 
 namespace FeatherPad {
 
+/* For having control over sorting. */
+class ListWidgetItem : public QListWidgetItem
+{
+public:
+    ListWidgetItem (const QIcon &icon, const QString &text, QListWidget *parent = nullptr, int type = QListWidgetItem::Type) :
+        QListWidgetItem (icon, text, parent, type) {}
+    ListWidgetItem (const QString &text, QListWidget *parent = nullptr, int type = QListWidgetItem::Type) :
+        QListWidgetItem (text, parent, type) {}
+
+    bool operator<(const QListWidgetItem &other) const override;
+};
+
 /* In the single-selection mode, we don't want Ctrl + left click to
    deselect an item or an item to be selected with the middle click. */
 class ListWidget : public QListWidget
@@ -45,12 +57,12 @@ signals:
     void rowsAreInserted (int start, int end);
 
 protected:
-    virtual QItemSelectionModel::SelectionFlags selectionCommand (const QModelIndex &index, const QEvent *event = nullptr) const;
-    virtual void mousePressEvent (QMouseEvent *event);
-    virtual void mouseMoveEvent (QMouseEvent *event); // for instant tooltips
+    QItemSelectionModel::SelectionFlags selectionCommand (const QModelIndex &index, const QEvent *event = nullptr) const override;
+    void mousePressEvent (QMouseEvent *event) override;
+    void mouseMoveEvent (QMouseEvent *event) override; // for instant tooltips
 
 protected slots:
-    virtual void rowsInserted (const QModelIndex &parent, int start, int end);
+    void rowsInserted (const QModelIndex &parent, int start, int end) override;
 };
 
 class SidePane : public QWidget
