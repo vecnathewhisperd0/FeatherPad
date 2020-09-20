@@ -49,7 +49,7 @@ SessionDialog::SessionDialog (QWidget *parent):QDialog (parent), ui (new Ui::Ses
     settings.endGroup();
     if (allItems_.count() > 0)
     {
-        /* use ListWidgetItem to add items for a natural sorting */
+        /* use ListWidgetItem to add items with a natural sorting */
         for (const auto &irem : qAsConst (allItems_))
         {
             ListWidgetItem *lwi = new ListWidgetItem (irem, ui->listWidget);

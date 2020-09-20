@@ -256,6 +256,9 @@ private:
     /* The start and end cursors of the visible text: */
     QTextCursor startCursor, endCursor;
 
+    static const QRegularExpression urlPattern;
+    static const QRegularExpression notePattern;
+
     /* Block states: */
     enum
     {
