@@ -1157,8 +1157,8 @@ linea (Ctrl + Shift + J)</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="5265"/>
-        <source>based on Qt5</source>
-        <translation>basato su Qt5</translation>
+        <source>based on Qt</source>
+        <translation>basato su Qt</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="5266"/>

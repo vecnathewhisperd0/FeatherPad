@@ -48,7 +48,7 @@ int main (int argc, char **argv)
     if (option == "--help" || option == "-h")
     {
         QTextStream out (stdout);
-        out << "FeatherPad - Lightweight Qt5 text editor\n"\
+        out << "FeatherPad - Lightweight Qt text editor\n"\
                "Usage:\n	featherpad [option] [file1 file2 ...]\n"\
                "Or:\n	fpad [option] [file1 file2 ...]\n\n"\
                "Options:\n\n"\

@@ -1167,9 +1167,9 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="5265"/>
-        <source>based on Qt5</source>
+        <source>based on Qt</source>
         <translatorcomment>RAPOR 7: Either has to be put at the start or mid-sentence as part of the features, or has to be added to the end as an afterthought. Because of such things, I suggest this and the preceding message be merged in a single compound sentence.</translatorcomment>
-        <translation>Qt5 tabanlı</translation>
+        <translation>Qt tabanlı</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="5266"/>

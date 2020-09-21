@@ -1069,8 +1069,8 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="5265"/>
-        <source>based on Qt5</source>
-        <translation>основан на Qt5</translation>
+        <source>based on Qt</source>
+        <translation>основан на Qt</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="5266"/>
