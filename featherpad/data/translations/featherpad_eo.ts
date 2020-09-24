@@ -1884,7 +1884,7 @@ nomon se kun la finaĵo &quot;.aff&quot;.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="913"/>
-        <location filename="../../pref.cpp" line="1665"/>
+        <location filename="../../pref.cpp" line="1674"/>
         <source>Add dictionary...</source>
         <translation>Aldoni vortaron...</translation>
     </message>
@@ -2044,19 +2044,19 @@ en la redakta reĝimo.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="295"/>
-        <location filename="../../pref.cpp" line="1361"/>
+        <location filename="../../pref.cpp" line="1370"/>
         <source>files</source>
         <translation>dosieroj</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="295"/>
-        <location filename="../../pref.cpp" line="1361"/>
+        <location filename="../../pref.cpp" line="1370"/>
         <source>file</source>
         <translation>dosiero</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="348"/>
-        <location filename="../../pref.cpp" line="1480"/>
+        <location filename="../../pref.cpp" line="1489"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Averto: Ambigua fulmoklavo estas detektita!</translation>
     </message>
@@ -2116,38 +2116,38 @@ en la redakta reĝimo.</translation>
         <translation>Ekstraj elementoj</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="554"/>
+        <location filename="../../pref.cpp" line="555"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Restartigo de la aplikaĵo necesas por ke la ŝanĝoj efektiviĝu.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="573"/>
+        <location filename="../../pref.cpp" line="574"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Remalfermado de la fenestro necesas por ke la ŝanĝoj efektiviĝu.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1387"/>
+        <location filename="../../pref.cpp" line="1396"/>
         <source>&amp;Recently Opened</source>
         <translation>Lastatempe Malfermita&amp;j</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1388"/>
+        <location filename="../../pref.cpp" line="1397"/>
         <source>Recently &amp;Modified</source>
         <translation>Lastatempe Mod&amp;ifitaj</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1463"/>
+        <location filename="../../pref.cpp" line="1472"/>
         <source>The typed shortcut was reserved.</source>
         <translation>La fulmoklavo tajpita estis rezervita.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1667"/>
+        <location filename="../../pref.cpp" line="1676"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>Hunspell-Vortaraj Dosieroj (*.dic)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="441"/>
-        <location filename="../../pref.cpp" line="1753"/>
+        <location filename="../../pref.cpp" line="442"/>
+        <location filename="../../pref.cpp" line="1762"/>
         <source>Select Syntax Color</source>
         <translation>Elekti Sintaks-Koloron</translation>
     </message>

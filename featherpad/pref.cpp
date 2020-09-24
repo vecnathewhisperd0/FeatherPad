@@ -392,9 +392,10 @@ PrefDialog::PrefDialog (QWidget *parent)
     }
 
     ui->syntaxTableWidget->setSortingEnabled (false);
-    origSyntaxColors_ = !config.customSyntaxColors().isEmpty() ? config.customSyntaxColors()
-                                                               : config.getDarkColScheme() ? config.darkSyntaxColors()
-                                                                                           : config.lightSyntaxColors();
+    origSyntaxColors_ = !config.customSyntaxColors().isEmpty()
+                            ? config.customSyntaxColors()
+                            : config.getDarkColScheme() ? config.darkSyntaxColors()
+                                                        : config.lightSyntaxColors();
     ui->syntaxTableWidget->setRowCount (origSyntaxColors_.size());
     index = 0;
     QHash<QString, QColor>::const_iterator sIter = origSyntaxColors_.constBegin();
@@ -1063,6 +1064,14 @@ void PrefDialog::prefDarkColScheme (int checked)
     }
     connect (ui->colorValueSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::prefColValue);
 
+
+    /* these values should be reset before the prompt is shown */
+    whiteSpaceValue_ = config.getWhiteSpaceValue();
+    curLineHighlight_ = config.getCurLineHighlight();
+    origSyntaxColors_ = !config.customSyntaxColors().isEmpty()
+                            ? config.customSyntaxColors()
+                            : config.getDarkColScheme() ? config.darkSyntaxColors()
+                                                        : config.lightSyntaxColors();
     showPrompt();
 
     /* There are different syntax color settings for light and dark color schemes.

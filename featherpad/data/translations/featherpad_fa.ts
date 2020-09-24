@@ -1857,7 +1857,7 @@ name but ending with &quot;.aff&quot;.</source>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="913"/>
-        <location filename="../../pref.cpp" line="1665"/>
+        <location filename="../../pref.cpp" line="1674"/>
         <source>Add dictionary...</source>
         <translation>افزودن لغتنامه...</translation>
     </message>
@@ -2016,19 +2016,19 @@ in the editing mode.</source>
     </message>
     <message>
         <location filename="../../pref.cpp" line="295"/>
-        <location filename="../../pref.cpp" line="1361"/>
+        <location filename="../../pref.cpp" line="1370"/>
         <source>files</source>
         <translation>فايل</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="295"/>
-        <location filename="../../pref.cpp" line="1361"/>
+        <location filename="../../pref.cpp" line="1370"/>
         <source>file</source>
         <translation>فايل</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="348"/>
-        <location filename="../../pref.cpp" line="1480"/>
+        <location filename="../../pref.cpp" line="1489"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>هشدار: ميانبری مبهم تشخيض داده شد!</translation>
     </message>
@@ -2088,38 +2088,38 @@ in the editing mode.</source>
         <translation>عنصرهای اضافی</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="554"/>
+        <location filename="../../pref.cpp" line="555"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>شروع مجدد برنامه برای اعمال تغييرات لازم است.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="573"/>
+        <location filename="../../pref.cpp" line="574"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>بازگشايی پنجره‌ها برای اعمال تغييرات لازم است.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1387"/>
+        <location filename="../../pref.cpp" line="1396"/>
         <source>&amp;Recently Opened</source>
         <translation>تازه بازشده</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1388"/>
+        <location filename="../../pref.cpp" line="1397"/>
         <source>Recently &amp;Modified</source>
         <translation>تازه تغييريافته</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1463"/>
+        <location filename="../../pref.cpp" line="1472"/>
         <source>The typed shortcut was reserved.</source>
         <translation>اين ميانبر برای کار ديگری کنار گذاشته شده است.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1667"/>
+        <location filename="../../pref.cpp" line="1676"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>فايل‌های لغتنامه Hunspell (*.dic)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="441"/>
-        <location filename="../../pref.cpp" line="1753"/>
+        <location filename="../../pref.cpp" line="442"/>
+        <location filename="../../pref.cpp" line="1762"/>
         <source>Select Syntax Color</source>
         <translation>انتخاب رنگ‌آميری نگارش</translation>
     </message>

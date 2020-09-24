@@ -1830,7 +1830,7 @@ nome, mas terminando com &quot;.aff&quot;.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="913"/>
-        <location filename="../../pref.cpp" line="1665"/>
+        <location filename="../../pref.cpp" line="1674"/>
         <source>Add dictionary...</source>
         <translation>Adicionar um dicionário...</translation>
     </message>
@@ -1984,19 +1984,19 @@ in the editing mode.</source>
     </message>
     <message>
         <location filename="../../pref.cpp" line="295"/>
-        <location filename="../../pref.cpp" line="1361"/>
+        <location filename="../../pref.cpp" line="1370"/>
         <source>files</source>
         <translation>ficheiros</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="295"/>
-        <location filename="../../pref.cpp" line="1361"/>
+        <location filename="../../pref.cpp" line="1370"/>
         <source>file</source>
         <translation>ficheiro</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="348"/>
-        <location filename="../../pref.cpp" line="1480"/>
+        <location filename="../../pref.cpp" line="1489"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Aviso: detetado um atalho ambíguo!</translation>
     </message>
@@ -2056,38 +2056,38 @@ in the editing mode.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="554"/>
+        <location filename="../../pref.cpp" line="555"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Tem que reiniciar a aplicação para aplicar as alterações.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="573"/>
+        <location filename="../../pref.cpp" line="574"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Tem que reabrir esta janela para aplicar as alterações.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1387"/>
+        <location filename="../../pref.cpp" line="1396"/>
         <source>&amp;Recently Opened</source>
         <translation>Abertos &amp;recentemente</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1388"/>
+        <location filename="../../pref.cpp" line="1397"/>
         <source>Recently &amp;Modified</source>
         <translation>&amp;Modificados recentemente</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1463"/>
+        <location filename="../../pref.cpp" line="1472"/>
         <source>The typed shortcut was reserved.</source>
         <translation>O atalho introduzido já está reservado.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1667"/>
+        <location filename="../../pref.cpp" line="1676"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>Arquivos do Dicionário Hunspell (* .dic)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="441"/>
-        <location filename="../../pref.cpp" line="1753"/>
+        <location filename="../../pref.cpp" line="442"/>
+        <location filename="../../pref.cpp" line="1762"/>
         <source>Select Syntax Color</source>
         <translation type="unfinished"></translation>
     </message>

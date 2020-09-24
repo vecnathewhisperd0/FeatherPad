@@ -1881,7 +1881,7 @@ name but ending with &quot;.aff&quot;.</source>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="913"/>
-        <location filename="../../pref.cpp" line="1665"/>
+        <location filename="../../pref.cpp" line="1674"/>
         <source>Add dictionary...</source>
         <translation>Ajouter un dictionnaire...</translation>
     </message>
@@ -2039,19 +2039,19 @@ in the editing mode.</source>
     </message>
     <message>
         <location filename="../../pref.cpp" line="295"/>
-        <location filename="../../pref.cpp" line="1361"/>
+        <location filename="../../pref.cpp" line="1370"/>
         <source>files</source>
         <translation>fichiers</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="295"/>
-        <location filename="../../pref.cpp" line="1361"/>
+        <location filename="../../pref.cpp" line="1370"/>
         <source>file</source>
         <translation>fichier</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="348"/>
-        <location filename="../../pref.cpp" line="1480"/>
+        <location filename="../../pref.cpp" line="1489"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Attention: raccourci ambigu détecté !</translation>
     </message>
@@ -2111,38 +2111,38 @@ in the editing mode.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="554"/>
+        <location filename="../../pref.cpp" line="555"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Le redémarrage de l&apos;application est nécessaire pour valider les changements.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="573"/>
+        <location filename="../../pref.cpp" line="574"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>La réouverture de la fenêtre est nécessaire pour valider les changements.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1387"/>
+        <location filename="../../pref.cpp" line="1396"/>
         <source>&amp;Recently Opened</source>
         <translation>&amp;Récemment ouvert</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1388"/>
+        <location filename="../../pref.cpp" line="1397"/>
         <source>Recently &amp;Modified</source>
         <translation>Récemment &amp;Modifié</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1463"/>
+        <location filename="../../pref.cpp" line="1472"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Le raccourci entré est déjà réservé.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1667"/>
+        <location filename="../../pref.cpp" line="1676"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>Fichier(s) de dictionnaire(s) Hunspell (*.dic)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="441"/>
-        <location filename="../../pref.cpp" line="1753"/>
+        <location filename="../../pref.cpp" line="442"/>
+        <location filename="../../pref.cpp" line="1762"/>
         <source>Select Syntax Color</source>
         <translation type="unfinished"></translation>
     </message>

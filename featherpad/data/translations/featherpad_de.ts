@@ -1882,7 +1882,7 @@ endet und sich neben einer Affix-Datei mit demselben Namen befinden sollte,
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="913"/>
-        <location filename="../../pref.cpp" line="1665"/>
+        <location filename="../../pref.cpp" line="1674"/>
         <source>Add dictionary...</source>
         <translation>Wörterbuch &amp;hinzufügen ...</translation>
     </message>
@@ -2042,19 +2042,19 @@ in the editing mode.</source>
     </message>
     <message>
         <location filename="../../pref.cpp" line="295"/>
-        <location filename="../../pref.cpp" line="1361"/>
+        <location filename="../../pref.cpp" line="1370"/>
         <source>files</source>
         <translation>Dateien</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="295"/>
-        <location filename="../../pref.cpp" line="1361"/>
+        <location filename="../../pref.cpp" line="1370"/>
         <source>file</source>
         <translation>Datei</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="348"/>
-        <location filename="../../pref.cpp" line="1480"/>
+        <location filename="../../pref.cpp" line="1489"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Warnung: Mehrdeutiger Tastatur-Kurzbefehl erkannt!</translation>
     </message>
@@ -2114,38 +2114,38 @@ in the editing mode.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="554"/>
+        <location filename="../../pref.cpp" line="555"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Neustart der Anwendung, notwendig um wirksam zu werden.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="573"/>
+        <location filename="../../pref.cpp" line="574"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Neustart des Fensters notwendig, um wirksam zu werden.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1387"/>
+        <location filename="../../pref.cpp" line="1396"/>
         <source>&amp;Recently Opened</source>
         <translation>&amp;Kürzlich geöffnete</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1388"/>
+        <location filename="../../pref.cpp" line="1397"/>
         <source>Recently &amp;Modified</source>
         <translation>Kürzlich &amp;bearbeitete</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1463"/>
+        <location filename="../../pref.cpp" line="1472"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Der eingegebene Tastatur-Kurzbefehl war reserviert.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1667"/>
+        <location filename="../../pref.cpp" line="1676"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>Hunspell Wörterbuchdateien (*.dic)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="441"/>
-        <location filename="../../pref.cpp" line="1753"/>
+        <location filename="../../pref.cpp" line="442"/>
+        <location filename="../../pref.cpp" line="1762"/>
         <source>Select Syntax Color</source>
         <translation type="unfinished"></translation>
     </message>
