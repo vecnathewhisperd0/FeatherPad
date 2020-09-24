@@ -551,11 +551,21 @@ public:
     int getMaxWhiteSpaceValue() const {
         return darkColScheme_ ? 140 : 230;
     }
-
     int getWhiteSpaceValue() const {
         return whiteSpaceValue_;
     }
     void setWhiteSpaceValue (int value);
+
+    int getCurLineHighlight() const {
+        return curLineHighlight_;
+    }
+    int getMinCurLineHighlight() const {
+        return darkColScheme_ ? 0 : 210;
+    }
+    int getMaxCurLineHighlight() const {
+        return darkColScheme_ ? 70 : 255;
+    }
+    void setCurLineHighlight (int value);
 
     void readSyntaxColors();
 
@@ -622,7 +632,7 @@ private:
     bool spellCheckFromStart_;
 
     QHash<QString, QColor> defaultLightSyntaxColors_, defaultDarkSyntaxColors_, customSyntaxColors_;
-    int whiteSpaceValue_;
+    int whiteSpaceValue_, curLineHighlight_;
 };
 
 }

@@ -81,7 +81,8 @@ Config::Config():
     saveLastFilesList_ (false),
     cursorPosRetrieved_ (false),
     spellCheckFromStart_ (false),
-    whiteSpaceValue_ (180) {}
+    whiteSpaceValue_ (180),
+    curLineHighlight_ (-1) {}
 /*************************/
 Config::~Config() {}
 /*************************/
@@ -353,6 +354,17 @@ void Config::readSyntaxColors()// may be called multiple times
     Settings tmp ("featherpad", darkColScheme_ ? "fp_dark_syntax_colors" : "fp_light_syntax_colors");
     Settings settingsColors (tmp.fileName(), QSettings::NativeFormat);
 
+    settingsColors.beginGroup ("curLineHighlight");
+    curLineHighlight_ = qBound (-1, settingsColors.value ("value", -1).toInt(), 255);
+    settingsColors.endGroup();
+    if (curLineHighlight_ >= 0
+        && (darkColScheme_ ? curLineHighlight_ > 70
+                           : curLineHighlight_ < 210))
+    {
+        curLineHighlight_ = -1;
+    }
+
+
     settingsColors.beginGroup ("whiteSpace");
     int ws = settingsColors.value ("value").toInt();
     settingsColors.endGroup();
@@ -564,9 +576,10 @@ void Config::writeSyntaxColors()
 
     if (customSyntaxColors_.isEmpty())
     { // avoid redundant writing as far as possible
-        if (whiteSpaceValue_ != getDefaultWhiteSpaceValue())
+        if (whiteSpaceValue_ != getDefaultWhiteSpaceValue()
+            || curLineHighlight_ != -1)
         {
-            if (settingsColors.allKeys().size() > 1)
+            if (settingsColors.allKeys().size() > 2)
                 settingsColors.clear();
         }
         else
@@ -596,6 +609,10 @@ void Config::writeSyntaxColors()
     settingsColors.beginGroup ("whiteSpace");
     settingsColors.setValue ("value", whiteSpaceValue_);
     settingsColors.endGroup();
+
+    settingsColors.beginGroup ("curLineHighlight");
+    settingsColors.setValue ("value", curLineHighlight_);
+    settingsColors.endGroup();
 }
 /*************************/
 void Config::setWhiteSpaceValue (int value)
@@ -619,6 +636,14 @@ void Config::setWhiteSpaceValue (int value)
         ws = QColor (r, r, r);
     }
     whiteSpaceValue_ = ws.red();
+}
+/*************************/
+void Config::setCurLineHighlight (int value)
+{
+    if (value < getMinCurLineHighlight() || value > getMaxCurLineHighlight())
+        curLineHighlight_ = -1;
+    else
+        curLineHighlight_ = value;
 }
 /*************************/
 void Config::addRecentFile (const QString& file)

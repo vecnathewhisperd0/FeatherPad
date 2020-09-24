@@ -120,6 +120,7 @@ private slots:
     void changeSyntaxColor (int row, int column);
     void changeWhitespaceValue (int value);
     void restoreDefaultSyntaxColors();
+    void changeCurLineHighlight (int value);
 
 private:
     void closeEvent (QCloseEvent *event);
@@ -136,11 +137,12 @@ private:
     Ui::PrefDialog *ui;
     QWidget * parent_;
     bool darkBg_, showWhiteSpace_, showEndings_, saveUnmodified_, sharedSearchHistory_, selHighlighting_, pastePaths_;
-    int vLineDistance_, darkColValue_, lightColValue_, recentNumber_, textTabSize_;
+    int vLineDistance_, darkColValue_, lightColValue_, recentNumber_, textTabSize_, whiteSpaceValue_, curLineHighlight_;
     QHash<QString, QString> shortcuts_, newShortcuts_;
     QString prevtMsg_;
     QTimer *promptTimer_;
     QHash<QString, QColor> prefCustomSyntaxColors_; // customization in Preferences
+    QHash<QString, QColor> origSyntaxColors_; // to know if a syntax color is really changed
 };
 
 }

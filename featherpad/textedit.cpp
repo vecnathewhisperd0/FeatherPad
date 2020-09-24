@@ -72,9 +72,6 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     if (bgColorValue < 230)
     {
         darkValue_ = bgColorValue;
-        /* a quadratic equation for bgColorValue -> opacity: 0 -> 20,  27 -> 8, 50 -> 2 */
-        int opacity = qBound (1, qRound (static_cast<qreal>(bgColorValue * (19 * bgColorValue - 2813)) / static_cast<qreal>(5175)) + 20, 30);
-        lineHColor_ = QColor (255, 255, 255, opacity);
         viewport()->setStyleSheet (QString (".QWidget {"
                                             "color: white;"
                                             "background-color: rgb(%1, %1, %1);}")
@@ -100,7 +97,6 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     else
     {
         darkValue_ = -1;
-        lineHColor_ = QColor (0, 0, 0, 4);
         viewport()->setStyleSheet (QString (".QWidget {"
                                             "color: black;"
                                             "background-color: rgb(%1, %1, %1);}")
@@ -124,6 +120,7 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
         }
     }
     bgColorValue_ = bgColorValue;
+    setCurLineHighlight (-1);
 
     resizeTimerId_ = 0;
     updateTimerId_ = 0;
@@ -162,6 +159,21 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     connect (this, &QPlainTextEdit::selectionChanged, this, &TextEdit::onSelectionChanged);
 
     setContextMenuPolicy (Qt::CustomContextMenu);
+}
+/*************************/
+void TextEdit::setCurLineHighlight (int value)
+{
+    if (value >= 0 && value <= 255)
+        lineHColor_ = QColor (value, value, value);
+    else if (darkValue_ == -1)
+        lineHColor_ = QColor (0, 0, 0, 4);
+    else
+    {
+        /* a quadratic equation for darkValue_ -> opacity: 0 -> 20,  27 -> 8, 50 -> 2 */
+        int opacity = qBound (1, qRound (static_cast<qreal>(darkValue_ * (19 * darkValue_ - 2813)) / static_cast<qreal>(5175)) + 20, 30);
+        lineHColor_ = QColor (255, 255, 255, opacity);
+
+    }
 }
 /*************************/
 bool TextEdit::eventFilter (QObject *watched, QEvent *event)
@@ -1614,7 +1626,7 @@ void TextEdit::paintEvent (QPaintEvent *event)
                 fillBackground (&painter, contentsRect, bg);
             }
 
-            if (opt.flags() & QTextOption::ShowLineAndParagraphSeparators)
+            if (lineNumberArea_->isVisible() && (opt.flags() & QTextOption::ShowLineAndParagraphSeparators))
             {
                 /* "QTextFormat::FullWidthSelection" isn't respected when new-lines are shown.
                    This is a workaround. */

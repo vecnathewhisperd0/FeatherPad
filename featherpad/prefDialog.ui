@@ -1369,7 +1369,47 @@ be opened if they are pasted into FeatherPad.</string>
          </item>
         </layout>
        </item>
-       <item row="2" column="0" alignment="Qt::AlignRight">
+       <item row="2" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_17">
+         <property name="spacing">
+          <number>5</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="curLineLabel">
+           <property name="toolTip">
+            <string>Has effect only if line numbers are shown.</string>
+           </property>
+           <property name="text">
+            <string>Current line highlight value:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="curLineSpin">
+           <property name="toolTip">
+            <string>Has effect only if line numbers are shown.</string>
+           </property>
+           <property name="specialValueText">
+            <string>Default</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_17">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>5</width>
+             <height>5</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item row="3" column="0" alignment="Qt::AlignRight">
         <widget class="QPushButton" name="defaultSyntaxButton">
          <property name="toolTip">
           <string>Restore default syntax colors.</string>

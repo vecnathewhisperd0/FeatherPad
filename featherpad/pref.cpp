@@ -112,6 +112,8 @@ PrefDialog::PrefDialog (QWidget *parent)
     sharedSearchHistory_ = config.getSharedSearchHistory();
     selHighlighting_ = config.getSelectionHighlighting();
     pastePaths_ = config.getPastePaths();
+    whiteSpaceValue_ = config.getWhiteSpaceValue();
+    curLineHighlight_ = config.getCurLineHighlight();
 
     /**************
      *** Window ***
@@ -390,13 +392,13 @@ PrefDialog::PrefDialog (QWidget *parent)
     }
 
     ui->syntaxTableWidget->setSortingEnabled (false);
-    auto syntaxColors = !config.customSyntaxColors().isEmpty() ? config.customSyntaxColors()
+    origSyntaxColors_ = !config.customSyntaxColors().isEmpty() ? config.customSyntaxColors()
                                                                : config.getDarkColScheme() ? config.darkSyntaxColors()
                                                                                            : config.lightSyntaxColors();
-    ui->syntaxTableWidget->setRowCount (syntaxColors.size());
+    ui->syntaxTableWidget->setRowCount (origSyntaxColors_.size());
     index = 0;
-    QHash<QString, QColor>::const_iterator sIter = syntaxColors.constBegin();
-    while (sIter != syntaxColors.constEnd())
+    QHash<QString, QColor>::const_iterator sIter = origSyntaxColors_.constBegin();
+    while (sIter != origSyntaxColors_.constEnd())
     {
         QTableWidgetItem *item = new QTableWidgetItem (syntaxNames.value (sIter.key()));
         item->setData (Qt::UserRole, sIter.key()); // remember syntax independently of translations
@@ -424,11 +426,12 @@ PrefDialog::PrefDialog (QWidget *parent)
     connect (ui->syntaxTableWidget, &QTableWidget::cellDoubleClicked, this, &PrefDialog::changeSyntaxColor);
     ui->whiteSpaceSpin->setMinimum (config.getMinWhiteSpaceValue());
     ui->whiteSpaceSpin->setMaximum (config.getMaxWhiteSpaceValue());
-    ui->whiteSpaceSpin->setValue (config.getWhiteSpaceValue());
+    ui->whiteSpaceSpin->setValue (whiteSpaceValue_);
     connect (ui->whiteSpaceSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::changeWhitespaceValue);
     connect (ui->defaultSyntaxButton, &QAbstractButton::clicked, this, &PrefDialog::restoreDefaultSyntaxColors);
     ui->defaultSyntaxButton->setDisabled (config.customSyntaxColors().isEmpty()
-                                          && config.getWhiteSpaceValue() == config.getDefaultWhiteSpaceValue());
+                                          && whiteSpaceValue_ == config.getDefaultWhiteSpaceValue()
+                                          && curLineHighlight_ == -1);
     /* also, context menus for changing syntax colors */
     ui->syntaxTableWidget->setContextMenuPolicy (Qt::CustomContextMenu);
     connect (ui->syntaxTableWidget, &QWidget::customContextMenuRequested, [this] (const QPoint& p) {
@@ -441,6 +444,13 @@ PrefDialog::PrefDialog (QWidget *parent)
         });
         menu.exec (ui->syntaxTableWidget->viewport()->mapToGlobal (p));
     });
+
+    /* this isn't about syntax but comes here because
+       it has different values for light and dark color schemes */
+    ui->curLineSpin->setMinimum (config.getMinCurLineHighlight() - 1); // for the special text
+    ui->curLineSpin->setMaximum (config.getMaxCurLineHighlight());
+    ui->curLineSpin->setValue (curLineHighlight_);
+    connect (ui->curLineSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::changeCurLineHighlight);
 
     /*************
      *** Other ***
@@ -551,7 +561,14 @@ void PrefDialog::showPrompt (const QString& str, bool temporary)
              || showEndings_ != config.getShowEndings()
              || textTabSize_ != config.getTextTabSize()
              || (vLineDistance_ * config.getVLineDistance() < 0
-                 || (vLineDistance_ > 0 && vLineDistance_ != config.getVLineDistance())))
+                 || (vLineDistance_ > 0 && vLineDistance_ != config.getVLineDistance()))
+             || whiteSpaceValue_ != config.getWhiteSpaceValue()
+             || curLineHighlight_ != config.getCurLineHighlight()
+             || origSyntaxColors_ != (!config.customSyntaxColors().isEmpty()
+                                          ? config.customSyntaxColors()
+                                          : config.getDarkColScheme()
+                                                ? config.darkSyntaxColors()
+                                                : config.lightSyntaxColors()))
     {
         ui->promptLabel->setText ("<b>" + tr ("Window reopening is needed for changes to take effect.") + "</b>");
         ui->promptLabel->setStyleSheet (style);
@@ -1053,7 +1070,8 @@ void PrefDialog::prefDarkColScheme (int checked)
     config.readSyntaxColors();
     /* update the state of default button */
     ui->defaultSyntaxButton->setEnabled (!config.customSyntaxColors().isEmpty()
-                                         || config.getWhiteSpaceValue() != config.getDefaultWhiteSpaceValue());
+                                         || config.getWhiteSpaceValue() != config.getDefaultWhiteSpaceValue()
+                                         || config.getCurLineHighlight() != -1);
     /* update row colors */
     for (int i = 0; i < ui->syntaxTableWidget->rowCount(); ++i)
     {
@@ -1089,6 +1107,13 @@ void PrefDialog::prefDarkColScheme (int checked)
     ui->whiteSpaceSpin->setMaximum (config.getMaxWhiteSpaceValue());
     ui->whiteSpaceSpin->setValue (config.getWhiteSpaceValue());
     connect (ui->whiteSpaceSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::changeWhitespaceValue);
+
+    /* also, update current line spin box */
+    disconnect (ui->curLineSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::changeCurLineHighlight);
+    ui->curLineSpin->setMinimum (config.getMinCurLineHighlight() - 1);
+    ui->curLineSpin->setMaximum (config.getMaxCurLineHighlight());
+    ui->curLineSpin->setValue (config.getCurLineHighlight());
+    connect (ui->curLineSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::changeCurLineHighlight);
 }
 /*************************/
 void PrefDialog::prefColValue (int value)
@@ -1675,6 +1700,7 @@ void PrefDialog::restoreDefaultSyntaxColors()
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
     config.setCustomSyntaxColors (prefCustomSyntaxColors_);
     config.setWhiteSpaceValue (config.getDefaultWhiteSpaceValue());
+    config.setCurLineHighlight (-1);
     /* update row colors */
     for (int i = 0; i < ui->syntaxTableWidget->rowCount(); ++i)
     {
@@ -1703,6 +1729,13 @@ void PrefDialog::restoreDefaultSyntaxColors()
     disconnect (ui->whiteSpaceSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::changeWhitespaceValue);
     ui->whiteSpaceSpin->setValue (config.getWhiteSpaceValue());
     connect (ui->whiteSpaceSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::changeWhitespaceValue);
+
+    /* also, update current line bg value */
+    disconnect (ui->curLineSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::changeCurLineHighlight);
+    ui->curLineSpin->setValue (config.getMinCurLineHighlight() - 1);
+    connect (ui->curLineSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::changeCurLineHighlight);
+
+    showPrompt();
 }
 /*************************/
 void PrefDialog::changeSyntaxColor (int row, int column)
@@ -1759,11 +1792,13 @@ void PrefDialog::changeSyntaxColor (int row, int column)
                                                    : config.lightSyntaxColors())) // no customization
                     {
                         prefCustomSyntaxColors_.clear();
-                        ui->defaultSyntaxButton->setEnabled (config.getWhiteSpaceValue() != config.getDefaultWhiteSpaceValue());
+                        ui->defaultSyntaxButton->setEnabled (config.getWhiteSpaceValue() != config.getDefaultWhiteSpaceValue()
+                                                             || config.getCurLineHighlight() != -1);
                     }
                     else
                         ui->defaultSyntaxButton->setEnabled (true);
                     config.setCustomSyntaxColors (prefCustomSyntaxColors_);
+                    showPrompt();
                 }
             }
         }
@@ -1775,7 +1810,19 @@ void PrefDialog::changeWhitespaceValue (int value)
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
     config.setWhiteSpaceValue (value); // takes care of repeated colors
     ui->defaultSyntaxButton->setEnabled (!config.customSyntaxColors().isEmpty()
-                                         || config.getWhiteSpaceValue() != config.getDefaultWhiteSpaceValue());
+                                         || config.getWhiteSpaceValue() != config.getDefaultWhiteSpaceValue()
+                                         || config.getCurLineHighlight() != -1);
+    showPrompt();
+}
+/*************************/
+void PrefDialog::changeCurLineHighlight (int value)
+{
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    config.setCurLineHighlight (value);
+    ui->defaultSyntaxButton->setEnabled (!config.customSyntaxColors().isEmpty()
+                                         || config.getWhiteSpaceValue() != config.getDefaultWhiteSpaceValue()
+                                         || config.getCurLineHighlight() != -1);
+    showPrompt();
 }
 
 }

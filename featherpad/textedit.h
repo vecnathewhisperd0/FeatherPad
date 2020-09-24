@@ -111,6 +111,8 @@ public:
         return darkValue_;
     }
 
+    void setCurLineHighlight (int value);
+
     void setScrollJumpWorkaround (bool apply){
         scrollJumpWorkaround_ = apply;
     }

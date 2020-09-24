@@ -1301,6 +1301,7 @@ TabPage* FPwin::createEmptyTab (bool setCurrent, bool allowNormalHighlighter)
     textEdit->setAutoBracket (config.getAutoBracket());
     textEdit->setScrollJumpWorkaround (config.getScrollJumpWorkaround());
     textEdit->setTtextTab (config.getTextTabSize());
+    textEdit->setCurLineHighlight (config.getCurLineHighlight());
     textEdit->setEditorFont (config.getFont());
     textEdit->setInertialScrolling (config.getInertialScrolling());
     textEdit->setDateFormat (config.getDateFormat());
