@@ -6,7 +6,7 @@ V0.16.0
  * Fixed the reattachment of the replacement dock to the top, which was disabled since "AllDockWidgetFeatures" became deprecated.
  * More intuitive sorting of items in the side-pane and session dialog by excluding identical extensions.
  * Added the current line highlight color to Preferences → Syntax Colors (although it isn't a syntax color, it needs to be different for light and dark color schemes).
- * Show the prompt label of Preference dialog when syntax colors are really changed by the user.
+ * Show the prompt label of Preference dialog when there is a change in the syntax colors.
 
 V0.15.0
 ---------

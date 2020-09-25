@@ -1064,6 +1064,9 @@ void PrefDialog::prefDarkColScheme (int checked)
     }
     connect (ui->colorValueSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::prefColValue);
 
+    /* There are different syntax color settings for light and dark color schemes.
+       So, the syntax colors should be read again. */
+    config.readSyntaxColors();
 
     /* these values should be reset before the prompt is shown */
     whiteSpaceValue_ = config.getWhiteSpaceValue();
@@ -1074,9 +1077,6 @@ void PrefDialog::prefDarkColScheme (int checked)
                                                         : config.lightSyntaxColors();
     showPrompt();
 
-    /* There are different syntax color settings for light and dark color schemes.
-       So, the syntax colors should be read again. */
-    config.readSyntaxColors();
     /* update the state of default button */
     ui->defaultSyntaxButton->setEnabled (!config.customSyntaxColors().isEmpty()
                                          || config.getWhiteSpaceValue() != config.getDefaultWhiteSpaceValue()
@@ -1170,7 +1170,7 @@ void PrefDialog::prefSelHighlight()
         for (int j = 0; j < count; ++j)
         {
             qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
-                    ->textEdit()->setSelectionHighlighting (selHighlighting);
+                ->textEdit()->setSelectionHighlighting (selHighlighting);
         }
     }
 }

@@ -1291,12 +1291,12 @@ TabPage* FPwin::createEmptyTab (bool setCurrent, bool allowNormalHighlighter)
     TabPage *tabPage = new TabPage (config.getDarkColScheme() ? config.getDarkBgColorValue()
                                                               : config.getLightBgColorValue(),
                                     searchShortcuts,
-                                    config.getSelectionHighlighting(),
-                                    config.getPastePaths(),
                                     nullptr);
     tabPage->setSearchModel (singleton->searchModel());
     TextEdit *textEdit = tabPage->textEdit();
     connect (textEdit, &QWidget::customContextMenuRequested, this, &FPwin::editorContextMenu);
+    textEdit->setSelectionHighlighting (config.getSelectionHighlighting());
+    textEdit->setPastePaths (config.getPastePaths());
     textEdit->setAutoReplace (config.getAutoReplace());
     textEdit->setAutoBracket (config.getAutoBracket());
     textEdit->setScrollJumpWorkaround (config.getScrollJumpWorkaround());

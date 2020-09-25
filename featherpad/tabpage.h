@@ -32,8 +32,6 @@ class TabPage : public QWidget
 public:
     TabPage (int bgColorValue = 255,
              const QList<QKeySequence>& searchShortcuts = QList<QKeySequence>(),
-             bool selectionHighlighting = false,
-             bool pastePaths = false,
              QWidget *parent = nullptr);
 
     QPointer<TextEdit> textEdit() const {
