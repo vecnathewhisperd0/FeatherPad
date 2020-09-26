@@ -1633,7 +1633,11 @@ void TextEdit::paintEvent (QPaintEvent *event)
                 QRectF contentsRect = r;
                 contentsRect.setWidth (qMax (r.width(), maximumWidth));
                 if (contentsRect.contains (cursorRect().center()))
+                {
+                    contentsRect.setTop (cursorRect().top());
+                    contentsRect.setBottom (cursorRect().bottom());
                     fillBackground (&painter, contentsRect, lineHColor_);
+                }
             }
 
             QVector<QTextLayout::FormatRange> selections;
