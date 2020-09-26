@@ -4626,6 +4626,16 @@ void FPwin::tabContextMenu (const QPoint& p)
                 newTabFromName (targetName, 0, 0);
             });
         }
+        if (QFile::exists (fname))
+        {
+            menu.addSeparator();
+            QAction *action = menu.addAction (symbolicIcon::icon (":icons/document-open.svg"), tr ("Open Containing Folder"));
+            connect (action, &QAction::triggered, this, [fname] {
+                QString folder = fname.section ("/", 0, -2);
+                if (!QProcess::startDetached ("gio", QStringList() << "open" << folder))
+                    QDesktopServices::openUrl (QUrl::fromLocalFile (folder));
+            });
+        }
     }
     if (showMenu) // we don't want an empty menu
         menu.exec (tbar->mapToGlobal (p));
@@ -4696,6 +4706,16 @@ void FPwin::listContextMenu (const QPoint& p)
                     }
                 }
                 newTabFromName (targetName, 0, 0);
+            });
+        }
+        if (QFile::exists (fname))
+        {
+            menu.addSeparator();
+            QAction *action = menu.addAction (symbolicIcon::icon (":icons/document-open.svg"), tr ("Open Containing Folder"));
+            connect (action, &QAction::triggered, this, [fname] {
+                QString folder = fname.section ("/", 0, -2);
+                if (!QProcess::startDetached ("gio", QStringList() << "open" << folder))
+                    QDesktopServices::openUrl (QUrl::fromLocalFile (folder));
             });
         }
     }
