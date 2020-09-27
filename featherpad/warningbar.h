@@ -94,6 +94,9 @@ public:
         }
         else show();
 
+        /* auto-close after 10 seconds */
+        QTimer::singleShot (10000, this, &WarningBar::closeBar);
+
     }
 
     bool eventFilter (QObject *o, QEvent *e) {

@@ -9,6 +9,7 @@ V0.16.0
  * Show the prompt label of Preference dialog when there is a change in the syntax colors.
  * Added an item to tab context menu for opening containing folder.
  * Made the warning bar disappear when clicked and removed its close button.
+ * Close the warning bar after 10 seconds if the user doesn't close it.
 
 V0.15.0
 ---------
