@@ -2391,13 +2391,4 @@ fenêtres seront inclus dans la session sauvegardée.</translation>
         <translation>Double clic pour centrer la ligne utilisée</translation>
     </message>
 </context>
-<context>
-    <name>FeatherPad::WarningBar</name>
-    <message>
-        <location filename="../../warningbar.h" line="78"/>
-        <location filename="../../warningbar.h" line="83"/>
-        <source>Close</source>
-        <translation>Fermer</translation>
-    </message>
-</context>
 </TS>

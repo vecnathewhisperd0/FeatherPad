@@ -2395,13 +2395,4 @@ inclusi nella sessione salvata.</translation>
         <translation>Fare doppio clic per centrare la linea corrente</translation>
     </message>
 </context>
-<context>
-    <name>FeatherPad::WarningBar</name>
-    <message>
-        <location filename="../../warningbar.h" line="78"/>
-        <location filename="../../warningbar.h" line="83"/>
-        <source>Close</source>
-        <translation>Chiudi</translation>
-    </message>
-</context>
 </TS>

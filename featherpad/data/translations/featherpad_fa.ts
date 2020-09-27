@@ -951,7 +951,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="2412"/>
         <source>Uneditable file(s)!</source>
-        <translation>فايل(ها) ويرايش‌ناپذير!</translation>
+        <translation>فايل(های) ويرايش‌ناپذير!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2413"/>
@@ -2365,15 +2365,6 @@ windows will be included in the saved session.</source>
         <location filename="../../textedit.cpp" line="149"/>
         <source>Double click to center current line</source>
         <translation>کليک دوگانه برای نشان دادن خط جاری</translation>
-    </message>
-</context>
-<context>
-    <name>FeatherPad::WarningBar</name>
-    <message>
-        <location filename="../../warningbar.h" line="78"/>
-        <location filename="../../warningbar.h" line="83"/>
-        <source>Close</source>
-        <translation>بستن</translation>
     </message>
 </context>
 </TS>

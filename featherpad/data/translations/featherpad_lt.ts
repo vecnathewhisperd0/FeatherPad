@@ -2393,13 +2393,4 @@ bus įtraukti į įrašytą seansą.</translation>
         <translation>Spustelėkite du kartus, norėdami centruoti esamą eilutę</translation>
     </message>
 </context>
-<context>
-    <name>FeatherPad::WarningBar</name>
-    <message>
-        <location filename="../../warningbar.h" line="78"/>
-        <location filename="../../warningbar.h" line="83"/>
-        <source>Close</source>
-        <translation>Užverti</translation>
-    </message>
-</context>
 </TS>

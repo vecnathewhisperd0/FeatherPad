@@ -2393,13 +2393,4 @@ in de opgeslagen sessie.</translation>
         <translation>Dubbelklik om de huidige regel te centreren</translation>
     </message>
 </context>
-<context>
-    <name>FeatherPad::WarningBar</name>
-    <message>
-        <location filename="../../warningbar.h" line="78"/>
-        <location filename="../../warningbar.h" line="83"/>
-        <source>Close</source>
-        <translation>Sluiten</translation>
-    </message>
-</context>
 </TS>

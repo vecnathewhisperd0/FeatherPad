@@ -586,7 +586,7 @@ void FPwin::applyConfigOnStarting()
     ui->actionReload->setIcon (symbolicIcon::icon (":icons/view-refresh.svg"));
     ui->actionFind->setIcon (symbolicIcon::icon (":icons/edit-find.svg"));
     ui->actionReplace->setIcon (symbolicIcon::icon (":icons/edit-find-replace.svg"));
-    ui->actionClose->setIcon (QIcon (":icons/window-close.svg"));
+    ui->actionClose->setIcon (symbolicIcon::icon (":icons/window-close.svg"));
     ui->actionQuit->setIcon (symbolicIcon::icon (":icons/application-exit.svg"));
     ui->actionFont->setIcon (symbolicIcon::icon (":icons/preferences-desktop-font.svg"));
     ui->actionPreferences->setIcon (symbolicIcon::icon (":icons/preferences-system.svg"));

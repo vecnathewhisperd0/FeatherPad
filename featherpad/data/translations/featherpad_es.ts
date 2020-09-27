@@ -2402,13 +2402,4 @@ en las ventanas se incluirán en la sesión guardada.</translation>
         <translation>Haga doble clic para centrar la línea actual</translation>
     </message>
 </context>
-<context>
-    <name>FeatherPad::WarningBar</name>
-    <message>
-        <location filename="../../warningbar.h" line="78"/>
-        <location filename="../../warningbar.h" line="83"/>
-        <source>Close</source>
-        <translation>Cerrar</translation>
-    </message>
-</context>
 </TS>

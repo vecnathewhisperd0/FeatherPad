@@ -2362,13 +2362,4 @@ windows will be included in the saved session.</source>
         <translation>双击以居中当前行</translation>
     </message>
 </context>
-<context>
-    <name>FeatherPad::WarningBar</name>
-    <message>
-        <location filename="../../warningbar.h" line="78"/>
-        <location filename="../../warningbar.h" line="83"/>
-        <source>Close</source>
-        <translation>关闭</translation>
-    </message>
-</context>
 </TS>

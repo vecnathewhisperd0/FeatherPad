@@ -2394,13 +2394,4 @@ in die gespeicherte Sitzung eingeschlossen.</translation>
         <translation>Doppel-Klick um die aktuelle Zeile zu zentreieren</translation>
     </message>
 </context>
-<context>
-    <name>FeatherPad::WarningBar</name>
-    <message>
-        <location filename="../../warningbar.h" line="78"/>
-        <location filename="../../warningbar.h" line="83"/>
-        <source>Close</source>
-        <translation>Schließen</translation>
-    </message>
-</context>
 </TS>

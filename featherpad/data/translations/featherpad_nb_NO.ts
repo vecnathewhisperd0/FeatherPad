@@ -2390,13 +2390,4 @@ i alle vinduer, i den lagrede økten.</translation>
         <translation>Dobbeltklikk for å midtstille gjeldende linje</translation>
     </message>
 </context>
-<context>
-    <name>FeatherPad::WarningBar</name>
-    <message>
-        <location filename="../../warningbar.h" line="78"/>
-        <location filename="../../warningbar.h" line="83"/>
-        <source>Close</source>
-        <translation>Lukk</translation>
-    </message>
-</context>
 </TS>

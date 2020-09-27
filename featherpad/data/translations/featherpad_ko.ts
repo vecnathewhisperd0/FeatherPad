@@ -2330,13 +2330,4 @@ windows will be included in the saved session.</source>
         <translation type="unfinished">현재 줄을 가운데로 이동하기 위해 더블 클릭</translation>
     </message>
 </context>
-<context>
-    <name>FeatherPad::WarningBar</name>
-    <message>
-        <location filename="../../warningbar.h" line="78"/>
-        <location filename="../../warningbar.h" line="83"/>
-        <source>Close</source>
-        <translation>닫기</translation>
-    </message>
-</context>
 </TS>

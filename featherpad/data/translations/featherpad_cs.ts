@@ -2397,13 +2397,4 @@ zahrnuty všechny v oknech otevřené soubory.</translation>
         <translation>Dvojklikem stávající řádek vystředíte</translation>
     </message>
 </context>
-<context>
-    <name>FeatherPad::WarningBar</name>
-    <message>
-        <location filename="../../warningbar.h" line="78"/>
-        <location filename="../../warningbar.h" line="83"/>
-        <source>Close</source>
-        <translation>Zavřít</translation>
-    </message>
-</context>
 </TS>

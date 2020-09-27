@@ -2336,13 +2336,4 @@ abertos serão incluídos na sessão guardada.</translation>
         <translation>Duplo clique para centrar a linha atual</translation>
     </message>
 </context>
-<context>
-    <name>FeatherPad::WarningBar</name>
-    <message>
-        <location filename="../../warningbar.h" line="78"/>
-        <location filename="../../warningbar.h" line="83"/>
-        <source>Close</source>
-        <translation>Fechar</translation>
-    </message>
-</context>
 </TS>

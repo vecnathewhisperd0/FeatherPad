@@ -8,6 +8,7 @@ V0.16.0
  * Added the current line highlight color to Preferences → Syntax Colors (although it isn't a syntax color, it needs to be different for light and dark color schemes).
  * Show the prompt label of Preference dialog when there is a change in the syntax colors.
  * Added an item to tab context menu for opening containing folder.
+ * Made the warning bar disappear when clicked and removed its close button.
 
 V0.15.0
 ---------

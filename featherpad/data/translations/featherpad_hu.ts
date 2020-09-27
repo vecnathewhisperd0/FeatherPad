@@ -2390,13 +2390,4 @@ windows will be included in the saved session.</source>
         <translation>Dupla kattintás, hogy a legutóbbi sor középre kerüljön</translation>
     </message>
 </context>
-<context>
-    <name>FeatherPad::WarningBar</name>
-    <message>
-        <location filename="../../warningbar.h" line="78"/>
-        <location filename="../../warningbar.h" line="83"/>
-        <source>Close</source>
-        <translation>Bezárás</translation>
-    </message>
-</context>
 </TS>

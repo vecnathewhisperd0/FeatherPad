@@ -2390,13 +2390,4 @@ windows will be included in the saved session.</source>
         <translation>ダブルクリックすると現在の行を中央に表示します</translation>
     </message>
 </context>
-<context>
-    <name>FeatherPad::WarningBar</name>
-    <message>
-        <location filename="../../warningbar.h" line="78"/>
-        <location filename="../../warningbar.h" line="83"/>
-        <source>Close</source>
-        <translation>閉じる</translation>
-    </message>
-</context>
 </TS>

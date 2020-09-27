@@ -22,11 +22,11 @@
 
 #include <QPointer>
 #include <QEvent>
+#include <QMouseEvent>
 #include <QTimer>
 #include <QGridLayout>
 #include <QPalette>
 #include <QLabel>
-#include <QToolButton>
 #include <QPropertyAnimation>
 
 #define DURATION 150
@@ -64,30 +64,15 @@ public:
         setPalette (p);
 
         grid_ = new QGridLayout;
-        grid_->setSpacing (5);
-        if (layoutDirection() == Qt::RightToLeft)
-            grid_->setContentsMargins (0, 0, 5 ,5);
-        else
-            grid_->setContentsMargins (5, 0, 0 ,5); // the top margin is added when setting the geometry
+        grid_->setContentsMargins (5, 0, 5 ,5); // the top margin is added when setting the geometry
         /* use a spacer to compress the label vertically */
         QSpacerItem *spacer = new QSpacerItem (0, 0, QSizePolicy::Minimum, QSizePolicy::MinimumExpanding);
         grid_->addItem (spacer, 0, 0);
-        /* add a close button */
-        QToolButton *b = new QToolButton;
-        b->setAutoRaise (true);
-        b->setText (tr ("Close"));
-
-        b->setToolButtonStyle (Qt::ToolButtonIconOnly);
-        b->setIconSize (QSize (16, 16));
-        b->setIcon (QIcon (":icons/window-close.svg"));
-        b->setToolTip (tr ("Close"));
-
-        connect (b, &QAbstractButton::clicked, this, &WarningBar::closeBar);
         /* add the label */
         QLabel *warningLabel = new QLabel (message);
+        warningLabel->setAttribute (Qt::WA_TransparentForMouseEvents, true); // not needed
         warningLabel->setWordWrap (true);
         grid_->addWidget (warningLabel, 1, 0);
-        grid_->addWidget (b, 1, 1);
         setLayout (grid_);
 
         if (parent)
@@ -134,7 +119,7 @@ public:
         return isClosing_;
     }
 
- public slots:
+public slots:
     void closeBar() {
         if (animation_ && parentWidget())
         {
@@ -150,6 +135,12 @@ public:
             }
         }
         else delete this;
+    }
+
+protected:
+    void mousePressEvent (QMouseEvent *event) {
+        QWidget::mousePressEvent (event);
+        QTimer::singleShot (0, this, &WarningBar::closeBar);
     }
 
 private:

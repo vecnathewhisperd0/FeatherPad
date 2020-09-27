@@ -2401,13 +2401,4 @@ dosyalar kaydedilen oturuma dahil edilir.</translation>
         <translation>Bulunulan satırı ortalamak için çift tıklayın</translation>
     </message>
 </context>
-<context>
-    <name>FeatherPad::WarningBar</name>
-    <message>
-        <location filename="../../warningbar.h" line="78"/>
-        <location filename="../../warningbar.h" line="83"/>
-        <source>Close</source>
-        <translation>Kapat</translation>
-    </message>
-</context>
 </TS>

@@ -2383,13 +2383,4 @@ oknach zostaną uwzględnione w zapisanej sesji.</translation>
         <translation>Naciśnij dwukrotnie, aby wyśrodkować obecny wiersz</translation>
     </message>
 </context>
-<context>
-    <name>FeatherPad::WarningBar</name>
-    <message>
-        <location filename="../../warningbar.h" line="78"/>
-        <location filename="../../warningbar.h" line="83"/>
-        <source>Close</source>
-        <translation>Zamknij</translation>
-    </message>
-</context>
 </TS>
