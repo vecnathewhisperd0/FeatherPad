@@ -2068,7 +2068,10 @@ void TextEdit::sortLines (bool reverse)
     cursor.movePosition (QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
 
     QStringList lines = cursor.selectedText().split (QChar (QChar::ParagraphSeparator));
-    lines.sort();
+    /* QStringList::sort() is not aware of the locale */
+    std::sort (lines.begin(), lines.end(), [](const QString &a, const QString &b) {
+        return QString::localeAwareCompare (a, b) < 0;
+    });
     int n = lines.size();
     if (reverse)
     {

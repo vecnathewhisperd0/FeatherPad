@@ -9,6 +9,7 @@ V0.16.0
  * Added an item to tab context menu for opening containing folder.
  * Made the warning bar disappear when clicked and removed its close button.
  * Close the warning bar after 10 seconds if the user doesn't close it.
+ * Consider the current locale when sorting lines.
 
 V0.15.0
 ---------
