@@ -49,12 +49,7 @@ SessionDialog::SessionDialog (QWidget *parent):QDialog (parent), ui (new Ui::Ses
     settings.endGroup();
     if (allItems_.count() > 0)
     {
-        /* use ListWidgetItem to add items with a natural sorting */
-        for (const auto &irem : qAsConst (allItems_))
-        {
-            ListWidgetItem *lwi = new ListWidgetItem (irem, ui->listWidget);
-            ui->listWidget->addItem (lwi);
-        }
+        ui->listWidget->addItems (allItems_);
         ui->listWidget->setCurrentRow (0);
         QTimer::singleShot (0, ui->listWidget, QOverload<>::of(&QWidget::setFocus));
     }
@@ -225,10 +220,7 @@ void SessionDialog::reallySaveSession()
     allItems_.removeDuplicates();
     QRegularExpression exp (ui->filterLineEdit->text(), QRegularExpression::CaseInsensitiveOption);
     if (allItems_.filter (exp).contains (ui->lineEdit->text()))
-    {
-        ListWidgetItem *lwi = new ListWidgetItem (ui->lineEdit->text(), ui->listWidget);
-        ui->listWidget->addItem (lwi);
-    }
+        ui->listWidget->addItem (ui->lineEdit->text());
     onEmptinessChanged (false);
     QSettings settings ("featherpad", "fp");
     settings.beginGroup ("sessions");
@@ -519,12 +511,8 @@ void SessionDialog::reallyApplyFilter()
     /* then, clear the current list and add the filtered one */
     ui->listWidget->clear();
     QRegularExpression exp (ui->filterLineEdit->text(), QRegularExpression::CaseInsensitiveOption);
-    const QStringList filtered = allItems_.filter (exp);
-    for (const auto &irem : filtered)
-    {
-        ListWidgetItem *lwi = new ListWidgetItem (irem, ui->listWidget);
-        ui->listWidget->addItem (lwi);
-    }
+    QStringList filtered = allItems_.filter (exp);
+    ui->listWidget->addItems (filtered);
     /* finally, restore the selection as far as possible */
     if (filtered.count() == 1)
         ui->listWidget->setCurrentRow (0);

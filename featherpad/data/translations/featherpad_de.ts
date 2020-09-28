@@ -2260,7 +2260,7 @@ in die gespeicherte Sitzung eingeschlossen.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="226"/>
-        <location filename="../../session.cpp" line="338"/>
+        <location filename="../../session.cpp" line="330"/>
         <source>&amp;Yes</source>
         <translation>&amp;Ja</translation>
     </message>
@@ -2300,42 +2300,42 @@ in die gespeicherte Sitzung eingeschlossen.</translation>
         <translation>Namen eingeben, um Sitzung zu speichern</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="179"/>
+        <location filename="../../session.cpp" line="174"/>
         <source>Nothing saved.&lt;br&gt;No file was opened.</source>
         <translation>Nichts gespeichert.&lt;b&gt;Keine Datei wurde geöffnet.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="275"/>
+        <location filename="../../session.cpp" line="267"/>
         <source>No file exists or can be opened.</source>
         <translation>Die Datei existiert nicht oder kann nicht geöffnet werden.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="281"/>
+        <location filename="../../session.cpp" line="273"/>
         <source>Not all files exist or can be opened.</source>
         <translation>Nicht alle Dateien existieren oder konnten geöffnet werden.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="324"/>
+        <location filename="../../session.cpp" line="316"/>
         <source>&amp;OK</source>
         <translation>&amp;OK</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="343"/>
+        <location filename="../../session.cpp" line="335"/>
         <source>Do you really want to remove all saved sessions?</source>
         <translation>Sollen wirklich alle gespeicherten Sitzungen entfernt werden?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="349"/>
+        <location filename="../../session.cpp" line="341"/>
         <source>Do you really want to remove the selected sessions?</source>
         <translation>Sollen die gewählten Sitzungen wirklich entfernt werden?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="351"/>
+        <location filename="../../session.cpp" line="343"/>
         <source>Do you really want to remove the selected session?</source>
         <translation>Soll die gewählte Sitzung wirklich entfernt werden?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="356"/>
+        <location filename="../../session.cpp" line="348"/>
         <source>A session with the same name exists.&lt;br&gt;Do you want to overwrite it?</source>
         <translation>Eine Sitzung mit dem selben Namen ist vorhanden.&lt;br&gt;Soll sie überschrieben werden?</translation>
     </message>
@@ -2343,7 +2343,7 @@ in die gespeicherte Sitzung eingeschlossen.</translation>
 <context>
     <name>FeatherPad::SidePane</name>
     <message>
-        <location filename="../../sidepane.cpp" line="122"/>
+        <location filename="../../sidepane.cpp" line="108"/>
         <source>Filter...</source>
         <translation>Filter...</translation>
     </message>

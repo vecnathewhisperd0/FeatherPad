@@ -2259,7 +2259,7 @@ bus įtraukti į įrašytą seansą.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="226"/>
-        <location filename="../../session.cpp" line="338"/>
+        <location filename="../../session.cpp" line="330"/>
         <source>&amp;Yes</source>
         <translation>&amp;Taip</translation>
     </message>
@@ -2299,42 +2299,42 @@ bus įtraukti į įrašytą seansą.</translation>
         <translation>Įrašykite pavadinimą, norėdami įrašyti seansą</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="179"/>
+        <location filename="../../session.cpp" line="174"/>
         <source>Nothing saved.&lt;br&gt;No file was opened.</source>
         <translation>Nieko neįrašyta.&lt;br&gt;Nebuvo atvertas joks failas.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="275"/>
+        <location filename="../../session.cpp" line="267"/>
         <source>No file exists or can be opened.</source>
         <translation>Negali būti atvertas arba nėra jokio failo.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="281"/>
+        <location filename="../../session.cpp" line="273"/>
         <source>Not all files exist or can be opened.</source>
         <translation>Ne visi failai yra arba gali būti atverti.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="324"/>
+        <location filename="../../session.cpp" line="316"/>
         <source>&amp;OK</source>
         <translation>&amp;Gerai</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="343"/>
+        <location filename="../../session.cpp" line="335"/>
         <source>Do you really want to remove all saved sessions?</source>
         <translation>Ar tikrai norite pašalinti visus įrašytus seansus?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="349"/>
+        <location filename="../../session.cpp" line="341"/>
         <source>Do you really want to remove the selected sessions?</source>
         <translation>Ar tikrai norite pašalinti pasirinktus seansus?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="351"/>
+        <location filename="../../session.cpp" line="343"/>
         <source>Do you really want to remove the selected session?</source>
         <translation>Ar tikrai norite pašalinti pasirinktą seansą?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="356"/>
+        <location filename="../../session.cpp" line="348"/>
         <source>A session with the same name exists.&lt;br&gt;Do you want to overwrite it?</source>
         <translation>Seansas tokiu pačiu pavadinimu jau yra.&lt;br&gt;Ar norite jį perrašyti?</translation>
     </message>
@@ -2342,7 +2342,7 @@ bus įtraukti į įrašytą seansą.</translation>
 <context>
     <name>FeatherPad::SidePane</name>
     <message>
-        <location filename="../../sidepane.cpp" line="122"/>
+        <location filename="../../sidepane.cpp" line="108"/>
         <source>Filter...</source>
         <translation>Filtruoti...</translation>
     </message>
