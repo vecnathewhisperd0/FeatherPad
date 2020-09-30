@@ -24,6 +24,26 @@
 
 namespace FeatherPad {
 
+bool ListWidgetItem::operator<(const QListWidgetItem &other) const {
+    /* exclude identical file extensions for a more intuitive sorting */
+    const QString txt1 = text();
+    const QString txt2 = other.text();
+    int start1 = 0, start2 = 0;
+    for (;;)
+    {
+        int end1 = txt1.indexOf (QLatin1Char ('.'), start1);
+        int end2 = txt2.indexOf (QLatin1Char ('.'), start2);
+        int comp = collator_.compare (txt1.mid(start1, end1 - start1),
+                                      txt2.mid(start2, end2 - start2));
+        if (comp != 0)
+            return comp < 0;
+        if (end1 == -1 || end2 == -1)
+            return end1 < end2;
+        start1 = end1 + 1;
+        start2 = end2 + 1;
+    }
+}
+/*************************/
 // See "qabstractitemview.cpp".
 QItemSelectionModel::SelectionFlags ListWidget::selectionCommand (const QModelIndex &index, const QEvent *event) const
 {

@@ -22,10 +22,30 @@
 
 #include <QEvent>
 #include <QTimer>
+#include <QCollator>
 #include <QListWidget>
 #include "lineedit.h"
 
 namespace FeatherPad {
+
+/* For having control over sorting. */
+class ListWidgetItem : public QListWidgetItem
+{
+public:
+    ListWidgetItem (const QIcon &icon, const QString &text, QListWidget *parent = nullptr, int type = QListWidgetItem::Type) :
+        QListWidgetItem (icon, text, parent, type) {
+        collator_.setNumericMode (true);
+    }
+    ListWidgetItem (const QString &text, QListWidget *parent = nullptr, int type = QListWidgetItem::Type) :
+        QListWidgetItem (text, parent, type) {
+        collator_.setNumericMode (true);
+    }
+
+    bool operator<(const QListWidgetItem &other) const override;
+
+private:
+    QCollator collator_;
+};
 
 /* In the single-selection mode, we don't want Ctrl + left click to
    deselect an item or an item to be selected with the middle click. */

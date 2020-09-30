@@ -412,8 +412,8 @@ void FPwin::toggleSidePane()
                 if (tabPage->textEdit()->document()->isModified())
                     fname.append ("*");
                 fname.replace ("\n", " ");
-                QListWidgetItem *lwi = new QListWidgetItem (isLink ? QIcon (":icons/link.svg") : QIcon(),
-                                                            fname, lw);
+                ListWidgetItem *lwi = new ListWidgetItem (isLink ? QIcon (":icons/link.svg") : QIcon(),
+                                                          fname, lw);
                 lwi->setToolTip (ui->tabWidget->tabToolTip (i));
                 sideItems_.insert (lwi, tabPage);
                 lw->addItem (lwi);
@@ -1382,7 +1382,7 @@ TabPage* FPwin::createEmptyTab (bool setCurrent, bool allowNormalHighlighter)
     if (sidePane_)
     {
         ListWidget *lw = sidePane_->listWidget();
-        QListWidgetItem *lwi = new QListWidgetItem (tr ("Untitled"), lw);
+        ListWidgetItem *lwi = new ListWidgetItem (tr ("Untitled"), lw);
         lwi->setToolTip (tr ("Unsaved"));
         sideItems_.insert (lwi, tabPage);
         lw->addItem (lwi);
@@ -4218,8 +4218,8 @@ void FPwin::detachTab()
             tabText.remove (0, 1);
             tabText.append ("*");
         }
-        QListWidgetItem *lwi = new QListWidgetItem (isLink ? QIcon (":icons/link.svg") : QIcon(),
-                                                    tabText, lw);
+        ListWidgetItem *lwi = new ListWidgetItem (isLink ? QIcon (":icons/link.svg") : QIcon(),
+                                                  tabText, lw);
         lw->setToolTip (tooltip);
         dropTarget->sideItems_.insert (lwi, tabPage);
         lw->addItem (lwi);
@@ -4463,8 +4463,8 @@ void FPwin::dropTab (const QString& str)
             tabText.remove (0, 1);
             tabText.append ("*");
         }
-        QListWidgetItem *lwi = new QListWidgetItem (isLink ? QIcon (":icons/link.svg") : QIcon(),
-                                                    tabText, lw);
+        ListWidgetItem *lwi = new ListWidgetItem (isLink ? QIcon (":icons/link.svg") : QIcon(),
+                                                  tabText, lw);
         lw->setToolTip (tooltip);
         sideItems_.insert (lwi, tabPage);
         lw->addItem (lwi);
