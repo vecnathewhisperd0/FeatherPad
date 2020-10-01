@@ -865,17 +865,6 @@ if the cursor is inside the text view?</string>
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="scrollBox">
-                <property name="toolTip">
-                 <string>This is not a complete fix but
-prevents annoying scroll jumps.</string>
-                </property>
-                <property name="text">
-                 <string>Workaround for &amp;Qt5's scroll jump bug</string>
-                </property>
-               </widget>
-              </item>
-              <item>
                <widget class="QGroupBox" name="groupBox_2">
                 <property name="title">
                  <string>Spell Checking</string>

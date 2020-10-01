@@ -331,13 +331,6 @@ public:
         maxSHSize_ = max;
     }
 
-    bool getScrollJumpWorkaround() const {
-        return scrollJumpWorkaround_;
-    }
-    void setScrollJumpWorkaround (bool workaround) {
-        scrollJumpWorkaround_ = workaround;
-    }
-
     bool getSkipNonText() const {
         return skipNonText_;
     }
@@ -594,7 +587,6 @@ private:
          nativeDialog_,
          inertialScrolling_,
          autoSave_,
-         scrollJumpWorkaround_, // Should a workaround for Qt5's "scroll jump" bug be applied?
          skipNonText_,
          saveUnmodified_,
          selectionHighlighting_,

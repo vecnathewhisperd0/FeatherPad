@@ -25,7 +25,7 @@
 namespace FeatherPad {
 
 bool ListWidgetItem::operator<(const QListWidgetItem &other) const {
-    /* exclude identical file extensions for a more intuitive sorting */
+    /* treat dot as a separator for a natural sorting */
     const QString txt1 = text();
     const QString txt2 = other.text();
     int start1 = 0, start2 = 0;

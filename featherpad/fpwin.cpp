@@ -1299,7 +1299,6 @@ TabPage* FPwin::createEmptyTab (bool setCurrent, bool allowNormalHighlighter)
     textEdit->setPastePaths (config.getPastePaths());
     textEdit->setAutoReplace (config.getAutoReplace());
     textEdit->setAutoBracket (config.getAutoBracket());
-    textEdit->setScrollJumpWorkaround (config.getScrollJumpWorkaround());
     textEdit->setTtextTab (config.getTextTabSize());
     textEdit->setCurLineHighlight (config.getCurLineHighlight());
     textEdit->setEditorFont (config.getFont());

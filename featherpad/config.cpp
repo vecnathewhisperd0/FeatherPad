@@ -56,7 +56,6 @@ Config::Config():
     nativeDialog_ (true),
     inertialScrolling_ (false),
     autoSave_ (false),
-    scrollJumpWorkaround_ (false),
     skipNonText_ (true),
     saveUnmodified_ (false),
     selectionHighlighting_ (false),
@@ -237,9 +236,6 @@ void Config::readConfig()
     int distance = settings.value ("vLineDistance").toInt();
     if (qAbs (distance) >= 10 && qAbs (distance) < 1000)
         vLineDistance_ = distance; // -80 by default
-
-    if (settings.value ("scrollJumpWorkaround").toBool())
-        scrollJumpWorkaround_ = true; // false by default
 
     v = settings.value ("skipNonText");
     if (v.isValid()) // true by default
@@ -470,7 +466,6 @@ void Config::writeConfig()
     settings.setValue ("thickCursor", thickCursor_);
     settings.setValue ("inertialScrolling", inertialScrolling_);
     settings.setValue ("autoSave", autoSave_);
-    settings.setValue ("scrollJumpWorkaround", scrollJumpWorkaround_);
     settings.setValue ("skipNonText", skipNonText_);
     settings.setValue ("saveUnmodified", saveUnmodified_);
     settings.setValue ("selectionHighlighting", selectionHighlighting_);

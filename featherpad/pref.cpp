@@ -257,9 +257,6 @@ PrefDialog::PrefDialog (QWidget *parent)
     ui->trailingSpacesBox->setChecked (config.getRemoveTrailingSpaces());
     connect (ui->trailingSpacesBox, &QCheckBox::stateChanged, this, &PrefDialog::prefRemoveTrailingSpaces);
 
-    ui->scrollBox->setChecked (config.getScrollJumpWorkaround());
-    connect (ui->scrollBox, &QCheckBox::stateChanged, this, &PrefDialog::prefScrollJumpWorkaround);
-
     ui->skipNonTextBox->setChecked (config.getSkipNonText());
     connect (ui->skipNonTextBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSkipNontext);
 
@@ -861,7 +858,7 @@ void PrefDialog::prefAutoBracket (int checked)
                 for (int j = 0; j < count; ++j)
                 {
                     qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
-                            ->textEdit()->setAutoBracket (true);
+                        ->textEdit()->setAutoBracket (true);
                 }
             }
         }
@@ -877,7 +874,7 @@ void PrefDialog::prefAutoBracket (int checked)
                 for (int j = 0; j < count; ++j)
                 {
                     qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
-                            ->textEdit()->setAutoBracket (false);
+                        ->textEdit()->setAutoBracket (false);
                 }
             }
         }
@@ -899,7 +896,7 @@ void PrefDialog::prefAutoReplace (int checked)
                 for (int j = 0; j < count; ++j)
                 {
                     qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
-                            ->textEdit()->setAutoReplace (true);
+                        ->textEdit()->setAutoReplace (true);
                 }
             }
         }
@@ -915,7 +912,7 @@ void PrefDialog::prefAutoReplace (int checked)
                 for (int j = 0; j < count; ++j)
                 {
                     qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
-                            ->textEdit()->setAutoReplace (false);
+                        ->textEdit()->setAutoReplace (false);
                 }
             }
         }
@@ -988,7 +985,7 @@ void PrefDialog::prefApplyDateFormat()
         for (int j = 0; j < count; ++j)
         {
             qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
-                    ->textEdit()->setDateFormat (format);
+                ->textEdit()->setDateFormat (format);
         }
     }
 }
@@ -1189,7 +1186,7 @@ void PrefDialog::prefPastePaths()
         for (int j = 0; j < count; ++j)
         {
             qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
-                    ->textEdit()->setPastePaths (pastePaths);
+                ->textEdit()->setPastePaths (pastePaths);
         }
     }
 }
@@ -1212,38 +1209,6 @@ void PrefDialog::prefRemoveTrailingSpaces (int checked)
         config.setRemoveTrailingSpaces (true);
     else if (checked == Qt::Unchecked)
         config.setRemoveTrailingSpaces (false);
-}
-/*************************/
-void PrefDialog::prefScrollJumpWorkaround (int checked)
-{
-    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
-    Config& config = singleton->getConfig();
-    if (checked == Qt::Checked)
-    {
-        config.setScrollJumpWorkaround (true);
-        for (int i = 0; i < singleton->Wins.count(); ++i)
-        {
-            int count = singleton->Wins.at (i)->ui->tabWidget->count();
-            for (int j = 0; j < count; ++j)
-            {
-                qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
-                        ->textEdit()->setScrollJumpWorkaround (true);
-            }
-        }
-    }
-    else if (checked == Qt::Unchecked)
-    {
-        config.setScrollJumpWorkaround (false);
-        for (int i = 0; i < singleton->Wins.count(); ++i)
-        {
-            int count = singleton->Wins.at (i)->ui->tabWidget->count();
-            for (int j = 0; j < count; ++j)
-            {
-                qobject_cast< TabPage *>(singleton->Wins.at (i)->ui->tabWidget->widget (j))
-                        ->textEdit()->setScrollJumpWorkaround (false);
-            }
-        }
-    }
 }
 /*************************/
 void PrefDialog::prefSkipNontext (int checked)

@@ -113,10 +113,6 @@ public:
 
     void setCurLineHighlight (int value);
 
-    void setScrollJumpWorkaround (bool apply){
-        scrollJumpWorkaround_ = apply;
-    }
-
     void zooming (float range);
 
     qint64 getSize() const {
@@ -344,7 +340,6 @@ private:
     bool autoReplace_;
     bool drawIndetLines_;
     bool autoBracket_;
-    bool scrollJumpWorkaround_; // for working around Qt5's scroll jump bug
     int darkValue_;
     int bgColorValue_; // only used internally and as a workaround
     int vLineDistance_;
