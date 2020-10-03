@@ -83,6 +83,7 @@ PrefDialog::PrefDialog (QWidget *parent)
     ui->setupUi (this);
     parent_ = parent;
     setWindowModality (Qt::WindowModal);
+    ui->promptLabel->setStyleSheet ("QLabel {background-color: #7d0000; color: white; border-radius: 3px; margin: 2px; padding: 5px;}");
     ui->promptLabel->hide();
     promptTimer_ = nullptr;
 
@@ -519,12 +520,10 @@ void PrefDialog::onClosing()
 /*************************/
 void PrefDialog::showPrompt (const QString& str, bool temporary)
 {
-    static const QString style ("QLabel {background-color: #7d0000; color: white; border-radius: 3px; margin: 2px; padding: 5px;}");
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
     if (!str.isEmpty())
     { // show the provided message
         ui->promptLabel->setText ("<b>" + str + "</b>");
-        ui->promptLabel->setStyleSheet (style);
         if (temporary) // show it temporarily
         {
             if (!promptTimer_)
@@ -536,7 +535,6 @@ void PrefDialog::showPrompt (const QString& str, bool temporary)
                         && ui->tabWidget->currentIndex() == 3) // Shortcuts page
                     { // show the previous message if it exists
                         ui->promptLabel->setText (prevtMsg_);
-                        ui->promptLabel->setStyleSheet (style);
                     }
                     else showPrompt();
                 });
@@ -550,7 +548,6 @@ void PrefDialog::showPrompt (const QString& str, bool temporary)
              || sharedSearchHistory_ != config.getSharedSearchHistory())
     {
         ui->promptLabel->setText ("<b>" + tr ("Application restart is needed for changes to take effect.") + "</b>");
-        ui->promptLabel->setStyleSheet (style);
     }
     else if (darkBg_ != config.getDarkColScheme()
              || (darkBg_ && darkColValue_ != config.getDarkBgColorValue())
@@ -569,20 +566,17 @@ void PrefDialog::showPrompt (const QString& str, bool temporary)
                                                 : config.lightSyntaxColors()))
     {
         ui->promptLabel->setText ("<b>" + tr ("Window reopening is needed for changes to take effect.") + "</b>");
-        ui->promptLabel->setStyleSheet (style);
     }
     else
     {
         if (prevtMsg_.isEmpty()) // clear prompt
         {
             ui->promptLabel->clear();
-            ui->promptLabel->setStyleSheet ("QLabel {margin: 2px; padding: 5px;}");
+            ui->promptLabel->hide();
+            return;
         }
         else // show the previous message
-        {
             ui->promptLabel->setText (prevtMsg_);
-            ui->promptLabel->setStyleSheet (style);
-        }
     }
     ui->promptLabel->show();
 }

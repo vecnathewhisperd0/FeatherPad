@@ -1874,7 +1874,7 @@ csak &quot;.aff&quot;-ra végződik.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="902"/>
-        <location filename="../../pref.cpp" line="1639"/>
+        <location filename="../../pref.cpp" line="1633"/>
         <source>Add dictionary...</source>
         <translation>Szótár hozzáadása...</translation>
     </message>
@@ -2020,122 +2020,122 @@ megnyílnak, ha be vannak illesztve a FeatherPad-be.</translation>
         <translation>Bezárás</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="94"/>
+        <location filename="../../pref.cpp" line="95"/>
         <source>Press a modifier key to clear a shortcut
 in the editing mode.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="100"/>
+        <location filename="../../pref.cpp" line="101"/>
         <source>Double click a color to change it.</source>
         <translation>Dupla kattintás a színre a módosításhoz.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="292"/>
-        <location filename="../../pref.cpp" line="1335"/>
+        <location filename="../../pref.cpp" line="293"/>
+        <location filename="../../pref.cpp" line="1329"/>
         <source>files</source>
         <translation>fájl</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="292"/>
-        <location filename="../../pref.cpp" line="1335"/>
+        <location filename="../../pref.cpp" line="293"/>
+        <location filename="../../pref.cpp" line="1329"/>
         <source>file</source>
         <translation>fájl</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="345"/>
-        <location filename="../../pref.cpp" line="1454"/>
+        <location filename="../../pref.cpp" line="346"/>
+        <location filename="../../pref.cpp" line="1448"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Figyelmeztetés: Nem egyértelmű gyorsbillentyű található!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="378"/>
+        <location filename="../../pref.cpp" line="379"/>
         <source>Functions, URLs,…</source>
         <translation>Függvények, hivatkozások…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="379"/>
+        <location filename="../../pref.cpp" line="380"/>
         <source>Built-in Functions</source>
         <translation>Beépített függvények</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="380"/>
+        <location filename="../../pref.cpp" line="381"/>
         <source>Comments</source>
         <translation>Megjegyzések</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="381"/>
+        <location filename="../../pref.cpp" line="382"/>
         <source>Quotations</source>
         <translation>Idézőjelek</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="382"/>
+        <location filename="../../pref.cpp" line="383"/>
         <source>Types</source>
         <translation>Típusok</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="383"/>
+        <location filename="../../pref.cpp" line="384"/>
         <source>Key Words</source>
         <translation>Kulcsszavak</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="384"/>
+        <location filename="../../pref.cpp" line="385"/>
         <source>Numbers</source>
         <translation>Számok</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="385"/>
+        <location filename="../../pref.cpp" line="386"/>
         <source>Regular Expressions, Code Blocks,…</source>
         <translation>Reguláris kifejezések, kódblokkok…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="386"/>
+        <location filename="../../pref.cpp" line="387"/>
         <source>Document Blocks, XML/HTML Elements,…</source>
         <translation>Dokumentumblokkok, XML/HTML elemek…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="387"/>
+        <location filename="../../pref.cpp" line="388"/>
         <source>Markdown Headings, CSS Values,…</source>
         <translation>Markdown címsorok, CSS értékek…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="388"/>
+        <location filename="../../pref.cpp" line="389"/>
         <source>Extra Elements</source>
         <translation>Extra elemek</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="552"/>
+        <location filename="../../pref.cpp" line="550"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Az érvényesítéshez újra kell indítania az alkalmazást.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="571"/>
+        <location filename="../../pref.cpp" line="568"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Az érvényesítéshez újra meg kell nyitni az ablakot.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1361"/>
+        <location filename="../../pref.cpp" line="1355"/>
         <source>&amp;Recently Opened</source>
         <translation>Nem&amp;rég megnyitott</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1362"/>
+        <location filename="../../pref.cpp" line="1356"/>
         <source>Recently &amp;Modified</source>
         <translation>Nem&amp;rég módosított</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1437"/>
+        <location filename="../../pref.cpp" line="1431"/>
         <source>The typed shortcut was reserved.</source>
         <translation>A beírt gyorsbillentyű foglalt.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1641"/>
+        <location filename="../../pref.cpp" line="1635"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>Hunspell szótárfájlok (*.dic)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="439"/>
-        <location filename="../../pref.cpp" line="1727"/>
+        <location filename="../../pref.cpp" line="440"/>
+        <location filename="../../pref.cpp" line="1721"/>
         <source>Select Syntax Color</source>
         <translation>Kiemelőszín kiválasztása</translation>
     </message>
