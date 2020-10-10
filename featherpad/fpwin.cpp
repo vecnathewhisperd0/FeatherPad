@@ -3181,7 +3181,7 @@ void FPwin::startCase()
             start = 0;
             QRegularExpressionMatch match;
             /* QTextCursor::selectedText() uses "U+2029" instead of "\n" */
-            while ((start = str.indexOf (QRegularExpression ("[^\\s\\x{2029}]+"), start, &match)) > -1)
+            while ((start = str.indexOf (QRegularExpression ("[^\\s\\.\\x{2029}]+"), start, &match)) > -1)
             {
                 str.replace (start, 1, str.at (start).toUpper());
                 start += match.capturedLength();
