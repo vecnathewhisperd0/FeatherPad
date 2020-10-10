@@ -204,6 +204,7 @@
     <addaction name="separator"/>
     <addaction name="actionUpperCase"/>
     <addaction name="actionLowerCase"/>
+    <addaction name="actionStartCase"/>
     <addaction name="separator"/>
     <addaction name="actionSortLines"/>
     <addaction name="actionRSortLines"/>
@@ -1149,6 +1150,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+L</string>
+   </property>
+  </action>
+  <action name="actionStartCase">
+   <property name="text">
+    <string>To Start Case</string>
+   </property>
+   <property name="toolTip">
+    <string>To Start Case</string>
    </property>
   </action>
   <action name="actionLastActiveTab">

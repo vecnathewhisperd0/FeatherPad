@@ -141,6 +141,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     /* exceptions */
     defaultShortcuts_.insert (ui->actionSaveAllFiles, QKeySequence());
     defaultShortcuts_.insert (ui->actionSoftTab, QKeySequence());
+    defaultShortcuts_.insert (ui->actionStartCase, QKeySequence());
     defaultShortcuts_.insert (ui->actionUserDict, QKeySequence());
     defaultShortcuts_.insert (ui->actionFont, QKeySequence());
 
@@ -217,6 +218,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
 
     connect (ui->actionUpperCase, &QAction::triggered, this, &FPwin::upperCase);
     connect (ui->actionLowerCase, &QAction::triggered, this, &FPwin::lowerCase);
+    connect (ui->actionStartCase, &QAction::triggered, this, &FPwin::startCase);
 
     /* because sort line actions don't have shortcuts,
        their state can be set when their menu is going to be shown */
@@ -1207,6 +1209,7 @@ void FPwin::enableWidgets (bool enable) const
 
         ui->actionUpperCase->setEnabled (false);
         ui->actionLowerCase->setEnabled (false);
+        ui->actionStartCase->setEnabled (false);
     }
 }
 /*************************/
@@ -1365,6 +1368,7 @@ TabPage* FPwin::createEmptyTab (bool setCurrent, bool allowNormalHighlighter)
     connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCopy, &QAction::setEnabled);
     connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionUpperCase, &QAction::setEnabled);
     connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionLowerCase, &QAction::setEnabled);
+    connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionStartCase, &QAction::setEnabled);
 
     connect (textEdit, &TextEdit::fileDropped, this, &FPwin::newTabFromName);
     connect (textEdit, &TextEdit::zoomedOut, this, &FPwin::reformat);
@@ -1501,6 +1505,7 @@ void FPwin::editorContextMenu (const QPoint& p)
         {
             menu->addAction (ui->actionUpperCase);
             menu->addAction (ui->actionLowerCase);
+            menu->addAction (ui->actionStartCase);
             if (textEdit->textCursor().selectedText().contains (QChar (QChar::ParagraphSeparator)))
             {
                 menu->addSeparator();
@@ -2296,6 +2301,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
             ui->actionDelete->setDisabled (true);
             ui->actionUpperCase->setDisabled (true);
             ui->actionLowerCase->setDisabled (true);
+            ui->actionStartCase->setDisabled (true);
             if (config.getSaveUnmodified())
                 ui->actionSave->setDisabled (true);
         }
@@ -2303,6 +2309,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
         disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionDelete, &QAction::setEnabled);
         disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionUpperCase, &QAction::setEnabled);
         disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionLowerCase, &QAction::setEnabled);
+        disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionStartCase, &QAction::setEnabled);
     }
     else if (textEdit->isReadOnly())
         QTimer::singleShot (0, this, &FPwin::makeEditable);
@@ -3138,6 +3145,61 @@ void FPwin::lowerCase()
     }
 }
 /*************************/
+void FPwin::startCase()
+{
+    if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget()))
+    {
+        TextEdit *textEdit = tabPage->textEdit();
+        if (!textEdit->isReadOnly())
+        {
+            bool showWarning = false;
+            QTextCursor cur = textEdit->textCursor();
+            int start = qMin (cur.anchor(), cur.position());
+            int end = qMax (cur.anchor(), cur.position());
+            if (end > start + 50000)
+            {
+                showWarning = true;
+                end = start + 50000;
+            }
+
+            cur.setPosition (start);
+            QString blockText = cur.block().text();
+            int blockPos = cur.block().position();
+            while (start > blockPos && !blockText.at (start - blockPos - 1).isSpace())
+                -- start;
+
+            cur.setPosition (end);
+            blockText = cur.block().text();
+            blockPos = cur.block().position();
+            while (end < blockPos + blockText.size() && !blockText.at (end - blockPos).isSpace())
+                ++ end;
+
+            cur.setPosition (start);
+            cur.setPosition (end, QTextCursor::KeepAnchor);
+            QString str = textEdit->locale().toLower (cur.selectedText());
+
+            start = 0;
+            QRegularExpressionMatch match;
+            /* QTextCursor::selectedText() uses "U+2029" instead of "\n" */
+            while ((start = str.indexOf (QRegularExpression ("[^\\s\\x{2029}]+"), start, &match)) > -1)
+            {
+                str.replace (start, 1, str.at (start).toUpper());
+                start += match.capturedLength();
+            }
+
+            cur.beginEditBlock();
+            textEdit->setTextCursor (cur);
+            textEdit->insertPlainText (str);
+            textEdit->ensureCursorVisible();
+            cur.endEditBlock();
+
+            if (showWarning)
+                showWarningBar ("<center><b><big>" + tr ("The selected text was too long.") + "</big></b></center>\n"
+                                + "<center>" + tr ("It is not fully processed.") + "</center>");
+        }
+    }
+}
+/*************************/
 void FPwin::enableSortLines()
 {
     if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget()))
@@ -3197,10 +3259,12 @@ void FPwin::makeEditable()
     ui->actionDelete->setEnabled (textIsSelected);
     ui->actionUpperCase->setEnabled (textIsSelected);
     ui->actionLowerCase->setEnabled (textIsSelected);
+    ui->actionStartCase->setEnabled (textIsSelected);
     connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCut, &QAction::setEnabled);
     connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionDelete, &QAction::setEnabled);
     connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionUpperCase, &QAction::setEnabled);
     connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionLowerCase, &QAction::setEnabled);
+    connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionStartCase, &QAction::setEnabled);
     if (config.getSaveUnmodified())
         ui->actionSave->setEnabled (true);
 }
@@ -3315,6 +3379,7 @@ void FPwin::tabSwitch (int index)
     ui->actionDelete->setEnabled (!readOnly && textIsSelected);
     ui->actionUpperCase->setEnabled (!readOnly && textIsSelected);
     ui->actionLowerCase->setEnabled (!readOnly && textIsSelected);
+    ui->actionStartCase->setEnabled (!readOnly && textIsSelected);
 
     if (isScriptLang (textEdit->getProg()) && info.isExecutable())
         ui->actionRun->setVisible (config.getExecuteScripts());
@@ -4153,6 +4218,7 @@ void FPwin::detachTab()
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionDelete, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionUpperCase, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionLowerCase, &QAction::setEnabled);
+    disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionStartCase, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCopy, &QAction::setEnabled);
     disconnect (textEdit, &QWidget::customContextMenuRequested, this, &FPwin::editorContextMenu);
     disconnect (textEdit, &TextEdit::zoomedOut, this, &FPwin::reformat);
@@ -4313,6 +4379,7 @@ void FPwin::detachTab()
         connect (textEdit, &QPlainTextEdit::copyAvailable, dropTarget->ui->actionDelete, &QAction::setEnabled);
         connect (textEdit, &QPlainTextEdit::copyAvailable, dropTarget->ui->actionUpperCase, &QAction::setEnabled);
         connect (textEdit, &QPlainTextEdit::copyAvailable, dropTarget->ui->actionLowerCase, &QAction::setEnabled);
+        connect (textEdit, &QPlainTextEdit::copyAvailable, dropTarget->ui->actionStartCase, &QAction::setEnabled);
     }
     connect (textEdit, &TextEdit::fileDropped, dropTarget, &FPwin::newTabFromName);
     connect (textEdit, &TextEdit::zoomedOut, dropTarget, &FPwin::reformat);
@@ -4390,6 +4457,7 @@ void FPwin::dropTab (const QString& str)
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, dragSource->ui->actionDelete, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, dragSource->ui->actionUpperCase, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, dragSource->ui->actionLowerCase, &QAction::setEnabled);
+    disconnect (textEdit, &QPlainTextEdit::copyAvailable, dragSource->ui->actionStartCase, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, dragSource->ui->actionCopy, &QAction::setEnabled);
     disconnect (textEdit, &QWidget::customContextMenuRequested, dragSource, &FPwin::editorContextMenu);
     disconnect (textEdit, &TextEdit::zoomedOut, dragSource, &FPwin::reformat);
@@ -4552,6 +4620,7 @@ void FPwin::dropTab (const QString& str)
         connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionDelete, &QAction::setEnabled);
         connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionUpperCase, &QAction::setEnabled);
         connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionLowerCase, &QAction::setEnabled);
+        connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionStartCase, &QAction::setEnabled);
     }
     connect (textEdit, &TextEdit::fileDropped, this, &FPwin::newTabFromName);
     connect (textEdit, &TextEdit::zoomedOut, this, &FPwin::reformat);
@@ -5399,10 +5468,12 @@ void FPwin::helpDoc()
     ui->actionDelete->setDisabled (true);
     ui->actionUpperCase->setDisabled (true);
     ui->actionLowerCase->setDisabled (true);
+    ui->actionStartCase->setDisabled (true);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCut, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionDelete, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionUpperCase, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionLowerCase, &QAction::setEnabled);
+    disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionStartCase, &QAction::setEnabled);
 
     index = ui->tabWidget->currentIndex();
     textEdit->setEncoding ("UTF-8");

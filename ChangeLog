@@ -12,6 +12,7 @@ V0.16.0
  * Consider the current locale when sorting lines.
  * More intuitive sorting of items in the side-pane and session dialog by treating dot as a separator.
  * Removed the option for scroll jump workaround (because it wasn't FeatherPad's job).
+ * Added "To Start Case".
 
 V0.15.0
 ---------

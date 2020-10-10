@@ -2258,7 +2258,7 @@ bool TextEdit::event (QEvent *event)
 {
     if (highlighter_
         && ((event->type() == QEvent::WindowDeactivate && hasFocus()) // another window is activated
-             || event->type() == QEvent::FocusOut)) // another widget has been focused
+            || event->type() == QEvent::FocusOut)) // another widget has been focused
     {
         viewport()->setCursor (Qt::IBeamCursor);
     }
