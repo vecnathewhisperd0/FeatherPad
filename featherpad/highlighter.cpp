@@ -4411,6 +4411,7 @@ void Highlighter::highlightBlock (const QString &text)
     if (txtL > 10000)
     {
         setFormat (0, txtL, translucentFormat);
+        data->setHighlighted(); // completely highlighted
         return;
     }
 
