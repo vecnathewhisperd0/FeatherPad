@@ -2400,7 +2400,7 @@ dosyalar kaydedilen oturuma dahil edilir.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="148"/>
+        <location filename="../../textedit.cpp" line="147"/>
         <source>Double click to center current line</source>
         <translation>Bulunulan satırı ortalamak için çift tıklayın</translation>
     </message>

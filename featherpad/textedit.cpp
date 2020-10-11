@@ -122,7 +122,6 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     setCurLineHighlight (-1);
 
     resizeTimerId_ = 0;
-    updateTimerId_ = 0;
     selectionTimerId_ = 0;
     selectionHighlighting_ = false;
     highlightThisSelection_ = true;
@@ -1501,18 +1500,6 @@ void TextEdit::timerEvent (QTimerEvent *event)
         resizeTimerId_ = 0;
         emit resized();
     }
-    else if (event->timerId() == updateTimerId_)
-    {
-        killTimer (event->timerId());
-        updateTimerId_ = 0;
-        /* we use TextEdit's rect because the last rect that
-           updateRequest() provides after 50ms may be null */
-        emit updateRect (rect());
-        /* the text-edit may have been invisible before and so,
-           FPwin::matchBrackets() may have not be called for it */
-        if (!matchedBrackets_ && isVisible())
-            emit updateBracketMatching();
-    }
     else if (event->timerId() == selectionTimerId_)
     {
         killTimer (event->timerId());
@@ -1954,13 +1941,13 @@ void TextEdit::onUpdateRequesting (const QRect& /*rect*/, int dy)
     /* here, we're interested only in the vertical text scrolling
        (and, definitely, not in the blinking cursor updates) */
     if (dy == 0) return;
-
-    if (updateTimerId_)
-    {
-        killTimer (updateTimerId_);
-        updateTimerId_ = 0;
-    }
-    updateTimerId_ = startTimer (UPDATE_INTERVAL);
+    /* we use TextEdit's rect because the rect that
+       updateRequest() provides may be too small */
+    emit updateRect (rect());
+    /* because brackets may have been invisible before,
+       FPwin::matchBrackets() should be called here */
+    if (!matchedBrackets_ && isVisible())
+        emit updateBracketMatching();
 }
 /*************************/
 void TextEdit::onSelectionChanged()
@@ -2028,22 +2015,17 @@ void TextEdit::zooming (float range)
     adjustScrollbars();
 }
 /*************************/
-// Since the visible text rectangle is updated by a timer, if the text
-// page is first shown for a very short time (when, for example, the
-// active tab is changed quickly several times), "updateRect()" might
+// If the text page is first shown for a very short time (when, for example,
+// the active tab is changed quickly several times), "updateRect()" might
 // be emitted when the text page isn't visible, while "updateRequest()"
-// might not be emitted when it becomes visible again. That will result in
-// an incomplete syntax highlighting. Therefore, we restart "updateTimerId_"
-// whenever the text page is shown.
+// might not be emitted when it becomes visible again. That will result
+// in an incomplete syntax highlighting and, probably, bracket matching.
 void TextEdit::showEvent (QShowEvent *event)
 {
     QPlainTextEdit::showEvent (event);
-    if (updateTimerId_)
-    {
-        killTimer (updateTimerId_);
-        updateTimerId_ = 0;
-    }
-    updateTimerId_ = startTimer (UPDATE_INTERVAL);
+    emit updateRect (rect());
+    if (!matchedBrackets_)
+        emit updateBracketMatching();
 }
 /*************************/
 void TextEdit::sortLines (bool reverse)

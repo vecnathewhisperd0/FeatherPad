@@ -13,6 +13,7 @@ V0.16.0
  * More intuitive sorting of items in the side-pane and session dialog by treating dot as a separator.
  * Removed the option for scroll jump workaround (because it wasn't FeatherPad's job).
  * Added "To Start Case".
+ * Removed the 50-ms delay in text updating because, apparently, Qt's update requests are appropriate now.
 
 V0.15.0
 ---------
