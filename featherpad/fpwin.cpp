@@ -395,6 +395,7 @@ void FPwin::toggleSidePane()
             for (int i = 0; i < ui->tabWidget->count(); ++i)
             {
                 TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->widget (i));
+                if (tabPage == nullptr) continue;
                 /* tab text can't be used because, on the one hand, it may be elided
                    and, on the other hand, KDE's auto-mnemonics may interfere */
                 QString fname = tabPage->textEdit()->getFileName();
@@ -851,7 +852,8 @@ void FPwin::updateGUIForSingleTab (bool single)
 /*************************/
 void FPwin::deleteTabPage (int tabIndex, bool saveToList, bool closeWithLastTab)
 {
-    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (tabIndex));
+    TabPage *tabPage = qobject_cast<TabPage *>(ui->tabWidget->widget (tabIndex));
+    if (tabPage == nullptr) return;
     if (sidePane_ && !sideItems_.isEmpty())
     {
         if (QListWidgetItem *wi = sideItems_.key (tabPage))
@@ -1009,26 +1011,32 @@ bool FPwin::closeTabs (int first, int last, bool saveFilesList)
 void FPwin::copyTabFileName()
 {
     if (rightClicked_ < 0) return;
-    TabPage *tabPage;
+    TabPage *tabPage = nullptr;
     if (sidePane_)
         tabPage = sideItems_.value (sidePane_->listWidget()->item (rightClicked_));
     else
         tabPage = qobject_cast<TabPage*>(ui->tabWidget->widget (rightClicked_));
-    QString fname = tabPage->textEdit()->getFileName();
-    QApplication::clipboard()->setText (fname.section ('/', -1));
+    if (tabPage)
+    {
+        QString fname = tabPage->textEdit()->getFileName();
+        QApplication::clipboard()->setText (fname.section ('/', -1));
+    }
 }
 /*************************/
 void FPwin::copyTabFilePath()
 {
     if (rightClicked_ < 0) return;
-    TabPage *tabPage;
+    TabPage *tabPage = nullptr;
     if (sidePane_)
         tabPage = sideItems_.value (sidePane_->listWidget()->item (rightClicked_));
     else
         tabPage = qobject_cast<TabPage*>(ui->tabWidget->widget (rightClicked_));
-    QString str = tabPage->textEdit()->getFileName();
-    if (!str.isEmpty())
-        QApplication::clipboard()->setText (str);
+    if (tabPage)
+    {
+        QString str = tabPage->textEdit()->getFileName();
+        if (!str.isEmpty())
+            QApplication::clipboard()->setText (str);
+    }
 }
 /*************************/
 void FPwin::closeAllTabs()
@@ -1092,6 +1100,7 @@ FPwin::DOCSTATE FPwin::savePrompt (int tabIndex, bool noToAll)
 {
     DOCSTATE state = SAVED;
     TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->widget (tabIndex));
+    if (tabPage == nullptr) return state;
     TextEdit *textEdit = tabPage->textEdit();
     QString fname = textEdit->getFileName();
     bool isRemoved (!fname.isEmpty() && !QFile::exists (fname)); // don't check QFileInfo (fname).isFile()
@@ -2067,11 +2076,12 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
     static TabPage *firstPage = nullptr;
 
     TextEdit *textEdit;
-    TabPage *tabPage;
+    TabPage *tabPage = nullptr;
     if (ui->tabWidget->currentIndex() == -1)
         tabPage = createEmptyTab (!multiple, false);
     else
         tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget());
+    if (tabPage == nullptr) return;
     textEdit = tabPage->textEdit();
 
     bool openInCurrentTab (true);
@@ -2706,6 +2716,7 @@ bool FPwin::saveFile (bool keepSyntax)
     if (index == -1) return false;
 
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
+    if (tabPage == nullptr) return false;
     TextEdit *textEdit = tabPage->textEdit();
     QString fname = textEdit->getFileName();
     QString filter = tr ("All Files (*)");
@@ -3310,6 +3321,7 @@ void FPwin::tabSwitch (int index)
     }
 
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
+    if (tabPage == nullptr) return;
     TextEdit *textEdit = tabPage->textEdit();
     if (!tabPage->isSearchBarVisible() && !sidePane_)
         textEdit->setFocus();
@@ -3538,6 +3550,7 @@ void FPwin::showHideSearch()
     if (index == -1) return;
 
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
+    if (tabPage == nullptr) return;
     bool isFocused = tabPage->isSearchBarVisible() && tabPage->searchBarHasFocus();
 
     if (!isFocused)
@@ -3882,7 +3895,7 @@ void FPwin::showCursorPos()
     if (!posLabel) return;
 
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
-    if (!tabPage) return;
+    if (tabPage == nullptr) return;
 
     int pos = tabPage->textEdit()->textCursor().positionInBlock();
     QString charN;
@@ -3920,7 +3933,7 @@ void FPwin::enforceLang (QAction *action)
     if (!langButton) return;
 
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
-    if (!tabPage) return;
+    if (tabPage == nullptr) return;
 
     TextEdit *textEdit = tabPage->textEdit();
     QString lang = action->text();
@@ -4202,6 +4215,7 @@ void FPwin::detachTab()
     }
 
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
+    if (tabPage == nullptr) return;
     TextEdit *textEdit = tabPage->textEdit();
 
     disconnect (textEdit, &TextEdit::resized, this, &FPwin::hlight);
@@ -4441,6 +4455,11 @@ void FPwin::dropTab (const QString& str)
         ln = true;
 
     TabPage *tabPage = qobject_cast< TabPage *>(dragSource->ui->tabWidget->widget (index));
+    if (tabPage == nullptr)
+    {
+        ui->tabWidget->tabBar()->finishMouseMoveEvent();
+        return;
+    }
     TextEdit *textEdit = tabPage->textEdit();
 
     disconnect (textEdit, &TextEdit::resized, dragSource, &FPwin::hlight);
@@ -4685,6 +4704,7 @@ void FPwin::tabContextMenu (const QPoint& p)
                 for (int i = 0; i < ui->tabWidget->count(); ++i)
                 {
                     TabPage *thisTabPage = qobject_cast<TabPage*>(ui->tabWidget->widget (i));
+                    if (thisTabPage == nullptr) continue;
                     if (targetName == thisTabPage->textEdit()->getFileName())
                     {
                         ui->tabWidget->setCurrentWidget (thisTabPage);
@@ -4766,6 +4786,7 @@ void FPwin::listContextMenu (const QPoint& p)
                 for (int i = 0; i < ui->tabWidget->count(); ++i)
                 {
                     TabPage *thisTabPage = qobject_cast<TabPage*>(ui->tabWidget->widget (i));
+                    if (thisTabPage == nullptr) continue;
                     if (targetName == thisTabPage->textEdit()->getFileName())
                     {
                         if (QListWidgetItem *wi = sideItems_.key (thisTabPage))
@@ -5190,6 +5211,7 @@ void FPwin::saveAllFiles (bool showWarning)
     for (int indx = 0; indx < ui->tabWidget->count(); ++indx)
     {
         TabPage *thisTabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (indx));
+        if (thisTabPage == nullptr) continue;
         TextEdit *thisTextEdit = thisTabPage->textEdit();
         if (thisTextEdit->isUneditable() || !thisTextEdit->document()->isModified())
             continue;
@@ -5371,6 +5393,7 @@ void FPwin::helpDoc()
         for (int i = 0; i < ui->tabWidget->count(); ++i)
         {
             TabPage *thisTabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (i));
+            if (thisTabPage == nullptr) continue;
             TextEdit *thisTextEdit = thisTabPage->textEdit();
             if (thisTextEdit->getFileName().isEmpty()
                 && !thisTextEdit->document()->isModified()

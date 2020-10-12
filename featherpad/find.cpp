@@ -34,6 +34,7 @@ void FPwin::find (bool forward)
     if (index == -1) return;
 
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
+    if (tabPage == nullptr) return;
     TextEdit *textEdit = tabPage->textEdit();
     QString txt = tabPage->searchEntry();
     bool newSrch = false;
@@ -100,6 +101,7 @@ void FPwin::hlight() const
     if (index == -1) return;
 
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
+    if (tabPage == nullptr) return;
     TextEdit *textEdit = tabPage->textEdit();
 
     const QString txt = textEdit->getSearchedText();
@@ -180,10 +182,13 @@ QTextDocument::FindFlags FPwin::getSearchFlags() const
 {
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
     QTextDocument::FindFlags searchFlags = QTextDocument::FindFlags();
-    if (tabPage->matchWhole())
-        searchFlags = QTextDocument::FindWholeWords;
-    if (tabPage->matchCase())
-        searchFlags |= QTextDocument::FindCaseSensitively;
+    if (tabPage != nullptr)
+    {
+        if (tabPage->matchWhole())
+            searchFlags = QTextDocument::FindWholeWords;
+        if (tabPage->matchCase())
+            searchFlags |= QTextDocument::FindCaseSensitively;
+    }
     return searchFlags;
 }
 
