@@ -354,10 +354,10 @@ void FPwin::formatOnBlockChange (int/* newBlockCount*/) const
 /*************************/
 void FPwin::formatOnResizing() const
 {
-    int index = ui->tabWidget->currentIndex();
-    if (index == -1) return;
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
+    if (tabPage == nullptr) return;
 
-    TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
+    TextEdit *textEdit = tabPage->textEdit();
     formatTextRect (textEdit->rect());
 }
 /*************************/

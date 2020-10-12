@@ -104,11 +104,9 @@ void FPwin::replace()
 {
     if (!isReady()) return;
 
-    int index = ui->tabWidget->currentIndex();
-    if (index == -1) return;
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
+    if (tabPage == nullptr) return;
 
-    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
-    if (tabPage == nullptr) return;;
     TextEdit *textEdit = tabPage->textEdit();
     if (textEdit->isReadOnly()) return;
 
@@ -179,11 +177,9 @@ void FPwin::replaceAll()
 {
     if (!isReady()) return;
 
-    int index = ui->tabWidget->currentIndex();
-    if (index == -1) return;
-
-    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
     if (tabPage == nullptr) return;
+
     TextEdit *textEdit = tabPage->textEdit();
     if (textEdit->isReadOnly()) return;
 

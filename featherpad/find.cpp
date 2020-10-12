@@ -30,11 +30,9 @@ void FPwin::find (bool forward)
 {
     if (!isReady()) return;
 
-    int index = ui->tabWidget->currentIndex();
-    if (index == -1) return;
-
-    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
     if (tabPage == nullptr) return;
+
     TextEdit *textEdit = tabPage->textEdit();
     QString txt = tabPage->searchEntry();
     bool newSrch = false;
@@ -97,11 +95,12 @@ void FPwin::find (bool forward)
 // Highlight found matches in the visible part of the text.
 void FPwin::hlight() const
 {
-    int index = ui->tabWidget->currentIndex();
-    if (index == -1) return;
-
-    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
+    /* When FeatherPad's window is being closed, it's possible that, in a moment,
+       the current index is positive but the current widget is null. So, the latter
+       should be checked, not the former. */
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
     if (tabPage == nullptr) return;
+
     TextEdit *textEdit = tabPage->textEdit();
 
     const QString txt = textEdit->getSearchedText();
@@ -163,11 +162,11 @@ void FPwin::searchFlagChanged()
 {
     if (!isReady()) return;
 
-    int index = ui->tabWidget->currentIndex();
-    if (index == -1) return;
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
+    if (tabPage == nullptr) return;
 
     /* deselect text for consistency */
-    TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
+    TextEdit *textEdit = tabPage->textEdit();
     QTextCursor start = textEdit->textCursor();
     if (start.hasSelection())
     {

@@ -1961,9 +1961,9 @@ void FPwin::asterisk (bool modified)
     if (inactiveTabModified_) return;
 
     int index = ui->tabWidget->currentIndex();
-
-    QString fname = qobject_cast< TabPage *>(ui->tabWidget->widget (index))
-                    ->textEdit()->getFileName();
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
+    if (tabPage == nullptr) return;
+    QString fname = tabPage->textEdit()->getFileName();
     QString shownName;
     if (fname.isEmpty())
     {
@@ -2635,9 +2635,10 @@ void FPwin::enforceEncoding (QAction*)
        because encoding has no keyboard shortcut or tool button */
 
     int index = ui->tabWidget->currentIndex();
-    if (index == -1) return;
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
+    if (tabPage == nullptr) return;
 
-    TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
+    TextEdit *textEdit = tabPage->textEdit();
     QString fname = textEdit->getFileName();
     if (!fname.isEmpty())
     {
@@ -2679,11 +2680,12 @@ void FPwin::reload()
     if (isLoading()) return;
 
     int index = ui->tabWidget->currentIndex();
-    if (index == -1) return;
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
+    if (tabPage == nullptr) return;
 
     if (savePrompt (index, false) != SAVED) return;
 
-    TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
+    TextEdit *textEdit = tabPage->textEdit();
     QString fname = textEdit->getFileName();
     /* if the file is removed, close its tab to open a new one */
     if (!QFile::exists (fname))
@@ -2713,10 +2715,9 @@ bool FPwin::saveFile (bool keepSyntax)
     if (!isReady()) return false;
 
     int index = ui->tabWidget->currentIndex();
-    if (index == -1) return false;
-
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
     if (tabPage == nullptr) return false;
+
     TextEdit *textEdit = tabPage->textEdit();
     QString fname = textEdit->getFileName();
     QString filter = tr ("All Files (*)");
@@ -3238,10 +3239,10 @@ void FPwin::makeEditable()
 {
     if (!isReady()) return;
 
-    int index = ui->tabWidget->currentIndex();
-    if (index == -1) return;
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
+    if (tabPage == nullptr) return;
 
-    TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
+    TextEdit *textEdit = tabPage->textEdit();
     bool textIsSelected = textEdit->textCursor().hasSelection();
 
     textEdit->setReadOnly (false);
@@ -3313,15 +3314,14 @@ void FPwin::onTabChanged (int index)
 // Called with a timeout after tab switching (changes the window title, sets action states, etc.)
 void FPwin::tabSwitch (int index)
 {
-    if (index == -1)
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
+    if (tabPage == nullptr)
     {
         setWindowTitle ("FeatherPad[*]");
         setWindowModified (false);
         return;
     }
 
-    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
-    if (tabPage == nullptr) return;
     TextEdit *textEdit = tabPage->textEdit();
     if (!tabPage->isSearchBarVisible() && !sidePane_)
         textEdit->setFocus();
@@ -3445,13 +3445,13 @@ void FPwin::fontDialog()
 {
     if (isLoading()) return;
 
-    int index = ui->tabWidget->currentIndex();
-    if (index == -1) return;
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
+    if (tabPage == nullptr) return;
 
     if (hasAnotherDialog()) return;
     updateShortcuts (true);
 
-    TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
+    TextEdit *textEdit = tabPage->textEdit();
 
     QFont currentFont = textEdit->getDefaultFont();
     FontDialog fd (currentFont, this);
@@ -3546,11 +3546,9 @@ void FPwin::showHideSearch()
 {
     if (!isReady()) return;
 
-    int index = ui->tabWidget->currentIndex();
-    if (index == -1) return;
-
-    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
     if (tabPage == nullptr) return;
+
     bool isFocused = tabPage->isSearchBarVisible() && tabPage->searchBarHasFocus();
 
     if (!isFocused)
@@ -3819,11 +3817,10 @@ void FPwin::docProp()
         return;
     }
 
-    int index = ui->tabWidget->currentIndex();
-    if (index == -1) return;
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
+    if (tabPage == nullptr) return;
 
-    statusMsgWithLineCount (qobject_cast< TabPage *>(ui->tabWidget->widget (index))
-                            ->textEdit()->document()->blockCount());
+    statusMsgWithLineCount (tabPage->textEdit()->document()->blockCount());
     for (int i = 0; i < ui->tabWidget->count(); ++i)
     {
         TextEdit *thisTextEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (i))->textEdit();
@@ -3966,9 +3963,9 @@ void FPwin::updateWordInfo (int /*position*/, int charsRemoved, int charsAdded)
 {
     QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>("wordButton");
     if (!wordButton) return;
-    int index = ui->tabWidget->currentIndex();
-    if (index == -1) return;
-    TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
+    if (tabPage == nullptr) return;
+    TextEdit *textEdit = tabPage->textEdit();
     /* ensure that the signal comes from the active tab (when the info is going to be removed) */
     if (qobject_cast<QTextDocument*>(QObject::sender()) && QObject::sender() != textEdit->document())
         return;
@@ -4008,13 +4005,13 @@ void FPwin::filePrint()
 {
     if (isLoading()) return;
 
-    int index = ui->tabWidget->currentIndex();
-    if (index == -1) return;
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
+    if (tabPage == nullptr) return;
 
     if (hasAnotherDialog()) return;
     updateShortcuts (true);
 
-    TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
+    TextEdit *textEdit = tabPage->textEdit();
 
     /* complete the syntax highlighting when printing
        because the whole document may not be highlighted */
@@ -4180,7 +4177,8 @@ void FPwin::detachTab()
         index = ui->tabWidget->indexOf (sideItems_.value (sidePane_->listWidget()->item (rightClicked_)));
     else
         index = ui->tabWidget->currentIndex();
-    if (index == -1 || ui->tabWidget->count() == 1)
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
+    if (tabPage == nullptr || ui->tabWidget->count() == 1)
     {
         ui->tabWidget->tabBar()->finishMouseMoveEvent();
         return;
@@ -4214,8 +4212,6 @@ void FPwin::detachTab()
             statusCurPos = true;
     }
 
-    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
-    if (tabPage == nullptr) return;
     TextEdit *textEdit = tabPage->textEdit();
 
     disconnect (textEdit, &TextEdit::resized, this, &FPwin::hlight);

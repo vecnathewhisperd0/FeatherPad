@@ -24,9 +24,9 @@ namespace FeatherPad {
 
 void FPwin::matchBrackets()
 {
-    int index = ui->tabWidget->currentIndex();
-    if (index == -1) return;
-    TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
+    if (tabPage == nullptr) return;
+    TextEdit *textEdit = tabPage->textEdit();
     QTextCursor cur = textEdit->textCursor();
     TextBlockData *data = static_cast<TextBlockData *>(cur.block().userData());
     if (!data) return;
@@ -340,9 +340,9 @@ bool FPwin::matchRightBracket (QTextBlock currentBlock, int i, int numLeftBracke
 /*************************/
 void FPwin::createSelection (int pos)
 {
-    int index = ui->tabWidget->currentIndex();
-    if (index == -1) return;
-    TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (index))->textEdit();
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
+    if (tabPage == nullptr) return;
+    TextEdit *textEdit = tabPage->textEdit();
 
     QList<QTextEdit::ExtraSelection> es = textEdit->extraSelections();
 
