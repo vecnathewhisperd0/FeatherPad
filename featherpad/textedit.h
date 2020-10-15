@@ -262,7 +262,7 @@ signals:
                       int posInLine, // Only for connecting to FPwin::newTabFromName().
                       bool multiple); // Multiple files are dropped?
     void resized(); // needed by syntax highlighting
-    void updateRect (const QRect &rect);
+    void updateRect();
     void zoomedOut (TextEdit *textEdit); // needed for reformatting text
     void updateBracketMatching();
 
@@ -321,7 +321,7 @@ protected:
 private slots:
     void updateLineNumberAreaWidth (int newBlockCount);
     void highlightCurrentLine();
-    void updateLineNumberArea (const QRect&, int);
+    void updateLineNumberArea (const QRect &rect, int dy);
     void onUpdateRequesting (const QRect&, int dy);
     void onSelectionChanged();
     void scrollWithInertia();
@@ -341,7 +341,7 @@ private:
     bool drawIndetLines_;
     bool autoBracket_;
     int darkValue_;
-    int bgColorValue_; // only used internally and as a workaround
+    QColor separatorColor_; // only used internally
     int vLineDistance_;
     QString dateFormat_;
     QColor lineHColor_;

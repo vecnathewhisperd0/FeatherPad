@@ -156,8 +156,7 @@ private slots:
     void toggleSyntaxHighlighting();
     void formatOnBlockChange (int) const;
     void formatOnTextChange (int, int charsRemoved, int charsAdded) const;
-    void formatTextRect (const QRect &rect) const;
-    void formatOnResizing() const;
+    void formatTextRect() const;
     void toggleWrapping();
     void toggleIndent();
     void replace();

@@ -395,7 +395,6 @@ void FPwin::toggleSidePane()
             for (int i = 0; i < ui->tabWidget->count(); ++i)
             {
                 TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->widget (i));
-                if (tabPage == nullptr) continue;
                 /* tab text can't be used because, on the one hand, it may be elided
                    and, on the other hand, KDE's auto-mnemonics may interfere */
                 QString fname = tabPage->textEdit()->getFileName();
@@ -1577,7 +1576,7 @@ void FPwin::clearRecentMenu()
 /*************************/
 void FPwin::reformat (TextEdit *textEdit)
 {
-    formatTextRect (textEdit->rect()); // in "syntax.cpp"
+    formatTextRect(); // in "syntax.cpp"
     if (!textEdit->getSearchedText().isEmpty())
         hlight(); // in "find.cpp"
     textEdit->selectionHlight();
@@ -1930,13 +1929,6 @@ void FPwin::setTitle (const QString& fileName, int tabIndex)
         shownName.replace ("\n", " "); // no multi-line tab text
     }
 
-    shownName.replace ("&", "&&"); // single ampersand is for mnemonic
-    ui->tabWidget->setTabText (index, shownName);
-    if (isLink)
-        ui->tabWidget->setTabIcon (index, QIcon (":icons/link.svg"));
-    else
-        ui->tabWidget->setTabIcon (index, QIcon());
-
     if (sidePane_ && !sideItems_.isEmpty())
     {
         if (QListWidgetItem *wi = sideItems_.key (qobject_cast<TabPage*>(ui->tabWidget->widget (index))))
@@ -1948,6 +1940,14 @@ void FPwin::setTitle (const QString& fileName, int tabIndex)
                 wi->setIcon (QIcon());
         }
     }
+
+    shownName.replace ("&", "&&"); // single ampersand is for tab mnemonic
+    shownName.replace ('\t', ' ');
+    ui->tabWidget->setTabText (index, shownName);
+    if (isLink)
+        ui->tabWidget->setTabIcon (index, QIcon (":icons/link.svg"));
+    else
+        ui->tabWidget->setTabIcon (index, QIcon());
 }
 /*************************/
 void FPwin::enableSaving (bool modified)
@@ -1977,22 +1977,16 @@ void FPwin::asterisk (bool modified)
                         + (fname.contains ("/") ? fname
                                                 : QFileInfo (fname).absolutePath() + "/" + fname));
     }
-    if (modified)
-        shownName.prepend ("*");
     shownName.replace ("\n", " ");
 
-    shownName.replace ("&", "&&");
-    ui->tabWidget->setTabText (index, shownName);
-
     if (sidePane_)
-    {
-        if (modified)
-        {
-            shownName.remove (0, 1);
-            shownName.append ("*");
-        }
-        sidePane_->listWidget()->currentItem()->setText (shownName);
-    }
+        sidePane_->listWidget()->currentItem()->setText (modified ? shownName + "*" : shownName);
+
+    if (modified)
+        shownName.prepend ("*");
+    shownName.replace ("&", "&&");
+    shownName.replace ('\t', ' ');
+    ui->tabWidget->setTabText (index, shownName);
 }
 /*************************/
 void FPwin::waitToMakeBusy()
@@ -4236,7 +4230,7 @@ void FPwin::detachTab()
     disconnect (textEdit, &TextEdit::updateBracketMatching, this, &FPwin::matchBrackets);
     disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
     disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatTextRect);
-    disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
+    disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatTextRect);
 
     disconnect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::updateWordInfo);
     disconnect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::formatOnTextChange);
@@ -4288,13 +4282,21 @@ void FPwin::detachTab()
     if (dropTarget->sidePane_)
     {
         ListWidget *lw = dropTarget->sidePane_->listWidget();
-        if (textEdit->document()->isModified())
+        QString fname = textEdit->getFileName();
+        if (fname.isEmpty())
         {
-            tabText.remove (0, 1);
-            tabText.append ("*");
+            if (textEdit->getProg() == "help")
+                fname = "** " + tr ("Help") + " **";
+            else
+                fname = tr ("Untitled");
         }
+        else
+            fname = fname.section ('/', -1);
+        if (textEdit->document()->isModified())
+            fname.append ("*");
+        fname.replace ("\n", " ");
         ListWidgetItem *lwi = new ListWidgetItem (isLink ? QIcon (":icons/link.svg") : QIcon(),
-                                                  tabText, lw);
+                                                  fname, lw);
         lw->setToolTip (tooltip);
         dropTarget->sideItems_.insert (lwi, tabPage);
         lw->addItem (lwi);
@@ -4480,7 +4482,7 @@ void FPwin::dropTab (const QString& str)
     disconnect (textEdit, &TextEdit::updateBracketMatching, dragSource, &FPwin::matchBrackets);
     disconnect (textEdit, &QPlainTextEdit::blockCountChanged, dragSource, &FPwin::formatOnBlockChange);
     disconnect (textEdit, &TextEdit::updateRect, dragSource, &FPwin::formatTextRect);
-    disconnect (textEdit, &TextEdit::resized, dragSource, &FPwin::formatOnResizing);
+    disconnect (textEdit, &TextEdit::resized, dragSource, &FPwin::formatTextRect);
 
     disconnect (textEdit->document(), &QTextDocument::contentsChange, dragSource, &FPwin::updateWordInfo);
     disconnect (textEdit->document(), &QTextDocument::contentsChange, dragSource, &FPwin::formatOnTextChange);
@@ -4540,13 +4542,21 @@ void FPwin::dropTab (const QString& str)
     if (sidePane_)
     {
         ListWidget *lw = sidePane_->listWidget();
-        if (textEdit->document()->isModified())
+        QString fname = textEdit->getFileName();
+        if (fname.isEmpty())
         {
-            tabText.remove (0, 1);
-            tabText.append ("*");
+            if (textEdit->getProg() == "help")
+                fname = "** " + tr ("Help") + " **";
+            else
+                fname = tr ("Untitled");
         }
+        else
+            fname = fname.section ('/', -1);
+        if (textEdit->document()->isModified())
+            fname.append ("*");
+        fname.replace ("\n", " ");
         ListWidgetItem *lwi = new ListWidgetItem (isLink ? QIcon (":icons/link.svg") : QIcon(),
-                                                  tabText, lw);
+                                                  fname, lw);
         lw->setToolTip (tooltip);
         sideItems_.insert (lwi, tabPage);
         lw->addItem (lwi);
@@ -4700,7 +4710,6 @@ void FPwin::tabContextMenu (const QPoint& p)
                 for (int i = 0; i < ui->tabWidget->count(); ++i)
                 {
                     TabPage *thisTabPage = qobject_cast<TabPage*>(ui->tabWidget->widget (i));
-                    if (thisTabPage == nullptr) continue;
                     if (targetName == thisTabPage->textEdit()->getFileName())
                     {
                         ui->tabWidget->setCurrentWidget (thisTabPage);
@@ -4782,7 +4791,6 @@ void FPwin::listContextMenu (const QPoint& p)
                 for (int i = 0; i < ui->tabWidget->count(); ++i)
                 {
                     TabPage *thisTabPage = qobject_cast<TabPage*>(ui->tabWidget->widget (i));
-                    if (thisTabPage == nullptr) continue;
                     if (targetName == thisTabPage->textEdit()->getFileName())
                     {
                         if (QListWidgetItem *wi = sideItems_.key (thisTabPage))
@@ -5207,7 +5215,6 @@ void FPwin::saveAllFiles (bool showWarning)
     for (int indx = 0; indx < ui->tabWidget->count(); ++indx)
     {
         TabPage *thisTabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (indx));
-        if (thisTabPage == nullptr) continue;
         TextEdit *thisTextEdit = thisTabPage->textEdit();
         if (thisTextEdit->isUneditable() || !thisTextEdit->document()->isModified())
             continue;
@@ -5389,7 +5396,6 @@ void FPwin::helpDoc()
         for (int i = 0; i < ui->tabWidget->count(); ++i)
         {
             TabPage *thisTabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (i));
-            if (thisTabPage == nullptr) continue;
             TextEdit *thisTextEdit = thisTabPage->textEdit();
             if (thisTextEdit->getFileName().isEmpty()
                 && !thisTextEdit->document()->isModified()

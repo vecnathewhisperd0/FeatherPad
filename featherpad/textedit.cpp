@@ -36,6 +36,28 @@
 
 namespace FeatherPad {
 
+#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
+// To work around a nasty bug in Qt 5.14.0
+static QColor overlayColor (const QColor& bgCol, const QColor& overlayCol)
+{
+    if (!overlayCol.isValid()) return QColor(0,0,0);
+    if (!bgCol.isValid()) return overlayCol;
+
+    qreal a1 = overlayCol.alphaF();
+    if (a1 == 1.0) return overlayCol;
+    qreal a0  = bgCol.alphaF();
+    qreal a = (1.0 - a1) * a0 + a1;
+
+    QColor res;
+    res.setAlphaF(a);
+    res.setRedF (((1.0 - a1) * a0 * bgCol.redF() + a1 * overlayCol.redF()) / a);
+    res.setGreenF (((1.0 - a1) * a0 *bgCol.greenF() + a1 * overlayCol.greenF()) / a);
+    res.setBlueF (((1.0 - a1) * a0 * bgCol.blueF() + a1 * overlayCol.blueF()) / a);
+
+    return res;
+}
+#endif
+
 TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
 {
     prevAnchor_ = prevPos_ = -1;
@@ -92,6 +114,10 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
                 setPalette (p);
             }
         }
+        /* Use alpha in paintEvent to gray out the paragraph separators and
+           document terminators. The real text will be formatted by the highlgihter. */
+        separatorColor_ = Qt::white;
+        separatorColor_.setAlpha (90 - qRound (3 * static_cast<qreal>(darkValue_) / 5));
     }
     else
     {
@@ -117,9 +143,14 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
                 setPalette (p);
             }
         }
+        separatorColor_ = Qt::black;
+        separatorColor_.setAlpha (2 * qRound (static_cast<qreal>(bgColorValue) / 5) - 32);
     }
-    bgColorValue_ = bgColorValue;
     setCurLineHighlight (-1);
+
+#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
+    separatorColor_ = overlayColor (QColor (bgColorValue, bgColorValue, bgColorValue), separatorColor_);
+#endif
 
     resizeTimerId_ = 0;
     selectionTimerId_ = 0;
@@ -1528,28 +1559,6 @@ static void fillBackground (QPainter *p, const QRectF &rect, QBrush brush, const
     p->restore();
 }
 
-#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
-// To work around a nasty bug in Qt 5.14.0
-static QColor overlayColor (const QColor& bgCol, const QColor& overlayCol)
-{
-    if (!overlayCol.isValid()) return QColor(0,0,0);
-    if (!bgCol.isValid()) return overlayCol;
-
-    qreal a1 = overlayCol.alphaF();
-    if (a1 == 1.0) return overlayCol;
-    qreal a0  = bgCol.alphaF();
-    qreal a = (1.0 - a1) * a0 + a1;
-
-    QColor res;
-    res.setAlphaF(a);
-    res.setRedF (((1.0 - a1) * a0 * bgCol.redF() + a1 * overlayCol.redF()) / a);
-    res.setGreenF (((1.0 - a1) * a0 *bgCol.greenF() + a1 * overlayCol.greenF()) / a);
-    res.setBlueF (((1.0 - a1) * a0 * bgCol.blueF() + a1 * overlayCol.blueF()) / a);
-
-    return res;
-}
-#endif
-
 // Exactly like QPlainTextEdit::paintEvent(),
 // except for setting layout text option for RTL
 // and drawing vertical indentation lines (if needed).
@@ -1695,23 +1704,7 @@ void TextEdit::paintEvent (QPaintEvent *event)
                 if (opt.flags() & QTextOption::ShowLineAndParagraphSeparators)
                 {
                     painter.save();
-                    /* Use alpha with the painter to gray out the paragraph separators and
-                       document terminators. The real text will be formatted by the highlgihter. */
-                    QColor col;
-                    if (darkValue_ > -1)
-                    {
-                        col = Qt::white;
-                        col.setAlpha (90);
-                    }
-                    else
-                    {
-                        col = Qt::black;
-                        col.setAlpha (70);
-                    }
-#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
-                    col = overlayColor (QColor (bgColorValue_, bgColorValue_, bgColorValue_), col);
-#endif
-                    painter.setPen (col);
+                    painter.setPen (separatorColor_);
                 }
                 layout->draw (&painter, offset, selections, er);
                 if (opt.flags() & QTextOption::ShowLineAndParagraphSeparators)
@@ -1941,9 +1934,9 @@ void TextEdit::onUpdateRequesting (const QRect& /*rect*/, int dy)
     /* here, we're interested only in the vertical text scrolling
        (and, definitely, not in the blinking cursor updates) */
     if (dy == 0) return;
-    /* we use TextEdit's rect because the rect that
-       updateRequest() provides may be too small */
-    emit updateRect (rect());
+    /* we ignore the rectangle because QPlainTextEdit::updateRequest
+       gives the whole rectangle when the text is scrolled */
+    emit updateRect();
     /* because brackets may have been invisible before,
        FPwin::matchBrackets() should be called here */
     if (!matchedBrackets_ && isVisible())
@@ -2023,7 +2016,7 @@ void TextEdit::zooming (float range)
 void TextEdit::showEvent (QShowEvent *event)
 {
     QPlainTextEdit::showEvent (event);
-    emit updateRect (rect());
+    emit updateRect();
     if (!matchedBrackets_)
         emit updateBracketMatching();
 }

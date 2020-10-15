@@ -12,16 +12,18 @@
 <context>
     <name>FeatherPad::FPwin</name>
     <message>
-        <location filename="../../fpwin.cpp" line="408"/>
-        <location filename="../../fpwin.cpp" line="1335"/>
-        <location filename="../../fpwin.cpp" line="1397"/>
-        <location filename="../../fpwin.cpp" line="1918"/>
+        <location filename="../../fpwin.cpp" line="407"/>
+        <location filename="../../fpwin.cpp" line="1334"/>
+        <location filename="../../fpwin.cpp" line="1396"/>
+        <location filename="../../fpwin.cpp" line="1917"/>
         <location filename="../../fpwin.cpp" line="1970"/>
-        <location filename="../../fpwin.cpp" line="2742"/>
-        <location filename="../../fpwin.cpp" line="2762"/>
-        <location filename="../../fpwin.cpp" line="2765"/>
-        <location filename="../../fpwin.cpp" line="3338"/>
-        <location filename="../../fpwin.cpp" line="4046"/>
+        <location filename="../../fpwin.cpp" line="2736"/>
+        <location filename="../../fpwin.cpp" line="2756"/>
+        <location filename="../../fpwin.cpp" line="2759"/>
+        <location filename="../../fpwin.cpp" line="3332"/>
+        <location filename="../../fpwin.cpp" line="4040"/>
+        <location filename="../../fpwin.cpp" line="4291"/>
+        <location filename="../../fpwin.cpp" line="4551"/>
         <source>Untitled</source>
         <translation>Névtelen</translation>
     </message>
@@ -64,9 +66,9 @@
         <translation>&amp;Beállítások</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1358"/>
-        <location filename="../../fpwin.cpp" line="2666"/>
-        <location filename="../../fpwin.cpp" line="3855"/>
+        <location filename="../../fpwin.cpp" line="1357"/>
+        <location filename="../../fpwin.cpp" line="2660"/>
+        <location filename="../../fpwin.cpp" line="3849"/>
         <source>Encoding</source>
         <translation>Kódolás</translation>
     </message>
@@ -133,7 +135,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="519"/>
-        <location filename="../../fpwin.cpp" line="1138"/>
+        <location filename="../../fpwin.cpp" line="1137"/>
         <source>&amp;Save</source>
         <translation>Menté&amp;s</translation>
     </message>
@@ -608,7 +610,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="342"/>
-        <location filename="../../fpwin.cpp" line="3438"/>
+        <location filename="../../fpwin.cpp" line="3432"/>
         <location filename="../../replace.cpp" line="62"/>
         <location filename="../../replace.cpp" line="114"/>
         <source>Replacement</source>
@@ -797,404 +799,406 @@
         <translation>Összes cseréje</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="555"/>
+        <location filename="../../fpwin.cpp" line="554"/>
         <source>&amp;Recently Opened</source>
         <translation>Nem&amp;rég megnyitott</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1788"/>
+        <location filename="../../fpwin.cpp" line="1787"/>
         <source>Close</source>
         <translation>Bezárás</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1124"/>
+        <location filename="../../fpwin.cpp" line="1123"/>
         <source>Save changes?</source>
         <translation>Menti a változtatásokat?</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="839"/>
+        <location filename="../../fpwin.cpp" line="838"/>
         <source>Please attend to that window or just close its dialog!</source>
         <translation>Látogasson el arra az ablakra, vagy csak zárja be a párbeszédablakát!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1128"/>
+        <location filename="../../fpwin.cpp" line="1127"/>
         <source>The document has been modified.</source>
         <translation>A dokumentum módosult.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1139"/>
+        <location filename="../../fpwin.cpp" line="1138"/>
         <source>&amp;Discard changes</source>
         <translation>&amp;Elvetés</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1140"/>
+        <location filename="../../fpwin.cpp" line="1139"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Mégse</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1142"/>
+        <location filename="../../fpwin.cpp" line="1141"/>
         <source>&amp;No to all</source>
         <translation>&amp;Nem az összeset</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1340"/>
-        <location filename="../../fpwin.cpp" line="1398"/>
+        <location filename="../../fpwin.cpp" line="1339"/>
+        <location filename="../../fpwin.cpp" line="1397"/>
         <source>Unsaved</source>
         <translation>Nincs mentve</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1359"/>
-        <location filename="../../fpwin.cpp" line="2668"/>
-        <location filename="../../fpwin.cpp" line="3029"/>
-        <location filename="../../fpwin.cpp" line="3040"/>
-        <location filename="../../fpwin.cpp" line="3047"/>
-        <location filename="../../fpwin.cpp" line="3859"/>
-        <location filename="../../fpwin.cpp" line="5294"/>
-        <location filename="../../fpwin.cpp" line="5305"/>
+        <location filename="../../fpwin.cpp" line="1358"/>
+        <location filename="../../fpwin.cpp" line="2662"/>
+        <location filename="../../fpwin.cpp" line="3023"/>
+        <location filename="../../fpwin.cpp" line="3034"/>
+        <location filename="../../fpwin.cpp" line="3041"/>
+        <location filename="../../fpwin.cpp" line="3853"/>
+        <location filename="../../fpwin.cpp" line="5301"/>
         <location filename="../../fpwin.cpp" line="5312"/>
+        <location filename="../../fpwin.cpp" line="5319"/>
         <source>Lines</source>
         <translation>Sorok</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1360"/>
-        <location filename="../../fpwin.cpp" line="3860"/>
-        <location filename="../../fpwin.cpp" line="3874"/>
+        <location filename="../../fpwin.cpp" line="1359"/>
+        <location filename="../../fpwin.cpp" line="3854"/>
+        <location filename="../../fpwin.cpp" line="3868"/>
         <source>Sel. Chars</source>
         <translation>Kijelölt karakterek</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1361"/>
-        <location filename="../../fpwin.cpp" line="3862"/>
-        <location filename="../../fpwin.cpp" line="3875"/>
+        <location filename="../../fpwin.cpp" line="1360"/>
+        <location filename="../../fpwin.cpp" line="3856"/>
+        <location filename="../../fpwin.cpp" line="3869"/>
         <source>Words</source>
         <translation>Szavak</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1672"/>
+        <location filename="../../fpwin.cpp" line="1671"/>
         <source>Another process is running in this tab!</source>
         <translation>Egy másik folyamat már fut ezen a lapon!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1779"/>
+        <location filename="../../fpwin.cpp" line="1778"/>
         <source>Script File</source>
         <translation>Parancsfájl</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="838"/>
+        <location filename="../../fpwin.cpp" line="837"/>
         <source>Another FeatherPad window has a modal dialog!</source>
         <translation>Egy másik FeatherPad ablaknak már van egy párbeszédablaka!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="675"/>
-        <location filename="../../fpwin.cpp" line="3901"/>
+        <location filename="../../fpwin.cpp" line="674"/>
+        <location filename="../../fpwin.cpp" line="3895"/>
         <source>Position:</source>
         <translation>Helyzet:</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="722"/>
-        <location filename="../../fpwin.cpp" line="3919"/>
-        <location filename="../../fpwin.cpp" line="3939"/>
+        <location filename="../../fpwin.cpp" line="721"/>
+        <location filename="../../fpwin.cpp" line="3913"/>
+        <location filename="../../fpwin.cpp" line="3933"/>
         <source>Normal</source>
         <translation>Normál</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1126"/>
-        <location filename="../../fpwin.cpp" line="2442"/>
-        <location filename="../../fpwin.cpp" line="5105"/>
+        <location filename="../../fpwin.cpp" line="1125"/>
+        <location filename="../../fpwin.cpp" line="2436"/>
+        <location filename="../../fpwin.cpp" line="5113"/>
         <source>The file does not exist.</source>
         <translation>A fájl nem létezik.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1487"/>
+        <location filename="../../fpwin.cpp" line="1486"/>
         <source>Open Link</source>
         <translation>Link megnyitása</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1500"/>
+        <location filename="../../fpwin.cpp" line="1499"/>
         <source>Copy Link</source>
         <translation>Link másolása</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1673"/>
+        <location filename="../../fpwin.cpp" line="1672"/>
         <source>Only one process is allowed per tab.</source>
         <translation>Laponként csak egy folyamat megengedett.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1775"/>
+        <location filename="../../fpwin.cpp" line="1774"/>
         <source>Script Output</source>
         <translation>Szkriptkimenet</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1791"/>
+        <location filename="../../fpwin.cpp" line="1790"/>
         <source>Clear</source>
         <translation>Tisztítás</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2400"/>
+        <location filename="../../fpwin.cpp" line="2394"/>
         <source>FeatherPad does not open files larger than 100 MiB.</source>
         <translation>A FeatherPad nem tud 100 MiB-nál nagyobb fájlokat megnyitni.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2408"/>
+        <location filename="../../fpwin.cpp" line="2402"/>
         <source>Non-text file(s) not opened!</source>
         <translation>A nem szöveges fájlok nem lettek megnyitva!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2409"/>
+        <location filename="../../fpwin.cpp" line="2403"/>
         <source>See Preferences → Files → Do not permit opening of non-text files</source>
         <translation>Lásd: Beállítások → Fájlok → Nem szöveges fájlok megnyitásának letiltása</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2417"/>
+        <location filename="../../fpwin.cpp" line="2411"/>
         <source>Some file(s) could not be opened!</source>
         <translation>Néhány fájlt nem lehet megnyitni!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2418"/>
+        <location filename="../../fpwin.cpp" line="2412"/>
         <source>You may not have the permission to read.</source>
         <translation>Lehet, hogy nincs engedélye az olvasásra.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2428"/>
+        <location filename="../../fpwin.cpp" line="2422"/>
         <source>Uneditable file(s)!</source>
         <translation>Nem szerkeszthető fájl(ok)!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2429"/>
+        <location filename="../../fpwin.cpp" line="2423"/>
         <source>Non-text files or files with huge lines cannot be edited.</source>
         <translation>A nem szöveges fájlok vagy a hatalmas sorokkal rendelkező fájlok nem szerkeszthetők.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2486"/>
+        <location filename="../../fpwin.cpp" line="2480"/>
         <source>A previous crash detected!</source>
         <translation>Korábbi összeomlás észlelve!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2487"/>
+        <location filename="../../fpwin.cpp" line="2481"/>
         <source>Preferably, close all FeatherPad windows and start again!</source>
         <translation>Lehetőleg zárja be az összes FeatherPad ablakot, és indítsa újra!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2494"/>
+        <location filename="../../fpwin.cpp" line="2488"/>
         <source>Root Instance</source>
         <translation>Rendszergazdaként</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2565"/>
-        <location filename="../../fpwin.cpp" line="2723"/>
-        <location filename="../../fpwin.cpp" line="2751"/>
+        <location filename="../../fpwin.cpp" line="2559"/>
+        <location filename="../../fpwin.cpp" line="2717"/>
+        <location filename="../../fpwin.cpp" line="2745"/>
         <source>All Files (*)</source>
         <translation>Minden fájl (*)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2570"/>
+        <location filename="../../fpwin.cpp" line="2564"/>
         <source>All Files (*);;.%1 Files (*.%1)</source>
         <translation>Minden fájl (*);;.%1 Fájlok (*.%1)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2574"/>
+        <location filename="../../fpwin.cpp" line="2568"/>
         <source>Open file...</source>
         <translation>Fájl megnyitása...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2729"/>
+        <location filename="../../fpwin.cpp" line="2723"/>
         <source>.%1 Files (*.%1);;All Files (*)</source>
         <translation>%1 Fájlok (*.%1);;Minden fájl (*)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2776"/>
-        <location filename="../../fpwin.cpp" line="2808"/>
+        <location filename="../../fpwin.cpp" line="2770"/>
+        <location filename="../../fpwin.cpp" line="2802"/>
         <source>Save as...</source>
         <translation>Mentés másként...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2838"/>
+        <location filename="../../fpwin.cpp" line="2832"/>
         <source>Keep encoding and save as...</source>
         <translation>Kódolás megtartása és mentés másként...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2912"/>
+        <location filename="../../fpwin.cpp" line="2906"/>
         <source>Yes</source>
         <translation>Igen</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2913"/>
+        <location filename="../../fpwin.cpp" line="2907"/>
         <source>No</source>
         <translation>Nem</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2914"/>
+        <location filename="../../fpwin.cpp" line="2908"/>
         <source>Cancel</source>
         <translation>Mégse</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2915"/>
+        <location filename="../../fpwin.cpp" line="2909"/>
         <source>Do you want to use &lt;b&gt;MS Windows&lt;/b&gt; end-of-lines?</source>
         <translation>Biztos &lt;b&gt;MS Windows&lt;/b&gt; sorvégeket akar használni?</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2916"/>
+        <location filename="../../fpwin.cpp" line="2910"/>
         <source>This may be good for readability under MS Windows.</source>
         <translation>Ez jó lehet, ha MS Windowson is meg szeretné nyitni.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3063"/>
+        <location filename="../../fpwin.cpp" line="3057"/>
         <source>Cannot be saved!</source>
         <translation>Nem menthető!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="406"/>
-        <location filename="../../fpwin.cpp" line="3336"/>
-        <location filename="../../fpwin.cpp" line="5510"/>
+        <location filename="../../fpwin.cpp" line="405"/>
+        <location filename="../../fpwin.cpp" line="3330"/>
+        <location filename="../../fpwin.cpp" line="4289"/>
+        <location filename="../../fpwin.cpp" line="4549"/>
+        <location filename="../../fpwin.cpp" line="5516"/>
         <source>Help</source>
         <translation>Súgó</translation>
     </message>
     <message>
+        <location filename="../../fpwin.cpp" line="3019"/>
         <location filename="../../fpwin.cpp" line="3025"/>
-        <location filename="../../fpwin.cpp" line="3031"/>
-        <location filename="../../fpwin.cpp" line="3039"/>
-        <location filename="../../fpwin.cpp" line="3858"/>
-        <location filename="../../fpwin.cpp" line="5290"/>
-        <location filename="../../fpwin.cpp" line="5296"/>
-        <location filename="../../fpwin.cpp" line="5304"/>
+        <location filename="../../fpwin.cpp" line="3033"/>
+        <location filename="../../fpwin.cpp" line="3852"/>
+        <location filename="../../fpwin.cpp" line="5297"/>
+        <location filename="../../fpwin.cpp" line="5303"/>
+        <location filename="../../fpwin.cpp" line="5311"/>
         <source>Syntax</source>
         <translation>Szintaxis</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2399"/>
+        <location filename="../../fpwin.cpp" line="2393"/>
         <source>Huge file(s) not opened!</source>
         <translation>A nagy fájl(ok) nem lett(ek) megnyitva!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3101"/>
+        <location filename="../../fpwin.cpp" line="3095"/>
         <source>Text tabs are converted to spaces.</source>
         <translation>A behúzások átalakítva szóközökké.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3209"/>
+        <location filename="../../fpwin.cpp" line="3203"/>
         <source>The selected text was too long.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3210"/>
+        <location filename="../../fpwin.cpp" line="3204"/>
         <source>It is not fully processed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3348"/>
-        <location filename="../../fpwin.cpp" line="3537"/>
+        <location filename="../../fpwin.cpp" line="3342"/>
+        <location filename="../../fpwin.cpp" line="3531"/>
         <source>This file has been modified elsewhere or in another way!</source>
         <translation>Ezt a fájlt máshol vagy máshogyan módosították!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3349"/>
-        <location filename="../../fpwin.cpp" line="3538"/>
+        <location filename="../../fpwin.cpp" line="3343"/>
+        <location filename="../../fpwin.cpp" line="3532"/>
         <source>Please be careful about reloading or saving this document!</source>
         <translation>Legyen óvatos a dokumentum újratöltésével vagy mentésével kapcsolatban!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4057"/>
+        <location filename="../../fpwin.cpp" line="4051"/>
         <source>Print Document</source>
         <translation>Dokumentum nyomtatása</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4666"/>
-        <location filename="../../fpwin.cpp" line="4746"/>
+        <location filename="../../fpwin.cpp" line="4676"/>
+        <location filename="../../fpwin.cpp" line="4755"/>
         <source>%1 Pages</source>
         <translation>%1 lap</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4693"/>
-        <location filename="../../fpwin.cpp" line="4775"/>
+        <location filename="../../fpwin.cpp" line="4703"/>
+        <location filename="../../fpwin.cpp" line="4784"/>
         <source>Copy Target Path</source>
         <translation>Cél útvonalának másolása</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4697"/>
-        <location filename="../../fpwin.cpp" line="4779"/>
+        <location filename="../../fpwin.cpp" line="4707"/>
+        <location filename="../../fpwin.cpp" line="4788"/>
         <source>Open Target Here</source>
         <translation>Cél megnyitása itt</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4716"/>
-        <location filename="../../fpwin.cpp" line="4799"/>
+        <location filename="../../fpwin.cpp" line="4725"/>
+        <location filename="../../fpwin.cpp" line="4807"/>
         <source>Open Containing Folder</source>
         <translation>Tartalmazó mappa megnyitása</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4908"/>
+        <location filename="../../fpwin.cpp" line="4916"/>
         <source>You need to add a Hunspell dictionary.</source>
         <translation>Fel kell vennie egy Hunspell szótárt.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4909"/>
-        <location filename="../../fpwin.cpp" line="4915"/>
-        <location filename="../../fpwin.cpp" line="4924"/>
+        <location filename="../../fpwin.cpp" line="4917"/>
+        <location filename="../../fpwin.cpp" line="4923"/>
+        <location filename="../../fpwin.cpp" line="4932"/>
         <source>See Preferences → Text → Spell Checking!</source>
         <translation>Lásd: Beállítások → Szöveg → Helyesírás-ellenőrzés!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4914"/>
+        <location filename="../../fpwin.cpp" line="4922"/>
         <source>The Hunspell dictionary does not exist.</source>
         <translation>A Hunspell szótár nem létezik.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4923"/>
+        <location filename="../../fpwin.cpp" line="4931"/>
         <source>The Hunspell dictionary is not accompanied by an affix file.</source>
         <translation>A Hunspell szótárhoz nem kapcsolódik affix fájl.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4945"/>
-        <location filename="../../fpwin.cpp" line="4963"/>
-        <location filename="../../fpwin.cpp" line="4978"/>
+        <location filename="../../fpwin.cpp" line="4953"/>
+        <location filename="../../fpwin.cpp" line="4971"/>
+        <location filename="../../fpwin.cpp" line="4986"/>
         <source>No misspelling in document.</source>
         <translation>Nincs helyesírási hiba a dokumentumban.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4947"/>
-        <location filename="../../fpwin.cpp" line="4965"/>
-        <location filename="../../fpwin.cpp" line="4980"/>
+        <location filename="../../fpwin.cpp" line="4955"/>
+        <location filename="../../fpwin.cpp" line="4973"/>
+        <location filename="../../fpwin.cpp" line="4988"/>
         <source>No misspelling from text cursor.</source>
         <translation>Nincs helyesírási hiba a kijelölt szövegben.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4993"/>
+        <location filename="../../fpwin.cpp" line="5001"/>
         <source>Spell Checking</source>
         <translation>Helyesírás-ellenőrzés</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5328"/>
+        <location filename="../../fpwin.cpp" line="5335"/>
         <source>Some files cannot be saved!</source>
         <translation>Néhány fájlt nem lehet menteni!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5375"/>
+        <location filename="../../fpwin.cpp" line="5382"/>
         <source>Translators</source>
         <translation>Fordítók</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5371"/>
+        <location filename="../../fpwin.cpp" line="5378"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translation>Egy könnyed, lapokkal ellátott, egyszerű szövegszerkesztő</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5372"/>
+        <location filename="../../fpwin.cpp" line="5379"/>
         <source>based on Qt</source>
         <translation>amely a Qt-ön alapul</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5373"/>
+        <location filename="../../fpwin.cpp" line="5380"/>
         <source>Author</source>
         <translation>Szerző</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5374"/>
+        <location filename="../../fpwin.cpp" line="5381"/>
         <source>aka.</source>
         <translation>más néven</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5375"/>
-        <location filename="../../fpwin.cpp" line="5376"/>
+        <location filename="../../fpwin.cpp" line="5382"/>
+        <location filename="../../fpwin.cpp" line="5383"/>
         <source>About FeatherPad</source>
         <translation>FeatherPad névjegye</translation>
     </message>
@@ -2390,7 +2394,7 @@ windows will be included in the saved session.</source>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="147"/>
+        <location filename="../../textedit.cpp" line="178"/>
         <source>Double click to center current line</source>
         <translation>Dupla kattintás, hogy a legutóbbi sor középre kerüljön</translation>
     </message>

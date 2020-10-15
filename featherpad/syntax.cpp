@@ -305,7 +305,7 @@ void FPwin::syntaxHighlighting (TextEdit *textEdit, bool highlight, const QStrin
             /* visible text may change on block removal */
             connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
             connect (textEdit, &TextEdit::updateRect, this, &FPwin::formatTextRect);
-            connect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
+            connect (textEdit, &TextEdit::resized, this, &FPwin::formatTextRect);
             /* this is needed when the whole visible text is pasted */
             connect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::formatOnTextChange);
         });
@@ -313,7 +313,7 @@ void FPwin::syntaxHighlighting (TextEdit *textEdit, bool highlight, const QStrin
     else if (Highlighter *highlighter = qobject_cast< Highlighter *>(textEdit->getHighlighter()))
     {
         disconnect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::formatOnTextChange);
-        disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatOnResizing);
+        disconnect (textEdit, &TextEdit::resized, this, &FPwin::formatTextRect);
         disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatTextRect);
         disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
         disconnect (textEdit, &TextEdit::updateBracketMatching, this, &FPwin::matchBrackets);
@@ -343,26 +343,19 @@ void FPwin::formatOnTextChange (int /*position*/, int charsRemoved, int charsAdd
     {
         /* wait until the document's layout manager is notified about the change;
            otherwise, the end cursor might be out of range in formatTextRect() */
-        QTimer::singleShot (0, this, &FPwin::formatOnResizing);
+        QTimer::singleShot (0, this, &FPwin::formatTextRect);
     }
 }
 /*************************/
 void FPwin::formatOnBlockChange (int/* newBlockCount*/) const
 {
-    formatOnResizing();
+    formatTextRect();
 }
 /*************************/
-void FPwin::formatOnResizing() const
+void FPwin::formatTextRect() const
 {
-    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
-    if (tabPage == nullptr) return;
-
-    TextEdit *textEdit = tabPage->textEdit();
-    formatTextRect (textEdit->rect());
-}
-/*************************/
-void FPwin::formatTextRect (const QRect &rect) const
-{
+    /* It's supposed that this function is called for the current tab.
+       That isn't always the case and won't do any harm if it isn't. */
     if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget()))
     {
         TextEdit *textEdit = tabPage->textEdit();
@@ -371,7 +364,7 @@ void FPwin::formatTextRect (const QRect &rect) const
 
         QPoint Point (0, 0);
         QTextCursor start = textEdit->cursorForPosition (Point);
-        Point = QPoint (rect.width(), rect.height());
+        Point = QPoint (textEdit->width(), textEdit->height());
         QTextCursor end = textEdit->cursorForPosition (Point);
 
         highlighter->setLimit (start, end);
