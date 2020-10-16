@@ -14,6 +14,7 @@ V0.16.0
  * Removed the option for scroll jump workaround (because it wasn't FeatherPad's job).
  * Added "To Start Case".
  * Removed the 50-ms delay in text updating because, apparently, Qt's update requests are appropriate now.
+ * Focus the editor's view when the Escape key is pressed.
 
 V0.15.0
 ---------

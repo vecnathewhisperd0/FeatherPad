@@ -314,6 +314,9 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     connect (fullscreen, &QShortcut::activated, [this] {setWindowState (windowState() ^ Qt::WindowFullScreen);});
     connect (defaultsize, &QShortcut::activated, this, &FPwin::defaultSize);
 
+    QShortcut *focusView = new QShortcut (QKeySequence (Qt::Key_Escape), this);
+    connect (focusView, &QShortcut::activated, this, &FPwin::focusView);
+
     /* this workaround, for the RTL bug in QPlainTextEdit, isn't needed
        because a better workaround is included in textedit.cpp */
     /*QShortcut *align = new QShortcut (QKeySequence (tr ("Ctrl+Shift+A", "Alignment")), this);
@@ -1647,6 +1650,12 @@ void FPwin::defaultSize()
         textEdit->document()->setDefaultTextOption (opt);
     }
 }*/
+/*************************/
+void FPwin::focusView()
+{
+    if (TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget()))
+        tabPage->textEdit()->setFocus();
+}
 /*************************/
 void FPwin::executeProcess()
 {
