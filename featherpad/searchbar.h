@@ -21,7 +21,7 @@
 #define SEARCHBAR_H
 
 #include <QPointer>
-#include <QPushButton>
+#include <QToolButton>
 #include <QComboBox>
 #include <QStandardItemModel>
 #include "lineedit.h"
@@ -32,31 +32,22 @@ class ComboBox : public QComboBox
 {
     Q_OBJECT
 public:
-    ComboBox (QWidget *parent = nullptr) : QComboBox (parent) {}
+    ComboBox (QWidget *parent = nullptr) :
+        QComboBox (parent), hasPopup_ (false) {}
     ~ComboBox() {}
+
+    bool hasPopup() const;
+    void showPopup() override;
+    void hidePopup() override;
 
 signals:
     void moveInHistory (bool up);
 
 protected:
-    virtual void keyPressEvent (QKeyEvent *event) {
-        if (!(event->modifiers() & Qt::ControlModifier))
-        {
-            if (event->key() == Qt::Key_Up)
-            {
-                emit moveInHistory (true);
-                event->accept();
-                return;
-            }
-            if (event->key() == Qt::Key_Down)
-            {
-                emit moveInHistory (false);
-                event->accept();
-                return;
-            }
-        }
-        QComboBox::keyPressEvent (event);
-    }
+    void keyPressEvent (QKeyEvent *event) override;
+
+private:
+    bool hasPopup_;
 };
 
 class SearchBar : public QFrame
@@ -76,6 +67,8 @@ public:
     bool matchCase() const;
     bool matchWhole() const;
     bool matchRegex() const;
+
+    bool hasPopup() const;
 
     void updateShortcuts (bool disable);
 

@@ -86,6 +86,11 @@ bool TabPage::matchRegex() const
     return searchBar_->matchRegex();
 }
 /*************************/
+bool TabPage::hasPopup() const
+{
+    return searchBar_->hasPopup();
+}
+/*************************/
 void TabPage::updateShortcuts (bool disable)
 {
     searchBar_->updateShortcuts (disable);

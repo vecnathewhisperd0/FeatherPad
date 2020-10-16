@@ -48,6 +48,10 @@ FeatherPad also has a side-pane mode, which can be enabled either temporarily or
 
 The side-pane mode does not have features provided by tabs -- for example, tab drag-and-drop is missing from it -- and conversely -- for example, tabs are not sorted and cannot be filtered -- but the side-pane and tab modes can be used interchangeably through the Side-Pane menu-item or its shortcut and also by middle-clicking an empty space inside the tab-bar or side-pane.
 
+The side-pane can be opened by its shortcut (Ctrl+Alt+P by default). If it is already open but does not have focus, the same shortcut focuses it and, if it has focus, the shortcut closes it.
+
+To return the focus to the editor's main view from the side-pane or anywhere else, press the Escape key.
+
 *****************
 *   Encodings   *
 *****************
@@ -81,11 +85,15 @@ To remove the yellow highlights after finishing a search, you could
 * Click on the 'Clear' icon of the search entry, or
 * Press Ctrl+K while the search entry has focus, or
 * Empty the search entry and press Enter or F3 in it, or
-* Hide the search bar by focusing it and then, pressing Ctrl+F.
+* Hide the search bar by focusing it (with Ctrl+F) and then, pressing Ctrl+F (again).
 
 Each search entry has a search history that can be shown as a popup list by clicking its arrow or by pressing Ctrl+Up/Down when it has focus. The topmost item shows the most recent searched text. When the entry has focus, up and down arrow keys can be used for selecting history items without showing the popup list.
 
-The 'Replace' docked window respects the settings for 'Match Case', 'Whole Word' and 'Regular Expression' on the search bar (in the last case, the matching text should be a regular expression, while the replacing text is always an ordinary string). It can be detached from and reattached to the main window at top or bottom. To remove the green highlights after replacing text, you could either hide/close the 'Replace' docked window or do as in the case of removing yellow search highlights (without closing the dock).
+The 'Replace' docked window respects the settings for 'Match Case', 'Whole Word' and 'Regular Expression' on the search bar (in the last case, the matching text should be a regular expression, while the replacing text is always an ordinary string). It can be detached from and reattached to the main window at top or bottom. To remove the green highlights after replacing text, you could either hide/close the 'Replace' docked window or do as in the case of removing yellow search highlights.
+
+The 'Replace' docked window is never shown without the search bar because the settings of the latter are needed by the former.
+
+Pressing the Escape key is the easiest way of focusing the editor's main view, without changing anything else.
 
 ******************************
 *   Selection Highlighting   *

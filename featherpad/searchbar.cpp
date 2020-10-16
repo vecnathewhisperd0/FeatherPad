@@ -18,8 +18,8 @@
  */
 
 #include <QGridLayout>
-#include <QToolButton>
 #include <QCompleter>
+#include <QTimer>
 #include "searchbar.h"
 #include "svgicons.h"
 
@@ -27,6 +27,46 @@ namespace FeatherPad {
 
 static const int MAX_ROW_COUNT = 40;
 
+void ComboBox::keyPressEvent (QKeyEvent *event)
+{
+    if (!(event->modifiers() & Qt::ControlModifier))
+    {
+        if (event->key() == Qt::Key_Up)
+        {
+            emit moveInHistory (true);
+            event->accept();
+            return;
+        }
+        if (event->key() == Qt::Key_Down)
+        {
+            emit moveInHistory (false);
+            event->accept();
+            return;
+        }
+    }
+    QComboBox::keyPressEvent (event);
+}
+/*************************/
+bool ComboBox::hasPopup() const
+{
+    return hasPopup_;
+}
+/*************************/
+void ComboBox::showPopup()
+{
+    hasPopup_ = true;
+    QComboBox::showPopup();
+}
+/*************************/
+void ComboBox::hidePopup()
+{
+    QComboBox::hidePopup();
+    /* wait for the popup to be closed */
+    QTimer::singleShot (0, this, [this]() {
+        hasPopup_ = false;
+    });
+}
+/*************************/
 SearchBar::SearchBar(QWidget *parent,
                      const QList<QKeySequence> &shortcuts,
                      Qt::WindowFlags f)
@@ -246,6 +286,11 @@ bool SearchBar::matchWhole() const
 bool SearchBar::matchRegex() const
 {
     return button_regex_->isChecked();
+}
+/*************************/
+bool SearchBar::hasPopup() const
+{
+    return combo_->hasPopup();
 }
 /*************************/
 // Used only in a workaround (-> FPwin::updateShortcuts())

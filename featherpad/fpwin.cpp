@@ -47,6 +47,7 @@
 #include <QFileInfo>
 #include <QStandardPaths>
 #include <QDesktopServices>
+#include <QPushButton>
 
 #ifdef HAS_X11
 #include "x11.h"
@@ -1654,7 +1655,10 @@ void FPwin::defaultSize()
 void FPwin::focusView()
 {
     if (TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget()))
-        tabPage->textEdit()->setFocus();
+    {
+        if (!tabPage->hasPopup())
+            tabPage->textEdit()->setFocus();
+    }
 }
 /*************************/
 void FPwin::executeProcess()
