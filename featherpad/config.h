@@ -607,7 +607,6 @@ private:
     int splitterPos_;
     QFont font_;
     QString executeCommand_;
-    int openRecentFiles_;
     bool recentOpened_;
     QStringList recentFiles_;
     bool saveLastFilesList_;

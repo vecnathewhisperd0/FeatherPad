@@ -874,6 +874,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                 cursor.setPosition (anch + 1, QTextCursor::MoveAnchor);
                 cursor.setPosition (pos + 1, QTextCursor::KeepAnchor);
                 cursor.endEditBlock();
+                highlightThisSelection_ = false;
                 /* WARNING: Why does putting "setTextCursor()" before "endEditBlock()"
                             cause a crash with huge lines? Most probably, a Qt bug. */
                 setTextCursor (cursor);
@@ -935,6 +936,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
 
             if (event->key() == Qt::Key_Down)
             {
+                highlightThisSelection_ = false;
                 cursor.beginEditBlock();
                 cursor.setPosition (qMin (anch, pos));
                 cursor.movePosition (QTextCursor::StartOfBlock);
@@ -970,6 +972,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
             }
             else
             {
+                highlightThisSelection_ = false;
                 cursor.beginEditBlock();
                 cursor.setPosition (qMax (anch, pos));
                 cursor.movePosition (QTextCursor::EndOfBlock);
@@ -1075,6 +1078,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
         int newLines = cursor.selectedText().count (QChar (QChar::ParagraphSeparator));
         if (newLines > 0)
         {
+            highlightThisSelection_ = false;
             cursor.beginEditBlock();
             cursor.setPosition (qMin (cursor.anchor(), cursor.position())); // go to the first block
             cursor.movePosition (QTextCursor::StartOfBlock);
@@ -1117,6 +1121,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
         QTextCursor cursor = textCursor();
         int newLines = cursor.selectedText().count (QChar (QChar::ParagraphSeparator));
         cursor.setPosition (qMin (cursor.anchor(), cursor.position()));
+        highlightThisSelection_ = false;
         cursor.beginEditBlock();
         cursor.movePosition (QTextCursor::StartOfBlock);
         for (int i = 0; i <= newLines; ++i)

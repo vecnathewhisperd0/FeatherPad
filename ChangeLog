@@ -15,6 +15,7 @@ V0.16.0
  * Added "To Start Case".
  * Removed the 50-ms delay in text updating because, apparently, Qt's update requests are appropriate now.
  * Focus the editor's view when the Escape key is pressed.
+ * Let the user disable the recent files feature by setting its number to zero.
 
 V0.15.0
 ---------

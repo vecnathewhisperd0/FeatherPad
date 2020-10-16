@@ -271,7 +271,7 @@ void Config::readConfig()
     if (settings.value ("removeTrailingSpaces").toBool())
         removeTrailingSpaces_ = true; // false by default
 
-    recentFilesNumber_ = qBound (1, settings.value ("recentFilesNumber", 10).toInt(), 20);
+    recentFilesNumber_ = qBound (0, settings.value ("recentFilesNumber", 10).toInt(), 20);
     curRecentFilesNumber_ = recentFilesNumber_; // fixed
     recentFiles_ = settings.value ("recentFiles").toStringList();
     recentFiles_.removeAll ("");
@@ -643,10 +643,13 @@ void Config::setCurLineHighlight (int value)
 /*************************/
 void Config::addRecentFile (const QString& file)
 {
-    recentFiles_.removeAll (file);
-    recentFiles_.prepend (file);
-    while (recentFiles_.count() > curRecentFilesNumber_)
-        recentFiles_.removeLast();
+    if (curRecentFilesNumber_ > 0)
+    {
+        recentFiles_.removeAll (file);
+        recentFiles_.prepend (file);
+        while (recentFiles_.count() > curRecentFilesNumber_)
+            recentFiles_.removeLast();
+    }
 }
 /*************************/
 QString Config::validatedShortcut (const QVariant v, bool *isValid)

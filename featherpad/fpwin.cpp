@@ -557,17 +557,22 @@ void FPwin::applyConfigOnStarting()
     if (config.getRecentOpened())
         ui->menuOpenRecently->setTitle (tr ("&Recently Opened"));
     int recentNumber = config.getCurRecentFilesNumber();
-    QAction* recentAction = nullptr;
-    for (int i = 0; i < recentNumber; ++i)
+    if (recentNumber <= 0)
+        ui->menuOpenRecently->setEnabled (false);
+    else
     {
-        recentAction = new QAction (this);
-        recentAction->setVisible (false);
-        connect (recentAction, &QAction::triggered, this, &FPwin::newTabFromRecent);
-        ui->menuOpenRecently->addAction (recentAction);
+        QAction* recentAction = nullptr;
+        for (int i = 0; i < recentNumber; ++i)
+        {
+            recentAction = new QAction (this);
+            recentAction->setVisible (false);
+            connect (recentAction, &QAction::triggered, this, &FPwin::newTabFromRecent);
+            ui->menuOpenRecently->addAction (recentAction);
+        }
+        ui->menuOpenRecently->addAction (ui->actionClearRecent);
+        connect (ui->menuOpenRecently, &QMenu::aboutToShow, this, &FPwin::updateRecenMenu);
+        connect (ui->actionClearRecent, &QAction::triggered, this, &FPwin::clearRecentMenu);
     }
-    ui->menuOpenRecently->addAction (ui->actionClearRecent);
-    connect (ui->menuOpenRecently, &QMenu::aboutToShow, this, &FPwin::updateRecenMenu);
-    connect (ui->actionClearRecent, &QAction::triggered, this, &FPwin::clearRecentMenu);
 
     ui->actionSave->setEnabled (config.getSaveUnmodified()); // newTab() will be called after this
 

@@ -984,7 +984,7 @@ is 10.
 Needs application restart to take effect.</string>
               </property>
               <property name="minimum">
-               <number>1</number>
+               <number>0</number>
               </property>
               <property name="maximum">
                <number>20</number>
