@@ -33,7 +33,7 @@ class FPsingleton : public QApplication
 {
     Q_OBJECT
 public:
-    FPsingleton (int &argc, char **argv);
+    FPsingleton (int &argc, char **argv, bool standalone);
     ~FPsingleton();
 
     bool sendMessage (const QString& message);
@@ -77,6 +77,8 @@ private:
     bool isX11_;
     bool socketFailure_;
     QStandardItemModel *searchModel_; // The common search history if any.
+
+    bool standalone_; // Whether this is a standalone instance.
 };
 
 }

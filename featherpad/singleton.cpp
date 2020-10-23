@@ -43,7 +43,7 @@
 
 namespace FeatherPad {
 
-FPsingleton::FPsingleton (int &argc, char **argv) : QApplication (argc, argv)
+FPsingleton::FPsingleton (int &argc, char **argv, bool standalone) : QApplication (argc, argv)
 {
 #ifdef HAS_X11
     // For now, the lack of x11 is seen as wayland.
@@ -56,6 +56,7 @@ FPsingleton::FPsingleton (int &argc, char **argv) : QApplication (argc, argv)
     isX11_ = false;
 #endif // HAS_X11
 
+    standalone_ = standalone;
     socketFailure_ = false;
     config_.readConfig();
     lastFiles_ = config_.getLastFiles();
@@ -63,6 +64,13 @@ FPsingleton::FPsingleton (int &argc, char **argv) : QApplication (argc, argv)
         searchModel_ = new QStandardItemModel (0, 1, this);
     else
         searchModel_ = nullptr;
+
+    if (standalone)
+    {
+        lockFile_ = nullptr;
+        localServer_ = nullptr;
+        return;
+    }
 
     /* Instead of QSharedMemory, a lock file is used for creating a single instance because
        QSharedMemory not only would be unsafe with a crash but also might persist without a
@@ -131,8 +139,11 @@ void FPsingleton::receiveMessage()
 // A new instance will be started only if this function returns false.
 bool FPsingleton::sendMessage (const QString& message)
 {
-    if (localServer_ != nullptr) // no other instance was running
+    if (standalone_ // it's standalone or...
+        || localServer_ != nullptr) // ... no other instance was running
+    {
         return false;
+    }
 
     QLocalSocket localSocket (this);
     localSocket.connectToServer (uniqueKey_, QIODevice::WriteOnly);
@@ -219,11 +230,19 @@ QStringList FPsingleton::processInfo (const QString& message,
         *newWindow = true;
         return QStringList();
     }
-    *newWindow = false;
     desktop = sl.at (0).toInt();
     sl.removeFirst();
     QDir curDir (sl.at (0));
     sl.removeFirst();
+    if (standalone_)
+    {
+        *newWindow = true;
+        sl.removeFirst(); // "--standalone" is always the first optionn
+        if (sl.isEmpty())
+            return QStringList();
+    }
+    else
+        *newWindow = false;
     bool hasCurInfo = cursorInfo (sl.at (0), lineNum, posInLine);
     if (hasCurInfo)
     {
@@ -285,7 +304,7 @@ void FPsingleton::firstWin (const QString& message)
 FPwin* FPsingleton::newWin (const QStringList& filesList,
                             int lineNum, int posInLine)
 {
-    FPwin *fp = new FPwin;
+    FPwin *fp = new FPwin (nullptr, standalone_);
     fp->show();
     if (socketFailure_)
         fp->showCrashWarning();

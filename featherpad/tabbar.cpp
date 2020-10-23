@@ -79,8 +79,6 @@ void TabBar::mouseMoveEvent (QMouseEvent *event)
       dragStarted_ = true;
     }
 
-    /* since Wayland has a serious issue related to QDrag that interferes with
-       dropping tabs outside all windows, we don't enable tab DND without X11 */
     if (!noTabDND_
         && (event->buttons() & Qt::LeftButton)
         && dragStarted_

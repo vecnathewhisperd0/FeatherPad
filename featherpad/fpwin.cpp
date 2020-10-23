@@ -66,9 +66,11 @@ void BusyMaker::makeBusy() {
 }
 
 
-FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (new Ui::FPwin)
+FPwin::FPwin (QWidget *parent, bool standalone):QMainWindow (parent), dummyWidget (nullptr), ui (new Ui::FPwin)
 {
     ui->setupUi (this);
+
+    standalone_ = standalone;
 
     loadingProcesses_ = 0;
     rightClicked_ = -1;
@@ -189,9 +191,13 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     ui->actionUTF_8->setChecked (true);
     ui->actionOther->setDisabled (true);
 
-    /* see TabBar::mouseMoveEvent() for the reason of this: */
-    if (!static_cast<FPsingleton*>(qApp)->isX11())
+    if (standalone_
+        /* since Wayland has a serious issue related to QDrag that interferes with
+           dropping tabs outside all windows, we don't enable tab DND without X11 */
+        || !static_cast<FPsingleton*>(qApp)->isX11())
+    {
         ui->tabWidget->noTabDND();
+    }
 
     connect (ui->actionNew, &QAction::triggered, this, &FPwin::newTab);
     connect (ui->tabWidget->tabBar(), &TabBar::addEmptyTab, this, &FPwin::newTab);
@@ -851,7 +857,7 @@ bool FPwin::hasAnotherDialog()
 /*************************/
 void FPwin::updateGUIForSingleTab (bool single)
 {
-    ui->actionDetachTab->setEnabled (!single);
+    ui->actionDetachTab->setEnabled (!single && !standalone_);
     ui->actionRightTab->setEnabled (!single);
     ui->actionLeftTab->setEnabled (!single);
     ui->actionLastTab->setEnabled (!single);
@@ -4787,8 +4793,11 @@ void FPwin::listContextMenu (const QPoint& p)
             menu.addAction (ui->actionCloseOther);
         }
         menu.addAction (ui->actionCloseAll);
-        menu.addSeparator();
-        menu.addAction (ui->actionDetachTab);
+        if (!standalone_)
+        {
+            menu.addSeparator();
+            menu.addAction (ui->actionDetachTab);
+        }
     }
     if (!fname.isEmpty())
     {

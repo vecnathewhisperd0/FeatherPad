@@ -1,3 +1,15 @@
+***************
+*   General   *
+***************
+
+FeatherPad is a single-instance application by default, which means that all its windows share the same process and that process terminates only if all windows are closed.
+
+However, if FeatherPad is started with the command-line option "--standalone" or "-s", it will have a single window with a separate process. That process will end if its single window is closed.
+
+Rarely, where a standalone window is expected, "--standalone" or "-s" may be needed. For example, if you want to use FeatherPad as the "git" editor, you will need "featherpad -s" as the editor command (without quotes) because "git" may not work correctly with single-instance editors.
+
+Enter "featherpad --help" in a terminal emulator to see all command-line options.
+
 *********************
 *   Drag-and-Drop   *
 *********************

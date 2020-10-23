@@ -49,18 +49,22 @@ int main (int argc, char **argv)
     {
         QTextStream out (stdout);
         out << "FeatherPad - Lightweight Qt text editor\n"\
-               "Usage:\n	featherpad [option] [file1 file2 ...]\n"\
-               "Or:\n	fpad [option] [file1 file2 ...]\n\n"\
+               "Usage:\n	featherpad [option(s)] [file1 file2 ...]\n"\
+               "Or:\n	fpad [option(s)] [file1 file2 ...]\n\n"\
                "Options:\n\n"\
-               "--help or -h     Show this help and exit.\n"\
-               "--version or -v  Show version information and exit.\n"\
-               "--win or -w      Open file(s) in a new window.\n"\
-               "+                Place cursor at document end.\n"\
-               "+<L>             Place cursor at start of line L (L starts from 1).\n"\
-               "+<L>,<P>         Place cursor at position P of line L (P starts from 0\n"\
-               "                 but a negative value means line end).\n"\
+               "--help or -h        Show this help and exit.\n"\
+               "--version or -v     Show version information and exit.\n"\
+               "--standalone or -s  Start a standalone process of FeatherPad.\n"\
+               "--win or -w         Open file(s) in a new window.\n"\
+               "+                   Place cursor at document end.\n"\
+               "+<L>                Place cursor at start of line L (L starts from 1).\n"\
+               "+<L>,<P>            Place cursor at position P of line L (P starts from 0\n"\
+               "                    but a negative value means line end).\n"\
                "\nNOTE1: <X> means number X without brackets.\n"\
-               "NOTE2: --win or -w can come before or after cursor option, with a space\n"\
+               "NOTE2: --standalone or -s can only be the first option. If it exists,\n"\
+               "       --win or -w will be ignored because a standalone process always\n"\
+               "       has its separate, single window.\n"\
+               "NOTE3: --win or -w can come before or after cursor option, with a space\n"\
                "       in between."
 #if (QT_VERSION >= QT_VERSION_CHECK(5,15,0))
             << Qt::endl;
@@ -81,7 +85,7 @@ int main (int argc, char **argv)
         return 0;
     }
 
-    FeatherPad::FPsingleton singleton (argc, argv);
+    FeatherPad::FPsingleton singleton (argc, argv, option == "--standalone" || option == "-s");
     singleton.setApplicationName (name);
     singleton.setApplicationVersion (version);
 

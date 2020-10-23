@@ -62,7 +62,7 @@ class FPwin : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit FPwin (QWidget *parent = nullptr);
+    explicit FPwin (QWidget *parent = nullptr, bool standalone = false);
     ~FPwin();
 
     bool isScriptLang (const QString& lang) const;
@@ -285,6 +285,8 @@ private:
     QTimer *autoSaver_;
     QElapsedTimer autoSaverPause_;
     int autoSaverRemainingTime_;
+
+    bool standalone_; // only used internally
 };
 
 }

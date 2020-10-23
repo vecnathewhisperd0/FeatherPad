@@ -16,6 +16,7 @@ V0.16.0
  * Removed the 50-ms delay in text updating because, apparently, Qt's update requests are appropriate now.
  * Focus the editor's view when the Escape key is pressed.
  * Let the user disable the recent files feature by setting its number to zero.
+ * Added a "standalone" option to the command-line. It's especially useful when FeatherPad is chosen as the "git" editor.
 
 V0.15.0
 ---------

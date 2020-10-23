@@ -32,11 +32,11 @@ namespace FeatherPad {
 class MessageBox : public QMessageBox {
     Q_OBJECT
 public:
-    MessageBox (QWidget *parent = Q_NULLPTR) : QMessageBox (parent) {}
+    MessageBox (QWidget *parent = nullptr) : QMessageBox (parent) {}
     MessageBox (Icon icon, const QString &title,
                 const QString &text,
                 StandardButtons buttons = NoButton,
-                QWidget *parent = Q_NULLPTR,
+                QWidget *parent = nullptr,
                 Qt::WindowFlags f = Qt::Dialog/* | Qt::MSWindowsFixedSizeDialogHint*/) : QMessageBox (icon, title, text, buttons, parent, f) {}
 
     void changeButtonText (QMessageBox::StandardButton btn, const QString &text) {
