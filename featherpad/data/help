@@ -30,7 +30,7 @@ Tabs can be reordered or detached by the mouse.
 
 If there is more than one tab, each one will have a right-click menu for closing its right or left tabs. With more than one tab, it is also possible to detach the active tab by clicking the related item on the File menu or with Ctrl+T.
 
-If a file is opened in a tab, the right-click menu of that tab will also contain two items for copying the name and path of the file.
+If a file is opened in a tab, the right-click menu of that tab will also contain two items for copying the name and path of the file as well as an item for opening its containing folder with the default file manager.
 
 For users' comfort, double clicking on an empty area of the tab-bar creates a new tab.
 

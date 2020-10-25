@@ -837,8 +837,7 @@ bool FPwin::hasAnotherDialog()
             QList<QDialog*> dialogs = win->findChildren<QDialog*>();
             for (int j = 0; j < dialogs.count(); ++j)
             {
-                if (dialogs.at (j)->objectName() != "processDialog"
-                    && dialogs.at (j)->objectName() != "sessionDialog")
+                if (dialogs.at (j)->isModal())
                 {
                     res = true;
                     break;
@@ -1677,11 +1676,8 @@ void FPwin::executeProcess()
     QList<QDialog*> dialogs = findChildren<QDialog*>();
     for (int i = 0; i < dialogs.count(); ++i)
     {
-        if (dialogs.at (i)->objectName() != "processDialog"
-            && dialogs.at (i)->objectName() != "sessionDialog")
-        {
+        if (dialogs.at (i)->isModal())
             return; // shortcut may work when there's a modal dialog
-        }
     }
     closeWarningBar();
 
@@ -1794,7 +1790,6 @@ void FPwin::displayMessage (bool error)
     else
     {
         msgDlg = new QDialog (qobject_cast<QWidget*>(process->parent()));
-        msgDlg->setObjectName ("processDialog");
         msgDlg->setWindowTitle (tr ("Script Output"));
         msgDlg->setSizeGripEnabled (true);
         QGridLayout *grid = new QGridLayout;
@@ -2468,11 +2463,8 @@ void FPwin::showWarningBar (const QString& message, bool startupBar)
     QList<QDialog*> dialogs = findChildren<QDialog*>();
     for (int i = 0; i < dialogs.count(); ++i)
     {
-        if (dialogs.at (i)->objectName() != "processDialog"
-            && dialogs.at (i)->objectName() != "sessionDialog")
-        {
+        if (dialogs.at (i)->isModal())
             return;
-        }
     }
     /* don't close and show the same warning bar */
     if (WarningBar *prevBar = ui->tabWidget->findChild<WarningBar *>())
@@ -5159,7 +5151,7 @@ void FPwin::manageSessions()
         QList<QDialog*> dialogs  = singleton->Wins.at (i)->findChildren<QDialog*>();
         for (int j = 0; j < dialogs.count(); ++j)
         {
-            if (dialogs.at (j)->objectName() ==  "sessionDialog")
+            if (dialogs.at (j)->objectName() == "sessionDialog")
             {
                 dialogs.at (j)->raise();
                 dialogs.at (j)->activateWindow();

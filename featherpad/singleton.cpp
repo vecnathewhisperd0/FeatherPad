@@ -378,8 +378,7 @@ void FPsingleton::handleMessage (const QString& message)
                 QList<QDialog*> dialogs = Wins.at (i)->findChildren<QDialog*>();
                 for (int j = 0; j < dialogs.count(); ++j)
                 {
-                    if (dialogs.at (j)->objectName() !=  "processDialog"
-                        && dialogs.at (j)->objectName() !=  "sessionDialog")
+                    if (dialogs.at (j)->isModal())
                     {
                         hasDialog = true;
                         break;
@@ -388,9 +387,7 @@ void FPsingleton::handleMessage (const QString& message)
                 if (hasDialog) continue;
                 /* consider viewports too, so that if more than half of the width as well as the height
                    of the window is inside the current viewport (of the current desktop), open a new tab */
-                QRect g = Wins.at (i)->geometry();
-                if (g.x() + g.width()/2 >= sr.left() && g.x() + g.width()/2 < sr.left() + sr.width()
-                    && g.y() + g.height()/2 >= sr.top() && g.y() + g.height()/2 < sr.top() + sr.height())
+                if (sr.contains (Wins.at (i)->geometry().center()))
                 {
                     if (d >= 0) // it may be -1 for some DEs that don't support _NET_CURRENT_DESKTOP
                     {
