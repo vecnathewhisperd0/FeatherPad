@@ -229,7 +229,7 @@ static const std::string detectCharsetLatin (const char *text)
             charset = "ISO-8859-1";
         else if (xcC + xcC1 < xcS && xcna > 0)
         {
-            if (noniso || noniso15) // FIXME: this is very inefficient
+            if ((noniso || noniso15) && xcC > 0) // FIXME: this is very inefficient
                 charset = "CP1251"; // Cyrillic-1251
             else
                 charset = "ISO-8859-15";
