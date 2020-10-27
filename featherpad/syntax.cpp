@@ -300,7 +300,10 @@ void FPwin::syntaxHighlighting (TextEdit *textEdit, bool highlight, const QStrin
            to wait until the text is completely loaded */
         QTimer::singleShot (0, textEdit, [this, textEdit]() {
             if (textEdit->isVisible())
+            {
+                formatTextRect(); // the text may be scrolled immediately after syntax highlighting (when reloading)
                 matchBrackets(); // in case the cursor is beside a bracket when the text is loaded
+            }
             connect (textEdit, &TextEdit::updateBracketMatching, this, &FPwin::matchBrackets);
             /* visible text may change on block removal */
             connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
