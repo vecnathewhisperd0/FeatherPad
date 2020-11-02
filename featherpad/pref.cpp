@@ -320,7 +320,7 @@ PrefDialog::PrefDialog (QWidget *parent)
             {
                 const QString name = iter.key()->objectName();
                 DEFAULT_SHORTCUTS.insert (name, iter.value().toString());
-                OBJECT_NAMES.insert (iter.key()->text().remove ("&"), name);
+                OBJECT_NAMES.insert (iter.key()->text().remove (QRegularExpression ("\\s*\\(&[a-zA-Z0-9]\\)\\s*")).remove ("&"), name);
                 ++ iter;
             }
         }
