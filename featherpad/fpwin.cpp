@@ -3042,7 +3042,7 @@ bool FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage)
             fileProcess->deleteLater();
         });
 
-        fileProcess->start ("pkexec", QStringList() << "cp" << fname << fileName);
+        fileProcess->start ("pkexec", QStringList() << "--disable-internal-agent" << "cp" << fname << fileName);
         if (!fileProcess->waitForStarted())
         {
             lockWindow (tabPage, false);
