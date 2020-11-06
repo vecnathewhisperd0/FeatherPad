@@ -95,5 +95,11 @@ void TabPage::updateShortcuts (bool disable)
 {
     searchBar_->updateShortcuts (disable);
 }
+/*************************/
+void TabPage::lockPage (bool lock)
+{
+    searchBar_->setEnabled (!lock);
+    textEdit_->setEnabled (!lock);
+}
 
 }

@@ -37,7 +37,8 @@ class WarningBar : public QWidget
 {
     Q_OBJECT
 public:
-    WarningBar (const QString& message, const int verticalOffset = 0, QWidget *parent = nullptr) : QWidget (parent) {
+    WarningBar (const QString& message, const int verticalOffset = 0, bool temporary = true, QWidget *parent = nullptr) : QWidget (parent) {
+        isTemporary_ = temporary;
         int anotherBar (false);
         if (parent)
         { // show only one warning bar at a time
@@ -95,7 +96,8 @@ public:
         else show();
 
         /* auto-close after 10 seconds */
-        QTimer::singleShot (10000, this, &WarningBar::closeBar);
+        if (isTemporary_)
+            QTimer::singleShot (10000, this, &WarningBar::closeBar);
 
     }
 
@@ -143,7 +145,8 @@ public slots:
 protected:
     void mousePressEvent (QMouseEvent *event) {
         QWidget::mousePressEvent (event);
-        QTimer::singleShot (0, this, &WarningBar::closeBar);
+        if (isTemporary_)
+            QTimer::singleShot (0, this, &WarningBar::closeBar);
     }
 
 private:
@@ -152,7 +155,7 @@ private:
     bool isClosing_;
     QGridLayout *grid_;
     QPointer<QPropertyAnimation> animation_;
-
+    bool isTemporary_;
 };
 
 }

@@ -23,6 +23,7 @@
 #include <QMainWindow>
 #include <QActionGroup>
 #include <QElapsedTimer>
+#include <QTextDocumentWriter>
 #include "highlighter.h"
 #include "textedit.h"
 #include "tabpage.h"
@@ -81,6 +82,10 @@ public:
 
     bool hasSidePane() const {
         return (sidePane_ != nullptr);
+    }
+
+    bool isLocked() const {
+        return locked_;
     }
 
     void addCursorPosLabel();
@@ -234,6 +239,11 @@ private:
     void setTitle (const QString& fileName, int tabIndex = -1);
     DOCSTATE savePrompt (int tabIndex, bool noToAll);
     bool saveFile (bool keepSyntax);
+    bool saveAsRoot (const QString& fileName, TabPage *tabPage);
+    bool saveWithEncoding (TextEdit *textEdit, QTextDocumentWriter *writer,
+                           const QString& fname, bool *success);
+    void reloadSyntaxHighlighter (TextEdit *textEdit);
+    void lockWindow (TabPage *tabPage, bool lock);
     void saveAllFiles (bool showWarning);
     void closeEvent (QCloseEvent *event);
     bool closeTabs (int first, int last, bool saveFilesList = false);
@@ -261,7 +271,7 @@ private:
     void waitToMakeBusy();
     void unbusy();
     void displayMessage (bool error);
-    void showWarningBar (const QString& message, bool startupBar = false);
+    void showWarningBar (const QString& message, bool startupBar = false, bool temporary = true);
     void closeWarningBar (bool keepOnStartup = false);
     void disconnectLambda();
     void updateLangBtn (TextEdit *textEdit);
@@ -285,6 +295,7 @@ private:
     QTimer *autoSaver_;
     QElapsedTimer autoSaverPause_;
     int autoSaverRemainingTime_;
+    bool locked_;
 
     bool standalone_; // only used internally
 };

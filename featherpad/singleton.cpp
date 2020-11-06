@@ -355,8 +355,9 @@ void FPsingleton::handleMessage (const QString& message)
             sr = pScreen->virtualGeometry();
         for (int i = 0; i < Wins.count(); ++i)
         {
+            FPwin *thisWin = Wins.at (i);
 #ifdef HAS_X11
-            WId id = Wins.at (i)->winId();
+            WId id = thisWin->winId();
             long whichDesktop = -1;
             if (isX11_)
                 whichDesktop = onWhichDesktop (id);
@@ -370,41 +371,44 @@ void FPsingleton::handleMessage (const QString& message)
                      /* if a window is created a moment ago, it should be
                         on the current desktop but may not report that yet */
                      || whichDesktop == -1)
-                    && (!Wins.at (i)->isMinimized() || isWindowShaded (id)))
+                    && (!thisWin->isMinimized() || isWindowShaded (id)))
 #endif
                )
             {
-                bool hasDialog = false;
-                QList<QDialog*> dialogs = Wins.at (i)->findChildren<QDialog*>();
-                for (int j = 0; j < dialogs.count(); ++j)
+                bool hasDialog = thisWin->isLocked();
+                if (!hasDialog)
                 {
-                    if (dialogs.at (j)->isModal())
+                    QList<QDialog*> dialogs = thisWin->findChildren<QDialog*>();
+                    for (int j = 0; j < dialogs.count(); ++j)
                     {
-                        hasDialog = true;
-                        break;
+                        if (dialogs.at (j)->isModal())
+                        {
+                            hasDialog = true;
+                            break;
+                        }
                     }
                 }
                 if (hasDialog) continue;
                 /* consider viewports too, so that if more than half of the width as well as the height
                    of the window is inside the current viewport (of the current desktop), open a new tab */
-                if (sr.contains (Wins.at (i)->geometry().center()))
+                if (sr.contains (thisWin->geometry().center()))
                 {
                     if (d >= 0) // it may be -1 for some DEs that don't support _NET_CURRENT_DESKTOP
                     {
                         /* first, pretend to KDE that a new window is created
                            (without this, the next new window would open on a wrong desktop) */
-                        Wins.at (i)->dummyWidget->showMinimized();
-                        QTimer::singleShot (0, Wins.at (i)->dummyWidget, &QWidget::close);
+                        thisWin->dummyWidget->showMinimized();
+                        QTimer::singleShot (0, thisWin->dummyWidget, &QWidget::close);
                     }
 
                     /* and then, open tab(s) in the current FeatherPad window... */
                     if (filesList.isEmpty())
-                        Wins.at (i)->newTab();
+                        thisWin->newTab();
                     else
                     {
-                        bool multiple (filesList.count() > 1 || Wins.at (i)->isLoading());
+                        bool multiple (filesList.count() > 1 || thisWin->isLoading());
                         for (int j = 0; j < filesList.count(); ++j)
-                            Wins.at (i)->newTabFromName (filesList.at (j), lineNum, posInLine, multiple);
+                            thisWin->newTabFromName (filesList.at (j), lineNum, posInLine, multiple);
                     }
                     found = true;
                     break;

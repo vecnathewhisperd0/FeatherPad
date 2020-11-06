@@ -42,7 +42,6 @@
 #include <QPrinter>
 #include <QClipboard>
 #include <QProcess>
-#include <QTextDocumentWriter>
 #include <QTextCodec>
 #include <QFileInfo>
 #include <QStandardPaths>
@@ -72,6 +71,7 @@ FPwin::FPwin (QWidget *parent, bool standalone):QMainWindow (parent), dummyWidge
 
     standalone_ = standalone;
 
+    locked_ = false;
     loadingProcesses_ = 0;
     rightClicked_ = -1;
     busyThread_ = nullptr;
@@ -210,10 +210,10 @@ FPwin::FPwin (QWidget *parent, bool standalone):QMainWindow (parent), dummyWidge
     connect (ui->actionOpen, &QAction::triggered, this, &FPwin::fileOpen);
     connect (ui->actionReload, &QAction::triggered, this, &FPwin::reload);
     connect (aGroup_, &QActionGroup::triggered, this, &FPwin::enforceEncoding);
-    connect (ui->actionSave, &QAction::triggered, [=]{saveFile (false);});
+    connect (ui->actionSave, &QAction::triggered, this, [=]{saveFile (false);});
     connect (ui->actionSaveAs, &QAction::triggered, this, [=]{saveFile (false);});
-    connect (ui->actionSaveAllFiles, &QAction::triggered, this, [=]{saveAllFiles (true);});
     connect (ui->actionSaveCodec, &QAction::triggered, this, [=]{saveFile (false);});
+    connect (ui->actionSaveAllFiles, &QAction::triggered, this, [=]{saveAllFiles (true);});
 
     connect (ui->actionCut, &QAction::triggered, this, &FPwin::cutText);
     connect (ui->actionCopy, &QAction::triggered, this, &FPwin::copyText);
@@ -349,11 +349,11 @@ FPwin::~FPwin()
 /*************************/
 void FPwin::closeEvent (QCloseEvent *event)
 {
-    bool keep = closeTabs (-1, -1, true);
+    bool keep = locked_ || closeTabs (-1, -1, true);
     if (keep)
     {
         event->ignore();
-        lastWinFilesCur_.clear(); // just a precaution; it's done at closeTabs()
+        lastWinFilesCur_.clear(); // it's done at closeTabs() too
     }
     else
     {
@@ -2457,7 +2457,7 @@ void FPwin::onOpeningNonexistent()
     });
 }
 /*************************/
-void FPwin::showWarningBar (const QString& message, bool startupBar)
+void FPwin::showWarningBar (const QString& message, bool startupBar, bool temporary)
 {
     /* don't show the warning bar when there's a modal dialog */
     QList<QDialog*> dialogs = findChildren<QDialog*>();
@@ -2477,7 +2477,7 @@ void FPwin::showWarningBar (const QString& message, bool startupBar)
     TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget());
     if (tabPage)
         vOffset = tabPage->height() - tabPage->textEdit()->height();
-    WarningBar *bar = new WarningBar (message, vOffset, ui->tabWidget);
+    WarningBar *bar = new WarningBar (message, vOffset, temporary, ui->tabWidget);
     if (startupBar)
         bar->setObjectName ("startupBar");
     /* close the bar when the text is scrolled */
@@ -2905,72 +2905,24 @@ bool FPwin::saveFile (bool keepSyntax)
         tmpCur.endEditBlock();
     }
 
+    if (QObject::sender() == ui->actionSave
+        || QObject::sender() == ui->actionSaveAs
+        || QObject::sender() == ui->actionSaveCodec)
+    {
+        QFileInfo fInfo (fname);
+        if (!fInfo.permission (QFile::WriteUser | QFile::ReadGroup))
+            return saveAsRoot (fname, tabPage);
+    }
+
     /* now, try to write */
     QTextDocumentWriter writer (fname, "plaintext");
-    bool success = false;
+    bool success;
     if (QObject::sender() == ui->actionSaveCodec)
     {
-        QString encoding  = checkToEncoding();
-
-        if (hasAnotherDialog()) return false;
-        updateShortcuts (true);
-        MessageBox msgBox (this);
-        msgBox.setIcon (QMessageBox::Question);
-        msgBox.addButton (QMessageBox::Yes);
-        msgBox.addButton (QMessageBox::No);
-        msgBox.addButton (QMessageBox::Cancel);
-        msgBox.changeButtonText (QMessageBox::Yes, tr ("Yes"));
-        msgBox.changeButtonText (QMessageBox::No, tr ("No"));
-        msgBox.changeButtonText (QMessageBox::Cancel, tr ("Cancel"));
-        msgBox.setText ("<center>" + tr ("Do you want to use <b>MS Windows</b> end-of-lines?") + "</center>");
-        msgBox.setInformativeText ("<center><i>" + tr ("This may be good for readability under MS Windows.") + "</i></center>");
-        msgBox.setWindowModality (Qt::WindowModal);
-        QString contents;
-        size_t ln;
-        QTextCodec *codec;
-        QByteArray encodedString;
-        const char *txt;
-        switch (msgBox.exec()) {
-        case QMessageBox::Yes:
-            contents = textEdit->document()->toPlainText();
-            contents.replace ("\n", "\r\n");
-            ln = static_cast<size_t>(contents.length()); // for fwrite();
-            codec = QTextCodec::codecForName (encoding.toUtf8());
-            encodedString = codec->fromUnicode (contents);
-            txt = encodedString.constData();
-            if (encoding != "UTF-16")
-            {
-                std::ofstream file;
-                file.open (fname.toUtf8().constData());
-                if (file.is_open())
-                {
-                    file << txt;
-                    file.close();
-                    success = true;
-                }
-            }
-            else
-            {
-                FILE * file;
-                file = fopen (fname.toUtf8().constData(), "wb");
-                if (file != nullptr)
-                {
-                    /* this worked correctly as far as I tested */
-                    fwrite (txt , 2 , ln + 1 , file);
-                    fclose (file);
-                    success = true;
-                }
-            }
-            break;
-        case QMessageBox::No:
-            writer.setCodec (QTextCodec::codecForName (encoding.toUtf8()));
-            break;
-        default:
-            updateShortcuts (false);
+        if (!saveWithEncoding (textEdit, &writer, fname, &success))
             return false;
-        }
-        updateShortcuts (false);
     }
+    else success = false;
     if (!success)
         success = writer.write (textEdit->document());
 
@@ -3003,81 +2955,283 @@ bool FPwin::saveFile (bool keepSyntax)
         lastFile_ = fname;
         config.addRecentFile (lastFile_);
         if (!keepSyntax)
-        { // uninstall and reinstall the syntax highlgihter if the programming language is changed
-            QString prevLan = textEdit->getProg();
-            setProgLang (textEdit);
-            if (prevLan != textEdit->getProg())
-            {
-                if (config.getShowLangSelector() && config.getSyntaxByDefault())
-                {
-                    if (textEdit->getLang() == textEdit->getProg())
-                        textEdit->setLang (QString()); // not enforced because it's the real syntax
-                    updateLangBtn (textEdit);
-                }
-
-                if (ui->statusBar->isVisible()
-                    && textEdit->getWordNumber() != -1)
-                { // we want to change the statusbar text below
-                    disconnect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::updateWordInfo);
-                }
-
-                if (textEdit->getLang().isEmpty())
-                { // restart the syntax highlighting only when the language isn't forced
-                    syntaxHighlighting (textEdit, false);
-                    if (ui->actionSyntax->isChecked())
-                        syntaxHighlighting (textEdit);
-                }
-
-                if (ui->statusBar->isVisible())
-                { // correct the statusbar text just by replacing the old syntax info
-                    QLabel *statusLabel = ui->statusBar->findChild<QLabel *>("statusLabel");
-                    QString str = statusLabel->text();
-                    QString syntaxStr = tr ("Syntax");
-                    int i = str.indexOf (syntaxStr);
-                    if (i == -1) // there was no real language before saving (prevLan was "url")
-                    {
-                        QString lineStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
-                        int j = str.indexOf (lineStr);
-                        syntaxStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Syntax") + QString (":</b> <i>%1</i>")
-                                                                              .arg (textEdit->getProg());
-                        str.insert (j, syntaxStr);
-                    }
-                    else
-                    {
-                        if (textEdit->getProg() == "url") // there's no real language after saving
-                        {
-                            syntaxStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Syntax");
-                            QString lineStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
-                            int j = str.indexOf (syntaxStr);
-                            int k = str.indexOf (lineStr);
-                            str.remove (j, k - j);
-                        }
-                        else // the language is changed by saving
-                        {
-                            QString lineStr = "</i>&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
-                            int j = str.indexOf (lineStr);
-                            int offset = syntaxStr.count() + 9; // size of ":</b> <i>"
-                            str.replace (i + offset, j - i - offset, textEdit->getProg());
-                        }
-                    }
-                    statusLabel->setText (str);
-                    if (textEdit->getWordNumber() != -1)
-                        connect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::updateWordInfo);
-                }
-            }
-        }
+            reloadSyntaxHighlighter (textEdit);
     }
     else
     {
-        QString str = writer.device()->errorString();
+        QString error = writer.device()->errorString();
         showWarningBar ("<center><b><big>" + tr ("Cannot be saved!") + "</big></b></center>\n"
-                        + "<center><i>" + QString ("<center><i>%1.</i></center>").arg (str) + "<i/></center>");
+                        + "<center><i>" + error + "<i/></center>");
     }
 
     if (success && textEdit->isReadOnly() && !alreadyOpen (tabPage))
          QTimer::singleShot (0, this, &FPwin::makeEditable);
 
     return success;
+}
+/*************************/
+bool FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage)
+{
+    QString temp = QStandardPaths::writableLocation (QStandardPaths::TempLocation);
+    if (temp.isEmpty()) return false; // impossible
+    const QString curTime = QDateTime::currentDateTime().toString ("yyyyMMddhhmmsszzz");
+    QString fname = temp + "/" + "featherpad-" + curTime;
+    TextEdit *textEdit = tabPage->textEdit();
+    QTextDocumentWriter writer (fname, "plaintext");
+    bool success;
+    if (QObject::sender() == ui->actionSaveCodec)
+    {
+        if (!saveWithEncoding (textEdit, &writer, fname, &success))
+            return false;
+    }
+    else success = false;
+    if (!success)
+        success = writer.write (textEdit->document());
+
+    if (success)
+    { // use "pkexec" to copy the temporary file to the target file
+        showWarningBar ("<center><b><big>" + tr ("Saving as root.") + "</big></b></center>\n"
+                        + "<center><i>" + tr ("Waiting for authentication...") + "<i/></center>",
+                        false, false);
+        lockWindow (tabPage, true); // wait until the following process is finished
+        QProcess *fileProcess = new QProcess (this);
+        connect (fileProcess, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), textEdit,
+                 [=](int exitCode, QProcess::ExitStatus exitStatus) {
+            lockWindow (tabPage, false);
+            QFile::remove (fname);
+            if (exitStatus != QProcess::NormalExit || exitCode != 0)
+            {
+                fileProcess->setReadChannel(QProcess::StandardError);
+                QString error = fileProcess->readAllStandardError();
+                showWarningBar ("<center><b><big>" + tr ("Cannot be saved!") + "</big></b></center>\n"
+                                + "<center><i>" + error + "<i/></center>");
+            }
+            else
+            {
+                closeWarningBar();
+                QFileInfo fInfo (fileName);
+
+                textEdit->document()->setModified (false);
+                textEdit->setFileName (fileName);
+                textEdit->setSize (fInfo.size());
+                textEdit->setLastModified (fInfo.lastModified());
+                ui->actionReload->setDisabled (false);
+                setTitle (fileName);
+                QString tip (fInfo.absolutePath());
+                if (!tip.endsWith ("/")) tip += "/";
+                QFontMetrics metrics (QToolTip::font());
+                QString elidedTip = "<p style='white-space:pre'>"
+#if (QT_VERSION >= QT_VERSION_CHECK(5,11,0))
+                                    + metrics.elidedText (tip, Qt::ElideMiddle, 200 * metrics.horizontalAdvance (' '))
+#else
+                                    + metrics.elidedText (tip, Qt::ElideMiddle, 200 * metrics.width (' '))
+#endif
+                                    + "</p>";
+                ui->tabWidget->setTabToolTip (ui->tabWidget->currentIndex(), elidedTip);
+                if (!sideItems_.isEmpty())
+                {
+                    if (QListWidgetItem *wi = sideItems_.key (tabPage))
+                        wi->setToolTip (elidedTip);
+                }
+                lastFile_ = fileName;
+                Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+                config.addRecentFile (lastFile_);
+
+                reloadSyntaxHighlighter (textEdit);
+            }
+            fileProcess->deleteLater();
+        });
+
+        fileProcess->start ("pkexec", QStringList() << "cp" << fname << fileName);
+        if (!fileProcess->waitForStarted())
+        {
+            lockWindow (tabPage, false);
+            QFile::remove (fname);
+            showWarningBar ("<center><b><big>" + tr ("Cannot be saved!") + "</big></b></center>\n"
+                            + "<center><i>" + tr ("\"pkexec\" is not found. Please install Polkit!") + "<i/></center>");
+            fileProcess->deleteLater();
+            return false;
+        }
+    }
+    else
+    {
+        QString error = writer.device()->errorString();
+        showWarningBar ("<center><b><big>" + tr ("Cannot be saved!") + "</big></b></center>\n"
+                        + "<center><i>" + error + "<i/></center>");
+    }
+
+    if (success && textEdit->isReadOnly() && !alreadyOpen (tabPage))
+         QTimer::singleShot (0, this, &FPwin::makeEditable);
+
+    return success; // the returned value isn't important here
+}
+/*************************/
+bool FPwin::saveWithEncoding (TextEdit *textEdit, QTextDocumentWriter *writer,
+                              const QString& fname, bool *success)
+{
+    *success = false;
+
+    if (hasAnotherDialog()) return false;
+
+    QString encoding  = checkToEncoding();
+    updateShortcuts (true);
+    MessageBox msgBox (this);
+    msgBox.setIcon (QMessageBox::Question);
+    msgBox.addButton (QMessageBox::Yes);
+    msgBox.addButton (QMessageBox::No);
+    msgBox.addButton (QMessageBox::Cancel);
+    msgBox.changeButtonText (QMessageBox::Yes, tr ("Yes"));
+    msgBox.changeButtonText (QMessageBox::No, tr ("No"));
+    msgBox.changeButtonText (QMessageBox::Cancel, tr ("Cancel"));
+    msgBox.setText ("<center>" + tr ("Do you want to use <b>MS Windows</b> end-of-lines?") + "</center>");
+    msgBox.setInformativeText ("<center><i>" + tr ("This may be good for readability under MS Windows.") + "</i></center>");
+    msgBox.setWindowModality (Qt::WindowModal);
+    QString contents;
+    size_t ln;
+    QTextCodec *codec;
+    QByteArray encodedString;
+    const char *txt;
+    switch (msgBox.exec()) {
+    case QMessageBox::Yes:
+        contents = textEdit->document()->toPlainText();
+        contents.replace ("\n", "\r\n");
+        ln = static_cast<size_t>(contents.length()); // for fwrite();
+        codec = QTextCodec::codecForName (encoding.toUtf8());
+        encodedString = codec->fromUnicode (contents);
+        txt = encodedString.constData();
+        if (encoding != "UTF-16")
+        {
+            std::ofstream file;
+            file.open (fname.toUtf8().constData());
+            if (file.is_open())
+            {
+                file << txt;
+                file.close();
+                *success = true;
+            }
+        }
+        else
+        {
+            FILE * file;
+            file = fopen (fname.toUtf8().constData(), "wb");
+            if (file != nullptr)
+            {
+                /* this worked correctly as far as I tested */
+                fwrite (txt , 2 , ln + 1 , file);
+                fclose (file);
+                *success = true;
+            }
+        }
+        break;
+    case QMessageBox::No:
+        writer->setCodec (QTextCodec::codecForName (encoding.toUtf8()));
+        break;
+    default:
+        updateShortcuts (false);
+        return false;
+    }
+    updateShortcuts (false);
+    return true;
+}
+/*************************/
+void FPwin::reloadSyntaxHighlighter (TextEdit *textEdit)
+{ // uninstall and reinstall the syntax highlgihter if the programming language is changed
+    QString prevLan = textEdit->getProg();
+    setProgLang (textEdit);
+    if (prevLan == textEdit->getProg())
+        return;
+
+    Config config = static_cast<FPsingleton*>(qApp)->getConfig();
+    if (config.getShowLangSelector() && config.getSyntaxByDefault())
+    {
+        if (textEdit->getLang() == textEdit->getProg())
+            textEdit->setLang (QString()); // not enforced because it's the real syntax
+        updateLangBtn (textEdit);
+    }
+
+    if (ui->statusBar->isVisible()
+        && textEdit->getWordNumber() != -1)
+    { // we want to change the statusbar text below
+        disconnect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::updateWordInfo);
+    }
+
+    if (textEdit->getLang().isEmpty())
+    { // restart the syntax highlighting only when the language isn't forced
+        syntaxHighlighting (textEdit, false);
+        if (ui->actionSyntax->isChecked())
+            syntaxHighlighting (textEdit);
+    }
+
+    if (ui->statusBar->isVisible())
+    { // correct the statusbar text just by replacing the old syntax info
+        QLabel *statusLabel = ui->statusBar->findChild<QLabel *>("statusLabel");
+        QString str = statusLabel->text();
+        QString syntaxStr = tr ("Syntax");
+        int i = str.indexOf (syntaxStr);
+        if (i == -1) // there was no real language before saving (prevLan was "url")
+        {
+            QString lineStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
+            int j = str.indexOf (lineStr);
+            syntaxStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Syntax") + QString (":</b> <i>%1</i>")
+                                                                  .arg (textEdit->getProg());
+            str.insert (j, syntaxStr);
+        }
+        else
+        {
+            if (textEdit->getProg() == "url") // there's no real language after saving
+            {
+                syntaxStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Syntax");
+                QString lineStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
+                int j = str.indexOf (syntaxStr);
+                int k = str.indexOf (lineStr);
+                str.remove (j, k - j);
+            }
+            else // the language is changed by saving
+            {
+                QString lineStr = "</i>&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
+                int j = str.indexOf (lineStr);
+                int offset = syntaxStr.count() + 9; // size of ":</b> <i>"
+                str.replace (i + offset, j - i - offset, textEdit->getProg());
+            }
+        }
+        statusLabel->setText (str);
+        if (textEdit->getWordNumber() != -1)
+            connect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::updateWordInfo);
+    }
+}
+/*************************/
+void FPwin::lockWindow (TabPage *tabPage, bool lock)
+{
+    locked_ = lock;
+    if (lock)
+    { // close Session Manager
+        QList<QDialog*> dialogs = findChildren<QDialog*>();
+        for (int i = 0; i < dialogs.count(); ++i)
+        {
+            if (dialogs.at (i)->objectName() == "sessionDialog")
+            {
+                dialogs.at (i)->close();
+                break;
+            }
+        }
+    }
+    ui->menuBar->setEnabled (!lock);
+    const auto allMenus = ui->menuBar->findChildren<QMenu*>();
+    for (const auto &thisMenu : allMenus)
+    {
+        const auto menuActions = thisMenu->actions();
+        for (const auto &menuAction : menuActions)
+            menuAction->blockSignals (lock);
+    }
+    ui->tabWidget->tabBar()->blockSignals (lock);
+    ui->tabWidget->tabBar()->lockTabs (lock);
+    tabPage->lockPage (lock);
+    ui->dockReplace->setEnabled (!lock);
+    ui->statusBar->setEnabled (!lock);
+    ui->spinBox->setEnabled (!lock);
+    ui->checkBox->setEnabled (!lock);
+    if (!lock)
+        tabPage->textEdit()->setFocus();
 }
 /*************************/
 void FPwin::cutText()

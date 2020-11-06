@@ -253,9 +253,9 @@ void TextEdit::setEditorFont (const QFont &f, bool setDefault)
     for (int i = 0; i < 10; ++i)
     {
 #if (QT_VERSION >= QT_VERSION_CHECK(5,11,0))
-        int w = QFontMetrics (F).horizontalAdvance (QString::number (i));
+        int w = QFontMetrics (F).horizontalAdvance (locale().toString (i));
 #else
-        int w = QFontMetrics (F).width (QString::number (i));
+        int w = QFontMetrics (F).width (locale().toString (i));
 #endif
         if (w > maxW)
         {
@@ -307,7 +307,7 @@ void TextEdit::showLineNumbers (bool show)
 /*************************/
 int TextEdit::lineNumberAreaWidth()
 {
-    QString digit = QString::number (widestDigit_);
+    QString digit = locale().toString (widestDigit_);
     QString num = digit;
     int max = qMax (1, blockCount());
     while (max >= 10)
@@ -717,18 +717,20 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                         {
                             if (!num.isEmpty())
                             {
+                                QLocale l = locale();
+                                l.setNumberOptions (QLocale::OmitGroupSeparator);
                                 QChar ch = blockText.at (i);
                                 if (ch.isSpace())
                                 { // non-letter and non-space character -> number -> space
                                     if (!prefix.isEmpty() && !prefix.at (prefix.size() - 1).isSpace())
-                                        num = locale().toString (locale().toInt (num) + 1) + ch;
+                                        num = l.toString (locale().toInt (num) + 1) + ch;
                                     else num = QString();
                                 }
                                 else if (i + 1 < curBlockPos
                                          && !ch.isLetterOrNumber() && !ch.isSpace()
                                          && blockText.at (i + 1).isSpace())
                                 { // number -> non-letter and non-space character -> space
-                                    num = locale().toString (locale().toInt (num) + 1) + ch + blockText.at (i + 1);
+                                    num = l.toString (locale().toInt (num) + 1) + ch + blockText.at (i + 1);
                                 }
                                 else num = QString();
                             }
@@ -1881,12 +1883,14 @@ void TextEdit::lineNumberAreaPaintEvent (QPaintEvent *event)
     int h = fontMetrics().height();
     QFont bf = font();
     bf.setBold (true);
+    QLocale l = locale();
+    l.setNumberOptions (QLocale::OmitGroupSeparator);
 
     while (block.isValid() && top <= event->rect().bottom())
     {
         if (block.isVisible() && bottom >= event->rect().top())
         {
-            QString number = QString::number (blockNumber + 1);
+            QString number = l.toString (blockNumber + 1);
             if (blockNumber == curBlock)
             {
                 lastCurrentLine_ = QRect (0, top, 1, top + h);

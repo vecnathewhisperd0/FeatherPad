@@ -58,6 +58,8 @@ public:
 
     void updateShortcuts (bool disable);
 
+    void lockPage (bool lock);
+
 signals:
     void find (bool forward);
     void searchFlagChanged();
