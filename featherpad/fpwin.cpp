@@ -2910,8 +2910,17 @@ bool FPwin::saveFile (bool keepSyntax)
         || QObject::sender() == ui->actionSaveCodec)
     {
         QFileInfo fInfo (fname);
-        if (!fInfo.permission (QFile::WriteUser | QFile::ReadGroup))
-            return saveAsRoot (fname, tabPage);
+        if (fInfo.exists())
+        {
+            if (!fInfo.permission (QFile::WriteUser))
+                return saveAsRoot (fname, tabPage);
+        }
+        else
+        { // check the containing folder (which is guaranteed to exist)
+            QFileInfo dirInfo (fname.section ("/", 0, -2));
+            if (!dirInfo.permission (QFile::WriteUser))
+                return saveAsRoot (fname, tabPage);
+        }
     }
 
     /* now, try to write */
