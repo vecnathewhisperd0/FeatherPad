@@ -239,7 +239,7 @@ private:
     void setTitle (const QString& fileName, int tabIndex = -1);
     DOCSTATE savePrompt (int tabIndex, bool noToAll);
     bool saveFile (bool keepSyntax);
-    bool saveAsRoot (const QString& fileName, TabPage *tabPage);
+    void saveAsRoot (const QString& fileName, TabPage *tabPage);
     bool saveWithEncoding (TextEdit *textEdit, QTextDocumentWriter *writer,
                            const QString& fname, bool *success);
     void reloadSyntaxHighlighter (TextEdit *textEdit);

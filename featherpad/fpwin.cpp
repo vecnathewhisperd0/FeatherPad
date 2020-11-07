@@ -2459,6 +2459,8 @@ void FPwin::onOpeningNonexistent()
 /*************************/
 void FPwin::showWarningBar (const QString& message, bool startupBar, bool temporary)
 {
+    /* don't show this warning bar if the window is locked at this moment */
+    if (locked_) return;
     /* don't show the warning bar when there's a modal dialog */
     QList<QDialog*> dialogs = findChildren<QDialog*>();
     for (int i = 0; i < dialogs.count(); ++i)
@@ -2905,24 +2907,6 @@ bool FPwin::saveFile (bool keepSyntax)
         tmpCur.endEditBlock();
     }
 
-    if (QObject::sender() == ui->actionSave
-        || QObject::sender() == ui->actionSaveAs
-        || QObject::sender() == ui->actionSaveCodec)
-    {
-        QFileInfo fInfo (fname);
-        if (fInfo.exists())
-        {
-            if (!fInfo.permission (QFile::WriteUser))
-                return saveAsRoot (fname, tabPage);
-        }
-        else
-        { // check the containing folder (which is guaranteed to exist)
-            QFileInfo dirInfo (fname.section ("/", 0, -2));
-            if (!dirInfo.permission (QFile::WriteUser))
-                return saveAsRoot (fname, tabPage);
-        }
-    }
-
     /* now, try to write */
     QTextDocumentWriter writer (fname, "plaintext");
     bool success;
@@ -2931,7 +2915,8 @@ bool FPwin::saveFile (bool keepSyntax)
         if (!saveWithEncoding (textEdit, &writer, fname, &success))
             return false;
     }
-    else success = false;
+    else
+        success = false;
     if (!success)
         success = writer.write (textEdit->document());
 
@@ -2963,14 +2948,38 @@ bool FPwin::saveFile (bool keepSyntax)
         }
         lastFile_ = fname;
         config.addRecentFile (lastFile_);
+
         if (!keepSyntax)
             reloadSyntaxHighlighter (textEdit);
     }
     else
     {
+        /* in the case of direct saving, try to save as root */
+        if (QObject::sender() == ui->actionSave
+            || QObject::sender() == ui->actionSaveAs
+            || QObject::sender() == ui->actionSaveCodec)
+        {
+            if (QFile::exists (fname))
+            {
+                if (!QFileInfo (fname).permission (QFile::WriteUser))
+                {
+                    saveAsRoot (fname, tabPage);
+                    return false; // the probable saving will be done with a dealy
+                }
+            }
+            /* check the containing folder (which is guaranteed to exist) */
+            else if (!QFileInfo (fname.section ("/", 0, -2)).permission (QFile::WriteUser))
+            {
+                saveAsRoot (fname, tabPage);
+                return false;
+            }
+        }
+
         QString error = writer.device()->errorString();
-        showWarningBar ("<center><b><big>" + tr ("Cannot be saved!") + "</big></b></center>\n"
-                        + "<center><i>" + error + "<i/></center>");
+        QTimer::singleShot (0, this, [this, error]() {
+            showWarningBar ("<center><b><big>" + tr ("Cannot be saved!") + "</big></b></center>\n"
+                            + "<center><i>" + error + "<i/></center>");
+        });
     }
 
     if (success && textEdit->isReadOnly() && !alreadyOpen (tabPage))
@@ -2979,10 +2988,10 @@ bool FPwin::saveFile (bool keepSyntax)
     return success;
 }
 /*************************/
-bool FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage)
+void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage)
 {
     QString temp = QStandardPaths::writableLocation (QStandardPaths::TempLocation);
-    if (temp.isEmpty()) return false; // impossible
+    if (temp.isEmpty()) return; // impossible
     const QString curTime = QDateTime::currentDateTime().toString ("yyyyMMddhhmmsszzz");
     QString fname = temp + "/" + "featherpad-" + curTime;
     TextEdit *textEdit = tabPage->textEdit();
@@ -2991,7 +3000,7 @@ bool FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage)
     if (QObject::sender() == ui->actionSaveCodec)
     {
         if (!saveWithEncoding (textEdit, &writer, fname, &success))
-            return false;
+            return;
     }
     else success = false;
     if (!success)
@@ -3010,7 +3019,7 @@ bool FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage)
             QFile::remove (fname);
             if (exitStatus != QProcess::NormalExit || exitCode != 0)
             {
-                fileProcess->setReadChannel(QProcess::StandardError);
+                fileProcess->setReadChannel (QProcess::StandardError);
                 QString error = fileProcess->readAllStandardError();
                 showWarningBar ("<center><b><big>" + tr ("Cannot be saved!") + "</big></b></center>\n"
                                 + "<center><i>" + error + "<i/></center>");
@@ -3059,7 +3068,7 @@ bool FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage)
             showWarningBar ("<center><b><big>" + tr ("Cannot be saved!") + "</big></b></center>\n"
                             + "<center><i>" + tr ("\"pkexec\" is not found. Please install Polkit!") + "<i/></center>");
             fileProcess->deleteLater();
-            return false;
+            return;
         }
     }
     else
@@ -3071,8 +3080,6 @@ bool FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage)
 
     if (success && textEdit->isReadOnly() && !alreadyOpen (tabPage))
          QTimer::singleShot (0, this, &FPwin::makeEditable);
-
-    return success; // the returned value isn't important here
 }
 /*************************/
 bool FPwin::saveWithEncoding (TextEdit *textEdit, QTextDocumentWriter *writer,
