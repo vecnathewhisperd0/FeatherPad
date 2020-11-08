@@ -1215,8 +1215,8 @@ void FPwin::enableWidgets (bool enable) const
     ui->actionClose->setEnabled (enable);
     ui->actionSaveAs->setEnabled (enable);
     ui->actionSaveAllFiles->setEnabled (enable);
-    ui->menuEncoding->setEnabled (enable);
     ui->actionSaveCodec->setEnabled (enable);
+    ui->menuEncoding->setEnabled (enable);
     ui->actionFont->setEnabled (enable);
     ui->actionDoc->setEnabled (enable);
     ui->actionPrint->setEnabled (enable);
@@ -2323,7 +2323,10 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
             if (!uneditable)
                 ui->actionEdit->setVisible (true);
             else
+            {
                 ui->actionSaveAs->setDisabled (true);
+                ui->actionSaveCodec->setDisabled (true);
+            }
             ui->actionCut->setDisabled (true);
             ui->actionPaste->setDisabled (true);
             ui->actionSoftTab->setDisabled (true);
@@ -3651,11 +3654,13 @@ void FPwin::tabSwitch (int index)
     {
         ui->actionEdit->setVisible (false);
         ui->actionSaveAs->setEnabled (true);
+        ui->actionSaveCodec->setEnabled (true);
     }
     else
     {
         ui->actionEdit->setVisible (readOnly && !textEdit->isUneditable());
         ui->actionSaveAs->setEnabled (!textEdit->isUneditable());
+        ui->actionSaveCodec->setEnabled (!textEdit->isUneditable());
     }
     ui->actionPaste->setEnabled (!readOnly);
     ui->actionSoftTab->setEnabled (!readOnly);

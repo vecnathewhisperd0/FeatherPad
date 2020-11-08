@@ -17,13 +17,13 @@
         <location filename="../../fpwin.cpp" line="1417"/>
         <location filename="../../fpwin.cpp" line="1943"/>
         <location filename="../../fpwin.cpp" line="1996"/>
-        <location filename="../../fpwin.cpp" line="2765"/>
-        <location filename="../../fpwin.cpp" line="2785"/>
+        <location filename="../../fpwin.cpp" line="2768"/>
         <location filename="../../fpwin.cpp" line="2788"/>
-        <location filename="../../fpwin.cpp" line="3613"/>
-        <location filename="../../fpwin.cpp" line="4321"/>
-        <location filename="../../fpwin.cpp" line="4572"/>
-        <location filename="../../fpwin.cpp" line="4832"/>
+        <location filename="../../fpwin.cpp" line="2791"/>
+        <location filename="../../fpwin.cpp" line="3616"/>
+        <location filename="../../fpwin.cpp" line="4326"/>
+        <location filename="../../fpwin.cpp" line="4577"/>
+        <location filename="../../fpwin.cpp" line="4837"/>
         <source>Untitled</source>
         <translation>بی‌نام</translation>
     </message>
@@ -67,8 +67,8 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1378"/>
-        <location filename="../../fpwin.cpp" line="2686"/>
-        <location filename="../../fpwin.cpp" line="4130"/>
+        <location filename="../../fpwin.cpp" line="2689"/>
+        <location filename="../../fpwin.cpp" line="4135"/>
         <source>Encoding</source>
         <translation>کدگذاری</translation>
     </message>
@@ -610,7 +610,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="342"/>
-        <location filename="../../fpwin.cpp" line="3713"/>
+        <location filename="../../fpwin.cpp" line="3718"/>
         <location filename="../../replace.cpp" line="62"/>
         <location filename="../../replace.cpp" line="114"/>
         <source>Replacement</source>
@@ -846,28 +846,28 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1379"/>
-        <location filename="../../fpwin.cpp" line="2688"/>
-        <location filename="../../fpwin.cpp" line="3284"/>
-        <location filename="../../fpwin.cpp" line="3295"/>
-        <location filename="../../fpwin.cpp" line="3302"/>
-        <location filename="../../fpwin.cpp" line="4134"/>
-        <location filename="../../fpwin.cpp" line="5585"/>
-        <location filename="../../fpwin.cpp" line="5596"/>
-        <location filename="../../fpwin.cpp" line="5603"/>
+        <location filename="../../fpwin.cpp" line="2691"/>
+        <location filename="../../fpwin.cpp" line="3287"/>
+        <location filename="../../fpwin.cpp" line="3298"/>
+        <location filename="../../fpwin.cpp" line="3305"/>
+        <location filename="../../fpwin.cpp" line="4139"/>
+        <location filename="../../fpwin.cpp" line="5590"/>
+        <location filename="../../fpwin.cpp" line="5601"/>
+        <location filename="../../fpwin.cpp" line="5608"/>
         <source>Lines</source>
         <translation>خطها</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1380"/>
-        <location filename="../../fpwin.cpp" line="4135"/>
-        <location filename="../../fpwin.cpp" line="4149"/>
+        <location filename="../../fpwin.cpp" line="4140"/>
+        <location filename="../../fpwin.cpp" line="4154"/>
         <source>Sel. Chars</source>
         <translation>حروف انتخاب‌شده</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1381"/>
-        <location filename="../../fpwin.cpp" line="4137"/>
-        <location filename="../../fpwin.cpp" line="4150"/>
+        <location filename="../../fpwin.cpp" line="4142"/>
+        <location filename="../../fpwin.cpp" line="4155"/>
         <source>Words</source>
         <translation>واژه‌ها</translation>
     </message>
@@ -888,21 +888,21 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="691"/>
-        <location filename="../../fpwin.cpp" line="4176"/>
+        <location filename="../../fpwin.cpp" line="4181"/>
         <source>Position:</source>
         <translation>موقعيت:</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="738"/>
-        <location filename="../../fpwin.cpp" line="4194"/>
-        <location filename="../../fpwin.cpp" line="4214"/>
+        <location filename="../../fpwin.cpp" line="4199"/>
+        <location filename="../../fpwin.cpp" line="4219"/>
         <source>Normal</source>
         <translation>عادی</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1146"/>
-        <location filename="../../fpwin.cpp" line="2462"/>
-        <location filename="../../fpwin.cpp" line="5397"/>
+        <location filename="../../fpwin.cpp" line="2465"/>
+        <location filename="../../fpwin.cpp" line="5402"/>
         <source>The file does not exist.</source>
         <translation>فايل موجود نيست.</translation>
     </message>
@@ -932,291 +932,291 @@
         <translation>پاکسازی</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2420"/>
+        <location filename="../../fpwin.cpp" line="2423"/>
         <source>FeatherPad does not open files larger than 100 MiB.</source>
         <translation>FeatherPad فايل‌های بزرگ‌تر از ۱۰۰ مگابايت را باز نمی‌کند.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2428"/>
+        <location filename="../../fpwin.cpp" line="2431"/>
         <source>Non-text file(s) not opened!</source>
         <translation>فايل(های) غير متنی باز نشد!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2429"/>
+        <location filename="../../fpwin.cpp" line="2432"/>
         <source>See Preferences → Files → Do not permit opening of non-text files</source>
         <translation>تگاه کنيد به تنظيمات ← فايل‌ها ← اجازه‌ی باز کردن فايل‌های غير متنی داده نشود</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2437"/>
+        <location filename="../../fpwin.cpp" line="2440"/>
         <source>Some file(s) could not be opened!</source>
         <translation>برخی از فايل‌(ها) نمی‌توانند باز شوند!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2438"/>
+        <location filename="../../fpwin.cpp" line="2441"/>
         <source>You may not have the permission to read.</source>
         <translation>شايد مجوز خواندن نداشته باشيد.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2448"/>
+        <location filename="../../fpwin.cpp" line="2451"/>
         <source>Uneditable file(s)!</source>
         <translation>فايل(های) ويرايش‌ناپذير!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2449"/>
+        <location filename="../../fpwin.cpp" line="2452"/>
         <source>Non-text files or files with huge lines cannot be edited.</source>
         <translation>فايل‌های غير متنی يا فايل‌هايی با خطهای بسيار زياد ويرايش‌ناپذيرند.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2505"/>
+        <location filename="../../fpwin.cpp" line="2508"/>
         <source>A previous crash detected!</source>
         <translation>خطای قبلی تشخيص داده شد!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2506"/>
+        <location filename="../../fpwin.cpp" line="2509"/>
         <source>Preferably, close all FeatherPad windows and start again!</source>
         <translation>ترجيحا همه پنجره‌های FeatherPad را ببنديد و دوباره آغاز کنيد!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2513"/>
+        <location filename="../../fpwin.cpp" line="2516"/>
         <source>Root Instance</source>
         <translation>نمونه‌ی ريشه</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2584"/>
-        <location filename="../../fpwin.cpp" line="2746"/>
-        <location filename="../../fpwin.cpp" line="2774"/>
+        <location filename="../../fpwin.cpp" line="2587"/>
+        <location filename="../../fpwin.cpp" line="2749"/>
+        <location filename="../../fpwin.cpp" line="2777"/>
         <source>All Files (*)</source>
         <translation>همه فايل‌‌ها (*)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2589"/>
+        <location filename="../../fpwin.cpp" line="2592"/>
         <source>All Files (*);;.%1 Files (*.%1)</source>
         <translation>همه فايل‌ها (*)؛؛.%1 فايل (*.%1)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2593"/>
+        <location filename="../../fpwin.cpp" line="2596"/>
         <source>Open file...</source>
         <translation>بازکردن فايل...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2752"/>
+        <location filename="../../fpwin.cpp" line="2755"/>
         <source>.%1 Files (*.%1);;All Files (*)</source>
         <translation>.%1 فايل (*.%1)؛؛همه فايل‌ها (*)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2799"/>
-        <location filename="../../fpwin.cpp" line="2831"/>
+        <location filename="../../fpwin.cpp" line="2802"/>
+        <location filename="../../fpwin.cpp" line="2834"/>
         <source>Save as...</source>
         <translation>ذخيره‌سازی به عنوان...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2861"/>
+        <location filename="../../fpwin.cpp" line="2864"/>
         <source>Keep encoding and save as...</source>
         <translation>حفظ کدگذاری و ذخيره‌سازی به عنوان...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3125"/>
+        <location filename="../../fpwin.cpp" line="3128"/>
         <source>Saving as root.</source>
         <translation>ذخيره‌سازی به عنوان ريشه.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3126"/>
+        <location filename="../../fpwin.cpp" line="3129"/>
         <source>Waiting for authentication...</source>
         <translation>در انتظار هويت‌سنجی...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3231"/>
+        <location filename="../../fpwin.cpp" line="3234"/>
         <source>&quot;pkexec&quot; is not found. Please install Polkit!</source>
         <translation>فايل اجرايی pkexec يافت نشد. لطفا Polkit را نصب کنيد!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2936"/>
+        <location filename="../../fpwin.cpp" line="2939"/>
         <source>Yes</source>
         <translation>آری</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2937"/>
+        <location filename="../../fpwin.cpp" line="2940"/>
         <source>No</source>
         <translation>نه</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2938"/>
+        <location filename="../../fpwin.cpp" line="2941"/>
         <source>Cancel</source>
         <translation>لغو</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2939"/>
+        <location filename="../../fpwin.cpp" line="2942"/>
         <source>Do you want to use &lt;b&gt;MS Windows&lt;/b&gt; end-of-lines?</source>
         <translation>آيا می‌خواهيد از انتهای خطهای &lt;b&gt;ويندوز مايکروسافت&lt;/b&gt; استفاده کنيد؟</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2940"/>
+        <location filename="../../fpwin.cpp" line="2943"/>
         <source>This may be good for readability under MS Windows.</source>
         <translation>اين کار می‌تواند به خوانايی بيشتر تحت ويندوز کمک کند.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3058"/>
-        <location filename="../../fpwin.cpp" line="3139"/>
-        <location filename="../../fpwin.cpp" line="3230"/>
-        <location filename="../../fpwin.cpp" line="3240"/>
+        <location filename="../../fpwin.cpp" line="3061"/>
+        <location filename="../../fpwin.cpp" line="3142"/>
+        <location filename="../../fpwin.cpp" line="3233"/>
+        <location filename="../../fpwin.cpp" line="3243"/>
         <source>Cannot be saved!</source>
         <translation>قابل ذخيره‌سازی نيست!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="417"/>
-        <location filename="../../fpwin.cpp" line="3611"/>
-        <location filename="../../fpwin.cpp" line="4570"/>
-        <location filename="../../fpwin.cpp" line="4830"/>
-        <location filename="../../fpwin.cpp" line="5800"/>
+        <location filename="../../fpwin.cpp" line="3614"/>
+        <location filename="../../fpwin.cpp" line="4575"/>
+        <location filename="../../fpwin.cpp" line="4835"/>
+        <location filename="../../fpwin.cpp" line="5805"/>
         <source>Help</source>
         <translation>راهنما</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3280"/>
-        <location filename="../../fpwin.cpp" line="3286"/>
-        <location filename="../../fpwin.cpp" line="3294"/>
-        <location filename="../../fpwin.cpp" line="4133"/>
-        <location filename="../../fpwin.cpp" line="5581"/>
-        <location filename="../../fpwin.cpp" line="5587"/>
-        <location filename="../../fpwin.cpp" line="5595"/>
+        <location filename="../../fpwin.cpp" line="3283"/>
+        <location filename="../../fpwin.cpp" line="3289"/>
+        <location filename="../../fpwin.cpp" line="3297"/>
+        <location filename="../../fpwin.cpp" line="4138"/>
+        <location filename="../../fpwin.cpp" line="5586"/>
+        <location filename="../../fpwin.cpp" line="5592"/>
+        <location filename="../../fpwin.cpp" line="5600"/>
         <source>Syntax</source>
         <translation>نگارش</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2419"/>
+        <location filename="../../fpwin.cpp" line="2422"/>
         <source>Huge file(s) not opened!</source>
         <translation>فايل(های) بسياربزرگ باز نشد!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3376"/>
+        <location filename="../../fpwin.cpp" line="3379"/>
         <source>Text tabs are converted to spaces.</source>
         <translation>همه‌ی تب‌ها به فاصله تبديل شدند.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3484"/>
+        <location filename="../../fpwin.cpp" line="3487"/>
         <source>The selected text was too long.</source>
         <translation>متن انتخاب‌شده بيش از اندازه طولانی بود.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3485"/>
+        <location filename="../../fpwin.cpp" line="3488"/>
         <source>It is not fully processed.</source>
         <translation>همه‌ی آن پردازش نشده است.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3623"/>
-        <location filename="../../fpwin.cpp" line="3812"/>
+        <location filename="../../fpwin.cpp" line="3626"/>
+        <location filename="../../fpwin.cpp" line="3817"/>
         <source>This file has been modified elsewhere or in another way!</source>
         <translation>اين فايل در جايی ديگر يا به شيوه‌ای ديگر تغييريافته است!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3624"/>
-        <location filename="../../fpwin.cpp" line="3813"/>
+        <location filename="../../fpwin.cpp" line="3627"/>
+        <location filename="../../fpwin.cpp" line="3818"/>
         <source>Please be careful about reloading or saving this document!</source>
         <translation>لطفا در بارگيری يا ذخيره‌سازی اين سند دقت کنيد!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4332"/>
+        <location filename="../../fpwin.cpp" line="4337"/>
         <source>Print Document</source>
         <translation>چاپ سند</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4957"/>
-        <location filename="../../fpwin.cpp" line="5036"/>
+        <location filename="../../fpwin.cpp" line="4962"/>
+        <location filename="../../fpwin.cpp" line="5041"/>
         <source>%1 Pages</source>
         <translation>%1 صفحه</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4984"/>
-        <location filename="../../fpwin.cpp" line="5068"/>
+        <location filename="../../fpwin.cpp" line="4989"/>
+        <location filename="../../fpwin.cpp" line="5073"/>
         <source>Copy Target Path</source>
         <translation>رونوشت از مسير مقصد</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4988"/>
-        <location filename="../../fpwin.cpp" line="5072"/>
+        <location filename="../../fpwin.cpp" line="4993"/>
+        <location filename="../../fpwin.cpp" line="5077"/>
         <source>Open Target Here</source>
         <translation>بازکردن مقصد در اينجا</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5006"/>
-        <location filename="../../fpwin.cpp" line="5091"/>
+        <location filename="../../fpwin.cpp" line="5011"/>
+        <location filename="../../fpwin.cpp" line="5096"/>
         <source>Open Containing Folder</source>
         <translation>بازکردن پوشه‌ی فايل</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5200"/>
+        <location filename="../../fpwin.cpp" line="5205"/>
         <source>You need to add a Hunspell dictionary.</source>
         <translation>نياز به افزودن لغتنامه Hunspell داريد.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5201"/>
-        <location filename="../../fpwin.cpp" line="5207"/>
-        <location filename="../../fpwin.cpp" line="5216"/>
+        <location filename="../../fpwin.cpp" line="5206"/>
+        <location filename="../../fpwin.cpp" line="5212"/>
+        <location filename="../../fpwin.cpp" line="5221"/>
         <source>See Preferences → Text → Spell Checking!</source>
         <translation>تنظيمات ← متن ← بررسی تلفظ را مشاهده کنيد!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5206"/>
+        <location filename="../../fpwin.cpp" line="5211"/>
         <source>The Hunspell dictionary does not exist.</source>
         <translation>لغتنامه Hunspell وجود ندارد.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5215"/>
+        <location filename="../../fpwin.cpp" line="5220"/>
         <source>The Hunspell dictionary is not accompanied by an affix file.</source>
         <translation>لغتنامه Hunspell شامل فايل ضميمه نيست.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5237"/>
-        <location filename="../../fpwin.cpp" line="5255"/>
-        <location filename="../../fpwin.cpp" line="5270"/>
+        <location filename="../../fpwin.cpp" line="5242"/>
+        <location filename="../../fpwin.cpp" line="5260"/>
+        <location filename="../../fpwin.cpp" line="5275"/>
         <source>No misspelling in document.</source>
         <translation>تلفظ اشتباهی در سند وجود ندارد.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5239"/>
-        <location filename="../../fpwin.cpp" line="5257"/>
-        <location filename="../../fpwin.cpp" line="5272"/>
+        <location filename="../../fpwin.cpp" line="5244"/>
+        <location filename="../../fpwin.cpp" line="5262"/>
+        <location filename="../../fpwin.cpp" line="5277"/>
         <source>No misspelling from text cursor.</source>
         <translation>تلفظ اشتباهی با شروع از نشانگر متنی وجود ندارد.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5285"/>
+        <location filename="../../fpwin.cpp" line="5290"/>
         <source>Spell Checking</source>
         <translation>بررسی تلفظ</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5619"/>
+        <location filename="../../fpwin.cpp" line="5624"/>
         <source>Some files cannot be saved!</source>
         <translation>برخی از فايل‌ها قابل ذخيره‌سازی نيستند!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5666"/>
+        <location filename="../../fpwin.cpp" line="5671"/>
         <source>Translators</source>
         <translation>مترجمان</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5662"/>
+        <location filename="../../fpwin.cpp" line="5667"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translation>يک ويرايشگر سبک و برگه‌دار برای متن ساده</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5663"/>
+        <location filename="../../fpwin.cpp" line="5668"/>
         <source>based on Qt</source>
         <translation>بر پايه‌ی Qt</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5664"/>
+        <location filename="../../fpwin.cpp" line="5669"/>
         <source>Author</source>
         <translation>نگارنده</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5665"/>
+        <location filename="../../fpwin.cpp" line="5670"/>
         <source>aka.</source>
         <translation>aka.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5666"/>
-        <location filename="../../fpwin.cpp" line="5667"/>
+        <location filename="../../fpwin.cpp" line="5671"/>
+        <location filename="../../fpwin.cpp" line="5672"/>
         <source>About FeatherPad</source>
         <translation>درباره‌ی FeatherPad</translation>
     </message>
