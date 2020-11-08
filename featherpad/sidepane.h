@@ -55,9 +55,14 @@ class ListWidget : public QListWidget
 public:
     ListWidget (QWidget *parent = nullptr) : QListWidget (parent) {
         setMouseTracking (true); // for instant tooltips
+        locked_ = false;
     }
 
     QListWidgetItem *getItemFromIndex (const QModelIndex &index) const;
+
+    void lockListWidget (bool lock) {
+        locked_ = lock;
+    }
 
 signals:
     void closeItem (QListWidgetItem *item);
@@ -71,6 +76,9 @@ protected:
 
 protected slots:
     void rowsInserted (const QModelIndex &parent, int start, int end) override;
+
+private:
+    bool locked_;
 };
 
 class SidePane : public QWidget
@@ -83,6 +91,8 @@ public:
     ListWidget* listWidget() const {
         return lw_;
     }
+
+    void lockPane (bool lock);
 
 private slots:
     void filter (const QString&);

@@ -124,7 +124,7 @@ private slots:
     void clearRecentMenu();
     void updateRecenMenu();
     void closeTab();
-    void closeTabAtIndex (int index);
+    void closeTabAtIndex (int tabIndex);
     void copyTabFileName();
     void copyTabFilePath();
     void closeAllTabs();
@@ -238,12 +238,10 @@ private:
     void setTitle (const QString& fileName, int tabIndex = -1);
     DOCSTATE savePrompt (int tabIndex, bool noToAll,
                          int first = 0, int last = 0, bool closingWindow = false,
-                         QListWidgetItem *curItem = nullptr,
-                         TabPage *curPage = nullptr);
+                         QListWidgetItem *curItem = nullptr, TabPage *curPage = nullptr);
     bool saveFile (bool keepSyntax,
                    int first = 0, int last = 0, bool closingWindow = false,
-                   QListWidgetItem *curItem = nullptr,
-                   TabPage *curPage = nullptr);
+                   QListWidgetItem *curItem = nullptr, TabPage *curPage = nullptr);
     void saveAsRoot (const QString& fileName, TabPage *tabPage,
                      int first, int last, bool closingWindow,
                      QListWidgetItem *curItem, TabPage *curPage,
@@ -252,7 +250,7 @@ private:
     void lockWindow (TabPage *tabPage, bool lock);
     void saveAllFiles (bool showWarning);
     void closeEvent (QCloseEvent *event);
-    bool closeTabs (int first, int last, bool saveFilesList = false);
+    bool closePages (int first, int last, bool saveFilesList = false);
     void dragEnterEvent (QDragEnterEvent *event);
     void dropEvent (QDropEvent *event);
     void dropTab (const QString& str);

@@ -350,12 +350,12 @@ FPwin::~FPwin()
 /*************************/
 void FPwin::closeEvent (QCloseEvent *event)
 {
-    bool keep = locked_ || closeTabs (-1, -1, true);
+    bool keep = locked_ || closePages (-1, -1, true);
     if (keep)
     {
         event->ignore();
         if (!locked_)
-            lastWinFilesCur_.clear(); // just a precaution; it's done at closeTabs()
+            lastWinFilesCur_.clear(); // just a precaution; it's done at closePages()
     }
     else
     {
@@ -906,7 +906,7 @@ void FPwin::deleteTabPage (int tabIndex, bool saveToList, bool closeWithLastTab)
 // If both "first" and "last" are negative, all tabs will be closed.
 // The case, when they're both greater than -1, is covered but not used anywhere.
 // Tabs/rows are always closed from right/bottom to left/top.
-bool FPwin::closeTabs (int first, int last, bool saveFilesList)
+bool FPwin::closePages (int first, int last, bool saveFilesList)
 {
     if (!isReady()) return true;
 
@@ -918,13 +918,13 @@ bool FPwin::closeTabs (int first, int last, bool saveFilesList)
     if (hasSideList)
     {
         int cur = sidePane_->listWidget()->currentRow();
-        if (!(first < cur && (cur < last || last == -1)))
+        if (!(first < cur && (cur < last || last < 0)))
             curItem = sidePane_->listWidget()->currentItem();
     }
     else
     {
         int cur = ui->tabWidget->currentIndex();
-        if (!(first < cur && (cur < last || last == -1)))
+        if (!(first < cur && (cur < last || last < 0)))
             curPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget());
     }
     bool keep = false;
@@ -1057,28 +1057,28 @@ void FPwin::copyTabFilePath()
 /*************************/
 void FPwin::closeAllTabs()
 {
-    closeTabs (-1, -1);
+    closePages (-1, -1);
 }
 /*************************/
 void FPwin::closeNextTabs()
 {
-    closeTabs (rightClicked_, -1);
+    closePages (rightClicked_, -1);
 }
 /*************************/
 void FPwin::closePreviousTabs()
 {
-    closeTabs (-1, rightClicked_);
+    closePages (-1, rightClicked_);
 }
 /*************************/
 void FPwin::closeOtherTabs()
 {
-    if (!closeTabs (rightClicked_, -1))
-        closeTabs (-1, rightClicked_);
+    if (!closePages (rightClicked_, -1))
+        closePages (-1, rightClicked_);
 }
 /*************************/
 void FPwin::dragEnterEvent (QDragEnterEvent *event)
 {
-    if (findChildren<QDialog *>().count() > 0)
+    if (locked_ || findChildren<QDialog *>().count() > 0)
         return;
     if (event->mimeData()->hasUrls())
         event->acceptProposedAction();
@@ -1092,6 +1092,7 @@ void FPwin::dragEnterEvent (QDragEnterEvent *event)
 /*************************/
 void FPwin::dropEvent (QDropEvent *event)
 {
+    if (locked_) return;
     if (event->mimeData()->hasFormat ("application/featherpad-tab"))
         dropTab (QString::fromUtf8 (event->mimeData()->data ("application/featherpad-tab").constData()));
     else
@@ -1112,11 +1113,13 @@ void FPwin::dropEvent (QDropEvent *event)
 // This method checks if there's any text that isn't saved under a tab and,
 // if there is, it activates the tab and shows an appropriate prompt dialog.
 // "tabIndex" is always the tab index and not the item row (in the side-pane).
-// "first, "last" and the other variables are only for saveAsRoot().
+
+// The other variables are only for saveAsRoot(): "first and "last" determine
+// the range of indexes/rows that should be closed and "curItem"/"curPage" is
+// the item/tab that should be made current in side-pane/tab-bar again.
 FPwin::DOCSTATE FPwin::savePrompt (int tabIndex, bool noToAll,
                                    int first, int last, bool closingWindow,
-                                   QListWidgetItem *curItem,
-                                   TabPage *curPage)
+                                   QListWidgetItem *curItem, TabPage *curPage)
 {
     DOCSTATE state = SAVED;
     TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->widget (tabIndex));
@@ -1126,7 +1129,7 @@ FPwin::DOCSTATE FPwin::savePrompt (int tabIndex, bool noToAll,
     bool isRemoved (!fname.isEmpty() && !QFile::exists (fname)); // don't check QFileInfo (fname).isFile()
     if (textEdit->document()->isModified() || isRemoved)
     {
-        unbusy(); // made busy at closeTabs()
+        unbusy(); // made busy at closePages()
         if (hasAnotherDialog()) return UNDECIDED; // cancel
 
         if (tabIndex != ui->tabWidget->currentIndex())
@@ -1847,30 +1850,33 @@ void FPwin::closeTab()
     pauseAutoSaving (true);
 
     QListWidgetItem *curItem = nullptr;
-    int index = -1;
+    int tabIndex = -1;
+    int index = -1; // tab index or side-pane row
     if (sidePane_ && rightClicked_ >= 0) // close the right-clicked item
     {
-        index = ui->tabWidget->indexOf (sideItems_.value (sidePane_->listWidget()->item (rightClicked_)));
-        if (index != ui->tabWidget->currentIndex())
+        index = rightClicked_;
+        tabIndex = ui->tabWidget->indexOf (sideItems_.value (sidePane_->listWidget()->item (rightClicked_)));
+        if (tabIndex != ui->tabWidget->currentIndex())
             curItem = sidePane_->listWidget()->currentItem();
     }
     else // close the current page
     {
-        index = ui->tabWidget->currentIndex();
-        if (index == -1)  // not needed
+        tabIndex = ui->tabWidget->currentIndex();
+        if (tabIndex == -1)  // not needed
         {
             pauseAutoSaving (false);
             return;
         }
+        index = tabIndex;
     }
 
-    if (savePrompt (index, false, index - 1, index + 1, false, curItem) != SAVED)
+    if (savePrompt (tabIndex, false, index - 1, index + 1, false, curItem) != SAVED)
     {
         pauseAutoSaving (false);
         return;
     }
 
-    deleteTabPage (index);
+    deleteTabPage (tabIndex);
     int count = ui->tabWidget->count();
     if (count == 0)
     {
@@ -1893,21 +1899,36 @@ void FPwin::closeTab()
     pauseAutoSaving (false);
 }
 /*************************/
-void FPwin::closeTabAtIndex (int index)
+void FPwin::closeTabAtIndex (int tabIndex)
 {
     pauseAutoSaving (true);
 
     TabPage *curPage = nullptr;
-    if (index != ui->tabWidget->currentIndex())
-        curPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget());
-    if (savePrompt (index, false, index - 1, index + 1, false, nullptr, curPage) != SAVED)
+    QListWidgetItem *curItem = nullptr;
+    if (tabIndex != ui->tabWidget->currentIndex())
+    {
+        if (sidePane_)
+            curItem = sidePane_->listWidget()->currentItem();
+        else
+            curPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget());
+    }
+    int index = tabIndex; // may need to be converted to the side-pane row
+    if (sidePane_ && !sideItems_.isEmpty())
+    {
+        if (TabPage *tabPage = qobject_cast<TabPage *>(ui->tabWidget->widget (tabIndex)))
+        {
+            if (QListWidgetItem *wi = sideItems_.key (tabPage))
+                index = sidePane_->listWidget()->row (wi);
+        }
+    }
+    if (savePrompt (tabIndex, false, index - 1, index + 1, false, curItem, curPage) != SAVED)
     {
         pauseAutoSaving (false);
         return;
     }
     closeWarningBar();
 
-    deleteTabPage (index);
+    deleteTabPage (tabIndex);
     int count = ui->tabWidget->count();
     if (count == 0)
     {
@@ -1920,8 +1941,11 @@ void FPwin::closeTabAtIndex (int index)
         if (count == 1)
             updateGUIForSingleTab (true);
 
-        if (curPage) // restore the current page
+        /* restore the current page/item */
+        if (curPage)
             ui->tabWidget->setCurrentWidget (curPage);
+        else if (curItem)
+            sidePane_->listWidget()->setCurrentItem (curItem);
 
         if (TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget()))
             tabPage->textEdit()->setFocus();
@@ -2732,11 +2756,11 @@ static inline int trailingSpaces (const QString &str)
     return i;
 }
 /*************************/
-// This is for both "Save" and "Save As"
+// This is for both "Save" and "Save As".
+// See savePrompt() for the meanings of "first" and its following variables.
 bool FPwin::saveFile (bool keepSyntax,
                       int first, int last, bool closingWindow,
-                      QListWidgetItem *curItem,
-                      TabPage *curPage)
+                      QListWidgetItem *curItem, TabPage *curPage)
 {
     if (!isReady()) return false;
 
@@ -3069,6 +3093,9 @@ bool FPwin::saveFile (bool keepSyntax,
     return success;
 }
 /*************************/
+// Here, "first" and "last" are as in closePages(). "curItem"/"curPage" is the
+// item/tab that should be made current in side-pane/tab-bar again, after saving
+// and closing. "MSWinLineEnd" shows whether MS Windows end-of-lines are used.
 void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
                         int first, int last, bool closingWindow,
                         QListWidgetItem *curItem, TabPage *curPage,
@@ -3146,7 +3173,7 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
             {
                 closeWarningBar();
                 QFileInfo fInfo (fileName);
-                int index = ui->tabWidget->currentIndex();
+                int tabIndex = ui->tabWidget->currentIndex();
 
                 textEdit->document()->setModified (false);
                 textEdit->setFileName (fileName);
@@ -3164,7 +3191,7 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
                                     + metrics.elidedText (tip, Qt::ElideMiddle, 200 * metrics.width (' '))
 #endif
                                     + "</p>";
-                ui->tabWidget->setTabToolTip (index, elidedTip);
+                ui->tabWidget->setTabToolTip (tabIndex, elidedTip);
                 if (!sideItems_.isEmpty())
                 {
                     if (QListWidgetItem *wi = sideItems_.key (tabPage))
@@ -3174,10 +3201,13 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
                 Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
                 config.addRecentFile (lastFile_);
 
+                /* the closing range isn't necessarily about tab indexes */
+                int index = sidePane_ ? sidePane_->listWidget()->currentRow() : tabIndex;
+
                 if (index > first && (index < last || last < 0))
                 {
-                    /* close this tab, as in closeTab() or closeTabAtIndex() */
-                    deleteTabPage (index,
+                    /* close this tab, as in closeTabAtIndex() */
+                    deleteTabPage (tabIndex,
                                    closingWindow && (lastWinFilesCur_.size() >= 50 ? false : true),
                                    !closingWindow);
                     int count = ui->tabWidget->count();
@@ -3192,9 +3222,10 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
                         if (count == 1)
                             updateGUIForSingleTab (true);
 
-                        if (curItem) // restore the current item
+                        /* restore the current page/item */
+                        if (curItem)
                             sidePane_->listWidget()->setCurrentItem (curItem);
-                        else if (curPage) // restore the current page
+                        else if (curPage)
                             ui->tabWidget->setCurrentWidget (curPage);
 
                         if (TabPage *curTabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget()))
@@ -3204,7 +3235,7 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
                     if (closingWindow)
                         QTimer::singleShot (0, this, &QWidget::close);
                     else
-                        closeTabs (first, last - 1);
+                        closePages (first, last - 1);
                 }
                 else if (textEdit->getEncoding() != checkToEncoding())
                 { // correct the encoding
@@ -3344,6 +3375,8 @@ void FPwin::lockWindow (TabPage *tabPage, bool lock)
     ui->statusBar->setEnabled (!lock);
     ui->spinBox->setEnabled (!lock);
     ui->checkBox->setEnabled (!lock);
+    if (sidePane_)
+        sidePane_->lockPane (lock);
     if (!lock)
         tabPage->textEdit()->setFocus();
 }
@@ -5023,7 +5056,7 @@ void FPwin::tabContextMenu (const QPoint& p)
 /*************************/
 void FPwin::listContextMenu (const QPoint& p)
 {
-    if (!sidePane_ || sideItems_.isEmpty())
+    if (!sidePane_ || sideItems_.isEmpty() || locked_)
         return;
 
     ListWidget *lw = sidePane_->listWidget();
@@ -5722,7 +5755,7 @@ void FPwin::helpDoc()
 #if defined(Q_OS_HAIKU)
         helpPath = QStringLiteral (DATADIR) + "/help_" + lang;
 #elif defined(Q_OS_MAC)
-        helpPath = qApp->applicationDirPath() + QStringLiteral ("/../Resources/") + "/help_" + lang);
+        helpPath = qApp->applicationDirPath() + QStringLiteral ("/../Resources/") + "/help_" + lang;
 #else
         helpPath = QStringLiteral (DATADIR) + "/featherpad/help_" + lang;
 #endif

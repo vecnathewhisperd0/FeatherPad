@@ -41,7 +41,7 @@ public:
     }
 
     void lockTabs (bool lock) {
-        lock_ = lock;
+        locked_ = lock;
     }
 
     void noTabDND() {
@@ -69,7 +69,7 @@ private:
     QPoint dragStartPosition_;
     bool dragStarted_;
     bool hideSingle_;
-    bool lock_;
+    bool locked_;
     bool noTabDND_;
 };
 

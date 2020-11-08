@@ -71,6 +71,11 @@ QItemSelectionModel::SelectionFlags ListWidget::selectionCommand (const QModelIn
 /*************************/
 void ListWidget::mousePressEvent (QMouseEvent *event)
 {
+    if (locked_)
+    {
+        event->ignore();
+        return;
+    }
     if (selectionMode() == QAbstractItemView::SingleSelection)
     {
         if (event->button() == Qt::MidButton)
@@ -183,6 +188,12 @@ void SidePane::onRowsInserted (int start, int end)
         if (lw_->item (i) && !lw_->item (i)->text().contains (le_->text(), Qt::CaseInsensitive))
             lw_->item (i)->setHidden (true);
     }
+}
+/*************************/
+void SidePane::lockPane (bool lock)
+{
+    lw_ -> lockListWidget (lock);
+    le_->setEnabled (!lock);
 }
 
 }

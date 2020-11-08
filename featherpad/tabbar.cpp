@@ -34,14 +34,14 @@ TabBar::TabBar (QWidget *parent)
     setMouseTracking (true);
     setElideMode (Qt::ElideMiddle); // works with minimumTabSizeHint()
     hideSingle_ = false;
-    lock_ = false;
+    locked_ = false;
     dragStarted_ = false; // not needed
     noTabDND_ = false;
 }
 /*************************/
 void TabBar::mousePressEvent (QMouseEvent *event)
 {
-    if (lock_)
+    if (locked_)
     {
         event->ignore();
         return;
@@ -147,7 +147,7 @@ bool TabBar::event (QEvent *event)
 /*************************/
 void TabBar::wheelEvent (QWheelEvent *event)
 {
-    if (!lock_)
+    if (!locked_)
         QTabBar::wheelEvent (event);
     else
         event->ignore();
