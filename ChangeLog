@@ -1,7 +1,7 @@
 V0.17.0
 ---------
  * Consider the locale when showing line numbers and omit the group separator.
- * Allow saving as root without a root instance, by using Polkit.
+ * Allow saving as root without a root instance when the user doesn't have the permission to write. Polkit's pkexec is used for gaining the root privileges.
 
 V0.16.0
 ---------

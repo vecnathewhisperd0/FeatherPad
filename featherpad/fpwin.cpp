@@ -42,6 +42,7 @@
 #include <QPrinter>
 #include <QClipboard>
 #include <QProcess>
+#include <QTextDocumentWriter>
 #include <QTextCodec>
 #include <QFileInfo>
 #include <QStandardPaths>
@@ -353,7 +354,8 @@ void FPwin::closeEvent (QCloseEvent *event)
     if (keep)
     {
         event->ignore();
-        lastWinFilesCur_.clear(); // it's done at closeTabs() too
+        if (!locked_)
+            lastWinFilesCur_.clear(); // just a precaution; it's done at closeTabs()
     }
     else
     {
@@ -944,9 +946,9 @@ bool FPwin::closeTabs (int first, int last, bool saveFilesList)
         int tabIndex = hasSideList ? ui->tabWidget->indexOf (sideItems_.value (sidePane_->listWidget()->item (index)))
                                    : index;
         if (first == index - 1) // only one tab to be closed
-            state = savePrompt (tabIndex, false);
+            state = savePrompt (tabIndex, false, first, last, closing);
         else
-            state = savePrompt (tabIndex, true); // with a "No to all" button
+            state = savePrompt (tabIndex, true, first, last, closing); // with a "No to all" button
         switch (state) {
         case SAVED: // close this tab and go to the next one on the left
             keep = false;
@@ -970,7 +972,8 @@ bool FPwin::closeTabs (int first, int last, bool saveFilesList)
             break;
         case UNDECIDED: // stop quitting (cancel or can't save)
             keep = true;
-            lastWinFilesCur_.clear();
+            if (!locked_)
+                lastWinFilesCur_.clear();
             break;
         case DISCARDED: // no to all: close all tabs (and quit)
             keep = false;
@@ -1109,7 +1112,11 @@ void FPwin::dropEvent (QDropEvent *event)
 // This method checks if there's any text that isn't saved under a tab and,
 // if there is, it activates the tab and shows an appropriate prompt dialog.
 // "tabIndex" is always the tab index and not the item row (in the side-pane).
-FPwin::DOCSTATE FPwin::savePrompt (int tabIndex, bool noToAll)
+// "first, "last" and the other variables are only for saveAsRoot().
+FPwin::DOCSTATE FPwin::savePrompt (int tabIndex, bool noToAll,
+                                   int first, int last, bool closingWindow,
+                                   QListWidgetItem *curItem,
+                                   TabPage *curPage)
 {
     DOCSTATE state = SAVED;
     TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->widget (tabIndex));
@@ -1161,7 +1168,7 @@ FPwin::DOCSTATE FPwin::savePrompt (int tabIndex, bool noToAll)
                      y() + height()/2 - msgBox.height()/ 2);*/
         switch (msgBox.exec()) {
         case QMessageBox::Save:
-            if (!saveFile (true))
+            if (!saveFile (true, first, last, closingWindow, curItem, curPage))
                 state = UNDECIDED;
             break;
         case QMessageBox::Discard:
@@ -1857,7 +1864,7 @@ void FPwin::closeTab()
         }
     }
 
-    if (savePrompt (index, false) != SAVED)
+    if (savePrompt (index, false, index - 1, index + 1, false, curItem) != SAVED)
     {
         pauseAutoSaving (false);
         return;
@@ -1893,7 +1900,7 @@ void FPwin::closeTabAtIndex (int index)
     TabPage *curPage = nullptr;
     if (index != ui->tabWidget->currentIndex())
         curPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget());
-    if (savePrompt (index, false) != SAVED)
+    if (savePrompt (index, false, index - 1, index + 1, false, nullptr, curPage) != SAVED)
     {
         pauseAutoSaving (false);
         return;
@@ -2656,7 +2663,8 @@ void FPwin::enforceEncoding (QAction*)
     {
         if (savePrompt (index, false) != SAVED)
         { // back to the previous encoding
-            encodingToCheck (textEdit->getEncoding());
+            if (!locked_)
+                encodingToCheck (textEdit->getEncoding());
             return;
         }
         /* if the file is removed, close its tab to open a new one */
@@ -2722,7 +2730,10 @@ static inline int trailingSpaces (const QString &str)
 }
 /*************************/
 // This is for both "Save" and "Save As"
-bool FPwin::saveFile (bool keepSyntax)
+bool FPwin::saveFile (bool keepSyntax,
+                      int first, int last, bool closingWindow,
+                      QListWidgetItem *curItem,
+                      TabPage *curPage)
 {
     if (!isReady()) return false;
 
@@ -2909,14 +2920,75 @@ bool FPwin::saveFile (bool keepSyntax)
 
     /* now, try to write */
     QTextDocumentWriter writer (fname, "plaintext");
-    bool success;
+    bool success = false;
+    bool MSWinLineEnd = false;
     if (QObject::sender() == ui->actionSaveCodec)
     {
-        if (!saveWithEncoding (textEdit, &writer, fname, &success))
+        QString encoding  = checkToEncoding();
+
+        if (hasAnotherDialog()) return false;
+        updateShortcuts (true);
+        MessageBox msgBox (this);
+        msgBox.setIcon (QMessageBox::Question);
+        msgBox.addButton (QMessageBox::Yes);
+        msgBox.addButton (QMessageBox::No);
+        msgBox.addButton (QMessageBox::Cancel);
+        msgBox.changeButtonText (QMessageBox::Yes, tr ("Yes"));
+        msgBox.changeButtonText (QMessageBox::No, tr ("No"));
+        msgBox.changeButtonText (QMessageBox::Cancel, tr ("Cancel"));
+        msgBox.setText ("<center>" + tr ("Do you want to use <b>MS Windows</b> end-of-lines?") + "</center>");
+        msgBox.setInformativeText ("<center><i>" + tr ("This may be good for readability under MS Windows.") + "</i></center>");
+        msgBox.setDefaultButton (QMessageBox::No);
+        msgBox.setWindowModality (Qt::WindowModal);
+        QString contents;
+        size_t ln;
+        QTextCodec *codec;
+        QByteArray encodedString;
+        const char *txt;
+        switch (msgBox.exec()) {
+        case QMessageBox::Yes:
+            MSWinLineEnd = true;
+            contents = textEdit->document()->toPlainText();
+            contents.replace ("\n", "\r\n");
+            ln = static_cast<size_t>(contents.length()); // for fwrite();
+            codec = QTextCodec::codecForName (encoding.toUtf8());
+            encodedString = codec->fromUnicode (contents);
+            txt = encodedString.constData();
+            if (encoding != "UTF-16")
+            {
+                std::ofstream file;
+                file.open (fname.toUtf8().constData());
+                if (file.is_open())
+                {
+                    file << txt;
+                    file.close();
+                    success = true;
+                }
+            }
+            else
+            {
+                FILE * file;
+                file = fopen (fname.toUtf8().constData(), "wb");
+                if (file != nullptr)
+                {
+                    /* this worked correctly as far as I tested */
+                    fwrite (txt , 2 , ln + 1 , file);
+                    fclose (file);
+                    success = true;
+                }
+            }
+            break;
+        case QMessageBox::No:
+            writer.setCodec (QTextCodec::codecForName (encoding.toUtf8()));
+            break;
+        default:
+            updateShortcuts (false);
             return false;
+        }
+        updateShortcuts (false);
     }
     else
-        success = false;
+        encodingToCheck ("UTF-8"); // UTF-8 is the default encoding with saving
     if (!success)
         success = writer.write (textEdit->document());
 
@@ -2949,32 +3021,38 @@ bool FPwin::saveFile (bool keepSyntax)
         lastFile_ = fname;
         config.addRecentFile (lastFile_);
 
-        if (!keepSyntax)
+        /* if this isn't about deleting after saving, correct the
+           encoding (set it to UTF-8) if needed, as in enforceEncoding() */
+        if ((index <= first || (index >= last && last >= 0))
+            && textEdit->getEncoding() != checkToEncoding())
+        {
+            loadText (fname, true, true,
+                      0, 0,
+                      textEdit->isUneditable(), false);
+        }
+        else if (!keepSyntax)
             reloadSyntaxHighlighter (textEdit);
     }
     else
     {
-        /* in the case of direct saving, try to save as root */
-        if (QObject::sender() == ui->actionSave
-            || QObject::sender() == ui->actionSaveAs
-            || QObject::sender() == ui->actionSaveCodec)
+        /* when every attempt at saving fails, try to save as root */
+        if (QFile::exists (fname))
         {
-            if (QFile::exists (fname))
+            if (!QFileInfo (fname).permission (QFile::WriteUser))
             {
-                if (!QFileInfo (fname).permission (QFile::WriteUser))
-                {
-                    saveAsRoot (fname, tabPage);
-                    return false; // the probable saving will be done with a dealy
-                }
-            }
-            /* check the containing folder (which is guaranteed to exist) */
-            else if (!QFileInfo (fname.section ("/", 0, -2)).permission (QFile::WriteUser))
-            {
-                saveAsRoot (fname, tabPage);
-                return false;
+                saveAsRoot (fname, tabPage, first, last, closingWindow, curItem, curPage, MSWinLineEnd);
+                return false; // the probable saving will be done with a dealy
             }
         }
+        /* check the containing folder (which is guaranteed to exist) */
+        else if (!QFileInfo (fname.section ("/", 0, -2)).permission (QFile::WriteUser))
+        {
+            saveAsRoot (fname, tabPage, first, last, closingWindow, curItem, curPage, MSWinLineEnd);
+            return false;
+        }
 
+        /* NOTE: Is it possible to reach this?
+                 It was needed before saveAsRoot() was added. */
         QString error = writer.device()->errorString();
         QTimer::singleShot (0, this, [this, error]() {
             showWarningBar ("<center><b><big>" + tr ("Cannot be saved!") + "</big></b></center>\n"
@@ -2988,7 +3066,10 @@ bool FPwin::saveFile (bool keepSyntax)
     return success;
 }
 /*************************/
-void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage)
+void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
+                        int first, int last, bool closingWindow,
+                        QListWidgetItem *curItem, TabPage *curPage,
+                        bool MSWinLineEnd)
 {
     QString temp = QStandardPaths::writableLocation (QStandardPaths::TempLocation);
     if (temp.isEmpty()) return; // impossible
@@ -2996,13 +3077,46 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage)
     QString fname = temp + "/" + "featherpad-" + curTime;
     TextEdit *textEdit = tabPage->textEdit();
     QTextDocumentWriter writer (fname, "plaintext");
-    bool success;
+    bool success = false;
     if (QObject::sender() == ui->actionSaveCodec)
     {
-        if (!saveWithEncoding (textEdit, &writer, fname, &success))
-            return;
+        QString encoding  = checkToEncoding();
+        if (MSWinLineEnd)
+        {
+            QString contents =textEdit->document()->toPlainText();
+            contents.replace ("\n", "\r\n");
+            size_t ln = static_cast<size_t>(contents.length());
+            QTextCodec *codec = QTextCodec::codecForName (encoding.toUtf8());
+            QByteArray encodedString = codec->fromUnicode (contents);
+            const char *txt = encodedString.constData();
+            if (encoding != "UTF-16")
+            {
+                std::ofstream file;
+                file.open (fname.toUtf8().constData());
+                if (file.is_open())
+                {
+                    file << txt;
+                    file.close();
+                    success = true;
+                }
+            }
+            else
+            {
+                FILE * file;
+                file = fopen (fname.toUtf8().constData(), "wb");
+                if (file != nullptr)
+                {
+                    fwrite (txt , 2 , ln + 1 , file);
+                    fclose (file);
+                    success = true;
+                }
+            }
+        }
+        else
+            writer.setCodec (QTextCodec::codecForName (encoding.toUtf8()));
     }
-    else success = false;
+    else
+        encodingToCheck ("UTF-8");
     if (!success)
         success = writer.write (textEdit->document());
 
@@ -3019,6 +3133,7 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage)
             QFile::remove (fname);
             if (exitStatus != QProcess::NormalExit || exitCode != 0)
             {
+                lastWinFilesCur_.clear(); // wasn't cleared at closeEvent()
                 fileProcess->setReadChannel (QProcess::StandardError);
                 QString error = fileProcess->readAllStandardError();
                 showWarningBar ("<center><b><big>" + tr ("Cannot be saved!") + "</big></b></center>\n"
@@ -3028,6 +3143,7 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage)
             {
                 closeWarningBar();
                 QFileInfo fInfo (fileName);
+                int index = ui->tabWidget->currentIndex();
 
                 textEdit->document()->setModified (false);
                 textEdit->setFileName (fileName);
@@ -3045,7 +3161,7 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage)
                                     + metrics.elidedText (tip, Qt::ElideMiddle, 200 * metrics.width (' '))
 #endif
                                     + "</p>";
-                ui->tabWidget->setTabToolTip (ui->tabWidget->currentIndex(), elidedTip);
+                ui->tabWidget->setTabToolTip (index, elidedTip);
                 if (!sideItems_.isEmpty())
                 {
                     if (QListWidgetItem *wi = sideItems_.key (tabPage))
@@ -3055,7 +3171,52 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage)
                 Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
                 config.addRecentFile (lastFile_);
 
-                reloadSyntaxHighlighter (textEdit);
+                if (index > first && (index < last || last < 0))
+                {
+                    /* close this tab, as in closeTab() or closeTabAtIndex() */
+                    deleteTabPage (index,
+                                   closingWindow && (lastWinFilesCur_.size() >= 50 ? false : true),
+                                   !closingWindow);
+                    int count = ui->tabWidget->count();
+                    if (count == 0)
+                    {
+                        ui->actionReload->setDisabled (true);
+                        ui->actionSave->setDisabled (true);
+                        enableWidgets (false);
+                    }
+                    else // set focus to text-edit
+                    {
+                        if (count == 1)
+                            updateGUIForSingleTab (true);
+
+                        if (curItem) // restore the current item
+                            sidePane_->listWidget()->setCurrentItem (curItem);
+                        else if (curPage) // restore the current page
+                            ui->tabWidget->setCurrentWidget (curPage);
+
+                        if (TabPage *curTabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget()))
+                            curTabPage->textEdit()->setFocus();
+                    }
+                    /* also, close the window if needed */
+                    if (closingWindow)
+                        QTimer::singleShot (0, this, &QWidget::close);
+                    else
+                        closeTabs (first, last - 1);
+                }
+                else if (textEdit->getEncoding() != checkToEncoding())
+                { // correct the encoding
+                    lastWinFilesCur_.clear(); // just a precaution
+                    loadText (fileName, true, true,
+                              0, 0,
+                              textEdit->isUneditable(), false);
+                }
+                else
+                {
+                    /* the tab is neither closed not reloaded;
+                       update its highlighting if needed */
+                    lastWinFilesCur_.clear();
+                    reloadSyntaxHighlighter (textEdit);
+                }
             }
             fileProcess->deleteLater();
         });
@@ -3065,6 +3226,7 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage)
         {
             lockWindow (tabPage, false);
             QFile::remove (fname);
+            lastWinFilesCur_.clear();
             showWarningBar ("<center><b><big>" + tr ("Cannot be saved!") + "</big></b></center>\n"
                             + "<center><i>" + tr ("\"pkexec\" is not found. Please install Polkit!") + "<i/></center>");
             fileProcess->deleteLater();
@@ -3073,6 +3235,7 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage)
     }
     else
     {
+        lastWinFilesCur_.clear();
         QString error = writer.device()->errorString();
         showWarningBar ("<center><b><big>" + tr ("Cannot be saved!") + "</big></b></center>\n"
                         + "<center><i>" + error + "<i/></center>");
@@ -3080,74 +3243,6 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage)
 
     if (success && textEdit->isReadOnly() && !alreadyOpen (tabPage))
          QTimer::singleShot (0, this, &FPwin::makeEditable);
-}
-/*************************/
-bool FPwin::saveWithEncoding (TextEdit *textEdit, QTextDocumentWriter *writer,
-                              const QString& fname, bool *success)
-{
-    *success = false;
-
-    if (hasAnotherDialog()) return false;
-
-    QString encoding  = checkToEncoding();
-    updateShortcuts (true);
-    MessageBox msgBox (this);
-    msgBox.setIcon (QMessageBox::Question);
-    msgBox.addButton (QMessageBox::Yes);
-    msgBox.addButton (QMessageBox::No);
-    msgBox.addButton (QMessageBox::Cancel);
-    msgBox.changeButtonText (QMessageBox::Yes, tr ("Yes"));
-    msgBox.changeButtonText (QMessageBox::No, tr ("No"));
-    msgBox.changeButtonText (QMessageBox::Cancel, tr ("Cancel"));
-    msgBox.setText ("<center>" + tr ("Do you want to use <b>MS Windows</b> end-of-lines?") + "</center>");
-    msgBox.setInformativeText ("<center><i>" + tr ("This may be good for readability under MS Windows.") + "</i></center>");
-    msgBox.setWindowModality (Qt::WindowModal);
-    QString contents;
-    size_t ln;
-    QTextCodec *codec;
-    QByteArray encodedString;
-    const char *txt;
-    switch (msgBox.exec()) {
-    case QMessageBox::Yes:
-        contents = textEdit->document()->toPlainText();
-        contents.replace ("\n", "\r\n");
-        ln = static_cast<size_t>(contents.length()); // for fwrite();
-        codec = QTextCodec::codecForName (encoding.toUtf8());
-        encodedString = codec->fromUnicode (contents);
-        txt = encodedString.constData();
-        if (encoding != "UTF-16")
-        {
-            std::ofstream file;
-            file.open (fname.toUtf8().constData());
-            if (file.is_open())
-            {
-                file << txt;
-                file.close();
-                *success = true;
-            }
-        }
-        else
-        {
-            FILE * file;
-            file = fopen (fname.toUtf8().constData(), "wb");
-            if (file != nullptr)
-            {
-                /* this worked correctly as far as I tested */
-                fwrite (txt , 2 , ln + 1 , file);
-                fclose (file);
-                *success = true;
-            }
-        }
-        break;
-    case QMessageBox::No:
-        writer->setCodec (QTextCodec::codecForName (encoding.toUtf8()));
-        break;
-    default:
-        updateShortcuts (false);
-        return false;
-    }
-    updateShortcuts (false);
-    return true;
 }
 /*************************/
 void FPwin::reloadSyntaxHighlighter (TextEdit *textEdit)
