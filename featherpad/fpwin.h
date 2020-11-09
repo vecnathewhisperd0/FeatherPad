@@ -123,14 +123,14 @@ private slots:
     void newTabFromRecent();
     void clearRecentMenu();
     void updateRecenMenu();
-    void closeTab();
+    void closePage();
     void closeTabAtIndex (int tabIndex);
     void copyTabFileName();
     void copyTabFilePath();
-    void closeAllTabs();
-    void closeNextTabs();
-    void closePreviousTabs();
-    void closeOtherTabs();
+    void closeAllPages();
+    void closeNextPages();
+    void closePreviousPages();
+    void closeOtherPages();
     void fileOpen();
     void reload();
     void enforceEncoding (QAction*);
@@ -299,9 +299,11 @@ private:
     QTimer *autoSaver_;
     QElapsedTimer autoSaverPause_;
     int autoSaverRemainingTime_;
+    // Needed with saving as root:
     bool locked_;
-
-    bool standalone_; // only used internally
+    bool closePreviousPages_;
+    // Only used internally:
+    bool standalone_;
 };
 
 }
