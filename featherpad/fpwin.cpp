@@ -53,6 +53,8 @@
 #include "x11.h"
 #endif
 
+#define MAX_LAST_WIN_FILES 50
+
 namespace FeatherPad {
 
 void BusyMaker::waiting() {
@@ -950,14 +952,14 @@ bool FPwin::closePages (int first, int last, bool saveFilesList)
             break;
         int tabIndex = hasSideList ? ui->tabWidget->indexOf (sideItems_.value (sidePane_->listWidget()->item (index)))
                                    : index;
-        if (first == index - 1) // only one tab to be closed
+        if (first == index - 1 && !closePreviousPages_) // only one tab to be closed
             state = savePrompt (tabIndex, false, first, last, closing);
         else
             state = savePrompt (tabIndex, true, first, last, closing); // with a "No to all" button
         switch (state) {
         case SAVED: // close this tab and go to the next one on the left
             keep = false;
-            if (lastWinFilesCur_.size() >= 50) // never remember more than 50 files
+            if (lastWinFilesCur_.size() >= MAX_LAST_WIN_FILES) // never remember more than 50 files
                 saveFilesList = false;
             deleteTabPage (tabIndex, saveFilesList, !closing);
 
@@ -980,12 +982,12 @@ bool FPwin::closePages (int first, int last, bool saveFilesList)
             if (!locked_)
                 lastWinFilesCur_.clear();
             break;
-        case DISCARDED: // no to all: close all tabs (and quit)
+        case DISCARDED: // no to all: close all tabs (and, probably, quit)
             keep = false;
             while (index > first)
             {
                 if (last == 0) break;
-                if (lastWinFilesCur_.size() >= 50)
+                if (lastWinFilesCur_.size() >= MAX_LAST_WIN_FILES)
                     saveFilesList = false;
                 deleteTabPage (tabIndex, saveFilesList, !closing);
 
@@ -998,16 +1000,45 @@ bool FPwin::closePages (int first, int last, bool saveFilesList)
                 }
                 tabIndex = hasSideList ? ui->tabWidget->indexOf (sideItems_.value (sidePane_->listWidget()->item (index)))
                                        : index;
+            }
+            count = ui->tabWidget->count();
+            if (count == 0)
+            {
+                ui->actionReload->setDisabled (true);
+                ui->actionSave->setDisabled (true);
+                enableWidgets (false);
+            }
+            else if (count == 1)
+                updateGUIForSingleTab (true);
 
-                count = ui->tabWidget->count();
-                if (count == 0)
+            if (closePreviousPages_)
+            { // continue closing previous pages without prompt
+                closePreviousPages_ = false;
+                if (first > 0)
                 {
-                    ui->actionReload->setDisabled (true);
-                    ui->actionSave->setDisabled (true);
-                    enableWidgets (false);
+                    index = first - 1;
+                    while (index > -1)
+                    {
+                        tabIndex = hasSideList ? ui->tabWidget->indexOf (sideItems_.value (sidePane_->listWidget()->item (index)))
+                                               : index;
+                        if (lastWinFilesCur_.size() >= MAX_LAST_WIN_FILES)
+                            saveFilesList = false;
+                        deleteTabPage (tabIndex, saveFilesList, !closing);
+                        --index;
+                    }
+                    count = ui->tabWidget->count();
+                    if (count == 0) // impossible
+                    {
+                        ui->actionReload->setDisabled (true);
+                        ui->actionSave->setDisabled (true);
+                        enableWidgets (false);
+                    }
+                    else if (count == 1) // always true
+                        updateGUIForSingleTab (true);
                 }
-                else if (count == 1)
-                    updateGUIForSingleTab (true);
+                unbusy();
+                pauseAutoSaving (false);
+                return false;
             }
             break;
         default:
@@ -1023,8 +1054,7 @@ bool FPwin::closePages (int first, int last, bool saveFilesList)
         else if (curItem)
             sidePane_->listWidget()->setCurrentItem (curItem);
         if (closePreviousPages_)
-        {
-            /* continue closing left/top pages */
+        { // continue closing previous pages
             closePreviousPages_ = false;
             return closePages (-1, first);
         }
@@ -1083,7 +1113,7 @@ void FPwin::closePreviousPages()
 /*************************/
 void FPwin::closeOtherPages()
 {
-    /* NOTE: Because saving as root is possible, we can't close the left/top pages
+    /* NOTE: Because saving as root is possible, we can't close the previous pages
              here. They will be closed by closePages() or saveAsRoot() if needed. */
     closePreviousPages_ = true;
     closePages (rightClicked_, -1);
@@ -2240,7 +2270,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
     if (reload)
     {
         QTextCursor cur = textEdit->textCursor();
-        cur.movePosition (QTextCursor::End, QTextCursor::MoveAnchor);
+        cur.movePosition (QTextCursor::End);
         int curPos = cur.position();
         if (anchor <= curPos && pos <= curPos)
         {
@@ -2258,7 +2288,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
             if (cursorPos.contains (fileName))
             {
                 QTextCursor cur = textEdit->textCursor();
-                cur.movePosition (QTextCursor::End, QTextCursor::MoveAnchor);
+                cur.movePosition (QTextCursor::End);
                 int pos = qMin (qMax (cursorPos.value (fileName, 0).toInt(), 0), cur.position());
                 cur.setPosition (pos);
                 QTimer::singleShot (0, textEdit, [textEdit, cur]() {
@@ -3260,12 +3290,11 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
 
                 /* the closing range isn't necessarily about tab indexes */
                 int index = sidePane_ ? sidePane_->listWidget()->currentRow() : tabIndex;
-
                 if (index > first && (index < last || last < 0))
                 {
                     /* close this tab, as in closeTabAtIndex() */
                     deleteTabPage (tabIndex,
-                                   closingWindow && (lastWinFilesCur_.size() >= 50 ? false : true),
+                                   closingWindow && (lastWinFilesCur_.size() >= MAX_LAST_WIN_FILES ? false : true),
                                    !closingWindow);
                     int count = ui->tabWidget->count();
                     if (count == 0)
@@ -3274,7 +3303,7 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
                         ui->actionSave->setDisabled (true);
                         enableWidgets (false);
                     }
-                    else // set focus to text-edit
+                    else
                     {
                         if (count == 1)
                             updateGUIForSingleTab (true);
@@ -3288,14 +3317,11 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
                         if (TabPage *curTabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget()))
                             curTabPage->textEdit()->setFocus();
                     }
-                    /* also, close the window if needed */
-                    if (closingWindow)
-                        close();
+                    if (closingWindow) close();
                     else
                     {
                         if (closePreviousPages_ && last < 0 && index == first + 1)
-                        {
-                            /* continue closing left/top pages */
+                        { // continue closing previous pages
                             closePreviousPages_ = false;
                             closePages (-1, first);
                         }
@@ -3419,7 +3445,9 @@ void FPwin::lockWindow (TabPage *tabPage, bool lock)
 {
     locked_ = lock;
     if (lock)
-    { // close Session Manager
+    {
+        pauseAutoSaving (true);
+        /* close Session Manager */
         QList<QDialog*> dialogs = findChildren<QDialog*>();
         for (int i = 0; i < dialogs.count(); ++i)
         {
@@ -3448,7 +3476,10 @@ void FPwin::lockWindow (TabPage *tabPage, bool lock)
     if (sidePane_)
         sidePane_->lockPane (lock);
     if (!lock)
+    {
         tabPage->textEdit()->setFocus();
+        pauseAutoSaving (false);
+    }
 }
 /*************************/
 void FPwin::cutText()
@@ -5548,10 +5579,13 @@ void FPwin::pauseAutoSaving (bool pause)
     if (!autoSaver_) return;
     if (pause)
     {
-        autoSaverPause_.start();
-        autoSaverRemainingTime_ = autoSaver_->remainingTime();
+        if (!autoSaverPause_.isValid()) // don't start it again
+        {
+            autoSaverPause_.start();
+            autoSaverRemainingTime_ = autoSaver_->remainingTime();
+        }
     }
-    else if (autoSaverPause_.isValid())
+    else if (!locked_ && autoSaverPause_.isValid())
     {
         if (autoSaverPause_.hasExpired (autoSaverRemainingTime_))
         {
