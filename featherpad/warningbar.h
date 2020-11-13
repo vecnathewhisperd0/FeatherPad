@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2019 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2020 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -38,8 +38,6 @@ class WarningBar : public QWidget
     Q_OBJECT
 public:
     WarningBar (const QString& message, const int verticalOffset = 0, bool temporary = true, QWidget *parent = nullptr) : QWidget (parent) {
-        isTemporary_ = temporary;
-        mousePressed_ = false;
         int anotherBar (false);
         if (parent)
         { // show only one warning bar at a time
@@ -56,7 +54,9 @@ public:
 
         message_ = message;
         vOffset_ = verticalOffset;
+        isTemporary_ = temporary;
         isClosing_ = false;
+        mousePressed_ = false;
 
         /* make it like a translucent layer */
         setAutoFillBackground (true);
@@ -160,11 +160,11 @@ protected:
 private:
     QString message_;
     int vOffset_;
+    bool isTemporary_;
     bool isClosing_;
+    bool mousePressed_;
     QGridLayout *grid_;
     QPointer<QPropertyAnimation> animation_;
-    bool isTemporary_;
-    bool mousePressed_;
 };
 
 }

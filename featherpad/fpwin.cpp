@@ -1486,14 +1486,17 @@ TabPage* FPwin::createEmptyTab (bool setCurrent, bool allowNormalHighlighter)
         textEdit->setFocus();
     }
 
-    /* this isn't enough for unshading under all WMs */
-    /*if (isMinimized())
-        setWindowState (windowState() & (~Qt::WindowMinimized | Qt::WindowActive));*/
+    if (setCurrent)
+        stealFocus();
 #ifdef HAS_X11
-    if (static_cast<FPsingleton*>(qApp)->isX11() && isWindowShaded (winId()))
-        unshadeWindow (winId());
+    else if (static_cast<FPsingleton*>(qApp)->isX11())
+    {
+        if (isWindowShaded (winId()))
+            unshadeWindow (winId());
+    }
 #endif
-    if (setCurrent) stealFocus();
+    else if (isMinimized())
+        setWindowState (windowState() & (~Qt::WindowMinimized | Qt::WindowActive));
 
     return tabPage;
 }
@@ -2160,6 +2163,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
             closeWarningBar();
             emit finishedLoading();
             QTimer::singleShot (0, this, [this]() {unbusy();});
+            stealFocus();
         }
         return;
     }
@@ -2169,7 +2173,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
 
     /* only for the side-pane mode */
     static bool scrollToFirstItem (false);
-    static TabPage *firstPage = nullptr;
+    static QListWidgetItem *firstItem = nullptr;
 
     TextEdit *textEdit;
     TabPage *tabPage = nullptr;
@@ -2195,13 +2199,6 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
     {
         if (sidePane_ && !reload && !enforceEncod) // an unused empty tab
             scrollToFirstItem = true;
-        /*if (isMinimized())
-            setWindowState (windowState() & (~Qt::WindowMinimized | Qt::WindowActive));*/
-#ifdef HAS_X11
-        if (static_cast<FPsingleton*>(qApp)->isX11() && isWindowShaded (winId()))
-            unshadeWindow (winId());
-#endif
-        stealFocus();
     }
     textEdit->setSaveCursor (restoreCursor == 1);
 
@@ -2216,14 +2213,6 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
     }
 
     QFileInfo fInfo (fileName);
-
-    if (scrollToFirstItem
-        && (!firstPage
-            || firstPage->textEdit()->getFileName().section ('/', -1).
-               compare (fInfo.fileName(), Qt::CaseInsensitive) > 0))
-    {
-        firstPage = tabPage;
-    }
 
     /* this workaround, for the RTL bug in QPlainTextEdit, isn't needed
        because a better workaround is included in textedit.cpp */
@@ -2366,7 +2355,17 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
     if (!sideItems_.isEmpty())
     {
         if (QListWidgetItem *wi = sideItems_.key (tabPage))
+        {
             wi->setToolTip (elidedTip);
+            if (scrollToFirstItem
+                && (!firstItem
+                    /* consult the natural sorting of ListWidgetItem */
+                    || *(static_cast<ListWidgetItem*>(wi))
+                       < *(static_cast<ListWidgetItem*>(firstItem))))
+            {
+                firstItem = wi;
+            }
+        }
     }
 
     if (uneditable || alreadyOpen (tabPage))
@@ -2469,20 +2468,18 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
             });
         }
         /* select the first item (sidePane_ exists) */
-        else if (firstPage && !sideItems_.isEmpty())
-        {
-            if (QListWidgetItem *wi = sideItems_.key (firstPage))
-                sidePane_->listWidget()->setCurrentItem (wi);
-        }
+        else if (firstItem)
+            sidePane_->listWidget()->setCurrentItem (firstItem);
         /* reset the static variables */
         scrollToFirstItem = false;
-        firstPage = nullptr;
+        firstItem = nullptr;
 
         closeWarningBar (true); // here the closing animation won't be interrupted
         emit finishedLoading();
         /* remove the busy cursor only after all events are processed
            (e.g., highlighting the syntax of a huge text may take a while) */
         QTimer::singleShot (0, this, [this]() {unbusy();});
+        stealFocus();
     }
 }
 /*************************/
@@ -5954,7 +5951,24 @@ void FPwin::helpDoc()
 /*************************/
 void FPwin::stealFocus()
 {
+#ifdef HAS_X11
+    if (static_cast<FPsingleton*>(qApp)->isX11())
+    {
+        if (isWindowShaded (winId()))
+            unshadeWindow (winId());
+    }
+    else
+#endif
+    if (isMinimized())
+    {
+        /* this isn't enough for unshading under all WMs */
+        setWindowState (windowState() & (~Qt::WindowMinimized | Qt::WindowActive));
+    }
+
     raise();
+    /* WARNING: Under Wayland, this warning is shown by qtwayland -> qwaylandwindow.cpp
+                -> QWaylandWindow::requestActivateWindow():
+                "Wayland does not support QWindow::requestActivate()" */
     activateWindow();
     QTimer::singleShot (0, this, [this]() {
         if (QWindow *win = windowHandle())
