@@ -39,6 +39,7 @@ class WarningBar : public QWidget
 public:
     WarningBar (const QString& message, const int verticalOffset = 0, bool temporary = true, QWidget *parent = nullptr) : QWidget (parent) {
         isTemporary_ = temporary;
+        mousePressed_ = false;
         int anotherBar (false);
         if (parent)
         { // show only one warning bar at a time
@@ -61,7 +62,7 @@ public:
         setAutoFillBackground (true);
         QPalette p = palette();
         p.setColor (foregroundRole(), Qt::white);
-        p.setColor (backgroundRole(), QColor (125, 0, 0, 200));
+        p.setColor (backgroundRole(), isTemporary_ ? QColor (125, 0, 0, 200) : QColor (0, 70, 0, 210));
         setPalette (p);
 
         grid_ = new QGridLayout;
@@ -97,7 +98,9 @@ public:
 
         /* auto-close after 10 seconds */
         if (isTemporary_)
-            QTimer::singleShot (10000, this, &WarningBar::closeBar);
+            QTimer::singleShot (10000, this, [this]() {
+                if (!mousePressed_) closeBar();
+            });
 
     }
 
@@ -145,6 +148,11 @@ public slots:
 protected:
     void mousePressEvent (QMouseEvent *event) {
         QWidget::mousePressEvent (event);
+        mousePressed_ = true;
+    }
+    void mouseReleaseEvent (QMouseEvent *event) {
+        QWidget::mouseReleaseEvent (event);
+        mousePressed_ = false;
         if (isTemporary_)
             QTimer::singleShot (0, this, &WarningBar::closeBar);
     }
@@ -156,6 +164,7 @@ private:
     QGridLayout *grid_;
     QPointer<QPropertyAnimation> animation_;
     bool isTemporary_;
+    bool mousePressed_;
 };
 
 }

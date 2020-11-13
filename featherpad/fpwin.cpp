@@ -3169,7 +3169,7 @@ bool FPwin::saveFile (bool keepSyntax,
         QString error = writer.device()->errorString();
         QTimer::singleShot (0, this, [this, error]() {
             showWarningBar ("<center><b><big>" + tr ("Cannot be saved!") + "</big></b></center>\n"
-                            + "<center><i>" + error + "<i/></center>");
+                            + "<center><i>" + error + "</i></center>");
         });
     }
 
@@ -3239,7 +3239,7 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
     if (success)
     { // use "pkexec" to copy the temporary file to the target file
         showWarningBar ("<center><b><big>" + tr ("Saving as root.") + "</big></b></center>\n"
-                        + "<center><i>" + tr ("Waiting for authentication...") + "<i/></center>",
+                        + "<center><i>" + tr ("Waiting for authentication...") + "</i></center>",
                         false, false);
         lockWindow (tabPage, true); // wait until the following process is finished
         QProcess *fileProcess = new QProcess (this);
@@ -3254,7 +3254,7 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
                 fileProcess->setReadChannel (QProcess::StandardError);
                 QString error = fileProcess->readAllStandardError();
                 showWarningBar ("<center><b><big>" + tr ("Cannot be saved!") + "</big></b></center>\n"
-                                + "<center><i>" + error + "<i/></center>");
+                                + "<center><i>" + error + "</i></center>");
             }
             else
             {
@@ -3357,7 +3357,7 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
             lastWinFilesCur_.clear();
             closePreviousPages_ = false;
             showWarningBar ("<center><b><big>" + tr ("Cannot be saved!") + "</big></b></center>\n"
-                            + "<center><i>" + tr ("\"pkexec\" is not found. Please install Polkit!") + "<i/></center>");
+                            + "<center><i>" + tr ("\"pkexec\" is not found. Please install Polkit!") + "</i></center>");
             fileProcess->deleteLater();
             return;
         }
@@ -3368,7 +3368,7 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
         closePreviousPages_ = false;
         QString error = writer.device()->errorString();
         showWarningBar ("<center><b><big>" + tr ("Cannot be saved!") + "</big></b></center>\n"
-                        + "<center><i>" + error + "<i/></center>");
+                        + "<center><i>" + error + "</i></center>");
     }
 
     if (success && textEdit->isReadOnly() && !alreadyOpen (tabPage))
