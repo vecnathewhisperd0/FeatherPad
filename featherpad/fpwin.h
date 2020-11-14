@@ -280,6 +280,7 @@ private:
     void disconnectLambda();
     void updateLangBtn (TextEdit *textEdit);
     void updateGUIForSingleTab (bool single);
+    void stealFocus (QWidget *w);
     void stealFocus();
 
     QActionGroup *aGroup_;

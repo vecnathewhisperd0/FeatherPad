@@ -1541,6 +1541,7 @@ void TextEdit::timerEvent (QTimerEvent *event)
     else if (event->timerId() == selectionTimerId_)
     {
         killTimer (event->timerId());
+        selectionTimerId_ = 0;
         selectionHlight();
     }
 }

@@ -49,7 +49,6 @@ private slots:
     void closePrompt();
     void removeSelected();
     void removeAll();
-    void activate();
     void showMainPage();
     void showPromptPage();
     void renameSession();

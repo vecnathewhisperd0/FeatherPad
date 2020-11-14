@@ -271,28 +271,15 @@ void SessionDialog::openSessions()
                                      0, // irrelevant
                                      multiple);
             }
-            if (broken == files.count())
-                showPrompt (tr ("No file exists or can be opened."));
-            else
+            if (broken > 0)
             {
-                /* return the focus to the dialog */
-                connect (win, &FPwin::finishedLoading, this, &SessionDialog::activate);
-                if (broken > 0)
+                if (broken == files.count())
+                    showPrompt (tr ("No file exists or can be opened."));
+                else
                     showPrompt (tr ("Not all files exist or can be opened."));
             }
         }
     }
-}
-/*************************/
-void SessionDialog::activate()
-{
-    if (FPwin *win = static_cast<FPwin *>(parent_))
-        disconnect (win, &FPwin::finishedLoading, this, &SessionDialog::activate);
-    /* FPwin::stealFocus(), which is called by FPwin::addText(), has a timer */
-    QTimer::singleShot (0, this, [this]() {
-        raise();
-        activateWindow();
-    });
 }
 /*************************/
 // These slots are called for processes to have time to be completed,
