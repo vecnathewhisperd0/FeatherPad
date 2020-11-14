@@ -2161,9 +2161,9 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
             ui->tabWidget->tabBar()->lockTabs (false);
             updateShortcuts (false, false);
             closeWarningBar();
+            stealFocus();
             emit finishedLoading();
             QTimer::singleShot (0, this, [this]() {unbusy();});
-            stealFocus();
         }
         return;
     }
@@ -2475,11 +2475,11 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
         firstItem = nullptr;
 
         closeWarningBar (true); // here the closing animation won't be interrupted
+        stealFocus();
         emit finishedLoading();
         /* remove the busy cursor only after all events are processed
            (e.g., highlighting the syntax of a huge text may take a while) */
         QTimer::singleShot (0, this, [this]() {unbusy();});
-        stealFocus();
     }
 }
 /*************************/

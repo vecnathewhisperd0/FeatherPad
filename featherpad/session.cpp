@@ -288,8 +288,11 @@ void SessionDialog::activate()
 {
     if (FPwin *win = static_cast<FPwin *>(parent_))
         disconnect (win, &FPwin::finishedLoading, this, &SessionDialog::activate);
-    raise();
-    activateWindow();
+    /* FPwin::stealFocus(), which is called by FPwin::addText(), has a timer */
+    QTimer::singleShot (0, this, [this]() {
+        raise();
+        activateWindow();
+    });
 }
 /*************************/
 // These slots are called for processes to have time to be completed,

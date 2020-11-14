@@ -2294,7 +2294,7 @@ en las ventanas se incluirán en la sesión guardada.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="226"/>
-        <location filename="../../session.cpp" line="338"/>
+        <location filename="../../session.cpp" line="341"/>
         <source>&amp;Yes</source>
         <translation>Sí</translation>
     </message>
@@ -2349,27 +2349,27 @@ en las ventanas se incluirán en la sesión guardada.</translation>
         <translation>No todos los archivos existen o no todos pueden abrirse.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="324"/>
+        <location filename="../../session.cpp" line="327"/>
         <source>&amp;OK</source>
         <translation>Aceptar</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="343"/>
+        <location filename="../../session.cpp" line="346"/>
         <source>Do you really want to remove all saved sessions?</source>
         <translation>¿Esta seguro de eliminar todas las sesiones guardadas?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="349"/>
+        <location filename="../../session.cpp" line="352"/>
         <source>Do you really want to remove the selected sessions?</source>
         <translation>¿Esta seguro de eliminar las sesiones seleccionadas?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="351"/>
+        <location filename="../../session.cpp" line="354"/>
         <source>Do you really want to remove the selected session?</source>
         <translation>¿Esta seguro de eliminar la sesión seleccionada?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="356"/>
+        <location filename="../../session.cpp" line="359"/>
         <source>A session with the same name exists.&lt;br&gt;Do you want to overwrite it?</source>
         <translation>Ya existe una sesión con el mismo nombe.&lt;br&gt;¿Desea sobrescribirla?</translation>
     </message>

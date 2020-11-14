@@ -2229,7 +2229,7 @@ abertos serão incluídos na sessão guardada.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="226"/>
-        <location filename="../../session.cpp" line="338"/>
+        <location filename="../../session.cpp" line="341"/>
         <source>&amp;Yes</source>
         <translation>&amp;Sim</translation>
     </message>
@@ -2284,27 +2284,27 @@ abertos serão incluídos na sessão guardada.</translation>
         <translation>Nem todos os ficheiros existem ou não puderam ser abertos.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="324"/>
+        <location filename="../../session.cpp" line="327"/>
         <source>&amp;OK</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="343"/>
+        <location filename="../../session.cpp" line="346"/>
         <source>Do you really want to remove all saved sessions?</source>
         <translation>Tem a certeza de que deseja remover todas as sessões guardadas?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="349"/>
+        <location filename="../../session.cpp" line="352"/>
         <source>Do you really want to remove the selected sessions?</source>
         <translation>Tem a certeza de que deseja remover as sessões selecionadas?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="351"/>
+        <location filename="../../session.cpp" line="354"/>
         <source>Do you really want to remove the selected session?</source>
         <translation>Tem a certeza de que deseja remover a sessão selecionada?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="356"/>
+        <location filename="../../session.cpp" line="359"/>
         <source>A session with the same name exists.&lt;br&gt;Do you want to overwrite it?</source>
         <translation>Já existe uma sessão com este nome.&lt;br&gt;Deseja proceder à sua substituição?</translation>
     </message>

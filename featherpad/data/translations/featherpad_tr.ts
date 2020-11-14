@@ -2298,7 +2298,7 @@ dosyalar kaydedilen oturuma dahil edilir.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="226"/>
-        <location filename="../../session.cpp" line="338"/>
+        <location filename="../../session.cpp" line="341"/>
         <source>&amp;Yes</source>
         <translation>&amp;Evet</translation>
     </message>
@@ -2353,27 +2353,27 @@ dosyalar kaydedilen oturuma dahil edilir.</translation>
         <translation>Bazı dosya(lar) yok veya açılamıyor.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="324"/>
+        <location filename="../../session.cpp" line="327"/>
         <source>&amp;OK</source>
         <translation>&amp;Tamam</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="343"/>
+        <location filename="../../session.cpp" line="346"/>
         <source>Do you really want to remove all saved sessions?</source>
         <translation>Tüm kayıtlı oturumları silmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="349"/>
+        <location filename="../../session.cpp" line="352"/>
         <source>Do you really want to remove the selected sessions?</source>
         <translation>Seçilen oturumları silmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="351"/>
+        <location filename="../../session.cpp" line="354"/>
         <source>Do you really want to remove the selected session?</source>
         <translation>Seçilen oturumu silmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="356"/>
+        <location filename="../../session.cpp" line="359"/>
         <source>A session with the same name exists.&lt;br&gt;Do you want to overwrite it?</source>
         <translation>Bu isimde bir oturum zaten var.&lt;br&gt;Üzerine yazmak ister misiniz?</translation>
     </message>

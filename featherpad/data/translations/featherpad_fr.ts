@@ -2289,7 +2289,7 @@ fenêtres seront inclus dans la session sauvegardée.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="226"/>
-        <location filename="../../session.cpp" line="338"/>
+        <location filename="../../session.cpp" line="341"/>
         <source>&amp;Yes</source>
         <translation>&amp;Oui</translation>
     </message>
@@ -2344,27 +2344,27 @@ fenêtres seront inclus dans la session sauvegardée.</translation>
         <translation>Certains fichiers n&apos;existent pas ou ne peuvent être ouverts.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="324"/>
+        <location filename="../../session.cpp" line="327"/>
         <source>&amp;OK</source>
         <translation>O&amp;K</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="343"/>
+        <location filename="../../session.cpp" line="346"/>
         <source>Do you really want to remove all saved sessions?</source>
         <translation>Souhaitez-vous vraiment supprimer toutes les sessions sauvegardées ?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="349"/>
+        <location filename="../../session.cpp" line="352"/>
         <source>Do you really want to remove the selected sessions?</source>
         <translation>Souhaitez-vous vraiment supprimer les sessions sélectionnées ?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="351"/>
+        <location filename="../../session.cpp" line="354"/>
         <source>Do you really want to remove the selected session?</source>
         <translation>Souhaitez-vous vraiment supprimer la session sélectionnée ?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="356"/>
+        <location filename="../../session.cpp" line="359"/>
         <source>A session with the same name exists.&lt;br&gt;Do you want to overwrite it?</source>
         <translation>Il existe une session ayant le même nom.&lt;br&gt;Souhaitez-vous l&apos;écraser ?</translation>
     </message>

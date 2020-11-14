@@ -2288,7 +2288,7 @@ fenestroj estos inkluzivitaj de la konservota sesio.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="226"/>
-        <location filename="../../session.cpp" line="338"/>
+        <location filename="../../session.cpp" line="341"/>
         <source>&amp;Yes</source>
         <translation>&amp;Jes</translation>
     </message>
@@ -2343,27 +2343,27 @@ fenestroj estos inkluzivitaj de la konservota sesio.</translation>
         <translation>Ne ĉiuj dosieroj ekzistas aŭ povas esti malfermitaj.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="324"/>
+        <location filename="../../session.cpp" line="327"/>
         <source>&amp;OK</source>
         <translation>&amp;Bone</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="343"/>
+        <location filename="../../session.cpp" line="346"/>
         <source>Do you really want to remove all saved sessions?</source>
         <translation>Ĉu vi vere volas forviŝi ĉiujn konservitajn sesiojn?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="349"/>
+        <location filename="../../session.cpp" line="352"/>
         <source>Do you really want to remove the selected sessions?</source>
         <translation>Ĉu vi vere volas forviŝi la elektitajn sesiojn?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="351"/>
+        <location filename="../../session.cpp" line="354"/>
         <source>Do you really want to remove the selected session?</source>
         <translation>Ĉu vi vere volas forviŝi la elektitan sesion?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="356"/>
+        <location filename="../../session.cpp" line="359"/>
         <source>A session with the same name exists.&lt;br&gt;Do you want to overwrite it?</source>
         <translation>Samnama sesio ĉeestas.&lt;br&gt;Ĉu vi volas anstataŭigi ĝin?</translation>
     </message>
