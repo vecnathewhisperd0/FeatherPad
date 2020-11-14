@@ -5969,11 +5969,14 @@ void FPwin::stealFocus()
     /* WARNING: Under Wayland, this warning is shown by qtwayland -> qwaylandwindow.cpp
                 -> QWaylandWindow::requestActivateWindow():
                 "Wayland does not support QWindow::requestActivate()" */
-    activateWindow();
-    QTimer::singleShot (0, this, [this]() {
-        if (QWindow *win = windowHandle())
-            win->requestActivate();
-    });
+    if (!static_cast<FPsingleton*>(qApp)->isWayland())
+    {
+        activateWindow();
+        QTimer::singleShot (0, this, [this]() {
+            if (QWindow *win = windowHandle())
+                win->requestActivate();
+        });
+    }
 }
 
 }

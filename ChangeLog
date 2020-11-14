@@ -5,6 +5,7 @@ V0.17.0
  * Disable "Save with Encoding" with uneditable files.
  * Fixed restoring of the current side-pane item after another item is closed by middle-clicking.
  * Allow saving as root without a root instance when the user doesn't have the permission to write. Polkit's pkexec is used for gaining the root privileges.
+ * Distinguish Wayland from the lack of X11.
 
 V0.16.0
 ---------

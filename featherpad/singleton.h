@@ -50,6 +50,9 @@ public:
     bool isX11() const {
       return isX11_;
     }
+    bool isWayland() const {
+      return isWayland_;
+    }
     QStandardItemModel *searchModel() const {
         return searchModel_;
     }
@@ -75,6 +78,7 @@ private:
     Config config_;
     QStringList lastFiles_;
     bool isX11_;
+    bool isWayland_;
     bool socketFailure_;
     QStandardItemModel *searchModel_; // The common search history if any.
 

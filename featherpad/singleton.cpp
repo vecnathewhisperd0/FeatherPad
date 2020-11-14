@@ -56,6 +56,11 @@ FPsingleton::FPsingleton (int &argc, char **argv, bool standalone) : QApplicatio
     isX11_ = false;
 #endif // HAS_X11
 
+    if (isX11_)
+        isWayland_ = false;
+    else
+        isWayland_ = (QString::compare (QGuiApplication::platformName(), "wayland", Qt::CaseInsensitive) == 0);
+
     standalone_ = standalone;
     socketFailure_ = false;
     config_.readConfig();
