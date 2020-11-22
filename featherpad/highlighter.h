@@ -216,6 +216,8 @@ private:
     bool isFountainLineBlank (const QTextBlock &block);
     void highlightFountainBlock (const QString &text);
 
+    void latexFormula (const QString &text);
+
     struct HighlightingRule
     {
         QRegularExpression pattern;

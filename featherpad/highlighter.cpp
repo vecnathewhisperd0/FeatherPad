@@ -466,6 +466,49 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = ft;
         highlightingRules.append (rule);
     }
+    else if (progLan == "troff")
+    {
+        QTextCharFormat troffFormat;
+
+        troffFormat.setForeground (Blue);
+        rule.pattern.setPattern ("^\\.\\s*[a-zA-Z]+");
+        rule.format = troffFormat;
+        highlightingRules.append (rule);
+
+        troffFormat.setForeground (DarkMagenta);
+        rule.pattern.setPattern ("^\\.\\s*[a-zA-Z]+\\K.*");
+        rule.format = troffFormat;
+        highlightingRules.append (rule);
+
+        /* numbers */
+        troffFormat.setForeground (Brown);
+        rule.pattern.setPattern ("(?<=^|[^\\w\\d|@|#|\\$])((\\d*\\.?\\d+|\\d+\\.?\\d*)((e|E)(\\+|-)?\\d+)?|0[xX][0-9a-fA-F]+)(?=[^\\d]|$)");
+        rule.format = troffFormat;
+        highlightingRules.append (rule);
+
+        /* meaningful escapes */
+        troffFormat.setForeground (DarkGreen);
+        rule.pattern.setPattern ("\\\\(e|'|`|-|\\s|0|\\||\\^|&|\\!|\\\\\\$\\d+|%|\\(\\w{2}|\\\\\\*\\w|\\*\\(\\w{2}|a|b(?='\\w)|c|d|D|f(\\w|\\(\\w{2})|(h|H)(?='\\d)|(j|k)\\w|l|L|n(\\w|\\(\\w{2})|o|p|r|s|S(?='\\d)|t|u|v(?='\\d)|w|x|zc|\\{|\\})");
+        rule.format = troffFormat;
+        highlightingRules.append (rule);
+
+        /* other escapes */
+        troffFormat.setForeground (Violet);
+        rule.pattern.setPattern ("\\\\([^e'`\\-\\s0\\|\\^&\\!\\\\%\\(\\*abcdDfhHjklLnoprsStuvwxz\\{\\}]|\\((?!\\w{2})|\\\\(?!\\$\\d)|\\*(?!\\(\\w{2})|b(?!'\\w)|(f|j|k|n)(?!\\w)|(f|n)(?!\\(\\w{2})|(h|H)(?!'\\d)|(S|v)(?!'\\d)|z(?!c))");
+        rule.format = troffFormat;
+        highlightingRules.append (rule);
+    }
+    else if (progLan == "laTex")
+    {
+        codeBlockFormat.setForeground (DarkMagenta);
+
+        /* commands */
+        QTextCharFormat laTexFormat;
+        laTexFormat.setForeground (Blue);
+        rule.pattern.setPattern ("\\\\([a-zA-Z]+|[^a-zA-Z\\(\\)\\[\\]])");
+        rule.format = laTexFormat;
+        highlightingRules.append (rule);
+    }
 
     /**********************
      * Keywords and Types *
@@ -1376,7 +1419,9 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     else if (progLan == "lua")
         rule.pattern.setPattern ("--(?!\\[).*");
     else if (progLan == "troff")
-        rule.pattern.setPattern ("\\\\\"|\\.\\s*\\\\\"");
+        rule.pattern.setPattern ("\\\\\"|\\\\#|\\.\\s*\\\\\"");
+    else if (progLan == "laTex")
+        rule.pattern.setPattern ("%.*");
     if (!rule.pattern.pattern().isEmpty())
     {
         rule.format = commentFormat;
@@ -2269,7 +2314,10 @@ void Highlighter::singleLineComment (const QString &text, const int start)
                 startIndex = text.indexOf (rule.pattern, startIndex);
                 /* skip quoted comments (and, automatically, those inside multiline python comments) */
                 while (startIndex > -1
-                       && (isQuoted (text, startIndex) || isInsideRegex (text, startIndex)))
+                       && (isQuoted (text, startIndex) || isInsideRegex (text, startIndex)
+                           /* with troff and laTex, the comment sign may be escaped */
+                           || ((progLan == "troff" || progLan == "laTex")
+                               && isEscapedChar(text, startIndex))))
                 {
                     startIndex = text.indexOf (rule.pattern, startIndex + 1);
                 }
@@ -3830,7 +3878,6 @@ void Highlighter::reSTMainFormatting (int start, const QString &text)
         }
     }
 }
-
 /*************************/
 void Highlighter::debControlFormatting (const QString &text)
 {
@@ -4369,6 +4416,129 @@ void Highlighter::highlightFountainBlock (const QString &text)
     }
 }
 /*************************/
+void Highlighter::latexFormula (const QString &text)
+{
+    int index = 0;
+    QString exp;
+    TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData());
+    static const QRegularExpression latexFormulaStart ("\\${2}|\\$|\\\\\\(|\\\\\\[");
+    QRegularExpressionMatch startMatch;
+    QRegularExpression endExp;
+    QRegularExpressionMatch endMatch;
+
+    QTextBlock prevBlock = currentBlock().previous();
+    if (prevBlock.isValid())
+    {
+        if (TextBlockData *prevData = static_cast<TextBlockData *>(prevBlock.userData()))
+            exp = prevData->labelInfo();
+    }
+
+    if (exp.isEmpty())
+    {
+        index = text.indexOf (latexFormulaStart, index, &startMatch);
+        while (isEscapedChar (text, index))
+            index = text.indexOf (latexFormulaStart, index + 1, &startMatch);
+        /* skip single-line comments */
+        if (format (index) == commentFormat || format (index) == urlFormat)
+            index = -1;
+    }
+
+    while (index >= 0)
+    {
+        int badIndex = -1;
+        int endIndex;
+
+        if (!exp.isEmpty() && index == 0)
+        {
+            endExp.setPattern (exp);
+            endIndex = text.indexOf (endExp, 0, &endMatch);
+        }
+        else
+        {
+            if (startMatch.capturedLength() == 1)
+                endExp.setPattern ("\\$");
+            else
+            {
+                if (text.at (index + 1) == '$')
+                    endExp.setPattern ("\\${2}");
+                else if (text.at (index + 1) == '(')
+                    endExp.setPattern ("\\\\\\)");
+                else
+                    endExp.setPattern ("\\\\\\]");
+            }
+            endIndex = text.indexOf (endExp,
+                                     index + startMatch.capturedLength(),
+                                     &endMatch);
+        }
+
+        while (isEscapedChar (text, endIndex))
+            endIndex = text.indexOf (endExp, endIndex + 1, &endMatch);
+
+        /* if the formula ends ... */
+        if (endIndex >= 0)
+        {
+            /* ... clear the comment format from there to reformat later
+               because "%" may be inside a formula now */
+            badIndex = endIndex + endMatch.capturedLength();
+            for (int i = badIndex; i < text.length(); ++i)
+            {
+                if (format (i) == commentFormat || format (i) == urlFormat)
+                    setFormat (i, 1, neutralFormat);
+            }
+        }
+
+        int formulaLength;
+        if (endIndex == -1)
+        {
+            if (data)
+                data->insertInfo (endExp.pattern());
+            formulaLength = text.length() - index;
+        }
+        else
+            formulaLength = endIndex - index
+                            + endMatch.capturedLength();
+
+        setFormat (index, formulaLength, codeBlockFormat);
+
+        /* reformat the single-line comment from here if the format was cleared before */
+        if (badIndex >= 0)
+        {
+            for (const HighlightingRule &rule : qAsConst (highlightingRules))
+            {
+                if (rule.format == commentFormat)
+                {
+                    int INDX = text.indexOf (rule.pattern, badIndex);
+                    if (INDX >= 0)
+                        setFormat (INDX, text.length() - INDX, commentFormat);
+                    /* URLs and notes were cleared too */
+                    QString str = text.mid (INDX, text.length() - INDX);
+                    int pIndex = 0;
+                    QRegularExpressionMatch urlMatch;
+                    while ((pIndex = str.indexOf (urlPattern, pIndex, &urlMatch)) > -1)
+                    {
+                        setFormat (pIndex + INDX, urlMatch.capturedLength(), urlFormat);
+                        pIndex += urlMatch.capturedLength();
+                    }
+                    pIndex = 0;
+                    while ((pIndex = str.indexOf (notePattern, pIndex, &urlMatch)) > -1)
+                    {
+                        if (format (pIndex + INDX) != urlFormat)
+                            setFormat (pIndex + INDX, urlMatch.capturedLength(), noteFormat);
+                        pIndex += urlMatch.capturedLength();
+                    }
+                    break;
+                }
+            }
+        }
+
+        index = text.indexOf (latexFormulaStart, index + formulaLength, &startMatch);
+        while (isEscapedChar (text, index))
+            index = text.indexOf (latexFormulaStart, index + 1, &startMatch);
+        if (format (index) == commentFormat || format (index) == urlFormat)
+            index = -1;
+    }
+}
+/*************************/
 // Start syntax highlighting!
 void Highlighter::highlightBlock (const QString &text)
 {
@@ -4392,7 +4562,7 @@ void Highlighter::highlightBlock (const QString &text)
     bool rehighlightNextBlock = false;
     int oldOpenNests = 0; QSet<int> oldOpenQuotes; // to be used in SH_CmndSubstVar() (and perl and css)
     bool oldProperty = false; // to be used with yaml, markdown and perl
-    QString oldLabel; // to be used with yaml and perl
+    QString oldLabel; // to be used with yaml, perl and laTex
     if (TextBlockData *oldData = static_cast<TextBlockData *>(currentBlockUserData()))
     {
         oldOpenNests = oldData->openNests();
@@ -4472,13 +4642,21 @@ void Highlighter::highlightBlock (const QString &text)
     /*******************************
      * XML Quotations and Comments *
      *******************************/
-
     if (progLan == "xml")
     {
         /* value is handled as a kind of comment */
         multiLineComment (text, 0, xmlGt, xmlLt, xmlValueState, neutralFormat);
         /* multiline quotes as signs of errors in the xml doc */
         xmlQuotes (text);
+    }
+    /******************
+     * LaTex Formulae *
+     ******************/
+    else if (progLan == "laTex")
+    {
+        latexFormula (text);
+        if (data->labelInfo() != oldLabel)
+            rehighlightNextBlock = true;
     }
     /*****************************************
      * (Multiline) Quotations as well as CSS *
@@ -4495,7 +4673,7 @@ void Highlighter::highlightBlock (const QString &text)
              && progLan != "changelog" && progLan != "url"
              && progLan != "srt" && progLan != "html"
              && progLan != "deb" && progLan != "m3u"
-             && progLan != "reST"
+             && progLan != "reST" && progLan != "troff"
              && progLan != "yaml") // yaml will be formated separately
     {
         rehighlightNextBlock |= multiLineQuote (text);
