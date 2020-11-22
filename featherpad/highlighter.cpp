@@ -498,7 +498,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = troffFormat;
         highlightingRules.append (rule);
     }
-    else if (progLan == "laTex")
+    else if (progLan == "LaTeX")
     {
         codeBlockFormat.setForeground (DarkMagenta);
 
@@ -1420,7 +1420,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.pattern.setPattern ("--(?!\\[).*");
     else if (progLan == "troff")
         rule.pattern.setPattern ("\\\\\"|\\\\#|\\.\\s*\\\\\"");
-    else if (progLan == "laTex")
+    else if (progLan == "LaTeX")
         rule.pattern.setPattern ("%.*");
     if (!rule.pattern.pattern().isEmpty())
     {
@@ -2315,8 +2315,8 @@ void Highlighter::singleLineComment (const QString &text, const int start)
                 /* skip quoted comments (and, automatically, those inside multiline python comments) */
                 while (startIndex > -1
                        && (isQuoted (text, startIndex) || isInsideRegex (text, startIndex)
-                           /* with troff and laTex, the comment sign may be escaped */
-                           || ((progLan == "troff" || progLan == "laTex")
+                           /* with troff and LaTeX, the comment sign may be escaped */
+                           || ((progLan == "troff" || progLan == "LaTeX")
                                && isEscapedChar(text, startIndex))))
                 {
                     startIndex = text.indexOf (rule.pattern, startIndex + 1);
@@ -4562,7 +4562,7 @@ void Highlighter::highlightBlock (const QString &text)
     bool rehighlightNextBlock = false;
     int oldOpenNests = 0; QSet<int> oldOpenQuotes; // to be used in SH_CmndSubstVar() (and perl and css)
     bool oldProperty = false; // to be used with yaml, markdown and perl
-    QString oldLabel; // to be used with yaml, perl and laTex
+    QString oldLabel; // to be used with yaml, perl and LaTeX
     if (TextBlockData *oldData = static_cast<TextBlockData *>(currentBlockUserData()))
     {
         oldOpenNests = oldData->openNests();
@@ -4650,9 +4650,9 @@ void Highlighter::highlightBlock (const QString &text)
         xmlQuotes (text);
     }
     /******************
-     * LaTex Formulae *
+     * LaTeX Formulae *
      ******************/
-    else if (progLan == "laTex")
+    else if (progLan == "LaTeX")
     {
         latexFormula (text);
         if (data->labelInfo() != oldLabel)

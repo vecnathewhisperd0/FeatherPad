@@ -704,12 +704,12 @@ void FPwin::addRemoveLangBtn (bool add)
     { // no "url" for the language button
         langList << "c" << "cmake" << "config" << "cpp" << "css"
                  << "dart" << "deb" << "desktop" << "diff" << "fountain"
-                 << "html" << "javascript" << "laTex" << "log" << "lua"
+                 << "html" << "javascript" << "LaTeX" << "log" << "lua"
                  << "m3u" << "markdown" << "makefile" << "perl" << "php"
                  << "python" << "qmake" << "qml" << "reST" << "ruby"
                  << "scss" << "sh" << "troff" << "theme" << "xml"
                  << "yaml";
-        langList.sort();
+        langList.sort (Qt::CaseInsensitive);
     }
 
     QToolButton *langButton = ui->statusBar->findChild<QToolButton *>("langButton");

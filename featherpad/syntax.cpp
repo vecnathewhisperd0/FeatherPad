@@ -97,7 +97,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
         else if (fname.endsWith (".tr") || fname.endsWith (".t") || fname.endsWith (".roff"))
             progLan = "troff";
         else if (fname.endsWith (".tex") || fname.endsWith (".ltx") || fname.endsWith (".latex") || fname.endsWith (".lyx"))
-            progLan = "laTex";
+            progLan = "LaTeX";
         else if (fname.endsWith (".xml", Qt::CaseInsensitive) || fname.endsWith (".svg", Qt::CaseInsensitive) || fname.endsWith (".qrc")
                  || fname.endsWith (".meta4", Qt::CaseInsensitive) || fname.endsWith (".metalink", Qt::CaseInsensitive)
                  /*|| fname.endsWith (".ui")*/ || fname.endsWith (".rdf") || fname.endsWith (".docbook") || fname.endsWith (".fnx")
@@ -199,7 +199,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
             else if (mime == "text/troff")
                 progLan = "troff";
             else if (mime == "text/x-tex" || mime == "application/x-lyx")
-                progLan = "laTex";
+                progLan = "LaTeX";
             else if (mime == "application/xml" || mime == "image/svg+xml" || mime == "application/x-designer"
                      || mime == "application/metalink4+xml" || mime == "application/metalink+xml"
                      || mime == "application/x-gtk-builder" || mime == "text/rdf+xml" || mime == "application/rdf+xml"

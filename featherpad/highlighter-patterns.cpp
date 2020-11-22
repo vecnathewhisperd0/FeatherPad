@@ -66,7 +66,7 @@ QStringList Highlighter::keywords (const QString &lang)
     {
         keywordPatterns << "^\\.(AT|B|BI|BR|BX|CW|DT|EQ|EN|I|IB|IR|IP|LG|LP|NL|P|PE|PD|PP|PS|R|RI|RB|RS|RE|SH|SM|SB|SS|TH|TS|TE|HP|TP|UC|UL|ab|ad|af|am|as|bd|bp|br|brp|c2|cc|ce|cend|cf|ch|cs|cstart|cu|da|de|di|ds|dt|ec|el|em|end|eo|ev|ex|fc|fi|fl|fp|ft|hc|hw|hy|ie|if|ig|in|it|lc|lg|ll|ls|lt|mc|mk|na|ne|nf|nh|nm|nn|nr|ns|nx|os|pc|pi|pl|pm|pm|pn|po|ps|rd|rj|rm|rn|rr|rs|rt|so|sp|ss|sv|sy|ta|tc|ti|tl|tm|tr|uf|ul|vs|wh)(?!(\\.|-|@|#|\\$))\\b";
     }
-    else if (lang == "laTex")
+    else if (lang == "LaTeX")
     {
         keywordPatterns << "(?<!\\\\)\\\\(documentclass|begin|end|usepackage|maketitle|include|includeonly|input)(?!(@|#))(_|\\b)"
                         << "(?<!\\\\)\\\\(section|subsection|subsubsection|title|author|part|chapter|paragraph|subparagraph)\\*?\\s*\\{[^{}]*\\}";
