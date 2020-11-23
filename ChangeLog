@@ -9,6 +9,7 @@ V0.17.0
  * Guarantee that the session dialog has focus after opening a session.
  * Prevent killTimer() error warnings.
  * Added LaTex to the recognized syntaxes.
+ * Workarounds for bugs in Qt's default printing. Qt can't handle dark color schemes and the reverse order with printing. Now, FeatherPad supports both.
 
 V0.16.0
 ---------

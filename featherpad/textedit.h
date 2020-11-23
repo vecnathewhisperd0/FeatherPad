@@ -26,6 +26,7 @@
 #include <QDateTime>
 #include <QElapsedTimer>
 #include <QSyntaxHighlighter>
+#include <QPrinter>
 
 namespace FeatherPad {
 
@@ -254,6 +255,8 @@ public:
     void setPastePaths (bool pastePaths) {
         pastePaths_ = pastePaths;
     }
+
+    void print (QPrinter *printer) const;
 
 signals:
     /* inform the main widget */

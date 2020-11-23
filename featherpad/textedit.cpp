@@ -27,6 +27,7 @@
 #include <QRegularExpression>
 #include <QClipboard>
 #include <QTextDocumentFragment>
+#include <QScreen>
 #include "textedit.h"
 #include "vscrollbar.h"
 
@@ -2773,5 +2774,180 @@ bool TextEdit::toSoftTabs()
     start.endEditBlock();
     return res;
 }
+/*************************/
+static void printPage (int index, QPainter *painter, const QTextDocument *doc,
+                       const QRectF &body, const QPointF &pageNumberPos,
+                       const QColor &separatorColor, const QColor &darkColor)
+{
+    painter->save();
+    painter->translate (body.left(), body.top() - (index - 1) * body.height());
+    QRectF view (0, (index - 1) * body.height(), body.width(), body.height());
+
+    QAbstractTextDocumentLayout *layout = doc->documentLayout();
+    QAbstractTextDocumentLayout::PaintContext ctx;
+
+    painter->setClipRect (view);
+    if (darkColor.isValid())
+        painter->fillRect (view, darkColor);
+
+    ctx.clip = view;
+    /* since the unformatted text is really formatted by syntax highlighter,
+       this color is really for the separators */
+    ctx.palette.setColor (QPalette::Text, separatorColor);
+    layout->draw (painter, ctx);
+
+    if (!pageNumberPos.isNull())
+    {
+        if (darkColor.isValid())
+            painter->setPen (Qt::white);
+        painter->setClipping (false);
+        painter->setFont (QFont (doc->defaultFont()));
+        const QString pageString = QString::number (index);
+
+        painter->drawText(qRound (pageNumberPos.x() - painter->fontMetrics().horizontalAdvance (pageString)),
+                          qRound (pageNumberPos.y() + view.top()),
+                          pageString);
+    }
+
+    painter->restore();
+}
+
+// Control printing for the dark color scheme and also to enable printing in the reverse order.
+void TextEdit::print (QPrinter *printer) const
+{
+#if (QT_VERSION < QT_VERSION_CHECK(5,14,0))
+    QPlainTextEdit::print (printer);
+    return;
+#endif
+    if (printer == nullptr) return;
+
+    QSizeF pageSize = document()->pageSize();
+    bool documentPaginated = pageSize.isValid() && !pageSize.isNull()
+                             && pageSize.height() != INT_MAX;
+
+    QPagedPaintDevice::Margins m = printer->margins();
+    if (!documentPaginated && m.left == 0. && m.right == 0. && m.top == 0. && m.bottom == 0.)
+    {
+        m.left = m.right = m.top = m.bottom = 2.;
+        printer->setMargins (m);
+    }
+
+    QPainter p (printer);
+    if (!p.isActive()) return;
+
+    const QTextDocument *doc = document();
+    QScopedPointer<QTextDocument> clonedDoc;
+    (void)doc->documentLayout(); // make sure that there is a layout
+
+    QRectF body = QRectF (QPointF (0, 0), pageSize);
+    QPointF pageNumberPos;
+
+    bool Use96Dpi = QCoreApplication::instance()->testAttribute(Qt::AA_Use96Dpi);
+    QScreen *screen = QGuiApplication::primaryScreen();
+    qreal sourceDpiX = Use96Dpi ? 96 : screen ? screen->logicalDotsPerInchX() : 100;
+    qreal sourceDpiY = Use96Dpi ? 96 : screen ? screen->logicalDotsPerInchY() : 100;
+    const qreal dpiScaleX = static_cast<qreal>(printer->logicalDpiX()) / sourceDpiX;
+    const qreal dpiScaleY = static_cast<qreal>(printer->logicalDpiY()) / sourceDpiY;
+
+    QColor darkColor;
+
+    if (documentPaginated)
+    {
+        if (QPaintDevice *dev = doc->documentLayout()->paintDevice())
+        {
+            sourceDpiX = dev->logicalDpiX();
+            sourceDpiY = dev->logicalDpiY();
+        }
+
+        p.scale (dpiScaleX, dpiScaleY);
+
+        QSizeF scaledPageSize = pageSize;
+        scaledPageSize.rwidth() *= dpiScaleX;
+        scaledPageSize.rheight() *= dpiScaleY;
+
+        const QSizeF printerPageSize (printer->width(), printer->height());
+
+        p.scale (printerPageSize.width() / scaledPageSize.width(),
+                 printerPageSize.height() / scaledPageSize.height());
+    }
+    else
+    {
+        doc = document()->clone (const_cast<QTextDocument*>(document()));
+        clonedDoc.reset (const_cast<QTextDocument*>(doc));
+
+        if (darkValue_ > -1)
+            darkColor = QColor (darkValue_, darkValue_, darkValue_);
+        for (QTextBlock srcBlock = document()->firstBlock(), dstBlock = clonedDoc->firstBlock();
+             srcBlock.isValid() && dstBlock.isValid();
+             srcBlock = srcBlock.next(), dstBlock = dstBlock.next())
+        {
+            QVector<QTextLayout::FormatRange> formatList = srcBlock.layout()->formats();
+            if (darkValue_ > -1)
+            {
+                for (int i = formatList.count() - 1; i >= 0; --i)
+                {
+                    QTextCharFormat &format = formatList[i].format;
+                    format.setBackground (darkColor);
+                }
+            }
+            dstBlock.layout()->setFormats (formatList);
+        }
+
+        QAbstractTextDocumentLayout *layout = doc->documentLayout();
+        layout->setPaintDevice (p.device());
+
+        const int horizontalMargin = static_cast<int>((2/2.54) * sourceDpiX);
+        const int verticalMargin = static_cast<int>((2/2.54) * sourceDpiY);
+        QTextFrameFormat fmt = doc->rootFrame()->frameFormat();
+        fmt.setLeftMargin (horizontalMargin);
+        fmt.setRightMargin (horizontalMargin);
+        fmt.setTopMargin (verticalMargin);
+        fmt.setBottomMargin (verticalMargin);
+        doc->rootFrame()->setFrameFormat (fmt);
+
+        const int dpiy = p.device()->logicalDpiY();
+        body = QRectF (0, 0, printer->width(), printer->height());
+        pageNumberPos = QPointF (body.width() - horizontalMargin * dpiScaleX,
+                                 body.height() - verticalMargin * dpiScaleY
+                                 + QFontMetrics (doc->defaultFont(), p.device()).ascent()
+                                 + 5 * dpiy / 72.0);
+        clonedDoc->setPageSize (body.size());
+    }
+
+    int fromPage = printer->fromPage();
+    int toPage = printer->toPage();
+
+    if (fromPage == 0 && toPage == 0)
+    {
+        fromPage = 1;
+        toPage = doc->pageCount();
+    }
+
+    fromPage = qMax (1, fromPage);
+    toPage = qMin (doc->pageCount(), toPage);
+
+    if (toPage < fromPage) return;
+
+
+    bool reverse (printer->pageOrder() == QPrinter::LastPageFirst);
+    int page = reverse ? toPage : fromPage;
+    while (true)
+    {
+        printPage (page, &p, doc, body, pageNumberPos, separatorColor_, darkColor);
+        if (reverse)
+        {
+            if (page == fromPage) break;
+            --page;
+        }
+        else
+        {
+            if (page == toPage) break;
+            ++page;
+        }
+        if (!printer->newPage())
+            return;
+    }
+}
+
 
 }

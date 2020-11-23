@@ -4465,8 +4465,8 @@ void FPwin::filePrint()
 
     QPrintDialog dlg (&printer, this);
     dlg.setWindowModality (Qt::WindowModal);
-    if (textEdit->textCursor().hasSelection())
-        dlg.setOption (QAbstractPrintDialog::PrintSelection);
+    /*if (textEdit->textCursor().hasSelection())
+        dlg.setOption (QAbstractPrintDialog::PrintSelection);*/
     dlg.setWindowTitle (tr ("Print Document"));
     if (dlg.exec() == QDialog::Accepted)
     {
