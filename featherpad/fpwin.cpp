@@ -29,12 +29,13 @@
 #include "session.h"
 #include "fontDialog.h"
 #include "loading.h"
+#include "printing.h"
 #include "warningbar.h"
 #include "svgicons.h"
 
 #include <QPrintDialog>
 #include <QToolTip>
-//#include <QScreen>
+#include <QScreen>
 #include <QWindow>
 #include <QScrollBar>
 #include <QWidgetAction>
@@ -4416,13 +4417,15 @@ void FPwin::updateWordInfo (int /*position*/, int charsRemoved, int charsAdded)
 /*************************/
 void FPwin::filePrint()
 {
-    if (isLoading()) return;
+    if (isLoading() || hasAnotherDialog())
+        return;
 
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
     if (tabPage == nullptr) return;
 
-    if (hasAnotherDialog()) return;
-    updateShortcuts (true);
+    showWarningBar ("<center><b><big>" + tr ("Printing in progress...") + "</big></b></center>",
+                    false, false);
+    lockWindow (tabPage, true);
 
     TextEdit *textEdit = tabPage->textEdit();
 
@@ -4449,8 +4452,6 @@ void FPwin::filePrint()
     }
     QTimer::singleShot (0, this, [this]() {unbusy();}); // wait for the dialog too
 
-    QPrinter printer (QPrinter::HighResolution);
-
     /* choose an appropriate name and directory */
     QString fileName = textEdit->getFileName();
     if (fileName.isEmpty())
@@ -4458,24 +4459,37 @@ void FPwin::filePrint()
         QDir dir = QDir::home();
         fileName= dir.filePath (tr ("Untitled"));
     }
-    if (printer.outputFormat() == QPrinter::PdfFormat)
-        printer.setOutputFileName (fileName.append (".pdf"));
-    /*else if (printer.outputFormat() == QPrinter::PostScriptFormat)
-        printer.setOutputFileName (fileName.append (".ps"));*/
+    fileName.append (".pdf");
 
-    QPrintDialog dlg (&printer, this);
+    bool Use96Dpi = QCoreApplication::instance()->testAttribute (Qt::AA_Use96Dpi);
+    QScreen *screen = QGuiApplication::primaryScreen();
+    qreal sourceDpiX = Use96Dpi ? 96 : screen ? screen->logicalDotsPerInchX() : 100;
+    qreal sourceDpiY = Use96Dpi ? 96 : screen ? screen->logicalDotsPerInchY() : 100;
+    Printing *thread = new Printing (textEdit->document(),
+                                     fileName,
+                                     textEdit->getSeparatorColor(),
+                                     textEdit->getDarkValue(),
+                                     sourceDpiX,
+                                     sourceDpiY);
+
+    QPrintDialog dlg (thread->printer(), this);
     dlg.setWindowModality (Qt::WindowModal);
-    /*if (textEdit->textCursor().hasSelection())
-        dlg.setOption (QAbstractPrintDialog::PrintSelection);*/
     dlg.setWindowTitle (tr ("Print Document"));
     if (dlg.exec() == QDialog::Accepted)
     {
-        waitToMakeBusy();
-        textEdit->print (&printer);
-        QTimer::singleShot (0, this, [this]() {unbusy();});
+        connect (thread, &Loading::finished, thread, &QObject::deleteLater);
+        connect (thread, &Loading::finished, tabPage, [this, tabPage] {
+            lockWindow (tabPage, false);
+            closeWarningBar();
+        });
+        thread->start();
     }
-
-    updateShortcuts (false);
+    else
+    {
+        delete thread;
+        lockWindow (tabPage, false);
+        closeWarningBar();
+    }
 }
 /*************************/
 void FPwin::nextTab()

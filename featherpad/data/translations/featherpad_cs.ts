@@ -12,18 +12,18 @@
 <context>
     <name>FeatherPad::FPwin</name>
     <message>
-        <location filename="../../fpwin.cpp" line="422"/>
-        <location filename="../../fpwin.cpp" line="1411"/>
-        <location filename="../../fpwin.cpp" line="1473"/>
-        <location filename="../../fpwin.cpp" line="2024"/>
-        <location filename="../../fpwin.cpp" line="2077"/>
-        <location filename="../../fpwin.cpp" line="2853"/>
-        <location filename="../../fpwin.cpp" line="2873"/>
-        <location filename="../../fpwin.cpp" line="2876"/>
-        <location filename="../../fpwin.cpp" line="3749"/>
-        <location filename="../../fpwin.cpp" line="4459"/>
-        <location filename="../../fpwin.cpp" line="4710"/>
-        <location filename="../../fpwin.cpp" line="4970"/>
+        <location filename="../../fpwin.cpp" line="423"/>
+        <location filename="../../fpwin.cpp" line="1412"/>
+        <location filename="../../fpwin.cpp" line="1474"/>
+        <location filename="../../fpwin.cpp" line="2025"/>
+        <location filename="../../fpwin.cpp" line="2078"/>
+        <location filename="../../fpwin.cpp" line="2854"/>
+        <location filename="../../fpwin.cpp" line="2874"/>
+        <location filename="../../fpwin.cpp" line="2877"/>
+        <location filename="../../fpwin.cpp" line="3750"/>
+        <location filename="../../fpwin.cpp" line="4460"/>
+        <location filename="../../fpwin.cpp" line="4724"/>
+        <location filename="../../fpwin.cpp" line="4984"/>
         <source>Untitled</source>
         <translation>Bez názvu</translation>
     </message>
@@ -66,9 +66,9 @@ tento řádek (Ctrl+Shift+J)</translation>
         <translation>M&amp;ožnosti</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1434"/>
-        <location filename="../../fpwin.cpp" line="2767"/>
-        <location filename="../../fpwin.cpp" line="4268"/>
+        <location filename="../../fpwin.cpp" line="1435"/>
+        <location filename="../../fpwin.cpp" line="2768"/>
+        <location filename="../../fpwin.cpp" line="4269"/>
         <source>Encoding</source>
         <translation>Znaková sada</translation>
     </message>
@@ -135,7 +135,7 @@ tento řádek (Ctrl+Shift+J)</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="519"/>
-        <location filename="../../fpwin.cpp" line="1209"/>
+        <location filename="../../fpwin.cpp" line="1210"/>
         <source>&amp;Save</source>
         <translation>&amp;Uložit</translation>
     </message>
@@ -610,7 +610,7 @@ tento řádek (Ctrl+Shift+J)</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="342"/>
-        <location filename="../../fpwin.cpp" line="3851"/>
+        <location filename="../../fpwin.cpp" line="3852"/>
         <location filename="../../replace.cpp" line="62"/>
         <location filename="../../replace.cpp" line="114"/>
         <source>Replacement</source>
@@ -777,446 +777,451 @@ tento řádek (Ctrl+Shift+J)</translation>
         <translation>Nabídka</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="108"/>
+        <location filename="../../fpwin.cpp" line="109"/>
         <source>Calculate number of words
 (For huge texts, this may be CPU-intensive.)</source>
         <translation>Spočítat počet slov
 (V případě rozsáhlých textů toto může způsobit vysoké vytížení procesoru.)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="123"/>
+        <location filename="../../fpwin.cpp" line="124"/>
         <source>Next</source>
         <translation>Další</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="124"/>
+        <location filename="../../fpwin.cpp" line="125"/>
         <source>Previous</source>
         <translation>Předchozí</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="125"/>
+        <location filename="../../fpwin.cpp" line="126"/>
         <source>Replace all</source>
         <translation>Nahradit vše</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="569"/>
+        <location filename="../../fpwin.cpp" line="570"/>
         <source>&amp;Recently Opened</source>
         <translation>&amp;Nedávno otevřeno</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1873"/>
+        <location filename="../../fpwin.cpp" line="1874"/>
         <source>Close</source>
         <translation>Zavřít</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1195"/>
+        <location filename="../../fpwin.cpp" line="1196"/>
         <source>Save changes?</source>
         <translation>Uložit změny?</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="858"/>
+        <location filename="../../fpwin.cpp" line="859"/>
         <source>Please attend to that window or just close its dialog!</source>
         <translation>Přejděte prosím do tohoto okna nebo zavřete jeho dialog!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1199"/>
+        <location filename="../../fpwin.cpp" line="1200"/>
         <source>The document has been modified.</source>
         <translation>Dokument byl změněn.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1210"/>
+        <location filename="../../fpwin.cpp" line="1211"/>
         <source>&amp;Discard changes</source>
         <translation>&amp;Zahodit změny</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1211"/>
+        <location filename="../../fpwin.cpp" line="1212"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Zrušit</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1213"/>
+        <location filename="../../fpwin.cpp" line="1214"/>
         <source>&amp;No to all</source>
         <translation>&amp;Ne všemu</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1416"/>
-        <location filename="../../fpwin.cpp" line="1474"/>
+        <location filename="../../fpwin.cpp" line="1417"/>
+        <location filename="../../fpwin.cpp" line="1475"/>
         <source>Unsaved</source>
         <translation>Neuloženo</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1435"/>
-        <location filename="../../fpwin.cpp" line="2769"/>
-        <location filename="../../fpwin.cpp" line="3413"/>
-        <location filename="../../fpwin.cpp" line="3424"/>
-        <location filename="../../fpwin.cpp" line="3431"/>
-        <location filename="../../fpwin.cpp" line="4272"/>
-        <location filename="../../fpwin.cpp" line="5725"/>
-        <location filename="../../fpwin.cpp" line="5736"/>
-        <location filename="../../fpwin.cpp" line="5743"/>
+        <location filename="../../fpwin.cpp" line="1436"/>
+        <location filename="../../fpwin.cpp" line="2770"/>
+        <location filename="../../fpwin.cpp" line="3414"/>
+        <location filename="../../fpwin.cpp" line="3425"/>
+        <location filename="../../fpwin.cpp" line="3432"/>
+        <location filename="../../fpwin.cpp" line="4273"/>
+        <location filename="../../fpwin.cpp" line="5739"/>
+        <location filename="../../fpwin.cpp" line="5750"/>
+        <location filename="../../fpwin.cpp" line="5757"/>
         <source>Lines</source>
         <translation>Řádky</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1436"/>
-        <location filename="../../fpwin.cpp" line="4273"/>
-        <location filename="../../fpwin.cpp" line="4287"/>
+        <location filename="../../fpwin.cpp" line="1437"/>
+        <location filename="../../fpwin.cpp" line="4274"/>
+        <location filename="../../fpwin.cpp" line="4288"/>
         <source>Sel. Chars</source>
         <translation>Vybr. znaky</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1437"/>
-        <location filename="../../fpwin.cpp" line="4275"/>
-        <location filename="../../fpwin.cpp" line="4288"/>
+        <location filename="../../fpwin.cpp" line="1438"/>
+        <location filename="../../fpwin.cpp" line="4276"/>
+        <location filename="../../fpwin.cpp" line="4289"/>
         <source>Words</source>
         <translation>Slova</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1757"/>
+        <location filename="../../fpwin.cpp" line="1758"/>
         <source>Another process is running in this tab!</source>
         <translation>V tomto panelu je spuštěný jiný proces!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1864"/>
+        <location filename="../../fpwin.cpp" line="1865"/>
         <source>Script File</source>
         <translation>Soubor se skriptem</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="857"/>
+        <location filename="../../fpwin.cpp" line="858"/>
         <source>Another FeatherPad window has a modal dialog!</source>
         <translation>Jiné okno FeatherPad má modální dialog!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="694"/>
-        <location filename="../../fpwin.cpp" line="4314"/>
+        <location filename="../../fpwin.cpp" line="695"/>
+        <location filename="../../fpwin.cpp" line="4315"/>
         <source>Position:</source>
         <translation>Pozice:</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="742"/>
-        <location filename="../../fpwin.cpp" line="4332"/>
-        <location filename="../../fpwin.cpp" line="4352"/>
+        <location filename="../../fpwin.cpp" line="743"/>
+        <location filename="../../fpwin.cpp" line="4333"/>
+        <location filename="../../fpwin.cpp" line="4353"/>
         <source>Normal</source>
         <translation>Normální</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1197"/>
-        <location filename="../../fpwin.cpp" line="2540"/>
-        <location filename="../../fpwin.cpp" line="5535"/>
+        <location filename="../../fpwin.cpp" line="1198"/>
+        <location filename="../../fpwin.cpp" line="2541"/>
+        <location filename="../../fpwin.cpp" line="5549"/>
         <source>The file does not exist.</source>
         <translation>Soubor neexistuje.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1566"/>
+        <location filename="../../fpwin.cpp" line="1567"/>
         <source>Open Link</source>
         <translation>Otevřít odkaz</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1579"/>
+        <location filename="../../fpwin.cpp" line="1580"/>
         <source>Copy Link</source>
         <translation>Zkopírovat odkaz</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1758"/>
+        <location filename="../../fpwin.cpp" line="1759"/>
         <source>Only one process is allowed per tab.</source>
         <translation>V rámci jednoho panelu může být pouze jeden proces.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1860"/>
+        <location filename="../../fpwin.cpp" line="1861"/>
         <source>Script Output</source>
         <translation>Výstup ze skriptu</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1876"/>
+        <location filename="../../fpwin.cpp" line="1877"/>
         <source>Clear</source>
         <translation>Vyčistit</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2498"/>
+        <location filename="../../fpwin.cpp" line="2499"/>
         <source>FeatherPad does not open files larger than 100 MiB.</source>
         <translation>FeatherPad neotevírá soubory větší než 100 MiB.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2506"/>
+        <location filename="../../fpwin.cpp" line="2507"/>
         <source>Non-text file(s) not opened!</source>
         <translation>Soubory, neobsahující text, neotevřeny!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2507"/>
+        <location filename="../../fpwin.cpp" line="2508"/>
         <source>See Preferences → Files → Do not permit opening of non-text files</source>
         <translation>Viz předvolby → Soubory → Neumožňovat otevírat jiné, než textové soubory</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2515"/>
+        <location filename="../../fpwin.cpp" line="2516"/>
         <source>Some file(s) could not be opened!</source>
         <translation>Některé soubory se nepodařilo otevřít!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2516"/>
+        <location filename="../../fpwin.cpp" line="2517"/>
         <source>You may not have the permission to read.</source>
         <translation>Může být, že nemáte oprávnění k jejich čtení.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2526"/>
+        <location filename="../../fpwin.cpp" line="2527"/>
         <source>Uneditable file(s)!</source>
         <translation>Soubory, které nelze upravovat!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2527"/>
+        <location filename="../../fpwin.cpp" line="2528"/>
         <source>Non-text files or files with huge lines cannot be edited.</source>
         <translation>Netextové soubory nebo takové, které obsahují opravdu dlouhé řádky není možné upravovat.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2586"/>
+        <location filename="../../fpwin.cpp" line="2587"/>
         <source>A previous crash detected!</source>
         <translation>Zjištěn předchozí pád!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2587"/>
+        <location filename="../../fpwin.cpp" line="2588"/>
         <source>Preferably, close all FeatherPad windows and start again!</source>
         <translation>Nejlépe bude zavřít všechna okna s FeatherPad a spustit znovu!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2594"/>
+        <location filename="../../fpwin.cpp" line="2595"/>
         <source>Root Instance</source>
         <translation>Instance uživatele správce systému (root)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2665"/>
-        <location filename="../../fpwin.cpp" line="2834"/>
-        <location filename="../../fpwin.cpp" line="2862"/>
+        <location filename="../../fpwin.cpp" line="2666"/>
+        <location filename="../../fpwin.cpp" line="2835"/>
+        <location filename="../../fpwin.cpp" line="2863"/>
         <source>All Files (*)</source>
         <translation>Všechny soubory (*)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2670"/>
+        <location filename="../../fpwin.cpp" line="2671"/>
         <source>All Files (*);;.%1 Files (*.%1)</source>
         <translation>Všechny soubory (*);;.%1 Soubory (*.%1)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2674"/>
+        <location filename="../../fpwin.cpp" line="2675"/>
         <source>Open file...</source>
         <translation>Otevřít soubor…</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2840"/>
+        <location filename="../../fpwin.cpp" line="2841"/>
         <source>.%1 Files (*.%1);;All Files (*)</source>
         <translation>.%1 soubory (*.%1);;Všechny soubory (*)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2891"/>
-        <location filename="../../fpwin.cpp" line="2929"/>
+        <location filename="../../fpwin.cpp" line="2892"/>
+        <location filename="../../fpwin.cpp" line="2930"/>
         <source>Save as...</source>
         <translation>Uložit jako…</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2965"/>
+        <location filename="../../fpwin.cpp" line="2966"/>
         <source>Keep encoding and save as...</source>
         <translation>Ponechat znakovou sadu a uložit jako…</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3240"/>
+        <location filename="../../fpwin.cpp" line="3241"/>
         <source>Saving as root.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3241"/>
+        <location filename="../../fpwin.cpp" line="3242"/>
         <source>Waiting for authentication...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3359"/>
+        <location filename="../../fpwin.cpp" line="3360"/>
         <source>&quot;pkexec&quot; is not found. Please install Polkit!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3046"/>
+        <location filename="../../fpwin.cpp" line="3047"/>
         <source>Yes</source>
         <translation>Ano</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3047"/>
+        <location filename="../../fpwin.cpp" line="3048"/>
         <source>No</source>
         <translation>Ne</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3048"/>
+        <location filename="../../fpwin.cpp" line="3049"/>
         <source>Cancel</source>
         <translation>Storno</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3049"/>
+        <location filename="../../fpwin.cpp" line="3050"/>
         <source>Do you want to use &lt;b&gt;MS Windows&lt;/b&gt; end-of-lines?</source>
         <translation>Opravdu chcete použít konce řádků jako v &lt;b&gt;MS Windows&lt;/b&gt;?</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3050"/>
+        <location filename="../../fpwin.cpp" line="3051"/>
         <source>This may be good for readability under MS Windows.</source>
         <translation>To může být užitečné pro čitelnost v MS Windows.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3170"/>
-        <location filename="../../fpwin.cpp" line="3255"/>
-        <location filename="../../fpwin.cpp" line="3358"/>
-        <location filename="../../fpwin.cpp" line="3369"/>
+        <location filename="../../fpwin.cpp" line="3171"/>
+        <location filename="../../fpwin.cpp" line="3256"/>
+        <location filename="../../fpwin.cpp" line="3359"/>
+        <location filename="../../fpwin.cpp" line="3370"/>
         <source>Cannot be saved!</source>
         <translation>Není možné uložit!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="420"/>
-        <location filename="../../fpwin.cpp" line="3747"/>
-        <location filename="../../fpwin.cpp" line="4708"/>
-        <location filename="../../fpwin.cpp" line="4968"/>
-        <location filename="../../fpwin.cpp" line="5940"/>
+        <location filename="../../fpwin.cpp" line="421"/>
+        <location filename="../../fpwin.cpp" line="3748"/>
+        <location filename="../../fpwin.cpp" line="4722"/>
+        <location filename="../../fpwin.cpp" line="4982"/>
+        <location filename="../../fpwin.cpp" line="5954"/>
         <source>Help</source>
         <translation>Nápověda</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3409"/>
-        <location filename="../../fpwin.cpp" line="3415"/>
-        <location filename="../../fpwin.cpp" line="3423"/>
-        <location filename="../../fpwin.cpp" line="4271"/>
-        <location filename="../../fpwin.cpp" line="5721"/>
-        <location filename="../../fpwin.cpp" line="5727"/>
+        <location filename="../../fpwin.cpp" line="3410"/>
+        <location filename="../../fpwin.cpp" line="3416"/>
+        <location filename="../../fpwin.cpp" line="3424"/>
+        <location filename="../../fpwin.cpp" line="4272"/>
         <location filename="../../fpwin.cpp" line="5735"/>
+        <location filename="../../fpwin.cpp" line="5741"/>
+        <location filename="../../fpwin.cpp" line="5749"/>
         <source>Syntax</source>
         <translation>Syntaxe</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2497"/>
+        <location filename="../../fpwin.cpp" line="2498"/>
         <source>Huge file(s) not opened!</source>
         <translation>Obrovské soubor neotevřeny!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3512"/>
+        <location filename="../../fpwin.cpp" line="3513"/>
         <source>Text tabs are converted to spaces.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3620"/>
+        <location filename="../../fpwin.cpp" line="3621"/>
         <source>The selected text was too long.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3621"/>
+        <location filename="../../fpwin.cpp" line="3622"/>
         <source>It is not fully processed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3759"/>
-        <location filename="../../fpwin.cpp" line="3950"/>
+        <location filename="../../fpwin.cpp" line="3760"/>
+        <location filename="../../fpwin.cpp" line="3951"/>
         <source>This file has been modified elsewhere or in another way!</source>
         <translation>Tento soubor byl změněn z jiné aplikace či jinak!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3760"/>
-        <location filename="../../fpwin.cpp" line="3951"/>
+        <location filename="../../fpwin.cpp" line="3761"/>
+        <location filename="../../fpwin.cpp" line="3952"/>
         <source>Please be careful about reloading or saving this document!</source>
         <translation>Buďte opatrní při opětovném načítání nebo ukládání tohoto dokumentu!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4470"/>
+        <location filename="../../fpwin.cpp" line="4426"/>
+        <source>Printing in progress...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="4477"/>
         <source>Print Document</source>
         <translation>Vytisknout dokument</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5095"/>
-        <location filename="../../fpwin.cpp" line="5174"/>
+        <location filename="../../fpwin.cpp" line="5109"/>
+        <location filename="../../fpwin.cpp" line="5188"/>
         <source>%1 Pages</source>
         <translation>%1 stránek</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5122"/>
-        <location filename="../../fpwin.cpp" line="5206"/>
+        <location filename="../../fpwin.cpp" line="5136"/>
+        <location filename="../../fpwin.cpp" line="5220"/>
         <source>Copy Target Path</source>
         <translation>Zkopírovat cílový popis umístění</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5126"/>
-        <location filename="../../fpwin.cpp" line="5210"/>
+        <location filename="../../fpwin.cpp" line="5140"/>
+        <location filename="../../fpwin.cpp" line="5224"/>
         <source>Open Target Here</source>
         <translation>Otevřít cíl zde</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5144"/>
-        <location filename="../../fpwin.cpp" line="5229"/>
+        <location filename="../../fpwin.cpp" line="5158"/>
+        <location filename="../../fpwin.cpp" line="5243"/>
         <source>Open Containing Folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5338"/>
+        <location filename="../../fpwin.cpp" line="5352"/>
         <source>You need to add a Hunspell dictionary.</source>
         <translation>Je třeba přidat Hunspell slovník.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5339"/>
-        <location filename="../../fpwin.cpp" line="5345"/>
-        <location filename="../../fpwin.cpp" line="5354"/>
+        <location filename="../../fpwin.cpp" line="5353"/>
+        <location filename="../../fpwin.cpp" line="5359"/>
+        <location filename="../../fpwin.cpp" line="5368"/>
         <source>See Preferences → Text → Spell Checking!</source>
         <translation>Viz předvolby → Text → Kontrola pravopisu!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5344"/>
+        <location filename="../../fpwin.cpp" line="5358"/>
         <source>The Hunspell dictionary does not exist.</source>
         <translation>Hunspell slovník neexistuje.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5353"/>
+        <location filename="../../fpwin.cpp" line="5367"/>
         <source>The Hunspell dictionary is not accompanied by an affix file.</source>
         <translation>Hunspell slovník není doprovázen affix souborem.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5375"/>
-        <location filename="../../fpwin.cpp" line="5393"/>
-        <location filename="../../fpwin.cpp" line="5408"/>
+        <location filename="../../fpwin.cpp" line="5389"/>
+        <location filename="../../fpwin.cpp" line="5407"/>
+        <location filename="../../fpwin.cpp" line="5422"/>
         <source>No misspelling in document.</source>
         <translation>V dokumentu nejsou žádné překlepy.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5377"/>
-        <location filename="../../fpwin.cpp" line="5395"/>
-        <location filename="../../fpwin.cpp" line="5410"/>
+        <location filename="../../fpwin.cpp" line="5391"/>
+        <location filename="../../fpwin.cpp" line="5409"/>
+        <location filename="../../fpwin.cpp" line="5424"/>
         <source>No misspelling from text cursor.</source>
         <translation>Žádné překlepy od pozice kurzoru.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5423"/>
+        <location filename="../../fpwin.cpp" line="5437"/>
         <source>Spell Checking</source>
         <translation>Kontrola pravopisu</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5759"/>
+        <location filename="../../fpwin.cpp" line="5773"/>
         <source>Some files cannot be saved!</source>
         <translation>Některé soubory se nepodařilo uložit!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5806"/>
+        <location filename="../../fpwin.cpp" line="5820"/>
         <source>Translators</source>
         <translation>Překladatelé</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5802"/>
+        <location filename="../../fpwin.cpp" line="5816"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translation>Nenáročný editor neformátovaného textu s panely</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5803"/>
+        <location filename="../../fpwin.cpp" line="5817"/>
         <source>based on Qt</source>
         <translation>založeno na Qt</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5804"/>
+        <location filename="../../fpwin.cpp" line="5818"/>
         <source>Author</source>
         <translation>Autor</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5805"/>
+        <location filename="../../fpwin.cpp" line="5819"/>
         <source>aka.</source>
         <translation>alias</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5806"/>
-        <location filename="../../fpwin.cpp" line="5807"/>
+        <location filename="../../fpwin.cpp" line="5820"/>
+        <location filename="../../fpwin.cpp" line="5821"/>
         <source>About FeatherPad</source>
         <translation>O aplikaci FeatherPad</translation>
     </message>
@@ -2417,7 +2422,7 @@ zahrnuty všechny v oknech otevřené soubory.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="178"/>
+        <location filename="../../textedit.cpp" line="179"/>
         <source>Double click to center current line</source>
         <translation>Dvojklikem stávající řádek vystředíte</translation>
     </message>

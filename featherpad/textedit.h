@@ -26,7 +26,6 @@
 #include <QDateTime>
 #include <QElapsedTimer>
 #include <QSyntaxHighlighter>
-#include <QPrinter>
 
 namespace FeatherPad {
 
@@ -110,6 +109,10 @@ public:
     }
     int getDarkValue() const {
         return darkValue_;
+    }
+
+    QColor getSeparatorColor() const {
+        return separatorColor_;
     }
 
     void setCurLineHighlight (int value);
@@ -256,8 +259,6 @@ public:
         pastePaths_ = pastePaths;
     }
 
-    void print (QPrinter *printer) const;
-
 signals:
     /* inform the main widget */
     void fileDropped (const QString& localFile,
@@ -344,11 +345,12 @@ private:
     bool drawIndetLines_;
     bool autoBracket_;
     int darkValue_;
-    QColor separatorColor_; // only used internally
+    QColor separatorColor_;
     int vLineDistance_;
     QString dateFormat_;
     QColor lineHColor_;
     int resizeTimerId_, selectionTimerId_; // for not wasting CPU's time
+    bool mousePressed_; // used internally for not relying on QApplication::mouseButtons()
     QPoint pressPoint_; // used internally for hyperlinks
     QPoint selectionPressPoint_; // used internally to delay dragging until mouse movement
     QFont font_; // used internally for keeping track of the unzoomed font

@@ -37,6 +37,7 @@ SOURCES += main.cpp \
            highlighter-perl-regex.cpp \
            vscrollbar.cpp \
            loading.cpp \
+           printing.cpp \
            tabpage.cpp \
            searchbar.cpp \
            session.cpp \
@@ -59,6 +60,7 @@ HEADERS += singleton.h \
            config.h \
            pref.h \
            loading.h \
+           printing.h \
            messagebox.h \
            tabpage.h \
            searchbar.h \
