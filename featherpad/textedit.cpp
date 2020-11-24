@@ -154,7 +154,6 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
 
     resizeTimerId_ = 0;
     selectionTimerId_ = 0;
-    mousePressed_ = false;
     selectionHighlighting_ = false;
     highlightThisSelection_ = true;
     removeSelectionHighlights_ = false;
@@ -1499,17 +1498,6 @@ void TextEdit::scrollWithInertia()
 #endif
     QCoreApplication::sendEvent (verticalScrollBar(), &e);
 
-    /* Update text selection if the left mouse button is pressed (-> QPlainTextEdit::timerEvent).
-       WARNING: QApplication::mouseButtons() isn't reliable here. */
-    if (mousePressed_)
-    {
-        const QPoint globalPos = QCursor::pos();
-        QPoint pos = viewport()->mapFromGlobal (globalPos);
-        QMouseEvent ev (QEvent::MouseMove, pos, viewport()->mapTo (viewport()->topLevelWidget(), pos), globalPos,
-                        Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
-        mouseMoveEvent (&ev);
-    }
-
     if (queuedScrollSteps_.empty())
         scrollTimer_->stop();
 }
@@ -2191,11 +2179,11 @@ void TextEdit::mousePressEvent (QMouseEvent *event)
 
     QPlainTextEdit::mousePressEvent (event);
 
-    if (event->button() & Qt::LeftButton)
+    if (highlighter_
+        && (event->button() & Qt::LeftButton)
+        && (qApp->keyboardModifiers() & Qt::ControlModifier))
     {
-        mousePressed_ = true;
-        if (highlighter_ && (qApp->keyboardModifiers() & Qt::ControlModifier))
-            pressPoint_ = event->pos();
+        pressPoint_ = event->pos();
     }
 }
 /*************************/
@@ -2204,7 +2192,6 @@ void TextEdit::mouseReleaseEvent (QMouseEvent *event)
     QPlainTextEdit::mouseReleaseEvent (event);
     if (event->button() & Qt::LeftButton)
     {
-        mousePressed_ = false;
         /* workaround for copying to the selection clipboard;
            see TextEdit::copy()/cut() for an explanation */
         QTextCursor cursor = textCursor();

@@ -2417,7 +2417,7 @@ windows will be included in the saved session.</source>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="179"/>
+        <location filename="../../textedit.cpp" line="178"/>
         <source>Double click to center current line</source>
         <translation>Dupla kattintás, hogy a legutóbbi sor középre kerüljön</translation>
     </message>

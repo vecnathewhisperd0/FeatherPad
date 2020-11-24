@@ -350,7 +350,6 @@ private:
     QString dateFormat_;
     QColor lineHColor_;
     int resizeTimerId_, selectionTimerId_; // for not wasting CPU's time
-    bool mousePressed_; // used internally for not relying on QApplication::mouseButtons()
     QPoint pressPoint_; // used internally for hyperlinks
     QPoint selectionPressPoint_; // used internally to delay dragging until mouse movement
     QFont font_; // used internally for keeping track of the unzoomed font
