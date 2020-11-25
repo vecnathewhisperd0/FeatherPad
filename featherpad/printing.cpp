@@ -25,10 +25,10 @@
 namespace FeatherPad {
 
 Printing::Printing (QTextDocument *document, const QString &fileName,
-                    const QColor &separatorColor, int darkValue,
+                    const QColor &textColor, int darkValue,
                     qreal sourceDpiX, qreal sourceDpiY)
 {
-    separatorColor_ = separatorColor;
+    textColor_ = textColor;
     sourceDpiX_ = sourceDpiX;
     sourceDpiY_ = sourceDpiY;
 
@@ -74,7 +74,7 @@ Printing::~Printing()
 /*************************/
 static void printPage (int index, QPainter *painter, const QTextDocument *doc,
                        const QRectF &body, const QPointF &pageNumberPos,
-                       const QColor &separatorColor, const QColor &darkColor)
+                       const QColor &textColor, const QColor &darkColor)
 {
     painter->save();
     painter->translate (body.left(), body.top() - (index - 1) * body.height());
@@ -89,9 +89,9 @@ static void printPage (int index, QPainter *painter, const QTextDocument *doc,
         painter->fillRect (view, darkColor);
 
     ctx.clip = view;
-    /* since the unformatted text is really formatted by syntax highlighter,
-       this color is really for the separators */
-    ctx.palette.setColor (QPalette::Text, separatorColor);
+    /* with syntax highlighting, this is the color of
+       line/document ends because the ordinary text is formatted */
+    ctx.palette.setColor (QPalette::Text, textColor);
     layout->draw (painter, ctx);
 
     if (!pageNumberPos.isNull())
@@ -164,7 +164,7 @@ void Printing::run()
     int page = reverse ? toPage : fromPage;
     while (true)
     {
-        printPage (page, &p, document_, body, pageNumberPos, separatorColor_, darkColor_);
+        printPage (page, &p, document_, body, pageNumberPos, textColor_, darkColor_);
         if (reverse)
         {
             if (page == fromPage) break;

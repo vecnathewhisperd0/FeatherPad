@@ -4467,7 +4467,7 @@ void FPwin::filePrint()
     qreal sourceDpiY = Use96Dpi ? 96 : screen ? screen->logicalDotsPerInchY() : 100;
     Printing *thread = new Printing (textEdit->document(),
                                      fileName,
-                                     textEdit->getSeparatorColor(),
+                                     textEdit->getTextPrintColor(),
                                      textEdit->getDarkValue(),
                                      sourceDpiX,
                                      sourceDpiY);

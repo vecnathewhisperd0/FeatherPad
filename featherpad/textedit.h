@@ -111,8 +111,12 @@ public:
         return darkValue_;
     }
 
-    QColor getSeparatorColor() const {
-        return separatorColor_;
+    QColor getTextPrintColor() const {
+        /* with syntax highlighting, the color of line/document ends
+            should be returned because the ordinary text is formatted */
+        if (highlighter_)
+            return separatorColor_;
+        return (darkValue_ == -1 ? Qt::black : Qt::white);
     }
 
     void setCurLineHighlight (int value);
