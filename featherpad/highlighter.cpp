@@ -1697,6 +1697,7 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
             || progLan == "python"
             || progLan == "perl"
             || progLan == "dart"
+            || progLan == "lua"
             /* markdown is an exception */
             || progLan == "markdown"
             /* however, in Bash, single quote can be escaped only at start */
