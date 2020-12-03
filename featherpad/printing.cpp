@@ -121,7 +121,8 @@ void Printing::run()
     QPainter p (printer_);
     if (!p.isActive()) return;
 
-    if (printer_->pageRect().isEmpty()) return;
+    if (printer_->pageLayout().paintRectPixels (printer_->resolution()).isEmpty())
+        return;
 
     QAbstractTextDocumentLayout *layout = document_->documentLayout();
     layout->setPaintDevice (p.device());
