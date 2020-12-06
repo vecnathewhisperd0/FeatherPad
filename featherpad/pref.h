@@ -35,6 +35,11 @@ class FPKeySequenceEdit : public QKeySequenceEdit
 public:
     FPKeySequenceEdit (QWidget *parent = nullptr);
 
+    /* to be used with Tab and Backtab */
+    void pressKey (QKeyEvent *event) {
+        QKeySequenceEdit::keyPressEvent (event);
+    }
+
 protected:
     virtual void keyPressEvent (QKeyEvent *event);
 };

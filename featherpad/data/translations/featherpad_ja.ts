@@ -1812,7 +1812,7 @@ name but ending with &quot;.aff&quot;.</source>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="902"/>
-        <location filename="../../pref.cpp" line="1633"/>
+        <location filename="../../pref.cpp" line="1642"/>
         <source>Add dictionary...</source>
         <translation>辞書を追加...</translation>
     </message>
@@ -2064,123 +2064,123 @@ FeatherPad に貼り付ける場合はそのファイルを開きます。</tran
         <translation>閉じる</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="95"/>
+        <location filename="../../pref.cpp" line="104"/>
         <source>Press a modifier key to clear a shortcut
 in the editing mode.</source>
         <translation>ショートカットをクリアするには、編集モードで
 修飾キー（訳注: Alt,Ctrl,Shift のみ）を押します。</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="101"/>
+        <location filename="../../pref.cpp" line="110"/>
         <source>Double click a color to change it.</source>
         <translation>変更する色をダブルクリックしてください。</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="293"/>
-        <location filename="../../pref.cpp" line="1329"/>
+        <location filename="../../pref.cpp" line="302"/>
+        <location filename="../../pref.cpp" line="1338"/>
         <source>files</source>
         <translation>ファイル</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="293"/>
-        <location filename="../../pref.cpp" line="1329"/>
+        <location filename="../../pref.cpp" line="302"/>
+        <location filename="../../pref.cpp" line="1338"/>
         <source>file</source>
         <translation>ファイル</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="346"/>
-        <location filename="../../pref.cpp" line="1448"/>
+        <location filename="../../pref.cpp" line="355"/>
+        <location filename="../../pref.cpp" line="1457"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>警告: 不正なショートカットを検出しました！</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="379"/>
+        <location filename="../../pref.cpp" line="388"/>
         <source>Functions, URLs,…</source>
         <translation>関数, URL, …</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="380"/>
+        <location filename="../../pref.cpp" line="389"/>
         <source>Built-in Functions</source>
         <translation>組み込み関数</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="381"/>
+        <location filename="../../pref.cpp" line="390"/>
         <source>Comments</source>
         <translation>コメント</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="382"/>
+        <location filename="../../pref.cpp" line="391"/>
         <source>Quotations</source>
         <translation>引用</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="383"/>
+        <location filename="../../pref.cpp" line="392"/>
         <source>Types</source>
         <translation>タイプ</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="384"/>
+        <location filename="../../pref.cpp" line="393"/>
         <source>Key Words</source>
         <translation>キーワード</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="385"/>
+        <location filename="../../pref.cpp" line="394"/>
         <source>Numbers</source>
         <translation>数値</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="386"/>
+        <location filename="../../pref.cpp" line="395"/>
         <source>Regular Expressions, Code Blocks,…</source>
         <translation>正規表現, コードブロック,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="387"/>
+        <location filename="../../pref.cpp" line="396"/>
         <source>Document Blocks, XML/HTML Elements,…</source>
         <translation>文書ブロック, XML/HTML 要素,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="388"/>
+        <location filename="../../pref.cpp" line="397"/>
         <source>Markdown Headings, CSS Values,…</source>
         <translation>マークダウンの見出し, CSS の値,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="389"/>
+        <location filename="../../pref.cpp" line="398"/>
         <source>Extra Elements</source>
         <translation>その他の要素</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="550"/>
+        <location filename="../../pref.cpp" line="559"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>変更を有効にするには、アプリケーションの再起動が必要です。</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="568"/>
+        <location filename="../../pref.cpp" line="577"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>変更を有効にするには、ウィンドウを開き直す必要があります。</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1355"/>
+        <location filename="../../pref.cpp" line="1364"/>
         <source>&amp;Recently Opened</source>
         <translation>最近開いたファイル(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1356"/>
+        <location filename="../../pref.cpp" line="1365"/>
         <source>Recently &amp;Modified</source>
         <translation>最近更新したファイル(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1431"/>
+        <location filename="../../pref.cpp" line="1440"/>
         <source>The typed shortcut was reserved.</source>
         <translation>入力したショートカットは予約済みでした。</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1635"/>
+        <location filename="../../pref.cpp" line="1644"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>Hunspell 辞書ファイル (*.dic)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="440"/>
-        <location filename="../../pref.cpp" line="1721"/>
+        <location filename="../../pref.cpp" line="449"/>
+        <location filename="../../pref.cpp" line="1730"/>
         <source>Select Syntax Color</source>
         <translation>構文の色を選択</translation>
     </message>

@@ -1917,7 +1917,7 @@ name but ending with &quot;.aff&quot;.</source>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="902"/>
-        <location filename="../../pref.cpp" line="1633"/>
+        <location filename="../../pref.cpp" line="1642"/>
         <source>Add dictionary...</source>
         <translation>הוספת מילון…</translation>
     </message>
@@ -2064,123 +2064,123 @@ be opened if they are pasted into FeatherPad.</source>
         <translation>סגירה</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="95"/>
+        <location filename="../../pref.cpp" line="104"/>
         <source>Press a modifier key to clear a shortcut
 in the editing mode.</source>
         <translation>יש ללחוץ על מקש החלפה כדי לפנות קיצור דרך
 במצב העריכה.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="101"/>
+        <location filename="../../pref.cpp" line="110"/>
         <source>Double click a color to change it.</source>
         <translation>יש ללחוץ על צבע לחיצה כפולה כדי לשנות אותו.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="293"/>
-        <location filename="../../pref.cpp" line="1329"/>
+        <location filename="../../pref.cpp" line="302"/>
+        <location filename="../../pref.cpp" line="1338"/>
         <source>files</source>
         <translation>קבצים</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="293"/>
-        <location filename="../../pref.cpp" line="1329"/>
+        <location filename="../../pref.cpp" line="302"/>
+        <location filename="../../pref.cpp" line="1338"/>
         <source>file</source>
         <translation>קובץ</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="346"/>
-        <location filename="../../pref.cpp" line="1448"/>
+        <location filename="../../pref.cpp" line="355"/>
+        <location filename="../../pref.cpp" line="1457"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>אזהרה: התגלה קיצור דרך דו־משמעי!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="379"/>
+        <location filename="../../pref.cpp" line="388"/>
         <source>Functions, URLs,…</source>
         <translation>פונקציות, כתובות, …</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="380"/>
+        <location filename="../../pref.cpp" line="389"/>
         <source>Built-in Functions</source>
         <translation>פונקציות מובנות</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="381"/>
+        <location filename="../../pref.cpp" line="390"/>
         <source>Comments</source>
         <translation>הערות</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="382"/>
+        <location filename="../../pref.cpp" line="391"/>
         <source>Quotations</source>
         <translation>ציטוטים</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="383"/>
+        <location filename="../../pref.cpp" line="392"/>
         <source>Types</source>
         <translation>סוגים</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="384"/>
+        <location filename="../../pref.cpp" line="393"/>
         <source>Key Words</source>
         <translation>מילות מפתח</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="385"/>
+        <location filename="../../pref.cpp" line="394"/>
         <source>Numbers</source>
         <translation>מספרים</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="386"/>
+        <location filename="../../pref.cpp" line="395"/>
         <source>Regular Expressions, Code Blocks,…</source>
         <translation>ביטויים רגולריים, מקטעי קוד, …</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="387"/>
+        <location filename="../../pref.cpp" line="396"/>
         <source>Document Blocks, XML/HTML Elements,…</source>
         <translation>מקטעי מסמך, רכיבי XML/HTML, …</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="388"/>
+        <location filename="../../pref.cpp" line="397"/>
         <source>Markdown Headings, CSS Values,…</source>
         <translation>כותרות Markdown, ערכי CSS, …</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="389"/>
+        <location filename="../../pref.cpp" line="398"/>
         <source>Extra Elements</source>
         <translation>אלמנטים נוספים</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="550"/>
+        <location filename="../../pref.cpp" line="559"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>הפעלת היישום מחדש נחוצה כדי להכניס השינויים לתוקף.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="568"/>
+        <location filename="../../pref.cpp" line="577"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>פתיחת החלון מחדש נחוצה כדי להכניס את השינויים לתוקף.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1355"/>
+        <location filename="../../pref.cpp" line="1364"/>
         <source>&amp;Recently Opened</source>
         <translation>נפתחו ל&amp;אחרונה</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1356"/>
+        <location filename="../../pref.cpp" line="1365"/>
         <source>Recently &amp;Modified</source>
         <translation>נ&amp;ערכו לאחרונה</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1431"/>
+        <location filename="../../pref.cpp" line="1440"/>
         <source>The typed shortcut was reserved.</source>
         <translation>קיצור הדרך שהוקלד נשמר.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1635"/>
+        <location filename="../../pref.cpp" line="1644"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>קובצי מילון Hunspell‏ (‎*.dic)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="440"/>
-        <location filename="../../pref.cpp" line="1721"/>
+        <location filename="../../pref.cpp" line="449"/>
+        <location filename="../../pref.cpp" line="1730"/>
         <source>Select Syntax Color</source>
         <translation>בחירת צבע תחביר</translation>
     </message>
