@@ -69,6 +69,31 @@ QItemSelectionModel::SelectionFlags ListWidget::selectionCommand (const QModelIn
         return QListWidget::selectionCommand (index, event);
 }
 /*************************/
+ListWidget::ListWidget (QWidget *parent) : QListWidget (parent)
+{
+    setMouseTracking (true); // for instant tooltips
+    locked_ = false;
+
+    /* try to have a current item as far as possible and announce it */
+    connect (this, &QListWidget::currentItemChanged, [this] (QListWidgetItem *current, QListWidgetItem *previous) {
+        if (current == nullptr)
+        {
+            if (count() == 0) return;
+            if (previous != nullptr)
+            {
+                int prevRow = row (previous);
+                if (prevRow < count() - 1)
+                    setCurrentRow (prevRow + 1);
+                else if (prevRow != 0)
+                    setCurrentRow (0);
+            }
+            else setCurrentRow (0);
+        }
+        else
+            emit currentItemUpdated (current);
+    });
+}
+/*************************/
 void ListWidget::mousePressEvent (QMouseEvent *event)
 {
     if (locked_)
@@ -142,6 +167,8 @@ SidePane::SidePane (QWidget *parent)
         else
             item->setHidden (true);
     });
+
+    lw_->installEventFilter (this);
 }
 /*************************/
 SidePane::~SidePane()
@@ -152,6 +179,22 @@ SidePane::~SidePane()
         filterTimer_->stop();
         delete filterTimer_;
     }
+}
+/*************************/
+bool SidePane::eventFilter (QObject *watched, QEvent *event)
+{
+    if (watched == lw_ && event->type() == QEvent::KeyPress)
+    { // when a text is typed inside the list, type it inside the filter line-edit too
+        if (QKeyEvent *ke = static_cast<QKeyEvent*>(event))
+        {
+            if (ke->key() < Qt::Key_Home || ke->key() > Qt::Key_PageDown)
+            {
+                le_->pressKey (ke);
+                return true; // don't change the selection
+            }
+        }
+    }
+    return QWidget::eventFilter (watched, event);
 }
 /*************************/
 void SidePane::filter (const QString&/*text*/)

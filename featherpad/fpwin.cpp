@@ -294,7 +294,10 @@ FPwin::FPwin (QWidget *parent, bool standalone):QMainWindow (parent), dummyWidge
 
     connect (this, &FPwin::finishedLoading, [this] {
         if (sidePane_)
-            sidePane_->listWidget()->scrollToItem (sidePane_->listWidget()->currentItem());
+        {
+            if (QListWidgetItem *curItem = sidePane_->listWidget()->currentItem())
+                sidePane_->listWidget()->scrollToItem (curItem);
+        }
     });
     ui->actionSidePane->setAutoRepeat (false); // don't let UI change too rapidly
     connect (ui->actionSidePane, &QAction::triggered, [this] {toggleSidePane();});
@@ -396,7 +399,7 @@ void FPwin::toggleSidePane()
         sizes << sp * mult << (100 - sp) * mult;
         ui->splitter->setSizes (sizes);
         connect (sidePane_->listWidget(), &QWidget::customContextMenuRequested, this, &FPwin::listContextMenu);
-        connect (sidePane_->listWidget(), &QListWidget::currentItemChanged, this, &FPwin::changeTab);
+        connect (sidePane_->listWidget(), &ListWidget::currentItemUpdated, this, &FPwin::changeTab);
         connect (sidePane_->listWidget(), &ListWidget::closeSidePane, this, &FPwin::toggleSidePane);
         connect (sidePane_->listWidget(), &ListWidget::closeItem, [this](QListWidgetItem* item) {
             if (!sideItems_.isEmpty())
@@ -438,7 +441,9 @@ void FPwin::toggleSidePane()
                 if (i == curIndex)
                     lw->setCurrentItem (lwi);
             }
-            sidePane_->listWidget()->scrollTo (sidePane_->listWidget()->currentIndex());
+            QModelIndex index = sidePane_->listWidget()->currentIndex();
+            if (index.isValid())
+                sidePane_->listWidget()->scrollTo (index);
             updateShortcuts (false);
         }
 
@@ -1925,7 +1930,15 @@ void FPwin::closePage()
             pauseAutoSaving (false);
             return;
         }
-        index = tabIndex;
+        index = tabIndex; // may need to be converted to the side-pane row
+        if (sidePane_ && !sideItems_.isEmpty())
+        {
+            if (TabPage *tabPage = qobject_cast<TabPage *>(ui->tabWidget->widget (tabIndex)))
+            {
+                if (QListWidgetItem *wi = sideItems_.key (tabPage))
+                    index = sidePane_->listWidget()->row (wi);
+            }
+        }
     }
 
     if (savePrompt (tabIndex, false, index - 1, index + 1, false, curItem) != SAVED)
@@ -2087,8 +2100,11 @@ void FPwin::asterisk (bool modified)
     }
     shownName.replace ("\n", " ");
 
-    if (sidePane_)
-        sidePane_->listWidget()->currentItem()->setText (modified ? shownName + "*" : shownName);
+    if (sidePane_ && !sideItems_.isEmpty())
+    {
+        if (QListWidgetItem *wi = sideItems_.key (tabPage))
+            wi->setText (modified ? shownName + "*" : shownName);
+    }
 
     if (modified)
         shownName.prepend ("*");
@@ -3261,6 +3277,9 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
                 closeWarningBar();
                 QFileInfo fInfo (fileName);
                 int tabIndex = ui->tabWidget->currentIndex();
+                /* because the closing range isn't necessarily about tab indexes,
+                   "index" will be set again below if the side pane is visible */
+                int index = tabIndex;
 
                 textEdit->document()->setModified (false);
                 textEdit->setFileName (fileName);
@@ -3279,17 +3298,19 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
 #endif
                                     + "</p>";
                 ui->tabWidget->setTabToolTip (tabIndex, elidedTip);
-                if (!sideItems_.isEmpty())
+                if (sidePane_ && !sideItems_.isEmpty())
                 {
                     if (QListWidgetItem *wi = sideItems_.key (tabPage))
+                    {
                         wi->setToolTip (elidedTip);
+                        index = sidePane_->listWidget()->row (wi);
+                    }
+                    else index = -1; // never happens
                 }
                 lastFile_ = fileName;
                 Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
                 config.addRecentFile (lastFile_);
 
-                /* the closing range isn't necessarily about tab indexes */
-                int index = sidePane_ ? sidePane_->listWidget()->currentRow() : tabIndex;
                 if (index > first && (index < last || last < 0))
                 {
                     /* close this tab, as in closeTabAtIndex() */
@@ -3705,9 +3726,10 @@ void FPwin::redoing()
         tabPage->textEdit()->redo();
 }
 /*************************/
-void FPwin::changeTab (QListWidgetItem *current, QListWidgetItem* /*previous*/)
+void FPwin::changeTab (QListWidgetItem *current)
 {
     if (!sidePane_ || sideItems_.isEmpty()) return;
+    /* "current" is never null; see the c-tor of ListWidget in "sidepane.cpp" */
     ui->tabWidget->setCurrentWidget (sideItems_.value (current));
 }
 /*************************/
@@ -4502,6 +4524,14 @@ void FPwin::nextTab()
     if (sidePane_)
     {
         int curRow = sidePane_->listWidget()->currentRow();
+        if (curRow < 0 && !sideItems_.isEmpty())
+        {
+            if (TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index)))
+            {
+                if (QListWidgetItem *wi = sideItems_.key (tabPage))
+                    curRow = sidePane_->listWidget()->row (wi);
+            }
+        }
         if (curRow == sidePane_->listWidget()->count() - 1)
         {
             if (static_cast<FPsingleton*>(qApp)->getConfig().getTabWrapAround())
@@ -4529,6 +4559,14 @@ void FPwin::previousTab()
     if (sidePane_)
     {
         int curRow = sidePane_->listWidget()->currentRow();
+        if (curRow < 0 && !sideItems_.isEmpty())
+        {
+            if (TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index)))
+            {
+                if (QListWidgetItem *wi = sideItems_.key (tabPage))
+                    curRow = sidePane_->listWidget()->row (wi);
+            }
+        }
         if (curRow == 0)
         {
             if (static_cast<FPsingleton*>(qApp)->getConfig().getTabWrapAround())
@@ -5958,9 +5996,11 @@ void FPwin::helpDoc()
     ui->tabWidget->setTabToolTip (index, title);
     if (sidePane_)
     {
-        QListWidgetItem *cur = sidePane_->listWidget()->currentItem();
-        cur->setText (title);
-        cur->setToolTip (title);
+        if (QListWidgetItem *cur = sidePane_->listWidget()->currentItem())
+        {
+            cur->setText (title);
+            cur->setToolTip (title);
+        }
     }
 }
 /*************************/

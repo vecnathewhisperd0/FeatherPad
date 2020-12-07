@@ -53,10 +53,7 @@ class ListWidget : public QListWidget
 {
     Q_OBJECT
 public:
-    ListWidget (QWidget *parent = nullptr) : QListWidget (parent) {
-        setMouseTracking (true); // for instant tooltips
-        locked_ = false;
-    }
+    ListWidget (QWidget *parent = nullptr);
 
     QListWidgetItem *getItemFromIndex (const QModelIndex &index) const;
 
@@ -67,6 +64,7 @@ public:
 signals:
     void closeItem (QListWidgetItem *item);
     void closeSidePane();
+    void currentItemUpdated (QListWidgetItem *current);
     void rowsAreInserted (int start, int end);
 
 protected:
@@ -93,6 +91,9 @@ public:
     }
 
     void lockPane (bool lock);
+
+protected:
+    bool eventFilter (QObject *watched, QEvent *event);
 
 private slots:
     void filter (const QString&);

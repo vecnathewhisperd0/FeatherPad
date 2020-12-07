@@ -34,6 +34,8 @@ If a file is opened in a tab, the right-click menu of that tab will also contain
 
 For users' comfort, double clicking on an empty area of the tab-bar creates a new tab.
 
+There are (customizable) shortcuts for switching tabs in various ways (see the File menu) but Ctrl+Tab is not one of them because the Tab key is reserved for text editing (see Keyboard Shortcuts, near the end of this document).
+
 ***********************
 *   File Management   *
 ***********************
@@ -108,6 +110,8 @@ The 'Replace' docked window respects the settings for 'Match Case', 'Whole Word'
 The 'Replace' docked window is never shown without the search bar because the settings of the latter are needed by the former.
 
 Pressing the Escape key is the easiest way of focusing the editor's main view, without changing anything else.
+
+NOTE: The Escape key never clears the search/replacement entry because the user might want to resume searching/replacing later. To clear the search/replacement entry when it is focused, press Ctrl+K.
 
 ******************************
 *   Selection Highlighting   *
@@ -194,6 +198,7 @@ Useful Extra (Hidden) Shortcuts:
 
 Window:
 *********
+Escape              Focus editor's main view without changing anything else
 F11                 (Un-)Fullscreen
 Ctrl+Shift+W        Resize window to fixed size (700x500 by default but can be set in Preferences)
 

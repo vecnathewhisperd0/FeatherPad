@@ -195,7 +195,7 @@ private slots:
     void tabContextMenu (const QPoint& p);
     void listContextMenu (const QPoint& p);
     void editorContextMenu (const QPoint& p);
-    void changeTab (QListWidgetItem *current, QListWidgetItem*);
+    void changeTab (QListWidgetItem *current);
     void toggleSidePane();
     void prefDialog();
     void checkSpelling();

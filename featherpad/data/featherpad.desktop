@@ -32,7 +32,7 @@ MimeType=text/plain;
 Categories=Qt;Utility;TextEditor;
 X-KDE-StartupNotify=false;
 Keywords=Text;Editor;Plaintext;
-Actions=new-window;
+Actions=new-window;standalone-window;
 
 [Desktop Action new-window]
 Name=New Window
@@ -42,3 +42,8 @@ Name[eo]=Nova Fenestro
 Name[hu]=Új ablak
 Name[pt]=Nova Janela
 Exec=featherpad --win
+
+[Desktop Action standalone-window]
+Name=Standalone Window
+Name[eo]=Memstara Fenestro
+Exec=featherpad --standalone
