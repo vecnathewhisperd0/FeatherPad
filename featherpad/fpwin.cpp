@@ -294,10 +294,7 @@ FPwin::FPwin (QWidget *parent, bool standalone):QMainWindow (parent), dummyWidge
 
     connect (this, &FPwin::finishedLoading, [this] {
         if (sidePane_)
-        {
-            if (QListWidgetItem *curItem = sidePane_->listWidget()->currentItem())
-                sidePane_->listWidget()->scrollToItem (curItem);
-        }
+            sidePane_->listWidget()->scrollToCurrentItem();
     });
     ui->actionSidePane->setAutoRepeat (false); // don't let UI change too rapidly
     connect (ui->actionSidePane, &QAction::triggered, [this] {toggleSidePane();});
@@ -441,9 +438,7 @@ void FPwin::toggleSidePane()
                 if (i == curIndex)
                     lw->setCurrentItem (lwi);
             }
-            QModelIndex index = sidePane_->listWidget()->currentIndex();
-            if (index.isValid())
-                sidePane_->listWidget()->scrollTo (index);
+            sidePane_->listWidget()->scrollToCurrentItem();
             updateShortcuts (false);
         }
 

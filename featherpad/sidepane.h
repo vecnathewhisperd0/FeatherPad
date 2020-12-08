@@ -57,6 +57,8 @@ public:
 
     QListWidgetItem *getItemFromIndex (const QModelIndex &index) const;
 
+    void scrollToCurrentItem();
+
     void lockListWidget (bool lock) {
         locked_ = lock;
     }

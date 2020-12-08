@@ -20,6 +20,7 @@
 #include <QApplication>
 #include <QGridLayout>
 #include <QToolTip>
+#include <QScrollBar>
 #include "sidepane.h"
 
 namespace FeatherPad {
@@ -44,7 +45,44 @@ bool ListWidgetItem::operator<(const QListWidgetItem &other) const {
     }
 }
 /*************************/
-// See "qabstractitemview.cpp".
+ListWidget::ListWidget (QWidget *parent) : QListWidget (parent)
+{
+    setAutoScroll (false); // Qt's autoscrolling has bugs; see ListWidget::scrollToCurrentItem()
+    setMouseTracking (true); // for instant tooltips
+    locked_ = false;
+
+    /* try to have a current item as far as possible and announce it */
+    connect (this, &QListWidget::currentItemChanged, [this] (QListWidgetItem *current, QListWidgetItem *previous) {
+        if (current == previous) return;
+        if (current == nullptr)
+        {
+            if (count() == 0) return;
+            if (previous != nullptr)
+            {
+                int prevRow = row (previous);
+                if (prevRow < count() - 1)
+                    setCurrentRow (prevRow + 1);
+                else if (prevRow != 0)
+                    setCurrentRow (0);
+            }
+            else setCurrentRow (0);
+        }
+        else
+        {
+            emit currentItemUpdated (current);
+            scrollToCurrentItem();
+            /* this is sometimes needed because, with filtering, Qt may give the
+               focus to a hidden item (which is fine) but select a visible one */
+            QTimer::singleShot (0, this, [this]() {
+                auto index = currentIndex();
+                if (index.isValid())
+                    selectionModel()->select (index, QItemSelectionModel::ClearAndSelect);
+            });
+        }
+    });
+}
+/*************************/
+// To prevent deselection by Ctrl; see "qabstractitemview.cpp".
 QItemSelectionModel::SelectionFlags ListWidget::selectionCommand (const QModelIndex &index, const QEvent *event) const
 {
     Qt::KeyboardModifiers keyModifiers = Qt::NoModifier;
@@ -69,29 +107,26 @@ QItemSelectionModel::SelectionFlags ListWidget::selectionCommand (const QModelIn
         return QListWidget::selectionCommand (index, event);
 }
 /*************************/
-ListWidget::ListWidget (QWidget *parent) : QListWidget (parent)
+// QListView::scrollTo() doesn't work fine because it doesn't
+// consider the current scrollbar, after some items are hidden.
+void ListWidget::scrollToCurrentItem()
 {
-    setMouseTracking (true); // for instant tooltips
-    locked_ = false;
+    QModelIndex index = currentIndex();
+    if (!index.isValid()) return;
+    const QRect rect = visualRect (index);
+    const QRect area = viewport()->rect();
+    if (area.contains (rect)) return;
 
-    /* try to have a current item as far as possible and announce it */
-    connect (this, &QListWidget::currentItemChanged, [this] (QListWidgetItem *current, QListWidgetItem *previous) {
-        if (current == nullptr)
-        {
-            if (count() == 0) return;
-            if (previous != nullptr)
-            {
-                int prevRow = row (previous);
-                if (prevRow < count() - 1)
-                    setCurrentRow (prevRow + 1);
-                else if (prevRow != 0)
-                    setCurrentRow (0);
-            }
-            else setCurrentRow (0);
-        }
-        else
-            emit currentItemUpdated (current);
-    });
+    bool above (rect.top() < area.top());
+    bool below (rect.bottom() > area.bottom());
+
+    int verticalValue = verticalScrollBar()->value();
+    QRect r = rect.adjusted (-spacing(), -spacing(), spacing(), spacing());
+    if (above)
+        verticalValue += r.top();
+    else if (below)
+        verticalValue += qMin (r.top(), r.bottom() - area.height() + 1);
+    verticalScrollBar()->setValue (verticalValue);
 }
 /*************************/
 void ListWidget::mousePressEvent (QMouseEvent *event)
@@ -213,15 +248,15 @@ void SidePane::filter (const QString&/*text*/)
 // for their correspondence with tab pages.
 void SidePane::reallyApplyFilter()
 {
-    for (int i = 0; i < lw_->count(); ++i)
-    {
+    for (int i = lw_->count() - 1; i >= 0; --i)
+    { // from end to start for the scrollbar to have a correct position
         QListWidgetItem *wi = lw_->item (i);
         if (wi->text().contains (le_->text(), Qt::CaseInsensitive))
             wi->setHidden (false);
         else
             wi->setHidden (true);
     }
-    lw_->scrollToItem (lw_->currentItem());
+    lw_->scrollToCurrentItem();
 }
 /*************************/
 void SidePane::onRowsInserted (int start, int end)
@@ -235,7 +270,7 @@ void SidePane::onRowsInserted (int start, int end)
 /*************************/
 void SidePane::lockPane (bool lock)
 {
-    lw_ -> lockListWidget (lock);
+    lw_ ->lockListWidget (lock);
     le_->setEnabled (!lock);
 }
 
