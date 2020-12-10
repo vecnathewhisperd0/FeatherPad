@@ -1774,11 +1774,11 @@ void FPwin::executeProcess()
         QString command = config.getExecuteCommand();
 #if (QT_VERSION >= QT_VERSION_CHECK(5,15,0))
         /* Qt 5.15 has made things more complex and, at the same time, better:
-           on the one hand, we should see if there is a command argument ; on the
+           on the one hand, we should see if there is a command argument; on the
            other hand, we don't need to worry about spaces and quotes in file names. */
         if (!command.isEmpty())
         {
-            QStringList commandParts = command.split (QRegularExpression ("\\s+"), Qt::SkipEmptyParts);
+            QStringList commandParts = QProcess::splitCommand (command);
             if (!commandParts.isEmpty())
             {
                 command = commandParts.takeAt (0); // there may be arguments

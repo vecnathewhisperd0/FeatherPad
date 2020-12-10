@@ -2180,7 +2180,7 @@ void TextEdit::mousePressEvent (QMouseEvent *event)
     QPlainTextEdit::mousePressEvent (event);
 
     if (highlighter_
-        && (event->button() & Qt::LeftButton)
+        && event->button() == Qt::LeftButton
         && (qApp->keyboardModifiers() & Qt::ControlModifier))
     {
         pressPoint_ = event->pos();
@@ -2190,7 +2190,7 @@ void TextEdit::mousePressEvent (QMouseEvent *event)
 void TextEdit::mouseReleaseEvent (QMouseEvent *event)
 {
     QPlainTextEdit::mouseReleaseEvent (event);
-    if (event->button() & Qt::LeftButton)
+    if (event->button() == Qt::LeftButton)
     {
         /* workaround for copying to the selection clipboard;
            see TextEdit::copy()/cut() for an explanation */

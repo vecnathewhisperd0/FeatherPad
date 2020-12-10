@@ -82,7 +82,7 @@ ListWidget::ListWidget (QWidget *parent) : QListWidget (parent)
     });
 }
 /*************************/
-// To prevent deselection by Ctrl; see "qabstractitemview.cpp".
+// To prevent deselection by Ctrl + left click; see "qabstractitemview.cpp".
 QItemSelectionModel::SelectionFlags ListWidget::selectionCommand (const QModelIndex &index, const QEvent *event) const
 {
     Qt::KeyboardModifiers keyModifiers = Qt::NoModifier;

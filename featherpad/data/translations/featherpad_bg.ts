@@ -1237,7 +1237,6 @@
     <message numerus="yes">
         <location filename="../../replace.cpp" line="247"/>
         <source>%Ln Replacements</source>
-            <numerusform></numerusform>
         <translation>
             <numerusform>%Ln заместване</numerusform>
             <numerusform>%Ln замествания</numerusform>
@@ -1517,7 +1516,7 @@ report that they have multiple desktops.</source>
         <translation>По подразбиране, ако прозорец FeatherPad съществува на
 текущия работен плот, файловете ще бъдат отворени в неговите раздели.
 
-Някои работни среди обаче може да не 
+Някои работни среди обаче може да не
 съобщават, че имат множество работни плотове.</translation>
     </message>
     <message>
@@ -1694,7 +1693,7 @@ will be shown by a popup dialog.</source>
 Ако командата остане празна, файлът
 ще бъде изпълнен директно.
 
-Ако скриптът не се изпълнява в терминал, 
+Ако скриптът не се изпълнява в терминал,
 изходните съобщения и съобщенията за грешки
 ще се показват от изскачащ диалогов прозорец.</translation>
     </message>
@@ -1851,7 +1850,7 @@ is 10.
 
 Needs application restart to take effect.</source>
         <translation>Максималният брой наскоро модифицирани или
-отваряни файлове, които FeatherPad показва. 
+отваряни файлове, които FeatherPad показва.
 По подразбиране е 10.
 Изисква рестартиране на приложението, за да влезе в сила.</translation>
     </message>
@@ -1890,7 +1889,7 @@ MMM dd, гггг, hh: mm: ss</translation>
         <location filename="../../prefDialog.ui" line="859"/>
         <source>Should the mouse wheel scrolling be inertial
 if the cursor is inside the text view?</source>
-        <translation>Ако курсорът е вътре в текстовия изглед, 
+        <translation>Ако курсорът е вътре в текстовия изглед,
 трябва ли превъртането на колелцето на мишката да бъде инерционно?</translation>
     </message>
     <message>
