@@ -4495,7 +4495,7 @@ void FPwin::filePrint()
         connect (thread, &Loading::finished, thread, &QObject::deleteLater);
         connect (thread, &Loading::finished, tabPage, [this, tabPage] {
             lockWindow (tabPage, false);
-            closeWarningBar();
+            showWarningBar ("<center><b><big>" + tr ("Printing completed.") + "</big></b></center>");
         });
         thread->start();
     }

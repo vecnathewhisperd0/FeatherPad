@@ -1019,6 +1019,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../fpwin.cpp" line="4498"/>
+        <source>Printing completed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../fpwin.cpp" line="5140"/>
         <location filename="../../fpwin.cpp" line="5219"/>
         <source>%1 Pages</source>
