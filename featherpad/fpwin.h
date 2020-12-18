@@ -275,7 +275,7 @@ private:
     void waitToMakeBusy();
     void unbusy();
     void displayMessage (bool error);
-    void showWarningBar (const QString& message, bool startupBar = false, bool temporary = true);
+    void showWarningBar (const QString& message, int timeout = 10, bool startupBar = false);
     void closeWarningBar (bool keepOnStartup = false);
     void disconnectLambda();
     void updateLangBtn (TextEdit *textEdit);

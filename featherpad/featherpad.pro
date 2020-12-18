@@ -1,3 +1,9 @@
+lessThan(QT_MAJOR_VERSION, 6) {
+  lessThan(QT_MINOR_VERSION, 12) {
+    error("FeatherPad needs at least Qt 5.12.0")
+  }
+}
+
 QT += core gui \
       widgets \
       printsupport \

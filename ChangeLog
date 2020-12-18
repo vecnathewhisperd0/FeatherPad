@@ -5,6 +5,7 @@ V0.17.0
  * Fixed restoring of the current side-pane item after another item is closed by middle-clicking.
  * Fixed a problem in closing side-pane items with filtering.
  * Workarounds for Qt bugs in keyboard navigation inside a list view when some items are hidden.
+ * Made the warning bar more flexible by giving it a timeout, which can be 0 for permanent bars.
  * Allow saving as root without a root instance when the user doesn't have the permission to write. Polkit's pkexec is used for gaining the root privileges.
  * Distinguish Wayland from the lack of X11.
  * Guarantee that the session dialog has focus after opening a session.

@@ -856,7 +856,8 @@ bool FPwin::hasAnotherDialog()
     if (res)
     {
         showWarningBar ("<center><b><big>" + tr ("Another FeatherPad window has a modal dialog!") + "</big></b></center>"
-                        + "<center><i>" + tr ("Please attend to that window or just close its dialog!") + "</i></center>");
+                        + "<center><i>" + tr ("Please attend to that window or just close its dialog!") + "</i></center>",
+                        15);
     }
     return res;
 }
@@ -1625,11 +1626,7 @@ void FPwin::updateRecenMenu()
     QList<QAction *> actions = ui->menuOpenRecently->actions();
     int recentSize = recentFiles.count();
     QFontMetrics metrics (ui->menuOpenRecently->font());
-#if (QT_VERSION >= QT_VERSION_CHECK(5,11,0))
     int w = 150 * metrics.horizontalAdvance (' ');
-#else
-    int w = 150 * metrics.width (' ');
-#endif
     for (int i = 0; i < recentNumber; ++i)
     {
         if (i < recentSize)
@@ -1756,7 +1753,8 @@ void FPwin::executeProcess()
         if (tabPage->findChild<QProcess *>(QString(), Qt::FindDirectChildrenOnly))
         {
             showWarningBar ("<center><b><big>" + tr ("Another process is running in this tab!") + "</big></b></center>"
-                            + "<center><i>" + tr ("Only one process is allowed per tab.") + "</i></center>");
+                            + "<center><i>" + tr ("Only one process is allowed per tab.") + "</i></center>",
+                            15);
             return;
         }
 
@@ -2359,11 +2357,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
     if (!tip.endsWith ("/")) tip += "/";
     QFontMetrics metrics (QToolTip::font());
     QString elidedTip = "<p style='white-space:pre'>"
-#if (QT_VERSION >= QT_VERSION_CHECK(5,11,0))
                         + metrics.elidedText (tip, Qt::ElideMiddle, 200 * metrics.horizontalAdvance (' '))
-#else
-                        + metrics.elidedText (tip, Qt::ElideMiddle, 200 * metrics.width (' '))
-#endif
                         + "</p>";
     ui->tabWidget->setTabToolTip (ui->tabWidget->indexOf (tabPage), elidedTip);
     if (!sideItems_.isEmpty())
@@ -2516,7 +2510,8 @@ void FPwin::onOpeninNonTextFiles()
     disconnect (this, &FPwin::finishedLoading, this, &FPwin::onOpeninNonTextFiles);
     QTimer::singleShot (0, this, [=]() {
         showWarningBar ("<center><b><big>" + tr ("Non-text file(s) not opened!") + "</big></b></center>\n"
-                        + "<center><i>" + tr ("See Preferences → Files → Do not permit opening of non-text files") + "</i></center>");
+                        + "<center><i>" + tr ("See Preferences → Files → Do not permit opening of non-text files") + "</i></center>",
+                        20);
     });
 }
 /*************************/
@@ -2554,13 +2549,13 @@ void FPwin::onOpeningNonexistent()
     });
 }
 /*************************/
-void FPwin::showWarningBar (const QString& message, bool startupBar, bool temporary)
+void FPwin::showWarningBar (const QString& message, int timeout, bool startupBar)
 {
     /* don't show this warning bar if the window is locked at this moment */
     if (locked_) return;
-    if (temporary)
+    if (timeout > 0)
     {
-        /* don't show the warning bar when there's a modal dialog */
+        /* don't show the temporary warning bar when there's a modal dialog */
         QList<QDialog*> dialogs = findChildren<QDialog*>();
         for (int i = 0; i < dialogs.count(); ++i)
         {
@@ -2572,14 +2567,17 @@ void FPwin::showWarningBar (const QString& message, bool startupBar, bool tempor
     if (WarningBar *prevBar = ui->tabWidget->findChild<WarningBar *>())
     {
         if (!prevBar->isClosing() && prevBar->getMessage() == message)
+        {
+            prevBar->setTimeout (timeout);
             return;
+        }
     }
 
     int vOffset = 0;
     TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget());
     if (tabPage)
         vOffset = tabPage->height() - tabPage->textEdit()->height();
-    WarningBar *bar = new WarningBar (message, vOffset, temporary, ui->tabWidget);
+    WarningBar *bar = new WarningBar (message, vOffset, timeout, ui->tabWidget);
     if (startupBar)
         bar->setObjectName ("startupBar");
     /* close the bar when the text is scrolled */
@@ -2596,14 +2594,16 @@ void FPwin::showCrashWarning()
 {
     QTimer::singleShot (0, this, [=]() {
         showWarningBar ("<center><b><big>" + tr ("A previous crash detected!") + "</big></b></center>"
-                        + "<center><i>" + tr ("Preferably, close all FeatherPad windows and start again!") + "</i></center>", true);
+                        + "<center><i>" + tr ("Preferably, close all FeatherPad windows and start again!") + "</i></center>",
+                        10, true);
     });
 }
 /*************************/
 void FPwin::showRootWarning()
 {
     QTimer::singleShot (0, this, [=]() {
-        showWarningBar ("<center><b><big>" + tr ("Root Instance") + "</big></b></center>", true);
+        showWarningBar ("<center><b><big>" + tr ("Root Instance") + "</big></b></center>",
+                        10, true);
     });
 }
 /*************************/
@@ -3129,11 +3129,7 @@ bool FPwin::saveFile (bool keepSyntax,
         if (!tip.endsWith ("/")) tip += "/";
         QFontMetrics metrics (QToolTip::font());
         QString elidedTip = "<p style='white-space:pre'>"
-#if (QT_VERSION >= QT_VERSION_CHECK(5,11,0))
                             + metrics.elidedText (tip, Qt::ElideMiddle, 200 * metrics.horizontalAdvance (' '))
-#else
-                            + metrics.elidedText (tip, Qt::ElideMiddle, 200 * metrics.width (' '))
-#endif
                             + "</p>";
         ui->tabWidget->setTabToolTip (index, elidedTip);
         if (!sideItems_.isEmpty())
@@ -3180,7 +3176,8 @@ bool FPwin::saveFile (bool keepSyntax,
         QString error = writer.device()->errorString();
         QTimer::singleShot (0, this, [this, error]() {
             showWarningBar ("<center><b><big>" + tr ("Cannot be saved!") + "</big></b></center>\n"
-                            + "<center><i>" + error + "</i></center>");
+                            + "<center><i>" + error + "</i></center>",
+                            15);
         });
     }
 
@@ -3251,7 +3248,7 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
     { // use "pkexec" to copy the temporary file to the target file
         showWarningBar ("<center><b><big>" + tr ("Saving as root.") + "</big></b></center>\n"
                         + "<center><i>" + tr ("Waiting for authentication...") + "</i></center>",
-                        false, false);
+                        0);
         lockWindow (tabPage, true); // wait until the following process is finished
         QProcess *fileProcess = new QProcess (this);
         connect (fileProcess, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), textEdit,
@@ -3265,7 +3262,8 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
                 fileProcess->setReadChannel (QProcess::StandardError);
                 QString error = fileProcess->readAllStandardError();
                 showWarningBar ("<center><b><big>" + tr ("Cannot be saved!") + "</big></b></center>\n"
-                                + "<center><i>" + error + "</i></center>");
+                                + "<center><i>" + error + "</i></center>",
+                                15);
             }
             else
             {
@@ -3286,11 +3284,7 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
                 if (!tip.endsWith ("/")) tip += "/";
                 QFontMetrics metrics (QToolTip::font());
                 QString elidedTip = "<p style='white-space:pre'>"
-#if (QT_VERSION >= QT_VERSION_CHECK(5,11,0))
                                     + metrics.elidedText (tip, Qt::ElideMiddle, 200 * metrics.horizontalAdvance (' '))
-#else
-                                    + metrics.elidedText (tip, Qt::ElideMiddle, 200 * metrics.width (' '))
-#endif
                                     + "</p>";
                 ui->tabWidget->setTabToolTip (tabIndex, elidedTip);
                 if (sidePane_ && !sideItems_.isEmpty())
@@ -3373,7 +3367,8 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
             lastWinFilesCur_.clear();
             closePreviousPages_ = false;
             showWarningBar ("<center><b><big>" + tr ("Cannot be saved!") + "</big></b></center>\n"
-                            + "<center><i>" + tr ("\"pkexec\" is not found. Please install Polkit!") + "</i></center>");
+                            + "<center><i>" + tr ("\"pkexec\" is not found. Please install Polkit!") + "</i></center>",
+                            15);
             fileProcess->deleteLater();
             return;
         }
@@ -3384,7 +3379,8 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
         closePreviousPages_ = false;
         QString error = writer.device()->errorString();
         showWarningBar ("<center><b><big>" + tr ("Cannot be saved!") + "</big></b></center>\n"
-                        + "<center><i>" + error + "</i></center>");
+                        + "<center><i>" + error + "</i></center>",
+                        15);
     }
 
     if (success && textEdit->isReadOnly() && !alreadyOpen (tabPage))
@@ -3775,7 +3771,8 @@ void FPwin::tabSwitch (int index)
             onOpeningNonexistent();
         else if (textEdit->getLastModified() != info.lastModified())
             showWarningBar ("<center><b><big>" + tr ("This file has been modified elsewhere or in another way!") + "</big></b></center>\n"
-                            + "<center>" + tr ("Please be careful about reloading or saving this document!") + "</center>");
+                            + "<center>" + tr ("Please be careful about reloading or saving this document!") + "</center>",
+                            15);
     }
     if (modified)
         shownName.prepend ("*");
@@ -3966,7 +3963,8 @@ bool FPwin::event (QEvent *event)
                 }
                 else if (textEdit->getLastModified() != QFileInfo (fname).lastModified())
                     showWarningBar ("<center><b><big>" + tr ("This file has been modified elsewhere or in another way!") + "</big></b></center>\n"
-                                    + "<center>" + tr ("Please be careful about reloading or saving this document!") + "</center>");
+                                    + "<center>" + tr ("Please be careful about reloading or saving this document!") + "</center>",
+                                    15);
             }
         }
     }
@@ -4441,7 +4439,7 @@ void FPwin::filePrint()
     if (tabPage == nullptr) return;
 
     showWarningBar ("<center><b><big>" + tr ("Printing in progress...") + "</big></b></center>",
-                    false, false);
+                    0);
     lockWindow (tabPage, true);
 
     TextEdit *textEdit = tabPage->textEdit();
@@ -5383,13 +5381,15 @@ void FPwin::checkSpelling()
     if (dictPath.isEmpty())
     {
         showWarningBar ("<center><b><big>" + tr ("You need to add a Hunspell dictionary.") + "</big></b></center>"
-                        + "<center><i>" + tr ("See Preferences → Text → Spell Checking!") + "</i></center>");
+                        + "<center><i>" + tr ("See Preferences → Text → Spell Checking!") + "</i></center>",
+                        20);
         return;
     }
     if (!QFile::exists (dictPath))
     {
         showWarningBar ("<center><b><big>" + tr ("The Hunspell dictionary does not exist.") + "</big></b></center>"
-                        + "<center><i>" + tr ("See Preferences → Text → Spell Checking!") + "</i></center>");
+                        + "<center><i>" + tr ("See Preferences → Text → Spell Checking!") + "</i></center>",
+                        20);
         return;
     }
     if (dictPath.endsWith (".dic"))
@@ -5398,7 +5398,8 @@ void FPwin::checkSpelling()
     if (!QFile::exists (affixFile))
     {
         showWarningBar ("<center><b><big>" + tr ("The Hunspell dictionary is not accompanied by an affix file.") + "</big></b></center>"
-                        + "<center><i>" + tr ("See Preferences → Text → Spell Checking!") + "</i></center>");
+                        + "<center><i>" + tr ("See Preferences → Text → Spell Checking!") + "</i></center>",
+                        20);
         return;
     }
     QString confPath = QStandardPaths::writableLocation (QStandardPaths::ConfigLocation);

@@ -228,13 +228,7 @@ void TextEdit::setEditorFont (const QFont &f, bool setDefault)
     /* we want consistent tabs */
     QFontMetricsF metrics (f);
     QTextOption opt = document()->defaultTextOption();
-#if (QT_VERSION >= QT_VERSION_CHECK(5,11,0))
     opt.setTabStopDistance (metrics.horizontalAdvance (textTab_));
-#elif (QT_VERSION >= QT_VERSION_CHECK(5,10,0))
-    opt.setTabStopDistance (metrics.width (textTab_));
-#else
-    opt.setTabStop (metrics.width (textTab_));
-#endif
     document()->setDefaultTextOption (opt);
 
     /* the line number is bold only for the current line */
@@ -252,11 +246,7 @@ void TextEdit::setEditorFont (const QFont &f, bool setDefault)
     int maxW = 0;
     for (int i = 0; i < 10; ++i)
     {
-#if (QT_VERSION >= QT_VERSION_CHECK(5,11,0))
         int w = QFontMetrics (F).horizontalAdvance (locale().toString (i));
-#else
-        int w = QFontMetrics (F).width (locale().toString (i));
-#endif
         if (w > maxW)
         {
             maxW = w;
@@ -317,11 +307,7 @@ int TextEdit::lineNumberAreaWidth()
     }
     QFont f = font();
     f.setBold (true);
-#if (QT_VERSION >= QT_VERSION_CHECK(5,11,0))
     return (6 + QFontMetrics (f).horizontalAdvance (num)); // 6 = 3 + 3 (-> lineNumberAreaPaintEvent)
-#else
-    return (6 + QFontMetrics (f).width (num));
-#endif
 }
 /*************************/
 void TextEdit::updateLineNumberAreaWidth (int /* newBlockCount */)
@@ -401,11 +387,7 @@ QString TextEdit::remainingSpaces (const QString& spaceTab, const QTextCursor& c
     QTextCursor tmp = cursor;
     QString txt = cursor.block().text().left (cursor.positionInBlock());
     QFontMetricsF fm = QFontMetricsF (document()->defaultFont());
-#if (QT_VERSION >= QT_VERSION_CHECK(5,11,0))
     qreal spaceL = fm.horizontalAdvance (" ");
-#else
-    qreal spaceL = fm.width (" ");
-#endif
     int n = 0, i = 0;
     while ((i = txt.indexOf("\t", i)) != -1)
     { // find tab widths in terms of spaces
@@ -442,11 +424,7 @@ QTextCursor TextEdit::backTabCursor (const QTextCursor& cursor, bool twoSpace) c
 
     QString txt = blockText.left (indx);
     QFontMetricsF fm = QFontMetricsF (document()->defaultFont());
-#if (QT_VERSION >= QT_VERSION_CHECK(5,11,0))
     qreal spaceL = fm.horizontalAdvance (" ");
-#else
-    qreal spaceL = fm.width (" ");
-#endif
     int n = 0, i = 0;
     while ((i = txt.indexOf("\t", i)) != -1)
     { // find tab widths in terms of spaces
@@ -1367,16 +1345,11 @@ void TextEdit::wheelEvent (QWheelEvent *event)
         return;
     }
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5,12,0))
-        bool horizontal (event->angleDelta().x() != 0);
-#else
-        bool horizontal (event->orientation() == Qt::Horizontal);
-#endif
+    bool horizontal (event->angleDelta().x() != 0);
     if (event->modifiers() & Qt::ShiftModifier)
     { // line-by-line scrolling when Shift is pressed
         int delta = horizontal
                         ? event->angleDelta().x() : event->angleDelta().y();
-#if (QT_VERSION >= QT_VERSION_CHECK(5,12,0))
 #if (QT_VERSION >= QT_VERSION_CHECK(5,15,0))
         QWheelEvent e (event->position(),
                        event->globalPosition(),
@@ -1397,14 +1370,6 @@ void TextEdit::wheelEvent (QWheelEvent *event)
                        event->phase(),
                        false,
                        event->source());
-#else
-        QWheelEvent e (event->posF(),
-                       event->globalPosF(),
-                       delta / QApplication::wheelScrollLines(),
-                       event->buttons(),
-                       Qt::NoModifier,
-                       Qt::Vertical);
-#endif
         QCoreApplication::sendEvent (horizontal
                                          ? horizontalScrollBar()
                                          : verticalScrollBar(), &e);
@@ -1479,7 +1444,6 @@ void TextEdit::scrollWithInertia()
         else break;
     }
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5,12,0))
     QWheelEvent e (QPointF(),
                    QPointF(),
                    QPoint(),
@@ -1488,14 +1452,6 @@ void TextEdit::scrollWithInertia()
                    Qt::NoModifier,
                    Qt::NoScrollPhase,
                    false);
-#else
-    QWheelEvent e (QPointF(),
-                   QPointF(),
-                   totalDelta,
-                   Qt::NoButton,
-                   Qt::NoModifier,
-                   Qt::Vertical);
-#endif
     QCoreApplication::sendEvent (verticalScrollBar(), &e);
 
     if (queuedScrollSteps_.empty())
@@ -1736,11 +1692,7 @@ void TextEdit::paintEvent (QPaintEvent *event)
                     int yBottom =  qRound (r.height() >= static_cast<qreal>(2) * fm.lineSpacing()
                                                ? yTop + fm.height()
                                                : r.bottomLeft().y() - static_cast<qreal>(1));
-#if (QT_VERSION >= QT_VERSION_CHECK(5,11,0))
                     qreal tabWidth = fm.horizontalAdvance (textTab_);
-#else
-                    qreal tabWidth = fm.width (textTab_);
-#endif
                     if (rtl)
                     {
                         qreal leftMost = cursorRect (cur).left();
@@ -1785,11 +1737,7 @@ void TextEdit::paintEvent (QPaintEvent *event)
                 QTextCursor cur = textCursor();
                 cur.setPosition (block.position());
                 QFontMetricsF fm = QFontMetricsF (document()->defaultFont());
-#if (QT_VERSION >= QT_VERSION_CHECK(5,11,0))
                 qreal rulerSpace = fm.horizontalAdvance (' ') * static_cast<qreal>(vLineDistance_);
-#else
-                qreal rulerSpace = fm.width (' ') * static_cast<qreal>(vLineDistance_);
-#endif
                 int yTop = qRound (r.topLeft().y());
                 int yBottom =  qRound (r.height() >= static_cast<qreal>(2) * fm.lineSpacing()
                                        ? yTop + fm.height()

@@ -42,7 +42,7 @@ There are (customizable) shortcuts for switching tabs in various ways (see the F
 
 If there is a FeatherPad window on the current virtual desktop or viewport, so that more than half of its width as well as its height is visible, files will be opened as new tabs in it; otherwise, a new window will be created. Also, when the window on the current desktop/viewport has a modal dialog, another window is created.
 
-In this way, FeatherPad is aware of virtual desktops under most Linux desktop environments. However, there are exceptions (like non-X11 environments or Enlightenment).
+In this way, FeatherPad is aware of virtual desktops under most Linux desktop environments, although there are exceptions (like non-X11 environments or Enlightenment).
 
 Files are always opened after the active tab unless it is empty, in which case the first file will be opened in it. If a single file is opened, its tab will be activated but in the case of multiple files, the active tab will not change.
 

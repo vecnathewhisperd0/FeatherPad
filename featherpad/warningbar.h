@@ -37,7 +37,8 @@ class WarningBar : public QWidget
 {
     Q_OBJECT
 public:
-    WarningBar (const QString& message, const int verticalOffset = 0, bool temporary = true, QWidget *parent = nullptr) : QWidget (parent) {
+    WarningBar (const QString& message, const int verticalOffset = 0, int timeout = 10, QWidget *parent = nullptr)
+        : QWidget (parent), timer_ (nullptr) {
         int anotherBar (false);
         if (parent)
         { // show only one warning bar at a time
@@ -54,7 +55,6 @@ public:
 
         message_ = message;
         vOffset_ = verticalOffset;
-        isTemporary_ = temporary;
         isClosing_ = false;
         mousePressed_ = false;
 
@@ -62,7 +62,7 @@ public:
         setAutoFillBackground (true);
         QPalette p = palette();
         p.setColor (foregroundRole(), Qt::white);
-        p.setColor (backgroundRole(), isTemporary_ ? QColor (125, 0, 0, 200) : QColor (0, 70, 0, 210));
+        p.setColor (backgroundRole(), timeout > 0 ? QColor (125, 0, 0, 200) : QColor (0, 70, 0, 210));
         setPalette (p);
 
         grid_ = new QGridLayout;
@@ -96,12 +96,32 @@ public:
         }
         else show();
 
-        /* auto-close after 10 seconds */
-        if (isTemporary_)
-            QTimer::singleShot (10000, this, [this]() {
-                if (!mousePressed_) closeBar();
-            });
+        /* auto-close */
+        setTimeout (timeout);
+    }
 
+    void setTimeout (int timeout) { // can be used to change the timeout
+        if (timeout <= 0)
+        {
+            if (timer_ != nullptr)
+            {
+                timer_->stop();
+                delete timer_;
+                timer_ = nullptr;
+            }
+        }
+        else
+        {
+            if (timer_ == nullptr)
+            {
+                timer_ = new QTimer (this);
+                timer_->setSingleShot (true);
+                connect (timer_, &QTimer::timeout, this, [this]() {
+                    if (!mousePressed_) closeBar();
+                });
+            }
+            timer_->start (timeout * 1000);
+        }
     }
 
     bool eventFilter (QObject *o, QEvent *e) {
@@ -153,16 +173,16 @@ protected:
     void mouseReleaseEvent (QMouseEvent *event) {
         QWidget::mouseReleaseEvent (event);
         mousePressed_ = false;
-        if (isTemporary_)
+        if (timer_ != nullptr)
             QTimer::singleShot (0, this, &WarningBar::closeBar);
     }
 
 private:
     QString message_;
     int vOffset_;
-    bool isTemporary_;
     bool isClosing_;
     bool mousePressed_;
+    QTimer *timer_;
     QGridLayout *grid_;
     QPointer<QPropertyAnimation> animation_;
 };
