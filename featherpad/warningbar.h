@@ -164,6 +164,9 @@ public slots:
         }
         else delete this;
     }
+    void closeBarOnScrolling (const QRect& /*rect*/, int dy) {
+        if (timer_ && dy != 0) closeBar();
+    }
 
 protected:
     void mousePressEvent (QMouseEvent *event) {

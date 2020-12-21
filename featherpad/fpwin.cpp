@@ -2563,31 +2563,33 @@ void FPwin::showWarningBar (const QString& message, int timeout, bool startupBar
                 return;
         }
     }
+
+    TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget());
+
     /* don't close and show the same warning bar */
     if (WarningBar *prevBar = ui->tabWidget->findChild<WarningBar *>())
     {
         if (!prevBar->isClosing() && prevBar->getMessage() == message)
         {
             prevBar->setTimeout (timeout);
+            if (tabPage && timeout > 0)
+            { // close the bar when the text is scrolled
+                disconnect (tabPage->textEdit(), &QPlainTextEdit::updateRequest, prevBar, &WarningBar::closeBarOnScrolling);
+                connect (tabPage->textEdit(), &QPlainTextEdit::updateRequest, prevBar, &WarningBar::closeBarOnScrolling);
+            }
             return;
         }
     }
 
     int vOffset = 0;
-    TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget());
     if (tabPage)
         vOffset = tabPage->height() - tabPage->textEdit()->height();
     WarningBar *bar = new WarningBar (message, vOffset, timeout, ui->tabWidget);
     if (startupBar)
         bar->setObjectName ("startupBar");
     /* close the bar when the text is scrolled */
-    if (tabPage)
-    {
-        connect (tabPage->textEdit(), &QPlainTextEdit::updateRequest, bar, [=](const QRect&, int dy) {
-            if (dy != 0)
-                closeWarningBar();
-        });
-    }
+    if (tabPage && timeout > 0)
+        connect (tabPage->textEdit(), &QPlainTextEdit::updateRequest, bar, &WarningBar::closeBarOnScrolling);
 }
 /*************************/
 void FPwin::showCrashWarning()
