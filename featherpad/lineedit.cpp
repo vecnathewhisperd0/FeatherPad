@@ -59,7 +59,7 @@ void LineEdit::keyPressEvent (QKeyEvent *event)
         if (event->key() == Qt::Key_K)
         {
             clear();
-            returnPressed(); // for clearing found matches highlighting
+            emit returnPressed(); // for clearing found matches highlighting
         }
     }
     QLineEdit::keyPressEvent (event);

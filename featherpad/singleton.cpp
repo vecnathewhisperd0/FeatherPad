@@ -281,6 +281,8 @@ QStringList FPsingleton::processInfo (const QString& message,
             QString realPath = path;
             if (realPath.startsWith ("file://"))
                 realPath = QUrl (realPath).toLocalFile();
+            else if (realPath.startsWith ("admin://")) // gvfs' "admin:///"
+                realPath = QUrl (realPath).path();
             realPath = curDir.absoluteFilePath (realPath); // also works with absolute paths outside curDir
             filesList << QDir::cleanPath (realPath);
         }
@@ -298,7 +300,7 @@ void FPsingleton::firstWin (const QString& message)
     const QStringList filesList = processInfo (message, d, lineNum, posInLine, &openNewWin);
     if (config_.getOpenInWindows() && !filesList.isEmpty())
     {
-        for (auto file : filesList)
+        for (const auto &file : filesList)
           newWin (QStringList() << file, lineNum, posInLine);
     }
     else
@@ -426,7 +428,7 @@ void FPsingleton::handleMessage (const QString& message)
         /* ... otherwise, open a new window */
         if (config_.getOpenInWindows() && !filesList.isEmpty())
         {
-            for (auto file : filesList)
+            for (const auto &file : filesList)
               newWin (QStringList() << file, lineNum, posInLine);
         }
         else

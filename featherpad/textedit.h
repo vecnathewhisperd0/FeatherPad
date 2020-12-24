@@ -263,6 +263,10 @@ public:
         pastePaths_ = pastePaths;
     }
 
+    QTextCursor finding (const QString& str, const QTextCursor& start,
+                         QTextDocument::FindFlags flags = QTextDocument::FindFlags(),
+                         bool isRegex = false, const int end = 0) const;
+
 signals:
     /* inform the main widget */
     void fileDropped (const QString& localFile,
@@ -284,9 +288,6 @@ public slots:
     void insertPlainText (const QString &text);
     void selectionHlight();
     void onContentsChange (int position, int charsRemoved, int charsAdded);
-    QTextCursor finding (const QString& str, const QTextCursor& start,
-                         QTextDocument::FindFlags flags = QTextDocument::FindFlags(),
-                         bool isRegex = false, const int end = 0) const;
 
 protected:
     void keyPressEvent (QKeyEvent *event);
@@ -316,11 +317,15 @@ protected:
             const QList<QUrl> urlList = source->urls();
             bool multiple (urlList.count() > 1);
             for (const QUrl &url : urlList)
-                emit fileDropped (url.adjusted (QUrl::NormalizePathSegments) // KDE may give a double slash
-                                     .toLocalFile(),
-                                  0,
-                                  0,
-                                  multiple);
+            {
+                QString file;
+                if (url.scheme() == "admin") // gvfs' "admin:///"
+                    file = url.adjusted (QUrl::NormalizePathSegments).path();
+                else
+                    file = url.adjusted (QUrl::NormalizePathSegments)  // KDE may give a double slash
+                              .toLocalFile();
+                emit fileDropped (file, 0, 0, multiple);
+            }
         }
         else
             QPlainTextEdit::insertFromMimeData (source);
