@@ -1148,11 +1148,14 @@ void FPwin::dropEvent (QDropEvent *event)
         for (const QUrl &url : urlList)
         {
             QString file;
-            if (url.scheme() == "admin") // gvfs' "admin:///"
+            QString scheme = url.scheme();
+            if (scheme == "admin") // gvfs' "admin:///"
                 file = url.adjusted (QUrl::NormalizePathSegments).path();
-            else
+            else if (scheme == "file" || scheme.isEmpty())
                 file = url.adjusted (QUrl::NormalizePathSegments)  // KDE may give a double slash
                           .toLocalFile();
+            else
+                continue;
             newTabFromName (file, 0, 0, multiple);
         }
     }

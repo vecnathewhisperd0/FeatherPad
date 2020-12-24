@@ -279,10 +279,13 @@ QStringList FPsingleton::processInfo (const QString& message,
         if (!path.isEmpty()) // no empty path/name
         {
             QString realPath = path;
-            if (realPath.startsWith ("file://"))
+            QString scheme = QUrl (realPath).scheme();
+            if (scheme == "file")
                 realPath = QUrl (realPath).toLocalFile();
-            else if (realPath.startsWith ("admin://")) // gvfs' "admin:///"
+            else if (scheme == "admin") // gvfs' "admin:///"
                 realPath = QUrl (realPath).path();
+            else if (!scheme.isEmpty())
+                continue;
             realPath = curDir.absoluteFilePath (realPath); // also works with absolute paths outside curDir
             filesList << QDir::cleanPath (realPath);
         }
