@@ -767,9 +767,12 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         {
             rule.pattern.setPattern ("(?<=^|\\s|;)#.*");
 
-            /* Kate uses something like: "<<(?:\\s*)([\\\\]{0,1}[^\\s]+)"
-               "<<-" can be used instead of "<<" */
-            hereDocDelimiter.setPattern ("<<-?(?:\\s*)(\\\\{0,1}[A-Za-z0-9_]+)|<<-?(?:\\s*)(\'[A-Za-z0-9_]+\')|<<-?(?:\\s*)(\"[A-Za-z0-9_]+\")");
+            if (progLan == "sh")
+            {
+                /* Kate uses something like: "<<(?:\\s*)([\\\\]{0,1}[^\\s]+)"
+                "<<-" can be used instead of "<<" */
+                hereDocDelimiter.setPattern ("<<-?(?:\\s*)(\\\\{0,1}[A-Za-z0-9_]+)|<<-?(?:\\s*)(\'[A-Za-z0-9_]+\')|<<-?(?:\\s*)(\"[A-Za-z0-9_]+\")");
+            }
         }
         else if (progLan == "perl")
         {
@@ -784,7 +787,8 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         {
             rule.pattern.setPattern ("#.*");
 
-            hereDocDelimiter.setPattern ("<<(?:-|~){0,1}([A-Za-z0-9_]+)|<<(\'[A-Za-z0-9_]+\')|<<(\"[A-Za-z0-9_]+\")");
+            if (progLan == "ruby")
+                hereDocDelimiter.setPattern ("<<(?:-|~){0,1}([A-Za-z0-9_]+)|<<(\'[A-Za-z0-9_]+\')|<<(\"[A-Za-z0-9_]+\")");
         }
         rule.format = commentFormat;
         highlightingRules.append (rule);
@@ -2349,7 +2353,7 @@ void Highlighter::singleLineComment (const QString &text, const int start)
                 if (progLan == "javascript" || progLan == "qml")
                 {
                     /* see NOTE of isEscapedRegex() and also the end of multiLineRegex() */
-                    setCurrentBlockState (regexEndState);
+                    setCurrentBlockState (regexExtraState);
                 }
                 else if ((progLan == "c" || progLan == "cpp")
                          && text.endsWith (QLatin1Char('\\')))
@@ -3142,7 +3146,7 @@ void Highlighter::multiLineJSlQuote (const QString &text, const int start, int c
             if ((quoteExpression.pattern() == "\'" || quoteExpression == quoteMark)
                 && !textEndsWithBackSlash (text))
             { // see NOTE of isEscapedRegex() and also the end of multiLineRegex()
-                setCurrentBlockState (regexEndState);
+                setCurrentBlockState (regexExtraState);
             }
             else
                 setCurrentBlockState (quote);
@@ -3383,7 +3387,8 @@ bool Highlighter::isHereDocument (const QString &text)
         int pos = 0;
         QRegularExpressionMatch match;
         while ((pos = text.indexOf (hereDocDelimiter, pos, &match)) >= 0
-               && isQuoted (text, pos, true)) // escaping start double quote before "$("
+               && (isQuoted (text, pos, progLan == "sh") // escaping start double quote before "$("
+                   || (progLan == "perl" && isInsideRegex (text, pos))))
 
         {
             pos += match.capturedLength();
@@ -3391,7 +3396,7 @@ bool Highlighter::isHereDocument (const QString &text)
         if (pos >= 0)
         {
             int insideCommentPos;
-            if (progLan == "sh" || progLan == "makefile" || progLan == "cmake")
+            if (progLan == "sh")
             {
                 static const QRegularExpression commentSH ("^#.*|\\s+#.*");
                 insideCommentPos = text.indexOf (commentSH);
@@ -3402,7 +3407,8 @@ bool Highlighter::isHereDocument (const QString &text)
                 insideCommentPos = text.indexOf (commentOthers);
             }
             if (insideCommentPos == -1 || pos < insideCommentPos
-                || isQuoted (text, insideCommentPos, true))
+                || isQuoted (text, insideCommentPos, progLan == "sh")
+                || (progLan == "perl" && isInsideRegex (text, insideCommentPos)))
             { // the delimiter isn't (single-)commented out
                 int i = 1;
                 while ((delimStr = match.captured (i)).isEmpty() && i <= 3)
@@ -3437,13 +3443,16 @@ bool Highlighter::isHereDocument (const QString &text)
                 {
                     int n = static_cast<int>(qHash (delimStr));
                     int state = 2 * (n + (n >= 0 ? endState/2 + 1 : 0)); // always an even number but maybe negative
-                    if (isQuoted (text, pos, false))
-                    { // to know whether a double quote is added/removed before "$(" in the current line
-                        state > 0 ? state += 2 : state -= 2;
-                    }
-                    if (prevState == doubleQuoteState || prevState == SH_DoubleQuoteState)
-                    { // to know whether a double quote is added/removed before "$(" in a previous line
-                        state > 0 ? state += 4 : state -= 4; // not 2 -> not to be canceled above
+                    if (progLan == "sh")
+                    {
+                        if (isQuoted (text, pos, false))
+                        { // to know whether a double quote is added/removed before "$(" in the current line
+                            state > 0 ? state += 2 : state -= 2;
+                        }
+                        if (prevState == doubleQuoteState || prevState == SH_DoubleQuoteState)
+                        { // to know whether a double quote is added/removed before "$(" in a previous line
+                            state > 0 ? state += 4 : state -= 4; // not 2 -> not to be canceled above
+                        }
                     }
                     setCurrentBlockState (state);
                     setFormat (text.indexOf (delimStr, pos),
@@ -4593,6 +4602,38 @@ void Highlighter::highlightBlock (const QString &text)
     if (progLan == "sh" || progLan == "makefile" || progLan == "cmake"
         || progLan == "perl" || progLan == "ruby")
     {
+        /* first, handle "__DATA__" in perl */
+        if (progLan == "perl")
+        {
+            QRegularExpressionMatch match;
+            if (previousBlockState() == updateState // only used below to distinguish "__DATA__"
+                || (previousBlockState() <= 0
+                    && text.indexOf (QRegularExpression("^\\s*__(DATA|END)__"), 0, &match) == 0))
+            {
+                if (match.capturedLength() > 0)
+                {
+                    QTextCharFormat dataFormat = neutralFormat;
+                    dataFormat.setFontWeight (QFont::Bold);
+                    setFormat (0, match.capturedLength(), dataFormat);
+                }
+                for (const HighlightingRule &rule : qAsConst (highlightingRules))
+                {
+                    if (rule.format == whiteSpaceFormat)
+                    {
+                        index = text.indexOf (rule.pattern, 0, &match);
+                        while (index >= 0)
+                        {
+                            setFormat (index, match.capturedLength(), rule.format);
+                            index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
+                        }
+                        break;
+                    }
+                }
+                setCurrentBlockState (updateState); // completely highlighted
+                data->setHighlighted();
+                return;
+            }
+        }
         if (isHereDocument (text))
         {
             data->setHighlighted(); // completely highlighted

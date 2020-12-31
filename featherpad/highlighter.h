@@ -198,7 +198,8 @@ private:
 
     bool isEscapedRegex (const QString &text, const int pos);
     bool isEscapedPerlRegex (const QString &text, const int pos);
-    bool isEscapedRegexEndSign (const QString &text, const int start, const int pos) const;
+    bool isEscapedRegexEndSign (const QString &text, const int start, const int pos,
+                                bool ignoreClasses = false) const;
     bool isInsideRegex (const QString &text, const int index);
     bool isInsidePerlRegex (const QString &text, const int index);
     void multiLineRegex (const QString &text, const int index);
@@ -296,7 +297,8 @@ private:
         /* Regex inside JavaScript, QML and Perl: */
         regexSearchState, // search and replace (only in Perl)
         regexState,
-        regexEndState, // the line ends with a JS regex (+ spaces)
+        regexExtraState, /* JS: The line ends with a JS regex (+ spaces); or
+                            Perl: A Perl quoting operator isn't complete. */
 
         /* HTML: */
         htmlBracketState,

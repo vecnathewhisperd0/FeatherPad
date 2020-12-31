@@ -14,6 +14,7 @@ V0.17.0
  * Workarounds for bugs in Qt's default printing. Qt can't handle dark color schemes and the reverse order with printing. Now, FeatherPad supports both.
  * Do printing in a separate thread, so that, if it takes a long time, FeatherPad could still be used.
  * Added simple support for gvfs' admin.
+ * Several fixes to Perl syntax highlighting.
 
 V0.16.0
 ---------

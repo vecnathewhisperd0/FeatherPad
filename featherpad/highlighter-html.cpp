@@ -586,7 +586,7 @@ void Highlighter::htmlJavascript (const QString &text)
         /* javascript single-line comment doesn't comment out
            the end of a javascript block inside HTML */
         int tmpIndx = -1;
-        if (currentBlockState() == regexEndState)
+        if (currentBlockState() == regexExtraState)
         {
             tmpIndx = javaIndex + matched;
             while (tmpIndx < text.length() && format (tmpIndx) != commentFormat)

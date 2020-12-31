@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2018-2019 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2018-2020 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -59,7 +59,7 @@ bool Highlighter::isEscapedRegex (const QString &text, const int pos)
         --i;
     if (i == -1) // examine the previous line(s)
     {
-        /* NOTE: regexEndState is already applied to:
+        /* NOTE: regexExtraState is already applied to:
                  1) Single-line comments;
                  2) Lines ending with single/double quotations
                     but without end quote; and
@@ -70,7 +70,7 @@ bool Highlighter::isEscapedRegex (const QString &text, const int pos)
         QRegularExpression nonSpace ("[^\\s]+");
         while (txt.indexOf (nonSpace, 0) == -1)
         {
-            if (prev.userState() == regexEndState)
+            if (prev.userState() == regexExtraState)
             { // a quoted line with only witespaces (backslashed mutil-line quote)
                 return false;
             }
@@ -86,7 +86,7 @@ bool Highlighter::isEscapedRegex (const QString &text, const int pos)
             --last;
             ch = txt.at (last);
         }
-        if (prev.userState() == regexEndState)
+        if (prev.userState() == regexExtraState)
         {
             /* a regex isn't escaped if it follows another one,
                a single-line comment or a quotation (without an end quote) */
@@ -174,20 +174,25 @@ bool Highlighter::isEscapedRegex (const QString &text, const int pos)
     return false;
 }
 /*************************/
-// May be used for middle signs (e.g., "/") too.
-bool Highlighter::isEscapedRegexEndSign (const QString &text, const int start, const int pos) const {
+// May be used for middle signs (e.g., "/") too. FIXME: Multi-line classes aren't supported.
+bool Highlighter::isEscapedRegexEndSign (const QString &text, const int start, const int pos,
+                                         bool ignoreClasses) const
+{
     if (pos < 1) return false;
     if (isEscapedChar (text, pos))
         return true;
-    /* check if it's inside a class */
-    int i = pos - 1;
-    while (i >= start)
+    if (!ignoreClasses)
     {
-        if (text.at (i) == ']' && !isEscapedChar (text, i))
-            return false;
-        if (text.at (i) == '[' && !isEscapedChar (text, i))
-            return true;
-        --i;
+        /* check if it's inside a class */
+        int i = pos - 1;
+        while (i >= start)
+        {
+            if (text.at (i) == ']' && !isEscapedChar (text, i))
+                return false;
+            if (text.at (i) == '[' && !isEscapedChar (text, i))
+                return true;
+            --i;
+        }
     }
     return false;
 }
@@ -356,10 +361,7 @@ void Highlighter::multiLineRegex(const QString &text, const int index)
         }
 
         while (isEscapedRegexEndSign (text, indx, endIndex))
-        {
-            indx = endIndex + 1;
-            endIndex = text.indexOf (endExp, indx, &endMatch);
-        }
+            endIndex = text.indexOf (endExp, endIndex + 1, &endMatch);
 
         int badIndex = -1;
         int len;
@@ -422,7 +424,7 @@ void Highlighter::multiLineRegex(const QString &text, const int index)
             ch = text.at (last);
         }
         if (format (last) == regexFormat)
-            setCurrentBlockState (regexEndState);
+            setCurrentBlockState (regexExtraState);
     }
 }
 
