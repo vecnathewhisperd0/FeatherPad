@@ -30,7 +30,7 @@ namespace FeatherPad {
 
          We cheat and include "q", "qq", "qw", "qx" and "qr" here to have a simpler code.
          Moreover, the => operator is excluded. */
-static const QRegularExpression rExp ("/|\\b(?<!(@|#|%|\\$))(m|qr|q|qq|qw|qx|qr|(?<!-)s|y|tr)(?!\\=)\\s*(?!\\=>)[^\\w\\}\\)\\]>\\s]");
+static const QRegularExpression rExp ("/|\\b(?<!(@|#|%|\\$))(m|qr|q|qq|qw|qx|qr|(?<!-)s|y|tr)\\s*(?!\\=>)[^\\w\\}\\)\\]>\\s]");
 
 // This is only for the start.
 bool Highlighter::isEscapedPerlRegex (const QString &text, const int pos)
