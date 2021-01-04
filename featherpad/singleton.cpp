@@ -364,7 +364,7 @@ void FPsingleton::handleMessage (const QString& message)
             /* if the command is issued from where a FeatherPad
                window exists and if that window isn't minimized
                and doesn't have a modal dialog... */
-            if (!isX11_ // always open a new tab on wayland
+            if (!isX11_ // always open a new tab if we aren't on x11
 #ifdef HAS_X11
                 || ((whichDesktop == d
                      /* if a window is created a moment ago, it should be

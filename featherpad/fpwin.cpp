@@ -322,9 +322,7 @@ FPwin::FPwin (QWidget *parent, bool standalone):QMainWindow (parent), dummyWidge
     connect (zoomzero, &QShortcut::activated, this, &FPwin::zoomZero);
 
     QShortcut *fullscreen = new QShortcut (QKeySequence (Qt::Key_F11), this);
-    QShortcut *defaultsize = new QShortcut (QKeySequence (Qt::CTRL + Qt::SHIFT + Qt::Key_W), this);
     connect (fullscreen, &QShortcut::activated, [this] {setWindowState (windowState() ^ Qt::WindowFullScreen);});
-    connect (defaultsize, &QShortcut::activated, this, &FPwin::defaultSize);
 
     QShortcut *focusView = new QShortcut (QKeySequence (Qt::Key_Escape), this);
     connect (focusView, &QShortcut::activated, this, &FPwin::focusView);
@@ -662,10 +660,10 @@ void FPwin::applyConfigOnStarting()
                     /* search and replacement */
                  << QKeySequence (Qt::Key_F3).toString() << QKeySequence (Qt::Key_F4).toString() << QKeySequence (Qt::Key_F5).toString() << QKeySequence (Qt::Key_F6).toString() << QKeySequence (Qt::Key_F7).toString()
                  << QKeySequence (Qt::Key_F8).toString() << QKeySequence (Qt::Key_F9).toString() << QKeySequence (Qt::Key_F10).toString()
-                 << QKeySequence (Qt::Key_F11).toString() << QKeySequence (Qt::CTRL + Qt::SHIFT + Qt::Key_W).toString()
+                 << QKeySequence (Qt::Key_F11).toString()
 
                  << QKeySequence (Qt::CTRL + Qt::Key_Equal).toString() << QKeySequence (Qt::CTRL + Qt::Key_Plus).toString() << QKeySequence (Qt::CTRL + Qt::Key_Minus).toString() << QKeySequence (Qt::CTRL + Qt::Key_0).toString() // zooming
-                 << QKeySequence (Qt::CTRL + Qt::ALT  +Qt::Key_E).toString() // exiting a process
+                 << QKeySequence (Qt::CTRL + Qt::ALT + Qt::Key_E).toString() // exiting a process
                  << QKeySequence (Qt::SHIFT + Qt::Key_Enter).toString() << QKeySequence (Qt::SHIFT + Qt::Key_Return).toString() << QKeySequence (Qt::CTRL + Qt::Key_Tab).toString() << QKeySequence (Qt::CTRL + Qt::META + Qt::Key_Tab).toString() // text tabulation
                  << QKeySequence (Qt::CTRL + Qt::SHIFT + Qt::Key_J).toString() // select text on jumping (not an action)
                  << QKeySequence (Qt::CTRL + Qt::Key_K).toString(); // used by LineEdit as well as QPlainTextEdit

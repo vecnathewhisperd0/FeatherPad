@@ -61,7 +61,7 @@ void TabBar::mousePressEvent (QMouseEvent *event)
 void TabBar::mouseReleaseEvent (QMouseEvent *event)
 {
     QTabBar::mouseReleaseEvent (event);
-    if (event->button() == Qt::MidButton)
+    if (event->button() == Qt::MiddleButton)
     {
         int index = tabAt (event->pos());
         if (index > -1)

@@ -138,7 +138,7 @@ void ListWidget::mousePressEvent (QMouseEvent *event)
     }
     if (selectionMode() == QAbstractItemView::SingleSelection)
     {
-        if (event->button() == Qt::MidButton)
+        if (event->button() == Qt::MiddleButton)
         {
             QModelIndex index = indexAt (event->pos());
             if (QListWidgetItem *item = itemFromIndex (index)) // index is checked for its validity in QListWidget::itemFromIndex()

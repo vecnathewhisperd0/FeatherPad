@@ -200,7 +200,6 @@ Window:
 *********
 Escape              Focus editor's main view without changing anything else
 F11                 (Un-)Fullscreen
-Ctrl+Shift+W        Resize window to fixed size (700x500 by default but can be set in Preferences)
 
 Zooming:
 **********

@@ -21,7 +21,6 @@
 
 #include <QFile>
 #include <QTextStream>
-#include <QTextCodec>
 #include <QStringList>
 #include <QRegularExpression>
 
