@@ -35,27 +35,6 @@ namespace Ui {
 class FPwin;
 }
 
-class BusyMaker : public QObject {
-    Q_OBJECT
-
-public:
-    BusyMaker(){}
-    ~BusyMaker(){}
-
-public slots:
-    void waiting();
-
-private slots :
-    void makeBusy();
-
-signals:
-    void finished();
-
-private:
-    static const int timeout = 1000;
-};
-
-
 // A FeatherPad window.
 class FPwin : public QMainWindow
 {
@@ -216,6 +195,7 @@ private slots:
     void autoSave();
     void pauseAutoSaving (bool pause);
     void enforceLang (QAction *action);
+    void unbusy();
 
 public:
     QWidget *dummyWidget; // Bypasses KDE's demand for a new window.
@@ -272,8 +252,7 @@ private:
     bool matchRightBracket (QTextBlock currentBlock, int index, int numLeftBrackets);
     void createSelection (int pos);
     void removeGreenSel();
-    void waitToMakeBusy();
-    void unbusy();
+    void makeBusy();
     void displayMessage (bool error);
     void showWarningBar (const QString& message, int timeout = 10, bool startupBar = false);
     void closeWarningBar (bool keepOnStartup = false);
@@ -289,7 +268,6 @@ private:
     QString txtReplace_; // The replacing text.
     int rightClicked_; // The index/row of the right-clicked tab/item.
     int loadingProcesses_; // The number of loading processes (used to prevent early closing).
-    QPointer<QThread> busyThread_; // Used to wait one second for making the cursor busy.
     QMetaObject::Connection lambdaConnection_; // Captures a lambda connection to disconnect it later.
     SidePane *sidePane_;
     QHash<QListWidgetItem*, TabPage*> sideItems_; // For fast tab switching.

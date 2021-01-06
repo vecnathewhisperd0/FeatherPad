@@ -58,17 +58,6 @@
 
 namespace FeatherPad {
 
-void BusyMaker::waiting() {
-    QTimer::singleShot (timeout, this, &BusyMaker::makeBusy);
-}
-
-void BusyMaker::makeBusy() {
-    if (QGuiApplication::overrideCursor() == nullptr)
-        QGuiApplication::setOverrideCursor (QCursor (Qt::WaitCursor));
-    emit finished();
-}
-
-
 FPwin::FPwin (QWidget *parent, bool standalone):QMainWindow (parent), dummyWidget (nullptr), ui (new Ui::FPwin)
 {
     ui->setupUi (this);
@@ -79,7 +68,6 @@ FPwin::FPwin (QWidget *parent, bool standalone):QMainWindow (parent), dummyWidge
     closePreviousPages_ = false;
     loadingProcesses_ = 0;
     rightClicked_ = -1;
-    busyThread_ = nullptr;
 
     autoSaver_ = nullptr;
     autoSaverRemainingTime_ = -1;
@@ -941,7 +929,7 @@ bool FPwin::closePages (int first, int last, bool saveFilesList)
     bool closing (saveFilesList); // saveFilesList is true only with closing
     while (state == SAVED && ui->tabWidget->count() > 0)
     {
-        waitToMakeBusy();
+        makeBusy();
 
         if (last == 0) break; // no tab on the left
         if (last < 0) // close from the end
@@ -2111,27 +2099,14 @@ void FPwin::asterisk (bool modified)
     ui->tabWidget->setTabText (index, shownName);
 }
 /*************************/
-void FPwin::waitToMakeBusy()
+void FPwin::makeBusy()
 {
-    if (QGuiApplication::overrideCursor() != nullptr || busyThread_ != nullptr)
-        return;
-    busyThread_ = new QThread;
-    BusyMaker *makeBusy = new BusyMaker();
-    makeBusy->moveToThread (busyThread_);
-    connect (busyThread_, &QThread::started, makeBusy, &BusyMaker::waiting);
-    connect (makeBusy, &BusyMaker::finished, busyThread_, &QThread::quit);
-    connect (busyThread_, &QThread::finished, makeBusy, &QObject::deleteLater);
-    connect (busyThread_, &QThread::finished, busyThread_, &QObject::deleteLater);
-    busyThread_->start();
+    if (QGuiApplication::overrideCursor() == nullptr)
+        QGuiApplication::setOverrideCursor (QCursor (Qt::WaitCursor));
 }
 /*************************/
 void FPwin::unbusy()
 {
-    if (busyThread_ && !busyThread_->isFinished())
-    {
-        busyThread_->quit();
-        busyThread_->wait();
-    }
     if (QGuiApplication::overrideCursor() != nullptr)
         QGuiApplication::restoreOverrideCursor();
 }
@@ -2152,7 +2127,7 @@ void FPwin::loadText (const QString& fileName, bool enforceEncod, bool reload,
     connect (thread, &Loading::finished, thread, &QObject::deleteLater);
     thread->start();
 
-    waitToMakeBusy();
+    makeBusy();
     ui->tabWidget->tabBar()->lockTabs (true);
     updateShortcuts (true, false);
 }
@@ -2179,7 +2154,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
             updateShortcuts (false, false);
             closeWarningBar();
             emit finishedLoading();
-            QTimer::singleShot (0, this, [this]() {unbusy();});
+            QTimer::singleShot (0, this, &FPwin::unbusy);
             stealFocus();
         }
         return;
@@ -2491,7 +2466,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
         emit finishedLoading();
         /* remove the busy cursor only after all events are processed
            (e.g., highlighting the syntax of a huge text may take a while) */
-        QTimer::singleShot (0, this, [this]() {unbusy();});
+        QTimer::singleShot (0, this, &FPwin::unbusy);
         stealFocus();
     }
 }
@@ -3012,7 +2987,7 @@ bool FPwin::saveFile (bool keepSyntax,
     {
         /* using text blocks directly is the fastest
            and lightest way of removing trailing spaces */
-        waitToMakeBusy();
+        makeBusy();
         QTextBlock block = textEdit->document()->firstBlock();
         QTextCursor tmpCur = textEdit->textCursor();
         tmpCur.beginEditBlock();
@@ -3523,7 +3498,7 @@ void FPwin::toSoftTabs()
 {
     if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget()))
     {
-        waitToMakeBusy();
+        makeBusy();
         bool res = tabPage->textEdit()->toSoftTabs();
         unbusy();
         if (res)
@@ -4389,9 +4364,9 @@ void FPwin::enforceLang (QAction *action)
     if (ui->actionSyntax->isChecked())
     {
         syntaxHighlighting (textEdit, false);
-        waitToMakeBusy(); // it may take a while with huge texts
+        makeBusy(); // it may take a while with huge texts
         syntaxHighlighting (textEdit, true, lang);
-        QTimer::singleShot (0, this, [this]() {unbusy();});
+        QTimer::singleShot (0, this, &FPwin::unbusy);
     }
 }
 /*************************/
@@ -4453,7 +4428,7 @@ void FPwin::filePrint()
 
     /* complete the syntax highlighting when printing
        because the whole document may not be highlighted */
-    waitToMakeBusy();
+    makeBusy();
     if (Highlighter *highlighter = qobject_cast< Highlighter *>(textEdit->getHighlighter()))
     {
         QTextCursor start = textEdit->textCursor();
@@ -4472,7 +4447,7 @@ void FPwin::filePrint()
             block = block.next();
         }
     }
-    QTimer::singleShot (0, this, [this]() {unbusy();}); // wait for the dialog too
+    QTimer::singleShot (0, this, &FPwin::unbusy); // wait for the dialog too
 
     /* choose an appropriate name and directory */
     QString fileName = textEdit->getFileName();
@@ -5049,9 +5024,9 @@ void FPwin::dropTab (const QString& str)
     /* reload buttons, syntax highlighting, jump bar, line numbers */
     if (ui->actionSyntax->isChecked())
     {
-        waitToMakeBusy(); // it may take a while with huge texts
+        makeBusy(); // it may take a while with huge texts
         syntaxHighlighting (textEdit, true, textEdit->getLang());
-        QTimer::singleShot (0, this, [this]() {unbusy();});
+        QTimer::singleShot (0, this, &FPwin::unbusy);
     }
     else if (!ui->actionSyntax->isChecked() && textEdit->getHighlighter())
     { // there's no connction to the drag target yet
@@ -5703,7 +5678,7 @@ void FPwin::saveAllFiles (bool showWarning)
         /* make changes to the document if needed */
         if (config.getRemoveTrailingSpaces() && thisTextEdit->getProg() != "diff")
         {
-            waitToMakeBusy();
+            makeBusy();
             QTextBlock block = thisTextEdit->document()->firstBlock();
             QTextCursor tmpCur = thisTextEdit->textCursor();
             tmpCur.beginEditBlock();

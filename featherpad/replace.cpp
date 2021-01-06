@@ -209,7 +209,7 @@ void FPwin::replaceAll()
     QTextEdit::ExtraSelection extra;
     extra.format.setBackground (color);
 
-    waitToMakeBusy();
+    makeBusy();
     while (!(found = textEdit->finding (txtFind, start, searchFlags, tabPage->matchRegex())).isNull())
     {
         start.setPosition (found.anchor());

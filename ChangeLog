@@ -1,3 +1,7 @@
+V0.17.1
+---------
+ * Removed the code for making the cursor busy after 1 second — cursor overriding isn't marked as thread-safe by Qt.
+
 V0.17.0
 ---------
  * Consider the locale when showing line numbers and omit the group separator.

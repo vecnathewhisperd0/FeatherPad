@@ -38,7 +38,7 @@ void FPwin::toggleSyntaxHighlighting()
 
     bool enableSH = ui->actionSyntax->isChecked();
     if (enableSH)
-        waitToMakeBusy(); // it may take a while with huge texts
+        makeBusy(); // it may take a while with huge texts
 
     for (int i = 0; i < count; ++i)
     {
@@ -50,9 +50,7 @@ void FPwin::toggleSyntaxHighlighting()
         updateLangBtn (tabPage->textEdit());
 
     if (enableSH)
-    {
-        QTimer::singleShot (0, this, [this]() {unbusy();});
-    }
+        QTimer::singleShot (0, this, &FPwin::unbusy);
 }
 /*************************/
 // Never returns an empty string; falls back to "url".
