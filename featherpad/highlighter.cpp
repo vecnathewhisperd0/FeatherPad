@@ -4599,8 +4599,7 @@ void Highlighter::highlightBlock (const QString &text)
      * "Here" Documents *
      ********************/
 
-    if (progLan == "sh" || progLan == "makefile" || progLan == "cmake"
-        || progLan == "perl" || progLan == "ruby")
+    if (progLan == "sh" || progLan == "perl" || progLan == "ruby")
     {
         /* first, handle "__DATA__" in perl */
         if (progLan == "perl")
