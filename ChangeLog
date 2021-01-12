@@ -1,3 +1,8 @@
+V0.18.0
+---------
+ * Added Pascal syntax highlighting.
+ * Fixed an old but rare problem in highlighting of multiline comments.
+
 V0.17.2
 ---------
  * Fixed a regression about here-docs in 0.17.0

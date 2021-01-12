@@ -29,18 +29,20 @@ SOURCES += main.cpp \
            textedit.cpp \
            tabbar.cpp \
            highlighter.cpp \
+           highlighter-css.cpp \
+           highlighter-fountain.cpp \
+           highlighter-html.cpp \
+           highlighter-pascal.cpp \
+           highlighter-patterns.cpp \
+           highlighter-perl-regex.cpp \
+           highlighter-regex.cpp \
+           highlighter-sh.cpp \
            find.cpp \
            replace.cpp \
            pref.cpp \
            config.cpp \
            brackets.cpp \
            syntax.cpp \
-           highlighter-sh.cpp \
-           highlighter-css.cpp \
-           highlighter-html.cpp \
-           highlighter-patterns.cpp \
-           highlighter-regex.cpp \
-           highlighter-perl-regex.cpp \
            vscrollbar.cpp \
            loading.cpp \
            printing.cpp \

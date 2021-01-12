@@ -106,6 +106,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
             progLan = "css";
         else if (fname.endsWith (".scss"))
             progLan = "scss";
+        else if (fname.endsWith (".p") || fname.endsWith (".pas"))
+             progLan = "pascal";
         else if (fname.endsWith (".desktop") || fname.endsWith (".desktop.in") || fname.endsWith (".directory"))
              progLan = "desktop";
         else if (fname.endsWith (".kvconfig")
@@ -211,6 +213,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
                 progLan = "css";
             else if (mime == "text/x-scss")
                 progLan = "scss";
+            else if (mime == "text/x-pascal")
+                progLan = "pascal";
             else if (mime == "text/x-changelog")
                 progLan = "changelog";
             else if (mime == "application/x-desktop")

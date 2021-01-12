@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2019 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2021 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -130,7 +130,7 @@ private:
     bool isEscapedQuote (const QString &text, const int pos, bool isStartQuote,
                          bool skipCommandSign = false);
     bool isQuoted (const QString &text, const int index,
-                   bool skipCommandSign = false);
+                   bool skipCommandSign = false, const int start = 0);
     bool isPerlQuoted (const QString &text, const int index);
     bool isJSQuoted (const QString &text, const int index);
     bool isMLCommented (const QString &text, const int index, int comState = commentState,
@@ -150,16 +150,16 @@ private:
                             const int index,
                             int prevQuote = 0,
                             bool prevUrl = false);
-   bool isInsideCSSValueUrl (const QString &text,
-                             const int valueStart,
-                             const int index,
-                             int prevQuote = 0,
-                             bool prevUrl = false);
-   void formatAttrSelectors (const QString &text, const int start, const int pos);
-   bool isInsideAttrSelector (const QString &text, const int pos, const int start);
-    void cssHighlighter(const QString &text, bool mainFormatting, const int start = 0);
+    bool isInsideCSSValueUrl (const QString &text,
+                              const int valueStart,
+                              const int index,
+                              int prevQuote = 0,
+                              bool prevUrl = false);
+    void formatAttrSelectors (const QString &text, const int start, const int pos);
+    bool isInsideAttrSelector (const QString &text, const int pos, const int start);
+    void cssHighlighter (const QString &text, bool mainFormatting, const int start = 0);
     void singleLineComment (const QString &text, const int start);
-    void multiLineComment (const QString &text,
+    bool multiLineComment (const QString &text,
                            const int index,
                            const QRegularExpression &commentStartExp, const QRegularExpression &commentEndExp,
                            const int commState,
@@ -192,7 +192,6 @@ private:
                             const QTextCharFormat &txtFormat);
     void markdownFonts (const QString &text);
 
-    void fountainFonts (const QString &text);
     void reSTMainFormatting (int start, const QString &text);
     void debControlFormatting (const QString &text);
 
@@ -214,10 +213,19 @@ private:
                          bool setData);
     void yamlLiteralBlock (const QString &text);
 
+    void fountainFonts (const QString &text);
     bool isFountainLineBlank (const QTextBlock &block);
     void highlightFountainBlock (const QString &text);
 
     void latexFormula (const QString &text);
+
+    bool isPascalQuoted (const QString &text, const int index,
+                         const int start = 0) const;
+    bool isPascalMLCommented (const QString &text, const int index,
+                              const int start = 0) const;
+    void singleLinePascalComment (const QString &text, const int start = 0);
+    void pascalQuote (const QString &text, const int start = 0);
+    void multiLinePascalComment (const QString &text);
 
     struct HighlightingRule
     {
@@ -258,6 +266,9 @@ private:
 
     /* The start and end cursors of the visible text: */
     QTextCursor startCursor, endCursor;
+
+    bool multilineQuote_;
+    bool mixedQuotes_;
 
     static const QRegularExpression urlPattern;
     static const QRegularExpression notePattern;

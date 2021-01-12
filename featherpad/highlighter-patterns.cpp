@@ -148,10 +148,12 @@ QStringList Highlighter::keywords (const QString &lang)
                         << "\\b(abs|adjust-color|adjust-hue|alpha|append|blue|call|ceil|change-color|comparable|complement|content-exists|darken|desaturate|feature-exists|floor|function-exists|get-function|global-variable-exists|grayscale|green|hsl|hsla|hue|ie-hex-str|if|index|inspect|invert|is-bracketed|is-superselector|join|keywords|length|lighten|lightness|list-separator|map-get|map-has-key|map-keys|map-merge|map-remove|map-values|max|min|mixin-exists|mix|nth|opacify|percentage|quote|random|red|rgb|rgba|round|scale-color|saturate|saturation|selector-nest|selector-append|selector-extend|selector-parse|selector-replace|selector-unify|set-nth|simple-selectors|str-index|str-insert|str-length|str-slice|to-lower-case|to-upper-case|transparentize|type-of|unit|unitless|unquote|variable-exists|zip)(?=\\()"
                         << "\\bunique-id\\(\\s*\\)";
     else if (lang == "dart")
-            keywordPatterns << "\\b(abstract|as|assert|await|break|case|catch|class|const|continue|covariant|default|deferred|do|dynamic)\\b"
-                            << "\\b(else|enum|export|extends|external|factory|false|final|finally|for|Function|get|hide|if|implements|import|in|interface|is)\\b"
-                            << "\\b(library|mixin|new|null|on|operator|part|rethrow|return|set|show|static|super|switch|sync)\\b"
-                            << "\\b(this|throw|true|try|typedef|var|void|while|with|yield)\\b";
+        keywordPatterns << "\\b(abstract|as|assert|await|break|case|catch|class|const|continue|covariant|default|deferred|do|dynamic)\\b"
+                        << "\\b(else|enum|export|extends|external|factory|false|final|finally|for|Function|get|hide|if|implements|import|in|interface|is)\\b"
+                        << "\\b(library|mixin|new|null|on|operator|part|rethrow|return|set|show|static|super|switch|sync)\\b"
+                        << "\\b(this|throw|true|try|typedef|var|void|while|with|yield)\\b";
+    else if (lang == "pascal") // case-insensitive
+        keywordPatterns << "(?i)\\b(?<!(@|#|\\$))(absolute|abstract|alias|and|array|as|asm|assembler|attribute|begin|bindable|bitpacked|break|case|cdecl|class|const|constructor|continue|cppdecl|cvar|default|deprecated|destructor|dispinterface|dispose|div|do|downto|dynamic|else|end|enumerator|except|experimental|export|exports|external|false|far|far16|file|finalization|finally|for|forward|function|generic|goto|helper|if|implementation|implements|in|index|inherited|initialization|inline|interface|interrupt|is|label|library|iocheck|local|message|mod|name|near|new|nil|nodefault|noreturn|nostackframe|not|object|oldfpccall|on|of|otherwise|out|operator|or|overload|override|pack|packed|page|pascal|platform|private|procedure|program|property|protected|public|published|raise|read|readln|record|register|reintroduce|repeat|resourcestring|reset|result|rewrite|safecall|saveregisters|self|set|shl|shr|softfloat|specialize|static|stdcall|stored|strict|then|to|threadvar|true|try|type|unaligned|unimplemented|unit|unpack|until|uses|var|varargs|virtual|while|winapi|with|write|writeln|xor)(?!(@|#|\\$))\\b";
 
     return keywordPatterns;
 }
@@ -180,6 +182,10 @@ QStringList Highlighter::types()
     else if (progLan == "dart")
     {
         typePatterns << "\\b(bool|double|int|num)(?!(@|#|\\$))\\b";
+    }
+    else if (progLan == "pascal")
+    {
+        typePatterns << "(?i)\\b(?<!(@|#|\\$))(byte|cardinal|char|int64|integer|qword|qwordbool|real|boolean|bytebool|enumerated|longbool|longint|longword|shortint|single|smallint|string|widechar|word|wordbool)(?!(@|#|\\$))\\b";
     }
     return typePatterns;
 }
