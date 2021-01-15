@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="161"/>
+        <location filename="../../about.ui" line="163"/>
         <source>License</source>
         <translation>Licenza</translation>
     </message>
@@ -1254,7 +1254,7 @@ linea (Ctrl + Shift + J)</translation>
         <translation>Le prime 1000 sostituzioni sono evidenziate.</translation>
     </message>
     <message>
-        <location filename="../../syntax.cpp" line="276"/>
+        <location filename="../../syntax.cpp" line="284"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
         <translation>Il limite di dimensione per l&apos;evidenziazione della sintassi è stato  superato.</translation>
     </message>

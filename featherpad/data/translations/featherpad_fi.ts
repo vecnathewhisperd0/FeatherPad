@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="161"/>
+        <location filename="../../about.ui" line="163"/>
         <source>License</source>
         <translation>Lisenssi</translation>
     </message>
@@ -1252,7 +1252,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../syntax.cpp" line="276"/>
+        <location filename="../../syntax.cpp" line="284"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2195,7 +2195,7 @@ in the editing mode.</source>
         <location filename="../../sessionDialog.ui" line="72"/>
         <location filename="../../sessionDialog.ui" line="275"/>
         <source>&amp;Open</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Avaa</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="98"/>
@@ -2259,7 +2259,7 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../sessionDialog.ui" line="138"/>
         <source>&amp;Save</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Tallenna</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="149"/>

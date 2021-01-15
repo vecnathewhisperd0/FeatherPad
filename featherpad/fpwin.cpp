@@ -691,11 +691,11 @@ void FPwin::addRemoveLangBtn (bool add)
     { // no "url" for the language button
         langList << "c" << "cmake" << "config" << "cpp" << "css"
                  << "dart" << "deb" << "desktop" << "diff" << "fountain"
-                 << "html" << "javascript" << "LaTeX" << "log" << "lua"
-                 << "m3u" << "markdown" << "makefile" << "pascal" << "perl"
-                 << "php" << "python" << "qmake" << "qml" << "reST"
-                 << "ruby" << "scss" << "sh" << "troff" << "theme"
-                 << "xml" << "yaml";
+                 << "html" << "java" << "javascript" << "LaTeX" << "log"
+                 << "lua" << "m3u" << "markdown" << "makefile" << "pascal"
+                 << "perl" << "php" << "python" << "qmake" << "qml"
+                 << "reST" << "ruby" << "scss" << "sh" << "troff"
+                 << "theme" << "xml" << "yaml";
         langList.sort (Qt::CaseInsensitive);
     }
 

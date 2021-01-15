@@ -72,6 +72,7 @@ set(featherpad_SRCS
     highlighter.cpp
     highlighter-css.cpp
     highlighter-fountain.cpp
+    highlighter-java.cpp
     highlighter-html.cpp
     highlighter-pascal.cpp
     highlighter-patterns.cpp

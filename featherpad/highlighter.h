@@ -227,6 +227,18 @@ private:
     void pascalQuote (const QString &text, const int start = 0);
     void multiLinePascalComment (const QString &text);
 
+    bool isEscapedJavaQuote (const QString &text, const int pos,
+                             bool isStartQuote) const;
+    bool isJavaSingleCommentQuoted (const QString &text, const int index,
+                                    const int start) const;
+    bool isJavaStartQuoteMLCommented (const QString &text, const int index,
+                                      const int start = 0) const;
+    void JavaQuote (const QString &text, const int start = 0);
+    void singleLineJavaComment (const QString &text, const int start = 0);
+    void multiLineJavaComment (const QString &text);
+    void javaMainFormatting (const QString &text);
+    void javaBraces (const QString &text);
+
     struct HighlightingRule
     {
         QRegularExpression pattern;
@@ -246,6 +258,7 @@ private:
     QTextCharFormat mainFormat; // The format before highlighting.
     QTextCharFormat neutralFormat; // When a color near that of mainFormat is needed.
     QTextCharFormat commentFormat;
+    QTextCharFormat commentBoldFormat;
     QTextCharFormat noteFormat;
     QTextCharFormat quoteFormat; // Usually for double quote.
     QTextCharFormat altQuoteFormat; // Usually for single quote.

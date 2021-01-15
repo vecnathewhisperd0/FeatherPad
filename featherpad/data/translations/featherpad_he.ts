@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="he-IL">
+<TS version="2.1" language="he_IL">
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="161"/>
+        <location filename="../../about.ui" line="163"/>
         <source>License</source>
         <translation>רישיון</translation>
     </message>
@@ -1245,8 +1245,6 @@
         <source>%Ln Replacements</source>
         <translation>
             <numerusform>החלפה אחת</numerusform>
-            <numerusform>שתי החלפות</numerusform>
-            <numerusform>%Ln החלפות</numerusform>
             <numerusform>%Ln החלפות</numerusform>
         </translation>
     </message>
@@ -1256,7 +1254,7 @@
         <translation>1000 ההחלפות הראשונות מודגשות.</translation>
     </message>
     <message>
-        <location filename="../../syntax.cpp" line="276"/>
+        <location filename="../../syntax.cpp" line="284"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
         <translation>חרגת ממגבלת גודל הדגשת התחביר.</translation>
     </message>

@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="161"/>
+        <location filename="../../about.ui" line="163"/>
         <source>License</source>
         <translation>Licence</translation>
     </message>
@@ -1255,7 +1255,7 @@ tento řádek (Ctrl+Shift+J)</translation>
         <translation>Je zvýrazněno prvních 1000 nahrazení.</translation>
     </message>
     <message>
-        <location filename="../../syntax.cpp" line="276"/>
+        <location filename="../../syntax.cpp" line="284"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
         <translation>Překročen limit velikosti pro zvýrazňování syntaxe.</translation>
     </message>

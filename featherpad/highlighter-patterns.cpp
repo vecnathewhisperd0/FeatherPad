@@ -154,6 +154,9 @@ QStringList Highlighter::keywords (const QString &lang)
                         << "\\b(this|throw|true|try|typedef|var|void|while|with|yield)\\b";
     else if (lang == "pascal") // case-insensitive
         keywordPatterns << "(?i)\\b(?<!(@|#|\\$))(absolute|abstract|alias|and|array|as|asm|assembler|attribute|begin|bindable|bitpacked|break|case|cdecl|class|const|constructor|continue|cppdecl|cvar|default|deprecated|destructor|dispinterface|dispose|div|do|downto|dynamic|else|end|enumerator|except|experimental|export|exports|external|false|far|far16|file|finalization|finally|for|forward|function|generic|goto|helper|if|implementation|implements|in|index|inherited|initialization|inline|interface|interrupt|is|label|library|iocheck|local|message|mod|name|near|new|nil|nodefault|noreturn|nostackframe|not|object|oldfpccall|on|of|otherwise|out|operator|or|overload|override|pack|packed|page|pascal|platform|private|procedure|program|property|protected|public|published|raise|read|readln|record|register|reintroduce|repeat|resourcestring|reset|result|rewrite|safecall|saveregisters|self|set|shl|shr|softfloat|specialize|static|stdcall|stored|strict|then|to|threadvar|true|try|type|unaligned|unimplemented|unit|unpack|until|uses|var|varargs|virtual|while|winapi|with|write|writeln|xor)(?!(@|#|\\$))\\b";
+    else if (lang == "java")
+        keywordPatterns << "\\b(abstract|assert|break|case|catch|class|const|while|continue|default|do|else|extends|final|finally|for|goto|if|implements|import|instanceof|interface|module|native|new|package|private|protected|public|return|static|strictfp|super|switch|synchronized|this|throw|throws|transient|try|var|volatile|while)(?!(@|#|\\$))\\b"
+                        << "\\b(true|false|null)(?!(\\.|-|@|#|\\$))\\b";
 
     return keywordPatterns;
 }
@@ -186,6 +189,10 @@ QStringList Highlighter::types()
     else if (progLan == "pascal")
     {
         typePatterns << "(?i)\\b(?<!(@|#|\\$))(byte|cardinal|char|int64|integer|qword|qwordbool|real|boolean|bytebool|enumerated|longbool|longint|longword|shortint|single|smallint|string|widechar|word|wordbool)(?!(@|#|\\$))\\b";
+    }
+    else if (progLan == "java")
+    {
+        typePatterns << "\\b(boolean|byte|char|double|enum|float|int|long|short|void)(?!(\\.|-|@|#|\\$))\\b";
     }
     return typePatterns;
 }

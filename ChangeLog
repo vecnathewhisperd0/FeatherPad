@@ -1,7 +1,8 @@
 V0.18.0
 ---------
- * Added Pascal syntax highlighting.
  * Fixed an old but rare problem in highlighting of multiline comments.
+ * Added Pascal syntax highlighting.
+ * Added Java syntax highlighting.
 
 V0.17.2
 ---------
