@@ -433,7 +433,10 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
         /* numbers (including the scientific notation and hexadecimal numbers) */
         ft.setForeground (Brown);
-        rule.pattern.setPattern ("(?<=^|[^\\w\\d\\.])((\\d*\\.?\\d+|\\d+\\.?\\d*)((e|E)(\\+|-)?\\d+)?|0[xX][0-9a-fA-F]+)(?=[^\\w\\d\\.]|$)");
+        if (progLan == "python" || progLan == "java")
+            rule.pattern.setPattern ("(?<=^|[^\\w\\d\\.])((\\d*\\.?\\d+|\\d+\\.?\\d*)((e|E)(\\+|-)?\\d+)?|0[xX][0-9a-fA-F]+|0[bB][01]+|[0-9]+(L|l))(?=[^\\w\\d\\.]|$)");
+        else
+            rule.pattern.setPattern ("(?<=^|[^\\w\\d\\.])((\\d*\\.?\\d+|\\d+\\.?\\d*)((e|E)(\\+|-)?\\d+)?|0[xX][0-9a-fA-F]+|0[bB][01]+|[0-9]+(L|l|U|u|UL|ul|LL|ll|ULL|ull))(?=[^\\w\\d\\.]|$)");
         rule.format = ft;
         highlightingRules.append (rule);
 
