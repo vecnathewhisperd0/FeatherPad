@@ -43,13 +43,6 @@ bool Highlighter::isEscapedPerlRegex (const QString &text, const int pos)
         return true;
     }
 
-    /* check if we're inside a here-doc delimiter */
-    if ((currentBlockState() >= endState || currentBlockState() < -1)
-        && currentBlockState() % 2 == 0)
-    {
-        return true;
-    }
-
     static QRegularExpression perlKeys;
 
     int i = pos - 1;
@@ -450,6 +443,7 @@ void Highlighter::multiLinePerlRegex(const QString &text)
     bool isQuotingOperator = false;
     bool ro = false; // a replacement operator?
     bool replacing = false; // inside the second part of a replacement operator?
+    bool afterHereDocDelimiter = false; // after a here-doc delimiter
 
     QTextCharFormat flagFormat;
     flagFormat.setFontWeight (QFont::Bold);
@@ -531,6 +525,9 @@ void Highlighter::multiLinePerlRegex(const QString &text)
                 /* use flagFormat for operators too */
                 setFormat (startIndex, startMatch.capturedLength() - 1, flagFormat);
             }
+
+            afterHereDocDelimiter = ((currentBlockState() >= endState || currentBlockState() < -1)
+                                     && currentBlockState() % 2 == 0);
         }
     }
 
@@ -559,20 +556,22 @@ void Highlighter::multiLinePerlRegex(const QString &text)
         int keywordLength = qMax (startMatch.capturedLength() - 1, 0);
         if (endIndex == -1)
         {
-            if (!continued)
+            if (!afterHereDocDelimiter) // don't let an incorrect regex ruin a here-doc
             {
-                if (ro && !replacing)
-                    setCurrentBlockState (regexSearchState);
+                if (!continued)
+                {
+                    if (ro && !replacing)
+                        setCurrentBlockState (regexSearchState);
+                    else
+                        setCurrentBlockState (isQuotingOperator ? regexExtraState : regexState);
+                }
                 else
-                    setCurrentBlockState (isQuotingOperator ? regexExtraState : regexState);
+                    setCurrentBlockState (prevState);
+
+                static_cast<TextBlockData *>(currentBlock().userData())->insertInfo (ro ? "r" + delimStr : delimStr);
+                /* NOTE: The next block will be rehighlighted at highlightBlock()
+                         (-> multiLineRegex (text, 0);) if the delimiter is changed. */
             }
-            else
-                setCurrentBlockState (prevState);
-
-            static_cast<TextBlockData *>(currentBlock().userData())->insertInfo (ro ? "r" + delimStr : delimStr);
-            /* NOTE: The next block will be rehighlighted at highlightBlock()
-                     (-> multiLineRegex (text, 0);) if the delimiter is changed. */
-
             len = text.length() - startIndex;
         }
         else // endIndex is found
