@@ -407,7 +407,7 @@ void Highlighter::multiLineJavaComment (const QString &text)
             int i = startIndex;
             while ((i = text.indexOf (javaDocBracedTags, i, &endMatch)) > -1 && i < indx)
             {
-                setFormat (i, endMatch.capturedLength(), codeBlockFormat);
+                setFormat (i, endMatch.capturedLength(), regexFormat);
                 i += endMatch.capturedLength();
             }
         }

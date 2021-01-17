@@ -43,6 +43,13 @@ bool Highlighter::isEscapedPerlRegex (const QString &text, const int pos)
         return true;
     }
 
+    /* check if we're inside a here-doc delimiter */
+    if ((currentBlockState() >= endState || currentBlockState() < -1)
+        && currentBlockState() % 2 == 0)
+    {
+        return true;
+    }
+
     static QRegularExpression perlKeys;
 
     int i = pos - 1;
@@ -74,6 +81,10 @@ bool Highlighter::isEscapedPerlRegex (const QString &text, const int pos)
         if (format (i) != regexFormat && (ch.isLetterOrNumber() || ch == '_'
                                           || ch == ')' || ch == ']' || ch == '}' || ch == '#'
                                           || (i == pos - 1 && (ch == '$' || ch == '@'))
+                                          || (i >= 1
+                                              && (text.at (i - 1) == '$'
+                                                  || (text.at (i - 1) == '@' && (ch == '+' || ch == '-'))
+                                                  || (text.at (i - 1) == '%' && (ch == '+' || ch == '-' || ch == '!'))))
                                           /* after an escaped start quote */
                                           || (i > 0 && (ch == '\"' || ch == '\'' || ch == '`')
                                               && format (i) != quoteFormat && format (i) != altQuoteFormat)))

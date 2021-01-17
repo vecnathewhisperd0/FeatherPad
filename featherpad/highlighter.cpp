@@ -251,14 +251,14 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
     /* only for isQuoted() and multiLineQuote() */
     mixedQuotes_ =
-        (progLan == "c" || progLan == "cpp" || progLan == "python"
+        (progLan == "c" || progLan == "cpp" // single quotes can also show syntax errors
+         || progLan == "python"
          || progLan == "sh" // not used in multiLineQuote()
          || progLan == "makefile" || progLan == "cmake" || progLan == "lua"
          || progLan == "xml" // never used because we should consider "&quot;"
          || progLan == "ruby"
-         || progLan == "java" // never used because Java is formatted separately
          || progLan == "html" // not used in multiLineQuote()
-         || progLan == "scss" || progLan == "yaml" || progLan == "dart");
+         || progLan == "scss" || progLan == "yaml" || progLan == "dart" || progLan == "php");
 
     quoteMark.setPattern ("\""); // the standard quote mark (always a single character)
     mixedQuoteMark.setPattern ("\"|\'");
@@ -431,12 +431,36 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     {
         QTextCharFormat ft;
 
-        /* numbers (including the scientific notation and hexadecimal numbers) */
+        /* numbers (including the exponential notation, binary, octal and hexadecimal literals) */
         ft.setForeground (Brown);
-        if (progLan == "python" || progLan == "java")
-            rule.pattern.setPattern ("(?<=^|[^\\w\\d\\.])((\\d*\\.?\\d+|\\d+\\.?\\d*)((e|E)(\\+|-)?\\d+)?|0[xX][0-9a-fA-F]+|0[bB][01]+|[0-9]+(L|l))(?=[^\\w\\d\\.]|$)");
+        if (progLan == "python")
+            rule.pattern.setPattern ("(?<=^|[^\\w\\d\\.])("
+                                     "\\d*\\.\\d+|\\d+\\.|(\\d*\\.?\\d+|\\d+\\.)(e|E)(\\+|-)?\\d+"
+                                     "|"
+                                     "0[bB][01]+|0[xX][0-9a-fA-F]+"
+                                     "|"
+                                     "(0|[1-9]\\d*)(L|l)?" // digits
+                                     ")(?=[^\\w\\d\\.]|$)");
+        else if (progLan == "java")
+            rule.pattern.setPattern ("(?<=^|[^\\w\\d\\.])("
+                                     "(\\d*\\.\\d+|\\d+\\.)(L|l|F|f)?"
+                                     "|"
+                                     "(\\d*\\.?\\d+|\\d+\\.)(e|E)(\\+|-)?\\d+(F|f)?"
+                                     "|"
+                                     "0[xX]([0-9a-fA-F]*\\.?[0-9a-fA-F]+|[0-9a-fA-F]+\\.)(p|P)(\\+|-)?\\d+(F|f)?"
+                                     "|"
+                                     "([1-9]\\d*|0[0-7]*)(L|l|F|f)?|(0[xX][0-9a-fA-F]+|0[bB][01]+)(L|l)?" // integer
+                                     ")(?=[^\\w\\d\\.]|$)");
         else
-            rule.pattern.setPattern ("(?<=^|[^\\w\\d\\.])((\\d*\\.?\\d+|\\d+\\.?\\d*)((e|E)(\\+|-)?\\d+)?|0[xX][0-9a-fA-F]+|0[bB][01]+|[0-9]+(L|l|U|u|UL|ul|LL|ll|ULL|ull))(?=[^\\w\\d\\.]|$)");
+            rule.pattern.setPattern ("(?<=^|[^\\w\\d\\.])("
+                                     "(\\d*\\.\\d+|\\d+\\.|(\\d*\\.?\\d+|\\d+\\.)(e|E)(\\+|-)?\\d+)(L|l|F|f)?"
+                                     /*"|"
+                                     "0[xX]([0-9a-fA-F]*\\.[0-9a-fA-F]+|[0-9a-fA-F]+\\.)(L|l)?"*/ // hexadecimal floating literals need exponent
+                                     "|"
+                                     "0[xX]([0-9a-fA-F]*\\.?[0-9a-fA-F]+|[0-9a-fA-F]+\\.)(p|P)(\\+|-)?\\d+(L|l|F|f)?"
+                                     "|"
+                                     "([1-9]\\d*|0[0-7]*|0[xX][0-9a-fA-F]+|0[bB][01]+)(L|l|U|u|UL|ul|LL|ll|ULL|ull)?" // integer
+                                     ")(?=[^\\w\\d\\.]|$)");
         rule.format = ft;
         highlightingRules.append (rule);
 
@@ -510,7 +534,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
         /* numbers */
         troffFormat.setForeground (Brown);
-        rule.pattern.setPattern ("(?<=^|[^\\w\\d|@|#|\\$])((\\d*\\.?\\d+|\\d+\\.?\\d*)((e|E)(\\+|-)?\\d+)?|0[xX][0-9a-fA-F]+)(?=[^\\d]|$)");
+        rule.pattern.setPattern ("(?<=^|[^\\w\\d|@|#|\\$])((\\d*\\.?\\d+|\\d+\\.)((e|E)(\\+|-)?\\d+)?|0[xX][0-9a-fA-F]+)(?=[^\\d]|$)");
         rule.format = troffFormat;
         highlightingRules.append (rule);
 
@@ -741,7 +765,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
         /* numbers */
         ft.setForeground (Brown);
-        rule.pattern.setPattern ("(?<=^|[^\\w\\d|@|#|\\$])((\\d*\\.?\\d+|\\d+\\.?\\d*)((e|E)(\\+|-)?\\d+)?|0[xX][0-9a-fA-F]+)(?=[^\\w\\d]|$)");
+        rule.pattern.setPattern ("(?<=^|[^\\w\\d|@|#|\\$])((\\d*\\.?\\d+|\\d+\\.)((e|E)(\\+|-)?\\d+)?|0[xX][0-9a-fA-F]+)(?=[^\\w\\d]|$)");
         rule.format = ft;
         highlightingRules.append (rule);
 
@@ -820,7 +844,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
             /* without space after "<<" and with ";" at the end */
             //hereDocDelimiter.setPattern ("<<([A-Za-z0-9_]+)(?:;)|<<(\'[A-Za-z0-9_]+\')(?:;)|<<(\"[A-Za-z0-9_]+\")(?:;)");
             /* can contain spaces inside quote marks or backquotes and usually has ";" at the end */
-            hereDocDelimiter.setPattern ("<<([A-Za-z0-9_]+)(?:;{0,1})|<<(?:\\s*)(\'[A-Za-z0-9_\\s]+\')(?:;{0,1})|<<(?:\\s*)(\"[A-Za-z0-9_\\s]+\")(?:;{0,1})|<<(?:\\s*)(`[A-Za-z0-9_\\s]+`)(?:;{0,1})");
+            hereDocDelimiter.setPattern ("<<(?![0-9]+\\b)([A-Za-z0-9_]+)(?:;{0,1})|<<(?:\\s*)(\'[A-Za-z0-9_\\s]+\')(?:;{0,1})|<<(?:\\s*)(\"[A-Za-z0-9_\\s]+\")(?:;{0,1})|<<(?:\\s*)(`[A-Za-z0-9_\\s]+`)(?:;{0,1})");
         }
         else
         {
@@ -866,11 +890,39 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
             highlightingRules.append (rule);
         }
 
-        shFormat.setForeground (DarkMagenta);
-        /* operators */
-        rule.pattern.setPattern ("[=\\+\\-*/%<>&`\\|~\\^\\!,]|\\s+-eq\\s+|\\s+-ne\\s+|\\s+-gt\\s+|\\s+-ge\\s+|\\s+-lt\\s+|\\s+-le\\s+|\\s+-z\\s+");
-        rule.format = shFormat;
-        highlightingRules.append (rule);
+        if (progLan == "perl")
+        {
+            shFormat.setForeground (DarkYellow);
+            rule.pattern.setPattern ("[%@\\$]");
+            rule.format = shFormat;
+            highlightingRules.append (rule);
+
+            /* numbers (the underline separator is also included) */
+            shFormat.setForeground (Brown);
+            rule.pattern.setPattern ("(?<=^|[^\\w\\d\\.])("
+                                     "(\\d|\\d_\\d)*\\.(\\d|\\d_\\d)+|(\\d|\\d_\\d)+\\." // floating point
+                                     "|"
+                                     "((\\d|\\d_\\d)*\\.?(\\d|\\d_\\d)+|(\\d|\\d_\\d)+\\.)(e|E)(\\+|-)?(\\d|\\d_\\d)+" // scientific
+                                     "|"
+                                     "[1-9]_?(\\d|\\d_\\d)*" // digits
+                                     "|"
+                                     "0[xX]([0-9a-fA-F]|[0-9a-fA-F]_[0-9a-fA-F])+" // hexadecimal
+                                     "|"
+                                     "0([0-7]|[0-7]_[0-7])*" // octal
+                                     "|"
+                                     "0[bB]([01]|[01]_[01])+" // binary
+                                     ")(?=[^\\w\\d\\.]|$)");
+            rule.format = shFormat;
+            highlightingRules.append (rule);
+        }
+        else
+        {
+            shFormat.setForeground (DarkMagenta);
+            /* operators */
+            rule.pattern.setPattern ("[=\\+\\-*/%<>&`\\|~\\^\\!,]|\\s+-eq\\s+|\\s+-ne\\s+|\\s+-gt\\s+|\\s+-ge\\s+|\\s+-lt\\s+|\\s+-le\\s+|\\s+-z\\s+");
+            rule.format = shFormat;
+            highlightingRules.append (rule);
+        }
 
         if (progLan == "sh" || progLan == "makefile" || progLan == "cmake")
         {
@@ -1078,7 +1130,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
         /* non-value numbers (including the scientific notation) */
         yamlFormat.setForeground (Brown);
-        rule.pattern.setPattern ("^((\\s*-\\s)+)?\\s*\\K([-+]?(\\d*\\.?\\d+|\\d+\\.?\\d*)((e|E)(\\+|-)?\\d+)?|0[xX][0-9a-fA-F]+)\\s*(?=(#|$))");
+        rule.pattern.setPattern ("^((\\s*-\\s)+)?\\s*\\K([-+]?(\\d*\\.?\\d+|\\d+\\.)((e|E)(\\+|-)?\\d+)?|0[xX][0-9a-fA-F]+)\\s*(?=(#|$))");
         rule.format = yamlFormat;
         highlightingRules.append (rule);
 
@@ -1434,7 +1486,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
         /* numbers (including the scientific notation, hexadecimal, octal and binary numbers) */
         pascalFormat.setForeground (Brown);
-        rule.pattern.setPattern ("#?(?<=^|[^\\w\\d])((\\d*\\.?\\d+|\\d+\\.?\\d*)((e|E)(\\+|-)?\\d+)?|\\$[0-9a-fA-F]+|&[0-7]+|%[0-1]+)(?=[^\\d]|$)");
+        rule.pattern.setPattern ("#?(?<=^|[^\\w\\d])((\\d*\\.?\\d+|\\d+\\.)((e|E)(\\+|-)?\\d+)?|\\$[0-9a-fA-F]+|&[0-7]+|%[0-1]+)(?=[^\\d]|$)");
         rule.format = pascalFormat;
         highlightingRules.append (rule);
 
@@ -1835,6 +1887,7 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
             || progLan == "python"
             || progLan == "perl"
             || progLan == "dart"
+            || progLan == "php"
             || progLan == "lua"
             /* markdown is an exception */
             || progLan == "markdown"
@@ -3518,11 +3571,7 @@ bool Highlighter::isHereDocument (const QString &text)
 
                 if (progLan == "perl")
                 {
-                    bool ok;
-                    delimStr.toInt (&ok, 10);
-                    if (ok)
-                        delimStr = QString(); // don't mistake shift-left operator with here-doc delimiter
-                    else if (delimStr.contains ('`')) // Perl's delimiter can have backquotes
+                    if (delimStr.contains ('`')) // Perl's delimiter can have backquotes
                         delimStr = delimStr.split ('`').at (1);
                 }
 
@@ -4614,7 +4663,7 @@ void Highlighter::highlightBlock (const QString &text)
                         fi = rule.format;
                         if (fi.foreground() == Violet)
                         {
-                            if (txt.indexOf (QRegularExpression ("([-+]?(\\d*\\.?\\d+|\\d+\\.?\\d*)((e|E)(\\+|-)?\\d+)?|0[xX][0-9a-fA-F]+)\\s*(?=(#|$))"), 0, &match) == 0)
+                            if (txt.indexOf (QRegularExpression ("([-+]?(\\d*\\.?\\d+|\\d+\\.)((e|E)(\\+|-)?\\d+)?|0[xX][0-9a-fA-F]+)\\s*(?=(#|$))"), 0, &match) == 0)
                             { // format numerical values differently
                                 if (match.capturedLength() == length)
                                     fi.setForeground (Brown);

@@ -3,6 +3,8 @@ V0.18.0
  * Fixed an old but rare problem in highlighting of multiline comments.
  * Added Pascal syntax highlighting.
  * Added Java syntax highlighting.
+ * Better highlighting of numeric literals in some programming languages.
+ * Taken into account some general variables of Perl when highlighting its syntax.
 
 V0.17.2
 ---------
