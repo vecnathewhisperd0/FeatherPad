@@ -5,6 +5,8 @@ V0.18.0
  * Added Java syntax highlighting.
  * Better highlighting of numeric literals in some programming languages.
  * Taken into account some general variables of Perl when highlighting its syntax.
+ * Taken into account the possibility of using unpaired or different paired delimiters for the second part of Perl's replacement operators.
+ * Fixes and improvements to Ruby syntax highlighting.
 
 V0.17.2
 ---------

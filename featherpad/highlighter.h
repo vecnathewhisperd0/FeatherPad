@@ -206,6 +206,7 @@ private:
     int findDelimiter (const QString &text, const int index,
                        const QRegularExpression &delimExp, int &capturedLength) const;
 
+    /* Yaml */
     bool isYamlKeyQuote (const QString &key, const int pos);
     bool yamlOpenBraces (const QString &text,
                          const QRegularExpression &startExp, const QRegularExpression &endExp,
@@ -213,12 +214,14 @@ private:
                          bool setData);
     void yamlLiteralBlock (const QString &text);
 
+    /* Fountain */
     void fountainFonts (const QString &text);
     bool isFountainLineBlank (const QTextBlock &block);
     void highlightFountainBlock (const QString &text);
 
     void latexFormula (const QString &text);
 
+    /* Pascal */
     bool isPascalQuoted (const QString &text, const int index,
                          const int start = 0) const;
     bool isPascalMLCommented (const QString &text, const int index,
@@ -227,6 +230,7 @@ private:
     void pascalQuote (const QString &text, const int start = 0);
     void multiLinePascalComment (const QString &text);
 
+    /* Java */
     bool isEscapedJavaQuote (const QString &text, const int pos,
                              bool isStartQuote) const;
     bool isJavaSingleCommentQuoted (const QString &text, const int index,
@@ -238,6 +242,14 @@ private:
     void multiLineJavaComment (const QString &text);
     void javaMainFormatting (const QString &text);
     void javaBraces (const QString &text);
+
+    /* Ruby */
+    bool isRubyQuoted (const QString &text, const int index);
+    bool isEscapedRubyRegex (const QString &text, const int pos);
+    int findRubyDelimiter (const QString &text, const int index,
+                           const QRegularExpression &delimExp, int &capturedLength) const;
+    bool isInsideRubyRegex (const QString &text, const int index);
+    void multiLineRubyRegex (const QString &text);
 
     struct HighlightingRule
     {

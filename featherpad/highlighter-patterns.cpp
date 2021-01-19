@@ -94,12 +94,12 @@ QStringList Highlighter::keywords (const QString &lang)
     {
         keywordPatterns << "\\b(__FILE__|__LINE__)(?!(@|#|\\$))\\b"
                         << "\\b(alias|and|begin|BEGIN|break)(?!(@|#|\\$))\\b"
-                        << "\\b(case|class|catch|defined|do|def)(?!(@|#|\\$))\\b"
-                        << "\\b(else|elsif|end|END|ensure|for|false|fail)(?!(@|#|\\$))\\b"
-                        << "\\b(if|in|include|loop|load|module)(?!(@|#|\\$))\\b"
+                        << "\\b(case|class|defined|do|def)(?!(@|#|\\$))\\b"
+                        << "\\b(else|elsif|end|END|ensure|for|false)(?!(@|#|\\$))\\b"
+                        << "\\b(if|in|module)(?!(@|#|\\$))\\b"
                         << "\\b(next|nil|not|or)(?!(@|#|\\$))\\b"
-                        << "\\b(raise|redo|rescue|retry|return)(?!(@|#|\\$))\\b"
-                        << "\\b(super|self|then|true|throw)(?!(@|#|\\$))\\b"
+                        << "\\b(redo|rescue|retry|return)(?!(@|#|\\$))\\b"
+                        << "\\b(super|self|then|true)(?!(@|#|\\$))\\b"
                         << "\\b(undef|unless|until|when|while|yield)(?!(@|#|\\$))\\b";
     }
     else if (lang == "lua")

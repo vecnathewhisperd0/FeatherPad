@@ -78,6 +78,7 @@ set(featherpad_SRCS
     highlighter-patterns.cpp
     highlighter-perl-regex.cpp
     highlighter-regex.cpp
+    highlighter-ruby.cpp
     highlighter-sh.cpp
     find.cpp
     replace.cpp

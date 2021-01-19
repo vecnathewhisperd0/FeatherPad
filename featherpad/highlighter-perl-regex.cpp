@@ -31,6 +31,9 @@ namespace FeatherPad {
          We cheat and include "q", "qq", "qw", "qx" and "qr" here to have a simpler code.
          Moreover, the => operator is excluded. */
 static const QRegularExpression rExp ("/|\\b(?<!(@|#|%|\\$))(m|qr|q|qq|qw|qx|qr|(?<!-)s|y|tr)\\s*(?!\\=>)[^\\w\\}\\)\\]>\\s]");
+static const QRegularExpression delimiterExp ("[^\\w\\}\\)\\]>\\s]");
+/* "e", "o" and "r" are substitution-specific modifiers. */
+static const QString flags ("acdegilmnoprsux"); // previously "sgimx"
 
 // This is only for the start.
 bool Highlighter::isEscapedPerlRegex (const QString &text, const int pos)
@@ -94,7 +97,6 @@ bool Highlighter::isEscapedPerlRegex (const QString &text, const int pos)
             /* check the flags too */
             if (ch.isLetter())
             {
-                static const QString flags ("sgimx");
                 while (i > 0 && flags.contains (text.at (i)))
                     -- i;
                 if (format (i) == regexFormat)
@@ -247,11 +249,10 @@ bool Highlighter::isInsidePerlRegex (const QString &text, const int index)
                         ro = true;
                         delimStr.remove (0, 1);
                     }
-                    else if (delimStr.startsWith("b"))
+                    else if (delimStr == "b") // the real delimStr is found below
                     {
                         between = true;
                         ro = true;
-                        delimStr.remove (0, 1);
                     }
                 }
             }
@@ -266,7 +267,7 @@ bool Highlighter::isInsidePerlRegex (const QString &text, const int index)
                     if (between)
                     {
                         /* find the start of the replacement part */
-                        pos = text.indexOf (QRegularExpression ("\\" + delimStr), 0);
+                        pos = text.indexOf (delimiterExp, 0);
                         if (pos > -1)
                             setFormat (0, pos + 1, regexFormat);
                         else
@@ -275,6 +276,7 @@ bool Highlighter::isInsidePerlRegex (const QString &text, const int index)
                             return true;
                         }
                         replacing = true;
+                        delimStr = getEndDelimiter (QString (text.at (pos)));
                     }
                     else
                     {
@@ -404,16 +406,15 @@ bool Highlighter::isInsidePerlRegex (const QString &text, const int index)
             }
             else
             {
-                QString d (QString (text.at (nxtPos)));
-                exp.setPattern ("\\" + d);
-                QString sb = startBrace (d);
-                if (!sb.isEmpty()) // between search and replacement
+                QString d (text.at (nxtPos));
+                if (!startBrace (d).isEmpty()) // between search and replacement
                 {
                     /* find the start of the replacement part */
-                    pos = text.indexOf (QRegularExpression ("\\" + sb), nxtPos + 1);
+                    pos = text.indexOf (delimiterExp, nxtPos + 1);
                     if (pos > -1)
                     {
                         setFormat (nxtPos, pos - nxtPos + 1, regexFormat);
+                        exp.setPattern ("\\" + getEndDelimiter (QString (text.at (pos))));
                         continue;
                     }
                     else
@@ -432,14 +433,14 @@ bool Highlighter::isInsidePerlRegex (const QString &text, const int index)
     return res;
 }
 /*************************/
-void Highlighter::multiLinePerlRegex(const QString &text)
+void Highlighter::multiLinePerlRegex (const QString &text)
 {
     int startIndex = 0;
     QRegularExpressionMatch startMatch;
     QRegularExpressionMatch endMatch;
     QRegularExpression endExp;
     QTextCharFormat fi;
-    QString delimStr;
+    QString startDelimStr;
     bool isQuotingOperator = false;
     bool ro = false; // a replacement operator?
     bool replacing = false; // inside the second part of a replacement operator?
@@ -460,36 +461,36 @@ void Highlighter::multiLinePerlRegex(const QString &text)
         {
             if (TextBlockData *prevData = static_cast<TextBlockData *>(prevBlock.userData()))
             {
-                delimStr = prevData->labelInfo();
-                if (delimStr.startsWith("r"))
+                startDelimStr = prevData->labelInfo();
+                if (startDelimStr.startsWith("r"))
                 {
                     ro = true;
-                    delimStr.remove (0, 1);
+                    startDelimStr.remove (0, 1);
                 }
-                else if (delimStr.startsWith("b"))
+                else if (startDelimStr == "b") // the real startDelimStr is found below
                 {
                     between = true;
                     ro = true;
-                    delimStr.remove (0, 1);
                 }
             }
         }
-        if (delimStr.size() != 1) return; // impossible
+        if (startDelimStr.size() != 1) return; // impossible
         if (prevState == regexState)
         {
             if (between)
             {
                 /* find the start of the replacement part */
-                startIndex = text.indexOf (QRegularExpression ("\\" + delimStr), 0, &startMatch); // never escaped
+                startIndex = text.indexOf (delimiterExp, 0, &startMatch); // never escaped
                 if (startIndex == -1)
                 {
                     setCurrentBlockState (regexState);
                     setFormat (0, text.length(), regexFormat);
-                    /* the prefix "b" distinguishes this state */
-                    static_cast<TextBlockData *>(currentBlock().userData())->insertInfo ("b" + delimStr);
+                    /* "b" distinguishes this state */
+                    static_cast<TextBlockData *>(currentBlock().userData())->insertInfo ("b");
                     return;
                 }
                 setFormat (0, startIndex + startMatch.capturedLength(), regexFormat);
+                startDelimStr = QString (text.at (startIndex + startMatch.capturedLength() - 1));
                 replacing = true;
             }
             else if (ro)
@@ -515,7 +516,7 @@ void Highlighter::multiLinePerlRegex(const QString &text)
         }
         if (startIndex >= 0)
         {
-            delimStr = QString (text.at (startIndex + startMatch.capturedLength() - 1));
+            startDelimStr = QString (text.at (startIndex + startMatch.capturedLength() - 1));
             if (startMatch.capturedLength() > 1)
             {
                 if (text.at (startIndex) == 'q' && text.at (startIndex + 1) != 'r')
@@ -539,7 +540,7 @@ void Highlighter::multiLinePerlRegex(const QString &text)
                             || prevState == regexExtraState
                             || prevState == regexSearchState));
 
-        endExp.setPattern ("\\" + getEndDelimiter (delimStr));
+        endExp.setPattern ("\\" + getEndDelimiter (startDelimStr));
         int endLength;
         int endIndex = findDelimiter (text,
                                       continued
@@ -568,7 +569,8 @@ void Highlighter::multiLinePerlRegex(const QString &text)
                 else
                     setCurrentBlockState (prevState);
 
-                static_cast<TextBlockData *>(currentBlock().userData())->insertInfo (ro ? "r" + delimStr : delimStr);
+                static_cast<TextBlockData *>(currentBlock().userData())->insertInfo (ro ? "r" + startDelimStr
+                                                                                        : startDelimStr);
                 /* NOTE: The next block will be rehighlighted at highlightBlock()
                          (-> multiLineRegex (text, 0);) if the delimiter is changed. */
             }
@@ -584,20 +586,20 @@ void Highlighter::multiLinePerlRegex(const QString &text)
                 {
                     replacing = true;
                     setFormat (startIndex + keywordLength, len - keywordLength, regexFormat);
-                    QString ed = getEndDelimiter (delimStr);
-                    if (ed != delimStr) // regex replacement with braces
+                    if (getEndDelimiter (startDelimStr) != startDelimStr) // regex replacement with braces
                     {
                         /* find the start of the replacement part */
-                        startIndex = text.indexOf (QRegularExpression ("\\" + delimStr), endIndex + 1, &startMatch);
+                        startIndex = text.indexOf (QRegularExpression (delimiterExp), endIndex + 1, &startMatch);
                         if (startIndex == -1)
                         { // the line ends between search and replacement
                             setFormat (endIndex + 1, text.length() - endIndex - 1, regexFormat);
                             setCurrentBlockState (regexState);
                             /* the prefix "b" distinguishes this state */
-                            static_cast<TextBlockData *>(currentBlock().userData())->insertInfo ("b" + delimStr);
+                            static_cast<TextBlockData *>(currentBlock().userData())->insertInfo ("b");
                             return;
                         }
                         setFormat (endIndex + 1, startIndex + startMatch.capturedLength() - endIndex - 1, regexFormat);
+                        startDelimStr = QString (text.at (startIndex + startMatch.capturedLength() - 1));
                     }
                     else
                     {
@@ -614,20 +616,20 @@ void Highlighter::multiLinePerlRegex(const QString &text)
                 {
                     replacing = true;
                     setFormat (startIndex + keywordLength, len - keywordLength, regexFormat);
-                    QString ed = getEndDelimiter (delimStr);
-                    if (ed != delimStr) // regex replacement with braces
+                    if (getEndDelimiter (startDelimStr) != startDelimStr) // regex replacement with braces
                     {
                         /* find the start of the replacement part */
-                        startIndex = text.indexOf (QRegularExpression ("\\" + delimStr), endIndex + 1, &startMatch);
+                        startIndex = text.indexOf (QRegularExpression (delimiterExp), endIndex + 1, &startMatch);
                         if (startIndex == -1)
                         { // the line ends between search and replacement
                             setFormat (endIndex + 1, text.length() - endIndex - 1, regexFormat);
                             setCurrentBlockState (regexState);
                             /* the prefix "b" distinguishes this state */
-                            static_cast<TextBlockData *>(currentBlock().userData())->insertInfo ("b" + delimStr);
+                            static_cast<TextBlockData *>(currentBlock().userData())->insertInfo ("b");
                             return;
                         }
                         setFormat (endIndex + 1, startIndex + startMatch.capturedLength() - endIndex - 1, regexFormat);
+                        startDelimStr = QString (text.at (startIndex + startMatch.capturedLength() - 1));
                     }
                     else // regex replacement with a middle delimiter
                     {
@@ -642,7 +644,7 @@ void Highlighter::multiLinePerlRegex(const QString &text)
         setFormat (startIndex + keywordLength, len - keywordLength, regexFormat);
 
         /* format flags too */
-        if (text.mid (startIndex + len).indexOf (QRegularExpression ("^[sgimx]+"), 0, &startMatch) == 0)
+        if (text.mid (startIndex + len).indexOf (QRegularExpression ("^[" + flags + "]+"), 0, &startMatch) == 0)
             setFormat (startIndex + len, startMatch.capturedLength(), flagFormat);
 
         /* start searching for a new regex (operator) */
@@ -662,7 +664,7 @@ void Highlighter::multiLinePerlRegex(const QString &text)
         }
         if (startIndex >= 0)
         {
-            delimStr = QString (text.at (startIndex + startMatch.capturedLength() - 1));
+            startDelimStr = QString (text.at (startIndex + startMatch.capturedLength() - 1));
             if (startMatch.capturedLength() > 1)
             {
                 if (text.at (startIndex) == 'q' && text.at (startIndex + 1) != 'r')

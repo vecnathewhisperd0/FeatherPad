@@ -24,8 +24,6 @@ namespace FeatherPad {
 // This is only for the starting "/".
 bool Highlighter::isEscapedRegex (const QString &text, const int pos)
 {
-    if (progLan == "perl") return isEscapedPerlRegex (text, pos);
-
     if (pos < 0) return false;
     if (progLan != "javascript" && progLan != "qml")
         return false;
@@ -202,6 +200,7 @@ bool Highlighter::isEscapedRegexEndSign (const QString &text, const int start, c
 bool Highlighter::isInsideRegex (const QString &text, const int index)
 {
     if (progLan == "perl") return isInsidePerlRegex (text, index);
+    if (progLan == "ruby") return isInsideRubyRegex (text, index);
 
     if (index < 0) return false;
     if (progLan != "javascript" && progLan != "qml")
@@ -306,6 +305,11 @@ void Highlighter::multiLineRegex(const QString &text, const int index)
     if (progLan == "perl")
     {
         multiLinePerlRegex (text);
+        return;
+    }
+    if (progLan == "ruby")
+    {
+        multiLineRubyRegex (text);
         return;
     }
 

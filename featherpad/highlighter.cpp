@@ -572,7 +572,6 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         highlightingRules.append (rule);
     }
 
-
     /**********************
      * Keywords and Types *
      **********************/
@@ -851,7 +850,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
             rule.pattern.setPattern ("#.*");
 
             if (progLan == "ruby")
-                hereDocDelimiter.setPattern ("<<(?:-|~){0,1}([A-Za-z0-9_]+)|<<(\'[A-Za-z0-9_]+\')|<<(\"[A-Za-z0-9_]+\")");
+                hereDocDelimiter.setPattern ("<<(?:-|~){0,1}([A-Za-z0-9_]+)|<<(?:-|~){0,1}(\'[A-Za-z0-9_]+\')|<<(?:-|~){0,1}(\"[A-Za-z0-9_]+\")");
         }
         rule.format = commentFormat;
         highlightingRules.append (rule);
@@ -915,20 +914,46 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
             rule.format = shFormat;
             highlightingRules.append (rule);
         }
-        else
+        else if (progLan == "sh" || progLan == "makefile" || progLan == "cmake")
         {
             shFormat.setForeground (DarkMagenta);
             /* operators */
             rule.pattern.setPattern ("[=\\+\\-*/%<>&`\\|~\\^\\!,]|\\s+-eq\\s+|\\s+-ne\\s+|\\s+-gt\\s+|\\s+-ge\\s+|\\s+-lt\\s+|\\s+-le\\s+|\\s+-z\\s+");
             rule.format = shFormat;
             highlightingRules.append (rule);
-        }
 
-        if (progLan == "sh" || progLan == "makefile" || progLan == "cmake")
-        {
             shFormat.setFontWeight (QFont::Bold);
             /* brackets */
             rule.pattern.setPattern ("\\s+\\[{1,2}\\s+|^\\[{1,2}\\s+|\\s+\\]{1,2}\\s+|\\s+\\]{1,2}$|\\s+\\]{1,2}\\s*(?=;)");
+            rule.format = shFormat;
+            highlightingRules.append (rule);
+        }
+        else if (progLan == "ruby")
+        {
+            /* built-in functions */
+            shFormat.setFontWeight (QFont::Bold);
+            shFormat.setForeground (Magenta);
+            rule.pattern.setPattern ("\\b(Array|Float|Integer|String|atan2|autoload|binding|callcc|caller|catch|chomp\\!?|cos|dump|eval|exec|exit\\!?|exp|fail|format|frexp|garbage_collect|gets|gsub\\!?|ldexp|load|log|log10|open|p|print|printf|putc|puts|raise|rand|readline|readlines|require|restore|scan|select|set_trace_func|sin|singleton_method_added|sleep|split|sprintf|sqrt|srand|sub\\!?|syscall|system|tan|test|throw|trace_var|trap|untrace_var)(?!(\\w|\\!|\\?))"
+                                     "|"
+                                     "\\b(abort|at_exit|binding|chop\\!?|egid|euid|fork|getpgrp|getpriority|gid|global_variables|kill|lambda|local_variables|loop|pid|ppid|proc|setpgid|setpgrp|setpriority|setsid|uid|wait|wait2|waitpid|waitpid2)(?!(\\w|\\!|\\?))"
+                                     "|"
+                                     "(?<=\\.)(assoc|at|clear|collect\\!?|compact\\!?|concat|delete\\!?|delete_at|delete_if|each|each_index|fill|first|flatten\\!?|index|indexes|indices|join|last|length|nitems|pack|pop|push|rassoc|replace|reverse\\!?|reverse_each|rindex|shift|size\\??|slice\\!?|sort\\!?|to_a|to_ary|to_s|uniq\\!?|unshift)(?!(\\w|\\!|\\?))"
+                                     "|"
+                                     "(?<=\\.)(atime|blksize|backtrace|blocks|ceil|close|ctime|default|dev|each_key|each_pair|each_value|exception|fetch|floor|ftype|id2name|ino|invert|keys|message|mode|mtime|new|nlink|rdev|read|rehash|reject\\!?|rewind|round|seek|set_backtrace|store|superclass|tell|to_f|to_i|update|values)(?!(\\w|\\!|\\?))"
+                                     "|"
+                                     "(?<=\\.)(arity|binmode|call|clone|close_read|close_write|each_byte|each_line|eof\\??|fcntl|fileno|flush|getc|ioctl|isatty|lineno|offset|pos|post_match|pre_match|read|readchar|reopen|stat|string|sync|sysread|syswrite|to_io|to_proc|ungetc|write)(?!(\\w|\\!|\\?))"
+                                     "|"
+                                     "(?<=\\.)(ancestors|class_eval|class_variables|const_get|const_set|constants|included_modules|instance_methods|module_eval|name|private_class_method|private_instance_methods|protected_instance_methods|public_class_method|public_instance_methods)(?!(\\w|\\!|\\?))"
+                                     "|"
+                                     "(?<=\\.)(__id__|__send__|abs|coerce|display|divmod|dup|extend|freeze|hash|id|inspect|instance_eval|instance_variables|method|method_missing|methods|modulo|private_methods|protected_methods|public_methods|remainder|send|singleton_methods|taint|type|untaint)(?!(\\w|\\!|\\?))"
+                                     "|"
+                                     "(?<=\\.)(add|capitalize\\!?|center|count|crypt|downcase\\!?|hex|intern|kcode|list|ljust|match|members|next\\!?|oct|rjust|source|squeeze\\!?|strip\\!?|succ\\!?|sum|swapcase\\!?|to_str|tr\\!?|tr_s\\!?|unpack|upcase\\!?|upto)(?!(\\w|\\!|\\?))"
+                                     "|"
+                                     "(?<=\\.)(abort_on_exception|asctime|day|detect|each_with_index|entries|find|find_all|gmtime|grep|hour|isdst|localtime|map\\!?|max|mday|min|mon|month|priority|run|safe_level|sec|status|strftime|tv_sec|tv_usec|usec|utc|value\\??|wday|yday|year|wakeup|zone)(?!(\\w|\\!|\\?))"
+                                     "|"
+                                     "(?<=\\.)(begin|class|end)(?!(\\w|\\!|\\?))"
+                                     "|"
+                                     "(?<=\\.)(alive|block_given|blockdev|casefold|chardev|closed|const_defined|directory|empty|eql|equal|exclude_end|executable|executable_real|exist|exists|file|finite|frozen|gmt|grpowned|has_key|has_value|include|infinite|instance_of|integer|is_a|iterator|key|kind_of|member|method_defined|nan|nil|nonzero|owned|pipe|readable|readable_real|respond_to|setgid|setuid|socket|sticky|stop|symlink|tainted|tty|writable|writable_real|zero)\\?(?!(\\w|\\!|\\?))");
             rule.format = shFormat;
             highlightingRules.append (rule);
         }
@@ -1659,6 +1684,11 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         commentStartExpression.setPattern ("^=[A-Za-z0-9_]+($|\\s+)");
         commentEndExpression.setPattern ("^=cut.*");
     }
+    else if (progLan == "ruby")
+    {
+        commentStartExpression.setPattern ("=begin\\s*$");
+        commentEndExpression.setPattern ("^=end\\s*$");
+    }
     else if (progLan == "markdown")
     {
         quoteFormat.setForeground (DarkRed); // not a quote but a code block
@@ -1823,15 +1853,17 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
         && currentBlockState() % 2 == 0)
     {
         QRegularExpressionMatch match;
-        QRegularExpression delimPart ("<<\\s*");
+        QRegularExpression delimPart (progLan == "ruby" ? "<<(-|~){0,1}" : "<<\\s*");
         if (text.lastIndexOf (delimPart, pos, &match) == pos - match.capturedLength())
-            return true;
+            return true; // escaped start quote
         if (progLan == "perl") // space is allowed
             delimPart.setPattern ("<<(?:\\s*)(\'[A-Za-z0-9_\\s]+)|<<(?:\\s*)(\"[A-Za-z0-9_\\s]+)|<<(?:\\s*)(`[A-Za-z0-9_\\s]+)");
+        else if (progLan == "ruby")
+            delimPart.setPattern ("<<(?:-|~){0,1}(\'[A-Za-z0-9]+)|<<(?:-|~){0,1}(\"[A-Za-z0-9]+)");
         else
             delimPart.setPattern ("<<(?:\\s*)(\'[A-Za-z0-9_]+)|<<(?:\\s*)(\"[A-Za-z0-9_]+)");
         if (text.lastIndexOf (delimPart, pos, &match) == pos - match.capturedLength())
-            return true;
+            return true; // escaped end quote
     }
 
     /* escaped start quotes are just for Bash, Perl, markdown and yaml */
@@ -1888,6 +1920,7 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
             || progLan == "perl"
             || progLan == "dart"
             || progLan == "php"
+            || progLan == "ruby"
             || progLan == "lua"
             /* markdown is an exception */
             || progLan == "markdown"
@@ -1911,6 +1944,7 @@ bool Highlighter::isQuoted (const QString &text, const int index,
     if (progLan == "perl") return isPerlQuoted (text, index);
     if (progLan == "javascript" || progLan == "qml")
         return isJSQuoted (text, index);
+    if (progLan == "ruby") return isRubyQuoted (text, index);
 
     if (index < 0 || start < 0 || index < start)
         return false;
@@ -2096,7 +2130,7 @@ bool Highlighter::isPerlQuoted (const QString &text, const int index)
                 && (isEscapedQuote (text, nxtPos, true, false) || isInsideRegex (text, nxtPos))))
         {
             if (res)
-            { // -> isEscapedRegex()
+            { // -> isEscapedPerlRegex()
                 pos = qMax (pos, 0);
                 if (text.at (nxtPos) == quoteMark.pattern().at (0))
                     setFormat (pos, nxtPos - pos + 1, quoteFormat);
@@ -2109,7 +2143,7 @@ bool Highlighter::isPerlQuoted (const QString &text, const int index)
         }
 
         if (N % 2 == 0)
-        { // -> isEscapedRegex()
+        { // -> isEscapedPerlRegex()
             if (TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData()))
                 data->insertLastFormattedQuote (nxtPos + 1);
             pos = qMax (pos, 0);
@@ -3630,7 +3664,8 @@ bool Highlighter::isHereDocument (const QString &text)
         if (progLan == "perl" || progLan == "ruby")
         {
             QRegularExpressionMatch rMatch;
-            QRegularExpression r ("\\s*" + delimStr + "(?=(\\W+|$))");
+            /* the terminating string must appear on a line by itself */
+            QRegularExpression r ("\\s*" + delimStr + "(?=\\s*$)");
             if (text.indexOf (r, 0, &rMatch) == 0)
                 l = rMatch.capturedLength();
         }
@@ -4307,9 +4342,9 @@ void Highlighter::highlightBlock (const QString &text)
     }
 
     bool rehighlightNextBlock = false;
-    int oldOpenNests = 0; QSet<int> oldOpenQuotes; // to be used in SH_CmndSubstVar() (and perl and css)
+    int oldOpenNests = 0; QSet<int> oldOpenQuotes; // to be used in SH_CmndSubstVar() (and perl, ruby and css)
     bool oldProperty = false; // to be used with yaml, markdown, perl, pascal and java
-    QString oldLabel; // to be used with yaml, perl and LaTeX
+    QString oldLabel; // to be used with yaml, perl, ruby and LaTeX
     if (TextBlockData *oldData = static_cast<TextBlockData *>(currentBlockUserData()))
     {
         oldOpenNests = oldData->openNests();
@@ -4494,9 +4529,9 @@ void Highlighter::highlightBlock (const QString &text)
                                                   commentStartExpression, commentEndExpression,
                                                   commentState, commentFormat);
 
-    /* only javascript, qml and perl */
+    /* only javascript, qml, perl and ruby*/
     multiLineRegex (text, 0);
-    if (progLan == "perl" && currentBlockState() == data->lastState())
+    if ((progLan == "perl" || progLan == "ruby") && currentBlockState() == data->lastState())
         rehighlightNextBlock |= (data->labelInfo() != oldLabel || data->getProperty() != oldProperty
                                  || data->openNests() != oldOpenNests);
 
