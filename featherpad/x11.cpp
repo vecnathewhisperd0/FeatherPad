@@ -17,11 +17,10 @@
  * @license GPL-3.0+ <https://spdx.org/licenses/GPL-3.0+.html>
  */
 
-#include <QString>
+#include <QX11Info>
 #include "x11.h"
 
 #include <X11/Xatom.h>
-#include <QX11Info>
 
 namespace FeatherPad {
 
@@ -94,10 +93,10 @@ long onWhichDesktop (Window window)
     return res;
 }
 /*************************/
-// The following two functions are adapted from x11tools.cpp,
+// The following two functions were adapted from x11tools.cpp,
 // belonging to kadu (https://github.com/vogel/kadu).
-// They were needed because isMinimized() may not detect
-// the shaded state with all WMs.
+// They are needed because QWidget::isMinimized()
+// may not detect the shaded state with all WMs.
 
 bool isWindowShaded (Window window)
 {

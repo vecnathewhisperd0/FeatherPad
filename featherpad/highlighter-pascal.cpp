@@ -91,7 +91,7 @@ bool Highlighter::isPascalMLCommented (const QString &text, const int index,
 
         if (N % 2 != 0)
         {
-            if (text.at (pos) == "(")
+            if (text.at (pos) == '(')
                 commentExpression.setPattern ("\\*\\)");
             else
                 commentExpression.setPattern ("\\}");
@@ -203,7 +203,7 @@ void Highlighter::multiLinePascalComment (const QString &text)
         /* skip single-line comments */
         if (format (startIndex) == commentFormat || format (startIndex) == urlFormat)
             return;
-        oldComment = startIndex >= 0 && text.at (startIndex) == "(";
+        oldComment = startIndex >= 0 && text.at (startIndex) == '(';
     }
 
     while (startIndex >= 0)
@@ -296,7 +296,7 @@ void Highlighter::multiLinePascalComment (const QString &text)
             startIndex = text.indexOf (pascalCommentStartExp, startIndex + 1, &startMatch);
         if (format (startIndex) == commentFormat || format (startIndex) == urlFormat)
             return;
-        oldComment = startIndex >= 0 && text.at (startIndex) == "(";
+        oldComment = startIndex >= 0 && text.at (startIndex) == '(';
     }
 }
 
