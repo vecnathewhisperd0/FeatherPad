@@ -452,14 +452,14 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         /* before dot but not after it (might be overridden by keywords) */
         ft.setForeground (Blue);
         ft.setFontWeight (QFont::Bold);
-        rule.pattern.setPattern ("(?<!\\.)\\s*[A-Za-z0-9_\\$]+\\s*(?=\\.)"); // "(?<![A-Za-z0-9_\\$])[A-Za-z0-9_\\$]+\\s*(?=\\.)"
+        rule.pattern.setPattern ("(?<![A-Za-z0-9_\\$\\.])\\s*[A-Za-z0-9_\\$]*[A-Za-z][A-Za-z0-9_\\$]*\\s*(?=\\.\\s*[A-Za-z0-9_\\$]*[A-Za-z][A-Za-z0-9_\\$]*)"); // "(?<![A-Za-z0-9_\\$])[A-Za-z0-9_\\$]+\\s*(?=\\.)"
         rule.format = ft;
         highlightingRules.append (rule);
 
         /* before parentheses */
         ft.setFontWeight (QFont::Normal);
         ft.setFontItalic (true);
-        rule.pattern.setPattern ("(?<![A-Za-z0-9_\\$])[A-Za-z0-9_\\$]+(?=\\s*\\()");
+        rule.pattern.setPattern ("(?<![A-Za-z0-9_\\$])[A-Za-z0-9_\\$]*[A-Za-z][A-Za-z0-9_\\$]*(?=\\s*\\()");
         rule.format = ft;
         highlightingRules.append (rule);
 
@@ -486,7 +486,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
         /* numbers */
         troffFormat.setForeground (Brown);
-        rule.pattern.setPattern ("(?<=^|[^\\w\\d|@|#|\\$])((\\d*\\.?\\d+|\\d+\\.)((e|E)(\\+|-)?\\d+)?|0[xX][0-9a-fA-F]+)(?=[^\\d]|$)");
+        rule.pattern.setPattern ("(?<=^|[^\\w\\d@#\\$\\.])((\\d*\\.?\\d+|\\d+\\.)((e|E)(\\+|-)?\\d+)?|0[xX][0-9a-fA-F]+)(?=[^\\d\\.]|$)");
         rule.format = troffFormat;
         highlightingRules.append (rule);
 
@@ -706,17 +706,23 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         /* after dot (may override keywords) */
         ft.setForeground (Blue);
         ft.setFontItalic (true);
-        rule.pattern.setPattern ("(?<=\\.)\\s*[A-Za-z0-9_\\$]+(?=\\s*\\()"); // before parentheses
+        rule.pattern.setPattern ("(?<=\\.)\\s*[A-Za-z0-9_\\$]*[A-Za-z][A-Za-z0-9_\\$]*(?=\\s*\\()"); // before parentheses
         rule.format = ft;
         highlightingRules.append (rule);
         ft.setFontItalic (false);
-        rule.pattern.setPattern ("(?<=\\.)\\s*[A-Za-z0-9_\\$]+(?!\\s*\\()(?![A-Za-z0-9_\\$])"); // not before parentheses
+        rule.pattern.setPattern ("(?<=\\.)\\s*[A-Za-z0-9_\\$]*[A-Za-z][A-Za-z0-9_\\$]*(?!\\s*\\()(?![A-Za-z0-9_\\$])"); // not before parentheses
         rule.format = ft;
         highlightingRules.append (rule);
 
         /* numbers */
         ft.setForeground (Brown);
-        rule.pattern.setPattern ("(?<=^|[^\\w\\d|@|#|\\$])((\\d*\\.?\\d+|\\d+\\.)((e|E)(\\+|-)?\\d+)?|0[xX][0-9a-fA-F]+)(?=[^\\w\\d]|$)");
+        rule.pattern.setPattern ("(?<=^|[^\\w\\d@#\\$\\.])("
+                                 "\\d*\\.\\d+|\\d+\\.|(\\d*\\.?\\d+|\\d+\\.)(e|E)(\\+|-)?\\d+"
+                                 "|"
+                                 "([1-9]\\d*|0(o|O)[0-7]+|0[xX][0-9a-fA-F]+|0[bB][01]+)n?"
+                                 "|"
+                                 "0[0-7]*"
+                                 ")(?=[^\\w\\d\\.]|$)");
         rule.format = ft;
         highlightingRules.append (rule);
 
