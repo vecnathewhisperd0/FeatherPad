@@ -36,28 +36,6 @@
 
 namespace FeatherPad {
 
-#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
-// To work around a nasty bug in Qt 5.14.0
-static QColor overlayColor (const QColor& bgCol, const QColor& overlayCol)
-{
-    if (!overlayCol.isValid()) return QColor(0,0,0);
-    if (!bgCol.isValid()) return overlayCol;
-
-    qreal a1 = overlayCol.alphaF();
-    if (a1 == 1.0) return overlayCol;
-    qreal a0  = bgCol.alphaF();
-    qreal a = (1.0 - a1) * a0 + a1;
-
-    QColor res;
-    res.setAlphaF(a);
-    res.setRedF (((1.0 - a1) * a0 * bgCol.redF() + a1 * overlayCol.redF()) / a);
-    res.setGreenF (((1.0 - a1) * a0 *bgCol.greenF() + a1 * overlayCol.greenF()) / a);
-    res.setBlueF (((1.0 - a1) * a0 * bgCol.blueF() + a1 * overlayCol.blueF()) / a);
-
-    return res;
-}
-#endif
-
 TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
 {
     prevAnchor_ = prevPos_ = -1;
@@ -148,10 +126,6 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     }
     setCurLineHighlight (-1);
 
-#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
-    separatorColor_ = overlayColor (QColor (bgColorValue, bgColorValue, bgColorValue), separatorColor_);
-#endif
-
     resizeTimerId_ = 0;
     selectionTimerId_ = 0;
     selectionHighlighting_ = false;
@@ -167,12 +141,6 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
        we want faster wheel scrolling when the mouse cursor is on the scrollbar */
     VScrollBar *vScrollBar = new VScrollBar;
     setVerticalScrollBar (vScrollBar);
-
-#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
-    /* a (temporary) workaround for Qt's horizontal scrollbar bug */
-    HScrollBar *hScrollBar = new HScrollBar;
-    setHorizontalScrollBar (hScrollBar);
-#endif
 
     lineNumberArea_ = new LineNumberArea (this);
     lineNumberArea_->setToolTip (tr ("Double click to center current line"));
@@ -1136,7 +1104,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
             return;
         }
     }
-    /* because of a bug in Qt5, the non-breaking space (ZWNJ) may not be inserted with SHIFT+SPACE */
+    /* because of a bug in Qt, the non-breaking space (ZWNJ) may not be inserted with SHIFT+SPACE */
     else if (event->key() == 0x200c)
     {
         insertPlainText (QChar (0x200C));
@@ -1358,13 +1326,7 @@ void TextEdit::wheelEvent (QWheelEvent *event)
                        event->globalPosF(),
 #endif
                        event->pixelDelta(),
-#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
-                       horizontal
-                           ? QPoint (delta / QApplication::wheelScrollLines(), 0)
-                           : QPoint (0, delta / QApplication::wheelScrollLines()),
-#else
                        QPoint (0, delta / QApplication::wheelScrollLines()),
-#endif
                        event->buttons(),
                        Qt::NoModifier,
                        event->phase(),

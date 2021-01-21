@@ -181,28 +181,6 @@ void TextBlockData::insertOpenQuotes (const QSet<int> &openQuotes)
     OpenQuotes.unite (openQuotes);
 }
 /*************************/
-#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
-// To work around a nasty bug in Qt 5.14.0
-static QColor overlayColor (const QColor& bgCol, const QColor& overlayCol)
-{
-    if (!overlayCol.isValid()) return QColor(0,0,0);
-    if (!bgCol.isValid()) return overlayCol;
-
-    qreal a1 = overlayCol.alphaF();
-    if (a1 == 1.0) return overlayCol;
-    qreal a0  = bgCol.alphaF();
-    qreal a = (1.0 - a1) * a0 + a1;
-
-    QColor res;
-    res.setAlphaF(a);
-    res.setRedF (((1.0 - a1) * a0 * bgCol.redF() + a1 * overlayCol.redF()) / a);
-    res.setGreenF (((1.0 - a1) * a0 *bgCol.greenF() + a1 * overlayCol.greenF()) / a);
-    res.setBlueF (((1.0 - a1) * a0 * bgCol.blueF() + a1 * overlayCol.blueF()) / a);
-
-    return res;
-}
-#endif
-
 // Here, the order of formatting is important because of overrides.
 Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
                           const QTextCursor &start, const QTextCursor &end,
@@ -294,18 +272,12 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
             TextColor =  QColor (Qt::black);
             neutralColor = QColor (1, 1, 1);
             translucent = QColor (0, 0, 0, 190); // for huge lines
-#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
-            translucent = overlayColor (QColor (245, 245, 245), translucent);
-#endif
         }
         else
         {
             TextColor =  QColor (Qt::white);
             neutralColor = QColor (254, 254, 254);
             translucent = QColor (255, 255, 255, 190);
-#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
-            translucent = overlayColor (QColor (10, 10, 10), translucent);
-#endif
         }
 
         int i = 0;
@@ -328,20 +300,6 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
                 neutralColor = QColor (255 - i, 255 - i, 255 - i);
         }
         colors << neutralColor;
-
-#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
-        i = 0;
-        int tr = translucent.red();
-        while (colors.contains (translucent))
-        {
-            ++i;
-            if (!darkColorScheme)
-                translucent = QColor (tr + i, tr + i, tr + i);
-            else
-                translucent = QColor (tr - i, tr - i, tr - i);
-        }
-        colors << translucent;
-#endif
 
         DarkGreenAlt = DarkGreen.lighter (101);
         if (DarkGreenAlt == DarkGreen)
@@ -374,9 +332,6 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
             Brown = QColor (160, 80, 0);
             DarkYellow = QColor (100, 100, 0); // Qt::darkYellow is (180, 180, 0)
             translucent = QColor (0, 0, 0, 190);
-#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
-            translucent = overlayColor (QColor (245, 245, 245), translucent);
-#endif
         }
         else
         {
@@ -393,9 +348,6 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
             Brown = QColor (255, 200, 0);
             DarkYellow = QColor (Qt::yellow);
             translucent = QColor (255, 255, 255, 190);
-#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
-            translucent = overlayColor (QColor (10, 10, 10), translucent);
-#endif
         }
         Magenta = QColor (Qt::magenta);
         DarkGreenAlt = DarkGreen.lighter (101); // almost identical

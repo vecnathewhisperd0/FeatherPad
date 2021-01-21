@@ -117,8 +117,8 @@ FPwin::FPwin (QWidget *parent, bool standalone):QMainWindow (parent), dummyWidge
     /* shortcuts should be reversed for rtl */
     if (QApplication::layoutDirection() == Qt::RightToLeft)
     {
-        ui->actionRightTab->setShortcut (QKeySequence (Qt::ALT + Qt::Key_Left));
-        ui->actionLeftTab->setShortcut (QKeySequence (Qt::ALT + Qt::Key_Right));
+        ui->actionRightTab->setShortcut (QKeySequence (Qt::ALT | Qt::Key_Left));
+        ui->actionLeftTab->setShortcut (QKeySequence (Qt::ALT | Qt::Key_Right));
     }
 
     /* get the default (customizable) shortcuts before any change */
@@ -300,10 +300,10 @@ FPwin::FPwin (QWidget *parent, bool standalone):QMainWindow (parent), dummyWidge
     ui->toolButtonPrv->setShortcut (QKeySequence (Qt::Key_F9));
     ui->toolButtonAll->setShortcut (QKeySequence (Qt::Key_F10));
 
-    QShortcut *zoomin = new QShortcut (QKeySequence (Qt::CTRL + Qt::Key_Equal), this);
-    QShortcut *zoominPlus = new QShortcut (QKeySequence (Qt::CTRL + Qt::Key_Plus), this);
-    QShortcut *zoomout = new QShortcut (QKeySequence (Qt::CTRL + Qt::Key_Minus), this);
-    QShortcut *zoomzero = new QShortcut (QKeySequence (Qt::CTRL + Qt::Key_0), this);
+    QShortcut *zoomin = new QShortcut (QKeySequence (Qt::CTRL | Qt::Key_Equal), this);
+    QShortcut *zoominPlus = new QShortcut (QKeySequence (Qt::CTRL | Qt::Key_Plus), this);
+    QShortcut *zoomout = new QShortcut (QKeySequence (Qt::CTRL | Qt::Key_Minus), this);
+    QShortcut *zoomzero = new QShortcut (QKeySequence (Qt::CTRL | Qt::Key_0), this);
     connect (zoomin, &QShortcut::activated, this, &FPwin::zoomIn);
     connect (zoominPlus, &QShortcut::activated, this, &FPwin::zoomIn);
     connect (zoomout, &QShortcut::activated, this, &FPwin::zoomOut);
@@ -321,7 +321,7 @@ FPwin::FPwin (QWidget *parent, bool standalone):QMainWindow (parent), dummyWidge
     connect (align, &QShortcut::activated, this, &FPwin::align);*/
 
     /* exiting a process */
-    QShortcut *kill = new QShortcut (QKeySequence (Qt::CTRL + Qt::ALT + Qt::Key_E), this);
+    QShortcut *kill = new QShortcut (QKeySequence (Qt::CTRL | Qt::ALT | Qt::Key_E), this);
     connect (kill, &QShortcut::activated, this, &FPwin::exitProcess);
 
     dummyWidget = new QWidget();
@@ -638,23 +638,23 @@ void FPwin::applyConfigOnStarting()
     { // the reserved shortcuts list could also be in "singleton.cpp"
         QStringList reserved;
                     /* QPLainTextEdit */
-        reserved << QKeySequence (Qt::CTRL + Qt::SHIFT + Qt::Key_Z).toString() << QKeySequence (Qt::CTRL + Qt::Key_Z).toString() << QKeySequence (Qt::CTRL + Qt::Key_X).toString() << QKeySequence (Qt::CTRL + Qt::Key_C).toString() << QKeySequence (Qt::CTRL + Qt::Key_V).toString() << QKeySequence (Qt::CTRL + Qt::Key_A).toString()
-                 << QKeySequence (Qt::SHIFT + Qt::Key_Insert).toString() << QKeySequence (Qt::SHIFT + Qt::Key_Delete).toString() << QKeySequence (Qt::CTRL + Qt::Key_Insert).toString()
-                 << QKeySequence (Qt::CTRL + Qt::Key_Left).toString() << QKeySequence (Qt::CTRL + Qt::Key_Right).toString() << QKeySequence (Qt::CTRL + Qt::Key_Up).toString() << QKeySequence (Qt::CTRL + Qt::Key_Down).toString()
-                 << QKeySequence (Qt::CTRL + Qt::Key_Home).toString() << QKeySequence (Qt::CTRL + Qt::Key_End).toString()
-                 << QKeySequence (Qt::CTRL + Qt::SHIFT + Qt::Key_Up).toString() << QKeySequence (Qt::CTRL + Qt::SHIFT + Qt::Key_Down).toString()
-                 << QKeySequence (Qt::META + Qt::Key_Up).toString() << QKeySequence (Qt::META + Qt::Key_Down).toString() << QKeySequence (Qt::META + Qt::SHIFT + Qt::Key_Up).toString() << QKeySequence (Qt::META + Qt::SHIFT + Qt::Key_Down).toString()
+        reserved << QKeySequence (Qt::CTRL | Qt::SHIFT | Qt::Key_Z).toString() << QKeySequence (Qt::CTRL | Qt::Key_Z).toString() << QKeySequence (Qt::CTRL | Qt::Key_X).toString() << QKeySequence (Qt::CTRL | Qt::Key_C).toString() << QKeySequence (Qt::CTRL | Qt::Key_V).toString() << QKeySequence (Qt::CTRL | Qt::Key_A).toString()
+                 << QKeySequence (Qt::SHIFT | Qt::Key_Insert).toString() << QKeySequence (Qt::SHIFT | Qt::Key_Delete).toString() << QKeySequence (Qt::CTRL | Qt::Key_Insert).toString()
+                 << QKeySequence (Qt::CTRL | Qt::Key_Left).toString() << QKeySequence (Qt::CTRL | Qt::Key_Right).toString() << QKeySequence (Qt::CTRL | Qt::Key_Up).toString() << QKeySequence (Qt::CTRL | Qt::Key_Down).toString()
+                 << QKeySequence (Qt::CTRL | Qt::Key_Home).toString() << QKeySequence (Qt::CTRL | Qt::Key_End).toString()
+                 << QKeySequence (Qt::CTRL | Qt::SHIFT | Qt::Key_Up).toString() << QKeySequence (Qt::CTRL | Qt::SHIFT | Qt::Key_Down).toString()
+                 << QKeySequence (Qt::META | Qt::Key_Up).toString() << QKeySequence (Qt::META | Qt::Key_Down).toString() << QKeySequence (Qt::META | Qt::SHIFT | Qt::Key_Up).toString() << QKeySequence (Qt::META | Qt::SHIFT | Qt::Key_Down).toString()
 
                     /* search and replacement */
                  << QKeySequence (Qt::Key_F3).toString() << QKeySequence (Qt::Key_F4).toString() << QKeySequence (Qt::Key_F5).toString() << QKeySequence (Qt::Key_F6).toString() << QKeySequence (Qt::Key_F7).toString()
                  << QKeySequence (Qt::Key_F8).toString() << QKeySequence (Qt::Key_F9).toString() << QKeySequence (Qt::Key_F10).toString()
                  << QKeySequence (Qt::Key_F11).toString()
 
-                 << QKeySequence (Qt::CTRL + Qt::Key_Equal).toString() << QKeySequence (Qt::CTRL + Qt::Key_Plus).toString() << QKeySequence (Qt::CTRL + Qt::Key_Minus).toString() << QKeySequence (Qt::CTRL + Qt::Key_0).toString() // zooming
-                 << QKeySequence (Qt::CTRL + Qt::ALT + Qt::Key_E).toString() // exiting a process
-                 << QKeySequence (Qt::SHIFT + Qt::Key_Enter).toString() << QKeySequence (Qt::SHIFT + Qt::Key_Return).toString() << QKeySequence (Qt::CTRL + Qt::Key_Tab).toString() << QKeySequence (Qt::CTRL + Qt::META + Qt::Key_Tab).toString() // text tabulation
-                 << QKeySequence (Qt::CTRL + Qt::SHIFT + Qt::Key_J).toString() // select text on jumping (not an action)
-                 << QKeySequence (Qt::CTRL + Qt::Key_K).toString(); // used by LineEdit as well as QPlainTextEdit
+                 << QKeySequence (Qt::CTRL | Qt::Key_Equal).toString() << QKeySequence (Qt::CTRL | Qt::Key_Plus).toString() << QKeySequence (Qt::CTRL | Qt::Key_Minus).toString() << QKeySequence (Qt::CTRL | Qt::Key_0).toString() // zooming
+                 << QKeySequence (Qt::CTRL | Qt::ALT | Qt::Key_E).toString() // exiting a process
+                 << QKeySequence (Qt::SHIFT | Qt::Key_Enter).toString() << QKeySequence (Qt::SHIFT | Qt::Key_Return).toString() << QKeySequence (Qt::CTRL | Qt::Key_Tab).toString() << QKeySequence (Qt::CTRL | Qt::META | Qt::Key_Tab).toString() // text tabulation
+                 << QKeySequence (Qt::CTRL | Qt::SHIFT | Qt::Key_J).toString() // select text on jumping (not an action)
+                 << QKeySequence (Qt::CTRL | Qt::Key_K).toString(); // used by LineEdit as well as QPlainTextEdit
         config.setReservedShortcuts (reserved);
         config.readShortcuts();
     }
@@ -1342,10 +1342,10 @@ void FPwin::updateShortcuts (bool disable, bool page)
     }
     else
     {
-        ui->actionCut->setShortcut (QKeySequence (Qt::CTRL+ Qt::Key_X));
-        ui->actionCopy->setShortcut (QKeySequence (Qt::CTRL+ Qt::Key_C));
-        ui->actionPaste->setShortcut (QKeySequence (Qt::CTRL+ Qt::Key_V));
-        ui->actionSelectAll->setShortcut (QKeySequence (Qt::CTRL+ Qt::Key_A));
+        ui->actionCut->setShortcut (QKeySequence (Qt::CTRL | Qt::Key_X));
+        ui->actionCopy->setShortcut (QKeySequence (Qt::CTRL | Qt::Key_C));
+        ui->actionPaste->setShortcut (QKeySequence (Qt::CTRL | Qt::Key_V));
+        ui->actionSelectAll->setShortcut (QKeySequence (Qt::CTRL | Qt::Key_A));
 
         ui->toolButtonNext->setShortcut (QKeySequence (Qt::Key_F8));
         ui->toolButtonPrv->setShortcut (QKeySequence (Qt::Key_F9));

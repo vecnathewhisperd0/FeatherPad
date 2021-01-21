@@ -21,9 +21,6 @@
 #define VSCROLLBAR_H
 
 #include <QScrollBar>
-#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
-#include <QWheelEvent>
-#endif
 
 namespace FeatherPad {
 
@@ -41,19 +38,6 @@ protected:
 private:
     int defaultWheelSpeed;
 };
-
-#if (QT_VERSION == QT_VERSION_CHECK(5,14,0))
-/* A (temporary) workaround for Qt's horizontal scrollbar bug. */
-class HScrollBar : public QScrollBar
-{
-    Q_OBJECT
-public:
-    HScrollBar (QWidget *parent = nullptr) : QScrollBar (parent) {};
-
-protected:
-    void wheelEvent (QWheelEvent *event);
-};
-#endif
 
 }
 
