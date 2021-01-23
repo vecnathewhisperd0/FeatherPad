@@ -46,6 +46,7 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     drawIndetLines_ = false;
     saveCursor_ = false;
     pastePaths_ = false;
+    multipleClick_ = false;
     vLineDistance_ = 0;
     matchedBrackets_ = false;
 
@@ -1298,11 +1299,14 @@ void TextEdit::insertPlainText (const QString &text)
 /*************************/
 QMimeData *TextEdit::createMimeDataFromSelection() const
 {
-    /* workaround for copying the text that is selected
-       by the mouse to the selection clipboard;
-       see TextEdit::copy()/cut() for an explanation */
+    /* Workaround for preventing a rich text in the selection clipboard when
+       the text is selected by the mouse. Also see TextEdit::copy()/cut(). */
     QTextCursor cursor = textCursor();
-    if (cursor.hasSelection())
+    /* NOTE: Because of another Qt bug, if the mouse moves after a double/triple click,
+             the selected text will be sent to the selection clipboard continuously,
+             which will result in this warning under X11:
+             "QXcbClipboard: SelectionRequest too old" */
+    if (!multipleClick_ && cursor.hasSelection())
     {
         QMimeData *mimeData = new QMimeData;
         mimeData->setText (cursor.selection().toPlainText());
@@ -2018,6 +2022,7 @@ void TextEdit::mouseMoveEvent (QMouseEvent *event)
 {
     /* prevent dragging if there is no real mouse movement */
     if (event->buttons() == Qt::LeftButton
+        && !selectionPressPoint_.isNull()
         && (event->globalPos() - selectionPressPoint_).manhattanLength() <= qApp->startDragDistance())
     {
         return;
@@ -2058,7 +2063,6 @@ void TextEdit::mousePressEvent (QMouseEvent *event)
             QTextCursor txtCur = textCursor();
             const QString txt = txtCur.block().text();
             const int l = txt.length();
-            if (l > 10000) return;
             txtCur.movePosition (QTextCursor::StartOfBlock);
             int i = 0;
             while (i < l && txt.at (i).isSpace())
@@ -2075,6 +2079,10 @@ void TextEdit::mousePressEvent (QMouseEvent *event)
             }
             else
                 txtCur.setPosition (txtCur.position() + i, QTextCursor::KeepAnchor);
+            multipleClick_ = true;
+            /* calling of the default method is needed for selecting
+               whole lines if the mouse moves after this */
+            QPlainTextEdit::mousePressEvent (event);
             setTextCursor (txtCur);
             return;
         }
@@ -2114,6 +2122,27 @@ void TextEdit::mousePressEvent (QMouseEvent *event)
 /*************************/
 void TextEdit::mouseReleaseEvent (QMouseEvent *event)
 {
+    /* NOTE: In createMimeDataFromSelection(), we prevented Qt from giving the selected
+             text to the selection clipboard after a double/triple click. Instead, we
+             set the selection clipboard here, after the left mouse button is released. */
+    if (multipleClick_)
+    {
+        if (event->button() == Qt::LeftButton)
+        {
+            /* workaround for copying to the selection clipboard;
+               see TextEdit::copy()/cut() for an explanation */
+            QTextCursor cursor = textCursor();
+            if (cursor.hasSelection())
+            {
+                QClipboard *cl = QApplication::clipboard();
+                if (cl->supportsSelection())
+                    cl->setText (cursor.selection().toPlainText(), QClipboard::Selection);
+            }
+        }
+        multipleClick_ = false;
+        return;
+    }
+
     QPlainTextEdit::mouseReleaseEvent (event);
 
     if (event->button() != Qt::LeftButton
@@ -2140,6 +2169,7 @@ void TextEdit::mouseReleaseEvent (QMouseEvent *event)
 /*************************/
 void TextEdit::mouseDoubleClickEvent (QMouseEvent *event)
 {
+    multipleClick_ = true;
     tripleClickTimer_.start();
     QPlainTextEdit::mouseDoubleClickEvent (event);
 }

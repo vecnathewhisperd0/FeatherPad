@@ -402,6 +402,7 @@ private:
     QSyntaxHighlighter *highlighter_; // syntax highlighter
     bool saveCursor_;
     bool pastePaths_;
+    bool multipleClick_; // used only internally
     /******************************
      ***** Inertial scrolling *****
      ******************************/
