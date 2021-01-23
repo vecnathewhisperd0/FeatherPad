@@ -208,7 +208,7 @@ private:
       DISCARDED
     };
 
-    TabPage *createEmptyTab(bool setCurrent, bool allowNormalHighlighter = true);
+    TabPage* createEmptyTab(bool setCurrent, bool allowNormalHighlighter = true);
     bool hasAnotherDialog();
     void deleteTabPage (int tabIndex, bool saveToList = false, bool closeWithLastTab = true);
     void loadText (const QString& fileName, bool enforceEncod, bool reload,

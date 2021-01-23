@@ -44,9 +44,9 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     autoReplace_ = true;
     autoBracket_ = false;
     drawIndetLines_ = false;
+    multipleClick_ = false;
     saveCursor_ = false;
     pastePaths_ = false;
-    multipleClick_ = false;
     vLineDistance_ = 0;
     matchedBrackets_ = false;
 
@@ -1297,10 +1297,10 @@ void TextEdit::insertPlainText (const QString &text)
     QPlainTextEdit::insertPlainText (text);
 }
 /*************************/
-QMimeData *TextEdit::createMimeDataFromSelection() const
+QMimeData* TextEdit::createMimeDataFromSelection() const
 {
-    /* Workaround for preventing a rich text in the selection clipboard when
-       the text is selected by the mouse. Also see TextEdit::copy()/cut(). */
+    /* prevent a rich text in the selection clipboard when the text
+       is selected by the mouse. Also see TextEdit::copy()/cut(). */
     QTextCursor cursor = textCursor();
     /* NOTE: Because of another Qt bug, if the mouse moves after a double/triple click,
              the selected text will be sent to the selection clipboard continuously,
@@ -2025,6 +2025,7 @@ void TextEdit::mouseMoveEvent (QMouseEvent *event)
         && !selectionPressPoint_.isNull()
         && (event->globalPos() - selectionPressPoint_).manhattanLength() <= qApp->startDragDistance())
     {
+        event->accept();
         return;
     }
 
@@ -2060,33 +2061,35 @@ void TextEdit::mousePressEvent (QMouseEvent *event)
             && event->buttons() == Qt::LeftButton)
         {
             tripleClickTimer_.invalidate();
-            QTextCursor txtCur = textCursor();
-            const QString txt = txtCur.block().text();
-            const int l = txt.length();
-            txtCur.movePosition (QTextCursor::StartOfBlock);
-            int i = 0;
-            while (i < l && txt.at (i).isSpace())
-                ++i;
-            /* WARNING: QTextCursor::movePosition() can be a mess with RTL
-                        but QTextCursor::setPosition() works fine. */
-            if (i < l)
-            {
-                txtCur.setPosition (txtCur.position() + i);
-                int j = l;
-                while (j > i && txt.at (j -  1).isSpace())
-                    --j;
-                txtCur.setPosition (txtCur.position() + j - i, QTextCursor::KeepAnchor);
-            }
-            else
-                txtCur.setPosition (txtCur.position() + i, QTextCursor::KeepAnchor);
             multipleClick_ = true;
-            /* calling of the default method is needed for selecting
-               whole lines if the mouse moves after this */
-            QPlainTextEdit::mousePressEvent (event);
-            setTextCursor (txtCur);
-            return;
+            if (!(qApp->keyboardModifiers() & Qt::ControlModifier))
+            {
+                QTextCursor txtCur = textCursor();
+                const QString txt = txtCur.block().text();
+                const int l = txt.length();
+                txtCur.movePosition (QTextCursor::StartOfBlock);
+                int i = 0;
+                while (i < l && txt.at (i).isSpace())
+                    ++i;
+                /* WARNING: QTextCursor::movePosition() can be a mess with RTL
+                            but QTextCursor::setPosition() works fine. */
+                if (i < l)
+                {
+                    txtCur.setPosition (txtCur.position() + i);
+                    int j = l;
+                    while (j > i && txt.at (j -  1).isSpace())
+                        --j;
+                    txtCur.setPosition (txtCur.position() + j - i, QTextCursor::KeepAnchor);
+                }
+                else
+                    txtCur.setPosition (txtCur.position() + i, QTextCursor::KeepAnchor);
+                setTextCursor (txtCur);
+                event->accept();
+                return;
+            }
         }
-        tripleClickTimer_.invalidate();
+        else
+            tripleClickTimer_.invalidate();
     }
 
     /* get the global press position if it's inside a selection to know
@@ -2129,8 +2132,6 @@ void TextEdit::mouseReleaseEvent (QMouseEvent *event)
     {
         if (event->button() == Qt::LeftButton)
         {
-            /* workaround for copying to the selection clipboard;
-               see TextEdit::copy()/cut() for an explanation */
             QTextCursor cursor = textCursor();
             if (cursor.hasSelection())
             {
@@ -2140,6 +2141,7 @@ void TextEdit::mouseReleaseEvent (QMouseEvent *event)
             }
         }
         multipleClick_ = false;
+        event->accept();
         return;
     }
 
@@ -2155,14 +2157,17 @@ void TextEdit::mouseReleaseEvent (QMouseEvent *event)
     }
 
     QTextCursor cur = cursorForPosition (event->pos());
-    QString str = getUrl (cur.position());
-    if (!str.isEmpty() && cur == cursorForPosition (pressPoint_))
+    if (cur == cursorForPosition (pressPoint_))
     {
-        QUrl url (str);
-        if (url.isRelative()) // treat relative URLs as local paths (not needed here)
-            url = QUrl::fromUserInput (str, "/");
-        if (!QProcess::startDetached ("gio", QStringList() << "open" << url.toString()))
-            QDesktopServices::openUrl (url);
+        QString str = getUrl (cur.position());
+        if (!str.isEmpty())
+        {
+            QUrl url (str);
+            if (url.isRelative()) // treat relative URLs as local paths (not needed here)
+                url = QUrl::fromUserInput (str, "/");
+            if (!QProcess::startDetached ("gio", QStringList() << "open" << url.toString()))
+                QDesktopServices::openUrl (url);
+        }
     }
     pressPoint_ = QPoint();
 }

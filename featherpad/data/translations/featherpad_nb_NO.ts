@@ -2421,7 +2421,7 @@ i alle vinduer, i den lagrede økten.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="146"/>
+        <location filename="../../textedit.cpp" line="147"/>
         <source>Double click to center current line</source>
         <translation>Dobbeltklikk for å midtstille gjeldende linje</translation>
     </message>

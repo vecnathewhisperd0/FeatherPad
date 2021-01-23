@@ -247,3 +247,11 @@ Ctrl+K              Delete to the end of the line (when the editor has focus)
 Ctrl+Shift+Up/Down  Move the current line or selected lines upward/downward
 Shift+Enter         Insert newline with the non-letter prefix of the current line
                     (to write code comments or lists easily, for example)
+
+***********************
+*   Multiple Clicks   *
+***********************
+
+Double click          Select a whole word
+Triple click          Select a line without its leading and trailing whitespaces
+Ctrl + Triple click   Select a whole line plus its trailing newline if any

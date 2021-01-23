@@ -365,6 +365,7 @@ private:
     int resizeTimerId_, selectionTimerId_; // for not wasting CPU's time
     QPoint pressPoint_; // used internally for hyperlinks
     QPoint selectionPressPoint_; // used internally to delay dragging until mouse movement
+    bool multipleClick_; // used internally to detect multiple clicks
     QFont font_; // used internally for keeping track of the unzoomed font
     QString textTab_; // text tab in terms of spaces
     QElapsedTimer tripleClickTimer_;
@@ -402,7 +403,6 @@ private:
     QSyntaxHighlighter *highlighter_; // syntax highlighter
     bool saveCursor_;
     bool pastePaths_;
-    bool multipleClick_; // used only internally
     /******************************
      ***** Inertial scrolling *****
      ******************************/
