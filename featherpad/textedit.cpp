@@ -1272,7 +1272,7 @@ void TextEdit::paste()
                     /* encode spaces of non-local paths to have a good highlighting
                        but remove the schemes of local paths */
                     cur.insertText (thisUrl.isLocalFile() ? thisUrl.toLocalFile()
-                                                          : thisUrl.toString(QUrl::EncodeSpaces));
+                                                          : thisUrl.toString (QUrl::EncodeSpaces));
                     if (multiple)
                         cur.insertText ("\n");
                 }
@@ -1294,6 +1294,21 @@ void TextEdit::insertPlainText (const QString &text)
     keepTxtCurHPos_ = false;
     txtCurHPos_ = -1;
     QPlainTextEdit::insertPlainText (text);
+}
+/*************************/
+QMimeData *TextEdit::createMimeDataFromSelection() const
+{
+    /* workaround for copying the text that is selected
+       by the mouse to the selection clipboard;
+       see TextEdit::copy()/cut() for an explanation */
+    QTextCursor cursor = textCursor();
+    if (cursor.hasSelection())
+    {
+        QMimeData *mimeData = new QMimeData;
+        mimeData->setText (cursor.selection().toPlainText());
+        return mimeData;
+    }
+    return nullptr;
 }
 /*************************/
 void TextEdit::keyReleaseEvent (QKeyEvent *event)
@@ -2100,21 +2115,9 @@ void TextEdit::mousePressEvent (QMouseEvent *event)
 void TextEdit::mouseReleaseEvent (QMouseEvent *event)
 {
     QPlainTextEdit::mouseReleaseEvent (event);
-    if (event->button() == Qt::LeftButton)
-    {
-        /* workaround for copying to the selection clipboard;
-           see TextEdit::copy()/cut() for an explanation */
-        QTextCursor cursor = textCursor();
-        if (cursor.hasSelection())
-        {
-            QClipboard *cl = QApplication::clipboard();
-            if (cl->supportsSelection())
-                cl->setText (cursor.selection().toPlainText(), QClipboard::Selection);
-        }
-    }
-    else return;
 
-    if (!highlighter_
+    if (event->button() != Qt::LeftButton
+        || !highlighter_
         || !(qApp->keyboardModifiers() & Qt::ControlModifier)
         /* another key may also be pressed (-> keyPressEvent) */
         || viewport()->cursor().shape() != Qt::PointingHandCursor)

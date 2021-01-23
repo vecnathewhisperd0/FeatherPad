@@ -2430,7 +2430,7 @@ zahrnuty všechny v oknech otevřené soubory.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="178"/>
+        <location filename="../../textedit.cpp" line="146"/>
         <source>Double click to center current line</source>
         <translation>Dvojklepnutím stávající řádek vystředíte</translation>
     </message>

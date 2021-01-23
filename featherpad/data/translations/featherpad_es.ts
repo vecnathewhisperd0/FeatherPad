@@ -2433,7 +2433,7 @@ en las ventanas se incluirán en la sesión guardada.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="178"/>
+        <location filename="../../textedit.cpp" line="146"/>
         <source>Double click to center current line</source>
         <translation>Haga doble clic para centrar la línea actual</translation>
     </message>

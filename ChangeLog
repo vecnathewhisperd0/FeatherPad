@@ -7,6 +7,7 @@ V0.18.0
  * Taken into account some general variables of Perl when highlighting its syntax.
  * Taken into account the possibility of using unpaired or different paired delimiters for the second part of Perl's replacement operators.
  * Fixes and improvements to Ruby syntax highlighting.
+ * Completely prevent Qt from giving non-plain text to the selection clipboard.
 
 V0.17.2
 ---------

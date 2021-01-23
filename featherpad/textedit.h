@@ -304,6 +304,7 @@ protected:
     bool event (QEvent *event);
     bool eventFilter (QObject *watched, QEvent *event);
 
+    QMimeData* createMimeDataFromSelection() const;
     /* we want to pass dropping of files to
        the main widget with a custom signal */
     bool canInsertFromMimeData (const QMimeData* source) const {
