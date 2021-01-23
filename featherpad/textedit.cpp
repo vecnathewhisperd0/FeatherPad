@@ -44,7 +44,7 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     autoReplace_ = true;
     autoBracket_ = false;
     drawIndetLines_ = false;
-    multipleClick_ = false;
+    noDataFromSelection_ = false;
     saveCursor_ = false;
     pastePaths_ = false;
     vLineDistance_ = 0;
@@ -1306,7 +1306,7 @@ QMimeData* TextEdit::createMimeDataFromSelection() const
              the selected text will be sent to the selection clipboard continuously,
              which will result in this warning under X11:
              "QXcbClipboard: SelectionRequest too old" */
-    if (!multipleClick_ && cursor.hasSelection())
+    if (!noDataFromSelection_ && cursor.hasSelection())
     {
         QMimeData *mimeData = new QMimeData;
         mimeData->setText (cursor.selection().toPlainText());
@@ -2020,15 +2020,6 @@ QString TextEdit::getUrl (const int pos) const
 /*************************/
 void TextEdit::mouseMoveEvent (QMouseEvent *event)
 {
-    /* prevent dragging if there is no real mouse movement */
-    if (event->buttons() == Qt::LeftButton
-        && !selectionPressPoint_.isNull()
-        && (event->globalPos() - selectionPressPoint_).manhattanLength() <= qApp->startDragDistance())
-    {
-        event->accept();
-        return;
-    }
-
     QPlainTextEdit::mouseMoveEvent (event);
 
     if (!highlighter_) return;
@@ -2061,7 +2052,7 @@ void TextEdit::mousePressEvent (QMouseEvent *event)
             && event->buttons() == Qt::LeftButton)
         {
             tripleClickTimer_.invalidate();
-            multipleClick_ = true;
+            noDataFromSelection_ = true;
             if (!(qApp->keyboardModifiers() & Qt::ControlModifier))
             {
                 QTextCursor txtCur = textCursor();
@@ -2092,26 +2083,14 @@ void TextEdit::mousePressEvent (QMouseEvent *event)
             tripleClickTimer_.invalidate();
     }
 
-    /* get the global press position if it's inside a selection to know
-       whether there will be a real mouse movement at mouseMoveEvent() */
+
     if (event->buttons() == Qt::LeftButton
-        && qApp->keyboardModifiers() == Qt::NoModifier)
+        && (qApp->keyboardModifiers() & Qt::ShiftModifier))
     {
-        QTextCursor cur = cursorForPosition (event->pos());
-        int pos = cur.position();
-        QTextCursor txtCur = textCursor();
-        int selStart = txtCur.selectionStart();
-        int selEnd = txtCur.selectionEnd();
-        if (pos == cur.anchor() && selStart != selEnd
-            && pos >= qMin (selStart, selEnd) && pos <= qMax (selStart, selEnd))
-        {
-            selectionPressPoint_ = event->globalPos();
-        }
-        else
-            selectionPressPoint_ = QPoint();
+        /* this is definitely not a drag start but may happen after
+           a double/triple click; see createMimeDataFromSelection() */
+        noDataFromSelection_ = true;
     }
-    else
-        selectionPressPoint_ = QPoint();
 
     QPlainTextEdit::mousePressEvent (event);
 
@@ -2128,8 +2107,9 @@ void TextEdit::mouseReleaseEvent (QMouseEvent *event)
     /* NOTE: In createMimeDataFromSelection(), we prevented Qt from giving the selected
              text to the selection clipboard after a double/triple click. Instead, we
              set the selection clipboard here, after the left mouse button is released. */
-    if (multipleClick_)
+    if (noDataFromSelection_)
     {
+        noDataFromSelection_ = false;
         if (event->button() == Qt::LeftButton)
         {
             QTextCursor cursor = textCursor();
@@ -2140,7 +2120,6 @@ void TextEdit::mouseReleaseEvent (QMouseEvent *event)
                     cl->setText (cursor.selection().toPlainText(), QClipboard::Selection);
             }
         }
-        multipleClick_ = false;
         event->accept();
         return;
     }
@@ -2174,7 +2153,7 @@ void TextEdit::mouseReleaseEvent (QMouseEvent *event)
 /*************************/
 void TextEdit::mouseDoubleClickEvent (QMouseEvent *event)
 {
-    multipleClick_ = true;
+    noDataFromSelection_ = true;
     tripleClickTimer_.start();
     QPlainTextEdit::mouseDoubleClickEvent (event);
 }
