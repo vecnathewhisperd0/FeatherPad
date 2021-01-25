@@ -8,7 +8,6 @@ V0.18.0
  * Taken into account the possibility of using unpaired or different paired delimiters for the second part of Perl's replacement operators.
  * Fixes and improvements to Ruby syntax highlighting.
  * Prevent Qt from giving any non-plain text to the selection clipboard.
- * Prevent Qt from continuously setting the selection clipboard on selection change with mouse (after a double/triple click).
 
 V0.17.2
 ---------

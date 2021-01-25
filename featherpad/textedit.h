@@ -364,7 +364,6 @@ private:
     QColor lineHColor_;
     int resizeTimerId_, selectionTimerId_; // for not wasting CPU's time
     QPoint pressPoint_; // used internally for hyperlinks
-    bool noDataFromSelection_; // used internally for a workaround
     QFont font_; // used internally for keeping track of the unzoomed font
     QString textTab_; // text tab in terms of spaces
     QElapsedTimer tripleClickTimer_;
