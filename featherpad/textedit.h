@@ -307,33 +307,8 @@ protected:
     QMimeData* createMimeDataFromSelection() const;
     /* we want to pass dropping of files to
        the main widget with a custom signal */
-    bool canInsertFromMimeData (const QMimeData* source) const {
-        return source->hasUrls() || QPlainTextEdit::canInsertFromMimeData (source);
-    }
-    void insertFromMimeData (const QMimeData* source) {
-        keepTxtCurHPos_ = false;
-        if (source->hasUrls())
-        {
-            txtCurHPos_ = -1; // Qt bug: cursorPositionChanged() isn't emitted with file dropping
-            const QList<QUrl> urlList = source->urls();
-            bool multiple (urlList.count() > 1);
-            for (const QUrl &url : urlList)
-            {
-                QString file;
-                QString scheme = url.scheme();
-                if (scheme == "admin") // gvfs' "admin:///"
-                    file = url.adjusted (QUrl::NormalizePathSegments).path();
-                else if (scheme == "file" || scheme.isEmpty())
-                    file = url.adjusted (QUrl::NormalizePathSegments)  // KDE may give a double slash
-                              .toLocalFile();
-                else
-                    continue;
-                emit fileDropped (file, 0, 0, multiple);
-            }
-        }
-        else
-            QPlainTextEdit::insertFromMimeData (source);
-    }
+    bool canInsertFromMimeData (const QMimeData* source) const;
+    void insertFromMimeData (const QMimeData* source);
 
 private slots:
     void updateLineNumberAreaWidth (int newBlockCount);
@@ -367,6 +342,8 @@ private:
     QFont font_; // used internally for keeping track of the unzoomed font
     QString textTab_; // text tab in terms of spaces
     QElapsedTimer tripleClickTimer_;
+    /* To knaow whether text may be pasted, in cotrast to text/file dropping: */
+    bool pasting_;
     /* To keep text cursor's horizontal position with Up/Down keys
        (also used in a workaround for a Qt regression): */
     bool keepTxtCurHPos_;

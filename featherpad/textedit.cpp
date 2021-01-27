@@ -52,6 +52,7 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     inertialScrolling_ = false;
     scrollTimer_ = nullptr;
 
+    pasting_ = false;
     keepTxtCurHPos_ = false;
     txtCurHPos_ = -1;
 
@@ -1256,32 +1257,11 @@ void TextEdit::redo()
 }
 void TextEdit::paste()
 {
-    keepTxtCurHPos_ = false; // txtCurHPos_ isn't reset because there may be nothing to paste
-    if (pastePaths_)
-    {
-        if (const QMimeData *mimeData = QGuiApplication::clipboard()->mimeData())
-        {
-            const QList<QUrl> urls = mimeData->urls();
-            if (!urls.isEmpty())
-            {
-                bool multiple (urls.size() > 1);
-                QTextCursor cur = textCursor();
-                cur.beginEditBlock();
-                for (const auto &thisUrl : urls)
-                {
-                    /* encode spaces of non-local paths to have a good highlighting
-                       but remove the schemes of local paths */
-                    cur.insertText (thisUrl.isLocalFile() ? thisUrl.toLocalFile()
-                                                          : thisUrl.toString (QUrl::EncodeSpaces));
-                    if (multiple)
-                        cur.insertText ("\n");
-                }
-                cur.endEditBlock();
-                return;
-            }
-        }
-    }
+    keepTxtCurHPos_ = false; // txtCurHPos_ isn't reset here because there may be nothing to paste
+
+    pasting_ = true;  // see insertFromMimeData()
     QPlainTextEdit::paste();
+    pasting_ = false;
 }
 void TextEdit::selectAll()
 {
@@ -1308,6 +1288,57 @@ QMimeData* TextEdit::createMimeDataFromSelection() const
         return mimeData;
     }
     return nullptr;
+}
+/*************************/
+// We want to pass dropping of files to the main widget with a custom signal.
+// We also want to control whether the pasted URLs should be opened.
+bool TextEdit::canInsertFromMimeData (const QMimeData* source) const
+{
+    return source->hasUrls() || QPlainTextEdit::canInsertFromMimeData (source);
+}
+void TextEdit::insertFromMimeData (const QMimeData* source)
+{
+    keepTxtCurHPos_ = false;
+    if (source->hasUrls())
+    {
+        const QList<QUrl> urlList = source->urls();
+        bool multiple (urlList.count() > 1);
+        if (pasting_ && pastePaths_)
+        {
+            QTextCursor cur = textCursor();
+            cur.beginEditBlock();
+            for (const auto &url : urlList)
+            {
+                /* encode spaces of non-local paths to have a good highlighting
+                   but remove the schemes of local paths */
+                cur.insertText (url.isLocalFile() ? url.toLocalFile()
+                                                  : url.toString (QUrl::EncodeSpaces));
+                if (multiple)
+                    cur.insertText ("\n");
+            }
+            cur.endEditBlock();
+            ensureCursorVisible();
+        }
+        else
+        {
+            txtCurHPos_ = -1; // Qt bug: cursorPositionChanged() isn't emitted with file dropping
+            for (const QUrl &url : urlList)
+            {
+                QString file;
+                QString scheme = url.scheme();
+                if (scheme == "admin") // gvfs' "admin:///"
+                    file = url.adjusted (QUrl::NormalizePathSegments).path();
+                else if (scheme == "file" || scheme.isEmpty())
+                    file = url.adjusted (QUrl::NormalizePathSegments)  // KDE may give a double slash
+                            .toLocalFile();
+                else
+                    continue;
+                emit fileDropped (file, 0, 0, multiple);
+            }
+        }
+    }
+    else
+        QPlainTextEdit::insertFromMimeData (source);
 }
 /*************************/
 void TextEdit::keyReleaseEvent (QKeyEvent *event)
@@ -2093,7 +2124,9 @@ void TextEdit::mousePressEvent (QMouseEvent *event)
 /*************************/
 void TextEdit::mouseReleaseEvent (QMouseEvent *event)
 {
+    pasting_ = true; // see insertFromMimeData()
     QPlainTextEdit::mouseReleaseEvent (event);
+    pasting_ = false;
 
     if (event->button() != Qt::LeftButton
         || !highlighter_
