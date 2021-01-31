@@ -32,6 +32,8 @@ class ComboBox : public QComboBox
 {
     Q_OBJECT
 public:
+    enum Move {NoMove=0 , MoveUp , MoveDown , MoveFirst , MoveLast};
+
     ComboBox (QWidget *parent = nullptr) :
         QComboBox (parent), hasPopup_ (false) {}
     ~ComboBox() {}
@@ -41,7 +43,7 @@ public:
     void hidePopup() override;
 
 signals:
-    void moveInHistory (bool up);
+    void moveInHistory (int move);
 
 protected:
     void keyPressEvent (QKeyEvent *event) override;

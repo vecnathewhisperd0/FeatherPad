@@ -94,7 +94,7 @@ The colors of syntax highlighting can be customized in "Preferences → Syntax C
 *   Searching and Replacing   *
 *******************************
 
-In FeatherPad, searching and replacing are done by separate widgets for the user to be able to search one string and replace another. Moreover, a separate replacement widget removes the danger of an unintentional replacement.
+In FeatherPad, searching and replacing are done by separate widgets for the user to be able to search one string and replace another. Moreover, a separate replacement widget may prevent an unintentional replacement.
 
 To remove the yellow highlights after finishing a search, you could
 
@@ -103,7 +103,11 @@ To remove the yellow highlights after finishing a search, you could
 * Empty the search entry and press Enter or F3 in it, or
 * Hide the search bar by focusing it (with Ctrl+F) and then, pressing Ctrl+F (again).
 
-Each search entry has a search history that can be shown as a popup list by clicking its arrow or by pressing Ctrl+Up/Down when it has focus. The topmost item shows the most recent searched text. When the entry has focus, up and down arrow keys can be used for selecting history items without showing the popup list.
+Each search entry has a search history that can be shown as a popup list by clicking its arrow or by pressing Ctrl+Up/Down when it has focus. The topmost item shows the most recent searched text. When the entry has focus, Up and Down arrow keys as well as PageUp and PageDown keys can be used for selecting history items without showing the popup list: Up and Down change the selection by one item, while PageUp and PageDown select the topmost (most recent) and bottommost (oldest) items respectively.
+
+FeatherPad can use a shared history for all search entries, whether they are in the same window or in different windows of the same FeatherPad process. By default, each search entry has a separate history but that can be changed by checking "Preferences → Window → Use a shared search history".
+
+The shared search history starts with every session and is forgotten as soon as the session ends (i.e., when all windows are closed — there is no point in remembering the search history indefinitely).
 
 The 'Replace' docked window respects the settings for 'Match Case', 'Whole Word' and 'Regular Expression' on the search bar (in the last case, the matching text should be a regular expression, while the replacing text is always an ordinary string). It can be detached from and reattached to the main window at top or bottom. To remove the green highlights after replacing text, you could either hide/close the 'Replace' docked window or do as in the case of removing yellow search highlights.
 

@@ -376,7 +376,7 @@ void FPwin::toggleSidePane()
         sidePane_ = new SidePane();
         ui->splitter->insertWidget (0, sidePane_);
         sidePane_->listWidget()->setFocus();
-        int mult = size().width() / 100; // for more precision
+        int mult = qMax (size().width(), 100) / 100; // for more precision
         int sp = config.getSplitterPos();
         QList<int> sizes;
         sizes << sp * mult << (100 - sp) * mult;
@@ -2723,7 +2723,7 @@ bool FPwin::alreadyOpen (TabPage *tabPage) const
     return res;
 }
 /*************************/
-void FPwin::enforceEncoding (QAction*)
+void FPwin::enforceEncoding (QAction *a)
 {
     /* here, we don't need to check if some files are loading
        because encoding has no keyboard shortcut or tool button */
@@ -2745,6 +2745,8 @@ void FPwin::enforceEncoding (QAction*)
         /* if the file is removed, close its tab to open a new one */
         if (!QFile::exists (fname))
             deleteTabPage (index, false, false);
+
+        a->setChecked (true); // the checked action might have been changed (to UTF-8) with saving
         loadText (fname, true, true,
                   0, 0,
                   textEdit->isUneditable(), false);

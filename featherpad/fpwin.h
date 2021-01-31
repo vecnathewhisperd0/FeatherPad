@@ -112,7 +112,7 @@ private slots:
     void closeOtherPages();
     void fileOpen();
     void reload();
-    void enforceEncoding (QAction*);
+    void enforceEncoding (QAction *a);
     void cutText();
     void copyText();
     void pasteText();

@@ -31,17 +31,28 @@ void ComboBox::keyPressEvent (QKeyEvent *event)
 {
     if (!(event->modifiers() & Qt::ControlModifier))
     {
-        if (event->key() == Qt::Key_Up)
-        {
-            emit moveInHistory (true);
+        /* We use PageUp and PageDown like Home and End respectively
+           because the latter pair of keys are used by the line-edit
+           (while Qt uses PageUp/PageDown like Up/Down). */
+        switch (event->key()) {
+        case Qt::Key_Up:
+            emit moveInHistory (Move::MoveUp);
             event->accept();
             return;
-        }
-        if (event->key() == Qt::Key_Down)
-        {
-            emit moveInHistory (false);
+        case Qt::Key_Down:
+            emit moveInHistory (Move::MoveDown);
             event->accept();
             return;
+        case Qt::Key_PageUp:
+            emit moveInHistory (Move::MoveFirst);
+            event->accept();
+            return;
+        case Qt::Key_PageDown:
+            emit moveInHistory (Move::MoveLast);
+            event->accept();
+            return;
+        default:
+            break;
         }
     }
     QComboBox::keyPressEvent (event);
@@ -168,21 +179,33 @@ SearchBar::SearchBar(QWidget *parent,
         combo_->showPopup();
     });
     /* the default behavior of up/down arrow key isn't good enough */
-    connect (combo_, &ComboBox::moveInHistory, lineEdit_, [this] (bool up) {
+    connect (combo_, &ComboBox::moveInHistory, lineEdit_, [this] (int move) {
         int count = combo_->count();
         if (count == 0) return;
-        int index = combo_->findText (lineEdit_->text(), Qt::MatchExactly);
-        if (index < 0)
-            combo_->setCurrentIndex (0);
-        else
-        {
-            if (up)
-            {
-                if (index > 0)
-                    combo_->setCurrentIndex (index - 1);
-            }
+        int index = -1;
+        switch (move) {
+        case ComboBox::Move::MoveUp:
+            index = combo_->findText (lineEdit_->text(), Qt::MatchExactly);
+            if (index < 0)
+                combo_->setCurrentIndex (0);
+            else if (index > 0)
+                combo_->setCurrentIndex (index - 1);
+            break;
+        case ComboBox::Move::MoveDown:
+            index = combo_->findText (lineEdit_->text(), Qt::MatchExactly);
+            if (index < 0)
+                combo_->setCurrentIndex (0);
             else if (index < count - 1)
                 combo_->setCurrentIndex (index + 1);
+            break;
+        case ComboBox::Move::MoveFirst:
+            combo_->setCurrentIndex (0);
+            break;
+        case ComboBox::Move::MoveLast:
+            combo_->setCurrentIndex (count - 1);
+            break;
+        default:
+            break;
         }
     });
 }
