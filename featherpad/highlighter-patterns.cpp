@@ -132,17 +132,17 @@ QStringList Highlighter::keywords (const QString &lang)
             keywordPatterns << "\\b(?<!(@|#|\\$))(alias|id|property|readonly|signal)(?!(@|#|\\$))\\b";
     }
     else if (lang == "php")
-        keywordPatterns << "\\b(__FILE__|__LINE__|__FUNCTION__|__CLASS__|__METHOD__|__DIR__|__NAMESPACE__)(?!(#|\\$))\\b"
-                        << "\\b(and|abstract|array|as|break)(?!(#|\\$))\\b"
-                        << "\\b(case|catch|cfunction|class|clone|const|continue)(?!(#|\\$))\\b"
-                        << "\\b(declare|default|die|do)(?!(#|\\$))\\b"
-                        << "\\b(each|echo|else|elseif|empty|enddeclare|endfor|endforeach|endif|endswitch|endwhile|eval|exception|exit|extends)(?!(#|\\$))\\b"
-                        << "\\b(false|final|for|foreach|function)(?!(#|\\$))\\b"
-                        << "\\b(global|goto|if|implements|interface|instanceof|isset)(?!(#|\\$))\\b"
-                        << "\\b(list|namespace|new|null|old_function|or)(?!(#|\\$))\\b"
-                        << "\\b(php_user_filter|print|private|protected|public|return)(?!(#|\\$))\\b"
-                        << "\\b(static|switch|throw|true|try)(?!(#|\\$))\\b"
-                        << "\\b(unset|use|var|while|xor)(?!(#|\\$))\\b";
+        keywordPatterns << "\\b(?<!(#|\\$))(__FILE__|__LINE__|__FUNCTION__|__CLASS__|__METHOD__|__DIR__|__NAMESPACE__)(?!(#|\\$))\\b"
+                        << "\\b(?<!(#|\\$))(and|abstract|array|as|break)(?!(#|\\$))\\b"
+                        << "\\b(?<!(#|\\$))(case|catch|cfunction|class|clone|const|continue)(?!(#|\\$))\\b"
+                        << "\\b(?<!(#|\\$))(declare|default|die|do)(?!(#|\\$))\\b"
+                        << "\\b(?<!(#|\\$))(each|echo|else|elseif|empty|enddeclare|endfor|endforeach|endif|endswitch|endwhile|eval|exception|exit|extends)(?!(#|\\$))\\b"
+                        << "\\b(?<!(#|\\$))(false|final|for|foreach|function)(?!(#|\\$))\\b"
+                        << "\\b(?<!(#|\\$))(global|goto|if|implements|interface|instanceof|isset)(?!(#|\\$))\\b"
+                        << "\\b(?<!(#|\\$))(list|namespace|new|null|old_function|or)(?!(#|\\$))\\b"
+                        << "\\b(?<!(#|\\$))(php_user_filter|print|private|protected|public|return)(?!(#|\\$))\\b"
+                        << "\\b(?<!(#|\\$))(static|switch|throw|true|try)(?!(#|\\$))\\b"
+                        << "\\b(?<!(#|\\$))(unset|use|var|while|xor)(?!(#|\\$))\\b";
     else if (lang == "scss") // taken from http://sass-lang.com/documentation/Sass/Script/Functions.html
         keywordPatterns << "\\b(none|null)(?!(\\.|-|@|#|\\$))\\b"
                         << "\\b(abs|adjust-color|adjust-hue|alpha|append|blue|call|ceil|change-color|comparable|complement|content-exists|darken|desaturate|feature-exists|floor|function-exists|get-function|global-variable-exists|grayscale|green|hsl|hsla|hue|ie-hex-str|if|index|inspect|invert|is-bracketed|is-superselector|join|keywords|length|lighten|lightness|list-separator|map-get|map-has-key|map-keys|map-merge|map-remove|map-values|max|min|mixin-exists|mix|nth|opacify|percentage|quote|random|red|rgb|rgba|round|scale-color|saturate|saturation|selector-nest|selector-append|selector-extend|selector-parse|selector-replace|selector-unify|set-nth|simple-selectors|str-index|str-insert|str-length|str-slice|to-lower-case|to-upper-case|transparentize|type-of|unit|unitless|unquote|variable-exists|zip)(?=\\()"

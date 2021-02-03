@@ -1566,10 +1566,14 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     rule.pattern.setPattern (QString());
     if (progLan == "c" || progLan == "cpp"
         || Lang == "javascript" || progLan == "qml"
-        || progLan == "php" || progLan == "scss"
-        || progLan == "dart"|| progLan == "java")
+        || progLan == "scss" || progLan == "dart"
+        || progLan == "java")
     {
         rule.pattern.setPattern ("//.*"); // why had I set it to ("//(?!\\*).*")?
+    }
+    else if (progLan == "php")
+    {
+        rule.pattern.setPattern ("(//|#).*");
     }
     else if (progLan == "python"
              || progLan == "qmake"
