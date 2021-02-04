@@ -382,8 +382,12 @@ void FPwin::saveInfoOnTerminating (Config &config, bool isLastWin)
             {
                 if (textEdit->getSaveCursor())
                     config.saveCursorPos (fileName, textEdit->textCursor().position());
-                if (isLastWin && config.getSaveLastFilesList() && QFile::exists (fileName))
+                if (isLastWin && config.getSaveLastFilesList()
+                    && lastWinFilesCur_.size() < MAX_LAST_WIN_FILES
+                    && QFile::exists (fileName))
+                {
                     lastWinFilesCur_.insert (fileName, textEdit->textCursor().position());
+                }
             }
         }
     }
