@@ -10,6 +10,7 @@ V0.18.0
  * Prevent Qt from giving any non-plain text to the selection clipboard.
  * Made PageUp/PageDown select the first/last item of the search history when the search line-edit is focused.
  * Fixed the lack of Perl-style comments in PHP syntax highlighting.
+ * If needed, save cursor positions when the app is terminated by SIGTERM.
 
 V0.17.2
 ---------

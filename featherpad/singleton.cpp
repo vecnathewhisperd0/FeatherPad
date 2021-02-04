@@ -106,6 +106,11 @@ FPsingleton::~FPsingleton()
 /*************************/
 void FPsingleton::quitting()
 {
+    /* save some important info if windows aren't closed
+       (e.g., when the app is terminated by SIGTERM) */
+    for (int i = 0; i < Wins.size(); ++i)
+        Wins.at (i)->saveInfoOnTerminating (config_, i == Wins.size() - 1);
+
     if (searchModel_)
         delete searchModel_;
     config_.writeConfig();

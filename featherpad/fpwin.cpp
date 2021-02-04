@@ -366,6 +366,30 @@ void FPwin::closeEvent (QCloseEvent *event)
     }
 }
 /*************************/
+// This method should be called only when the app quits without closing its windows
+// (e.g., with SIGTERM). It saves the important info that can be queried only at the
+// session end and, for now, covers cursor positions of sessions and last files.
+void FPwin::saveInfoOnTerminating (Config &config, bool isLastWin)
+{
+    lastWinFilesCur_.clear();
+    for (int i = 0; i < ui->tabWidget->count(); ++i)
+    {
+        if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->widget (i)))
+        {
+            TextEdit *textEdit = tabPage->textEdit();
+            QString fileName = textEdit->getFileName();
+            if (!fileName.isEmpty())
+            {
+                if (textEdit->getSaveCursor())
+                    config.saveCursorPos (fileName, textEdit->textCursor().position());
+                if (isLastWin && config.getSaveLastFilesList() && QFile::exists (fileName))
+                    lastWinFilesCur_.insert (fileName, textEdit->textCursor().position());
+            }
+        }
+    }
+    config.setLastFileCursorPos (lastWinFilesCur_);
+}
+/*************************/
 void FPwin::toggleSidePane()
 {
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();

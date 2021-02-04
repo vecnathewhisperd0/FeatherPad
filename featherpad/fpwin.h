@@ -44,6 +44,8 @@ public:
     explicit FPwin (QWidget *parent = nullptr, bool standalone = false);
     ~FPwin();
 
+    void saveInfoOnTerminating (Config &config, bool isLastWin);
+
     bool isScriptLang (const QString& lang) const;
 
     bool isLoading() const {
