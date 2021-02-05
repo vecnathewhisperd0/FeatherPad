@@ -37,7 +37,8 @@ class SpellDialog : public QDialog
 public:
     enum SpellAction {CorrectOnce, IgnoreOnce, CorrectAll, IgnoreAll, AddToDict};
 
-    explicit SpellDialog (SpellChecker *spellChecker, const QString &word, QWidget *parent = nullptr);
+    explicit SpellDialog (SpellChecker *spellChecker, const QString &word,
+                          bool correction, QWidget *parent = nullptr);
     ~SpellDialog();
 
     SpellChecker * spellChecker() const {

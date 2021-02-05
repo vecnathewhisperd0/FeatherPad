@@ -11,6 +11,7 @@ V0.18.0
  * Made PageUp/PageDown select the first/last item of the search history when the search line-edit is focused.
  * Fixed the lack of Perl-style comments in PHP syntax highlighting.
  * If needed, save cursor positions when the app is terminated by SIGTERM.
+ * Prevent the spell checker from changing an uneditable document.
 
 V0.17.2
 ---------

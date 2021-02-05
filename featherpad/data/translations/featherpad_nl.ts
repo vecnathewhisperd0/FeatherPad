@@ -851,9 +851,9 @@
         <location filename="../../fpwin.cpp" line="3449"/>
         <location filename="../../fpwin.cpp" line="3456"/>
         <location filename="../../fpwin.cpp" line="4300"/>
-        <location filename="../../fpwin.cpp" line="5785"/>
-        <location filename="../../fpwin.cpp" line="5796"/>
-        <location filename="../../fpwin.cpp" line="5803"/>
+        <location filename="../../fpwin.cpp" line="5789"/>
+        <location filename="../../fpwin.cpp" line="5800"/>
+        <location filename="../../fpwin.cpp" line="5807"/>
         <source>Lines</source>
         <translation>Regels</translation>
     </message>
@@ -902,7 +902,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="1220"/>
         <location filename="../../fpwin.cpp" line="2555"/>
-        <location filename="../../fpwin.cpp" line="5595"/>
+        <location filename="../../fpwin.cpp" line="5599"/>
         <source>The file does not exist.</source>
         <translation>Het bestand bestaat niet.</translation>
     </message>
@@ -1067,7 +1067,7 @@
         <location filename="../../fpwin.cpp" line="3773"/>
         <location filename="../../fpwin.cpp" line="4765"/>
         <location filename="../../fpwin.cpp" line="5025"/>
-        <location filename="../../fpwin.cpp" line="6000"/>
+        <location filename="../../fpwin.cpp" line="6004"/>
         <source>Help</source>
         <translation>Hulp</translation>
     </message>
@@ -1076,9 +1076,9 @@
         <location filename="../../fpwin.cpp" line="3440"/>
         <location filename="../../fpwin.cpp" line="3448"/>
         <location filename="../../fpwin.cpp" line="4299"/>
-        <location filename="../../fpwin.cpp" line="5781"/>
-        <location filename="../../fpwin.cpp" line="5787"/>
-        <location filename="../../fpwin.cpp" line="5795"/>
+        <location filename="../../fpwin.cpp" line="5785"/>
+        <location filename="../../fpwin.cpp" line="5791"/>
+        <location filename="../../fpwin.cpp" line="5799"/>
         <source>Syntax</source>
         <translation>Syntaxis</translation>
     </message>
@@ -1190,43 +1190,43 @@
         <translation>Geen spelfouten aangetroffen vanaf de cursorpositie.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5483"/>
+        <location filename="../../fpwin.cpp" line="5486"/>
         <source>Spell Checking</source>
         <translation>Spellingcontrole</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5819"/>
+        <location filename="../../fpwin.cpp" line="5823"/>
         <source>Some files cannot be saved!</source>
         <translation>Enkele bestanden kunnen niet worden opgeslagen!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5866"/>
+        <location filename="../../fpwin.cpp" line="5870"/>
         <source>Translators</source>
         <translation>Vertalers</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5862"/>
+        <location filename="../../fpwin.cpp" line="5866"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translation>Een lichtgewicht platte tekst-bewerker met tabbladen</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5863"/>
+        <location filename="../../fpwin.cpp" line="5867"/>
         <source>based on Qt</source>
         <translation>gebouwd met Qt</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5864"/>
+        <location filename="../../fpwin.cpp" line="5868"/>
         <source>Author</source>
         <translation>Maker</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5865"/>
+        <location filename="../../fpwin.cpp" line="5869"/>
         <source>aka.</source>
         <translation>ook bekend als</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5866"/>
-        <location filename="../../fpwin.cpp" line="5867"/>
+        <location filename="../../fpwin.cpp" line="5870"/>
+        <location filename="../../fpwin.cpp" line="5871"/>
         <source>About FeatherPad</source>
         <translation>Over FeatherPad</translation>
     </message>

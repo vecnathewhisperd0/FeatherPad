@@ -5479,7 +5479,10 @@ void FPwin::checkSpelling()
     textEdit->ensureCursorVisible();
 
     updateShortcuts (true);
-    SpellDialog dlg (spellChecker, word, this);
+    SpellDialog dlg (spellChecker, word,
+                     /* disable the correcting buttons if the text isn't editable */
+                     !textEdit->isReadOnly() && !textEdit->isUneditable(),
+                     this);
     dlg.setWindowTitle (tr ("Spell Checking"));
 
     connect (&dlg, &SpellDialog::spellChecked, [&dlg, textEdit] (int res) {
@@ -5544,7 +5547,8 @@ void FPwin::checkSpelling()
         {
             if (!corrected.isEmpty())
             {
-                cur.insertText (corrected);
+                if (!uneditable)
+                    cur.insertText (corrected);
                 corrected = QString();
             }
             else

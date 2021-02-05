@@ -26,7 +26,8 @@
 
 namespace FeatherPad {
 
-SpellDialog::SpellDialog (SpellChecker *spellChecker, const QString& word, QWidget *parent)
+SpellDialog::SpellDialog (SpellChecker *spellChecker, const QString& word,
+                          bool correction, QWidget *parent)
     : QDialog (parent), ui (new Ui::SpellDialog)
 {
     ui->setupUi (this);
@@ -49,6 +50,12 @@ SpellDialog::SpellDialog (SpellChecker *spellChecker, const QString& word, QWidg
     ui->correctAll->setToolTip (QKeySequence (Qt::Key_F6).toString (QKeySequence::NativeText));
     ui->addToDict->setShortcut (QKeySequence (Qt::Key_F7));
     ui->addToDict->setToolTip (QKeySequence (Qt::Key_F7).toString (QKeySequence::NativeText));
+
+    if (!correction)
+    {
+        ui->correctOnce->setEnabled (false);
+        ui->correctAll->setEnabled (false);
+    }
 
     spellChecker_ = spellChecker;
 
