@@ -429,6 +429,7 @@ void FPwin::toggleSidePane()
                    and, on the other hand, KDE's auto-mnemonics may interfere */
                 QString fname = tabPage->textEdit()->getFileName();
                 bool isLink (false);
+                bool hasFinalTarget (false);
                 if (fname.isEmpty())
                 {
                     if (tabPage->textEdit()->getProg() == "help")
@@ -438,13 +439,21 @@ void FPwin::toggleSidePane()
                 }
                 else
                 {
-                    isLink = QFileInfo (fname).isSymLink();
+                    QFileInfo info (fname);
+                    isLink = info.isSymLink();
+                    if (!isLink)
+                    {
+                        const QString finalTarget = info.canonicalFilePath();
+                        hasFinalTarget = (!finalTarget.isEmpty() && finalTarget != fname);
+                    }
                     fname = fname.section ('/', -1);
                 }
                 if (tabPage->textEdit()->document()->isModified())
                     fname.append ("*");
                 fname.replace ("\n", " ");
-                ListWidgetItem *lwi = new ListWidgetItem (isLink ? QIcon (":icons/link.svg") : QIcon(),
+                ListWidgetItem *lwi = new ListWidgetItem (isLink ? QIcon (":icons/link.svg")
+                                                                 : hasFinalTarget ? QIcon (":icons/hasTarget.svg")
+                                                                                  : QIcon(),
                                                           fname, lw);
                 lwi->setToolTip (ui->tabWidget->tabToolTip (i));
                 sideItems_.insert (lwi, tabPage);
@@ -2046,6 +2055,7 @@ void FPwin::setTitle (const QString& fileName, int tabIndex)
         index = ui->tabWidget->currentIndex(); // is never -1
 
     bool isLink (false);
+    bool hasFinalTarget (false);
     QString shownName;
     if (fileName.isEmpty())
     {
@@ -2060,6 +2070,11 @@ void FPwin::setTitle (const QString& fileName, int tabIndex)
             setWindowTitle (fileName.contains ("/") ? fileName
                                                     : fInfo.absolutePath() + "/" + fileName);
         isLink = fInfo.isSymLink();
+        if (!isLink)
+        {
+            const QString finalTarget = fInfo.canonicalFilePath();
+            hasFinalTarget = (!finalTarget.isEmpty() && finalTarget != fileName);
+        }
         shownName = fileName.section ('/', -1);
         shownName.replace ("\n", " "); // no multi-line tab text
     }
@@ -2071,6 +2086,8 @@ void FPwin::setTitle (const QString& fileName, int tabIndex)
             wi->setText (shownName);
             if (isLink)
                 wi->setIcon (QIcon (":icons/link.svg"));
+            else if (hasFinalTarget)
+                wi->setIcon (QIcon (":icons/hasTarget.svg"));
             else
                 wi->setIcon (QIcon());
         }
@@ -2081,6 +2098,8 @@ void FPwin::setTitle (const QString& fileName, int tabIndex)
     ui->tabWidget->setTabText (index, shownName);
     if (isLink)
         ui->tabWidget->setTabIcon (index, QIcon (":icons/link.svg"));
+    else if (hasFinalTarget)
+        ui->tabWidget->setTabIcon (index, QIcon (":icons/hasTarget.svg"));
     else
         ui->tabWidget->setTabIcon (index, QIcon());
 }
@@ -2723,6 +2742,7 @@ bool FPwin::alreadyOpen (TabPage *tabPage) const
 
     QString fileName = tabPage->textEdit()->getFileName();
     QFileInfo info (fileName);
+    bool exists = info.exists();
     QString target = info.isSymLink() ? info.symLinkTarget() // consider symlinks too
                                       : fileName;
     FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
@@ -2740,7 +2760,8 @@ bool FPwin::alreadyOpen (TabPage *tabPage) const
             QFileInfo thisInfo (thisTextEdit->getFileName());
             QString thisTarget = thisInfo.isSymLink() ? thisInfo.symLinkTarget()
                                                       : thisTextEdit->getFileName();
-            if (thisTarget == target)
+            if (thisTarget == target
+                || (exists && thisInfo.exists() && info == thisInfo))
             {
                 res = true;
                 break;
@@ -4750,10 +4771,19 @@ void FPwin::detachTab()
     textEdit->setRedSel (QList<QTextEdit::ExtraSelection>());
     /* ... then insert the detached widget... */
     dropTarget->enableWidgets (true); // the tab will be inserted and switched to below
+    QFileInfo lastFileInfo (dropTarget->lastFile_);
     bool isLink = dropTarget->lastFile_.isEmpty() ? false
-                                                  : QFileInfo (dropTarget->lastFile_).isSymLink();
+                                                  : lastFileInfo.isSymLink();
+    bool hasFinalTarget (false);
+    if (!isLink)
+    {
+        const QString finalTarget = lastFileInfo.canonicalFilePath();
+        hasFinalTarget = (!finalTarget.isEmpty() && finalTarget != dropTarget->lastFile_);
+    }
     dropTarget->ui->tabWidget->insertTab (0, tabPage,
-                                          isLink ? QIcon (":icons/link.svg") : QIcon(),
+                                          isLink ? QIcon (":icons/link.svg")
+                                                 : hasFinalTarget ?  QIcon (":icons/hasTarget.svg")
+                                                                   : QIcon(),
                                           tabText);
     if (dropTarget->sidePane_)
     {
@@ -4771,7 +4801,9 @@ void FPwin::detachTab()
         if (textEdit->document()->isModified())
             fname.append ("*");
         fname.replace ("\n", " ");
-        ListWidgetItem *lwi = new ListWidgetItem (isLink ? QIcon (":icons/link.svg") : QIcon(),
+        ListWidgetItem *lwi = new ListWidgetItem (isLink ? QIcon (":icons/link.svg")
+                                                         : hasFinalTarget ? QIcon (":icons/hasTarget.svg")
+                                                                          : QIcon(),
                                                   fname, lw);
         lw->setToolTip (tooltip);
         dropTarget->sideItems_.insert (lwi, tabPage);
@@ -5011,9 +5043,18 @@ void FPwin::dropTab (const QString& str)
         enableWidgets (true);
     else if (ui->tabWidget->count() == 1)
         updateGUIForSingleTab (false); // tab detach and switch actions
-    bool isLink = lastFile_.isEmpty() ? false : QFileInfo (lastFile_).isSymLink();
+    QFileInfo lastFileInfo (lastFile_);
+    bool isLink = lastFile_.isEmpty() ? false : lastFileInfo.isSymLink();
+    bool hasFinalTarget (false);
+    if (!isLink)
+    {
+        const QString finalTarget = lastFileInfo.canonicalFilePath();
+        hasFinalTarget = (!finalTarget.isEmpty() && finalTarget != lastFile_);
+    }
     ui->tabWidget->insertTab (insertIndex, tabPage,
-                              isLink ? QIcon (":icons/link.svg") : QIcon(),
+                              isLink ? QIcon (":icons/link.svg")
+                                     : hasFinalTarget ? QIcon (":icons/hasTarget.svg")
+                                                      : QIcon(),
                               tabText);
     if (sidePane_)
     {
@@ -5031,7 +5072,9 @@ void FPwin::dropTab (const QString& str)
         if (textEdit->document()->isModified())
             fname.append ("*");
         fname.replace ("\n", " ");
-        ListWidgetItem *lwi = new ListWidgetItem (isLink ? QIcon (":icons/link.svg") : QIcon(),
+        ListWidgetItem *lwi = new ListWidgetItem (isLink ? QIcon (":icons/link.svg")
+                                                         : hasFinalTarget ? QIcon (":icons/hasTarget.svg")
+                                                                          : QIcon(),
                                                   fname, lw);
         lw->setToolTip (tooltip);
         sideItems_.insert (lwi, tabPage);
@@ -5173,26 +5216,52 @@ void FPwin::tabContextMenu (const QPoint& p)
         menu.addAction (ui->actionCopyName);
         menu.addAction (ui->actionCopyPath);
         QFileInfo info (fname);
+        const QString finalTarget = info.canonicalFilePath();
+        bool hasFinalTarget = false;
         if (info.isSymLink())
         {
             menu.addSeparator();
+            const QString symTarget = info.symLinkTarget();
+            hasFinalTarget = (!finalTarget.isEmpty() && finalTarget != symTarget);
             QAction *action = menu.addAction (QIcon (":icons/link.svg"), tr ("Copy Target Path"));
-            connect (action, &QAction::triggered, [info] {
-                QApplication::clipboard()->setText (info.symLinkTarget());
+            connect (action, &QAction::triggered, [symTarget] {
+                QApplication::clipboard()->setText (symTarget);
             });
             action = menu.addAction (QIcon (":icons/link.svg"), tr ("Open Target Here"));
-            connect (action, &QAction::triggered, this, [this, info] {
-                QString targetName = info.symLinkTarget();
+            connect (action, &QAction::triggered, this, [this, symTarget] {
                 for (int i = 0; i < ui->tabWidget->count(); ++i)
                 {
                     TabPage *thisTabPage = qobject_cast<TabPage*>(ui->tabWidget->widget (i));
-                    if (targetName == thisTabPage->textEdit()->getFileName())
+                    if (symTarget == thisTabPage->textEdit()->getFileName())
                     {
                         ui->tabWidget->setCurrentWidget (thisTabPage);
                         return;
                     }
                 }
-                newTabFromName (targetName, 0, 0);
+                newTabFromName (symTarget, 0, 0);
+            });
+        }
+        else
+            hasFinalTarget = (!finalTarget.isEmpty() && finalTarget != fname);
+        if (hasFinalTarget)
+        {
+            menu.addSeparator();
+            QAction *action = menu.addAction (QIcon (":icons/hasTarget.svg"), tr ("Copy Final Target Path"));
+            connect (action, &QAction::triggered, [finalTarget] {
+                QApplication::clipboard()->setText (finalTarget);
+            });
+            action = menu.addAction (QIcon (":icons/hasTarget.svg"), tr ("Open Final Target Here"));
+            connect (action, &QAction::triggered, this, [this, finalTarget] {
+                for (int i = 0; i < ui->tabWidget->count(); ++i)
+                {
+                    TabPage *thisTabPage = qobject_cast<TabPage*>(ui->tabWidget->widget (i));
+                    if (finalTarget == thisTabPage->textEdit()->getFileName())
+                    {
+                        ui->tabWidget->setCurrentWidget (thisTabPage);
+                        return;
+                    }
+                }
+                newTabFromName (finalTarget, 0, 0);
             });
         }
         if (QFile::exists (fname))
@@ -5257,27 +5326,54 @@ void FPwin::listContextMenu (const QPoint& p)
         menu.addAction (ui->actionCopyName);
         menu.addAction (ui->actionCopyPath);
         QFileInfo info (fname);
+        const QString finalTarget = info.canonicalFilePath();
+        bool hasFinalTarget = false;
         if (info.isSymLink())
         {
             menu.addSeparator();
+            const QString symTarget = info.symLinkTarget();
+            hasFinalTarget = (!finalTarget.isEmpty() && finalTarget != symTarget);
             QAction *action = menu.addAction (QIcon (":icons/link.svg"), tr ("Copy Target Path"));
-            connect (action, &QAction::triggered, [info] {
-                QApplication::clipboard()->setText (info.symLinkTarget());
+            connect (action, &QAction::triggered, [symTarget] {
+                QApplication::clipboard()->setText (symTarget);
             });
             action = menu.addAction (QIcon (":icons/link.svg"), tr ("Open Target Here"));
-            connect (action, &QAction::triggered, this, [this, info] {
-                QString targetName = info.symLinkTarget();
+            connect (action, &QAction::triggered, this, [this, symTarget] {
                 for (int i = 0; i < ui->tabWidget->count(); ++i)
                 {
                     TabPage *thisTabPage = qobject_cast<TabPage*>(ui->tabWidget->widget (i));
-                    if (targetName == thisTabPage->textEdit()->getFileName())
+                    if (symTarget == thisTabPage->textEdit()->getFileName())
                     {
                         if (QListWidgetItem *wi = sideItems_.key (thisTabPage))
                             sidePane_->listWidget()->setCurrentItem (wi); // sets the current widget at changeTab()
                         return;
                     }
                 }
-                newTabFromName (targetName, 0, 0);
+                newTabFromName (symTarget, 0, 0);
+            });
+        }
+        else
+            hasFinalTarget = (!finalTarget.isEmpty() && finalTarget != fname);
+        if (hasFinalTarget)
+        {
+            menu.addSeparator();
+            QAction *action = menu.addAction (QIcon (":icons/hasTarget.svg"), tr ("Copy Final Target Path"));
+            connect (action, &QAction::triggered, [finalTarget] {
+                QApplication::clipboard()->setText (finalTarget);
+            });
+            action = menu.addAction (QIcon (":icons/hasTarget.svg"), tr ("Open Final Target Here"));
+            connect (action, &QAction::triggered, this, [this, finalTarget] {
+                for (int i = 0; i < ui->tabWidget->count(); ++i)
+                {
+                    TabPage *thisTabPage = qobject_cast<TabPage*>(ui->tabWidget->widget (i));
+                    if (finalTarget == thisTabPage->textEdit()->getFileName())
+                    {
+                        if (QListWidgetItem *wi = sideItems_.key (thisTabPage))
+                            sidePane_->listWidget()->setCurrentItem (wi); // sets the current widget at changeTab()
+                        return;
+                    }
+                }
+                newTabFromName (finalTarget, 0, 0);
             });
         }
         if (QFile::exists (fname))
