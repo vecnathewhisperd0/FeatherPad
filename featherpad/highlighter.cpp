@@ -4165,7 +4165,7 @@ void Highlighter::latexFormula (const QString &text)
     int index = 0;
     QString exp;
     TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData());
-    static const QRegularExpression latexFormulaStart ("\\${2}|\\$|\\\\\\(|\\\\\\[");
+    static const QRegularExpression latexFormulaStart ("\\${2}|\\$|\\\\\\(|\\\\\\[|\\\\begin\\s*{math}|\\\\begin\\s*{displaymath}|\\\\begin\\s*{equation}");
     QRegularExpressionMatch startMatch;
     QRegularExpression endExp;
     QRegularExpressionMatch endMatch;
@@ -4201,18 +4201,36 @@ void Highlighter::latexFormula (const QString &text)
         {
             if (startMatch.capturedLength() == 1)
                 endExp.setPattern ("\\$");
-            else
+            else if (startMatch.capturedLength() == 2)
             {
                 if (text.at (index + 1) == '$')
                     endExp.setPattern ("\\${2}");
                 else if (text.at (index + 1) == '(')
                     endExp.setPattern ("\\\\\\)");
-                else
+                else// if (text.at (index + 1) == '[')
                     endExp.setPattern ("\\\\\\]");
+            }
+            else
+            {
+                if (text.at (index + startMatch.capturedLength() - 2) == 'h')
+                {
+                    if (startMatch.capturedLength() > 6
+                        && text.at (index + startMatch.capturedLength() - 6) == 'y')
+                    {
+                        endExp.setPattern ("\\\\end\\s*{displaymath}");
+                    }
+                    else
+                        endExp.setPattern ("\\\\end\\s*{math}");
+                }
+                else
+                    endExp.setPattern ("\\\\end\\s*{equation}");
             }
             endIndex = text.indexOf (endExp,
                                      index + startMatch.capturedLength(),
                                      &endMatch);
+            /* don't format "\begin{math}" or "\begin{equation}" */
+            if (startMatch.capturedLength() > 2)
+                index += startMatch.capturedLength();
         }
 
         while (isEscapedChar (text, endIndex))
@@ -4223,7 +4241,7 @@ void Highlighter::latexFormula (const QString &text)
         {
             /* ... clear the comment format from there to reformat later
                because "%" may be inside a formula now */
-            badIndex = endIndex + endMatch.capturedLength();
+            badIndex = endIndex + (endMatch.capturedLength() > 2 ? 0 : endMatch.capturedLength());
             for (int i = badIndex; i < text.length(); ++i)
             {
                 if (format (i) == commentFormat || format (i) == urlFormat)
@@ -4240,7 +4258,9 @@ void Highlighter::latexFormula (const QString &text)
         }
         else
             formulaLength = endIndex - index
-                            + endMatch.capturedLength();
+                            + (endMatch.capturedLength() > 2
+                                   ? 0 // don't format "\end{math}" or "\end{equation}"
+                                   : endMatch.capturedLength());
 
         setFormat (index, formulaLength, codeBlockFormat);
 

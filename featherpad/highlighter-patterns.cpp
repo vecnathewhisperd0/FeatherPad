@@ -68,7 +68,7 @@ QStringList Highlighter::keywords (const QString &lang)
     }
     else if (lang == "LaTeX")
     {
-        keywordPatterns << "(?<!\\\\)\\\\(documentclass|begin|end|usepackage|maketitle|include|includeonly|input)(?!(@|#))(_|\\b)"
+        keywordPatterns << "(?<!\\\\)\\\\(documentclass|begin|end|usepackage|maketitle|include|includeonly|input|label|caption|ref|pageref)(?!(@|#))(_|\\b)"
                         << "(?<!\\\\)\\\\(section|subsection|subsubsection|title|author|part|chapter|paragraph|subparagraph)\\*?\\s*\\{[^{}]*\\}";
     }
     else if (lang == "perl")
