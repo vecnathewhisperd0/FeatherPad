@@ -13,6 +13,7 @@ V0.18.0
  * If needed, save cursor positions when the app is terminated by SIGTERM.
  * Prevent the spell checker from changing an uneditable document.
  * Added an icon to the tabs/view-items of files that have targets but aren't symlinks (e.g., their parent directories are symlinks). Also, (1) when a final target exists, two items are added to the tab/view-item context menu for copying its path and opening it, and (2) if a file and some of its targets are opened, only the first one is editable by default.
+ * Added JSON syntax highlighting.
 
 V0.17.2
 ---------

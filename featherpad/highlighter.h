@@ -243,6 +243,15 @@ private:
     void javaMainFormatting (const QString &text);
     void javaBraces (const QString &text);
 
+    /* Json */
+    void highlightJsonBlock (const QString &text);
+    void jsonKey (const QString &text, const int start,
+                  int &K, int &V, int &B,
+                  bool &insideValue, QString &braces);
+    void jsonValue (const QString &text, const int start,
+                    int &K, int &V, int &B,
+                    bool &insideValue, QString &braces);
+
     /* Ruby */
     bool isRubyQuoted (const QString &text, const int index);
     bool isEscapedRubyRegex (const QString &text, const int pos);

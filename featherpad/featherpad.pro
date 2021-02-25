@@ -32,6 +32,7 @@ SOURCES += main.cpp \
            highlighter-css.cpp \
            highlighter-fountain.cpp \
            highlighter-java.cpp \
+           highlighter-json.cpp \
            highlighter-html.cpp \
            highlighter-pascal.cpp \
            highlighter-patterns.cpp \

@@ -121,6 +121,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
             progLan = "javascript";
         else if (fname.endsWith (".java"))
             progLan = "java";
+        else if (fname.endsWith (".json"))
+            progLan = "json";
         else if (fname.endsWith (".qml"))
             progLan = "qml";
         else if (fname.endsWith (".log", Qt::CaseInsensitive))
@@ -227,6 +229,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
                 progLan = "javascript";
             else if (mime == "text/x-java")
                 progLan = "java";
+            else if (mime == "application/json")
+                progLan = "json";
             else if (mime == "text/x-qml")
                 progLan = "qml";
             else if (mime == "text/x-log")

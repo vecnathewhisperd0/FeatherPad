@@ -4301,6 +4301,11 @@ void Highlighter::highlightBlock (const QString &text)
             highlightFountainBlock (text);
             return;
         }
+        if (progLan == "json")
+        {
+            highlightJsonBlock (text);
+            return;
+        }
     }
 
     bool rehighlightNextBlock = false;
