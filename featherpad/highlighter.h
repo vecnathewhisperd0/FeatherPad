@@ -290,6 +290,7 @@ private:
     QTextCharFormat whiteSpaceFormat; // For whitespaces.
     QTextCharFormat translucentFormat;
     QTextCharFormat regexFormat;
+    QTextCharFormat errorFormat;
 
     /* Programming language: */
     QString progLan;

@@ -21,14 +21,17 @@
 
 namespace FeatherPad {
 
+static const QRegularExpression startBraceOrBracket ("\\{|\\[");
+
 void Highlighter::jsonKey (const QString &text, const int start,
                            int &K, int &V, int &B,
                            bool &insideValue, QString &braces)
 {
-    static const QRegularExpression jsonKeyExp ("{|\\}|:|\"");
+    static const QRegularExpression jsonKeyExp ("{|\\}|:|,|\"");
     int index = text.indexOf (jsonKeyExp, start);
     if (index >= 0)
     {
+        setFormat (start, index - start, errorFormat);
         if (text.at (index) == '{')
         {
             ++K;
@@ -40,32 +43,41 @@ void Highlighter::jsonKey (const QString &text, const int start,
         }
         else if (text.at (index) == '}')
         {
-            braces.chop (1);
             if (K > 0)
             {
                 --K;
+                braces.chop (1);
                 if (K == 0) V = 0;
                 insideValue = V > 0;
             }
             if (K == 0)
-            { // search for the starting brace
-                int indx = text.indexOf (index, '{');
-                ++K;
-                braces += "{";
+            { // search for a starting brace or bracket
+                ++ index;
+                int indx = text.indexOf (startBraceOrBracket, index);
                 if (indx > -1)
                 {
-                    jsonKey (text, indx + 1,
-                             K, V, B,
-                             insideValue, braces);
+                    setFormat (index, indx - index, errorFormat);
+                    ++K;
+                    if (text.at (indx) == '{')
+                    {
+                        braces += "{";
+                        jsonKey (text, indx + 1,
+                                 K, V, B,
+                                 insideValue, braces);
+                    }
+                    else
+                    { // consider a virtual key and serach in the value
+                        ++V;
+                        insideValue = true;
+                        ++B;
+                        braces += "v{[";
+                        jsonValue (text, indx + 1,
+                                   K, V, B,
+                                   insideValue, braces);
+                    }
                 }
                 else
-                { // accept a value if no start brace is found
-                    ++V;
-                    insideValue = true;
-                    jsonValue (text, index + 1,
-                               K, V, B,
-                               insideValue, braces);
-                }
+                    setFormat (index, text.length() - index, errorFormat);
             }
             else if (insideValue)
             {
@@ -88,6 +100,12 @@ void Highlighter::jsonKey (const QString &text, const int start,
                        K, V, B,
                        insideValue, braces);
         }
+        else if (text.at (index) == ',')
+        {
+            jsonKey (text, index + 1,
+                     K, V, B,
+                     insideValue, braces);
+        }
         else // double quote
         {
             int end = text.indexOf (quoteMark, index + 1);
@@ -107,6 +125,8 @@ void Highlighter::jsonKey (const QString &text, const int start,
             }
         }
     }
+    else
+        setFormat (start, text.length() - start, errorFormat);
 }
 /*************************/
 void Highlighter::jsonValue (const QString &text, const int start,
@@ -119,6 +139,7 @@ void Highlighter::jsonValue (const QString &text, const int start,
     int index = text.indexOf (jsonValueExp, start, &match);
     if (index >= 0)
     {
+        setFormat (start, index - start, errorFormat);
         if (text.at (index) == '{')
         {
             ++K;
@@ -130,32 +151,41 @@ void Highlighter::jsonValue (const QString &text, const int start,
         }
         else if (text.at (index) == '}')
         {
-            braces.chop (1);
             if (K > 0)
             {
                 --K;
+                braces.chop (1);
                 if (K == 0) V = 0;
                 insideValue = V > 0;
             }
             if (K == 0)
-            { // search for the starting brace
-                int indx = text.indexOf (index, '{');
-                ++K;
-                braces += "{";
+            { // search for a starting brace or bracket
+                ++ index;
+                int indx = text.indexOf (startBraceOrBracket, index);
                 if (indx > -1)
                 {
-                    jsonKey (text, indx + 1,
-                             K, V, B,
-                             insideValue, braces);
+                    setFormat (index, indx - index, errorFormat);
+                    ++K;
+                    if (text.at (indx) == '{')
+                    {
+                        braces += "{";
+                        jsonKey (text, indx + 1,
+                                 K, V, B,
+                                 insideValue, braces);
+                    }
+                    else
+                    { // consider a virtual key and serach in the value
+                        ++V;
+                        insideValue = true;
+                        ++B;
+                        braces += "v{[";
+                        jsonValue (text, indx + 1,
+                                   K, V, B,
+                                   insideValue, braces);
+                    }
                 }
                 else
-                { // accept a value if no start brace is found
-                    ++V;
-                    insideValue = true;
-                    jsonValue (text, index + 1,
-                               K, V, B,
-                               insideValue, braces);
-                }
+                    setFormat (index, text.length() - index, errorFormat);
             }
             else if (insideValue)
             {
@@ -180,11 +210,53 @@ void Highlighter::jsonValue (const QString &text, const int start,
         }
         else if (text.at (index) == ']')
         {
-            braces.chop (1);
-            if (B > 0) --B;
-            jsonValue (text, index + 1,
-                       K, V, B,
-                       insideValue, braces);
+            if (B > 0)
+            {
+                --B;
+                braces.chop (1);
+            }
+            if (B == 0
+                && braces.size() > 1
+                && braces.at (braces.size() - 1) == '{'
+                && braces.at (braces.size() - 2) == 'v')
+            { // we had considered a virtual key
+                K = 0;
+                V = 0;
+                insideValue = false;
+                braces.clear();
+                ++ index;
+                int indx = text.indexOf (startBraceOrBracket, index);
+                if (indx > -1)
+                {
+                    setFormat (index, indx - index, errorFormat);
+                    ++K;
+                    if (text.at (indx) == '{')
+                    {
+                        braces += "{";
+                        jsonKey (text, indx + 1,
+                                 K, V, B,
+                                 insideValue, braces);
+                    }
+                    else
+                    { // consider a virtual key again and serach in the value
+                        ++V;
+                        insideValue = true;
+                        ++B;
+                        braces += "v{[";
+                        jsonValue (text, indx + 1,
+                                   K, V, B,
+                                   insideValue, braces);
+                    }
+                }
+                else
+                    setFormat (index, text.length() - index, errorFormat);
+            }
+            else
+            {
+                jsonValue (text, index + 1,
+                           K, V, B,
+                           insideValue, braces);
+            }
         }
         else if (text.at (index) == ',')
         {
@@ -253,6 +325,8 @@ void Highlighter::jsonValue (const QString &text, const int start,
             }
         }
     }
+    else
+        setFormat (start, text.length() - start, errorFormat);
 }
 /*************************/
 void Highlighter::highlightJsonBlock (const QString &text)
@@ -371,24 +445,32 @@ void Highlighter::highlightJsonBlock (const QString &text)
         }
     }
     else
-    {
-        index = text.indexOf ('{');
-        ++K;
-        braces += "{";
+    { // search for a starting brace or bracket
+        index = text.indexOf (startBraceOrBracket);
         if (index > -1)
         {
-            jsonKey (text, index + 1,
-                     K, V, B,
-                     insideValue, braces);
+            setFormat (0, index, errorFormat);
+            ++K;
+            if (text.at (index) == '{')
+            {
+                braces += "{";
+                jsonKey (text, index + 1,
+                         K, V, B,
+                         insideValue, braces);
+            }
+            else
+            { // consider a virtual key and serach in the value
+                ++V;
+                insideValue = true;
+                ++B;
+                braces += "v{[";
+                jsonValue (text, index + 1,
+                           K, V, B,
+                           insideValue, braces);
+           }
         }
         else
-        { // this can't be useful but Qt has a test Json file
-            ++V;
-            insideValue = true;
-            jsonValue (text, 0,
-                       K, V, B,
-                       insideValue, braces);
-        }
+            setFormat (0, text.length(), errorFormat);
     }
 
     data->insertNestInfo (K); // open keys

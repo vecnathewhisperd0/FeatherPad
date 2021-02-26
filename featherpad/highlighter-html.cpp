@@ -310,9 +310,6 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
 
                 /* also, mark encoded and unencoded ampersands */
                 QRegularExpression ampersand ("&");
-                QTextCharFormat errorFormat;
-                errorFormat.setFontUnderline (true);
-                errorFormat.setForeground (Red);
                 QTextCharFormat encodedFormat;
                 encodedFormat.setForeground (DarkMagenta);
                 encodedFormat.setFontItalic (true);

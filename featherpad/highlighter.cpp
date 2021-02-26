@@ -1550,6 +1550,12 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = javaFormat;
         highlightingRules.append (rule);
     }
+    else if (progLan == "json")
+    {
+        quoteFormat.setFontWeight (QFont::Bold);
+        errorFormat.setForeground (Red);
+        errorFormat.setFontUnderline (true);
+    }
 
     if (showWhiteSpace)
     {
@@ -1631,6 +1637,9 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     }
     else if (progLan == "html")
     {
+        errorFormat.setForeground (Red);
+        errorFormat.setFontUnderline (true);
+
         htmlCommetStart.setPattern ("<!--");
         htmlCommetEnd.setPattern ("-->");
 
