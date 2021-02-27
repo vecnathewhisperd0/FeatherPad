@@ -27,7 +27,7 @@ void Highlighter::jsonKey (const QString &text, const int start,
                            int &K, int &V, int &B,
                            bool &insideValue, QString &braces)
 {
-    static const QRegularExpression jsonKeyExp ("{|\\}|:|,|\"");
+    static const QRegularExpression jsonKeyExp ("\\{|\\}|:|,|\"");
     int index = text.indexOf (jsonKeyExp, start);
     if (index >= 0)
     {
@@ -134,7 +134,7 @@ void Highlighter::jsonValue (const QString &text, const int start,
                              bool &insideValue, QString &braces)
 {
     static const QRegularExpression jasonNumExp ("(?<=^|[^\\w\\d\\.])(\\+|-)?((\\d*\\.?\\d+|\\d+\\.)((e|E)(\\+|-)?\\d+)?)(?=[^\\w\\d\\.]|$)");
-    static const QRegularExpression jsonValueExp ("{|\\}|,|\"|\\[|\\]|\\b(true|false|null)\\b|" + jasonNumExp.pattern());
+    static const QRegularExpression jsonValueExp ("\\{|\\}|,|\"|\\[|\\]|\\b(true|false|null)\\b|" + jasonNumExp.pattern());
     QRegularExpressionMatch match;
     int index = text.indexOf (jsonValueExp, start, &match);
     if (index >= 0)
@@ -365,7 +365,6 @@ void Highlighter::highlightJsonBlock (const QString &text)
 
     TextBlockData *data = new TextBlockData;
     data->setLastState (currentBlockState());
-    setCurrentBlockUserData (data);
     setCurrentBlockState (0);
 
     int K = 0, V = 0, B = 0;
@@ -478,6 +477,15 @@ void Highlighter::highlightJsonBlock (const QString &text)
     data->insertLastFormattedQuote (B); // open brackets (inside values)
     data->setProperty (insideValue); // locally inside a value
     data->insertInfo (braces); // the order of open braces and brackets
+
+    /* this is much faster than comparing old and new braces and
+       rehighlighting the next block, especially with text editing */
+    if (currentBlockState() == 0 && !braces.isEmpty())
+    {
+        int n = static_cast<int>(qHash (braces));
+        int state = 2 * (n + (n >= 0 ? endState/2 + 1 : 0)); // always even
+        setCurrentBlockState (state);
+    }
 
     if (currentBlockState() == data->lastState()
         && (K != oldK || V != oldV || B != oldB
