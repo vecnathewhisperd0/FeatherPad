@@ -2284,7 +2284,7 @@ en mode édition.</translation>
         <location filename="../../sessionDialog.ui" line="98"/>
         <location filename="../../sessionDialog.ui" line="108"/>
         <source>Del</source>
-        <translation>Del</translation>
+        <translation>Suppr</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="115"/>
