@@ -4317,6 +4317,14 @@ void Highlighter::highlightBlock (const QString &text)
 {
     if (progLan.isEmpty()) return;
 
+    /* different handling of huge lines of JSON
+       because of its different syntax */
+    if (progLan == "json")
+    {
+        highlightJsonBlock (text);
+        return;
+    }
+
     int txtL = text.length();
     if (txtL <= 10000)
     {
@@ -4328,11 +4336,6 @@ void Highlighter::highlightBlock (const QString &text)
         if (progLan == "fountain")
         {
             highlightFountainBlock (text);
-            return;
-        }
-        if (progLan == "json")
-        {
-            highlightJsonBlock (text);
             return;
         }
     }

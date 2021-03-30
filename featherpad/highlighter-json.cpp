@@ -331,6 +331,22 @@ void Highlighter::jsonValue (const QString &text, const int start,
 /*************************/
 void Highlighter::highlightJsonBlock (const QString &text)
 {
+    TextBlockData *data = new TextBlockData;
+
+    int txtL = text.length();
+    if (txtL > 30000
+        /* don't highlight the rest of the document
+           (endState isn't used anywhere else) */
+        || previousBlockState() == endState)
+    {
+        setCurrentBlockState (endState);
+        setFormat (0, txtL, translucentFormat);
+        data->setHighlighted();
+        setCurrentBlockUserData (data);
+        return;
+    }
+    setFormat (0, txtL, mainFormat);
+
     /* NOTE:
        We try to use the available variables of TextBlockData for Json.
        The meanings of the used variables change as follows:
@@ -363,7 +379,6 @@ void Highlighter::highlightJsonBlock (const QString &text)
         }
     }
 
-    TextBlockData *data = new TextBlockData;
     data->setLastState (currentBlockState());
     setCurrentBlockState (0);
 
@@ -483,7 +498,7 @@ void Highlighter::highlightJsonBlock (const QString &text)
     if (currentBlockState() == 0 && !braces.isEmpty())
     {
         int n = static_cast<int>(qHash (braces));
-        int state = 2 * (n + (n >= 0 ? endState/2 + 1 : 0)); // always even
+        int state = 2 * (n + (n >= 0 ? endState/2 + 1 : 0)); // always even and not endState
         setCurrentBlockState (state);
     }
 
