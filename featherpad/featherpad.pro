@@ -28,18 +28,6 @@ SOURCES += main.cpp \
            lineedit.cpp \
            textedit.cpp \
            tabbar.cpp \
-           highlighter.cpp \
-           highlighter-css.cpp \
-           highlighter-fountain.cpp \
-           highlighter-java.cpp \
-           highlighter-json.cpp \
-           highlighter-html.cpp \
-           highlighter-pascal.cpp \
-           highlighter-patterns.cpp \
-           highlighter-perl-regex.cpp \
-           highlighter-regex.cpp \
-           highlighter-ruby.cpp \
-           highlighter-sh.cpp \
            find.cpp \
            replace.cpp \
            pref.cpp \
@@ -56,7 +44,22 @@ SOURCES += main.cpp \
            sidepane.cpp \
            svgicons.cpp \
            spellChecker.cpp \
-           spellDialog.cpp
+           spellDialog.cpp \
+           highlighter/highlighter.cpp \
+           highlighter/highlighter-css.cpp \
+           highlighter/highlighter-fountain.cpp \
+           highlighter/highlighter-java.cpp \
+           highlighter/highlighter-json.cpp \
+           highlighter/highlighter-html.cpp \
+           highlighter/highlighter-markdown.cpp \
+           highlighter/highlighter-pascal.cpp \
+           highlighter/highlighter-patterns.cpp \
+           highlighter/highlighter-perl-regex.cpp \
+           highlighter/highlighter-regex.cpp \
+           highlighter/highlighter-rest.cpp \
+           highlighter/highlighter-ruby.cpp \
+           highlighter/highlighter-sh.cpp \
+           highlighter/highlighter-yaml.cpp
 
 HEADERS += singleton.h \
            fpwin.h \
@@ -65,7 +68,6 @@ HEADERS += singleton.h \
            lineedit.h \
            textedit.h \
            tabbar.h \
-           highlighter.h \
            vscrollbar.h \
            filedialog.h \
            config.h \
@@ -81,7 +83,8 @@ HEADERS += singleton.h \
            sidepane.h \
            svgicons.h \
            spellChecker.h \
-           spellDialog.h
+           spellDialog.h \
+           highlighter/highlighter.h
 
 FORMS += fp.ui \
          prefDialog.ui \

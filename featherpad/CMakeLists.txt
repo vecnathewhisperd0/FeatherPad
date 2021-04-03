@@ -69,18 +69,6 @@ set(featherpad_SRCS
     lineedit.cpp
     textedit.cpp
     tabbar.cpp
-    highlighter.cpp
-    highlighter-css.cpp
-    highlighter-fountain.cpp
-    highlighter-java.cpp
-    highlighter-json.cpp
-    highlighter-html.cpp
-    highlighter-pascal.cpp
-    highlighter-patterns.cpp
-    highlighter-perl-regex.cpp
-    highlighter-regex.cpp
-    highlighter-ruby.cpp
-    highlighter-sh.cpp
     find.cpp
     replace.cpp
     pref.cpp
@@ -97,7 +85,22 @@ set(featherpad_SRCS
     sidepane.cpp
     svgicons.cpp
     spellChecker.cpp
-    spellDialog.cpp)
+    spellDialog.cpp
+    highlighter/highlighter.cpp
+    highlighter/highlighter-css.cpp
+    highlighter/highlighter-fountain.cpp
+    highlighter/highlighter-java.cpp
+    highlighter/highlighter-json.cpp
+    highlighter/highlighter-html.cpp
+    highlighter/highlighter-markdown.cpp
+    highlighter/highlighter-pascal.cpp
+    highlighter/highlighter-patterns.cpp
+    highlighter/highlighter-perl-regex.cpp
+    highlighter/highlighter-regex.cpp
+    highlighter/highlighter-rest.cpp
+    highlighter/highlighter-ruby.cpp
+    highlighter/highlighter-sh.cpp
+    highlighter/highlighter-yaml.cpp)
 
 if(NOT WITHOUT_X11 AND UNIX AND NOT APPLE AND NOT HAIKU)
   set(featherpad_SRCS ${featherpad_SRCS} x11.cpp)

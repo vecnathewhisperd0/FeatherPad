@@ -185,14 +185,6 @@ private:
                           TextBlockData *currentBlockData,
                           int oldOpenNests, const QSet<int> &oldOpenQuotes);
 
-    bool markdownMultiLine (const QString &text,
-                            const QString &oldStartPattern,
-                            const QRegularExpression &startExp, const QRegularExpression &endExp,
-                            const int state,
-                            const QTextCharFormat &txtFormat);
-    void markdownFonts (const QString &text);
-
-    void reSTMainFormatting (int start, const QString &text);
     void debControlFormatting (const QString &text);
 
     bool isEscapedRegex (const QString &text, const int pos);
@@ -206,6 +198,15 @@ private:
     int findDelimiter (const QString &text, const int index,
                        const QRegularExpression &delimExp, int &capturedLength) const;
 
+    /* Markdown */
+    bool markdownMultiLine (const QString &text,
+                            const QString &oldStartPattern,
+                            const QRegularExpression &startExp, const QRegularExpression &endExp,
+                            const int state,
+                            const QTextCharFormat &txtFormat);
+    void markdownFonts (const QString &text);
+    void highlightMarkdownBlock (const QString &text);
+
     /* Yaml */
     bool isYamlKeyQuote (const QString &key, const int pos);
     bool yamlOpenBraces (const QString &text,
@@ -213,6 +214,11 @@ private:
                          int oldOpenNests, bool oldProperty,
                          bool setData);
     void yamlLiteralBlock (const QString &text);
+    void highlightYamlBlock (const QString &text);
+
+    /* reST */
+    void reSTMainFormatting (int start, const QString &text);
+    void highlightReSTBlock (const QString &text);
 
     /* Fountain */
     void fountainFonts (const QString &text);

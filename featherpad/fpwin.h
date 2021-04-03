@@ -23,7 +23,7 @@
 #include <QMainWindow>
 #include <QActionGroup>
 #include <QElapsedTimer>
-#include "highlighter.h"
+#include "highlighter/highlighter.h"
 #include "textedit.h"
 #include "tabpage.h"
 #include "sidepane.h"
