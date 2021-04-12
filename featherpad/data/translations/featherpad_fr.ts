@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="163"/>
+        <location filename="../../about.ui" line="165"/>
         <source>License</source>
         <translation>Licence</translation>
     </message>
@@ -1855,7 +1855,7 @@ Needs window reopening to take effect.</source>
 255 pour le blanc et 0 pour le noir.
 
 Pour les arrière-plans clairs, elle peut être
-comprise entre 230 et 255 ; pour les arrière-plans
+comprise entre 230 et 255&#x202f;; pour les arrière-plans
 sombres, entre 0 et 50.
 
 Nécessite la réouverture de la fenêtre pour être activé.</translation>
