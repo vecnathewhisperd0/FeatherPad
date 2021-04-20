@@ -752,7 +752,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         xmlAttributeFormat.setFontItalic (true);
         xmlAttributeFormat.setForeground (Blue);
         /* before = */
-        rule.pattern.setPattern ("\\s+[A-Za-z0-9_\\-:]+(?=\\s*\\=\\s*(\"|&quot;))");
+        rule.pattern.setPattern ("\\s+[A-Za-z0-9_\\-:]+(?=\\s*\\=\\s*(\"|&quot;|\'))");
         rule.format = xmlAttributeFormat;
         highlightingRules.append (rule);
 
@@ -3385,7 +3385,6 @@ void Highlighter::setFormatWithoutOverwrite (int start,
 void Highlighter::xmlQuotes (const QString &text)
 {
     int index = 0;
-    /* mixed quotes aren't really needed here but they're harmless and easy to handle */
     static const QRegularExpression xmlMixedQuote ("\"|&quot;|\'");
     static const QRegularExpression doubleQuote ("\"|&quot;");
     static const QRegularExpression virtualQuote ("&quot;");

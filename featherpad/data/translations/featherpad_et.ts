@@ -897,7 +897,7 @@
         <location filename="../../fpwin.cpp" line="4381"/>
         <location filename="../../fpwin.cpp" line="4401"/>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tavaline</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1229"/>
@@ -1715,7 +1715,7 @@ will be shown by a popup dialog.</source>
     <message>
         <location filename="../../prefDialog.ui" line="1428"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Abiteave</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="163"/>
@@ -2015,7 +2015,7 @@ be opened if they are pasted into FeatherPad.</source>
     <message>
         <location filename="../../prefDialog.ui" line="1439"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sulge</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="104"/>
@@ -2114,12 +2114,12 @@ in the editing mode.</source>
     <message>
         <location filename="../../pref.cpp" line="1364"/>
         <source>&amp;Recently Opened</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Hiljuti avatud</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="1365"/>
         <source>Recently &amp;Modified</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hiljuti &amp;muudetud failid</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="1440"/>
@@ -2169,12 +2169,12 @@ in the editing mode.</source>
     <message>
         <location filename="../../searchbar.cpp" line="120"/>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Järgmine</translation>
     </message>
     <message>
         <location filename="../../searchbar.cpp" line="121"/>
         <source>Previous</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Eelmine</translation>
     </message>
 </context>
 <context>
@@ -2209,7 +2209,7 @@ in the editing mode.</source>
         <location filename="../../sessionDialog.ui" line="72"/>
         <location filename="../../sessionDialog.ui" line="275"/>
         <source>&amp;Open</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Ava</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="98"/>
@@ -2263,7 +2263,7 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../sessionDialog.ui" line="260"/>
         <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sul&amp;ge</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="135"/>
@@ -2273,7 +2273,7 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../sessionDialog.ui" line="138"/>
         <source>&amp;Save</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Salvesta</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="149"/>
@@ -2344,7 +2344,7 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../spellDialog.ui" line="62"/>
         <source>Replace with:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Asenda:</translation>
     </message>
     <message>
         <location filename="../../spellDialog.ui" line="129"/>
