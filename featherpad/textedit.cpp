@@ -96,7 +96,7 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
         /* Use alpha in paintEvent to gray out the paragraph separators and
            document terminators. The real text will be formatted by the highlgihter. */
         separatorColor_ = Qt::white;
-        separatorColor_.setAlpha (100 - qRound (3 * static_cast<qreal>(darkValue_) / 5));
+        separatorColor_.setAlpha (97 - qRound (3 * static_cast<qreal>(darkValue_) / 5));
     }
     else
     {

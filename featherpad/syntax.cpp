@@ -24,10 +24,10 @@
 
 namespace FeatherPad {
 
-static QString getMimeType (const QString &fname)
+static QString getMimeType (const QFileInfo &fInfo)
 {
     QMimeDatabase mimeDatabase;
-    QMimeType mimeType = mimeDatabase.mimeTypeForFile (QFileInfo (fname));
+    QMimeType mimeType = mimeDatabase.mimeTypeForFile (fInfo);
     return mimeType.name();
 }
 /*************************/
@@ -60,6 +60,17 @@ void FPwin::setProgLang (TextEdit *textEdit)
 
     QString fname = textEdit->getFileName();
     if (fname.isEmpty()) return;
+
+    /* examine the (final) target if existing */
+    QFileInfo fInfo (fname);
+    if (fInfo.isSymLink())
+    {
+        const QString finalTarget = fInfo.canonicalFilePath();
+        if (!finalTarget.isEmpty())
+            fname = finalTarget;
+        else
+            fname = fInfo.symLinkTarget();
+    }
 
     if (fname.endsWith (".sub"))
         return;
@@ -168,18 +179,13 @@ void FPwin::setProgLang (TextEdit *textEdit)
     else if (baseName == "mirrorlist")
         progLan = "config";
 
-    if (progLan.isEmpty()) // now, check mime types
+    if (progLan.isEmpty()) // now, check the mime type
     {
-        QFileInfo fInfo (fname);
         if (!fInfo.exists())
             progLan = "url"; // fall back to the default language
         else
         {
-            QString mime;
-            if (!fInfo.isSymLink())
-                mime = getMimeType (fname);
-            else
-                mime = getMimeType (fInfo.symLinkTarget());
+            const QString mime = fInfo.isSymLink() ? getMimeType (QFileInfo (fname)) : getMimeType (fInfo);
 
             if (mime == "text/x-c++" || mime == "text/x-c++src" || mime == "text/x-c++hdr" || mime == "text/x-chdr")
                 progLan = "cpp";
