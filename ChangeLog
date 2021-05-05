@@ -3,6 +3,7 @@ V0.19.0
  * Don't highlight the rest of a JSON document when encountering a huge line (because the formats couldn't be determined).
  * Refactored the code of syntax highlighting.
  * Examine final targets of symlinks when detecting programming languages.
+ * Added group separators to the numbers of lines, selected characters and words on the statusbar.
 
 V0.18.0
 ---------

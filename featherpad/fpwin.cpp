@@ -3594,10 +3594,7 @@ void FPwin::upperCase()
     {
         TextEdit *textEdit = tabPage->textEdit();
         if (!textEdit->isReadOnly())
-        {
-            QLocale l = textEdit->locale();
-            textEdit->insertPlainText (l.toUpper (textEdit->textCursor().selectedText()));
-        }
+            textEdit->insertPlainText (locale().toUpper (textEdit->textCursor().selectedText()));
     }
 }
 /*************************/
@@ -3607,10 +3604,7 @@ void FPwin::lowerCase()
     {
         TextEdit *textEdit = tabPage->textEdit();
         if (!textEdit->isReadOnly())
-        {
-            QLocale l = textEdit->locale();
-            textEdit->insertPlainText (l.toLower (textEdit->textCursor().selectedText()));
-        }
+            textEdit->insertPlainText (locale().toLower (textEdit->textCursor().selectedText()));
     }
 }
 /*************************/
@@ -3645,7 +3639,7 @@ void FPwin::startCase()
 
             cur.setPosition (start);
             cur.setPosition (end, QTextCursor::KeepAnchor);
-            QString str = textEdit->locale().toLower (cur.selectedText());
+            QString str = locale().toLower (cur.selectedText());
 
             start = 0;
             QRegularExpressionMatch match;
@@ -3882,7 +3876,7 @@ void FPwin::tabSwitch (int index)
             QLabel *statusLabel = ui->statusBar->findChild<QLabel *>("statusLabel");
             statusLabel->setText (QString ("%1 <i>%2</i>")
                                   .arg (statusLabel->text())
-                                  .arg (textEdit->getWordNumber()));
+                                  .arg (locale().toString (textEdit->getWordNumber())));
         }
         showCursorPos();
     }
@@ -4318,9 +4312,10 @@ void FPwin::statusMsgWithLineCount (const int lines)
     QString syntaxStr;
     if (textEdit->getProg() != "help" && textEdit->getProg() != "url")
         syntaxStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Syntax") + QString (":</b> <i>%1</i>").arg (textEdit->getProg());
-    QString lineStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines") + QString (":</b> <i>%1</i>").arg (lines);
+    QLocale l = locale();
+    QString lineStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines") + QString (":</b> <i>%1</i>").arg (l.toString (lines));
     QString selStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Sel. Chars")
-                     + QString (":</b> <i>%1</i>").arg (textEdit->textCursor().selectedText().size());
+                     + QString (":</b> <i>%1</i>").arg (l.toString (textEdit->textCursor().selectedText().size()));
     QString wordStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Words") + ":</b>";
 
     statusLabel->setText (encodStr + syntaxStr + lineStr + selStr + wordStr);
@@ -4329,6 +4324,7 @@ void FPwin::statusMsgWithLineCount (const int lines)
 // Change the status bar text when the selection changes.
 void FPwin::statusMsg()
 {
+    QLocale l = locale();
     QLabel *statusLabel = ui->statusBar->findChild<QLabel *>("statusLabel");
     int sel = qobject_cast< TabPage *>(ui->tabWidget->currentWidget())->textEdit()
               ->textCursor().selectedText().size();
@@ -4340,10 +4336,9 @@ void FPwin::statusMsg()
     if (sel == 0)
     {
         QString prevSel = str.mid (i + 9, j - i - 13); // j - i - 13 --> j - (i + 9[":</b> <i>]") - 4["</i>"]
-        if (prevSel.toInt() == 0) return;
+        if (l.toInt (prevSel) == 0) return;
     }
-    QString charN;
-    charN.setNum (sel);
+    QString charN = l.toString (sel);
     str.replace (i + 9, j - i - 13, charN);
     statusLabel->setText (str);
 }
@@ -4451,7 +4446,7 @@ void FPwin::updateWordInfo (int /*position*/, int charsRemoved, int charsAdded)
         wordButton->setVisible (false);
         statusLabel->setText (QString ("%1 <i>%2</i>")
                               .arg (statusLabel->text())
-                              .arg (words));
+                              .arg (locale().toString (words)));
         connect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::updateWordInfo);
     }
     else if (charsRemoved > 0 || charsAdded > 0) // not if only the format is changed
@@ -4865,7 +4860,7 @@ void FPwin::detachTab()
             QLabel *statusLabel = dropTarget->ui->statusBar->findChild<QLabel *>("statusLabel");
             statusLabel->setText (QString ("%1 <i>%2</i>")
                                   .arg (statusLabel->text())
-                                  .arg (textEdit->getWordNumber()));
+                                  .arg (locale().toString (textEdit->getWordNumber())));
             connect (textEdit->document(), &QTextDocument::contentsChange, dropTarget, &FPwin::updateWordInfo);
         }
         connect (textEdit, &QPlainTextEdit::blockCountChanged, dropTarget, &FPwin::statusMsgWithLineCount);
