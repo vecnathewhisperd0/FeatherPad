@@ -313,7 +313,7 @@
     <message>
         <location filename="../../fp.ui" line="688"/>
         <source>&amp;Line Numbers</source>
-        <translation>شماره خط</translation>
+        <translation>شماره‌ی خط</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="691"/>
@@ -353,7 +353,7 @@
     <message>
         <location filename="../../fp.ui" line="738"/>
         <source>&amp;Preferences</source>
-        <translation>تنظيمات</translation>
+        <translation>تنظيمها</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="741"/>
@@ -492,7 +492,7 @@
         <location filename="../../fp.ui" line="1168"/>
         <location filename="../../fp.ui" line="1171"/>
         <source>Last Active Tab</source>
-        <translation>آخرين برگه فعال</translation>
+        <translation>آخرين برگه‌ی فعال</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1174"/>
@@ -561,12 +561,12 @@
     <message>
         <location filename="../../fp.ui" line="1043"/>
         <source>Ne&amp;xt Tab</source>
-        <translation>برگه بعدی</translation>
+        <translation>برگه‌ی بعدی</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1054"/>
         <source>Previous Ta&amp;b</source>
-        <translation>برگه قبلی</translation>
+        <translation>برگه‌ی قبلی</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1092"/>
@@ -659,17 +659,17 @@
     <message>
         <location filename="../../fp.ui" line="836"/>
         <source>&amp;Cyrillic (CP1251)</source>
-        <translation>&amp;سايريليک (CP1251)</translation>
+        <translation>&amp;سيريليک (CP1251)</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="847"/>
         <source>Cyrillic (&amp;KOI8-U)</source>
-        <translation>سايريليک (&amp;KOI8-U)</translation>
+        <translation>سيريليک (&amp;KOI8-U)</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="858"/>
         <source>Cyrillic (&amp;ISO-8859-5)</source>
-        <translation>سايريليک (&amp;ISO-8859-5)</translation>
+        <translation>سيريليک (&amp;ISO-8859-5)</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="869"/>
@@ -729,7 +729,7 @@
     <message>
         <location filename="../../fp.ui" line="1025"/>
         <source>Close &amp;Other Tabs</source>
-        <translation>بستن ساير برگه‌ها</translation>
+        <translation>بستن برگه‌های ديگر</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1030"/>
@@ -944,7 +944,7 @@
     <message>
         <location filename="../../fpwin.cpp" line="2540"/>
         <source>See Preferences → Files → Do not permit opening of non-text files</source>
-        <translation>تگاه کنيد به تنظيمات ← فايل‌ها ← اجازه‌ی باز کردن فايل‌های غير متنی داده نشود</translation>
+        <translation>نگاه کنيد به تنظيمها ← فايل‌ها ← اجازه‌ی باز کردن فايل‌های غير متنی داده نشود</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="2549"/>
@@ -1168,24 +1168,24 @@
     <message>
         <location filename="../../fpwin.cpp" line="5486"/>
         <source>You need to add a Hunspell dictionary.</source>
-        <translation>نياز به افزودن لغتنامه Hunspell داريد.</translation>
+        <translation>نياز به افزودن لغتنامه‌ی Hunspell داريد.</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="5487"/>
         <location filename="../../fpwin.cpp" line="5494"/>
         <location filename="../../fpwin.cpp" line="5504"/>
         <source>See Preferences → Text → Spell Checking!</source>
-        <translation>تنظيمات ← متن ← بررسی تلفظ را مشاهده کنيد!</translation>
+        <translation>تنظيمها ← متن ← بررسی تلفظ را مشاهده کنيد!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="5493"/>
         <source>The Hunspell dictionary does not exist.</source>
-        <translation>لغتنامه Hunspell وجود ندارد.</translation>
+        <translation>لغتنامه‌ی Hunspell وجود ندارد.</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="5503"/>
         <source>The Hunspell dictionary is not accompanied by an affix file.</source>
-        <translation>لغتنامه Hunspell شامل فايل ضميمه نيست.</translation>
+        <translation>لغتنامه‌ی Hunspell همراه فايل ضميمه نيست.</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="5526"/>
@@ -1357,7 +1357,7 @@
     <message>
         <location filename="../../prefDialog.ui" line="14"/>
         <source>Preferences</source>
-        <translation>تنظيمات</translation>
+        <translation>تنظيمها</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="30"/>
@@ -1367,7 +1367,7 @@
     <message>
         <location filename="../../prefDialog.ui" line="69"/>
         <source>Window Settings</source>
-        <translation>تنظيمات پنجره</translation>
+        <translation>تنظيمهای پنجره</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="75"/>
@@ -1436,13 +1436,13 @@ but without tab functionality.</source>
         <location filename="../../prefDialog.ui" line="207"/>
         <source>If the menubar is hidden,
 a menu button appears on the toolbar.</source>
-        <translation>اگر نوارمنو پنهان باشد،
+        <translation>اگر نوار منو پنهان باشد،
 يک دکمه منو روی نوار ابزارها ظاهر می‌شود.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="211"/>
         <source>Do not show &amp;menubar</source>
-        <translation>نمايش ندادن نوارمنو</translation>
+        <translation>نمايش ندادن نوار منو</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="218"/>
@@ -1454,7 +1454,7 @@ a menu button appears on the toolbar.</source>
         <source>By default, each search entry
 has a separate search history.</source>
         <translation>به صورت پيشفرض، هر نوار جستجو
-يک تاريخچه مختص به خود دارد.</translation>
+يک تاريخچه‌ی مختص به خود دارد.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="229"/>
@@ -1509,7 +1509,7 @@ after the last tab is activated, and the same for Alt+Left.
 
 Tab navigation with mouse wheel is not affected.</source>
         <translation>به اين معنی که، در زبانهای چپ به راست، Alt+Right پس از فعالسازی آخرين برگه،
-به برگه اول می‌رود، و همينگونه برای Alt+Left.
+به برگه‌ی اول می‌رود، و همينگونه برای Alt+Left.
 
 پيمايش برگه با ماوس تغييری نمی‌کند.</translation>
     </message>
@@ -1810,7 +1810,7 @@ process could be killed by Ctrl+Alt+E.</source>
         <translation>اين فقط شامل فايل‌های اجرايی به زبان‌های اسکريپتی مانند Shell یا Python می‌شود.
 
 اگر انتخاب شود و فايل باز شده اجرايی باشد، فايل با کليک روی دکمه Run اجرا می‌شود،
-که در نوارابزار و منوی فايل قرار دارد. همچنين می‌توان کليد ميانبر Ctrl+E را به کار برذ.
+که در نوار ابزار و منوی فايل قرار دارد. همچنين می‌توان کليد ميانبر Ctrl+E را به کار برد.
 سپس، می‌توان فرآيند را توسط Ctrl+Alt+E نابود کرد.</translation>
     </message>
     <message>
@@ -1903,12 +1903,12 @@ if the cursor is inside the text view?</source>
         <source>A Hunspell dictionary has a name that ends with &quot;.dic&quot;
 and should be alongside an affix file with the same
 name but ending with &quot;.aff&quot;.</source>
-        <translation>يک لغتنامه Hunspell نامی دارد که شامل &quot;.dic&quot; می‌شود و همراه با فايل ضميمه‌ای می‌آيد که پسوند &quot;.aff&quot; دارد.</translation>
+        <translation>لغتنامه‌ی Hunspell نامی دارد که شامل &quot;.dic&quot; می‌شود و همراه با فايل ضميمه‌ای می‌آيد که پسوند &quot;.aff&quot; دارد.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="883"/>
         <source>Hunspell dictionary path:</source>
-        <translation>مسير لغتنامه Hunspell:</translation>
+        <translation>مسير لغتنامه‌ی Hunspell:</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="902"/>
@@ -1959,7 +1959,7 @@ trailing spaces of a text file.</source>
         <translation>اگر انتخاب شود، دکمه يا گزينه‌ی منوی ذخيره‌سازی، هنگامی هم
 که فايل بازشده تغيير نيافته باشد، قابل استفاده خواهد بود.
 
-اين کار در برخی از موارد کاربرد دارد، مثلا برای بروزرسانی
+اين در برخی از موارد کاربرد دارد، مثلا برای بروزرسانی
 تاريخ ذخیره‌سازی ياحذف فاصله‌های اضافی از فايل‌ها.</translation>
     </message>
     <message>
@@ -2170,7 +2170,7 @@ in the editing mode.</source>
     <message>
         <location filename="../../pref.cpp" line="1644"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
-        <translation>فايل‌های لغتنامه Hunspell (*.dic)</translation>
+        <translation>فايل‌های لغتنامه‌ی Hunspell (*.dic)</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="449"/>
@@ -2244,7 +2244,7 @@ in the editing mode.</source>
     <message>
         <location filename="../../sessionDialog.ui" line="69"/>
         <source>Open the selected session(s).</source>
-        <translation>نشست(های) انتخابی باز شود.</translation>
+        <translation>نشست(های) انتخاب‌شده باز شود.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="72"/>
@@ -2268,7 +2268,7 @@ in the editing mode.</source>
         <location filename="../../sessionDialog.ui" line="159"/>
         <source>By default, all files that are opened in all
 windows will be included in the saved session.</source>
-        <translation>به صورت پيشفرض، همه فايل‌های باز در همه پنجره‌ها به نشست اضافه می‌شوند.</translation>
+        <translation>به صورت پيشفرض، همه‌ی فايل‌های باز در همه‌ی پنجره‌ها به نشست اضافه می‌شوند.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="163"/>
@@ -2334,7 +2334,7 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../session.cpp" line="279"/>
         <source>Not all files exist or can be opened.</source>
-        <translation>همه فايل‌ها موجود يا قابل بازکردن نيستند.</translation>
+        <translation>همه‌ی فايل‌ها موجود يا قابل بازکردن نيستند.</translation>
     </message>
     <message>
         <location filename="../../session.cpp" line="314"/>
@@ -2349,12 +2349,12 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../session.cpp" line="339"/>
         <source>Do you really want to remove the selected sessions?</source>
-        <translation>آيا از حذف نشست‌های انتخابی اطمينان داريد؟</translation>
+        <translation>آيا از حذف نشست‌های انتخاب‌شده اطمينان داريد؟</translation>
     </message>
     <message>
         <location filename="../../session.cpp" line="341"/>
         <source>Do you really want to remove the selected session?</source>
-        <translation>آيا از حذف نشست انتخابی اطمينان داريد؟</translation>
+        <translation>آيا از حذف نشست انتخاب‌شده اطمينان داريد؟</translation>
     </message>
     <message>
         <location filename="../../session.cpp" line="346"/>
@@ -2390,7 +2390,7 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../spellDialog.ui" line="129"/>
         <source>Correct Once</source>
-        <translation>اصلاح يک مرتبه‌ای</translation>
+        <translation>اصلاح يکباره</translation>
     </message>
     <message>
         <location filename="../../spellDialog.ui" line="142"/>
@@ -2400,7 +2400,7 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../spellDialog.ui" line="87"/>
         <source>Ignore Once</source>
-        <translation>ناديده گرفتن يک مرتبه‌ای</translation>
+        <translation>ناديده گرفتن يکباره</translation>
     </message>
     <message>
         <location filename="../../spellDialog.ui" line="100"/>

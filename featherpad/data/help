@@ -149,7 +149,7 @@ For fast mouse wheel scrolling, put the cursor on the scrollbar. If it is inside
 *   Text Tabbing   *
 ********************
 
-The (selected multi-line) text can be tabbed by the Tab key and untabbed by Shift+Tab.
+A single text line could be tabbed by the Tab key and untabbed by Shift+Tab (which is also called "BackTab") if the cursor is at its start. If multiple lines are (partially) selected, Tab and BackTab will affect all of them, regardless of the cursor position.
 
 If Ctrl+Tab is used, the tabulation will be done by 4 spaces instead of a tab (the number of spaces can be changed in the Preferences dialog). This is sometimes called "soft tab".
 

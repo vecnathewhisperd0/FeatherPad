@@ -1998,7 +1998,7 @@ bool Highlighter::isQuoted (const QString &text, const int index,
              && isEscapedQuote (text, nxtPos, false))
             || (N % 2 != 0 // ... or an escaped start quote Bash...
                 && (isEscapedQuote (text, nxtPos, true, skipCommandSign)
-                    || isInsideRegex (text, nxtPos)))) // ... or a start quote inside regex
+                    /*|| isInsideRegex (text, nxtPos)*/))) // ... or a start quote inside regex
         {
             --N;
             pos = nxtPos;
