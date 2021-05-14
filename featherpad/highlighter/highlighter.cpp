@@ -3784,7 +3784,7 @@ void Highlighter::latexFormula (const QString &text)
     int index = 0;
     QString exp;
     TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData());
-    static const QRegularExpression latexFormulaStart ("\\${2}|\\$|\\\\\\(|\\\\\\[|\\\\begin\\s*{math}|\\\\begin\\s*{displaymath}|\\\\begin\\s*{equation}");
+    static const QRegularExpression latexFormulaStart ("\\${2}|\\$|\\\\\\(|\\\\\\[|\\\\begin\\s*{math}|\\\\begin\\s*{displaymath}|\\\\begin\\s*{equation}|\\\\begin\\s*{verbatim}|\\\\begin\\s*{verbatim\\*}");
     QRegularExpressionMatch startMatch;
     QRegularExpression endExp;
     QRegularExpressionMatch endMatch;
@@ -3841,13 +3841,17 @@ void Highlighter::latexFormula (const QString &text)
                     else
                         endExp.setPattern ("\\\\end\\s*{math}");
                 }
-                else
+                else if (text.at (index + startMatch.capturedLength() - 2) == 'n')
                     endExp.setPattern ("\\\\end\\s*{equation}");
+                else if (text.at (index + startMatch.capturedLength() - 2) == 'm')
+                    endExp.setPattern ("\\\\end\\s*{verbatim}");
+                else
+                    endExp.setPattern ("\\\\end\\s*{verbatim\\*}");
             }
             endIndex = text.indexOf (endExp,
                                      index + startMatch.capturedLength(),
                                      &endMatch);
-            /* don't format "\begin{math}" or "\begin{equation}" */
+            /* don't format "\begin{math}" or "\begin{equation}" or... */
             if (startMatch.capturedLength() > 2)
                 index += startMatch.capturedLength();
         }
