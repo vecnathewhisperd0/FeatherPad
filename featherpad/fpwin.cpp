@@ -707,6 +707,18 @@ void FPwin::applyConfigOnStarting()
 
     if (config.getAutoSave())
         startAutoSaving (true, config.getAutoSaveInterval());
+
+    if (config.getDisableMenubarAccel())
+    {
+        const auto menubarActions = ui->menuBar->actions();
+        for (const auto &action : menubarActions)
+        {
+            QString txt = action->text();
+            txt.remove (QRegularExpression (QStringLiteral ("\\s*\\(&[a-zA-Z0-9]\\)\\s*"))); // Chinese. Japanese,...
+            txt.remove (QLatin1Char ('&')); // other languages
+            action->setText (txt);
+        }
+    }
 }
 /*************************/
 void FPwin::addCursorPosLabel()

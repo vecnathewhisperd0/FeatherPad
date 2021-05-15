@@ -125,6 +125,7 @@ private slots:
     void changeWhitespaceValue (int value);
     void restoreDefaultSyntaxColors();
     void changeCurLineHighlight (int value);
+    void disableMenubarAccel (int checked);
 
 private:
     void closeEvent (QCloseEvent *event);
@@ -140,7 +141,7 @@ private:
 
     Ui::PrefDialog *ui;
     QWidget * parent_;
-    bool darkBg_, showWhiteSpace_, showEndings_, saveUnmodified_, sharedSearchHistory_, selHighlighting_, pastePaths_;
+    bool darkBg_, showWhiteSpace_, showEndings_, saveUnmodified_, sharedSearchHistory_, selHighlighting_, pastePaths_, disableMenubarAccel_;
     int vLineDistance_, darkColValue_, lightColValue_, recentNumber_, textTabSize_, whiteSpaceValue_, curLineHighlight_;
     QHash<QString, QString> shortcuts_, newShortcuts_;
     QString prevtMsg_;

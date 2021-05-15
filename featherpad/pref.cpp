@@ -124,6 +124,7 @@ PrefDialog::PrefDialog (QWidget *parent)
     pastePaths_ = config.getPastePaths();
     whiteSpaceValue_ = config.getWhiteSpaceValue();
     curLineHighlight_ = config.getCurLineHighlight();
+    disableMenubarAccel_ = config.getDisableMenubarAccel();
 
     /**************
      *** Window ***
@@ -198,6 +199,9 @@ PrefDialog::PrefDialog (QWidget *parent)
 
     ui->lastTabBox->setChecked (config.getCloseWithLastTab());
     connect (ui->lastTabBox, &QCheckBox::stateChanged, this, &PrefDialog::prefCloseWithLastTab);
+
+    ui->accelBox->setChecked (disableMenubarAccel_);
+    connect (ui->accelBox, &QCheckBox::stateChanged, this, &PrefDialog::disableMenubarAccel);
 
     /************
      *** Text ***
@@ -567,6 +571,7 @@ void PrefDialog::showPrompt (const QString& str, bool temporary)
              || (vLineDistance_ * config.getVLineDistance() < 0
                  || (vLineDistance_ > 0 && vLineDistance_ != config.getVLineDistance()))
              || whiteSpaceValue_ != config.getWhiteSpaceValue()
+             || disableMenubarAccel_ != config.getDisableMenubarAccel()
              || curLineHighlight_ != config.getCurLineHighlight()
              || origSyntaxColors_ != (!config.customSyntaxColors().isEmpty()
                                           ? config.customSyntaxColors()
@@ -1027,6 +1032,7 @@ void PrefDialog::prefVLineDistance (int value)
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
     int dsitance = qMax (qMin (value, 999), 10);
     config.setVLineDistance (dsitance);
+
     showPrompt();
 }
 /*************************/
@@ -1799,6 +1805,17 @@ void PrefDialog::changeCurLineHighlight (int value)
     ui->defaultSyntaxButton->setEnabled (!config.customSyntaxColors().isEmpty()
                                          || config.getWhiteSpaceValue() != config.getDefaultWhiteSpaceValue()
                                          || config.getCurLineHighlight() != -1);
+    showPrompt();
+}
+/*************************/
+void PrefDialog::disableMenubarAccel (int checked)
+{
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    if (checked == Qt::Checked)
+        config.setDisableMenubarAccel (true);
+    else if (checked == Qt::Unchecked)
+        config.setDisableMenubarAccel (false);
+
     showPrompt();
 }
 

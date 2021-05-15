@@ -213,6 +213,17 @@ a menu button appears on the toolbar.</string>
                </widget>
               </item>
               <item>
+               <widget class="QCheckBox" name="accelBox">
+                <property name="toolTip">
+                 <string>Menubar accelerators are activated by Alt
+and may interfere with customized shortcuts.</string>
+                </property>
+                <property name="text">
+                 <string>Disable menubar accelerators</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QCheckBox" name="searchbarBox">
                 <property name="text">
                  <string>Hide search &amp;bar by default</string>

@@ -507,6 +507,13 @@ public:
         sharedSearchHistory_ = share;
     }
 /*************************/
+    bool getDisableMenubarAccel() const {
+        return disableMenubarAccel_;
+    }
+    void setDisableMenubarAccel (bool disable) {
+        disableMenubarAccel_ = disable;
+    }
+/*************************/
     QString getDictPath() const {
         return dictPath_;
     }
@@ -592,7 +599,8 @@ private:
          selectionHighlighting_,
          pastePaths_,
          closeWithLastTab_,
-         sharedSearchHistory_;
+         sharedSearchHistory_,
+         disableMenubarAccel_;
     int vLineDistance_,
         tabPosition_,
         maxSHSize_,

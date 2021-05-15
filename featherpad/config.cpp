@@ -62,6 +62,7 @@ Config::Config():
     pastePaths_ (false),
     closeWithLastTab_ (false),
     sharedSearchHistory_ (false),
+    disableMenubarAccel_ (false),
     vLineDistance_ (-80),
     tabPosition_ (0),
     maxSHSize_ (2),
@@ -174,6 +175,9 @@ void Config::readConfig()
 
     if (settings.value ("sharedSearchHistory").toBool())
         sharedSearchHistory_ = true; // false by default
+
+    if (settings.value ("disableMenubarAccel").toBool())
+        disableMenubarAccel_ = true; // false by default
 
     settings.endGroup();
 
@@ -440,6 +444,7 @@ void Config::writeConfig()
     settings.setValue ("nativeDialog", nativeDialog_);
     settings.setValue ("closeWithLastTab", closeWithLastTab_);
     settings.setValue ("sharedSearchHistory", sharedSearchHistory_);
+    settings.setValue ("disableMenubarAccel", disableMenubarAccel_);
 
     settings.endGroup();
 
