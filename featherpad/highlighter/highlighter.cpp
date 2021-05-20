@@ -1134,7 +1134,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         /* the start of a literal block (-> yamlLiteralBlock()) */
         codeBlockFormat.setForeground (DarkMagenta);
         codeBlockFormat.setFontWeight (QFont::Bold);
-        rule.pattern.setPattern ("^[^#]*\\s+\\K(\\||>)-?\\s*$");
+        rule.pattern.setPattern ("^(?!#)(?:(?!\\s#).)*\\s+\\K(\\||>)-?\\s*(?=\\s#|$)");
         rule.format = codeBlockFormat;
         highlightingRules.append (rule);
 

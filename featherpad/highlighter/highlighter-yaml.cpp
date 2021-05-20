@@ -129,15 +129,15 @@ void Highlighter::yamlLiteralBlock (const QString &text)
        as a whitespace string prefixed by "i" */
     TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData());
     if (data == nullptr) return; // impossible
-    QString oldIndent;
+    QString blockIndent;
     QTextBlock prevBlock = currentBlock().previous();
     if (prevBlock.isValid())
     {
         if (TextBlockData *prevData = static_cast<TextBlockData *>(prevBlock.userData()))
         {
-            oldIndent = prevData->labelInfo();
-            if (!oldIndent.startsWith ("i"))
-                oldIndent = QString();
+            blockIndent = prevData->labelInfo();
+            if (!blockIndent.startsWith ("i"))
+                blockIndent = QString();
         }
     }
 
@@ -148,22 +148,23 @@ void Highlighter::yamlLiteralBlock (const QString &text)
         QString startingSpaces = "i" + match.captured();
         if (text == match.captured() // only whitespaces...
             /* ... or the indentation is wider than that of the literal block */
-            || (startingSpaces != oldIndent
-                && (oldIndent.isEmpty() || startingSpaces.startsWith (oldIndent))))
+            || (startingSpaces != blockIndent
+                && (blockIndent.isEmpty() || startingSpaces.startsWith (blockIndent))))
         {
             setFormat (0, text.length(), codeBlockFormat);
             setCurrentBlockState (codeBlockState);
-            data->insertInfo (oldIndent);
+            data->insertInfo (blockIndent);
             return;
         }
     }
 
-    static const QRegularExpression blockStartExp ("^[^#]*\\s+\\K(\\||>)-?\\s*$");
-    int index = text.indexOf (blockStartExp, 0, &match);
+    /* the start of a literal block (which is formatted near the end of the main formatting
+       because, if it was formatted here, its format might be overridden by that of a value) */
+    static const QRegularExpression yamlBlockStartExp ("^(?!#)(?:(?!\\s#).)*\\s+\\K(\\||>)-?\\s*(?=\\s#|$)");
+    int index = text.indexOf (yamlBlockStartExp, 0);
     if (index >= 0)
     {
         setCurrentBlockState (codeBlockState);
-        setFormat (index, text.length() - index, codeBlockFormat);
         text.indexOf (QRegularExpression ("^\\s*"), 0, &match);
         data->insertInfo ("i" + match.captured());
     }
@@ -245,17 +246,17 @@ void Highlighter::highlightYamlBlock (const QString &text)
         {
             yamlLiteralBlock (text);
             QString newIndent = data->labelInfo();
-            rehighlightNextBlock |= (!oldLabel.isEmpty() && !newIndent.isEmpty() && oldLabel != newIndent);
+            rehighlightNextBlock |= currentBlockState() == data->lastState() && oldLabel != newIndent;
         }
 
         /* since nothing can be before a Yaml comment except for spaces,
-            it's safe to call multiLineQuote() here, after singleLineComment() */
+           it's safe to call multiLineQuote() here, after singleLineComment() */
         rehighlightNextBlock |= multiLineQuote (text);
     }
 
     QTextCharFormat fi;
 
-    /* yaml Main Formatting */
+    /* yaml main Formatting */
     int bn = currentBlock().blockNumber();
     if (bn >= startCursor.blockNumber() && bn <= endCursor.blockNumber())
     {
@@ -289,7 +290,7 @@ void Highlighter::highlightYamlBlock (const QString &text)
                 int length = match.capturedLength();
 
                 /* check if there is a valid brace inside the regex
-                    and if there is, limit the found match to it */
+                   and if there is, limit the found match to it */
                 QString txt = text.mid (index, length);
                 int braceIndx = 0;
                 while ((braceIndx = txt.indexOf (QRegularExpression ("{"), braceIndx)) >= 0)
