@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2019 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2021 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -101,6 +101,11 @@ void TabWidget::selectLastActiveTab()
         if (QWidget *w = activatedTabs_.at (n - 2))
             setCurrentWidget(w);
     }
+}
+/*************************/
+void TabWidget::keyPressEvent (QKeyEvent *event)
+{
+    event->ignore(); // we have our shortcuts for tab switching
 }
 
 }
