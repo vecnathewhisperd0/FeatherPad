@@ -689,7 +689,7 @@ void FPwin::applyConfigOnStarting()
 
                  << QKeySequence (Qt::CTRL | Qt::Key_Equal).toString() << QKeySequence (Qt::CTRL | Qt::Key_Plus).toString() << QKeySequence (Qt::CTRL | Qt::Key_Minus).toString() << QKeySequence (Qt::CTRL | Qt::Key_0).toString() // zooming
                  << QKeySequence (Qt::CTRL | Qt::ALT | Qt::Key_E).toString() // exiting a process
-                 << QKeySequence (Qt::SHIFT | Qt::Key_Enter).toString() << QKeySequence (Qt::SHIFT | Qt::Key_Return).toString() << QKeySequence (Qt::CTRL | Qt::Key_Tab).toString() << QKeySequence (Qt::CTRL | Qt::META | Qt::Key_Tab).toString() // text tabulation
+                 << QKeySequence (Qt::SHIFT | Qt::Key_Enter).toString() << QKeySequence (Qt::SHIFT | Qt::Key_Return).toString() << QKeySequence (Qt::Key_Tab).toString() << QKeySequence (Qt::CTRL | Qt::Key_Tab).toString() << QKeySequence (Qt::CTRL | Qt::META | Qt::Key_Tab).toString() // text tabulation
                  << QKeySequence (Qt::CTRL | Qt::SHIFT | Qt::Key_J).toString() // select text on jumping (not an action)
                  << QKeySequence (Qt::CTRL | Qt::Key_K).toString(); // used by LineEdit as well as QPlainTextEdit
         config.setReservedShortcuts (reserved);
