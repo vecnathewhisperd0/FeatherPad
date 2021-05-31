@@ -158,7 +158,7 @@ QStringList Highlighter::keywords (const QString &lang)
         keywordPatterns << "\\b(abstract|assert|break|case|catch|class|const|while|continue|default|do|else|extends|final|finally|for|goto|if|implements|import|instanceof|interface|module|native|new|package|private|protected|public|return|static|strictfp|super|switch|synchronized|this|throw|throws|transient|try|var|volatile|while)(?!(@|#|\\$))\\b"
                         << "\\b(true|false|null)(?!(\\.|-|@|#|\\$))\\b";
     else if (lang == "go")
-        keywordPatterns << "\\b(break|case|chan|const|continue|default|defer|else|fallthrough|false|for|func|Go|Goto|if|import|interface|map|nil|package|range|return|select|struct|Struct|switch|Switch|true|type|Type|var|Var)(?!(\\.|-|@|#|\\$))\\b";
+        keywordPatterns << "\\b(break|case|chan|const|continue|default|defer|else|fallthrough|false|for|func|go|goto|if|import|interface|map|nil|package|range|return|select|struct|switch|true|type|var)(?!(\\.|-|@|#|\\$))\\b";
 
     return keywordPatterns;
 }
