@@ -236,9 +236,11 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
          || progLan == "xml" // never used because we should consider "&quot;"
          || progLan == "ruby"
          || progLan == "html" // not used in multiLineQuote()
-         || progLan == "scss" || progLan == "yaml" || progLan == "dart" || progLan == "php");
+         || progLan == "scss" || progLan == "yaml" || progLan == "dart"
+         || progLan == "go" || progLan == "php");
 
     quoteMark.setPattern ("\""); // the standard quote mark (always a single character)
+    singleQuoteMark.setPattern ("\'"); // only because of Go
     mixedQuoteMark.setPattern ("\"|\'");
     /* includes Perl's backquote operator and JavaScript's template literal */
     mixedQuoteBackquote.setPattern ("\"|\'|`");
@@ -379,7 +381,8 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     /* might be overridden by the keywords format */
     if (progLan == "c" || progLan == "cpp"
         || progLan == "lua" || progLan == "python"
-        || progLan == "php" || progLan == "dart" || progLan == "java")
+        || progLan == "php" || progLan == "dart"
+        || progLan == "go" || progLan == "java")
     {
         QTextCharFormat ft;
 
@@ -1455,6 +1458,18 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = dartFormat;
         highlightingRules.append (rule);
     }
+    else if (progLan == "go")
+    {
+        singleQuoteMark.setPattern ("`");
+        mixedQuoteMark.setPattern ("\"|`");
+
+        QTextCharFormat goFormat;
+        goFormat.setFontWeight (QFont::Bold);
+        goFormat.setForeground (Magenta);
+        rule.pattern.setPattern ("\\b(append|cap|close|complex|copy|delete|imag|len|make|new|panic|print|println|real|recover)\\b");
+        rule.format = goFormat;
+        highlightingRules.append (rule);
+    }
     else if (progLan == "pascal")
     {
         quoteMark.setPattern ("'");
@@ -1573,7 +1588,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     if (progLan == "c" || progLan == "cpp"
         || Lang == "javascript" || progLan == "qml"
         || progLan == "scss" || progLan == "dart"
-        || progLan == "java")
+        || progLan == "go" || progLan == "java")
     {
         rule.pattern.setPattern ("//.*"); // why had I set it to ("//(?!\\*).*")?
     }
@@ -1615,7 +1630,8 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     if (progLan == "c" || progLan == "cpp"
         || progLan == "javascript" || progLan == "qml"
         || progLan == "php" || progLan == "css" || progLan == "scss"
-        || progLan == "fountain" || progLan == "dart" || progLan == "java")
+        || progLan == "fountain" || progLan == "dart"
+        || progLan == "go" || progLan == "java")
     {
         commentStartExpression.setPattern ("/\\*");
         commentEndExpression.setPattern ("\\*/");
@@ -1804,6 +1820,12 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
             lastEscapedQuote = -1;
         }
     }
+    else if (progLan == "go")
+    {
+        if (text.at (pos) == '`' || isStartQuote)
+            return false;
+        return isEscapedChar (text, pos);
+    }
 
     /* there's no need to check for quote marks because this function is used only with them */
     /*if (progLan == "perl"
@@ -1977,7 +1999,7 @@ bool Highlighter::isQuoted (const QString &text, const int index,
                     }
                 }
                 else
-                    quoteExpression.setPattern ("\'");
+                    quoteExpression = singleQuoteMark;
             }
         }
     }
@@ -2023,7 +2045,7 @@ bool Highlighter::isQuoted (const QString &text, const int index,
                 if (text.at (nxtPos) == quoteMark.pattern().at (0))
                     quoteExpression = quoteMark;
                 else
-                    quoteExpression.setPattern ("\'");
+                    quoteExpression = singleQuoteMark;
             }
             else
                 quoteExpression = mixedQuoteMark;
@@ -2880,7 +2902,7 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
                 }
                 else
                 {
-                    quoteExpression.setPattern ("\'");
+                    quoteExpression = singleQuoteMark;
                     quote = singleQuoteState;
                 }
             }
@@ -2896,7 +2918,7 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
             if (quote == doubleQuoteState)
                 quoteExpression = quoteMark;
             else
-                quoteExpression.setPattern ("\'");
+                quoteExpression = singleQuoteMark;
         }
     }
 
@@ -2923,7 +2945,7 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
             }
             else
             {
-                quoteExpression.setPattern ("\'");
+                quoteExpression = singleQuoteMark;
                 quote = singleQuoteState;
             }
         }
@@ -2971,6 +2993,11 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
             else if (progLan == "markdown")
             { // this is the main difference of a markdown inline code from a single-line quote
                 isQuotation = false;
+            }
+            else if (progLan == "go")
+            {
+                if (quoteExpression == quoteMark) // no multiline double quote
+                    endIndex = text.length();
             }
         }
 

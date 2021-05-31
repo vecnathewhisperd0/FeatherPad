@@ -741,10 +741,10 @@ void FPwin::addRemoveLangBtn (bool add)
         langList << "c" << "cmake" << "config" << "cpp" << "css"
                  << "dart" << "deb" << "desktop" << "diff" << "fountain"
                  << "html" << "java" << "javascript" << "json" << "LaTeX"
-                 << "log" << "lua" << "m3u" << "markdown" << "makefile"
-                 << "pascal" << "perl" << "php" << "python" << "qmake"
-                 << "qml" << "reST" << "ruby" << "scss" << "sh"
-                 << "troff" << "theme" << "xml" << "yaml";
+                 << "go" << "log" << "lua" << "m3u" << "markdown"
+                 << "makefile" << "pascal" << "perl" << "php" << "python"
+                 << "qmake" << "qml" << "reST" << "ruby" << "scss"
+                 << "sh" << "troff" << "theme" << "xml" << "yaml";
         langList.sort (Qt::CaseInsensitive);
     }
 

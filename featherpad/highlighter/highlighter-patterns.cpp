@@ -157,6 +157,8 @@ QStringList Highlighter::keywords (const QString &lang)
     else if (lang == "java")
         keywordPatterns << "\\b(abstract|assert|break|case|catch|class|const|while|continue|default|do|else|extends|final|finally|for|goto|if|implements|import|instanceof|interface|module|native|new|package|private|protected|public|return|static|strictfp|super|switch|synchronized|this|throw|throws|transient|try|var|volatile|while)(?!(@|#|\\$))\\b"
                         << "\\b(true|false|null)(?!(\\.|-|@|#|\\$))\\b";
+    else if (lang == "go")
+        keywordPatterns << "\\b(break|case|chan|const|continue|default|defer|else|fallthrough|false|for|func|Go|Goto|if|import|interface|map|nil|package|range|return|select|struct|Struct|switch|Switch|true|type|Type|var|Var)(?!(\\.|-|@|#|\\$))\\b";
 
     return keywordPatterns;
 }
@@ -193,6 +195,10 @@ QStringList Highlighter::types()
     else if (progLan == "java")
     {
         typePatterns << "\\b(boolean|byte|char|double|enum|float|int|long|short|void)(?!(\\.|-|@|#|\\$))\\b";
+    }
+    else if (progLan == "go")
+    {
+        typePatterns << "\\b(bool|byte|complex64|complex128|error|float32|float64|int8|int16|int32|int64|uint8|uint16|uint32|uint64|int|uint|rune|string|uintptr)(?!(\\.|-|@|#|\\$))\\b";
     }
     return typePatterns;
 }

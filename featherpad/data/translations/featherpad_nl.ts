@@ -1266,7 +1266,7 @@
         <translation>De eerste 1000 vervangingen zijn gemarkeerd.</translation>
     </message>
     <message>
-        <location filename="../../syntax.cpp" line="294"/>
+        <location filename="../../syntax.cpp" line="298"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
         <translation>Het groottelimiet voor syntaxmarkering is overschreden.</translation>
     </message>
