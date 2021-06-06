@@ -539,6 +539,7 @@ void Highlighter::htmlJavascript (const QString &text)
     commentStartExpression = htmlSubcommetStart;
     commentEndExpression = htmlSubcommetEnd;
     progLan = "javascript";
+    multilineQuote_ = true; // needed alongside progLan
 
     bool wasJavascript (false);
     QTextBlock prevBlock = currentBlock().previous();
@@ -696,6 +697,7 @@ void Highlighter::htmlJavascript (const QString &text)
             setFormat (javaEndIndex, text.length() - javaEndIndex, mainFormat);
             setCurrentBlockState (0);
             progLan = "html";
+            multilineQuote_ = false;
             commentStartExpression = htmlCommetStart;
             commentEndExpression = htmlCommetEnd;
             htmlBrackets (text, javaEndIndex);
@@ -703,6 +705,7 @@ void Highlighter::htmlJavascript (const QString &text)
             commentStartExpression = htmlSubcommetStart;
             commentEndExpression = htmlSubcommetEnd;
             progLan = "javascript";
+            multilineQuote_ = true;
         }
 
         javaIndex = text.indexOf (javaStartExp, javaIndex + len, &startMatch);
@@ -718,6 +721,7 @@ void Highlighter::htmlJavascript (const QString &text)
 
     /* revert to html */
     progLan = "html";
+    multilineQuote_ = false;
     commentStartExpression = htmlCommetStart;
     commentEndExpression = htmlCommetEnd;
 }

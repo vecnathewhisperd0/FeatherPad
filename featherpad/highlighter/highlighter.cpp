@@ -227,7 +227,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
          && progLan != "reST" && progLan != "troff"
          && progLan != "yaml"); // yaml will be formated separately
 
-    /* only for isQuoted() and multiLineQuote() */
+    /* only for isQuoted() and multiLineQuote() (not used with JS, qml and perl) */
     mixedQuotes_ =
         (progLan == "c" || progLan == "cpp" // single quotes can also show syntax errors
          || progLan == "python"
