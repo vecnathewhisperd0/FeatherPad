@@ -2617,9 +2617,10 @@ bool Highlighter::multiLineComment (const QString &text,
             && prevState != commentInCssValueState))
     {
         startIndex = text.indexOf (commentStartExp, startIndex, &startMatch);
-        /* skip quotations (usually all formatted to this point) */
+        /* skip quotations (usually all formatted to this point) and regexes */
         QTextCharFormat fi = format (startIndex);
-        while (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat)
+        while (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
+               || isInsideRegex (text, startIndex))
         {
             startIndex = text.indexOf (commentStartExp, startIndex + 1, &startMatch);
             fi = format (startIndex);
@@ -2768,7 +2769,8 @@ bool Highlighter::multiLineComment (const QString &text,
 
         /* skip single-line comments and quotations again */
         fi = format (startIndex);
-        while (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat)
+        while (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
+               || isInsideRegex (text, startIndex))
         {
             startIndex = text.indexOf (commentStartExp, startIndex + 1, &startMatch);
             fi = format (startIndex);

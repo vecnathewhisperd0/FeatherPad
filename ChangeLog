@@ -8,6 +8,8 @@ V0.19.0
  * Considered a probable comment after the start of a literal block in Yaml.
  * Added an option for disabling menubar accelerators.
  * Added Go syntax highlighting.
+ * AppStream metadata (https://www.freedesktop.org/wiki/Distributions/AppStream/) added by Balló György (City-busz at GitHub).
+ * Handled the case where the start sign of a JavaScript/QML multiline comment was inside a regex.
 
 V0.18.0
 ---------
