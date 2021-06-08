@@ -10,6 +10,7 @@ V0.19.0
  * Added Go syntax highlighting.
  * AppStream metadata (https://www.freedesktop.org/wiki/Distributions/AppStream/) added by Balló György (City-busz at GitHub).
  * Handled the case where the start sign of a JavaScript/QML multiline comment was inside a regex.
+ * Apply the main text format only inside the visible rectangle.
 
 V0.18.0
 ---------

@@ -261,6 +261,7 @@ void Highlighter::highlightYamlBlock (const QString &text)
     if (bn >= startCursor.blockNumber() && bn <= endCursor.blockNumber())
     {
         data->setHighlighted();
+        applyMainFormat (text.length());
         for (const HighlightingRule &rule : qAsConst (highlightingRules))
         {
             if (rule.format != whiteSpaceFormat

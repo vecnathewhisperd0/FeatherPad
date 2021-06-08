@@ -345,6 +345,7 @@ void Highlighter::highlightMarkdownBlock (const QString &text)
     if (bn >= startCursor.blockNumber() && bn <= endCursor.blockNumber())
     {
         data->setHighlighted(); // completely highlighted
+        applyMainFormat (text.length());
         for (const HighlightingRule &rule : qAsConst (highlightingRules))
         {
             QRegularExpressionMatch match;

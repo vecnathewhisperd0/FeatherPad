@@ -3955,6 +3955,25 @@ void Highlighter::latexFormula (const QString &text)
     }
 }
 /*************************/
+void Highlighter::applyMainFormat (int textLength, int start)
+{
+    start = qMax (start, 0);
+    QTextCharFormat defaultFormat;
+    while (start < textLength)
+    {
+        while (format (start) != defaultFormat) // already formatted
+        {
+            ++ start;
+            if (start == textLength) return;
+        }
+        int indx = start;
+        while (indx < textLength && format (indx) == defaultFormat)
+            ++ indx;
+        setFormat (start, indx - start , mainFormat);
+        start = indx;
+    }
+}
+/*************************/
 // Start syntax highlighting!
 void Highlighter::highlightBlock (const QString &text)
 {
@@ -3969,11 +3988,6 @@ void Highlighter::highlightBlock (const QString &text)
     int txtL = text.length();
     if (txtL <= 10000)
     {
-        /* If the paragraph separators are shown, the unformatted text
-           will be grayed out. So, we should restore its real color here.
-           This is also safe when the paragraph separators are hidden. */
-        setFormat (0, txtL, mainFormat);
-
         if (progLan == "fountain")
         {
             highlightFountainBlock (text);
@@ -4212,6 +4226,12 @@ void Highlighter::highlightBlock (const QString &text)
     else if (mainFormatting)
     {
         data->setHighlighted(); // completely highlighted
+
+        /* If the paragraph separators are shown, the unformatted text
+           will be grayed out. So, we should restore its real color here.
+           This is also safe when the paragraph separators are hidden. */
+        applyMainFormat (txtL);
+
         for (const HighlightingRule &rule : qAsConst (highlightingRules))
         {
             /* single-line comments are already formatted */
