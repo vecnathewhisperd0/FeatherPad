@@ -4096,6 +4096,7 @@ void Highlighter::highlightBlock (const QString &text)
                 }
                 setCurrentBlockState (updateState); // completely highlighted
                 data->setHighlighted();
+                applyMainFormat (txtL);
                 return;
             }
         }
