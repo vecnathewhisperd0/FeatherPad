@@ -3190,7 +3190,7 @@ void Highlighter::multiLinePerlQuote (const QString &text)
         if (endIndex == -1)
         {
             setCurrentBlockState (quote);
-            if (quoteExpression.pattern() == "`")
+            if (quoteExpression == backQuote)
             {
                 if (TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData()))
                     data->setProperty (true);
