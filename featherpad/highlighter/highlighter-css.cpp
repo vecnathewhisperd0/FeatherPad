@@ -142,7 +142,7 @@ int Highlighter::isQuotedInCSSValue (const QString &text,
         if (prevQuote == 1)
         {
             res = 1;
-            quoteExpression.setPattern ("\'");
+            quoteExpression = singleQuoteMark;
         }
         else
         {
@@ -206,7 +206,7 @@ int Highlighter::isQuotedInCSSValue (const QString &text,
             if (text.at (nxtPos) == quoteMark.pattern().at (0))
                 quoteExpression = quoteMark;
             else
-                quoteExpression.setPattern ("\'");
+                quoteExpression = singleQuoteMark;
         }
         else
             quoteExpression = mixedQuoteMark;

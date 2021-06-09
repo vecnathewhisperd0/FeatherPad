@@ -301,7 +301,7 @@ private:
     /* Programming language: */
     QString progLan;
 
-    QRegularExpression quoteMark, singleQuoteMark, mixedQuoteMark, mixedQuoteBackquote;
+    QRegularExpression quoteMark, singleQuoteMark, backQuote, mixedQuoteMark, mixedQuoteBackquote;
     QRegularExpression xmlLt, xmlGt;
     QColor Blue, DarkBlue, Red, DarkRed, Verda, DarkGreen, DarkGreenAlt, Magenta, DarkMagenta, Violet, Brown, DarkYellow;
 

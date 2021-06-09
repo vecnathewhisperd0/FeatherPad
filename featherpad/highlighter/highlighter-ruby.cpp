@@ -53,7 +53,7 @@ bool Highlighter::isRubyQuoted (const QString &text, const int index)
             if (prevState == doubleQuoteState)
                 quoteExpression = quoteMark;
             else
-                quoteExpression.setPattern ("\'");
+                quoteExpression = singleQuoteMark;
         }
     }
     else N = 0; // a new search from the last position
@@ -115,7 +115,7 @@ bool Highlighter::isRubyQuoted (const QString &text, const int index)
             if (text.at (nxtPos) == quoteMark.pattern().at (0))
                 quoteExpression = quoteMark;
             else
-                quoteExpression.setPattern ("\'");
+                quoteExpression = singleQuoteMark;
         }
         else
             quoteExpression = mixedQuoteBackquote;

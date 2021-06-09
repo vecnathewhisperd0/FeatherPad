@@ -151,7 +151,7 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
                 }
                 else
                 {
-                    quoteExpression.setPattern ("\'");
+                    quoteExpression = singleQuoteMark;
                     quote = currentBlockState() == htmlStyleState ? htmlStyleSingleQuoteState
                                                                   : singleQuoteState;
                 }
@@ -165,7 +165,7 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
             if (quote == doubleQuoteState || quote == htmlStyleDoubleQuoteState)
                 quoteExpression = quoteMark;
             else
-                quoteExpression.setPattern ("\'");
+                quoteExpression = singleQuoteMark;
         }
 
         while (quoteIndex >= braIndex && quoteIndex <= endLimit)
@@ -183,7 +183,7 @@ void Highlighter::htmlBrackets (const QString &text, const int start)
                 }
                 else
                 {
-                    quoteExpression.setPattern ("\'");
+                    quoteExpression = singleQuoteMark;
                     quote = currentBlockState() == htmlStyleState ? htmlStyleSingleQuoteState
                                                                   : singleQuoteState;
                 }

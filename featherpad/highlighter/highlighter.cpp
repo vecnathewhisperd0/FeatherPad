@@ -39,13 +39,13 @@ TextBlockData::~TextBlockData()
     while (!allBraces.isEmpty())
     {
         BraceInfo *info = allBraces.at (0);
-        allBraces.remove(0);
+        allBraces.remove (0);
         delete info;
     }
     while (!allBrackets.isEmpty())
     {
         BracketInfo *info = allBrackets.at (0);
-        allBrackets.remove(0);
+        allBrackets.remove (0);
         delete info;
     }
 }
@@ -240,8 +240,9 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
          || progLan == "go" || progLan == "php");
 
     quoteMark.setPattern ("\""); // the standard quote mark (always a single character)
-    singleQuoteMark.setPattern ("\'"); // only because of Go
-    mixedQuoteMark.setPattern ("\"|\'");
+    singleQuoteMark.setPattern ("\'"); // will be changed only for Go
+    mixedQuoteMark.setPattern ("\"|\'"); // will be changed only for Go
+    backQuote.setPattern ("`");
     /* includes Perl's backquote operator and JavaScript's template literal */
     mixedQuoteBackquote.setPattern ("\"|\'|`");
 
@@ -2097,9 +2098,9 @@ bool Highlighter::isPerlQuoted (const QString &text, const int index)
                         backquoted = true;
                 }
                 if (backquoted)
-                    quoteExpression.setPattern ("`");
+                    quoteExpression = backQuote;
                 else
-                    quoteExpression.setPattern ("\'");
+                    quoteExpression = singleQuoteMark;
             }
         }
     }
@@ -2162,9 +2163,9 @@ bool Highlighter::isPerlQuoted (const QString &text, const int index)
             if (text.at (nxtPos) == quoteMark.pattern().at (0))
                 quoteExpression = quoteMark;
             else if (text.at (nxtPos) == '\'')
-                quoteExpression.setPattern ("\'");
+                quoteExpression = singleQuoteMark;
             else
-                quoteExpression.setPattern ("`");
+                quoteExpression = backQuote;
         }
         else
             quoteExpression = mixedQuoteBackquote;
@@ -2211,9 +2212,9 @@ bool Highlighter::isJSQuoted (const QString &text, const int index)
             if (prevState == doubleQuoteState)
                 quoteExpression = quoteMark;
             else if (prevState == singleQuoteState)
-                quoteExpression.setPattern ("\'");
+                quoteExpression = singleQuoteMark;
             else
-                quoteExpression.setPattern ("`");
+                quoteExpression = backQuote;
         }
     }
     else N = 0; // a new search from the last position
@@ -2277,9 +2278,9 @@ bool Highlighter::isJSQuoted (const QString &text, const int index)
             if (text.at (nxtPos) == quoteMark.pattern().at (0))
                 quoteExpression = quoteMark;
             else if (text.at (nxtPos) == '\'')
-                quoteExpression.setPattern ("\'");
+                quoteExpression = singleQuoteMark;
             else
-                quoteExpression.setPattern ("`");
+                quoteExpression = backQuote;
         }
         else
             quoteExpression = mixedQuoteBackquote;
@@ -2986,7 +2987,7 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
                 /* In c and cpp, multiline double quotes need backslash and
                    there's no multiline single quote. Moreover, In C++11,
                    there can be multiline raw string literals. */
-                if (quoteExpression.pattern() == "\'"
+                if (quoteExpression == singleQuoteMark
                     || (quoteExpression == quoteMark && delimStr.isEmpty() && !textEndsWithBackSlash (text)))
                 {
                     endIndex = text.length();
@@ -3118,9 +3119,9 @@ void Highlighter::multiLinePerlQuote (const QString &text)
             else
             {
                 if (text.at (index) == '\'')
-                    quoteExpression.setPattern ("\'");
+                    quoteExpression = singleQuoteMark;
                 else
-                    quoteExpression.setPattern ("`");
+                    quoteExpression = backQuote;
                 quote = singleQuoteState;
             }
         }
@@ -3142,9 +3143,9 @@ void Highlighter::multiLinePerlQuote (const QString &text)
                     backquoted = true;
             }
             if (backquoted)
-                quoteExpression.setPattern ("`");
+                quoteExpression = backQuote;
             else
-                quoteExpression.setPattern ("\'");
+                quoteExpression = singleQuoteMark;
         }
     }
 
@@ -3163,9 +3164,9 @@ void Highlighter::multiLinePerlQuote (const QString &text)
             else
             {
                 if (text.at (index) == '\'')
-                    quoteExpression.setPattern ("\'");
+                    quoteExpression = singleQuoteMark;
                 else
-                    quoteExpression.setPattern ("`");
+                    quoteExpression = backQuote;
                 quote = singleQuoteState;
             }
         }
@@ -3262,12 +3263,12 @@ void Highlighter::multiLineJSlQuote (const QString &text, const int start, int c
             }
             else if (text.at (index) == '\'')
             {
-                quoteExpression.setPattern ("\'");
+                quoteExpression = singleQuoteMark;
                 quote = singleQuoteState;
             }
             else
             {
-                quoteExpression.setPattern ("`");
+                quoteExpression = backQuote;
                 quote = JS_templateLiteralState;
             }
         }
@@ -3280,9 +3281,9 @@ void Highlighter::multiLineJSlQuote (const QString &text, const int start, int c
         if (quote == doubleQuoteState)
             quoteExpression = quoteMark;
         else if (quote == singleQuoteState)
-            quoteExpression.setPattern ("\'");
+            quoteExpression = singleQuoteMark;
         else
-            quoteExpression.setPattern ("`");
+            quoteExpression = backQuote;
     }
 
     while (index >= 0)
@@ -3299,12 +3300,12 @@ void Highlighter::multiLineJSlQuote (const QString &text, const int start, int c
             }
             else if (text.at (index) == '\'')
             {
-                quoteExpression.setPattern ("\'");
+                quoteExpression = singleQuoteMark;
                 quote = singleQuoteState;
             }
             else
             {
-                quoteExpression.setPattern ("`");
+                quoteExpression = backQuote;
                 quote = JS_templateLiteralState;
             }
         }
@@ -3329,7 +3330,7 @@ void Highlighter::multiLineJSlQuote (const QString &text, const int start, int c
         if (endIndex == -1)
         {
             /* In JS, multiline double and single quotes need backslash. */
-            if ((quoteExpression.pattern() == "\'" || quoteExpression == quoteMark)
+            if ((quoteExpression == singleQuoteMark || quoteExpression == quoteMark)
                 && !textEndsWithBackSlash (text))
             { // see NOTE of isEscapedRegex() and also the end of multiLineRegex()
                 setCurrentBlockState (regexExtraState);
@@ -3450,7 +3451,7 @@ void Highlighter::xmlQuotes (const QString &text)
             }
             else
             {
-                quoteExpression.setPattern ("\'");
+                quoteExpression = singleQuoteMark;
                 quote = singleQuoteState;
             }
         }
@@ -3463,7 +3464,7 @@ void Highlighter::xmlQuotes (const QString &text)
         if (quote == doubleQuoteState)
             quoteExpression = doubleQuote;
         else
-            quoteExpression.setPattern ("\'");
+            quoteExpression = singleQuoteMark;
     }
 
     while (index >= 0)
@@ -3485,7 +3486,7 @@ void Highlighter::xmlQuotes (const QString &text)
             }
             else
             {
-                quoteExpression.setPattern ("\'");
+                quoteExpression = singleQuoteMark;
                 quote = singleQuoteState;
             }
         }
@@ -4059,10 +4060,11 @@ void Highlighter::highlightBlock (const QString &text)
         /* first, handle "__DATA__" in perl */
         if (progLan == "perl")
         {
+            static const QRegularExpression perlData ("^\\s*__(DATA|END)__");
             QRegularExpressionMatch match;
             if (previousBlockState() == updateState // only used below to distinguish "__DATA__"
                 || (previousBlockState() <= 0
-                    && text.indexOf (QRegularExpression("^\\s*__(DATA|END)__"), 0, &match) == 0))
+                    && text.indexOf (perlData, 0, &match) == 0))
             {
                 /* ensure that the main format is applied */
                 if (!mainFormatting)

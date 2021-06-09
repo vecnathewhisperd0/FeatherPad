@@ -74,7 +74,7 @@ void Highlighter::SH_MultiLineQuote (const QString &text)
             if (text.at (index) == quoteMark.pattern().at (0))
                 quoteExpression = quoteMark;
             else
-                quoteExpression.setPattern ("\'");
+                quoteExpression = singleQuoteMark;
         }
     }
     else // but if we're inside a quotation
@@ -84,7 +84,7 @@ void Highlighter::SH_MultiLineQuote (const QString &text)
         if (wasDQuoted)
             quoteExpression = quoteMark;
         else
-            quoteExpression.setPattern ("\'");
+            quoteExpression = singleQuoteMark;
     }
 
     while (index >= 0)
@@ -97,7 +97,7 @@ void Highlighter::SH_MultiLineQuote (const QString &text)
             if (text.at (index) == quoteMark.pattern().at (0))
                 quoteExpression = quoteMark;
             else
-                quoteExpression.setPattern ("\'");
+                quoteExpression = singleQuoteMark;
         }
 
         int endIndex;
@@ -214,10 +214,9 @@ int Highlighter::formatInsideCommand (const QString &text,
                     ++ indx;
                 else
                 {
-                    QRegularExpression singleQuoteExp ("\'");
-                    int end = text.indexOf (singleQuoteExp, indx + 1);
+                    int end = text.indexOf (singleQuoteMark, indx + 1);
                     while (isEscapedQuote (text, end, false))
-                        end = text.indexOf (singleQuoteExp, end + 1);
+                        end = text.indexOf (singleQuoteMark, end + 1);
                     if (end == -1)
                     {
                         setFormat (indx, text.length() - indx, altQuoteFormat);
@@ -407,10 +406,9 @@ bool Highlighter::SH_CmndSubstVar (const QString &text,
         if (prevState == SH_SingleQuoteState
             || prevState == SH_MixedSingleQuoteState)
         {
-            QRegularExpression quoteExpression ("\'");
-            end = text.indexOf (quoteExpression);
+            end = text.indexOf (singleQuoteMark);
             while (isEscapedQuote (text, end, false))
-                end = text.indexOf (quoteExpression, end + 1);
+                end = text.indexOf (singleQuoteMark, end + 1);
             if (end == -1)
             {
                 setFormat (0, text.length(), altQuoteFormat);
