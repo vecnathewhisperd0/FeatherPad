@@ -28,7 +28,6 @@ void Highlighter::reSTMainFormatting (int start, const QString &text)
     if (data == nullptr) return;
 
     data->setHighlighted(); // completely highlighted
-    applyMainFormat (text.length(), start);
     for (const HighlightingRule &rule : qAsConst (highlightingRules))
     {
         QTextCharFormat fi;

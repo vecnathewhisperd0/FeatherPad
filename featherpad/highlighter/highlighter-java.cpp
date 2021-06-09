@@ -462,7 +462,6 @@ void Highlighter::javaMainFormatting (const QString &text)
     int index;
     QTextCharFormat fi;
     data->setHighlighted(); // completely highlighted
-    applyMainFormat (text.length());
     for (const HighlightingRule &rule : qAsConst (highlightingRules))
     {
         /* single-line comments are already formatted */

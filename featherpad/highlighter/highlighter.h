@@ -124,8 +124,6 @@ protected:
     void highlightBlock (const QString &text);
 
 private:
-    void applyMainFormat (int textLength, int start = 0);
-
     QStringList keywords (const QString &lang);
     QStringList types();
     bool isEscapedChar (const QString &text, const int pos) const;

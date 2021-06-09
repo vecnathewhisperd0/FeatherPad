@@ -346,6 +346,11 @@ void Highlighter::highlightJsonBlock (const QString &text)
         return;
     }
 
+    int bn = currentBlock().blockNumber();
+    bool mainFormatting (bn >= startCursor.blockNumber() && bn <= endCursor.blockNumber());
+    if (mainFormatting)
+        setFormat (0, txtL, mainFormat);
+
     /* NOTE:
        We try to use the available variables of TextBlockData for Json.
        The meanings of the used variables change as follows:
@@ -509,11 +514,9 @@ void Highlighter::highlightJsonBlock (const QString &text)
     }
 
     /* also, format whitespaces */
-    int bn = currentBlock().blockNumber();
-    if (bn >= startCursor.blockNumber() && bn <= endCursor.blockNumber())
+    if (mainFormatting)
     {
         data->setHighlighted();
-        applyMainFormat (txtL);
         for (const HighlightingRule &rule : qAsConst (highlightingRules))
         {
             if (rule.format == whiteSpaceFormat)

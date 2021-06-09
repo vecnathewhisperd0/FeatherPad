@@ -3955,25 +3955,6 @@ void Highlighter::latexFormula (const QString &text)
     }
 }
 /*************************/
-void Highlighter::applyMainFormat (int textLength, int start)
-{
-    start = qMax (start, 0);
-    QTextCharFormat defaultFormat;
-    while (start < textLength)
-    {
-        while (format (start) != defaultFormat) // already formatted
-        {
-            ++ start;
-            if (start == textLength) return;
-        }
-        int indx = start;
-        while (indx < textLength && format (indx) == defaultFormat)
-            ++ indx;
-        setFormat (start, indx - start , mainFormat);
-        start = indx;
-    }
-}
-/*************************/
 // Start syntax highlighting!
 void Highlighter::highlightBlock (const QString &text)
 {
@@ -3985,9 +3966,18 @@ void Highlighter::highlightBlock (const QString &text)
         return;
     }
 
+    int bn = currentBlock().blockNumber();
+    bool mainFormatting (bn >= startCursor.blockNumber() && bn <= endCursor.blockNumber());
+
     int txtL = text.length();
     if (txtL <= 10000)
     {
+        /* If the paragraph separators are shown, the unformatted text
+           will be grayed out. So, we should restore its real color here.
+           This is also safe when the paragraph separators are hidden. */
+        if (mainFormatting)
+            setFormat (0, txtL, mainFormat);
+
         if (progLan == "fountain")
         {
             highlightFountainBlock (text);
@@ -4044,8 +4034,7 @@ void Highlighter::highlightBlock (const QString &text)
         JavaQuote (text);
         multiLineJavaComment (text);
 
-        int bn = currentBlock().blockNumber();
-        if (bn >= startCursor.blockNumber() && bn <= endCursor.blockNumber())
+        if (mainFormatting)
             javaMainFormatting (text);
 
         javaBraces (text);
@@ -4075,6 +4064,10 @@ void Highlighter::highlightBlock (const QString &text)
                 || (previousBlockState() <= 0
                     && text.indexOf (QRegularExpression("^\\s*__(DATA|END)__"), 0, &match) == 0))
             {
+                /* ensure that the main format is applied */
+                if (!mainFormatting)
+                    setFormat (0, txtL, mainFormat);
+
                 if (match.capturedLength() > 0)
                 {
                     QTextCharFormat dataFormat = neutralFormat;
@@ -4096,7 +4089,6 @@ void Highlighter::highlightBlock (const QString &text)
                 }
                 setCurrentBlockState (updateState); // completely highlighted
                 data->setHighlighted();
-                applyMainFormat (txtL);
                 return;
             }
         }
@@ -4125,10 +4117,6 @@ void Highlighter::highlightBlock (const QString &text)
     /* just for debian control file */
     else if (progLan == "deb")
         debControlFormatting (text);
-
-    int bn = currentBlock().blockNumber();
-    bool mainFormatting (bn >= startCursor.blockNumber() && bn <= endCursor.blockNumber());
-    QTextCharFormat fi;
 
     /************************
      * Single-Line Comments *
@@ -4205,6 +4193,8 @@ void Highlighter::highlightBlock (const QString &text)
         rehighlightNextBlock |= (data->labelInfo() != oldLabel || data->getProperty() != oldProperty
                                  || data->openNests() != oldOpenNests);
 
+    QTextCharFormat fi;
+
     /*************
      * HTML Only *
      *************/
@@ -4227,12 +4217,6 @@ void Highlighter::highlightBlock (const QString &text)
     else if (mainFormatting)
     {
         data->setHighlighted(); // completely highlighted
-
-        /* If the paragraph separators are shown, the unformatted text
-           will be grayed out. So, we should restore its real color here.
-           This is also safe when the paragraph separators are hidden. */
-        applyMainFormat (txtL);
-
         for (const HighlightingRule &rule : qAsConst (highlightingRules))
         {
             /* single-line comments are already formatted */
