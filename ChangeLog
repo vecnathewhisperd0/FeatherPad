@@ -11,6 +11,7 @@ V0.19.0
  * AppStream metadata (https://www.freedesktop.org/wiki/Distributions/AppStream/) added by Balló György (City-busz at GitHub).
  * Handled the case where the start sign of a JavaScript/QML multiline comment was inside a regex.
  * Speed up syntax highlighting by applying the main text format only inside the visible rectangle and also by remembering single quote and back quote.
+ * No need to the window system identifier with tab DND.
 
 V0.18.0
 ---------
