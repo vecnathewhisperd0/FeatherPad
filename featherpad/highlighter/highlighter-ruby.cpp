@@ -151,8 +151,24 @@ bool Highlighter::isEscapedRubyRegex (const QString &text, const int pos)
     if (i > -1)
     {
         ch = text.at (i);
-        if (ch == ')' || ch == ']' || ch == '}' || ch.isNumber())
+        if (ch == ')' || ch == ']' || ch == '}')
             return true;
+        bool isString (false);
+        if (ch.isNumber())
+        { // check if this is really a number
+            --i;
+            while (i >= 0 && text.at (i).isNumber())
+                --i;
+            if (i == -1 || (!text.at (i).isLetter() && text.at (i) != '_'))
+                return true;
+            isString = true;
+        }
+        /* as with Kate */
+        if ((isString || ch.isLetter() || ch == '_')
+            && pos + 1 < text.length() && text.at (pos + 1).isSpace())
+        {
+            return true;
+        }
     }
 
     return false;
