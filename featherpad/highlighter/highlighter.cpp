@@ -892,6 +892,12 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         }
         else if (progLan == "ruby")
         {
+            /* numbers */
+            shFormat.setForeground (Brown);
+            rule.pattern.setPattern ("(?<![a-zA-Z0-9_@$%])\\d+(\\.\\d+)?(?=[^\\d]|$)");
+            rule.format = shFormat;
+            highlightingRules.append (rule);
+
             /* built-in functions */
             shFormat.setFontWeight (QFont::Bold);
             shFormat.setForeground (Magenta);

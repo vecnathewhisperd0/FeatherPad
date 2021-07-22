@@ -136,6 +136,25 @@ bool Highlighter::isEscapedRubyRegex (const QString &text, const int pos)
     }
     if (text.at (pos) == '/' && isEscapedChar (text, pos))
         return true;
+
+    QChar ch;
+    int i = pos - 1;
+    if (i > -1)
+    {
+        ch = text.at (i);
+        if (ch.isLetterOrNumber() || ch == '_')
+            return true;
+    }
+
+    while (i >= 0 && (text.at (i) == ' ' || text.at (i) == '\t'))
+        --i;
+    if (i > -1)
+    {
+        ch = text.at (i);
+        if (ch == ')' || ch == ']' || ch == '}' || ch.isNumber())
+            return true;
+    }
+
     return false;
 }
 /*************************/
