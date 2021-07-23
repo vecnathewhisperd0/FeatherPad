@@ -1945,10 +1945,10 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
         return true;
     }
 
-    if (progLan == "ruby")
+    if (progLan == "ruby" && text.at (pos) == quoteMark.pattern().at (0))
     { // a minimal support for command substitution "#{...}"
         QRegularExpressionMatch match;
-        int index = text.lastIndexOf (QRegularExpression ("\\\"[^\\\"]*#\\{[^\\}]*"), pos, &match);
+        int index = text.lastIndexOf (QRegularExpression ("#\\{[^\\}]*"), pos, &match);
         if (index > -1 && index < pos && index + match.capturedLength() > pos)
             return true;
     }
@@ -4218,7 +4218,7 @@ void Highlighter::highlightBlock (const QString &text)
 
     /* only javascript, qml, perl and ruby */
     multiLineRegex (text, 0);
-    /* "Property" is used to know about backquotes, "label" is used
+    /* "Property" is used for knowing about backquotes, "label" is used
        for delimiter strings and "OpenNests" for paired delimiters. */
     if ((progLan == "perl" || progLan == "ruby") && currentBlockState() == data->lastState())
         rehighlightNextBlock |= (data->labelInfo() != oldLabel || data->getProperty() != oldProperty
