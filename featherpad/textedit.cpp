@@ -444,6 +444,32 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
 {
     keepTxtCurHPos_ = false;
 
+    /* first, deal with spacial cases of pressing Ctrl */
+    if (event->modifiers() & Qt::ControlModifier)
+    {
+        if (event->modifiers() == Qt::ControlModifier) // no other modifier is pressed
+        {
+            /* deal with hyperlinks */
+            if (event->key() == Qt::Key_Control) // no other key is pressed either
+            {
+                if (highlighter_)
+                {
+                    if (getUrl (cursorForPosition (viewport()->mapFromGlobal (QCursor::pos())).position()).isEmpty())
+                        viewport()->setCursor (Qt::IBeamCursor);
+                    else
+                        viewport()->setCursor (Qt::PointingHandCursor);
+                    QPlainTextEdit::keyPressEvent (event);
+                    return;
+                }
+            }
+        }
+        if (event->key() != Qt::Key_Control) // another modifier/key is pressed
+        {
+            if (highlighter_)
+                viewport()->setCursor (Qt::IBeamCursor);
+        }
+    }
+
     /* workarounds for copy/cut/... -- see TextEdit::copy()/cut()/... */
     if (event == QKeySequence::Copy)
     {
@@ -492,35 +518,18 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
         return;
     }
 
-    /* first, deal with spacial cases of pressing Ctrl */
-    if (event->modifiers() & Qt::ControlModifier)
-    {
-        if (event->modifiers() == Qt::ControlModifier) // no other modifier is pressed
-        {
-            /* deal with hyperlinks */
-            if (event->key() == Qt::Key_Control) // no other key is pressed either
-            {
-                if (highlighter_)
-                {
-                    if (getUrl (cursorForPosition (viewport()->mapFromGlobal (QCursor::pos())).position()).isEmpty())
-                        viewport()->setCursor (Qt::IBeamCursor);
-                    else
-                        viewport()->setCursor (Qt::PointingHandCursor);
-                    QPlainTextEdit::keyPressEvent (event);
-                    return;
-                }
-            }
-        }
-        if (event->key() != Qt::Key_Control) // another modifier/key is pressed
-        {
-            if (highlighter_)
-                viewport()->setCursor (Qt::IBeamCursor);
-        }
-    }
-
     if (isReadOnly())
     {
         QPlainTextEdit::keyPressEvent (event);
+        return;
+    }
+
+    if (event == QKeySequence::Delete || event == QKeySequence::DeleteStartOfWord)
+    {
+        bool hadSelection (textCursor().hasSelection());
+        QPlainTextEdit::keyPressEvent (event);
+        if (!hadSelection)
+            emit updateBracketMatching(); // isn't emitted in another way
         return;
     }
 
