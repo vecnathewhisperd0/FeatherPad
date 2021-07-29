@@ -611,8 +611,8 @@
     <message>
         <location filename="../../fp.ui" line="342"/>
         <location filename="../../fpwin.cpp" line="3908"/>
-        <location filename="../../replace.cpp" line="62"/>
-        <location filename="../../replace.cpp" line="114"/>
+        <location filename="../../replace.cpp" line="61"/>
+        <location filename="../../replace.cpp" line="113"/>
         <source>Replacement</source>
         <translation>جايگذاری</translation>
     </message>
@@ -1243,24 +1243,24 @@
         <translation>درباره‌ی FeatherPad</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="243"/>
+        <location filename="../../replace.cpp" line="242"/>
         <source>No Replacement</source>
         <translation>بدون جايگذاری</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="245"/>
+        <location filename="../../replace.cpp" line="244"/>
         <source>One Replacement</source>
         <translation>يک جايگذاری</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../replace.cpp" line="247"/>
+        <location filename="../../replace.cpp" line="246"/>
         <source>%Ln Replacements</source>
         <translation>
             <numerusform>%Ln جايگذاری</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="251"/>
+        <location filename="../../replace.cpp" line="250"/>
         <source>The first 1000 replacements are highlighted.</source>
         <translation>تنها ۱۰۰۰ جايگزينی نخست رنگی شده‌اند.</translation>
     </message>

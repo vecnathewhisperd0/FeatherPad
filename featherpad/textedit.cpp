@@ -1240,7 +1240,8 @@ void TextEdit::undo()
     if (getSearchedText().isEmpty()) // FPwin::hlight() won't be called
     {
         QList<QTextEdit::ExtraSelection> es;
-        es.prepend (currentLineSelection());
+        if (!currentLine_.cursor.isNull())
+            es.prepend (currentLine_);
         es.append (blueSel_);
         es.append (redSel_);
         setExtraSelections (es);
