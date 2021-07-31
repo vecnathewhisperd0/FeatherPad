@@ -4825,6 +4825,7 @@ void FPwin::detachTab()
     QList<QTextEdit::ExtraSelection> es;
     if (ln || spin)
         es.prepend (textEdit->currentLineSelection());
+    es.append (textEdit->getBlueSel());
     textEdit->setExtraSelections (es);
 
     /* at last, set all properties correctly */
@@ -5087,6 +5088,7 @@ void FPwin::dropTab (const QString& str, QObject *source)
     {
         es.prepend (textEdit->currentLineSelection());
     }
+    es.append (textEdit->getBlueSel());
     textEdit->setExtraSelections (es);
 
     /* at last, set all properties correctly */
