@@ -4,6 +4,7 @@ V0.19.0
  * Refactored the code of syntax highlighting.
  * Examine final targets of symlinks when detecting programming languages.
  * Added group separators to the numbers of lines, selected characters and words on the statusbar.
+ * Better property-value pairs in CSS.
  * Covered "verbatim" in LaTex.
  * Considered a probable comment after the start of a literal block in Yaml.
  * Added an option for disabling menubar accelerators.
