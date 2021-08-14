@@ -111,7 +111,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
                  || fname.endsWith (".rdf") || fname.endsWith (".docbook") || fname.endsWith (".fnx")
                  || fname.endsWith (".ts") || fname.endsWith (".menu") || fname.endsWith (".kml", Qt::CaseInsensitive)
                  || fname.endsWith (".xspf", Qt::CaseInsensitive) || fname.endsWith (".asx", Qt::CaseInsensitive)
-                 /*|| fname.endsWith (".ui") || fname.endsWith (".xul")*/)
+                 || fname.endsWith (".nfo")/* || fname.endsWith (".ui") || fname.endsWith (".xul")*/)
             progLan = "xml";
         else if (fname.endsWith (".css") || fname.endsWith (".qss"))
             progLan = "css";
@@ -219,7 +219,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
             else if (mime == "text/x-tex" || mime == "application/x-lyx")
                 progLan = "LaTeX";
             else if (mime == "application/xml" || parentMime == "application/xml"
-                     || mime == "text/feathernotes-fnx" || mime == "audio/x-ms-asx")
+                     || mime == "text/feathernotes-fnx" || mime == "audio/x-ms-asx" || mime == "text/x-nfo")
                 progLan = "xml";
             else if (mime == "text/css")
                 progLan = "css";
