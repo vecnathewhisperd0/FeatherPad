@@ -151,7 +151,7 @@ bool FPsingleton::sendMessage (const QString& message)
     int waiting = 0;
     while (waiting < 5 && !localSocket.waitForConnected (timeout_))
     {
-        QThread::msleep(500);
+        QThread::msleep (500);
         localSocket.connectToServer (uniqueKey_, QIODevice::WriteOnly);
         ++ waiting;
     }
@@ -401,11 +401,11 @@ void FPsingleton::handleMessage (const QString& message)
                 if (hasDialog) continue;
                 /* consider viewports too, so that if more than half of the width as well as the height
                    of the window is inside the current viewport (of the current desktop), open a new tab */
-                if (sr.contains (thisWin->geometry().center()))
+                if (!isX11_ || sr.contains (thisWin->geometry().center()))
                 {
                     if (d >= 0) // it may be -1 for some DEs that don't support _NET_CURRENT_DESKTOP
                     {
-                        /* first, pretend to KDE that a new window is created
+                        /* first, because of an old bug, pretend to KDE that a new window is created
                            (without this, the next new window would open on a wrong desktop) */
                         thisWin->dummyWidget->showMinimized();
                         QTimer::singleShot (0, thisWin->dummyWidget, &QWidget::close);
@@ -432,12 +432,11 @@ void FPsingleton::handleMessage (const QString& message)
         if (config_.getOpenInWindows() && !filesList.isEmpty())
         {
             for (const auto &file : filesList)
-              newWin (QStringList() << file, lineNum, posInLine);
+                newWin (QStringList() << file, lineNum, posInLine);
         }
         else
             newWin (filesList, lineNum, posInLine);
     }
 }
-
 
 }
