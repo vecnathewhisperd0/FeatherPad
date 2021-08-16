@@ -218,6 +218,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
                 progLan = "troff";
             else if (mime == "text/x-tex" || mime == "application/x-lyx")
                 progLan = "LaTeX";
+            else if (mime == "text/html" || parentMime == "text/html" || mime == "application/xhtml+xml") // should come before xml check
+                progLan = "html";
             else if (mime == "application/xml" || parentMime == "application/xml"
                      || mime == "text/feathernotes-fnx" || mime == "audio/x-ms-asx" || mime == "text/x-nfo")
                 progLan = "xml";
@@ -251,8 +253,6 @@ void FPwin::setProgLang (TextEdit *textEdit)
                 progLan = "yaml";
             else if (mime == "text/x-diff" || mime == "text/x-patch")
                 progLan = "diff";
-            else if (mime == "text/html" || mime == "application/xhtml+xml")
-                progLan = "html";
             else if (mime == "text/markdown")
                 progLan = "markdown";
             else if (mime == "audio/x-mpegurl" || mime == "application/vnd.apple.mpegurl")
