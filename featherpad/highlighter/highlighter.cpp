@@ -1421,7 +1421,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
         /* definitions (starting with @) */
         scssFormat.setForeground (Brown);
-        rule.pattern.setPattern ("\\s*@[A-Za-z-]+\\s+|;\\s*@[A-Za-z-]+\\s+");
+        rule.pattern.setPattern ("@[A-Za-z_-]+\\b");
         rule.format = scssFormat;
         highlightingRules.append (rule);
 
