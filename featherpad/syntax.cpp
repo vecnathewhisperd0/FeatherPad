@@ -52,7 +52,7 @@ void FPwin::toggleSyntaxHighlighting()
         QTimer::singleShot (0, this, &FPwin::unbusy);
 }
 /*************************/
-// Never returns an empty string; falls back to "url".
+// Falls back to "url".
 void FPwin::setProgLang (TextEdit *textEdit)
 {
     if (textEdit == nullptr) return;
@@ -72,7 +72,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
     }
 
     if (fname.endsWith (".sub"))
-        return;
+        return; // "url" is the default for TextEdit
 
     QString progLan;
 
