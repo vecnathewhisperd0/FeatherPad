@@ -327,12 +327,12 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
             Blue = QColor (Qt::blue);
             DarkBlue = QColor (Qt::darkBlue);
             Red = QColor (Qt::red);
-            DarkRed = QColor (140, 0, 0);
+            DarkRed = QColor (150, 0, 0);
             Verda = QColor (0, 110, 110);
             DarkGreen = QColor (Qt::darkGreen);
             DarkMagenta = QColor (Qt::darkMagenta);
             Violet = QColor (126, 0, 230); // #7e00e6
-            Brown = QColor (160, 80, 0);
+            Brown = QColor (150, 85, 0);
             DarkYellow = QColor (100, 100, 0); // Qt::darkYellow is (180, 180, 0)
             translucent = QColor (0, 0, 0, 190);
         }
