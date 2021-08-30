@@ -1,4 +1,4 @@
-V0.19.0
+V1.0.0
 ---------
  * Don't highlight the rest of a JSON document when encountering a huge line (because the formats couldn't be determined).
  * Refactored the code of syntax highlighting.
@@ -14,6 +14,7 @@ V0.19.0
  * Fixed an issue in Ruby's regex, highlighted its back quotes and added a very minimal support for its command substitution.
  * Speed up syntax highlighting by applying the main text format only inside the visible rectangle and also by remembering single quote and back quote.
  * No need to the window system identifier with tab DND.
+ * Bumped the version to 1.0.0. FeatherPad has been stable for a long time and some users may mistake "0.X.Y" for "unstable".
 
 V0.18.0
 ---------
