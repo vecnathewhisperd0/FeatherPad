@@ -141,7 +141,7 @@ The status bar not only shows information about the opened file but can also con
 *   Wheel Scrolling   *
 ***********************
 
-For fast mouse wheel scrolling, put the cursor on the scrollbar. If it is inside the text view, the speed of wheel scrolling will be normal. If, in addition, the Shift key is pressed, the text will scroll one line per wheel turn.
+For fast (mouse) wheel scrolling (moving pages up or down), put the cursor on the scrollbar. If it is inside the text view, the speed of wheel scrolling will be normal. If, in addition, the Shift key is pressed, the text will scroll one line per wheel turn.
 
 "Inertial" scrolling can be enabled in the Text section of the Preferences dialog. It creates a kind of inertia with wheel scrolling when the cursor is inside the text view.
 
