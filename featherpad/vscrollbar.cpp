@@ -43,12 +43,10 @@ void VScrollBar::wheelEvent (QWheelEvent *event)
     _effectiveDelta += delta;
     if (qAbs (_effectiveDelta) < 120)
         return;
-
     _effectiveDelta = 0;
-    if (delta < 0)
-        triggerAction (QAbstractSlider::SliderPageStepAdd);
-    else
-        triggerAction (QAbstractSlider::SliderPageStepSub);
+
+    int step = (delta < 0 ? 1 : -1) * qMax (pageStep() / ((event->modifiers() & Qt::ShiftModifier) ? 2 : 1), 1);
+    setSliderPosition (sliderPosition() + step);
 }
 
 }
