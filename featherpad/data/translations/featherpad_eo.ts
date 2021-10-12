@@ -152,7 +152,7 @@
     <message>
         <location filename="../../fp.ui" line="533"/>
         <source>&amp;Undo</source>
-        <translation>Malfar&amp;u</translation>
+        <translation>Malfar&amp;i</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="536"/>
@@ -167,7 +167,7 @@
     <message>
         <location filename="../../fp.ui" line="547"/>
         <source>&amp;Redo</source>
-        <translation>Refa&amp;ru</translation>
+        <translation>Refa&amp;ri</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="550"/>
@@ -263,7 +263,7 @@
     <message>
         <location filename="../../fp.ui" line="637"/>
         <source>&amp;Cut</source>
-        <translation>&amp;Tranĉu</translation>
+        <translation>&amp;Tranĉi</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="640"/>
@@ -273,7 +273,7 @@
     <message>
         <location filename="../../fp.ui" line="648"/>
         <source>C&amp;opy</source>
-        <translation>&amp;Kopiu</translation>
+        <translation>&amp;Kopii</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="651"/>
@@ -283,7 +283,7 @@
     <message>
         <location filename="../../fp.ui" line="656"/>
         <source>&amp;Paste</source>
-        <translation>Algl&amp;uu</translation>
+        <translation>Algl&amp;ui</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="659"/>
@@ -293,12 +293,12 @@
     <message>
         <location filename="../../fp.ui" line="667"/>
         <source>&amp;Delete</source>
-        <translation>&amp;Forviŝu</translation>
+        <translation>&amp;Forviŝi</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="672"/>
         <source>&amp;Select All</source>
-        <translation>Elektu &amp;Ĉion</translation>
+        <translation>Elekti &amp;Ĉion</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="675"/>
@@ -453,7 +453,7 @@
     <message>
         <location filename="../../fp.ui" line="1127"/>
         <source>Paste Date and Time</source>
-        <translation>Algluu la Daton kaj Tempon</translation>
+        <translation>Alglui la Daton kaj Tempon</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1130"/>
@@ -551,12 +551,12 @@
     <message>
         <location filename="../../fp.ui" line="1010"/>
         <source>Close Ne&amp;xt Tabs</source>
-        <translation>Fermu la &amp;Sekvajn Foliojn</translation>
+        <translation>Fermi la &amp;Sekvajn Foliojn</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1015"/>
         <source>Close &amp;Previous Tabs</source>
-        <translation>Fermu la &amp;Antaŭajn Foliojn</translation>
+        <translation>Fermi la &amp;Antaŭajn Foliojn</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1043"/>
@@ -576,7 +576,7 @@
     <message>
         <location filename="../../fp.ui" line="1020"/>
         <source>Close &amp;All Tabs</source>
-        <translation>Fermu Ĉ&amp;iujn Foliojn</translation>
+        <translation>Fermi Ĉ&amp;iujn Foliojn</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="153"/>
@@ -729,17 +729,17 @@
     <message>
         <location filename="../../fp.ui" line="1025"/>
         <source>Close &amp;Other Tabs</source>
-        <translation>Fermu la A&amp;liajn Foliojn</translation>
+        <translation>Fermi la A&amp;liajn Foliojn</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1030"/>
         <source>&amp;Copy File Name</source>
-        <translation>&amp;Kopiu la Dosiernomon</translation>
+        <translation>&amp;Kopii la Dosiernomon</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1035"/>
         <source>Copy File &amp;Path</source>
-        <translation>Kopiu la Dosier&amp;padon</translation>
+        <translation>Kopii la Dosier&amp;padon</translation>
     </message>
     <message>
         <location filename="../../fp.ui" line="1046"/>
@@ -864,12 +864,12 @@
     <message>
         <location filename="../../fpwin.cpp" line="1613"/>
         <source>Open Link</source>
-        <translation>Malfermu la Ligilon</translation>
+        <translation>Malfermi la Ligilon</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1626"/>
         <source>Copy Link</source>
-        <translation>Kopiu la Ligilon</translation>
+        <translation>Kopii la Ligilon</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1800"/>
@@ -1046,31 +1046,31 @@
         <location filename="../../fpwin.cpp" line="5225"/>
         <location filename="../../fpwin.cpp" line="5335"/>
         <source>Copy Target Path</source>
-        <translation>Kopiu la Celpadon</translation>
+        <translation>Kopii la Celpadon</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="5229"/>
         <location filename="../../fpwin.cpp" line="5339"/>
         <source>Open Target Here</source>
-        <translation>Malfermu la Celon Ĉi Tie</translation>
+        <translation>Malfermi la Celon Ĉi Tie</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="5248"/>
         <location filename="../../fpwin.cpp" line="5359"/>
         <source>Copy Final Target Path</source>
-        <translation>Kopiu la Finan Celpadon</translation>
+        <translation>Kopii la Finan Celpadon</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="5252"/>
         <location filename="../../fpwin.cpp" line="5363"/>
         <source>Open Final Target Here</source>
-        <translation>Malfermu la Finan Celon Ĉi Tie</translation>
+        <translation>Malfermi la Finan Celon Ĉi Tie</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="5269"/>
         <location filename="../../fpwin.cpp" line="5381"/>
         <source>Open Containing Folder</source>
-        <translation>Malfermu la Enhavan Dosierujon</translation>
+        <translation>Malfermi la Enhavan Dosierujon</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="5490"/>
@@ -1547,7 +1547,7 @@ report that they have multiple desktops.</source>
 la nuna labortablo, la dosieroj estus malfermitaj
 kiel ĝiaj folioj.
 
-Tamen, iuj labortablaj medioj eblas ne sciigi
+Tamen, iuj labortablaj medioj ne sciigas
 tion ke ili havas plurajn labortablojn.</translation>
     </message>
     <message>

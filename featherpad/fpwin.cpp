@@ -353,7 +353,7 @@ void FPwin::closeEvent (QCloseEvent *event)
         Config& config = singleton->getConfig();
         if (config.getRemSize() && windowState() == Qt::WindowNoState)
             config.setWinSize (size());
-        if (config.getRemPos())
+        if (config.getRemPos() && !static_cast<FPsingleton*>(qApp)->isWayland())
             config.setWinPos (pos());
         if (sidePane_ && config.getRemSplitterPos())
         {
@@ -548,7 +548,7 @@ void FPwin::applyConfigOnStarting()
         resize (startSize);
     }
 
-    if (config.getRemPos())
+    if (config.getRemPos() && !static_cast<FPsingleton*>(qApp)->isWayland())
         move (config.getWinPos());
 
     ui->mainToolBar->setVisible (!config.getNoToolbar());
@@ -3926,8 +3926,8 @@ void FPwin::fontDialog()
     QFont currentFont = textEdit->getDefaultFont();
     FontDialog fd (currentFont, this);
     fd.setWindowModality (Qt::WindowModal);
-    fd.move (x() + width()/2 - fd.width()/2,
-             y() + height()/2 - fd.height()/ 2);
+    /*fd.move (x() + width()/2 - fd.width()/2,
+             y() + height()/2 - fd.height()/ 2);*/
     if (fd.exec())
     {
         QFont newFont = fd.selectedFont();

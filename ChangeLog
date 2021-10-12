@@ -4,6 +4,7 @@ V1.0.1
  * Scroll one page per wheel turn when the cursor is on the vertical scrollbar and half the page when Shift is also pressed.
  * Detect special cases of UTF-16.
  * Scroll the view up/down by one page without moving text cursor with Ctrl+PageUp/PageDown.
+ * Don't try to save or restore window position under Wayland because, otherwise, menus might appear at wrong positions.
 
 V1.0.0
 ---------

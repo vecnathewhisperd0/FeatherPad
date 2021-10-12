@@ -1199,7 +1199,7 @@
         <location filename="../../fpwin.cpp" line="5550"/>
         <location filename="../../fpwin.cpp" line="5565"/>
         <source>No misspelling from text cursor.</source>
-        <translation>تلفظ اشتباهی با شروع از نشانگر متنی وجود ندارد.</translation>
+        <translation>تلفظ نادرستی با شروع از نشانگر متنی وجود ندارد.</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="5581"/>
@@ -1372,7 +1372,7 @@
     <message>
         <location filename="../../prefDialog.ui" line="75"/>
         <source>Remember window &amp;size on closing</source>
-        <translation>يادآوری اندازه پنجره هنگام بستن</translation>
+        <translation>يادآوری اندازه‌ی پنجره هنگام بستن</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="84"/>
@@ -1591,7 +1591,7 @@ Some desktop environments, like KDE and LXQt, provide files dialogs.</source>
         <source>By default, a triple period is replaced with an ellipsis
 and a double hyphen with a long dash while typing,
 under proper circumstances.</source>
-        <translation>به صورت پيشفرض، هز سه نقطه با يک ellipsis و هر دو خط تيره با يک خط تيره بلند جايگزين می‌شود.</translation>
+        <translation>به صورت پيشفرض، هز سه نقطه با يک ellipsis و هر دو خط تيره با يک خط تيره‌ی بلند جايگزين می‌شود.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="506"/>
