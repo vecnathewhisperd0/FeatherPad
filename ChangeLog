@@ -5,6 +5,7 @@ V1.0.1
  * Detect special cases of UTF-16.
  * Scroll the view up/down by one page without moving text cursor with Ctrl+PageUp/PageDown.
  * Don't try to save or restore window position under Wayland because, otherwise, menus might appear at wrong positions.
+ * Fixed tab detaching when the window is closed with its last tab.
 
 V1.0.0
 ---------
