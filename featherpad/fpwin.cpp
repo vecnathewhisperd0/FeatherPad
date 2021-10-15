@@ -4685,7 +4685,7 @@ void FPwin::detachTab()
         return;
     }
 
-    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    Config config = static_cast<FPsingleton*>(qApp)->getConfig();
 
     /*****************************************************
      *****          Get all necessary info.          *****
@@ -4773,12 +4773,12 @@ void FPwin::detachTab()
 
     FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
     FPwin *dropTarget = singleton->newWin();
-    bool closeWithLast = config.getCloseWithLastTab();
-    if (closeWithLast)
-        config.setCloseWithLastTab (false); // guarantee that the window isn't closed
-    dropTarget->closeTabAtIndex (0);
-    if (closeWithLast)
-        config.setCloseWithLastTab (true);
+
+    /* remove the single empty tab, as in closeTabAtIndex() */
+    dropTarget->deleteTabPage (0, false, false);
+    dropTarget->ui->actionReload->setDisabled (true);
+    dropTarget->ui->actionSave->setDisabled (true);
+    dropTarget->enableWidgets (false);
 
     /* first, set the new info... */
     dropTarget->lastFile_ = textEdit->getFileName();
