@@ -3151,11 +3151,7 @@ bool FPwin::saveFile (bool keepSyntax,
             if (file != nullptr)
             {
                 /* this worked correctly as far as I tested */
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
                 fwrite (txt , 2 , ln + 1 , file);
-#else
-                fwrite (txt , 2 , ln , file);
-#endif
                 fclose (file);
                 success = true;
             }
@@ -3332,11 +3328,7 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
             file = fopen (fname.toUtf8().constData(), "wb");
             if (file != nullptr)
             {
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
                 fwrite (txt , 2 , ln + 1 , file);
-#else
-                fwrite (txt , 2 , ln , file);
-#endif
                 fclose (file);
                 success = true;
             }

@@ -39,8 +39,8 @@ static inline Display* getDisplay()
 #else
     if (auto x11NativeInterfce = qApp->nativeInterface<QNativeInterface::QX11Application>())
         return x11NativeInterfce->display();
-#endif
     return nullptr;
+#endif
 }
 
 // Get the current virtual desktop.
