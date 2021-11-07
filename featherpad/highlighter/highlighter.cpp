@@ -1477,6 +1477,29 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = goFormat;
         highlightingRules.append (rule);
     }
+    else if (progLan == "tcl")
+    {
+        QTextCharFormat tclFormat;
+
+        /* numbers */
+        tclFormat.setForeground (Brown);
+        rule.pattern.setPattern ("(?<![a-zA-Z0-9_@$])(\\d+(\\.|\\.\\d+)?|\\.\\d+)(?=[^\\d]|$)");
+        rule.format = tclFormat;
+        highlightingRules.append (rule);
+
+        /* afre "$" */
+        tclFormat.setForeground (Blue);
+        rule.pattern.setPattern ("\\$(::)?[a-zA-Z0-9_]+((::[a-zA-Z0-9_]+)+)?\\b");
+        rule.format = tclFormat;
+        highlightingRules.append (rule);
+
+        /* built-in functions */
+        tclFormat.setFontWeight (QFont::Bold);
+        tclFormat.setForeground (Magenta);
+        rule.pattern.setPattern ("\\b(?<!(#|\\$))(abs|acos|asin|atan|atan2|ceil|cos|cosh|double|exp|floor|fmod|hypot|int|log|log10|pow|rand|round|sin|sinh|sqrt|srand|tan|tanh|wide)(?!(@|#|\\$))\\b");
+        rule.format = tclFormat;
+        highlightingRules.append (rule);
+    }
     else if (progLan == "pascal")
     {
         quoteMark.setPattern ("'");
@@ -1627,6 +1650,9 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.pattern.setPattern ("\\\\\"|\\\\#|\\.\\s*\\\\\"");
     else if (progLan == "LaTeX")
         rule.pattern.setPattern ("%.*");
+    else if (progLan == "tcl")
+        rule.pattern.setPattern ("(?<=^|;)\\s*#");
+
     if (!rule.pattern.pattern().isEmpty())
     {
         rule.format = commentFormat;
@@ -1879,7 +1905,7 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
             return true; // escaped end quote
     }
 
-    /* escaped start quotes are just for Bash, Perl, markdown and yaml */
+    /* escaped start quotes are just for Bash, Perl, markdown, yaml and tcl */
     if (isStartQuote)
     {
         if (progLan == "perl")
@@ -1906,7 +1932,7 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
             return false; // no other case of escaping at the start
         }
         else if (progLan != "sh" && progLan != "makefile" && progLan != "cmake"
-                 && progLan != "markdown" && progLan != "yaml")
+                 && progLan != "markdown" && progLan != "yaml" && progLan != "tcl")
         {
             return false;
         }
@@ -1924,7 +1950,7 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
     /* only an odd number of backslashes means that the quote is escaped */
     if (
         i % 2 != 0
-        && ((progLan == "yaml"
+        && (((progLan == "yaml" || progLan == "tcl")
              && text.at (pos) == quoteMark.pattern().at (0))
             /* for these languages, both single and double quotes can be escaped (also for perl?) */
             || progLan == "c" || progLan == "cpp"
