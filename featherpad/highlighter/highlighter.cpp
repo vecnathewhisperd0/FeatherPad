@@ -1493,8 +1493,23 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = tclFormat;
         highlightingRules.append (rule);
 
-        /* built-in functions */
         tclFormat.setFontWeight (QFont::Bold);
+        tclFormat.setForeground (neutralColor);
+        rule.pattern.setPattern ("\\{|\\}");
+        rule.format = tclFormat;
+        highlightingRules.append (rule);
+
+        tclFormat.setForeground (DarkMagenta);
+        rule.pattern.setPattern ("\\[|\\]");
+        rule.format = tclFormat;
+        highlightingRules.append (rule);
+
+        tclFormat.setForeground (DarkYellow);
+        rule.pattern.setPattern ("\\(|\\)");
+        rule.format = tclFormat;
+        highlightingRules.append (rule);
+
+        /* built-in functions */
         tclFormat.setForeground (Magenta);
         rule.pattern.setPattern ("\\b(?<!(#|\\$))(abs|acos|asin|atan|atan2|ceil|cos|cosh|double|exp|floor|fmod|hypot|int|log|log10|pow|rand|round|sin|sinh|sqrt|srand|tan|tanh|wide)(?!(@|#|\\$))\\b");
         rule.format = tclFormat;
