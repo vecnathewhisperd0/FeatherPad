@@ -21,7 +21,7 @@
 
 namespace FeatherPad {
 
-static const QRegularExpression tclVariable ("\\$\\{[^\\}]+\\}");
+static const QRegularExpression tclVariable ("(?<!\\\\)(\\\\{2})*\\K\\$\\{[^\\}]+\\}");
 
 bool Highlighter::isEscapedTclQuote (const QString &text, const int pos,
                                      const int start, bool isStartQuote)
@@ -95,17 +95,14 @@ bool Highlighter::isTclQuoted (const QString &text, const int index, const int s
 }
 /*************************/
 // Check whether the Tcl comment sign (";#") is inside a variable of the form ${...}.
+// This is only used by singleLineComment() and we always have "start < pos < text.size()".
 bool Highlighter::tclCommentInsideVariable (const QString &text, const int pos, const int start)
 {
-    int index = pos;
-    while (index > start && text.at (index - 1).isSpace())
-        --index;
-    if (index < start + 3 || text.at (index - 1) != ';')
-        return false;
+    if (text.at (pos) != ';') return false;
     QRegularExpressionMatch match;
-    int indx = text.lastIndexOf (tclVariable, index - 1, &match);
-    return indx >= start && indx < index - 1
-           && indx + match.capturedLength() > index - 1
+    int indx = text.lastIndexOf (tclVariable, pos, &match);
+    return indx >= start && indx < pos
+           && indx + match.capturedLength() > pos
            && !isTclQuoted (text, indx, start);
 }
 /*************************/

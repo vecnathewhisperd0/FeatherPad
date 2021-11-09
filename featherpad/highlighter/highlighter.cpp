@@ -1512,7 +1512,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         /* variables (after "$") */
         tclFormat.setFontWeight (QFont::Normal);
         tclFormat.setForeground (Blue);
-        rule.pattern.setPattern ("\\$(::)?[a-zA-Z0-9_]+((::[a-zA-Z0-9_]+)+)?\\b|\\$\\{[^\\}]+\\}");
+        rule.pattern.setPattern ("(?<!\\\\)(\\\\{2})*\\K(\\$(::)?[a-zA-Z0-9_]+((::[a-zA-Z0-9_]+)+)?\\b|\\$\\{[^\\}]+\\})");
         rule.format = tclFormat;
         highlightingRules.append (rule);
     }
@@ -1667,7 +1667,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     else if (progLan == "LaTeX")
         rule.pattern.setPattern ("%.*");
     else if (progLan == "tcl")
-        rule.pattern.setPattern ("(?<=^|;)\\s*#");
+        rule.pattern.setPattern ("^\\s*#|(?<!\\\\)(\\\\{2})*\\K;\\s*#");
 
     if (!rule.pattern.pattern().isEmpty())
     {
