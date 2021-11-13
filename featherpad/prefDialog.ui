@@ -998,7 +998,7 @@ Needs application restart to take effect.</string>
                <number>0</number>
               </property>
               <property name="maximum">
-               <number>20</number>
+               <number>50</number>
               </property>
              </widget>
             </item>

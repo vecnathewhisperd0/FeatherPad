@@ -615,6 +615,7 @@ void FPwin::applyConfigOnStarting()
             connect (recentAction, &QAction::triggered, this, &FPwin::newTabFromRecent);
             ui->menuOpenRecently->addAction (recentAction);
         }
+        ui->menuOpenRecently->addSeparator();
         ui->menuOpenRecently->addAction (ui->actionClearRecent);
         connect (ui->menuOpenRecently, &QMenu::aboutToShow, this, &FPwin::updateRecenMenu);
         connect (ui->actionClearRecent, &QAction::triggered, this, &FPwin::clearRecentMenu);
