@@ -367,10 +367,7 @@ void FPwin::closeEvent (QCloseEvent *event)
         if (config.getRemPos() && !static_cast<FPsingleton*>(qApp)->isWayland())
             config.setWinPos (pos());
         if (sidePane_ && config.getRemSplitterPos())
-        {
-            QList<int> sizes = ui->splitter->sizes();
-            config.setSplitterPos (qRound (100.0 * static_cast<qreal>(sizes.at (0)) / static_cast<qreal>(sizes.at (0) + sizes.at (1))));
-        }
+            config.setSplitterPos (ui->splitter->sizes().at (0));
         config.setLastFileCursorPos (lastWinFilesCur_);
         singleton->removeWin (this);
         event->accept();
@@ -415,10 +412,21 @@ void FPwin::toggleSidePane()
         sidePane_ = new SidePane();
         ui->splitter->insertWidget (0, sidePane_);
         sidePane_->listWidget()->setFocus();
-        int mult = qMax (size().width(), 100) / 100; // for more precision
-        int sp = config.getSplitterPos();
+        ui->splitter->setStretchFactor (1, 1); // only the text view can be stretched
         QList<int> sizes;
-        sizes << sp * mult << (100 - sp) * mult;
+        if (config.getRemSplitterPos())
+        {
+            /* make sure that the side pane is visible and
+               its width isn't greater than that of the view */
+            sizes.append (qBound (16, config.getSplitterPos(), size().width() / 2));
+            sizes.append (100); // an arbitrary integer, because of stretching
+        }
+        else
+        {
+            /* set the side pane width to 1/5 of the window width */
+            int mult = qMax (size().width(), 100) / 100; // for more precision
+            sizes << 20 * mult << 80 * mult;
+        }
         ui->splitter->setSizes (sizes);
         connect (sidePane_->listWidget(), &QWidget::customContextMenuRequested, this, &FPwin::listContextMenu);
         connect (sidePane_->listWidget(), &ListWidget::currentItemUpdated, this, &FPwin::changeTab);
@@ -492,9 +500,16 @@ void FPwin::toggleSidePane()
             if (sizes.size() == 2 && sizes.at (0) == 0) // with RTL too
             { // first, ensure its visibility
                 sizes.clear();
-                int mult = size().width() / 100;
-                int sp = config.getSplitterPos();
-                sizes << sp * mult << (100 - sp) * mult;
+                if (config.getRemSplitterPos())
+                {
+                    sizes.append (qBound (16, config.getSplitterPos(), size().width() / 2));
+                    sizes.append (100);
+                }
+                else
+                {
+                    int mult = qMax (size().width(), 100) / 100;
+                    sizes << 20 * mult << 80 * mult;
+                }
                 ui->splitter->setSizes (sizes);
             }
             sidePane_->listWidget()->setFocus();
@@ -502,7 +517,7 @@ void FPwin::toggleSidePane()
         else
         {
             if (config.getRemSplitterPos()) // remember the position also when the side-pane is removed
-                config.setSplitterPos (qRound (100.0 * static_cast<qreal>(sizes.at (0)) / static_cast<qreal>(sizes.at (0) + sizes.at (1))));
+                config.setSplitterPos (sizes.at (0));
             sideItems_.clear();
             delete sidePane_;
             sidePane_ = nullptr;

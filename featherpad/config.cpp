@@ -75,7 +75,7 @@ Config::Config():
     winSize_ (QSize (700, 500)),
     startSize_ (QSize (700, 500)),
     winPos_ (QPoint (0, 0)),
-    splitterPos_ (20), // percentage
+    splitterPos_ (150),
     font_ (QFont ("Monospace")),
     recentOpened_ (false),
     saveLastFilesList_ (false),
@@ -121,7 +121,7 @@ void Config::readConfig()
     if (settings.value ("splitterPos") == "none")
         remSplitterPos_ = false; // true by default
     else
-        splitterPos_ = qMin (qMax (settings.value ("splitterPos", 20).toInt(), 0), 100);
+        splitterPos_ = qMax (settings.value ("splitterPos", 150).toInt(), 0);
 
     prefSize_ = settings.value ("prefSize").toSize();
 

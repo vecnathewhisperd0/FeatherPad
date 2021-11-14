@@ -5,6 +5,7 @@ V1.1.0
  * Better inclusion of Hunspell.
  * Added Tcl syntax highlighting.
  * Increased the maximum number of recent files to 50.
+ * Stretch the text view in the side-pane mode and save the splitter position in pixels (if it should be remembered). Also, ensure that the splitter is visible and its width isn't greater than that of the view on startup.
 
 V1.0.1
 ---------
