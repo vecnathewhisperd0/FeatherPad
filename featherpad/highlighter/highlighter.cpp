@@ -1487,14 +1487,19 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = tclFormat;
         highlightingRules.append (rule);
 
-        tclFormat.setFontWeight (QFont::Bold);
-        tclFormat.setForeground (neutralColor);
-        rule.pattern.setPattern ("\\{|\\}");
+        /* Tk keywords */
+        tclFormat.setForeground (DarkMagenta);
+        rule.pattern.setPattern ("\\s\\-\\w+\\b|\\b(?<!(#|\\$))(add|args|aspect|atom|attributes|body|cancel|caret|channels|class|clear|client|clone|command|commands|compare|complete|configure|containing|copy|create|current|debug|depth|delete|dirname|equal|executable|exists|find|generate|handle|height|iconify|id|idle|index|insert|inuse|invoke|is|last|length|level|library|link|manager|map|match|move|name|names|number|own|parent|patchlevel|pixels|present|provide|range|readable|remove|replace|require|search|screen|script|seconds|show|size|stat|state|system|tag|tail|title|tolower|totitle|type|types|visual|width|window|withdraw|x|xview|y)(?!(@|#|\\$))\\b");
         rule.format = tclFormat;
         highlightingRules.append (rule);
 
-        tclFormat.setForeground (DarkMagenta);
+        tclFormat.setFontWeight (QFont::Bold);
         rule.pattern.setPattern ("\\[|\\]");
+        rule.format = tclFormat;
+        highlightingRules.append (rule);
+
+        tclFormat.setForeground (neutralColor);
+        rule.pattern.setPattern ("\\{|\\}");
         rule.format = tclFormat;
         highlightingRules.append (rule);
 
