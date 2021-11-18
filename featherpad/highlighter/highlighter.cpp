@@ -1518,14 +1518,16 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = tclFormat;
         highlightingRules.append (rule);
 
-        /* variables (after "$") */
-        tclFormat.setFontWeight (QFont::Normal);
-        tclFormat.setForeground (Blue);
+        /* variables (after "$")
+           NOTE: altQuoteFormat is used for handling backslash inside ${...} in highlightTclBlock() */
+        altQuoteFormat.setFontItalic (false);
+        altQuoteFormat.setForeground (Blue);
         rule.pattern.setPattern ("(?<!\\\\)(\\\\{2})*\\K(\\$(::)?[a-zA-Z0-9_]+((::[a-zA-Z0-9_]+)+)?\\b|\\$\\{[^\\}]+\\})");
-        rule.format = tclFormat;
+        rule.format = altQuoteFormat;
         highlightingRules.append (rule);
 
         /* escaped characters */
+        tclFormat.setFontWeight (QFont::Normal);
         tclFormat.setForeground (Violet);
         rule.pattern.setPattern ("(\\\\{2})+|(\\\\{2})*\\\\[^\\\\]");
         rule.format = tclFormat;
@@ -1936,7 +1938,8 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
             return true; // escaped end quote
     }
 
-    /* escaped start quotes are just for Bash, Perl, markdown and yaml (and tcl) */
+    /* escaped start quotes are just for Bash, Perl, markdown and yaml
+       (and tcl, for which this function is never called) */
     if (isStartQuote)
     {
         if (progLan == "perl")
@@ -2635,7 +2638,8 @@ void Highlighter::singleLineComment (const QString &text, const int start)
                            || ((progLan == "troff" || progLan == "LaTeX")
                                && isEscapedChar(text, startIndex))
                            || (progLan == "tcl"
-                               && tclCommentInsideVariable (text, startIndex, qMax (start, 0)))))
+                               && text.at (startIndex) == ';'
+                               && insideTclBracedVariable (text, startIndex, qMax (start, 0)))))
                 {
                     startIndex = text.indexOf (rule.pattern, startIndex + 1);
                 }

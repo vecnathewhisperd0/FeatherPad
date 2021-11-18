@@ -270,7 +270,8 @@ private:
     bool isEscapedTclQuote (const QString &text, const int pos,
                             const int start, bool isStartQuote);
     bool isTclQuoted (const QString &text, const int index, const int start);
-    bool tclCommentInsideVariable (const QString &text, const int pos, const int start);
+    bool insideTclBracedVariable (const QString &text, const int pos, const int start,
+                                  bool quoteAreFormatted = false);
     void multiLineTclQuote (const QString &text);
     void highlightTclBlock (const QString &text);
 

@@ -21,12 +21,12 @@
 
 namespace FeatherPad {
 
-static const QRegularExpression tclVariable ("(?<!\\\\)(\\\\{2})*\\K\\$\\{[^\\}]+\\}");
+static const QRegularExpression tclBracedVariable ("(?<!\\\\)(\\\\{2})*\\K\\$\\{[^\\}]+\\}");
 
 bool Highlighter::isEscapedTclQuote (const QString &text, const int pos,
                                      const int start, bool isStartQuote)
 {
-    if (pos < 0 || start < 0 || pos < start) return false;
+    if (start < 0 || pos < start) return false;
     int i = 0;
     while (pos - i > start && text.at (pos - i - 1) == '\\')
         ++i;
@@ -35,7 +35,7 @@ bool Highlighter::isEscapedTclQuote (const QString &text, const int pos,
     if (isStartQuote && pos > start + 1)
     {
         QRegularExpressionMatch match;
-        int index = text.lastIndexOf (tclVariable, pos, &match);
+        int index = text.lastIndexOf (tclBracedVariable, pos, &match);
         if (index >= start && index < pos
             && index + match.capturedLength() > pos
             && !isTclQuoted (text, index, start))
@@ -48,7 +48,7 @@ bool Highlighter::isEscapedTclQuote (const QString &text, const int pos,
 /*************************/
 bool Highlighter::isTclQuoted (const QString &text, const int index, const int start)
 {
-    if (index < 0 || start < 0 || index < start) return false;
+    if (start < 0 || index < start) return false;
     int pos = start - 1;
     bool res = false;
     int N;
@@ -94,16 +94,21 @@ bool Highlighter::isTclQuoted (const QString &text, const int index, const int s
     return res;
 }
 /*************************/
-// Check whether the Tcl comment sign (";#") is inside a variable of the form ${...}.
-// This is only used by singleLineComment() and we always have "start < pos < text.size()".
-bool Highlighter::tclCommentInsideVariable (const QString &text, const int pos, const int start)
+// Check whether a character is inside a Tcl variable of the form ${...},
+// supposing that such variables can contain any character other than "}".
+// The variable "quoteAreFormatted" determines whether all quotes before
+// "start" are already formatted or not.
+bool Highlighter::insideTclBracedVariable (const QString &text, const int pos, const int start,
+                                           bool quoteAreFormatted)
 {
-    if (text.at (pos) != ';') return false;
+    if (start < 0 || pos < start + 2 || pos >= text.length()) return false;
     QRegularExpressionMatch match;
-    int indx = text.lastIndexOf (tclVariable, pos, &match);
-    return indx >= start && indx < pos
-           && indx + match.capturedLength() > pos
-           && !isTclQuoted (text, indx, start);
+    int indx = text.lastIndexOf (tclBracedVariable, pos, &match);
+    return indx >= start
+           && indx < pos - 1 // "pos" is after "${"
+           && indx + match.capturedLength() > pos + 1 // "pos" is before "}"
+           && (quoteAreFormatted ? format (indx) != quoteFormat && format (indx) != urlInsideQuoteFormat
+                                 : !isTclQuoted (text, indx, start));
 }
 /*************************/
 void Highlighter::multiLineTclQuote (const QString &text)
@@ -190,7 +195,8 @@ void Highlighter::highlightTclBlock (const QString &text)
                 fi = format (index);
                 while (index >= 0
                        && (fi == quoteFormat || fi == urlInsideQuoteFormat
-                           || fi == commentFormat || fi == urlFormat))
+                           || fi == commentFormat || fi == urlFormat
+                           || fi == altQuoteFormat)) // backslash should be ignored inside ${...}
                 {
                     index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
                     fi = format (index);
@@ -208,7 +214,8 @@ void Highlighter::highlightTclBlock (const QString &text)
                     fi = format (index);
                     while (index >= 0
                            && (fi == quoteFormat || fi == urlInsideQuoteFormat
-                               || fi == commentFormat || fi == urlFormat))
+                               || fi == commentFormat || fi == urlFormat
+                               || fi == altQuoteFormat))
                     {
                         index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
                         fi = format (index);
@@ -228,6 +235,7 @@ void Highlighter::highlightTclBlock (const QString &text)
     while (index >= 0
            && (fi == quoteFormat || fi == urlInsideQuoteFormat
                || fi == commentFormat || fi == urlFormat
+               || insideTclBracedVariable (text, index, 0, true) // like ${...(...}
                || isEscapedChar (text, index)))
     {
         index = text.indexOf ('(', index + 1);
@@ -245,6 +253,7 @@ void Highlighter::highlightTclBlock (const QString &text)
         while (index >= 0
                && (fi == quoteFormat || fi == urlInsideQuoteFormat
                    || fi == commentFormat || fi == urlFormat
+                   || insideTclBracedVariable (text, index, 0, true)
                    || isEscapedChar (text, index)))
         {
             index = text.indexOf ('(', index + 1);
@@ -258,6 +267,7 @@ void Highlighter::highlightTclBlock (const QString &text)
     while (index >= 0
            && (fi == quoteFormat || fi == urlInsideQuoteFormat
                || fi == commentFormat || fi == urlFormat
+               || insideTclBracedVariable (text, index, 0, true) // like ${...)...}
                || isEscapedChar (text, index)))
     {
         index = text.indexOf (')', index + 1);
@@ -275,6 +285,7 @@ void Highlighter::highlightTclBlock (const QString &text)
         while (index >= 0
                && (fi == quoteFormat || fi == urlInsideQuoteFormat
                    || fi == commentFormat || fi == urlFormat
+                   || insideTclBracedVariable (text, index, 0, true)
                    || isEscapedChar (text, index)))
         {
             index = text.indexOf (')', index + 1);
@@ -288,6 +299,7 @@ void Highlighter::highlightTclBlock (const QString &text)
     while (index >= 0
            && (fi == quoteFormat || fi == urlInsideQuoteFormat
                || fi == commentFormat || fi == urlFormat
+               || insideTclBracedVariable (text, index, 0, true) // like ${...{...}
                || isEscapedChar (text, index)))
     {
         index = text.indexOf ('{', index + 1);
@@ -305,6 +317,7 @@ void Highlighter::highlightTclBlock (const QString &text)
         while (index >= 0
                && (fi == quoteFormat || fi == urlInsideQuoteFormat
                    || fi == commentFormat || fi == urlFormat
+                   || insideTclBracedVariable (text, index, 0, true)
                    || isEscapedChar (text, index)))
         {
             index = text.indexOf ('{', index + 1);
@@ -318,7 +331,8 @@ void Highlighter::highlightTclBlock (const QString &text)
     while (index >= 0
            && (fi == quoteFormat || fi == urlInsideQuoteFormat
                || fi == commentFormat || fi == urlFormat
-               || isEscapedChar (text, index)))
+               || (isEscapedChar (text, index)
+                   && !insideTclBracedVariable (text, index - 1, 0, true)))) // not like ${...\}
     {
         index = text.indexOf ('}', index + 1);
         fi = format (index);
@@ -335,7 +349,8 @@ void Highlighter::highlightTclBlock (const QString &text)
         while (index >= 0
                && (fi == quoteFormat || fi == urlInsideQuoteFormat
                    || fi == commentFormat || fi == urlFormat
-                   || isEscapedChar (text, index)))
+                   || (isEscapedChar (text, index)
+                       && !insideTclBracedVariable (text, index - 1, 0, true))))
         {
             index = text.indexOf ('}', index + 1);
             fi = format (index);
@@ -348,6 +363,7 @@ void Highlighter::highlightTclBlock (const QString &text)
     while (index >= 0
            && (fi == quoteFormat || fi == urlInsideQuoteFormat
                || fi == commentFormat || fi == urlFormat
+               || insideTclBracedVariable (text, index, 0, true) // like ${...[...}
                || isEscapedChar (text, index)))
     {
         index = text.indexOf ('[', index + 1);
@@ -365,6 +381,7 @@ void Highlighter::highlightTclBlock (const QString &text)
         while (index >= 0
                && (fi == quoteFormat || fi == urlInsideQuoteFormat
                    || fi == commentFormat || fi == urlFormat
+                   || insideTclBracedVariable (text, index, 0, true)
                    || isEscapedChar (text, index)))
         {
             index = text.indexOf ('[', index + 1);
@@ -378,6 +395,7 @@ void Highlighter::highlightTclBlock (const QString &text)
     while (index >= 0
            && (fi == quoteFormat || fi == urlInsideQuoteFormat
                || fi == commentFormat || fi == urlFormat
+               || insideTclBracedVariable (text, index, 0, true) // like ${...]...}
                || isEscapedChar (text, index)))
     {
         index = text.indexOf (']', index + 1);
@@ -395,6 +413,7 @@ void Highlighter::highlightTclBlock (const QString &text)
         while (index >= 0
                && (fi == quoteFormat || fi == urlInsideQuoteFormat
                    || fi == commentFormat || fi == urlFormat
+                   || insideTclBracedVariable (text, index, 0, true)
                    || isEscapedChar (text, index)))
         {
             index = text.indexOf (']', index + 1);
