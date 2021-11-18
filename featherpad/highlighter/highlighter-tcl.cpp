@@ -96,10 +96,10 @@ bool Highlighter::isTclQuoted (const QString &text, const int index, const int s
 /*************************/
 // Check whether a character is inside a Tcl variable of the form ${...},
 // supposing that such variables can contain any character other than "}".
-// The variable "quoteAreFormatted" determines whether all quotes before
+// The variable "quotesAreFormatted" determines whether all quotes before
 // "start" are already formatted or not.
 bool Highlighter::insideTclBracedVariable (const QString &text, const int pos, const int start,
-                                           bool quoteAreFormatted)
+                                           bool quotesAreFormatted)
 {
     if (start < 0 || pos < start + 2 || pos >= text.length()) return false;
     QRegularExpressionMatch match;
@@ -107,8 +107,8 @@ bool Highlighter::insideTclBracedVariable (const QString &text, const int pos, c
     return indx >= start
            && indx < pos - 1 // "pos" is after "${"
            && indx + match.capturedLength() > pos + 1 // "pos" is before "}"
-           && (quoteAreFormatted ? format (indx) != quoteFormat && format (indx) != urlInsideQuoteFormat
-                                 : !isTclQuoted (text, indx, start));
+           && (quotesAreFormatted ? format (indx) != quoteFormat && format (indx) != urlInsideQuoteFormat
+                                  : !isTclQuoted (text, indx, start));
 }
 /*************************/
 void Highlighter::multiLineTclQuote (const QString &text)
