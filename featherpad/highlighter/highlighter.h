@@ -225,6 +225,7 @@ private:
     bool isFountainLineBlank (const QTextBlock &block);
     void highlightFountainBlock (const QString &text);
 
+    /* LaTeX */
     void latexFormula (const QString &text);
 
     /* Pascal */
@@ -270,7 +271,8 @@ private:
                             const int start, bool isStartQuote);
     bool isTclQuoted (const QString &text, const int index, const int start);
     bool tclCommentInsideVariable (const QString &text, const int pos, const int start);
-    void multiLineTclQuote (const QString &text, const int start);
+    void multiLineTclQuote (const QString &text);
+    void highlightTclBlock (const QString &text);
 
     struct HighlightingRule
     {

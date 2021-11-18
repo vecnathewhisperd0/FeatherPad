@@ -281,11 +281,11 @@ void Highlighter::highlightFountainBlock (const QString &text)
     if (bn >= startCursor.blockNumber() && bn <= endCursor.blockNumber())
     {
         data->setHighlighted();
+        QRegularExpressionMatch match;
         for (const HighlightingRule &rule : qAsConst (highlightingRules))
         {
             if (rule.format == commentFormat)
                 continue;
-            QRegularExpressionMatch match;
             index = text.indexOf (rule.pattern, 0, &match);
             if (rule.format != whiteSpaceFormat)
             {

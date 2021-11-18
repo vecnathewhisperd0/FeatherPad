@@ -28,10 +28,10 @@ void Highlighter::reSTMainFormatting (int start, const QString &text)
     if (data == nullptr) return;
 
     data->setHighlighted(); // completely highlighted
+    QTextCharFormat fi;
+    QRegularExpressionMatch match;
     for (const HighlightingRule &rule : qAsConst (highlightingRules))
     {
-        QTextCharFormat fi;
-        QRegularExpressionMatch match;
         int index = text.indexOf (rule.pattern, start, &match);
         if (rule.format != whiteSpaceFormat)
         {

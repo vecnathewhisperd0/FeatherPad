@@ -106,14 +106,14 @@ bool Highlighter::tclCommentInsideVariable (const QString &text, const int pos, 
            && !isTclQuoted (text, indx, start);
 }
 /*************************/
-void Highlighter::multiLineTclQuote (const QString &text, const int start)
+void Highlighter::multiLineTclQuote (const QString &text)
 {
-    int index = start;
+    int index = 0;
     int prevState = previousBlockState();
     if (index > 0 || prevState != doubleQuoteState)
     {
         index = text.indexOf (quoteMark, index);
-        while (isEscapedTclQuote (text, index, start, true))
+        while (isEscapedTclQuote (text, index, 0, true))
             index = text.indexOf (quoteMark, index + 1);
         if (format (index) == commentFormat) return;
     }
@@ -160,6 +160,249 @@ void Highlighter::multiLineTclQuote (const QString &text, const int start)
             index = text.indexOf (quoteMark, index + 1);
         if (format (index) == commentFormat) return;
     }
+}
+/*************************/
+void Highlighter::highlightTclBlock (const QString &text)
+{
+    TextBlockData *data = new TextBlockData;
+    data->setLastState (currentBlockState());
+    setCurrentBlockUserData (data);
+    setCurrentBlockState (0);
+
+    int index;
+    QTextCharFormat fi;
+
+    singleLineComment (text, 0);
+    multiLineTclQuote (text);
+    int bn = currentBlock().blockNumber();
+    if (bn >= startCursor.blockNumber() && bn <= endCursor.blockNumber())
+    {
+        data->setHighlighted();
+        QRegularExpressionMatch match;
+        for (const HighlightingRule &rule : qAsConst (highlightingRules))
+        {
+            if (rule.format == commentFormat)
+                continue;
+
+            index = text.indexOf (rule.pattern, 0, &match);
+            if (rule.format != whiteSpaceFormat)
+            {
+                fi = format (index);
+                while (index >= 0
+                       && (fi == quoteFormat || fi == urlInsideQuoteFormat
+                           || fi == commentFormat || fi == urlFormat))
+                {
+                    index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
+                    fi = format (index);
+                }
+            }
+
+            while (index >= 0)
+            {
+                int length = match.capturedLength();
+                setFormat (index, length, rule.format);
+                index = text.indexOf (rule.pattern, index + length, &match);
+
+                if (rule.format != whiteSpaceFormat)
+                {
+                    fi = format (index);
+                    while (index >= 0
+                           && (fi == quoteFormat || fi == urlInsideQuoteFormat
+                               || fi == commentFormat || fi == urlFormat))
+                    {
+                        index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
+                        fi = format (index);
+                    }
+                }
+            }
+        }
+    }
+
+    /*********************************************
+     * Parentheses, Braces and brackets Matching *
+     *********************************************/
+
+    /* left parenthesis */
+    index = text.indexOf ('(');
+    fi = format (index);
+    while (index >= 0
+           && (fi == quoteFormat || fi == urlInsideQuoteFormat
+               || fi == commentFormat || fi == urlFormat
+               || isEscapedChar (text, index)))
+    {
+        index = text.indexOf ('(', index + 1);
+        fi = format (index);
+    }
+    while (index >= 0)
+    {
+        ParenthesisInfo *info = new ParenthesisInfo;
+        info->character = '(';
+        info->position = index;
+        data->insertInfo (info);
+
+        index = text.indexOf ('(', index + 1);
+        fi = format (index);
+        while (index >= 0
+               && (fi == quoteFormat || fi == urlInsideQuoteFormat
+                   || fi == commentFormat || fi == urlFormat
+                   || isEscapedChar (text, index)))
+        {
+            index = text.indexOf ('(', index + 1);
+            fi = format (index);
+        }
+    }
+
+    /* right parenthesis */
+    index = text.indexOf (')');
+    fi = format (index);
+    while (index >= 0
+           && (fi == quoteFormat || fi == urlInsideQuoteFormat
+               || fi == commentFormat || fi == urlFormat
+               || isEscapedChar (text, index)))
+    {
+        index = text.indexOf (')', index + 1);
+        fi = format (index);
+    }
+    while (index >= 0)
+    {
+        ParenthesisInfo *info = new ParenthesisInfo;
+        info->character = ')';
+        info->position = index;
+        data->insertInfo (info);
+
+        index = text.indexOf (')', index +1);
+        fi = format (index);
+        while (index >= 0
+               && (fi == quoteFormat || fi == urlInsideQuoteFormat
+                   || fi == commentFormat || fi == urlFormat
+                   || isEscapedChar (text, index)))
+        {
+            index = text.indexOf (')', index + 1);
+            fi = format (index);
+        }
+    }
+
+    /* left brace */
+    index = text.indexOf ('{');
+    fi = format (index);
+    while (index >= 0
+           && (fi == quoteFormat || fi == urlInsideQuoteFormat
+               || fi == commentFormat || fi == urlFormat
+               || isEscapedChar (text, index)))
+    {
+        index = text.indexOf ('{', index + 1);
+        fi = format (index);
+    }
+    while (index >= 0)
+    {
+        BraceInfo *info = new BraceInfo;
+        info->character = '{';
+        info->position = index;
+        data->insertInfo (info);
+
+        index = text.indexOf ('{', index + 1);
+        fi = format (index);
+        while (index >= 0
+               && (fi == quoteFormat || fi == urlInsideQuoteFormat
+                   || fi == commentFormat || fi == urlFormat
+                   || isEscapedChar (text, index)))
+        {
+            index = text.indexOf ('{', index + 1);
+            fi = format (index);
+        }
+    }
+
+    /* right brace */
+    index = text.indexOf ('}');
+    fi = format (index);
+    while (index >= 0
+           && (fi == quoteFormat || fi == urlInsideQuoteFormat
+               || fi == commentFormat || fi == urlFormat
+               || isEscapedChar (text, index)))
+    {
+        index = text.indexOf ('}', index + 1);
+        fi = format (index);
+    }
+    while (index >= 0)
+    {
+        BraceInfo *info = new BraceInfo;
+        info->character = '}';
+        info->position = index;
+        data->insertInfo (info);
+
+        index = text.indexOf ('}', index +1);
+        fi = format (index);
+        while (index >= 0
+               && (fi == quoteFormat || fi == urlInsideQuoteFormat
+                   || fi == commentFormat || fi == urlFormat
+                   || isEscapedChar (text, index)))
+        {
+            index = text.indexOf ('}', index + 1);
+            fi = format (index);
+        }
+    }
+
+    /* left bracket */
+    index = text.indexOf ('[');
+    fi = format (index);
+    while (index >= 0
+           && (fi == quoteFormat || fi == urlInsideQuoteFormat
+               || fi == commentFormat || fi == urlFormat
+               || isEscapedChar (text, index)))
+    {
+        index = text.indexOf ('[', index + 1);
+        fi = format (index);
+    }
+    while (index >= 0)
+    {
+        BracketInfo *info = new BracketInfo;
+        info->character = '[';
+        info->position = index;
+        data->insertInfo (info);
+
+        index = text.indexOf ('[', index + 1);
+        fi = format (index);
+        while (index >= 0
+               && (fi == quoteFormat || fi == urlInsideQuoteFormat
+                   || fi == commentFormat || fi == urlFormat
+                   || isEscapedChar (text, index)))
+        {
+            index = text.indexOf ('[', index + 1);
+            fi = format (index);
+        }
+    }
+
+    /* right bracket */
+    index = text.indexOf (']');
+    fi = format (index);
+    while (index >= 0
+           && (fi == quoteFormat || fi == urlInsideQuoteFormat
+               || fi == commentFormat || fi == urlFormat
+               || isEscapedChar (text, index)))
+    {
+        index = text.indexOf (']', index + 1);
+        fi = format (index);
+    }
+    while (index >= 0)
+    {
+        BracketInfo *info = new BracketInfo;
+        info->character = ']';
+        info->position = index;
+        data->insertInfo (info);
+
+        index = text.indexOf (']', index +1);
+        fi = format (index);
+        while (index >= 0
+               && (fi == quoteFormat || fi == urlInsideQuoteFormat
+                   || fi == commentFormat || fi == urlFormat
+                   || isEscapedChar (text, index)))
+        {
+            index = text.indexOf (']', index + 1);
+            fi = format (index);
+        }
+    }
+
+    setCurrentBlockUserData (data);
 }
 
 }

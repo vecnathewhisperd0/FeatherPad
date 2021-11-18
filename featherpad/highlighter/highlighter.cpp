@@ -1481,15 +1481,19 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     {
         QTextCharFormat tclFormat;
 
+        /* backslash should also be taken into account (as in "Highlighter::keywords") */
+
         /* numbers */
         tclFormat.setForeground (Brown);
-        rule.pattern.setPattern ("(?<![a-zA-Z0-9_@$])(\\d+(\\.|\\.\\d+)?|\\.\\d+)(?=[^\\d]|$)");
+        rule.pattern.setPattern ("(?<!([a-zA-Z0-9_#@$\"\'`](?!\\\\)))(?<!\\\\)(\\\\{2})*\\K(\\d+(\\.|\\.\\d+)?|\\.\\d+)(?=[^\\d]|$)");
         rule.format = tclFormat;
         highlightingRules.append (rule);
 
         /* Tk keywords */
         tclFormat.setForeground (DarkMagenta);
-        rule.pattern.setPattern ("\\s\\-\\w+\\b|\\b(?<!(#|\\$))(add|args|aspect|atom|attributes|body|cancel|caret|channels|class|clear|client|clone|command|commands|compare|complete|configure|containing|copy|create|current|debug|depth|delete|dirname|equal|executable|exists|find|generate|handle|height|iconify|id|idle|index|insert|inuse|invoke|is|last|length|level|library|link|manager|map|match|move|name|names|number|own|parent|patchlevel|pixels|present|provide|range|readable|remove|replace|require|search|screen|script|seconds|show|size|stat|state|system|tag|tail|title|tolower|totitle|type|types|visual|width|window|withdraw|x|xview|y)(?!(@|#|\\$))\\b");
+        rule.pattern.setPattern ("\\s\\-\\w+\\b"
+                                 "|"
+                                 "(?<!\\\\)(\\\\{2})*(?<!((#|\\$|@|\"|\'|`)(?!\\\\)))(\\\\(#|\\$|@|\"|\'|`)){0,1}\\K\\b(add|appname|args|aspect|atom|attributes|bbox|body|cancel|caret|cget|channels|children|class|clear|client|clone|command|commands|compare|complete|configure|containing|coords|copy|create|current|debug|depth|delete|dirname|equal|executable|exists|find|first|generate|get|handle|height|iconify|icursor|id|identify|idle|index|insert|inuse|invoke|is|last|length|level|library|link|manager|map|mark|match|move|name|names|nearest|number|own|parent|patchlevel|pixels|present|provide|range|readable|remove|replace|require|search|screen|script|seconds|select|show|size|stat|state|system|tag|tail|title|tolower|totitle|type|types|validate|values|visual|width|window|withdraw|x|xview|y)(?!(@|#|\\$|\"|\'|`))\\b");
         rule.format = tclFormat;
         highlightingRules.append (rule);
 
@@ -1510,7 +1514,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
         /* built-in functions */
         tclFormat.setForeground (Magenta);
-        rule.pattern.setPattern ("\\b(?<!(#|\\$))(abs|acos|asin|atan|atan2|ceil|cos|cosh|double|exp|floor|fmod|hypot|int|log|log10|pow|rand|round|sin|sinh|sqrt|srand|tan|tanh|wide)(?!(@|#|\\$))\\b");
+        rule.pattern.setPattern ("(?<!\\\\)(\\\\{2})*(?<!((#|\\$|@|\"|\'|`)(?!\\\\)))(\\\\(#|\\$|@|\"|\'|`)){0,1}\\K\\b(abs|acos|asin|atan|atan2|ceil|cos|cosh|double|exp|floor|fmod|hypot|int|log|log10|pow|rand|round|sin|sinh|sqrt|srand|tan|tanh|wide)(?!(@|#|\\$|\"|\'|`))\\b");
         rule.format = tclFormat;
         highlightingRules.append (rule);
 
@@ -1518,6 +1522,12 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         tclFormat.setFontWeight (QFont::Normal);
         tclFormat.setForeground (Blue);
         rule.pattern.setPattern ("(?<!\\\\)(\\\\{2})*\\K(\\$(::)?[a-zA-Z0-9_]+((::[a-zA-Z0-9_]+)+)?\\b|\\$\\{[^\\}]+\\})");
+        rule.format = tclFormat;
+        highlightingRules.append (rule);
+
+        /* escaped characters */
+        tclFormat.setForeground (Violet);
+        rule.pattern.setPattern ("(\\\\{2})+|(\\\\{2})*\\\\[^\\\\]");
         rule.format = tclFormat;
         highlightingRules.append (rule);
     }
@@ -2910,11 +2920,7 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
         multiLineJSlQuote (text, start, comState);
         return false;
     }
-    if (progLan == "tcl")
-    {
-        multiLineTclQuote (text, start);
-        return false;
-    }
+    /* For Tcl, this function is never called. */
 //--------------------
     /* these are only for C++11 raw string literals,
        whose pattern is R"(\bR"([^(]*)\(.*(?=\)\1"))" */
@@ -4116,6 +4122,11 @@ void Highlighter::highlightBlock (const QString &text)
             highlightReSTBlock (text);
             return;
         }
+        if (progLan == "tcl")
+        {
+            highlightTclBlock (text);
+            return;
+        }
     }
 
     bool rehighlightNextBlock = false;
@@ -4338,13 +4349,13 @@ void Highlighter::highlightBlock (const QString &text)
     else if (mainFormatting)
     {
         data->setHighlighted(); // completely highlighted
+        QRegularExpressionMatch match;
         for (const HighlightingRule &rule : qAsConst (highlightingRules))
         {
             /* single-line comments are already formatted */
             if (rule.format == commentFormat)
                 continue;
 
-            QRegularExpressionMatch match;
             index = text.indexOf (rule.pattern, 0, &match);
             /* skip quotes and all comments */
             if (rule.format != whiteSpaceFormat)
