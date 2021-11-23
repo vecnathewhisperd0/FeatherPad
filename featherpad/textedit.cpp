@@ -1381,12 +1381,13 @@ void TextEdit::wheelEvent (QWheelEvent *event)
         return;
     }
 
+    int wsl = QApplication::wheelScrollLines();
     bool horizontal (qAbs (anglePoint.x()) > qAbs (anglePoint.y()));
-    if (event->modifiers() & Qt::ShiftModifier)
+    if (wsl > 0 && event->modifiers() & Qt::ShiftModifier)
     { // line-by-line scrolling when Shift is pressed
         int delta = horizontal ? anglePoint.x()
                                : anglePoint.y();
-        if (qAbs (delta) >= QApplication::wheelScrollLines())
+        if (qAbs (delta) >= wsl)
         {
 #if (QT_VERSION >= QT_VERSION_CHECK(5,15,0))
             QWheelEvent e (event->position(),
@@ -1396,7 +1397,7 @@ void TextEdit::wheelEvent (QWheelEvent *event)
                            event->globalPosF(),
 #endif
                            event->pixelDelta(),
-                           QPoint (0, delta / QApplication::wheelScrollLines()),
+                           QPoint (0, delta / wsl),
                            event->buttons(),
                            Qt::NoModifier,
                            event->phase(),
@@ -1410,7 +1411,7 @@ void TextEdit::wheelEvent (QWheelEvent *event)
     }
 
     /* inertial scrolling */
-    if (inertialScrolling_
+    if (wsl > 0 && inertialScrolling_
         && event->spontaneous()
         && !horizontal
         && event->source() == Qt::MouseEventNotSynthesized)
@@ -1423,11 +1424,11 @@ void TextEdit::wheelEvent (QWheelEvent *event)
                with more sensitive devices, set it to one line */
             if (qAbs (delta) >= 120)
             {
-                if (qAbs (delta * 3) >= QApplication::wheelScrollLines())
-                    delta = delta * 3 / QApplication::wheelScrollLines();
+                if (qAbs (delta * 3) >= wsl)
+                    delta = delta * 3 / wsl;
             }
-            else if (qAbs (delta) >= QApplication::wheelScrollLines())
-                delta = delta / QApplication::wheelScrollLines();
+            else if (qAbs (delta) >= wsl)
+                delta = delta / wsl;
 
             if((delta > 0 && vbar->value() == vbar->minimum())
                || (delta < 0 && vbar->value() == vbar->maximum()))
