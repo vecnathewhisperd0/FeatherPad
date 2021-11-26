@@ -258,7 +258,7 @@ private:
     void displayMessage (bool error);
     void showWarningBar (const QString& message, int timeout = 10, bool startupBar = false);
     void closeWarningBar (bool keepOnStartup = false);
-    void disconnectLambda();
+    //void disconnectLambda();
     void updateLangBtn (TextEdit *textEdit);
     void updateGUIForSingleTab (bool single);
     void stealFocus (QWidget *w);
@@ -270,7 +270,7 @@ private:
     QString txtReplace_; // The replacing text.
     int rightClicked_; // The index/row of the right-clicked tab/item.
     int loadingProcesses_; // The number of loading processes (used to prevent early closing).
-    QMetaObject::Connection lambdaConnection_; // Captures a lambda connection to disconnect it later.
+    //QMetaObject::Connection lambdaConnection_; // Captures a lambda connection to disconnect it later.
     SidePane *sidePane_;
     QHash<QListWidgetItem*, TabPage*> sideItems_; // For fast tab switching.
     QHash<QString, QAction*> langs_; // All programming languages (to be enforced by the user).

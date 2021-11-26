@@ -2316,17 +2316,20 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
 
     /* we want to restore the cursor later */
     int pos = 0, anchor = 0;
-    int scrollbarValue = -1;
+    //int scrollbarValue = -1;
     if (reload)
     {
         textEdit->forgetTxtCurHPos();
         pos = textEdit->textCursor().position();
         anchor = textEdit->textCursor().anchor();
-        if (QScrollBar *scrollbar = textEdit->verticalScrollBar())
+        /* The scrollbar position can't be restored precisely because text wrapping
+           can make the scrollbar value unreliable. Even a long delay may not give
+           good results. */
+        /*if (QScrollBar *scrollbar = textEdit->verticalScrollBar())
         {
             if (scrollbar->isVisible())
                 scrollbarValue = scrollbar->value();
-        }
+        }*/
     }
 
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
@@ -2348,6 +2351,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
             cur.setPosition (pos, QTextCursor::KeepAnchor);
         }
         textEdit->setTextCursor (cur);
+        textEdit->centerCursor(); // we don't restore scrollbar position
     }
     else if (restoreCursor != 0)
     {
@@ -2359,7 +2363,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
             {
                 QTextCursor cur = textEdit->textCursor();
                 cur.movePosition (QTextCursor::End);
-                int pos = qMin (qMax (cursorPos.value (fileName, 0).toInt(), 0), cur.position());
+                pos = qMin (qMax (cursorPos.value (fileName, 0).toInt(), 0), cur.position());
                 cur.setPosition (pos);
                 QTimer::singleShot (0, textEdit, [textEdit, cur]() {
                     textEdit->setTextCursor (cur); // ensureCursorVisible() is called by this
@@ -2532,7 +2536,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
     {
         ui->tabWidget->tabBar()->lockTabs (false);
         updateShortcuts (false, false);
-        if (reload && scrollbarValue > -1)
+        /*if (reload && scrollbarValue > -1)
         { // restore the scrollbar position
             lambdaConnection_ = QObject::connect (this, &FPwin::finishedLoading, textEdit,
                                                   [this, textEdit, scrollbarValue]() {
@@ -2543,9 +2547,9 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
                 }
                 disconnectLambda();
             });
-        }
+        }*/
         /* select the first item (sidePane_ exists) */
-        else if (firstItem)
+        /*else*/ if (firstItem)
             sidePane_->listWidget()->setCurrentItem (firstItem);
         /* reset the static variables */
         scrollToFirstItem = false;
@@ -2560,10 +2564,10 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
     }
 }
 /*************************/
-void FPwin::disconnectLambda()
+/*void FPwin::disconnectLambda()
 {
     QObject::disconnect (lambdaConnection_);
-}
+}*/
 /*************************/
 void FPwin::onOpeningHugeFiles()
 {
