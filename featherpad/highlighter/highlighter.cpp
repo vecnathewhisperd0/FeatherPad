@@ -886,7 +886,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
             shFormat.setFontWeight (QFont::Bold);
             /* brackets */
-            rule.pattern.setPattern ("\\s+\\[{1,2}\\s+|^\\[{1,2}\\s+|\\s+\\]{1,2}\\s+|\\s+\\]{1,2}$|\\s+\\]{1,2}\\s*(?=;)");
+            rule.pattern.setPattern ("(?<=^|\\(|\\s)\\[{1,2}\\s+|\\s+\\]{1,2}(?=($|\\)|;|\\s))");
             rule.format = shFormat;
             highlightingRules.append (rule);
         }
