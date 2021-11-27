@@ -1489,9 +1489,9 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = tclFormat;
         highlightingRules.append (rule);
 
-        /* Tk keywords */
+        /* Tk/Tcl keywords */
         tclFormat.setForeground (DarkMagenta);
-        rule.pattern.setPattern ("(?<!\\\\)(\\\\{2})*(?<!((#|\\$|@|\"|\'|`)(?!\\\\)))(\\\\(#|\\$|@|\"|\'|`)){0,1}\\K\\b(add|appname|args|aspect|atom|attributes|bbox|body|bytelength|cancel|caret|cget|channels|children|class|clear|client|clone|command|commands|compare|complete|configure|containing|coords|copy|create|current|debug|depth|delete|dirname|equal|executable|exists|find|first|fraction|generate|get|handle|height|iconify|icursor|id|identify|idle|index|insert|inuse|invoke|is|last|length|level|library|link|manager|map|mark|match|move|name|names|nearest|number|own|parent|patchlevel|pixels|present|provide|range|readable|remove|repeat|replace|require|search|screen|script|seconds|see|select|show|size|stat|state|system|tag|tail|title|tolower|totitle|toupper|trim|trimleft|trimright|type|types|validate|values|visual|width|window|withdraw|x|xview|y|wordend|wordstart)(?!(@|#|\\$|\"|\'|`))\\b");
+        rule.pattern.setPattern ("(?<!\\\\)(\\\\{2})*(?<!((#|\\$|@|\"|\'|`)(?!\\\\)))(\\\\(#|\\$|@|\"|\'|`)){0,1}\\K\\b(add|appname|args|aspect|atom|attributes|bbox|body|bytelength|cancel|caret|cget|channels|children|class|clear|client|clone|command|commands|compare|complete|configure|containing|coords|copy|create|current|debug|depth|delete|dirname|equal|executable|exists|find|first|fraction|generate|get|handle|height|iconify|icursor|id|identify|idle|index|insert|inuse|invoke|is|last|length|level|library|link|manager|map|mark|match|move|name|names|nearest|number|own|parent|patchlevel|pixels|present|provide|range|readable|remove|repeat|replace|require|search|screen|script|seconds|see|select|show|size|stat|state|system|tag|tail|title|tolower|totitle|toupper|trim|trimleft|trimright|type|types|validate|values|visual|width|window|withdraw|wordend|wordstart|x|xview|y)(?!(@|#|\\$|\"|\'|`))\\b");
         rule.format = tclFormat;
         highlightingRules.append (rule);
 
@@ -1519,7 +1519,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
         /* built-in functions */
         tclFormat.setForeground (Magenta);
-        rule.pattern.setPattern ("(?<!\\\\)(\\\\{2})*(?<!((#|\\$|@|\"|\'|`)(?!\\\\)))(\\\\(#|\\$|@|\"|\'|`)){0,1}\\K\\b(abs|acos|asin|atan|atan2|ceil|cos|cosh|double|exp|floor|fmod|hypot|int|log|log10|pow|rand|round|sin|sinh|sqrt|srand|tan|tanh|wide)(?!(@|#|\\$|\"|\'|`))\\b");
+        rule.pattern.setPattern ("(?<!\\\\)(\\\\{2})*(?<!((#|\\$|@|\"|\'|`)(?!\\\\)))(\\\\(#|\\$|@|\"|\'|`)){0,1}\\K\\b(abs|acos|asin|atan|atan2|bool|ceil|cos|cosh|double|entier|exp|floor|fmod|hypot|int|isqrt|log|log10|max|min|pow|rand|round|sin|sinh|sqrt|srand|tan|tanh|wide)(?!(@|#|\\$|\"|\'|`))\\b");
         rule.format = tclFormat;
         highlightingRules.append (rule);
 
