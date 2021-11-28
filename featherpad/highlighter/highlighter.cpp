@@ -1489,9 +1489,9 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = tclFormat;
         highlightingRules.append (rule);
 
-        /* Tk/Tcl keywords */
+        /* extra Tk/Tcl keywords */
         tclFormat.setForeground (DarkMagenta);
-        rule.pattern.setPattern ("(?<!\\\\)(\\\\{2})*(?<!((#|\\$|@|\"|\'|`)(?!\\\\)))(\\\\(#|\\$|@|\"|\'|`)){0,1}\\K\\b(add|appname|args|aspect|atom|attributes|bbox|body|bytelength|cancel|caret|cget|channels|children|class|clear|client|clone|command|commands|compare|complete|configure|containing|coords|copy|create|current|debug|depth|delete|dirname|equal|executable|exists|find|first|fraction|generate|get|handle|height|iconify|icursor|id|identify|idle|index|insert|inuse|invoke|is|last|length|level|library|link|manager|map|mark|match|move|name|names|nearest|number|own|parent|patchlevel|pixels|present|provide|range|readable|remove|repeat|replace|require|search|screen|script|seconds|see|select|show|size|stat|state|system|tag|tail|title|tolower|totitle|toupper|trim|trimleft|trimright|type|types|validate|values|visual|width|window|withdraw|wordend|wordstart|x|xview|y)(?!(@|#|\\$|\"|\'|`))\\b");
+        rule.pattern.setPattern ("(?<!\\\\)(\\\\{2})*(?<!((#|\\$|@|\"|\'|`)(?!\\\\)))(\\\\(#|\\$|@|\"|\'|`)){0,1}\\K\\b(add|appname|args|aspect|atom|attributes|bbox|body|broadcast|bytelength|cancel|caret|cget|channels|children|class|clear|client|clone|command|commands|compare|complete|configure|containing|coords|copy|create|current|debug|depth|delete|dirname|equal|executable|exists|find|first|forget|fraction|generate|geometry|get|handle|height|hide|iconify|icursor|id|identify|idle|inactive|index|insert|inuse|invoke|is|last|length|level|library|link|manager|map|mark|match|move|name|names|nearest|number|own|parent|patchlevel|pixels|present|provide|range|readable|remove|repeat|replace|require|scaling|screen|script|search|seconds|see|select|show|size|stat|state|system|tag|tail|title|tolower|totitle|toupper|trim|trimleft|trimright|type|types|useinputmethods|validate|values|visual|width|window|windowingsystem|withdraw|wordend|wordstart|x|xview|y)(?!(@|#|\\$|\"|\'|`))\\b");
         rule.format = tclFormat;
         highlightingRules.append (rule);
 
