@@ -50,8 +50,8 @@ QStringList Highlighter::keywords (const QString &lang)
                         << "((^\\s*|[\\(\\);&`\\|{}!=^]+\\s*|(?<=~|\\.)+\\s+)((if|then|elif|elseif|else|fi|while|do|done|esac)\\s+)*)(declare|default|dirs|disown|do|done)(?!(\\.|-|@|#|\\$))\\b"
                         << "((^\\s*|[\\(\\);&`\\|{}!=^]+\\s*|(?<=~|\\.)+\\s+)((if|then|elif|elseif|else|fi|while|do|done|esac)\\s+)*)(echo|elif|elseif|else|enable|esac|eval|exec|exit|export)(?!(\\.|-|@|#|\\$))\\b"
                         << "\\b(?<!(@|\\^|\\$|\\.|%|\\*|\\+|-|/))false(?!(\\.|-|@|#|\\$))\\b"
-                        << "((^\\s*|[\\(\\);&`\\|{}!=^]+\\s*|(?<=~|\\.)+\\s+)((if|then|elif|elseif|else|fi|while|do|done|esac)\\s+)*)(fg|fi|for|foreach|getopts|hash|help|history|if|in)(?!(\\.|-|@|#|\\$))\\b"
-                        << "((^\\s*|[\\(\\);&`\\|{}!=^]+\\s*|(?<=~|\\.)+\\s+)((if|then|elif|elseif|else|fi|while|do|done|esac)\\s+)*)(jobs|let|local|logout|popd|printf|pushd|read|readonly|return)(?!(\\.|-|@|#|\\$))\\b"
+                        << "((^\\s*|[\\(\\);&`\\|{}!=^]+\\s*|(?<=~|\\.)+\\s+)((if|then|elif|elseif|else|fi|while|do|done|esac)\\s+)*)(fg|fi|for|foreach|function|getopts|hash|help|history|if|in)(?!(\\.|-|@|#|\\$))\\b"
+                        << "((^\\s*|[\\(\\);&`\\|{}!=^]+\\s*|(?<=~|\\.)+\\s+)((if|then|elif|elseif|else|fi|while|do|done|esac)\\s+)*)(jobs|let|local|login|logout|popd|printf|pushd|read|readonly|return)(?!(\\.|-|@|#|\\$))\\b"
                         << "((^\\s*|[\\(\\);&`\\|{}!=^]+\\s*|(?<=~|\\.)+\\s+)((if|then|elif|elseif|else|fi|while|do|done|esac)\\s+)*)(select|seq|set|shift|shopt|source|suspend|test|then|times|trap|type|typeset)(?!(\\.|-|@|#|\\$))\\b"
                         << "\\b(?<!(@|\\^|\\$|\\.|%|\\*|\\+|-|/))true(?!(\\.|-|@|#|\\$))\\b"
                         << "((^\\s*|[\\(\\);&`\\|{}!=^]+\\s*|(?<=~|\\.)+\\s+)((if|then|elif|elseif|else|fi|while|do|done|esac)\\s+)*)(umask|unalias|unset|until|wait|while)(?!(\\.|-|@|#|\\$))\\b";
