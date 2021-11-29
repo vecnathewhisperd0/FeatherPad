@@ -162,7 +162,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
             progLan = "dart";
         else if (fname.endsWith (".go"))
             progLan = "go";
-        else if (fname.endsWith (".tcl"))
+        else if (fname.endsWith (".tcl") || fname.endsWith (".tk"))
             progLan = "tcl";
         else if (baseName.startsWith ("makefile.", Qt::CaseInsensitive) && !baseName.endsWith (".txt", Qt::CaseInsensitive))
             progLan = "makefile";
