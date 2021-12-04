@@ -189,7 +189,7 @@ QStringList Highlighter::types()
     }
     else if (progLan == "qml")
     {
-        typePatterns << "\\b(?<!(@|#|\\$))(bool|double|enumeration|int|list|real|string|url|var)(?!(@|#|\\$))\\b"
+        typePatterns << "\\b(?<!(@|#|\\$))(bool|double|enumeration|int|list|real|string|url|var|variant)(?!(@|#|\\$))\\b"
                      << "\\b(?<!(@|#|\\$))(color|date|font|matrix4x4|point|quaternion|rect|size|vector2d|vector3d|vector4d)(?!(@|#|\\$))\\b";
     }
     else if (progLan == "dart")
