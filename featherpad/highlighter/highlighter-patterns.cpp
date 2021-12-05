@@ -73,21 +73,21 @@ QStringList Highlighter::keywords (const QString &lang)
     }
     else if (lang == "perl")
     {
-        keywordPatterns << "\\b(?<!(@|#|%|\\$))(abs|accept|alarm|and|atan2|bind|binmode|bless|break)(?!(@|#|\\$))\\b"
-                        << "\\b(?<!(@|#|%|\\$))(caller|chdir|chmod|chown|chroot|chomp|chop|chr|close|closedir|cmp|connect|continue|cos|crypt)(?!(@|#|\\$))\\b"
-                        << "\\b(?<!(@|#|%|\\$))(dbmclose|dbmopen|defined|delete|die|do|dump)(?!(@|#|\\$))\\b"
-                        << "\\b(?<!(@|#|%|\\$))(each|else|elsif|endgrent|endhostent|endnetent|endprotoent|endpwent|endservent|eof|eq|eval|exec|exists|exit|exp)(?!(@|#|\\$))\\b"
-                        << "\\b(?<!(@|#|%|\\$))(fcntl|fileno|flock|for|foreach|fork|format|formline)(?!(@|#|\\$))\\b"
-                        << "\\b(?<!(@|#|%|\\$))(ge|getc|getgrent|getgrgid|getgrnam|gethostbyaddr|gethostbyname|gethostent|getlogin|getnetbyaddr|getnetbyname|getnetent|getpeername|getpgrp|getppid|getpriority|getprotobyname|getprotobynumber|getprotoent|getpwent|getpwnam|getpwuid|getservbyname|getservbyport|getservent|getsockname|getsockopt|glob|gmtime|goto|grep|gt|hex)(?!(@|#|\\$))\\b"
-                        << "\\b(?<!(@|#|%|\\$))(if|import|index|int|ioctl|join|keys|kill)(?!(@|#|\\$))\\b"
-                        << "\\b(?<!(@|#|%|\\$))(last|lc|lcfirst|le|length|link|listen|local|localtime|lock|log|lt|lstat|map|mkdir|msgctl|msgget|msgrcv|msgsnd|my|ne|next|no|not)(?!(@|#|\\$))\\b"
+        keywordPatterns << "\\b(?<!(@|#|%|\\$))(abs|accept|alarm|and|atan2|BEGIN|bind|binmode|bless|break|bytes)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|%|\\$))(caller|chdir|chmod|chown|chroot|chomp|chop|chr|close|closedir|cmp|connect|constant|continue|cos|crypt)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|%|\\$))(dbmclose|dbmopen|default|defined|delete|diagnostics|die|do|dump)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|%|\\$))(each|else|elsif|endgrent|END|endhostent|endnetent|endprotoent|endpwent|endservent|english|eof|eq|eval|exec|exists|exit|exp)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|%|\\$))(fcntl|fileno|filetest|flock|for|foreach|fork|format|formline)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|%|\\$))(ge|getc|getgrent|getgrgid|getgrnam|gethostbyaddr|gethostbyname|gethostent|getlogin|getnetbyaddr|getnetbyname|getnetent|getpeername|getpgrp|getppid|getpriority|getprotobyname|getprotobynumber|getprotoent|getpwent|getpwnam|getpwuid|getservbyname|getservbyport|getservent|getsockname|getsockopt|given|glob|gmtime|goto|grep|gt|hex)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|%|\\$))(if|import|index|int|integer|ioctl|join|keys|kill)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|%|\\$))(last|lc|lcfirst|le|length|less|link|listen|local|locale|localtime|lock|log|lt|lstat|map|mkdir|msgctl|msgget|msgrcv|msgsnd|my|ne|next|no|not)(?!(@|#|\\$))\\b"
                         << "\\b(?<!(@|#|%|\\$))(oct|open|opendir|or|ord|our|pack|package|pipe|pop|pos|print|printf|prototype|push|quotemeta)(?!(@|#|\\$))\\b"
-                        << "\\b(?<!(@|#|%|\\$))(rand|read|readdir|readlink|readpipe|recv|redo|ref|rename|require|return|reverse|rewinddir|rindex|rmdir)(?!(@|#|\\$))\\b"
-                        << "\\b(?<!(@|#|%|\\$))(say|scalar|seek|seekdir|select|semctl|semget|semop|send|setgrent|sethostent|setnetent|setpgrp|setpriority|setprotoent|setpwent|setservent|setsockopt|shift|shmctl|shmget|shmread|shmwrite|shutdown|sin|sleep|socket|socketpair|sort|splice|split|sprintf|sqrt|srand|stat|state|study|sub|substr|symlink|syscall|sysopen|sysread|sysseek|system|syswrite|switch)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|%|\\$))(rand|read|readdir|readline|readlink|readpipe|recv|redo|ref|rename|require|return|reverse|rewinddir|rindex|rmdir)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|%|\\$))(say|scalar|seek|seekdir|select|semctl|semget|semop|send|setgrent|sethostent|setnetent|setpgrp|setpriority|setprotoent|setpwent|setservent|setsockopt|shift|shmctl|shmget|shmread|shmwrite|shutdown|sigtrap|sin|sleep|socket|socketpair|sort|splice|split|sprintf|sqrt|srand|stat|state|strict|study|sub|subs|substr|symlink|syscall|sysopen|sysread|sysseek|system|syswrite|switch)(?!(@|#|\\$))\\b"
                         << "\\b(?<!(@|#|%|\\$))(tell|telldir|tie|tied|time|times|truncate)(?!(@|#|\\$))\\b"
-                        << "\\b(?<!(@|#|%|\\$))(uc|ucfirst|umask|undef|unless|unlink|unpack|unshift|untie|use|utime)(?!(@|#|\\$))\\b"
-                        << "\\b(?<!(@|#|%|\\$))(values|vec)(?!(@|#|\\$))\\b"
-                        << "\\b(?<!(@|#|%|\\$))(wait|waitpid|warn|wantarray|while|write|xor)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|%|\\$))(uc|ucfirst|umask|undef|unless|unlink|unpack|unshift|untie|until|use|utf8|utime)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|%|\\$))(vars|values|vec)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|%|\\$))(wait|waitpid|warn|warnings|wantarray|when|while|write|xor)(?!(@|#|\\$))\\b"
                         << "\\b(?<!(@|#|%|\\$))__(FILE|LINE|PACKAGE)__";
     }
     else if (lang == "ruby")
@@ -97,7 +97,7 @@ QStringList Highlighter::keywords (const QString &lang)
                         << "\\b(case|class|defined|do|def)(?!(@|#|\\$))\\b"
                         << "\\b(else|elsif|end|END|ensure|for|false)(?!(@|#|\\$))\\b"
                         << "\\b(if|in|module)(?!(@|#|\\$))\\b"
-                        << "\\b(next|nil|not|or)(?!(@|#|\\$))\\b"
+                        << "\\b(next|nil|not|private|private_class_method|protected|public|public_class_method|or)(?!(@|#|\\$))\\b"
                         << "\\b(redo|rescue|retry|return)(?!(@|#|\\$))\\b"
                         << "\\b(super|self|then|true)(?!(@|#|\\$))\\b"
                         << "\\b(undef|unless|until|when|while|yield)(?!(@|#|\\$))\\b";
@@ -153,12 +153,12 @@ QStringList Highlighter::keywords (const QString &lang)
                         << "\\b(library|mixin|new|null|on|operator|part|rethrow|return|set|show|static|super|switch|sync)\\b"
                         << "\\b(this|throw|true|try|typedef|var|void|while|with|yield)\\b";
     else if (lang == "pascal") // case-insensitive
-        keywordPatterns << "(?i)\\b(?<!(@|#|\\$))(absolute|abstract|alias|and|array|as|asm|assembler|attribute|begin|bindable|bitpacked|break|case|cdecl|class|const|constructor|continue|cppdecl|cvar|default|deprecated|destructor|dispinterface|dispose|div|do|downto|dynamic|else|end|enumerator|except|experimental|export|exports|external|false|far|far16|file|finalization|finally|for|forward|function|generic|goto|helper|if|implementation|implements|in|index|inherited|initialization|inline|interface|interrupt|is|label|library|iocheck|local|message|mod|name|near|new|nil|nodefault|noreturn|nostackframe|not|object|oldfpccall|on|of|otherwise|out|operator|or|overload|override|pack|packed|page|pascal|platform|private|procedure|program|property|protected|public|published|raise|read|readln|record|register|reintroduce|repeat|resourcestring|reset|result|rewrite|safecall|saveregisters|self|set|shl|shr|softfloat|specialize|static|stdcall|stored|strict|then|to|threadvar|true|try|type|unaligned|unimplemented|unit|unpack|until|uses|var|varargs|virtual|while|winapi|with|write|writeln|xor)(?!(@|#|\\$))\\b";
+        keywordPatterns << "(?i)\\b(?<!(@|#|\\$))(absolute|abstract|alias|and|array|as|asm|assembler|at|attribute|automated|begin|bindable|bitpacked|break|case|cdecl|class|const|constructor|continue|cppdecl|cvar|default|deprecated|destructor|dispinterface|dispose|div|do|downto|dynamic|else|end|enumerator|except|exit|experimental|export|exports|external|false|far|far16|file|finalization|finally|for|forward|function|generic|goto|helper|if|implementation|implements|in|index|inherited|initialization|inline|interface|interrupt|is|label|library|iocheck|local|message|mod|module|name|near|new|nil|nodefault|noreturn|nostackframe|not|object|oldfpccall|on|only|of|otherwise|out|operator|or|overload|override|pack|packed|page|pascal|platform|private|procedure|program|property|protected|public|published|qualified|raise|read|readln|record|register|reintroduce|repeat|resourcestring|reset|restricted|result|rewrite|safecall|saveregisters|self|set|shl|shr|softfloat|specialize|static|stdcall|stored|strict|then|to|threadvar|true|try|type|unaligned|unimplemented|unit|unpack|until|uses|var|varargs|virtual|while|winapi|with|write|writeln|xor)(?!(@|#|\\$))\\b";
     else if (lang == "java")
         keywordPatterns << "\\b(abstract|assert|break|case|catch|class|const|while|continue|default|do|else|extends|final|finally|for|goto|if|implements|import|instanceof|interface|module|native|new|package|private|protected|public|return|static|strictfp|super|switch|synchronized|this|throw|throws|transient|try|var|volatile|while)(?!(@|#|\\$))\\b"
                         << "\\b(true|false|null)(?!(\\.|-|@|#|\\$))\\b";
     else if (lang == "go")
-        keywordPatterns << "\\b(break|case|chan|const|continue|default|defer|else|fallthrough|false|for|func|go|goto|if|import|interface|map|nil|package|range|return|select|struct|switch|true|type|var)(?!(\\.|-|@|#|\\$))\\b";
+        keywordPatterns << "\\b(break|case|chan|const|continue|default|defer|else|fallthrough|false|for|func|go|goto|if|import|interface|iota|map|nil|package|range|return|select|struct|switch|true|type|var)(?!(\\.|-|@|#|\\$))\\b";
     else if (lang == "tcl") // backslash should also be taken into account (in a complex way)
         keywordPatterns << "(?<!\\\\)(\\\\{2})*(?<!((#|\\$|@|\"|\'|`)(?!\\\\)))(\\\\(#|\\$|@|\"|\'|`)){0,1}\\K\\b("
                            "after|append|AppleScript|apply|argc|argv|array|auto_execk|auto_execok|auto_import|auto_load|auto_load_index|auto_mkindex|auto_mkindex_old|auto_path|auto_qualify|auto_reset|binary|bgerror|break|case|catch|cd|clock|close|concat|continue|dde|dict|else|elseif|encoding|env|eof|error|errorCode|errorInfo|eval|exec|exit|expr|fblocked|fconfigure|fcopy|file|fileevent|flush|for|foreach|format|gets|glob|global|history|if|info|interp|join|lappend|lindex|linsert|list|llength|lmap|load|lrange|lremove|lrepeat|lreplace|lreverse|lsearch|lset|lsort|my|namespace|next|nextto|open|package|parray|pid|pkg_mkIndex|prefix|proc|puts|pwd|read|regexp|regsub|rename|resource|return|scan|seek|set|socket|source|split|string|subst|switch|tcl_library|tcl_patchLevel|tcl_pkgPath|tcl_platform|tcl_precision|tcl_rcFileName|tcl_rcRsrcName|tcl_traceCompile|tcl_traceExec|tcl_version|tclLog|tell|timerate|throw|time|trace|trap|try|unknown|unload|unset|update|uplevel|upvar|variable|vwait|while|yield|yieldto"
@@ -198,7 +198,7 @@ QStringList Highlighter::types()
     }
     else if (progLan == "pascal")
     {
-        typePatterns << "(?i)\\b(?<!(@|#|\\$))(byte|cardinal|char|int64|integer|qword|qwordbool|real|boolean|bytebool|enumerated|longbool|longint|longword|shortint|single|smallint|string|widechar|word|wordbool)(?!(@|#|\\$))\\b";
+        typePatterns << "(?i)\\b(?<!(@|#|\\$))(ansichar|ansistring|byte|cardinal|char|comp|currency|double|dword|extended|int64|integer|pointer|qword|qwordbool|real|real48|boolean|bytebool|enumerated|longbool|longint|longword|shortint|shortstring|single|smallint|string|text|variant|widechar|widestring|word|wordbool)(?!(@|#|\\$))\\b";
     }
     else if (progLan == "java")
     {

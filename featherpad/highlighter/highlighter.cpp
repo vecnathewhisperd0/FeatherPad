@@ -901,7 +901,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
             /* built-in functions */
             shFormat.setFontWeight (QFont::Bold);
             shFormat.setForeground (Magenta);
-            rule.pattern.setPattern ("\\b(Array|Float|Integer|String|atan2|autoload|binding|callcc|caller|catch|chomp\\!?|cos|dump|eval|exec|exit\\!?|exp|fail|format|frexp|garbage_collect|gets|gsub\\!?|ldexp|load|log|log10|open|p|print|printf|putc|puts|raise|rand|readline|readlines|require|restore|scan|select|set_trace_func|sin|singleton_method_added|sleep|split|sprintf|sqrt|srand|sub\\!?|syscall|system|tan|test|throw|trace_var|trap|untrace_var)(?!(\\w|\\!|\\?))"
+            rule.pattern.setPattern ("\\b(Array|Float|Integer|String|atan2|autoload\\??|binding|callcc|caller|catch|chomp\\!?|cos|dump|eval|exec|exit\\!?|exp|fail|format|frexp|garbage_collect|gets|gsub\\!?|ldexp|load|log|log10|open|p|print|printf|putc|puts|raise|rand|readline|readlines|require|require_relative|restore|scan|select|set_trace_func|sin|singleton_method_added|sleep|split|sprintf|sqrt|srand|sub\\!?|syscall|system|tan|test|throw|trace_var|trap|untrace_var|warn)(?!(\\w|\\!|\\?))"
                                      "|"
                                      "\\b(abort|at_exit|binding|chop\\!?|egid|euid|fork|getpgrp|getpriority|gid|global_variables|kill|lambda|local_variables|loop|pid|ppid|proc|setpgid|setpgrp|setpriority|setsid|uid|wait|wait2|waitpid|waitpid2)(?!(\\w|\\!|\\?))"
                                      "|"
@@ -913,7 +913,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
                                      "|"
                                      "(?<=\\.)(ancestors|class_eval|class_variables|const_get|const_set|constants|included_modules|instance_methods|module_eval|name|private_class_method|private_instance_methods|protected_instance_methods|public_class_method|public_instance_methods)(?!(\\w|\\!|\\?))"
                                      "|"
-                                     "(?<=\\.)(__id__|__send__|abs|coerce|display|divmod|dup|extend|freeze|hash|id|inspect|instance_eval|instance_variables|method|method_missing|methods|modulo|private_methods|protected_methods|public_methods|remainder|send|singleton_methods|taint|type|untaint)(?!(\\w|\\!|\\?))"
+                                     "(?<=\\.)(__id__|__send__|abs|coerce|display|divmod|dup|extend|freeze|hash|id|include|inspect|instance_eval|instance_variables|method|method_missing|methods|modulo|prepend|private_methods|protected_methods|public_methods|remainder|send|singleton_methods|taint|type|untaint)(?!(\\w|\\!|\\?))"
                                      "|"
                                      "(?<=\\.)(add|capitalize\\!?|center|count|crypt|downcase\\!?|hex|intern|kcode|list|ljust|match|members|next\\!?|oct|rjust|source|squeeze\\!?|strip\\!?|succ\\!?|sum|swapcase\\!?|to_str|tr\\!?|tr_s\\!?|unpack|upcase\\!?|upto)(?!(\\w|\\!|\\?))"
                                      "|"
