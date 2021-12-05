@@ -109,9 +109,10 @@ QStringList Highlighter::keywords (const QString &lang)
                         << "\\b(if|in|local|nil|not|or|repeat|return)(?!(\\.|@|#|\\$))\\b"
                         << "\\b(then|true|until|while)(?!(\\.|@|#|\\$))\\b";
     else if (lang == "python")
-        keywordPatterns << "\\b(and|as|assert|break|class|continue)(?!(@|\\$))\\b"
-                        << "\\b(def|del|elif|else|except|False|finally|for|from|global)(?!(@|\\$))\\b"
-                        << "\\b(if|is|import|in|lambda|None|not|or|raise|return|True|try|while|with|yield)(?!(@|\\$))\\b"
+        keywordPatterns << "\\b(__debug__|__file__|__name__|and|as|assert|async|await|break|class|continue)(?!(@|\\$))\\b"
+                        << "\\b(def|del|elif|Ellipsis|else|except|False|finally|for|from|global)(?!(@|\\$))\\b"
+                        << "\\b(if|is|import|in|lambda|None|nonlocal|not|NotImplemented|or|pass|raise|return|True|try|while|with|yield)(?!(@|\\$))\\b"
+                        << "\\b(ArithmeticError|AssertionError|AttributeError|BaseException|BlockingIOError|BrokenPipeError|BufferError|BytesWarning|ChildProcessError|ConnectionAbortedError|ConnectionError|ConnectionRefusedError|ConnectionResetError|DeprecationWarning|EnvironmentError|EOFError|Exception|FileExistsError|FileNotFoundError|FloatingPointError|FutureWarning|GeneratorExit|ImportError|ImportWarning|IndentationError|IndexError|InterruptedError|IOError|IsADirectoryError|KeyboardInterrupt|KeyError|LookupError|MemoryError|NameError|NotADirectoryError|NotImplementedError|OSError|OverflowError|PendingDeprecationWarning|PermissionError|ProcessLookupError|ReferenceError|ResourceWarning|RuntimeError|RuntimeWarning|StandardError|StopIteration|SyntaxError|SyntaxWarning|SystemError|SystemExit|TabError|TimeoutError|TypeError|UnboundLocalError|UnicodeDecodeError|UnicodeEncodeError|UnicodeError|UnicodeTranslateError|UnicodeWarning|UserWarning|ValueError|Warning|WindowsError|ZeroDivisionError)(?!(@|\\$))\\b"
                         << "\\b(exec|print)(?!(@|\\$|\\s*\\())\\b";
     else if (lang == "javascript" || lang == "qml")
     {
