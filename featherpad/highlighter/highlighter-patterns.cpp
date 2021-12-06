@@ -105,7 +105,7 @@ QStringList Highlighter::keywords (const QString &lang)
     else if (lang == "lua")
         keywordPatterns << "\\b(and|break|do)(?!(\\.|@|#|\\$))\\b"
                         << "\\b(else|elseif|end)(?!(\\.|@|#|\\$))\\b"
-                        << "\\b(false|for|function)(?!(\\.|@|#|\\$))\\b"
+                        << "\\b(false|for|function|goto)(?!(\\.|@|#|\\$))\\b"
                         << "\\b(if|in|local|nil|not|or|repeat|return)(?!(\\.|@|#|\\$))\\b"
                         << "\\b(then|true|until|while)(?!(\\.|@|#|\\$))\\b";
     else if (lang == "python")
@@ -116,13 +116,13 @@ QStringList Highlighter::keywords (const QString &lang)
                         << "\\b(exec|print)(?!(@|\\$|\\s*\\())\\b";
     else if (lang == "javascript" || lang == "qml")
     {
-        keywordPatterns << "\\b(?<!(@|#|\\$))(abstract|arguments|await|break)(?!(@|#|\\$))\\b"
+        keywordPatterns << "\\b(?<!(@|#|\\$))(abstract|arguments|await|async|break)(?!(@|#|\\$))\\b"
                         << "\\b(?<!(@|#|\\$))(case|catch|class|const|continue)(?!(@|#|\\$))\\b"
                         << "\\b(?<!(@|#|\\$))(debugger|default|delete|do)(?!(@|#|\\$))\\b"
                         << "\\b(?<!(@|#|\\$))(else|enum|eval|extends)(?!(@|#|\\$))\\b"
                         << "\\b(?<!(@|#|\\$))(false|final|finally|for|function|goto)(?!(@|#|\\$))\\b"
                         << "\\b(?<!(@|#|\\$))(if|implements|in|Infinity|instanceof|interface|let)(?!(@|#|\\$))\\b"
-                        << "\\b(?<!(@|#|\\$))(Math|native|new|null|of)(?!(@|#|\\$))\\b"
+                        << "\\b(?<!(@|#|\\$))(Math|NaN|native|new|null|of)(?!(@|#|\\$))\\b"
                         << "\\b(?<!(@|#|\\$))(package|private|protected|prototype|public|return)(?!(@|#|\\$))\\b"
                         << "\\b(?<!(@|#|\\$))(static|super|switch|synchronized)(?!(@|#|\\$))\\b"
                         << "\\b(?<!(@|#|\\$))(throw|throws|this|transient|true|try|typeof)(?!(@|#|\\$))\\b"
@@ -133,17 +133,17 @@ QStringList Highlighter::keywords (const QString &lang)
             keywordPatterns << "\\b(?<!(@|#|\\$))(alias|id|property|readonly|signal)(?!(@|#|\\$))\\b";
     }
     else if (lang == "php")
-        keywordPatterns << "\\b(?<!(#|\\$))(__FILE__|__LINE__|__FUNCTION__|__CLASS__|__METHOD__|__DIR__|__NAMESPACE__)(?!(#|\\$))\\b"
-                        << "\\b(?<!(#|\\$))(and|abstract|array|as|break)(?!(#|\\$))\\b"
-                        << "\\b(?<!(#|\\$))(case|catch|cfunction|class|clone|const|continue)(?!(#|\\$))\\b"
+        keywordPatterns << "\\b(?<!(#|\\$))(__FILE__|__LINE__|__FUNCTION__|__CLASS__|__COMPILER_HALT_OFFSET__|__METHOD__|__DIR__|__NAMESPACE__|__TRAIT__)(?!(#|\\$))\\b"
+                        << "\\b(?<!(#|\\$))(and|abstract|array|as|bool|break)(?!(#|\\$))\\b"
+                        << "\\b(?<!(#|\\$))(callable|case|catch|cfunction|class|clone|const|continue)(?!(#|\\$))\\b"
                         << "\\b(?<!(#|\\$))(declare|default|die|do)(?!(#|\\$))\\b"
                         << "\\b(?<!(#|\\$))(each|echo|else|elseif|empty|enddeclare|endfor|endforeach|endif|endswitch|endwhile|eval|exception|exit|extends)(?!(#|\\$))\\b"
-                        << "\\b(?<!(#|\\$))(false|final|for|foreach|function)(?!(#|\\$))\\b"
-                        << "\\b(?<!(#|\\$))(global|goto|if|implements|interface|instanceof|isset)(?!(#|\\$))\\b"
-                        << "\\b(?<!(#|\\$))(list|namespace|new|null|old_function|or)(?!(#|\\$))\\b"
-                        << "\\b(?<!(#|\\$))(php_user_filter|print|private|protected|public|return)(?!(#|\\$))\\b"
-                        << "\\b(?<!(#|\\$))(static|switch|throw|true|try)(?!(#|\\$))\\b"
-                        << "\\b(?<!(#|\\$))(unset|use|var|while|xor)(?!(#|\\$))\\b";
+                        << "\\b(?<!(#|\\$))(false|final|finally|float|for|foreach|function)(?!(#|\\$))\\b"
+                        << "\\b(?<!(#|\\$))(global|goto|if|implements|include|include_once|insteadof|int|interface|instanceof|isset|iterable)(?!(#|\\$))\\b"
+                        << "\\b(?<!(#|\\$))(list|mixed|namespace|new|null|numeric|object|old_function|or)(?!(#|\\$))\\b"
+                        << "\\b(?<!(#|\\$))(php_user_filter|print|private|protected|public|require|require_once|resource|return)(?!(#|\\$))\\b"
+                        << "\\b(?<!(#|\\$))(static|string|switch|throw|trait|true|try)(?!(#|\\$))\\b"
+                        << "\\b(?<!(#|\\$))(unset|use|var|void|while|xor|yield)(?!(#|\\$))\\b";
     else if (lang == "scss") // taken from http://sass-lang.com/documentation/Sass/Script/Functions.html
         keywordPatterns << "\\b(none|null)(?!(\\.|-|@|#|\\$))\\b"
                         << "\\b(abs|adjust-color|adjust-hue|alpha|append|blue|call|ceil|change-color|comparable|complement|content-exists|darken|desaturate|feature-exists|floor|function-exists|get-function|global-variable-exists|grayscale|green|hsl|hsla|hue|ie-hex-str|if|index|inspect|invert|is-bracketed|is-superselector|join|keywords|length|lighten|lightness|list-separator|map-get|map-has-key|map-keys|map-merge|map-remove|map-values|max|min|mixin-exists|mix|nth|opacify|percentage|quote|random|red|rgb|rgba|round|scale-color|saturate|saturation|selector-nest|selector-append|selector-extend|selector-parse|selector-replace|selector-unify|set-nth|simple-selectors|str-index|str-insert|str-length|str-slice|to-lower-case|to-upper-case|transparentize|type-of|unit|unitless|unquote|variable-exists|zip)(?=\\()"
@@ -156,7 +156,7 @@ QStringList Highlighter::keywords (const QString &lang)
     else if (lang == "pascal") // case-insensitive
         keywordPatterns << "(?i)\\b(?<!(@|#|\\$))(absolute|abstract|alias|and|array|as|asm|assembler|at|attribute|automated|begin|bindable|bitpacked|break|case|cdecl|class|const|constructor|continue|cppdecl|cvar|default|deprecated|destructor|dispinterface|dispose|div|do|downto|dynamic|else|end|enumerator|except|exit|experimental|export|exports|external|false|far|far16|file|finalization|finally|for|forward|function|generic|goto|helper|if|implementation|implements|in|index|inherited|initialization|inline|interface|interrupt|is|label|library|iocheck|local|message|mod|module|name|near|new|nil|nodefault|noreturn|nostackframe|not|object|oldfpccall|on|only|of|otherwise|out|operator|or|overload|override|pack|packed|page|pascal|platform|private|procedure|program|property|protected|public|published|qualified|raise|read|readln|record|register|reintroduce|repeat|resourcestring|reset|restricted|result|rewrite|safecall|saveregisters|self|set|shl|shr|softfloat|specialize|static|stdcall|stored|strict|then|to|threadvar|true|try|type|unaligned|unimplemented|unit|unpack|until|uses|var|varargs|virtual|while|winapi|with|write|writeln|xor)(?!(@|#|\\$))\\b";
     else if (lang == "java")
-        keywordPatterns << "\\b(abstract|assert|break|case|catch|class|const|while|continue|default|do|else|extends|final|finally|for|goto|if|implements|import|instanceof|interface|module|native|new|package|private|protected|public|return|static|strictfp|super|switch|synchronized|this|throw|throws|transient|try|var|volatile|while)(?!(@|#|\\$))\\b"
+        keywordPatterns << "\\b(abstract|assert|break|case|catch|class|const|while|continue|default|do|else|enum|extends|final|finally|for|goto|if|implements|import|instanceof|interface|module|native|new|package|private|protected|public|return|static|strictfp|super|switch|synchronized|this|throw|throws|transient|try|var|volatile|while)(?!(@|#|\\$))\\b"
                         << "\\b(true|false|null)(?!(\\.|-|@|#|\\$))\\b";
     else if (lang == "go")
         keywordPatterns << "\\b(break|case|chan|const|continue|default|defer|else|fallthrough|false|for|func|go|goto|if|import|interface|iota|map|nil|package|range|return|select|struct|switch|true|type|var)(?!(\\.|-|@|#|\\$))\\b";
@@ -203,7 +203,7 @@ QStringList Highlighter::types()
     }
     else if (progLan == "java")
     {
-        typePatterns << "\\b(boolean|byte|char|double|enum|float|int|long|short|void)(?!(\\.|-|@|#|\\$))\\b";
+        typePatterns << "\\b(boolean|byte|char|double|float|int|long|short|void)(?!(\\.|-|@|#|\\$))\\b";
     }
     else if (progLan == "go")
     {

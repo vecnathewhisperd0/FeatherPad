@@ -1379,6 +1379,12 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.pattern.setPattern ("\\bos(?=\\.)");
         rule.format = luaFormat;
         highlightingRules.append (rule);
+
+        /* built-in functions */
+        luaFormat.setForeground (Magenta);
+        rule.pattern.setPattern ("\\b(assert|collectgarbage|dofile|error|getmetatable|ipairs|load|loadfile|next|pairs|pcall|print|rawequal|rawget|rawlen|rawset|select|setmetatable|tonumber|tostring|type|warn|xpcall)(?=\\s*\\()");
+        rule.format = luaFormat;
+        highlightingRules.append (rule);
     }
     else if (progLan == "m3u")
     {
