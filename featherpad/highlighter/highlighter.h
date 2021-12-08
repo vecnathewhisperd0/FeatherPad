@@ -198,6 +198,12 @@ private:
     int findDelimiter (const QString &text, const int index,
                        const QRegularExpression &delimExp, int &capturedLength) const;
 
+    /* Lua */
+    bool isLuaQuote (const QString &text, const int index) const;
+    bool isSingleLineLuaComment (const QString &text, const int index, const int start) const;
+    void multiLineLuaComment (const QString &text);
+    void highlightLuaBlock (const QString &text);
+
     /* Markdown */
     bool markdownMultiLine (const QString &text,
                             const QString &oldStartPattern,

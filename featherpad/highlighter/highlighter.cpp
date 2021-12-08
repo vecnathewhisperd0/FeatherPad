@@ -232,7 +232,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         (progLan == "c" || progLan == "cpp" // single quotes can also show syntax errors
          || progLan == "python"
          || progLan == "sh" // not used in multiLineQuote()
-         || progLan == "makefile" || progLan == "cmake" || progLan == "lua"
+         || progLan == "makefile" || progLan == "cmake"
          || progLan == "xml" // never used because we should consider "&quot;"
          || progLan == "ruby"
          || progLan == "html" // not used in multiLineQuote()
@@ -1372,6 +1372,9 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     }
     else if (progLan == "lua")
     {
+        errorFormat.setForeground (Red);
+        errorFormat.setFontUnderline (true);
+
         QTextCharFormat luaFormat;
         luaFormat.setFontWeight (QFont::Bold);
         luaFormat.setFontItalic (true);
@@ -1688,8 +1691,6 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     {
         rule.pattern.setPattern ("^\\s+#|^#(?!(EXTM3U|EXTINF))");
     }
-    else if (progLan == "lua")
-        rule.pattern.setPattern ("--(?!\\[).*");
     else if (progLan == "troff")
         rule.pattern.setPattern ("\\\\\"|\\\\#|\\.\\s*\\\\\"");
     else if (progLan == "LaTeX")
@@ -1712,11 +1713,6 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     {
         commentStartExpression.setPattern ("/\\*");
         commentEndExpression.setPattern ("\\*/");
-    }
-    else if (progLan == "lua")
-    {
-        commentStartExpression.setPattern ("\\[\\[|--\\[\\[");
-        commentEndExpression.setPattern ("\\]\\]");
     }
     else if (progLan == "python")
     {
@@ -2005,7 +2001,6 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
             || progLan == "dart"
             || progLan == "php"
             || progLan == "ruby"
-            || progLan == "lua"
             /* markdown is an exception */
             || progLan == "markdown"
             /* however, in Bash, single quote can be escaped only at start */
@@ -4140,6 +4135,11 @@ void Highlighter::highlightBlock (const QString &text)
         if (progLan == "tcl")
         {
             highlightTclBlock (text);
+            return;
+        }
+        if (progLan == "lua")
+        {
+            highlightLuaBlock (text);
             return;
         }
     }

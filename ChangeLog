@@ -8,6 +8,9 @@ V1.1.0
  * Stretch the text view in the side-pane mode and save the splitter position in pixels (if it should be remembered). Also, ensure that the splitter is visible and its width isn't greater than that of the view on startup.
  * Consider the special case, where the value of "wheel scroll lines" is zero.
  * Don't try to restore scrollbar position after reloading because it can't be done precisely. Instead, center the text cursor.
+ * Prevented a very rare stack overflow when matching brackets in huge files, by replacing recursive methods with loops. In this way, extremely distant brackets can be matched instantly.
+ * Fixes and improvements to Lua syntax highlighting, especially regarding comments, (nested) string blocks and speed.
+ * Added lots of keywords for various programming languages.
 
 V1.0.1
 ---------
