@@ -159,7 +159,6 @@ bool FPwin::matchLeftParenthesis (QTextBlock currentBlock, int i, int numLeftPar
     TextBlockData *data = static_cast<TextBlockData *>(currentBlock.userData());
     if (!data) return false;
     QVector<ParenthesisInfo *> infos = data->parentheses();
-
     int docPos = currentBlock.position();
     for (; i < infos.size(); ++i)
     {
@@ -169,7 +168,6 @@ bool FPwin::matchLeftParenthesis (QTextBlock currentBlock, int i, int numLeftPar
             ++numLeftParentheses;
             continue;
         }
-
         if (info->character == ')' && numLeftParentheses == 0)
         {
             createSelection (docPos + info->position);
@@ -178,8 +176,8 @@ bool FPwin::matchLeftParenthesis (QTextBlock currentBlock, int i, int numLeftPar
         else
             --numLeftParentheses;
     }
-
     currentBlock = currentBlock.next();
+
     while (currentBlock.isValid())
     {
         data = static_cast<TextBlockData *>(currentBlock.userData());
@@ -195,7 +193,6 @@ bool FPwin::matchLeftParenthesis (QTextBlock currentBlock, int i, int numLeftPar
                 ++numLeftParentheses;
                 continue;
             }
-
             if (info->character == ')' && numLeftParentheses == 0)
             {
                 createSelection (docPos + info->position);
@@ -215,7 +212,6 @@ bool FPwin::matchRightParenthesis (QTextBlock currentBlock, int i, int numRightP
     TextBlockData *data = static_cast<TextBlockData *>(currentBlock.userData());
     if (!data) return false;
     QVector<ParenthesisInfo *> infos = data->parentheses();
-
     int docPos = currentBlock.position();
     for (; i < infos.size(); ++i)
     {
@@ -233,8 +229,8 @@ bool FPwin::matchRightParenthesis (QTextBlock currentBlock, int i, int numRightP
         else
             --numRightParentheses;
     }
-
     currentBlock = currentBlock.previous();
+
     while (currentBlock.isValid())
     {
         data = static_cast<TextBlockData *>(currentBlock.userData());
@@ -269,7 +265,6 @@ bool FPwin::matchLeftBrace (QTextBlock currentBlock, int i, int numRightBraces)
     TextBlockData *data = static_cast<TextBlockData *>(currentBlock.userData());
     if (!data) return false;
     QVector<BraceInfo *> infos = data->braces();
-
     int docPos = currentBlock.position();
     for (; i < infos.size(); ++i)
     {
@@ -279,7 +274,6 @@ bool FPwin::matchLeftBrace (QTextBlock currentBlock, int i, int numRightBraces)
             ++numRightBraces;
             continue;
         }
-
         if (info->character == '}' && numRightBraces == 0)
         {
             createSelection (docPos + info->position);
@@ -289,6 +283,7 @@ bool FPwin::matchLeftBrace (QTextBlock currentBlock, int i, int numRightBraces)
             --numRightBraces;
     }
     currentBlock = currentBlock.next();
+
     while (currentBlock.isValid())
     {
         data = static_cast<TextBlockData *>(currentBlock.userData());
@@ -304,7 +299,6 @@ bool FPwin::matchLeftBrace (QTextBlock currentBlock, int i, int numRightBraces)
                 ++numRightBraces;
                 continue;
             }
-
             if (info->character == '}' && numRightBraces == 0)
             {
                 createSelection (docPos + info->position);
@@ -324,7 +318,6 @@ bool FPwin::matchRightBrace (QTextBlock currentBlock, int i, int numLeftBraces)
     TextBlockData *data = static_cast<TextBlockData *>(currentBlock.userData());
     if (!data) return false;
     QVector<BraceInfo *> infos = data->braces();
-
     int docPos = currentBlock.position();
     for (; i < infos.size(); ++i)
     {
@@ -342,8 +335,8 @@ bool FPwin::matchRightBrace (QTextBlock currentBlock, int i, int numLeftBraces)
         else
             --numLeftBraces;
     }
-
     currentBlock = currentBlock.previous();
+
     while (currentBlock.isValid())
     {
         data = static_cast<TextBlockData *>(currentBlock.userData());
@@ -378,7 +371,6 @@ bool FPwin::matchLeftBracket (QTextBlock currentBlock, int i, int numRightBracke
     TextBlockData *data = static_cast<TextBlockData *>(currentBlock.userData());
     if (!data) return false;
     QVector<BracketInfo *> infos = data->brackets();
-
     int docPos = currentBlock.position();
     for (; i < infos.size(); ++i)
     {
@@ -388,7 +380,6 @@ bool FPwin::matchLeftBracket (QTextBlock currentBlock, int i, int numRightBracke
             ++numRightBrackets;
             continue;
         }
-
         if (info->character == ']' && numRightBrackets == 0)
         {
             createSelection (docPos + info->position);
@@ -397,8 +388,8 @@ bool FPwin::matchLeftBracket (QTextBlock currentBlock, int i, int numRightBracke
         else
             --numRightBrackets;
     }
-
     currentBlock = currentBlock.next();
+
     while (currentBlock.isValid())
     {
         data = static_cast<TextBlockData *>(currentBlock.userData());
@@ -414,7 +405,6 @@ bool FPwin::matchLeftBracket (QTextBlock currentBlock, int i, int numRightBracke
                 ++numRightBrackets;
                 continue;
             }
-
             if (info->character == ']' && numRightBrackets == 0)
             {
                 createSelection (docPos + info->position);
@@ -434,7 +424,6 @@ bool FPwin::matchRightBracket (QTextBlock currentBlock, int i, int numLeftBracke
     TextBlockData *data = static_cast<TextBlockData *>(currentBlock.userData());
     if (!data) return false;
     QVector<BracketInfo *> infos = data->brackets();
-
     int docPos = currentBlock.position();
     for (; i < infos.size(); ++i)
     {
@@ -452,8 +441,8 @@ bool FPwin::matchRightBracket (QTextBlock currentBlock, int i, int numLeftBracke
         else
             --numLeftBrackets;
     }
-
     currentBlock = currentBlock.previous();
+
     while (currentBlock.isValid())
     {
         data = static_cast<TextBlockData *>(currentBlock.userData());

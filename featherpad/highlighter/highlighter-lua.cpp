@@ -293,8 +293,8 @@ void Highlighter::highlightLuaBlock (const QString &text)
             QRegularExpressionMatch urlMatch;
             while ((urlIndex = str.indexOf (urlPattern, urlIndex, &urlMatch)) > -1)
             {
-                 setFormat (urlIndex + index, urlMatch.capturedLength(), urlInsideQuoteFormat);
-                 urlIndex += urlMatch.capturedLength();
+                setFormat (urlIndex + index, urlMatch.capturedLength(), urlInsideQuoteFormat);
+                urlIndex += urlMatch.capturedLength();
             }
 
             index += match.capturedLength();

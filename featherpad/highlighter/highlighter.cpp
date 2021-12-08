@@ -744,7 +744,26 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         xmlLt.setPattern ("(<|&lt;)");
         xmlGt.setPattern ("(>|&gt;)");
 
+        /* URLs that are outside comments, quotes and values */
+        rule.pattern = urlPattern;
+        rule.format = urlFormat;
+        highlightingRules.append (rule);
+
+        /* ampersand strings */
+        rule.pattern.setPattern ("&[\\w\\.\\-]+;");
+        rule.format = noteFormat; // a format that can be overridden below
+        highlightingRules.append (rule);
+
         QTextCharFormat xmlElementFormat;
+
+        /* bad ampersands */
+        xmlElementFormat.setForeground (Red);
+        xmlElementFormat.setFontUnderline (true);
+        rule.pattern.setPattern ("&(?![\\w\\.\\-]+;)");
+        rule.format = xmlElementFormat;
+        highlightingRules.append (rule);
+        xmlElementFormat.setFontUnderline (false);
+
         xmlElementFormat.setFontWeight (QFont::Bold);
         xmlElementFormat.setForeground (Violet);
         /* after </ or before /> */
@@ -3532,17 +3551,15 @@ void Highlighter::setFormatWithoutOverwrite (int start,
     }
 }
 /*************************/
-// XML quotes are handled as multiline quotes for possible XML doc mistakes
-// to be seen easily and also because the double quote can be written as "&quot;".
-// This comes after values are formatted.
+// XML quotes are handled separately because XML values should
+// be formatted by "neutralFormat" before them.
 void Highlighter::xmlQuotes (const QString &text)
 {
+    static const QRegularExpression xmlAmpersand ("&[\\w\\.\\-]+;");
+
     int index = 0;
-    static const QRegularExpression xmlMixedQuote ("\"|&quot;|\'");
-    static const QRegularExpression doubleQuote ("\"|&quot;");
-    static const QRegularExpression virtualQuote ("&quot;");
     QRegularExpressionMatch quoteMatch;
-    QRegularExpression quoteExpression = xmlMixedQuote;
+    QRegularExpression quoteExpression = mixedQuoteMark;
     int quote = doubleQuoteState;
 
     /* find the start quote */
@@ -3561,15 +3578,10 @@ void Highlighter::xmlQuotes (const QString &text)
         /* if the start quote is found... */
         if (index >= 0)
         {
-            /* ... distinguish between double, virtual and single quotes */
+            /* ... distinguish between double and single quotes */
             if (text.at (index) == '\"')
             {
                 quoteExpression = quoteMark;
-                quote = doubleQuoteState;
-            }
-            else if (text.mid (index, 6) == "&quot;")
-            {
-                quoteExpression = virtualQuote;
                 quote = doubleQuoteState;
             }
             else
@@ -3585,7 +3597,7 @@ void Highlighter::xmlQuotes (const QString &text)
            by checking the previous line */
         quote = prevState;
         if (quote == doubleQuoteState)
-            quoteExpression = doubleQuote;
+            quoteExpression = quoteMark;
         else
             quoteExpression = singleQuoteMark;
     }
@@ -3593,18 +3605,13 @@ void Highlighter::xmlQuotes (const QString &text)
     while (index >= 0)
     {
         /* if the search is continued... */
-        if (quoteExpression == xmlMixedQuote)
+        if (quoteExpression == mixedQuoteMark)
         {
-            /* ... distinguish between double, virtual and single
-               quotes again because the quote mark may have changed */
+            /* ... distinguish between double and single quotes
+               again because the quote mark may have changed */
             if (text.at (index) == '\"')
             {
                 quoteExpression = quoteMark;
-                quote = doubleQuoteState;
-            }
-            else if (text.mid (index, 6) == "&quot;")
-            {
-                quoteExpression = virtualQuote;
                 quote = doubleQuoteState;
             }
             else
@@ -3625,16 +3632,6 @@ void Highlighter::xmlQuotes (const QString &text)
             endIndex = text.indexOf (quoteExpression, 0, &quoteMatch);
         }
 
-        if (endIndex == -1)
-        {
-            /* tolerate a mismatch between `"` and `&quot;` as far as possible
-               but show the error by formatting `>` or `&gt;` */
-            QRegularExpressionMatch match;
-            int closing = text.indexOf (xmlGt, index, &match);
-            if (closing > -1)
-                endIndex = closing + match.capturedLength();
-        }
-
         int quoteLength;
         if (endIndex == -1)
         {
@@ -3645,24 +3642,31 @@ void Highlighter::xmlQuotes (const QString &text)
             quoteLength = endIndex - index
                           + quoteMatch.capturedLength();
         setFormat (index, quoteLength,
-                   quoteExpression == quoteMark
-                   || quoteExpression == virtualQuote ? quoteFormat : altQuoteFormat);
+                   quote == doubleQuoteState ? quoteFormat : altQuoteFormat);
 
 #if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
         QString str = text.mid (index, quoteLength);
 #else
         QString str = text.sliced (index, quoteLength);
 #endif
-        int urlIndex = 0;
-        QRegularExpressionMatch urlMatch;
-        while ((urlIndex = str.indexOf (urlPattern, urlIndex, &urlMatch)) > -1)
+        int indx = 0;
+        QRegularExpressionMatch match;
+        while ((indx = str.indexOf (urlPattern, indx, &match)) > -1)
         {
-             setFormat (urlIndex + index, urlMatch.capturedLength(), urlInsideQuoteFormat);
-             urlIndex += urlMatch.capturedLength();
+             setFormat (indx + index, match.capturedLength(), urlInsideQuoteFormat);
+             indx += match.capturedLength();
+        }
+        /* also format ampersand strings inside quotes
+           (with "regexFormat", to prevent overrides) */
+        indx = 0;
+        while ((indx = str.indexOf (xmlAmpersand, indx, &match)) > -1)
+        {
+             setFormat (indx + index, match.capturedLength(), regexFormat);
+             indx += match.capturedLength();
         }
 
         /* the next quote may be different */
-        quoteExpression = xmlMixedQuote;
+        quoteExpression = mixedQuoteMark;
         index = text.indexOf (quoteExpression, index + quoteLength);
 
         while (isMLCommented (text, index, commentState, endIndex + quoteMatch.capturedLength())
