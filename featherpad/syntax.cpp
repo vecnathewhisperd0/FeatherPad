@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2019 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2021 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -223,7 +223,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
             else if (mime == "text/html" || parentMime == "text/html" || mime == "application/xhtml+xml") // should come before xml check
                 progLan = "html";
             else if (mime == "application/xml" || parentMime == "application/xml"
-                     || mime == "text/feathernotes-fnx" || mime == "audio/x-ms-asx" || mime == "text/x-nfo")
+                     || mime == "text/feathernotes-fnx" || mime == "audio/x-ms-asx" || mime == "text/x-nfo" || mime == "application/xml-dtd")
                 progLan = "xml";
             else if (mime == "text/css")
                 progLan = "css";

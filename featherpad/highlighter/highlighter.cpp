@@ -741,8 +741,8 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     }
     else if (progLan == "xml")
     {
-        xmlLt.setPattern ("(<|&lt;)");
-        xmlGt.setPattern ("(>|&gt;)");
+        xmlLt.setPattern ("<");
+        xmlGt.setPattern (">");
 
         /* URLs that are outside comments, quotes and values */
         rule.pattern = urlPattern;
@@ -750,7 +750,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         highlightingRules.append (rule);
 
         /* ampersand strings */
-        rule.pattern.setPattern ("&[\\w\\.\\-]+;");
+        rule.pattern.setPattern ("&[\\w\\.\\-:]+;");
         rule.format = noteFormat; // a format that can be overridden below
         highlightingRules.append (rule);
 
@@ -767,7 +767,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         xmlElementFormat.setFontWeight (QFont::Bold);
         xmlElementFormat.setForeground (Violet);
         /* after </ or before /> */
-        rule.pattern.setPattern ("\\s*(<|&lt;)/?[A-Za-z0-9_\\-:]+|\\s*(<|&lt;)!(DOCTYPE|ENTITY|ELEMENT|ATTLIST|NOTATION)\\s|\\s*/?(>|&gt;)");
+        rule.pattern.setPattern ("(<|&lt;)/?[A-Za-z0-9_\\.\\-:]+|(<|&lt;)!(DOCTYPE|ENTITY|ELEMENT|ATTLIST|NOTATION)\\s|/?(>|&gt;)");
         rule.format = xmlElementFormat;
         highlightingRules.append (rule);
 
@@ -775,12 +775,12 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         xmlAttributeFormat.setFontItalic (true);
         xmlAttributeFormat.setForeground (Blue);
         /* before = */
-        rule.pattern.setPattern ("\\s+[A-Za-z0-9_\\-:]+(?=\\s*\\=\\s*(\"|&quot;|\'))");
+        rule.pattern.setPattern ("\\s+[A-Za-z0-9_\\.\\-:]+(?=\\s*\\=\\s*(\"|&quot;|\'))");
         rule.format = xmlAttributeFormat;
         highlightingRules.append (rule);
 
         /* <?xml ... ?> */
-        rule.pattern.setPattern ("^\\s*<\\?xml\\s+(?=.*\\?>)|\\s*\\?>");
+        rule.pattern.setPattern ("<\\?[\\w\\-:]*(?=\\s|$)|\\?>");
         rule.format = keywordFormat;
         highlightingRules.append (rule);
     }
@@ -3555,7 +3555,7 @@ void Highlighter::setFormatWithoutOverwrite (int start,
 // be formatted by "neutralFormat" before them.
 void Highlighter::xmlQuotes (const QString &text)
 {
-    static const QRegularExpression xmlAmpersand ("&[\\w\\.\\-]+;");
+    static const QRegularExpression xmlAmpersand ("&[\\w\\.\\-:]+;");
 
     int index = 0;
     QRegularExpressionMatch quoteMatch;
