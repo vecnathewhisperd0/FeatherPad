@@ -741,7 +741,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     }
     else if (progLan == "xml")
     {
-        xmlLt.setPattern ("<");
+        xmlLt.setPattern ("(<|&lt;)"); // lenient
         xmlGt.setPattern (">");
 
         /* URLs that are outside comments, quotes and values */
@@ -775,7 +775,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         xmlAttributeFormat.setFontItalic (true);
         xmlAttributeFormat.setForeground (Blue);
         /* before = */
-        rule.pattern.setPattern ("\\s+[A-Za-z0-9_\\.\\-:]+(?=\\s*\\=\\s*(\"|&quot;|\'))");
+        rule.pattern.setPattern ("(^|\\s)[A-Za-z0-9_\\.\\-:]+(?=\\s*\\=\\s*(\"|&quot;|\'))");
         rule.format = xmlAttributeFormat;
         highlightingRules.append (rule);
 
