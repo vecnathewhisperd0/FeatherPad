@@ -170,7 +170,6 @@ void Highlighter::multiLineTclQuote (const QString &text)
 void Highlighter::highlightTclBlock (const QString &text)
 {
     TextBlockData *data = new TextBlockData;
-    data->setLastState (currentBlockState());
     setCurrentBlockUserData (data);
     setCurrentBlockState (0);
 
@@ -226,7 +225,7 @@ void Highlighter::highlightTclBlock (const QString &text)
     }
 
     /*********************************************
-     * Parentheses, Braces and brackets Matching *
+     * Parentheses, Braces and Brackets Matching *
      *********************************************/
 
     /* left parenthesis */

@@ -233,7 +233,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
          || progLan == "python"
          || progLan == "sh" // not used in multiLineQuote()
          || progLan == "makefile" || progLan == "cmake"
-         || progLan == "xml" // never used because we should consider "&quot;"
+         || progLan == "xml" // never used; xml is formatted separately
          || progLan == "ruby"
          || progLan == "html" // not used in multiLineQuote()
          || progLan == "scss" || progLan == "yaml" || progLan == "dart"
@@ -744,26 +744,25 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         xmlLt.setPattern ("(<|&lt;)"); // lenient
         xmlGt.setPattern (">");
 
-        /* URLs that are outside comments, quotes and values */
+        errorFormat.setForeground (Red);
+        errorFormat.setFontUnderline (true);
+
+        /* URLs that are outside comments and quotes */
         rule.pattern = urlPattern;
         rule.format = urlFormat;
         highlightingRules.append (rule);
 
         /* ampersand strings */
-        rule.pattern.setPattern ("&[\\w\\.\\-:]+;");
+        rule.pattern.setPattern ("&(#[0-9]+|#(x|X)[a-fA-F0-9]+|[\\w\\.\\-:]+);");
         rule.format = noteFormat; // a format that can be overridden below
         highlightingRules.append (rule);
 
-        QTextCharFormat xmlElementFormat;
-
         /* bad ampersands */
-        xmlElementFormat.setForeground (Red);
-        xmlElementFormat.setFontUnderline (true);
-        rule.pattern.setPattern ("&(?![\\w\\.\\-]+;)");
-        rule.format = xmlElementFormat;
+        rule.pattern.setPattern ("&(?!(#[0-9]+|#(x|X)[a-fA-F0-9]+|[\\w\\.\\-:]+);)");
+        rule.format = errorFormat;
         highlightingRules.append (rule);
-        xmlElementFormat.setFontUnderline (false);
 
+        QTextCharFormat xmlElementFormat;
         xmlElementFormat.setFontWeight (QFont::Bold);
         xmlElementFormat.setForeground (Violet);
         /* after </ or before /> */
@@ -1837,7 +1836,7 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
 {
     if (pos < 0) return false;
 
-    if (progLan == "html" || progLan == "xml")
+    if (progLan == "html"/* || progLan == "xml"*/) // xml is formatted separately
         return false;
 
     /* with markdown, something should be inside quotes */
@@ -2556,17 +2555,18 @@ void Highlighter::pythonMLComment (const QString &text, const int indx)
             }
         }
 
-        /* search for the end quote from the start quote */
-        QRegularExpressionMatch startMatch;
-        int endIndex = text.indexOf (commentStartExpression, index + 3, &startMatch);
 
-        /* but if there's no start quote ... */
+        QRegularExpressionMatch startMatch;
+        int endIndex;
+        /* if there's no start quote ... */
         if (index == indx
             && (prevState == pyDoubleQuoteState || prevState == pySingleQuoteState))
         {
             /* ... search for the end quote from the line start */
             endIndex = text.indexOf (commentStartExpression, indx, &startMatch);
         }
+        else // otherwise, search for the end quote from the start quote
+            endIndex = text.indexOf (commentStartExpression, index + 3, &startMatch);
 
         /* check if the quote is escaped */
         while ((endIndex > 0 && text.at (endIndex - 1) == '\\'
@@ -2825,7 +2825,7 @@ bool Highlighter::multiLineComment (const QString &text,
             }
         }
 
-        if (/*!hugeText && */endIndex >= 0 && progLan != "xml" && progLan != "html")
+        if (/*!hugeText && */endIndex >= 0 && /*progLan != "xml" && */progLan != "html") // xml is formatted separately
         {
             /* because multiline commnets weren't taken into account in
                singleLineComment(), that method should be used here again */
@@ -3551,132 +3551,6 @@ void Highlighter::setFormatWithoutOverwrite (int start,
     }
 }
 /*************************/
-// XML quotes are handled separately because XML values should
-// be formatted by "neutralFormat" before them.
-void Highlighter::xmlQuotes (const QString &text)
-{
-    static const QRegularExpression xmlAmpersand ("&[\\w\\.\\-:]+;");
-
-    int index = 0;
-    QRegularExpressionMatch quoteMatch;
-    QRegularExpression quoteExpression = mixedQuoteMark;
-    int quote = doubleQuoteState;
-
-    /* find the start quote */
-    int prevState = previousBlockState();
-    if (prevState != doubleQuoteState
-        && prevState != singleQuoteState)
-    {
-        index = text.indexOf (quoteExpression);
-        /* skip all comments and all values (that are formatted by multiLineComment()) */
-        while (isMLCommented (text, index, commentState)
-               || format (index) == neutralFormat)
-        {
-            index = text.indexOf (quoteExpression, index + 1);
-        }
-
-        /* if the start quote is found... */
-        if (index >= 0)
-        {
-            /* ... distinguish between double and single quotes */
-            if (text.at (index) == '\"')
-            {
-                quoteExpression = quoteMark;
-                quote = doubleQuoteState;
-            }
-            else
-            {
-                quoteExpression = singleQuoteMark;
-                quote = singleQuoteState;
-            }
-        }
-    }
-    else // but if we're inside a quotation...
-    {
-        /* ... distinguish between the two quote kinds
-           by checking the previous line */
-        quote = prevState;
-        if (quote == doubleQuoteState)
-            quoteExpression = quoteMark;
-        else
-            quoteExpression = singleQuoteMark;
-    }
-
-    while (index >= 0)
-    {
-        /* if the search is continued... */
-        if (quoteExpression == mixedQuoteMark)
-        {
-            /* ... distinguish between double and single quotes
-               again because the quote mark may have changed */
-            if (text.at (index) == '\"')
-            {
-                quoteExpression = quoteMark;
-                quote = doubleQuoteState;
-            }
-            else
-            {
-                quoteExpression = singleQuoteMark;
-                quote = singleQuoteState;
-            }
-        }
-
-        /* search for the end quote from the start quote */
-        int endIndex = text.indexOf (quoteExpression, index + 1, &quoteMatch);
-
-        /* but if there's no start quote ... */
-        if (index == 0
-            && (prevState == doubleQuoteState || prevState == singleQuoteState))
-        {
-            /* ... search for the end quote from the line start */
-            endIndex = text.indexOf (quoteExpression, 0, &quoteMatch);
-        }
-
-        int quoteLength;
-        if (endIndex == -1)
-        {
-            setCurrentBlockState (quote);
-            quoteLength = text.length() - index;
-        }
-        else
-            quoteLength = endIndex - index
-                          + quoteMatch.capturedLength();
-        setFormat (index, quoteLength,
-                   quote == doubleQuoteState ? quoteFormat : altQuoteFormat);
-
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-        QString str = text.mid (index, quoteLength);
-#else
-        QString str = text.sliced (index, quoteLength);
-#endif
-        int indx = 0;
-        QRegularExpressionMatch match;
-        while ((indx = str.indexOf (urlPattern, indx, &match)) > -1)
-        {
-             setFormat (indx + index, match.capturedLength(), urlInsideQuoteFormat);
-             indx += match.capturedLength();
-        }
-        /* also format ampersand strings inside quotes
-           (with "regexFormat", to prevent overrides) */
-        indx = 0;
-        while ((indx = str.indexOf (xmlAmpersand, indx, &match)) > -1)
-        {
-             setFormat (indx + index, match.capturedLength(), regexFormat);
-             indx += match.capturedLength();
-        }
-
-        /* the next quote may be different */
-        quoteExpression = mixedQuoteMark;
-        index = text.indexOf (quoteExpression, index + quoteLength);
-
-        while (isMLCommented (text, index, commentState, endIndex + quoteMatch.capturedLength())
-               || format (index) == neutralFormat)
-        {
-            index = text.indexOf (quoteExpression, index + 1);
-        }
-    }
-}
-/*************************/
 // Check if the current block is inside a "here document" and format it accordingly.
 // (Open quotes aren't taken into account when they happen after the start delimiter.)
 bool Highlighter::isHereDocument (const QString &text)
@@ -4116,6 +3990,11 @@ void Highlighter::highlightBlock (const QString &text)
         if (mainFormatting)
             setFormat (0, txtL, mainFormat);
 
+        if (progLan == "xml")
+        {
+            highlightXmlBlock (text);
+            return;
+        }
         if (progLan == "fountain")
         {
             highlightFountainBlock (text);
@@ -4295,16 +4174,6 @@ void Highlighter::highlightBlock (const QString &text)
         if (currentBlockState() == data->lastState())
             rehighlightNextBlock |= (data->getProperty() != oldProperty);
     }
-    /*******************************
-     * XML Quotations and Comments *
-     *******************************/
-    else if (progLan == "xml")
-    {
-        /* value is handled as a kind of comment */
-        multiLineComment (text, 0, xmlGt, xmlLt, xmlValueState, neutralFormat);
-        /* multiline quotes as signs of errors in the xml doc */
-        xmlQuotes (text);
-    }
     /******************
      * LaTeX Formulae *
      ******************/
@@ -4430,7 +4299,7 @@ void Highlighter::highlightBlock (const QString &text)
     }
 
     /*********************************************
-     * Parentheses, Braces and brackets Matching *
+     * Parentheses, Braces and Brackets Matching *
      *********************************************/
 
     /* left parenthesis */

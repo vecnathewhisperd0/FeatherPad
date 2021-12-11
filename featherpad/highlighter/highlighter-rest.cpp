@@ -81,7 +81,6 @@ void Highlighter::highlightReSTBlock (const QString &text)
 {
     int index;
     TextBlockData *data = new TextBlockData;
-    data->setLastState (currentBlockState());
     setCurrentBlockUserData (data);
     setCurrentBlockState (0);
 
@@ -271,7 +270,7 @@ void Highlighter::highlightReSTBlock (const QString &text)
         reSTMainFormatting (0, text);
 
     /*********************************************
-     * Parentheses, Braces and brackets Matching *
+     * Parentheses, Braces and Brackets Matching *
      *********************************************/
 
     /* left parenthesis */

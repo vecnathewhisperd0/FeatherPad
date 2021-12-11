@@ -170,7 +170,6 @@ private:
                          int comState = commentState);
     void multiLinePerlQuote(const QString &text);
     void multiLineJSlQuote (const QString &text, const int start, int comState);
-    void xmlQuotes (const QString &text);
     void setFormatWithoutOverwrite (int start,
                                     int count,
                                     const QTextCharFormat &newFormat,
@@ -197,6 +196,15 @@ private:
     void multiLinePerlRegex (const QString &text);
     int findDelimiter (const QString &text, const int index,
                        const QRegularExpression &delimExp, int &capturedLength) const;
+
+    /* XML */
+    bool isXmlQuoted (const QString &text, const int index, const int start) const;
+    bool isXxmlComment (const QString &text, const int index, const int start) const;
+    bool isXmlValue (const QString &text, const int index, const int start) const;
+    void xmlValues (const QString &text);
+    void xmlQuotes (const QString &text);
+    void xmlComment (const QString &text);
+    void highlightXmlBlock (const QString &text);
 
     /* Lua */
     bool isLuaQuote (const QString &text, const int index) const;

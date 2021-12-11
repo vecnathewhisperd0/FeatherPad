@@ -135,6 +135,7 @@ set(featherpad_SRCS
     highlighter/highlighter-ruby.cpp
     highlighter/highlighter-sh.cpp
     highlighter/highlighter-tcl.cpp
+    highlighter/highlighter-xml.cpp
     highlighter/highlighter-yaml.cpp)
 
 if(NOT WITHOUT_X11 AND UNIX AND NOT APPLE AND NOT HAIKU)

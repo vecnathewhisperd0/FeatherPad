@@ -11,7 +11,7 @@ V1.1.0
  * Prevented a very rare stack overflow when matching brackets in huge files, by replacing recursive methods with loops. In this way, extremely distant brackets can be matched instantly.
  * Fixes and improvements to Lua syntax highlighting, especially regarding comments, (nested) string blocks and speed.
  * Added lots of keywords for various programming languages.
- * Fixed the handling of ampersands in XML.
+ * Fixes and improvements to XML syntax highlighting.
 
 V1.0.1
 ---------

@@ -73,6 +73,7 @@ SOURCES += main.cpp \
            highlighter/highlighter-ruby.cpp \
            highlighter/highlighter-sh.cpp \
            highlighter/highlighter-tcl.cpp \
+           highlighter/highlighter-xml.cpp \
            highlighter/highlighter-yaml.cpp
 
 HEADERS += singleton.h \
