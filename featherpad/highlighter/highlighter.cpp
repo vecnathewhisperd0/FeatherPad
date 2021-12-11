@@ -747,7 +747,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         errorFormat.setForeground (Red);
         errorFormat.setFontUnderline (true);
 
-        /* URLs that are outside comments and quotes */
+        /* URLs */
         rule.pattern = urlPattern;
         rule.format = urlFormat;
         highlightingRules.append (rule);

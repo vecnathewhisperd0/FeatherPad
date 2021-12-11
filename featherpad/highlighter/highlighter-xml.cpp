@@ -276,7 +276,6 @@ void Highlighter::xmlValues (const QString &text)
         setFormat (index, valueLength, neutralFormat);
 
         index = text.indexOf (xmlGt, index + valueLength, &startMatch);
-
         while (isXmlQuoted (text, index, endIndex + endMatch.capturedLength()))
             index = text.indexOf (xmlGt, index + 1, &startMatch);
     }
@@ -290,7 +289,7 @@ void Highlighter::xmlQuotes (const QString &text)
 
     int index = 0;
     QRegularExpressionMatch quoteMatch;
-    QRegularExpression quoteExpression = mixedQuoteMark;
+    QRegularExpression quoteExpression;
     int quote = doubleQuoteState;
 
     /* find the start quote */
@@ -298,11 +297,10 @@ void Highlighter::xmlQuotes (const QString &text)
     if (prevState != doubleQuoteState
         && prevState != singleQuoteState)
     {
-        index = text.indexOf (quoteExpression);
+        index = text.indexOf (mixedQuoteMark);
         /* skip values and comments */
         while (format (index) == neutralFormat || isXxmlComment (text, index, 0))
-            index = text.indexOf (quoteExpression, index + 1);
-
+            index = text.indexOf (mixedQuoteMark, index + 1);
         /* if the start quote is found... */
         if (index >= 0)
         {
@@ -332,23 +330,6 @@ void Highlighter::xmlQuotes (const QString &text)
 
     while (index >= 0)
     {
-        /* if the search is continued... */
-        if (quoteExpression == mixedQuoteMark)
-        {
-            /* ... distinguish between double and single quotes
-               again because the quote mark may have changed */
-            if (text.at (index) == '\"')
-            {
-                quoteExpression = quoteMark;
-                quote = doubleQuoteState;
-            }
-            else
-            {
-                quoteExpression = singleQuoteMark;
-                quote = singleQuoteState;
-            }
-        }
-
         int endIndex;
         if (index == 0
             && (prevState == doubleQuoteState || prevState == singleQuoteState))
@@ -378,7 +359,6 @@ void Highlighter::xmlQuotes (const QString &text)
 #endif
         int indx = 0;
         QRegularExpressionMatch match;
-        indx = 0;
         while ((indx = str.indexOf (xmlQuoteError, indx)) > -1)
         {
             if (str.at (indx) == '&' && indx == str.indexOf (xmlAmpersand, indx, &match))
@@ -394,14 +374,29 @@ void Highlighter::xmlQuotes (const QString &text)
         }
 
         /* the next quote may be different */
-        quoteExpression = mixedQuoteMark;
-        index = text.indexOf (quoteExpression, index + quoteLength);
-
+        index = text.indexOf (mixedQuoteMark, index + quoteLength);
         while (format (index) == neutralFormat
                || isXxmlComment (text, index, endIndex + quoteMatch.capturedLength()))
         {
-            index = text.indexOf (quoteExpression, index + 1);
+            index = text.indexOf (mixedQuoteMark, index + 1);
         }
+        /* if the search is continued... */
+        if (index >= 0)
+        {
+            /* ... distinguish between double and single quotes
+               again because the quote mark may have changed */
+            if (text.at (index) == '\"')
+            {
+                quoteExpression = quoteMark;
+                quote = doubleQuoteState;
+            }
+            else
+            {
+                quoteExpression = singleQuoteMark;
+                quote = singleQuoteState;
+            }
+        }
+        else break;
     }
 }
 /*************************/
@@ -448,7 +443,6 @@ void Highlighter::xmlComment (const QString &text)
         setFormat (index, commentLength, commentFormat);
 
         index = text.indexOf (commentStartExpression, index + commentLength, &startMatch);
-
         while (format (index) == errorFormat
                || (index > -1 && format (index) != neutralFormat))
         {
@@ -633,9 +627,6 @@ void Highlighter::highlightXmlBlock (const QString &text)
         QRegularExpressionMatch match;
         for (const HighlightingRule &rule : qAsConst (highlightingRules))
         {
-            if (rule.format == commentFormat)
-                continue;
-
             index = text.indexOf (rule.pattern, 0, &match);
             fi = format (index);
             /* skip quotes and comments (and errors and correct ampersands inside quotes) */
