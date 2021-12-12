@@ -368,8 +368,6 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     altQuoteFormat.setFontItalic (true);
     urlInsideQuoteFormat.setFontItalic (true);
     urlInsideQuoteFormat.setFontUnderline (true);
-    /*quoteStartExpression.setPattern ("\"([^\"'])");
-    quoteEndExpression.setPattern ("([^\"'])\"");*/
     regexFormat.setForeground (DarkRed);
 
     /*************************
@@ -603,7 +601,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
     /* types */
     QTextCharFormat typeFormat;
-    typeFormat.setForeground (DarkMagenta); //(QColor (102, 0, 0));
+    typeFormat.setForeground (DarkMagenta);
 
     const QStringList keywordPatterns = keywords (Lang);
     for (const QString &pattern : keywordPatterns)
@@ -670,6 +668,14 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         /* Qt's global functions, enums and global colors */
         if (progLan == "cpp")
         {
+            /*
+               The whole pattern of C++11 raw string literals is
+               R"(\bR"([^(]*)\(.*(?=\)\1"))"
+            */
+            cppLiteralStart.setPattern (R"(\bR"([^(]*)\()");
+            cppLiteralFormat = quoteFormat;
+            cppLiteralFormat.setFontWeight (QFont::Bold);
+
             cFormat.setFontItalic (true);
             rule.pattern.setPattern ("\\bq(App)(?!(\\@|#|\\$))\\b|\\bq(Abs|Bound|Critical|Debug|Fatal|FuzzyCompare|InstallMsgHandler|MacVersion|Max|Min|Round64|Round|Version|Warning|getenv|putenv|rand|srand|tTrId|unsetenv|_check_ptr|t_set_sequence_auto_mnemonic|t_symbian_exception2Error|t_symbian_exception2LeaveL|t_symbian_throwIfError)(?!(\\.|-|@|#|\\$))\\b");
             rule.format = cFormat;
@@ -1995,12 +2001,12 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
         {
             return false;
         }
-    }
 
-    if (isStartQuote && skipCommandSign && text.at (pos) == quoteMark.pattern().at (0)
-        && text.indexOf (QRegularExpression ("[^\"]*\\$\\("), pos) == pos + 1)
-    {
-        return true;
+        if (skipCommandSign && text.at (pos) == quoteMark.pattern().at (0)
+            && text.indexOf (QRegularExpression ("[^\"]*\\$\\("), pos) == pos + 1)
+        {
+            return true;
+        }
     }
 
     int i = 0;
@@ -2727,10 +2733,6 @@ bool Highlighter::multiLineComment (const QString &text,
     if (prevState == nextLineCommentState)
         return false;  // was processed by singleLineComment()
 
-    /* CSS can have huge lines, which will take
-       a lot of CPU time if they're formatted completely. */
-    //bool hugeText = ((progLan == "css" || progLan == "scss" ) && text.length() > 50000);
-
     bool rehighlightNextBlock = false;
     int startIndex = index;
 
@@ -2803,10 +2805,10 @@ bool Highlighter::multiLineComment (const QString &text,
         int endIndex;
         /* when the comment start is in the prvious line
            and the search for the comment end has just begun... */
-        if ((prevState == commState
-             || prevState == commentInCssBlockState
-             || prevState == commentInCssValueState)
-            && startIndex == 0)
+        if (startIndex == 0
+             && (prevState == commState
+                 || prevState == commentInCssBlockState
+                 || prevState == commentInCssValueState))
             /* ... search for the comment end from the line start */
             endIndex = text.indexOf (commentEndExp, 0, &endMatch);
         else
@@ -2825,7 +2827,7 @@ bool Highlighter::multiLineComment (const QString &text,
             }
         }
 
-        if (/*!hugeText && */endIndex >= 0 && /*progLan != "xml" && */progLan != "html") // xml is formatted separately
+        if (endIndex >= 0 && /*progLan != "xml" && */progLan != "html") // xml is formatted separately
         {
             /* because multiline commnets weren't taken into account in
                singleLineComment(), that method should be used here again */
@@ -2868,32 +2870,29 @@ bool Highlighter::multiLineComment (const QString &text,
         else
             commentLength = endIndex - startIndex
                             + endMatch.capturedLength();
-        //if (!hugeText)
-        //{
-            setFormat (startIndex, commentLength, comFormat);
+        setFormat (startIndex, commentLength, comFormat);
 
-            /* format urls and email addresses inside the comment */
+        /* format urls and email addresses inside the comment */
 #if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-            QString str = text.mid (startIndex, commentLength);
+        QString str = text.mid (startIndex, commentLength);
 #else
-            QString str = text.sliced (startIndex, commentLength);
+        QString str = text.sliced (startIndex, commentLength);
 #endif
-            int pIndex = 0;
-            QRegularExpressionMatch urlMatch;
-            while ((pIndex = str.indexOf (urlPattern, pIndex, &urlMatch)) > -1)
-            {
-                setFormat (pIndex + startIndex, urlMatch.capturedLength(), urlFormat);
-                pIndex += urlMatch.capturedLength();
-            }
-            /* format note patterns too */
-            pIndex = 0;
-            while ((pIndex = str.indexOf (notePattern, pIndex, &urlMatch)) > -1)
-            {
-                if (format (pIndex + startIndex) != urlFormat)
-                    setFormat (pIndex + startIndex, urlMatch.capturedLength(), noteFormat);
-                pIndex += urlMatch.capturedLength();
-            }
-        //}
+        int pIndex = 0;
+        QRegularExpressionMatch urlMatch;
+        while ((pIndex = str.indexOf (urlPattern, pIndex, &urlMatch)) > -1)
+        {
+            setFormat (pIndex + startIndex, urlMatch.capturedLength(), urlFormat);
+            pIndex += urlMatch.capturedLength();
+        }
+        /* format note patterns too */
+        pIndex = 0;
+        while ((pIndex = str.indexOf (notePattern, pIndex, &urlMatch)) > -1)
+        {
+            if (format (pIndex + startIndex) != urlFormat)
+                setFormat (pIndex + startIndex, urlMatch.capturedLength(), noteFormat);
+            pIndex += urlMatch.capturedLength();
+        }
 
         startIndex = text.indexOf (commentStartExp, startIndex + commentLength, &startMatch);
 
@@ -2951,16 +2950,12 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
     }
     /* For Tcl, this function is never called. */
 //--------------------
-    /* these are only for C++11 raw string literals,
-       whose pattern is R"(\bR"([^(]*)\(.*(?=\)\1"))" */
+    /* these are only for C++11 raw string literals */
     bool rehighlightNextBlock = false;
     QString delimStr;
-    QTextCharFormat rFormat;
     TextBlockData *cppData = nullptr;
     if (progLan == "cpp")
     {
-        rFormat = quoteFormat;
-        rFormat.setFontWeight (QFont::Bold);
         cppData = static_cast<TextBlockData *>(currentBlock().userData());
         QTextBlock prevBlock = currentBlock().previous();
         if (prevBlock.isValid())
@@ -3024,10 +3019,11 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
                     if (progLan == "cpp" && index > start)
                     {
                         QRegularExpressionMatch cppMatch;
-                        if (text.at (index - 1) == 'R' && index - 1 == text.indexOf (QRegularExpression (R"(\bR"([^(]*)\()"), index - 1, &cppMatch))
+                        if (text.at (index - 1) == 'R'
+                            && index - 1 == text.indexOf (cppLiteralStart, index - 1, &cppMatch))
                         {
                             delimStr = ")" + cppMatch.captured (1);
-                            setFormat (index - 1, 1, rFormat);
+                            setFormat (index - 1, 1, cppLiteralFormat);
                         }
                     }
                     quoteExpression = quoteMark;
@@ -3067,10 +3063,11 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
                 if (progLan == "cpp" && index > start)
                 {
                     QRegularExpressionMatch cppMatch;
-                    if (text.at (index - 1) == 'R'  && index - 1 == text.indexOf (QRegularExpression (R"(\bR"([^(]*)\()"), index - 1, &cppMatch))
+                    if (text.at (index - 1) == 'R'
+                        && index - 1 == text.indexOf (cppLiteralStart, index - 1, &cppMatch))
                     {
                         delimStr = ")" + cppMatch.captured (1);
-                        setFormat (index - 1, 1, rFormat);
+                        setFormat (index - 1, 1, cppLiteralFormat);
                     }
                 }
                 quoteExpression = quoteMark;

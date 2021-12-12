@@ -320,12 +320,14 @@ private:
     QTextCharFormat translucentFormat;
     QTextCharFormat regexFormat;
     QTextCharFormat errorFormat;
+    QTextCharFormat cppLiteralFormat;
 
     /* Programming language: */
     QString progLan;
 
     QRegularExpression quoteMark, singleQuoteMark, backQuote, mixedQuoteMark, mixedQuoteBackquote;
     QRegularExpression xmlLt, xmlGt;
+    QRegularExpression cppLiteralStart;
     QColor Blue, DarkBlue, Red, DarkRed, Verda, DarkGreen, DarkGreenAlt, Magenta, DarkMagenta, Violet, Brown, DarkYellow;
 
     /* The start and end cursors of the visible text: */
