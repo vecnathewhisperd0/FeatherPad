@@ -52,6 +52,7 @@ FPsingleton::FPsingleton (int &argc, char **argv, bool standalone) : QApplicatio
 
     standalone_ = standalone;
     socketFailure_ = false;
+    isRoot_ = false;
     config_.readConfig();
     lastFiles_ = config_.getLastFiles();
     if (config_.getSharedSearchHistory())
@@ -297,6 +298,9 @@ QStringList FPsingleton::processInfo (const QString& message,
 /*************************/
 void FPsingleton::firstWin (const QString& message)
 {
+#if defined Q_OS_LINUX || defined Q_OS_FREEBSD || defined Q_OS_OPENBSD || defined Q_OS_NETBSD || defined Q_OS_HURD
+    isRoot_ = (geteuid() == 0);
+#endif
     int lineNum = 0, posInLine = 0;
     long d = -1;
     bool openNewWin;
@@ -318,10 +322,8 @@ FPwin* FPsingleton::newWin (const QStringList& filesList,
     fp->show();
     if (socketFailure_)
         fp->showCrashWarning();
-#if defined Q_OS_LINUX || defined Q_OS_FREEBSD || defined Q_OS_OPENBSD || defined Q_OS_NETBSD || defined Q_OS_HURD
-    else if (geteuid() == 0)
+    else if (isRoot_)
         fp->showRootWarning();
-#endif
     Wins.append (fp);
 
     if (!filesList.isEmpty())

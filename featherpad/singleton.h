@@ -80,6 +80,7 @@ private:
     bool isX11_;
     bool isWayland_;
     bool socketFailure_;
+    bool isRoot_;
     QStandardItemModel *searchModel_; // The common search history if any.
 
     bool standalone_; // Whether this is a standalone instance.

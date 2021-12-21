@@ -12,6 +12,7 @@ V1.1.0
  * Fixes and improvements to Lua syntax highlighting, especially regarding comments, (nested) string blocks and speed.
  * Added lots of keywords for various programming languages.
  * Fixes and improvements to XML syntax highlighting.
+ * Check the root instance only with the first window.
 
 V1.0.1
 ---------
