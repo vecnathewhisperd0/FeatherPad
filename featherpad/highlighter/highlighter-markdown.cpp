@@ -21,23 +21,209 @@
 
 namespace FeatherPad {
 
+static const QRegularExpression listRegex ("((\\*\\s+){1,}|(\\+\\s+){1,}|(\\-\\s+){1,}|\\d+\\.\\s+|\\d+\\)\\s+)");
+static const QRegularExpression nonSpace ("\\S");
+
+void Highlighter::markdownSingleLineCode (const QString &text)
+{
+    /* "(?:(?!\1).)+" means "contaning anything other than \1" */
+    static const QRegularExpression markdowBackQuote (R"((?<!\\)(?:\\{2})*\K(`+)(?!`)(?:(?!\1).)+(\1)(?!`))");
+
+    QRegularExpressionMatch match;
+    int index = text.indexOf (markdowBackQuote, 0, &match);
+    while (isMLCommented (text, index, commentState))
+        index = text.indexOf (markdowBackQuote, index + match.capturedLength(1), &match);
+    while (index >= 0)
+    {
+        setFormat (index, match.capturedLength(), codeBlockFormat);
+        int end = index + match.capturedLength();
+        index = text.indexOf (markdowBackQuote, end, &match);
+        while (isMLCommented (text, index, commentState, end))
+            index = text.indexOf (markdowBackQuote, index + match.capturedLength(1), &match);
+    }
+}
+/*************************/
+bool Highlighter::isIndentedCodeBlock (const QString &text, int &index, QRegularExpressionMatch &match) const
+{
+    static const QRegularExpression codeRegex ("^(\\s+).*");
+
+    int prevState = previousBlockState();
+    QTextBlock prevBlock = currentBlock().previous();
+    bool prevProperty = false;
+    QString prevLabel;
+    if (prevBlock.isValid())
+    {
+        if (TextBlockData *prevData = static_cast<TextBlockData *>(prevBlock.userData()))
+        {
+            prevProperty = prevData->getProperty();
+            prevLabel = prevData->labelInfo();
+        }
+    }
+    int extraBlockIndentation = 0;
+    if (!prevLabel.isEmpty()
+        && prevState != codeBlockState) // the label info is about indentation
+    {
+        extraBlockIndentation = prevLabel.length();
+    }
+
+    index = text.indexOf (codeRegex, 0, &match);
+    QTextCharFormat fi = format (index);
+    if (index >= 0
+        && fi != blockQuoteFormat && fi != codeBlockFormat
+        && fi != commentFormat && fi != urlFormat)
+    {
+        /* when this is about a code block with indentation
+           but the current line can't be a code block */
+        bool isCodeBlock (prevState != markdownBlockQuoteState
+                          && prevState != codeBlockState);
+        if (isCodeBlock)
+        {
+            if (match.capturedLength (1) <= extraBlockIndentation)
+                isCodeBlock = false;
+            else if (match.capturedLength (1) < extraBlockIndentation + 4)
+            { // a tab can be used instead of four spaces
+                if (!(match.captured (1).mid (extraBlockIndentation)).contains (QChar (QChar::Tabulation)))
+                    isCodeBlock = false;
+            }
+            if (isCodeBlock)
+            {
+                const QString prevTxt = prevBlock.text();
+                if (prevTxt.indexOf (nonSpace) > -1)
+                {
+                    /*QRegularExpressionMatch matchPrev;
+                    int indx = prevTxt.indexOf (codeRegex, 0, &matchPrev);
+                    if (indx < 0)
+                        isCodeBlock = false;
+                    else
+                    {
+                        if (matchPrev.capturedLength (1) <= extraBlockIndentation)
+                            isCodeBlock = false;
+                        else if (matchPrev.capturedLength (1) < extraBlockIndentation + 4)
+                        {
+                            if (!(matchPrev.captured (1).mid (extraBlockIndentation)).contains (QChar (QChar::Tabulation)))
+                                isCodeBlock = false;
+                        }
+                    }*/
+                    if (/*isCodeBlock && */!prevProperty)
+                        isCodeBlock = false;
+                }
+            }
+        }
+        return isCodeBlock;
+    }
+    return false;
+}
+/*************************/
+void Highlighter::markdownComment (const QString &text)
+{
+    int prevState = previousBlockState();
+    int startIndex = 0;
+
+    QRegularExpressionMatch startMatch;
+    QRegularExpressionMatch endMatch;
+
+    if (prevState != commentState)
+    {
+        startIndex = text.indexOf (commentStartExpression, startIndex, &startMatch);
+        while (format (startIndex) == codeBlockFormat)
+            startIndex = text.indexOf (commentStartExpression, startIndex + 1, &startMatch);
+        if (startIndex > 0)
+        {
+            if (text.indexOf (QRegularExpression ("^#+\\s+.*"), 0) == 0)
+                return; // no comment start sign inside headings
+            QRegularExpressionMatch match;
+            int indx;
+            if (isIndentedCodeBlock (text, indx, match))
+                return; // no comment start sign inside indented code blocks
+            /* no comment start sign inside footnotes, images or links */
+            static const QRegularExpression mExp ("\\[\\^[^\\]]+\\]"
+                                                  "|"
+                                                  "\\!\\[[^\\]\\^]*\\]\\s*"
+                                                  "(\\(\\s*[^\\)\\(\\s]+(\\s+\\\".*\\\")*\\s*\\)|\\s*\\[[^\\]]*\\])"
+                                                  "|"
+                                                  "\\[[^\\]\\^]*\\]\\s*\\[[^\\]\\s]*\\]"
+                                                  "|"
+                                                  "\\[[^\\]\\^]*\\]\\s*\\(\\s*[^\\)\\(\\s]+(\\s+\\\".*\\\")*\\s*\\)"
+                                                  "|"
+                                                  "\\[[^\\]\\^]*\\]:\\s+\\s*[^\\)\\(\\s]+(\\s+\\\".*\\\")*");
+            indx = text.indexOf (mExp, 0, &match);
+            while (indx >= 0 && indx < startIndex)
+            {
+                int mEnd = indx + match.capturedLength();
+                if (startIndex < mEnd)
+                {
+                    startIndex = text.indexOf (commentStartExpression, mEnd, &startMatch);
+                    if (startIndex == -1) return;
+                }
+                indx = text.indexOf (mExp, mEnd, &match);
+            }
+        }
+    }
+
+    while (startIndex >= 0)
+    {
+        int endIndex;
+        if (startIndex == 0 && prevState == commentState)
+            endIndex = text.indexOf (commentEndExpression, 0, &endMatch);
+        else
+            endIndex = text.indexOf (commentEndExpression,
+                                     startIndex + startMatch.capturedLength(),
+                                     &endMatch);
+
+        int commentLength;
+        if (endIndex == -1)
+        {
+            setCurrentBlockState (commentState);
+            commentLength = text.length() - startIndex;
+        }
+        else
+            commentLength = endIndex - startIndex
+                            + endMatch.capturedLength();
+        setFormat (startIndex, commentLength, commentFormat);
+
+#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
+        QString str = text.mid (startIndex, commentLength);
+#else
+        QString str = text.sliced (startIndex, commentLength);
+#endif
+        int pIndex = 0;
+        QRegularExpressionMatch urlMatch;
+        while ((pIndex = str.indexOf (urlPattern, pIndex, &urlMatch)) > -1)
+        {
+            setFormat (pIndex + startIndex, urlMatch.capturedLength(), urlFormat);
+            pIndex += urlMatch.capturedLength();
+        }
+        pIndex = 0;
+        while ((pIndex = str.indexOf (notePattern, pIndex, &urlMatch)) > -1)
+        {
+            if (format (pIndex + startIndex) != urlFormat)
+                setFormat (pIndex + startIndex, urlMatch.capturedLength(), noteFormat);
+            pIndex += urlMatch.capturedLength();
+        }
+
+        startIndex = text.indexOf (commentStartExpression, startIndex + commentLength, &startMatch);
+
+        while (format (startIndex) == codeBlockFormat)
+            startIndex = text.indexOf (commentStartExpression, startIndex + 1, &startMatch);
+    }
+}
+/*************************/
 // This function formats Markdown's block quotes and code blocks.
-// The start and end expressions always include the line start.
-// The end expression includes the line end too.
+// The start expressions always includes the line start.
+// The value of "indentation" should be positive only with block quotes.
 bool Highlighter::markdownMultiLine (const QString &text,
                                      const QString &oldStartPattern,
-                                     const QRegularExpression &startExp, const QRegularExpression &endExp,
+                                     const int indentation,
                                      const int state,
                                      const QTextCharFormat &txtFormat)
 {
-    QRegularExpression endRegex;
-    bool isBlockQuote = false;
+    static const QRegularExpression blockQuoteStartExp ("^\\s*(?=>)");
+    static const QRegularExpression blockQuoteEndExp ("^\\s*$");
+    static const QRegularExpression codeblockStartExp ("^ {0,3}\\K(`{3,}(?=[^`]*$)|~{3,}(?=[^~]*$))");
 
-    if (startExp.pattern().startsWith ("^\\s{0,"))
-    {
-        isBlockQuote = true;
-        endRegex = endExp;
-    }
+    QRegularExpression endRegex;
+    if (indentation > 0) // used only with block quotes
+        endRegex = blockQuoteEndExp;
 
     int prevState = previousBlockState();
 
@@ -46,34 +232,42 @@ bool Highlighter::markdownMultiLine (const QString &text,
 
     if (prevState != state)
     {
-        int startIndex = text.indexOf (startExp, 0, &startMatch);
+        int startIndex = text.indexOf (indentation > 0 ? blockQuoteStartExp : codeblockStartExp,
+                                       0,
+                                       &startMatch);
         if (startIndex == -1)
             return false; // nothing to format
         if (format (startIndex) == commentFormat || format (startIndex) == urlFormat
-            || format (startIndex) == quoteFormat)
+            || format (startIndex) == codeBlockFormat)
         {
             return false; // this is a comment or quote
         }
+        if (indentation > 0 && startMatch.capturedLength() > indentation)
+            return false;
     }
 
     bool res = false;
 
-    if (isBlockQuote)
+    if (indentation > 0)
     {
         /* don't continue the previous block quote if this line is a list */
         if (prevState == state)
         {
-            int extraBlockIndentation = 0;
+            int spaces = 0;
             QTextBlock prevBlock = currentBlock().previous();
             if (prevBlock.isValid())
             { // the label info is about indentation in this case
                 if (TextBlockData *prevData = static_cast<TextBlockData *>(prevBlock.userData()))
-                    extraBlockIndentation = prevData->labelInfo().length();
+                    spaces = prevData->labelInfo().length();
             }
-            QRegularExpression listRegex (QStringLiteral ("^ {0,")
-                                          + QString::number (3 + extraBlockIndentation)
-                                          + QStringLiteral ("}((\\*\\s+){1,}|(\\+\\s+){1,}|(\\-\\s+){1,}|\\d+\\.\\s+|\\d+\\)\\s+)"));
-            if (text.indexOf (listRegex) > -1)
+            spaces += 3;
+            int i = 0;
+            for (i = 0; i < spaces; ++i)
+            {
+                if (i == text.length() || text.at (i) != ' ')
+                    break;
+            }
+            if (text.indexOf (listRegex, i) == i)
                 return false;
         }
     }
@@ -96,14 +290,14 @@ bool Highlighter::markdownMultiLine (const QString &text,
         }
     }
 
-    int endIndex = !isBlockQuote && prevState != state ? // the start of a code block can be ```
+    int endIndex = indentation <= 0 && prevState != state ? // the start of a code block can be ```
                        -1 : text.indexOf (endRegex, 0, &endMatch);
     int L;
     if (endIndex == -1)
     {
         L = text.length();
         setCurrentBlockState (state);
-        if (!isBlockQuote)
+        if (indentation <= 0)
         {
             if (TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData()))
             {
@@ -224,62 +418,57 @@ void Highlighter::highlightMarkdownBlock (const QString &text)
     setCurrentBlockState (0);
     QTextCharFormat fi;
 
-    rehighlightNextBlock |= multiLineQuote (text);
-    rehighlightNextBlock |= multiLineComment (text, 0,
-                                              commentStartExpression, commentEndExpression,
-                                              commentState, commentFormat);
+    markdownSingleLineCode (text);
+    markdownComment (text);
 
     int prevState = previousBlockState();
     QTextBlock prevBlock = currentBlock().previous();
-    bool prevProperty = false;
     QString prevLabel;
     if (prevBlock.isValid())
     {
         if (TextBlockData *prevData = static_cast<TextBlockData *>(prevBlock.userData()))
-        {
-            prevProperty = prevData->getProperty();
             prevLabel = prevData->labelInfo();
-        }
     }
-    int extraBlockIndentation = prevLabel.length();
+    int extraBlockIndentation = 0;
+    static const QRegularExpression startSpace ("^\\s+");
+
     /* determine whether this line is inside a list */
-    if (!prevLabel.isEmpty())
+    if (!prevLabel.isEmpty()
+        && prevState != codeBlockState) // the label info is about indentation
     {
-        if (prevBlock.text().indexOf (QRegularExpression ("\\S")) > -1)
+        extraBlockIndentation = prevLabel.length();
+        if (prevBlock.text().indexOf (nonSpace) > -1)
             data->insertInfo (prevLabel);
         else
         {
             QRegularExpressionMatch spacesMatch;
 #if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-            text.indexOf (QRegularExpression ("^\\s+"), 0, &spacesMatch);
+            text.indexOf (startSpace, 0, &spacesMatch);
 #else
-            (void)text.indexOf (QRegularExpression ("^\\s+"), 0, &spacesMatch);
+            (void)text.indexOf (startSpace, 0, &spacesMatch);
 #endif
             if (spacesMatch.capturedLength() == text.length()
-                || spacesMatch.capturedLength() >= prevLabel.length())
+                || spacesMatch.capturedLength() >= extraBlockIndentation)
             {
                 data->insertInfo (prevLabel);
             }
         }
     }
 
-    /* a block quote shouldn't be formatted inside a real comment */
-    if (prevState != commentState)
+    /* a block quote shouldn't be formatted inside a comment or fenced code block */
+    if (prevState != commentState && prevState != codeBlockState)
     {
-        markdownMultiLine (text, QString(),
-                           QRegularExpression (QStringLiteral ("^\\s{0,")
-                                               + QString::number (3 + extraBlockIndentation)
-                                               + QStringLiteral ("}>.*")),
-                           QRegularExpression ("^$"),
+        markdownMultiLine (text,
+                           QString(), // not used
+                           3 + extraBlockIndentation,
                            markdownBlockQuoteState, blockQuoteFormat);
     }
-    /* the ``` code block shouldn't be formatted inside a comment or block quote */
+    /* the fenced code block shouldn't be formatted inside a comment or block quote */
     if (prevState != commentState && prevState != markdownBlockQuoteState)
     {
-        static const QRegularExpression codeStartRegex ("^ {0,3}\\K(`{3,}(?!`)|~{3,}(?!~))");
-        rehighlightNextBlock |= markdownMultiLine (text, oldLabel,
-                                                   codeStartRegex,
-                                                   QRegularExpression(),
+        rehighlightNextBlock |= markdownMultiLine (text,
+                                                   oldLabel,
+                                                   0, // not used
                                                    codeBlockState, codeBlockFormat);
     }
 
@@ -291,58 +480,35 @@ void Highlighter::highlightMarkdownBlock (const QString &text)
         QTextCharFormat markdownFormat;
         markdownFormat.setFontWeight (QFont::Bold);
         markdownFormat.setForeground (DarkBlue);
-        QRegularExpression listRegex (QStringLiteral ("^ {0,")
-                                      + QString::number (3 + extraBlockIndentation)
-                                      + QStringLiteral ("}((\\*\\s+){1,}|(\\+\\s+){1,}|(\\-\\s+){1,}|\\d+\\.\\s+|\\d+\\)\\s+)"));
-        index = text.indexOf (listRegex, 0, &match);
-        fi = format (index);
-        while (index >= 0
-               && (fi == blockQuoteFormat || fi == codeBlockFormat // the same as quoteFormat (for `...`)
-                   || fi == commentFormat || fi == urlFormat))
+        int i = 0;
+        for (i = 0; i < 3 + extraBlockIndentation; ++i)
         {
-            index = text.indexOf (listRegex, index + match.capturedLength(), &match);
-            fi = format (index);
+            if (i == text.length() || text.at (i) != ' ')
+                break;
         }
-        if (index >= 0)
+        index = text.indexOf (listRegex, i, &match);
+        fi = format (index);
+        if (index == i
+            && fi != blockQuoteFormat && fi != codeBlockFormat
+            && fi != commentFormat && fi != urlFormat)
         {
             QString spaces;
-            for (int i = 0; i < match.capturedLength(); ++i)
+            for (int j = 0; j < index + match.capturedLength(); ++j)
                 spaces += " ";
             data->insertInfo (spaces);
             setFormat (index, match.capturedLength(), markdownFormat);
         }
 
         /* code block with indentation */
-        static const QRegularExpression codeRegex ("^( {4,}|\\s*\\t+\\s*).*");
-        index = text.indexOf (codeRegex, 0, &match);
-        fi = format (index);
-        while (index >= 0
-               && (fi == blockQuoteFormat || fi == codeBlockFormat // the same as quoteFormat (for `...`)
-                   || fi == commentFormat || fi == urlFormat))
+        if (isIndentedCodeBlock (text, index, match))
         {
-            index = text.indexOf (codeRegex, index + match.capturedLength(), &match);
-            fi = format (index);
+            setFormat (index, match.capturedLength(), codeBlockFormat);
+            data->setProperty (true);
+            if (!oldProperty)
+                rehighlightNextBlock = true;
         }
-        if (index >= 0)
-        {
-            /* when this is about a code block with indentation
-                but the current line can't be code block */
-            const QString prevTxt = prevBlock.text();
-            if ((text.left (4 + extraBlockIndentation)).indexOf (QRegularExpression ("\\S")) > -1
-                || (prevTxt.left (4 + prevLabel.length())).indexOf (QRegularExpression ("\\S")) > -1
-                || (prevTxt.indexOf (QRegularExpression ("\\S")) > -1 && !prevProperty))
-            {
-                if (oldProperty)
-                    rehighlightNextBlock = true;
-            }
-            else
-            {
-                setFormat (index, match.capturedLength(), codeBlockFormat);
-                data->setProperty (true);
-                if (!oldProperty)
-                    rehighlightNextBlock = true;
-            }
-        }
+        else if (oldProperty)
+            rehighlightNextBlock = true;
     }
 
     int bn = currentBlock().blockNumber();
@@ -359,7 +525,7 @@ void Highlighter::highlightMarkdownBlock (const QString &text)
                     continue;
                 fi = format (index);
                 while (index >= 0
-                       && (fi == blockQuoteFormat || fi == codeBlockFormat // the same as quoteFormat (for `...`)
+                       && (fi == blockQuoteFormat || fi == codeBlockFormat
                            || fi == commentFormat || fi == urlFormat))
                 {
                     index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
@@ -424,9 +590,8 @@ void Highlighter::highlightMarkdownBlock (const QString &text)
     index = text.indexOf ('(');
     fi = format (index);
     while (index >= 0
-           && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
-               || fi == commentFormat || fi == urlFormat
-               || fi == regexFormat))
+           && (fi == blockQuoteFormat || fi == codeBlockFormat
+               || fi == commentFormat || fi == urlFormat))
     {
         index = text.indexOf ('(', index + 1);
         fi = format (index);
@@ -441,9 +606,8 @@ void Highlighter::highlightMarkdownBlock (const QString &text)
         index = text.indexOf ('(', index + 1);
         fi = format (index);
         while (index >= 0
-               && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
-                   || fi == commentFormat || fi == urlFormat
-                   || fi == regexFormat))
+               && (fi == blockQuoteFormat || fi == codeBlockFormat
+                   || fi == commentFormat || fi == urlFormat))
         {
             index = text.indexOf ('(', index + 1);
             fi = format (index);
@@ -454,9 +618,8 @@ void Highlighter::highlightMarkdownBlock (const QString &text)
     index = text.indexOf (')');
     fi = format (index);
     while (index >= 0
-           && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
-               || fi == commentFormat || fi == urlFormat
-               || fi == regexFormat))
+           && (fi == blockQuoteFormat || fi == codeBlockFormat
+               || fi == commentFormat || fi == urlFormat))
     {
         index = text.indexOf (')', index + 1);
         fi = format (index);
@@ -471,9 +634,8 @@ void Highlighter::highlightMarkdownBlock (const QString &text)
         index = text.indexOf (')', index +1);
         fi = format (index);
         while (index >= 0
-               && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
-                   || fi == commentFormat || fi == urlFormat
-                   || fi == regexFormat))
+               && (fi == blockQuoteFormat || fi == codeBlockFormat
+                   || fi == commentFormat || fi == urlFormat))
         {
             index = text.indexOf (')', index + 1);
             fi = format (index);
@@ -484,9 +646,8 @@ void Highlighter::highlightMarkdownBlock (const QString &text)
     index = text.indexOf ('{');
     fi = format (index);
     while (index >= 0
-           && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
-               || fi == commentFormat || fi == urlFormat
-               || fi == regexFormat))
+           && (fi == blockQuoteFormat || fi == codeBlockFormat
+               || fi == commentFormat || fi == urlFormat))
     {
         index = text.indexOf ('{', index + 1);
         fi = format (index);
@@ -501,9 +662,8 @@ void Highlighter::highlightMarkdownBlock (const QString &text)
         index = text.indexOf ('{', index + 1);
         fi = format (index);
         while (index >= 0
-               && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
-                   || fi == commentFormat || fi == urlFormat
-                   || fi == regexFormat))
+               && (fi == blockQuoteFormat || fi == codeBlockFormat
+                   || fi == commentFormat || fi == urlFormat))
         {
             index = text.indexOf ('{', index + 1);
             fi = format (index);
@@ -514,9 +674,8 @@ void Highlighter::highlightMarkdownBlock (const QString &text)
     index = text.indexOf ('}');
     fi = format (index);
     while (index >= 0
-           && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
-               || fi == commentFormat || fi == urlFormat
-               || fi == regexFormat))
+           && (fi == blockQuoteFormat || fi == codeBlockFormat
+               || fi == commentFormat || fi == urlFormat))
     {
         index = text.indexOf ('}', index + 1);
         fi = format (index);
@@ -531,9 +690,8 @@ void Highlighter::highlightMarkdownBlock (const QString &text)
         index = text.indexOf ('}', index +1);
         fi = format (index);
         while (index >= 0
-               && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
-                   || fi == commentFormat || fi == urlFormat
-                   || fi == regexFormat))
+               && (fi == blockQuoteFormat || fi == codeBlockFormat
+                   || fi == commentFormat || fi == urlFormat))
         {
             index = text.indexOf ('}', index + 1);
             fi = format (index);
@@ -544,9 +702,8 @@ void Highlighter::highlightMarkdownBlock (const QString &text)
     index = text.indexOf ('[');
     fi = format (index);
     while (index >= 0
-           && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
-               || fi == commentFormat || fi == urlFormat
-               || fi == regexFormat))
+           && (fi == blockQuoteFormat || fi == codeBlockFormat
+               || fi == commentFormat || fi == urlFormat))
     {
         index = text.indexOf ('[', index + 1);
         fi = format (index);
@@ -561,9 +718,8 @@ void Highlighter::highlightMarkdownBlock (const QString &text)
         index = text.indexOf ('[', index + 1);
         fi = format (index);
         while (index >= 0
-               && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
-                   || fi == commentFormat || fi == urlFormat
-                   || fi == regexFormat))
+               && (fi == blockQuoteFormat || fi == codeBlockFormat
+                   || fi == commentFormat || fi == urlFormat))
         {
             index = text.indexOf ('[', index + 1);
             fi = format (index);
@@ -574,9 +730,8 @@ void Highlighter::highlightMarkdownBlock (const QString &text)
     index = text.indexOf (']');
     fi = format (index);
     while (index >= 0
-           && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
-               || fi == commentFormat || fi == urlFormat
-               || fi == regexFormat))
+           && (fi == blockQuoteFormat || fi == codeBlockFormat
+               || fi == commentFormat || fi == urlFormat))
     {
         index = text.indexOf (']', index + 1);
         fi = format (index);
@@ -591,9 +746,8 @@ void Highlighter::highlightMarkdownBlock (const QString &text)
         index = text.indexOf (']', index +1);
         fi = format (index);
         while (index >= 0
-               && (fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat
-                   || fi == commentFormat || fi == urlFormat
-                   || fi == regexFormat))
+               && (fi == blockQuoteFormat || fi == codeBlockFormat
+                   || fi == commentFormat || fi == urlFormat))
         {
             index = text.indexOf (']', index + 1);
             fi = format (index);

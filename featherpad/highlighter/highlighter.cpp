@@ -1222,10 +1222,6 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     }
     else if (progLan == "markdown")
     {
-        /* Inline code is almost like a single-line quote.
-           "`" will be distinguished from "```" at multiLineQuote(). */
-        quoteMark.setPattern ("`");
-
         blockQuoteFormat.setForeground (DarkGreen);
         codeBlockFormat.setForeground (DarkRed);
         QTextCharFormat markdownFormat;
@@ -1743,7 +1739,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         commentStartExpression.setPattern ("\"\"\"|\'\'\'");
         commentEndExpression = commentStartExpression;
     }
-    else if (progLan == "xml")
+    else if (progLan == "xml" || progLan == "markdown")
     {
         commentStartExpression.setPattern ("<!--");
         commentEndExpression.setPattern ("-->");
@@ -1772,13 +1768,6 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     {
         commentStartExpression.setPattern ("=begin\\s*$");
         commentEndExpression.setPattern ("^=end\\s*$");
-    }
-    else if (progLan == "markdown")
-    {
-        quoteFormat.setForeground (DarkRed); // not a quote but a code block
-        urlInsideQuoteFormat.setForeground (DarkRed);
-        commentStartExpression.setPattern ("<!--");
-        commentEndExpression.setPattern ("-->");
     }
 }
 /*************************/
@@ -1844,13 +1833,6 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
 
     if (progLan == "html"/* || progLan == "xml"*/) // xml is formatted separately
         return false;
-
-    /* with markdown, something should be inside quotes */
-    if (progLan == "markdown" && isStartQuote
-        && (pos >= text.length() - 1 || text.at (pos + 1) == '`'))
-    {
-        return true;
-    }
 
     if (progLan == "yaml")
     {
@@ -1946,7 +1928,7 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
         return false;
     }
     if (pos != text.indexOf (quoteMark, pos)
-        && (progLan == "markdown" || pos != text.indexOf (QRegularExpression ("\'"), pos)))
+        && pos != text.indexOf (QRegularExpression ("\'"), pos))
     {
         return false;
     }*/
@@ -1997,7 +1979,7 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
             return false; // no other case of escaping at the start
         }
         else if (progLan != "sh" && progLan != "makefile" && progLan != "cmake"
-                 && progLan != "markdown" && progLan != "yaml")
+                 && progLan != "yaml")
         {
             return false;
         }
@@ -2025,8 +2007,6 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
             || progLan == "dart"
             || progLan == "php"
             || progLan == "ruby"
-            /* markdown is an exception */
-            || progLan == "markdown"
             /* however, in Bash, single quote can be escaped only at start */
             || ((progLan == "sh" || progLan == "makefile" || progLan == "cmake")
                 && (isStartQuote || text.at (pos) == quoteMark.pattern().at (0))))
@@ -2756,48 +2736,6 @@ bool Highlighter::multiLineComment (const QString &text,
         /* skip single-line comments */
         if (format (startIndex) == commentFormat || format (startIndex) == urlFormat)
             startIndex = -1;
-
-        /* special handling for markdown */
-        if (progLan == "markdown" && startIndex > 0)
-        {
-            int extraBlockIndentation = 0;
-            QTextBlock prevBlock = currentBlock().previous();
-            if (prevBlock.isValid())
-            {
-                if (TextBlockData *prevData = static_cast<TextBlockData *>(prevBlock.userData()))
-                    extraBlockIndentation = prevData->labelInfo().length();
-            }
-            if (text.indexOf (QRegularExpression ("^#+\\s+.*"), 0) == 0
-                || text.indexOf (QRegularExpression (QStringLiteral ("^( {")
-                                                     + QString::number (4 + extraBlockIndentation)
-                                                     + QStringLiteral (",}|\\s*\\t+\\s*).*")), 0) == 0)
-            {
-                return false; // no comment start sign inside headings or code blocks
-            }
-            /* no comment start sign inside footnotes, images or links */
-            QRegularExpressionMatch mMatch;
-            static const QRegularExpression mExp ("\\[\\^[^\\]]+\\]"
-                                                  "|"
-                                                  "\\!\\[[^\\]\\^]*\\]\\s*"
-                                                  "(\\(\\s*[^\\)\\(\\s]+(\\s+\\\".*\\\")*\\s*\\)|\\s*\\[[^\\]]*\\])"
-                                                  "|"
-                                                  "\\[[^\\]\\^]*\\]\\s*\\[[^\\]\\s]*\\]"
-                                                  "|"
-                                                  "\\[[^\\]\\^]*\\]\\s*\\(\\s*[^\\)\\(\\s]+(\\s+\\\".*\\\")*\\s*\\)"
-                                                  "|"
-                                                  "\\[[^\\]\\^]*\\]:\\s+\\s*[^\\)\\(\\s]+(\\s+\\\".*\\\")*");
-            int mStart = text.indexOf (mExp, 0, &mMatch);
-            while (mStart >= 0 && mStart < startIndex)
-            {
-                int mEnd = mStart + mMatch.capturedLength();
-                if (startIndex < mEnd)
-                {
-                    startIndex = text.indexOf (commentStartExp, mEnd, &startMatch);
-                    if (startIndex == -1) return false;
-                }
-                mStart = text.indexOf (mExp, mEnd, &mMatch);
-            }
-        }
     }
 
     while (startIndex >= 0)
@@ -2992,22 +2930,6 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
         while (format (index) == commentFormat || format (index) == urlFormat) // single-line and Python
             index = text.indexOf (quoteExpression, index + 1);
 
-        /* with markdown, "`" should be distinguished from "```" for code bocks (-> highlightBlock()) */
-        if (index >= 0 && progLan == "markdown")
-        {
-            while (index >= 0 && index == text.indexOf (QRegularExpression ("```(?!`)"), index))
-            {
-                index = text.indexOf (quoteExpression, index + 3);
-                while (isEscapedQuote (text, index, true)
-                       || isMLCommented (text, index, comState))
-                {
-                    index = text.indexOf (quoteExpression, index + 1);
-                }
-                while (format (index) == commentFormat || format (index) == urlFormat)
-                    index = text.indexOf (quoteExpression, index + 1);
-            }
-        }
-
         /* if the start quote is found... */
         if (index >= 0)
         {
@@ -3106,7 +3028,6 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
             }
         }
 
-        bool isQuotation = true;
         if (endIndex == -1)
         {
             if (progLan == "c" || progLan == "cpp")
@@ -3120,10 +3041,6 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
                     endIndex = text.length();
                 }
             }
-            else if (progLan == "markdown")
-            { // this is the main difference of a markdown inline code from a single-line quote
-                isQuotation = false;
-            }
             else if (progLan == "go")
             {
                 if (quoteExpression == quoteMark) // no multiline double quote
@@ -3134,8 +3051,7 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
         int quoteLength;
         if (endIndex == -1)
         {
-            if (isQuotation)
-                setCurrentBlockState (quote);
+            setCurrentBlockState (quote);
             quoteLength = text.length() - index;
 
             /* set the delimiter string for C++11 */
@@ -3163,25 +3079,22 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
         else
             quoteLength = endIndex - index
                           + quoteMatch.capturedLength(); // 1 or 0 (open quotation without ending backslash)
-        if (isQuotation)
-        {
-            setFormat (index, quoteLength, quoteExpression == quoteMark ? quoteFormat
-                                                                        : altQuoteFormat);
-            /* URLs should be formatted in a different way inside quotes because,
-               otherwise, there would be no difference between URLs inside quotes and
-               those inside comments and so, they couldn't be escaped correctly when needed. */
+        setFormat (index, quoteLength, quoteExpression == quoteMark ? quoteFormat
+                                                                    : altQuoteFormat);
+        /* URLs should be formatted in a different way inside quotes because,
+           otherwise, there would be no difference between URLs inside quotes and
+           those inside comments and so, they couldn't be escaped correctly when needed. */
 #if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-            QString str = text.mid (index, quoteLength);
+        QString str = text.mid (index, quoteLength);
 #else
-            QString str = text.sliced (index, quoteLength);
+        QString str = text.sliced (index, quoteLength);
 #endif
-            int urlIndex = 0;
-            QRegularExpressionMatch urlMatch;
-            while ((urlIndex = str.indexOf (urlPattern, urlIndex, &urlMatch)) > -1)
-            {
-                 setFormat (urlIndex + index, urlMatch.capturedLength(), urlInsideQuoteFormat);
-                 urlIndex += urlMatch.capturedLength();
-            }
+        int urlIndex = 0;
+        QRegularExpressionMatch urlMatch;
+        while ((urlIndex = str.indexOf (urlPattern, urlIndex, &urlMatch)) > -1)
+        {
+                setFormat (urlIndex + index, urlMatch.capturedLength(), urlInsideQuoteFormat);
+                urlIndex += urlMatch.capturedLength();
         }
 
         /* the next quote may be different */
@@ -3198,21 +3111,6 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
         }
         while (format (index) == commentFormat || format (index) == urlFormat)
             index = text.indexOf (quoteExpression, index + 1);
-
-        if (index >= 0 && progLan == "markdown")
-        {
-            while (index >= 0 && index == text.indexOf (QRegularExpression ("```(?!`)"), index))
-            {
-                index = text.indexOf (quoteExpression, index + 3);
-                while (isEscapedQuote (text, index, true)
-                       || isMLCommented (text, index, comState))
-                {
-                    index = text.indexOf (quoteExpression, index + 1);
-                }
-                while (format (index) == commentFormat || format (index) == urlFormat)
-                    index = text.indexOf (quoteExpression, index + 1);
-            }
-        }
         delimStr.clear();
     }
     return rehighlightNextBlock;

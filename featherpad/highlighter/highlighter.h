@@ -213,9 +213,12 @@ private:
     void highlightLuaBlock (const QString &text);
 
     /* Markdown */
+    void markdownSingleLineCode (const QString &text);
+    bool isIndentedCodeBlock (const QString &text, int &index, QRegularExpressionMatch &match) const;
+    void markdownComment (const QString &text);
     bool markdownMultiLine (const QString &text,
                             const QString &oldStartPattern,
-                            const QRegularExpression &startExp, const QRegularExpression &endExp,
+                            const int indentation,
                             const int state,
                             const QTextCharFormat &txtFormat);
     void markdownFonts (const QString &text);
