@@ -198,9 +198,9 @@ private:
                        const QRegularExpression &delimExp, int &capturedLength) const;
 
     /* XML */
-    bool isXmlQuoted (const QString &text, const int index, const int start) const;
-    bool isXxmlComment (const QString &text, const int index, const int start) const;
-    bool isXmlValue (const QString &text, const int index, const int start) const;
+    bool isXmlQuoted (const QString &text, const int index);
+    bool isXxmlComment (const QString &text, const int index, const int start);
+    bool isXmlValue (const QString &text, const int index, const int start);
     void xmlValues (const QString &text);
     void xmlQuotes (const QString &text);
     void xmlComment (const QString &text);

@@ -26,9 +26,11 @@ namespace FeatherPad {
 // "start" means that nothing interesting comes before it. An appropriate value
 // for it can save lots of CPU time in some cases.
 
-bool Highlighter::isXmlQuoted (const QString &text, const int index, const int start) const
+// For saving CPU time, here the quotes are formatted
+// and the last formatted quote is marked.
+bool Highlighter::isXmlQuoted (const QString &text, const int index)
 {
-    if (start < 0 || index < start) return false;
+    if (index < 0) return false;
     QTextCharFormat fi = format (index);
     if (fi == quoteFormat || fi == altQuoteFormat
         || fi == errorFormat // only when this function is called for "<!--" or "<"
@@ -37,13 +39,22 @@ bool Highlighter::isXmlQuoted (const QString &text, const int index, const int s
         return true;
     }
 
-    int pos = start - 1;
+    int pos = -1;
+    int start = 0;
+    TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData());
+    if (data)
+    {
+        start = data->lastFormattedQuote();
+        pos = start - 1;
+        if (index <= pos) return false;
+    }
+
     bool res = false;
     int N = 0;
+    int prevState = previousBlockState();
     QRegularExpression quoteExpression;
     if (pos == -1)
     {
-        int prevState = previousBlockState();
         if (prevState != doubleQuoteState
             && prevState != singleQuoteState)
         {
@@ -81,6 +92,15 @@ bool Highlighter::isXmlQuoted (const QString &text, const int index, const int s
 
         ++N;
 
+        if (N % 2 == 0)
+        {
+            if (data)
+                data->insertLastFormattedQuote (nxtPos + 1);
+            pos = qMax (pos, 0);
+            setFormat (pos, nxtPos - pos + 1,
+                       text.at (nxtPos) == '\"' ? quoteFormat : altQuoteFormat);
+        }
+
         if (index < nxtPos)
         {
             if (N % 2 == 0) res = true;
@@ -88,25 +108,42 @@ bool Highlighter::isXmlQuoted (const QString &text, const int index, const int s
             break;
         }
 
-        if (N % 2 == 0) res = false;
-        else res = true;
-
         if (N % 2 != 0)
         {
+            res = true;
             if (text.at (nxtPos) == '\"')
                 quoteExpression = quoteMark;
             else
                 quoteExpression = singleQuoteMark;
         }
         else
+        {
+            res = false;
+            start = nxtPos + 1;
             quoteExpression = mixedQuoteMark;
+        }
         pos = nxtPos;
+    }
+
+    if (nxtPos == -1)
+    { // either there's no other quote or the last quote is open
+        if (data)
+            data->insertLastFormattedQuote (text.length());
+        if (N % 2 != 0)
+        {
+            if (pos == -1) // the whole line is an open quote continued from the previous line
+                fi = (prevState == doubleQuoteState ? quoteFormat : altQuoteFormat);
+            else // the open quote started in this line
+                fi = (text.at (pos) == '\"' ? quoteFormat : altQuoteFormat);
+            pos = qMax (pos, 0);
+            setFormat (pos, text.length() - pos, fi);
+        }
     }
 
     return res;
 }
 /*************************/
-bool Highlighter::isXxmlComment (const QString &text, const int index, const int start) const
+bool Highlighter::isXxmlComment (const QString &text, const int index, const int start)
 {
     if (start < 0 || index < start) return false;
     if (format (index) == commentFormat) return true;
@@ -127,23 +164,33 @@ bool Highlighter::isXxmlComment (const QString &text, const int index, const int
         commentExpression = commentEndExpression;
     }
 
-    while ((pos = text.indexOf (commentExpression, pos + 1, &match)) >= 0)
+    int nxtPos;
+    while ((nxtPos = text.indexOf (commentExpression, pos + 1, &match)) >= 0)
     {
         if (N % 2 == 0)
         { // "<!--"
-            if (index < pos) return false;
+            if (index < nxtPos) return false;
             /* can be equal when this function is called for "<",
                which means we're inside a value and a comment is allowed */
-            if (index == pos) return true;
+            if (index == nxtPos) return true;
             /* comments can only be inside values
                (which means they can't be quoted) */
-            if (!isXmlValue (text, pos, start))
+            if (!isXmlValue (text, nxtPos, start))
+            {
+                pos = nxtPos;
                 continue;
+            }
         }
 
         ++N;
 
-        if (index < pos + (N % 2 == 0 ? match.capturedLength() : 0))
+        if (N % 2 == 0)
+        {
+            pos = qMax (pos, 0);
+            setFormat (pos, nxtPos - pos + 1, commentFormat);
+        }
+
+        if (index < nxtPos + (N % 2 == 0 ? match.capturedLength() : 0))
         {
             if (N % 2 == 0) res = true;
             else res = false;
@@ -160,12 +207,13 @@ bool Highlighter::isXxmlComment (const QString &text, const int index, const int
             commentExpression = commentStartExpression;
             res = false;
         }
+        pos = nxtPos;
     }
 
     return res;
 }
 /*************************/
-bool Highlighter::isXmlValue (const QString &text, const int index, const int start) const
+bool Highlighter::isXmlValue (const QString &text, const int index, const int start)
 {
     if (start < 0 || index < start) return false;
     if (format (index) == neutralFormat) return true;
@@ -188,29 +236,42 @@ bool Highlighter::isXmlValue (const QString &text, const int index, const int st
         xmlSign = xmlLt;
     }
 
+    int nxtPos;
     int newStart = start;
-    while ((pos = text.indexOf (xmlSign, pos + 1, &match)) >= 0)
+    while ((nxtPos = text.indexOf (xmlSign, pos + 1, &match)) >= 0)
     {
         if (N % 2 == 0)
         { // ">"
-            if (index <= pos) // can never be equal here
+            if (index <= nxtPos) // can never be equal here
                 return false;
             /* no need to check for a comment because
                comments can start only after this position */
-            if (isXmlQuoted (text, pos, newStart))
+            if (isXmlQuoted (text, nxtPos))
+            {
+                pos = nxtPos;
                 continue;
+            }
         }
         else
         { // "<"
-            if (index <= pos) // can be equal when this function is called for "<!--"
+            if (index <= nxtPos) // can be equal when this function is called for "<!--"
                 return true;
-            if (isXxmlComment (text, pos, newStart)) // a comment can be inside this value
+            if (isXxmlComment (text, nxtPos, newStart)) // a comment can be inside this value
+            {
+                pos = nxtPos;
                 continue;
+            }
         }
 
         ++N;
 
-        if (index < pos + (N % 2 == 0 ? match.capturedLength() : 0))
+        if (N % 2 == 0)
+        {
+            pos = qMax (pos, 0);
+            setFormat (pos, nxtPos - pos + 1, neutralFormat);
+        }
+
+        if (index < nxtPos + (N % 2 == 0 ? match.capturedLength() : 0))
         {
             if (N % 2 == 0) res = true;
             else res = false;
@@ -224,10 +285,11 @@ bool Highlighter::isXmlValue (const QString &text, const int index, const int st
         }
         else
         {
-            newStart = pos + 1; // nothing interesting before this position
+            newStart = nxtPos + 1; // nothing interesting before this position
             xmlSign = xmlGt;
             res = false;
         }
+        pos = nxtPos;
     }
 
     return res;
@@ -245,7 +307,7 @@ void Highlighter::xmlValues (const QString &text)
     {
         index = text.indexOf (xmlGt, index, &startMatch);
         /* skip quotes (comments can start only after this position) */
-        while (isXmlQuoted (text, index, 0))
+        while (isXmlQuoted (text, index))
             index = text.indexOf (xmlGt, index + 1, &startMatch);
     }
 
@@ -276,7 +338,7 @@ void Highlighter::xmlValues (const QString &text)
         setFormat (index, valueLength, neutralFormat);
 
         index = text.indexOf (xmlGt, index + valueLength, &startMatch);
-        while (isXmlQuoted (text, index, endIndex + endMatch.capturedLength()))
+        while (isXmlQuoted (text, index))
             index = text.indexOf (xmlGt, index + 1, &startMatch);
     }
 }
