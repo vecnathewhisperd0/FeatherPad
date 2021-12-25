@@ -747,7 +747,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     }
     else if (progLan == "xml")
     {
-        xmlLt.setPattern ("(<|&lt;)"); // lenient
+        xmlLt.setPattern ("(<|&lt;)(?=(/?(?!\\.|\\-)[A-Za-z0-9_\\.\\-:]+|!(DOCTYPE|ENTITY|ELEMENT|ATTLIST|NOTATION))(\\s|$|>|&gt;))");
         xmlGt.setPattern (">");
 
         errorFormat.setForeground (Red);
@@ -772,7 +772,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         xmlElementFormat.setFontWeight (QFont::Bold);
         xmlElementFormat.setForeground (Violet);
         /* after </ or before /> */
-        rule.pattern.setPattern ("(<|&lt;)/?[A-Za-z0-9_\\.\\-:]+|(<|&lt;)!(DOCTYPE|ENTITY|ELEMENT|ATTLIST|NOTATION)\\s|/?(>|&gt;)");
+        rule.pattern.setPattern ("(<|&lt;)(/?(?!\\.|\\-)[A-Za-z0-9_\\.\\-:]+|!(DOCTYPE|ENTITY|ELEMENT|ATTLIST|NOTATION))(\\s|$|>|&gt;)|/?(>|&gt;)");
         rule.format = xmlElementFormat;
         highlightingRules.append (rule);
 
