@@ -187,7 +187,7 @@ bool Highlighter::isXxmlComment (const QString &text, const int index, const int
         if (N % 2 == 0)
         {
             pos = qMax (pos, 0);
-            setFormat (pos, nxtPos - pos + 1, commentFormat);
+            setFormat (pos, nxtPos - pos + match.capturedLength(), commentFormat);
         }
 
         if (index < nxtPos + (N % 2 == 0 ? match.capturedLength() : 0))
@@ -268,7 +268,7 @@ bool Highlighter::isXmlValue (const QString &text, const int index, const int st
         if (N % 2 == 0)
         {
             pos = qMax (pos, 0);
-            setFormat (pos, nxtPos - pos + 1, neutralFormat);
+            setFormatWithoutOverwrite (pos, nxtPos - pos + match.capturedLength(), neutralFormat, commentFormat);
         }
 
         if (index < nxtPos + (N % 2 == 0 ? match.capturedLength() : 0))
@@ -335,7 +335,7 @@ void Highlighter::xmlValues (const QString &text)
         }
         else
             valueLength = endIndex - index + endMatch.capturedLength();
-        setFormat (index, valueLength, neutralFormat);
+        setFormatWithoutOverwrite (index, valueLength, neutralFormat, commentFormat);
 
         index = text.indexOf (xmlGt, index + valueLength, &startMatch);
         while (isXmlQuoted (text, index))
@@ -475,7 +475,8 @@ void Highlighter::xmlComment (const QString &text)
         index = text.indexOf (commentStartExpression, index, &startMatch);
         while (format (index) == errorFormat // it's an error
                // comments should be inside values
-               || (index > -1 && format (index) != neutralFormat))
+               || (index > -1 && format (index) != neutralFormat
+                              && format (index) != commentFormat))
         {
             index = text.indexOf (commentStartExpression, index + 1, &startMatch);
         }
@@ -506,7 +507,8 @@ void Highlighter::xmlComment (const QString &text)
 
         index = text.indexOf (commentStartExpression, index + commentLength, &startMatch);
         while (format (index) == errorFormat
-               || (index > -1 && format (index) != neutralFormat))
+               || (index > -1 && format (index) != neutralFormat
+                              && format (index) != commentFormat))
         {
             index = text.indexOf (commentStartExpression, index + 1, &startMatch);
         }
