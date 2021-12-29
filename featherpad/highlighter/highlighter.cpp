@@ -3872,6 +3872,11 @@ void Highlighter::highlightBlock (const QString &text)
         highlightJsonBlock (text);
         return;
     }
+    if (progLan == "xml")
+    { // Optimized SVG files can have huge lines with more than 10000 characters
+        highlightXmlBlock (text);
+        return;
+    }
 
     int bn = currentBlock().blockNumber();
     bool mainFormatting (bn >= startCursor.blockNumber() && bn <= endCursor.blockNumber());
@@ -3885,11 +3890,6 @@ void Highlighter::highlightBlock (const QString &text)
         if (mainFormatting)
             setFormat (0, txtL, mainFormat);
 
-        if (progLan == "xml")
-        {
-            highlightXmlBlock (text);
-            return;
-        }
         if (progLan == "fountain")
         {
             highlightFountainBlock (text);

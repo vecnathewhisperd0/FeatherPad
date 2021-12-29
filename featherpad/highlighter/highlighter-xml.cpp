@@ -143,13 +143,22 @@ bool Highlighter::isXmlQuoted (const QString &text, const int index)
     return res;
 }
 /*************************/
+// For saving CPU time, here the comments are formatted
+// and the last formatted comment is marked.
 bool Highlighter::isXxmlComment (const QString &text, const int index, const int start)
 {
     if (start < 0 || index < start) return false;
     if (format (index) == commentFormat) return true;
 
+    int pos = -1;
+    TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData());
+    if (data)
+    {
+        pos = data->lastFormattedRegex() - 1;
+        if (index <= pos) return false;
+    }
+
     bool res = false;
-    int pos = start - 1;
     int N = 0;
     QRegularExpressionMatch match;
     QRegularExpression commentExpression;
@@ -186,6 +195,8 @@ bool Highlighter::isXxmlComment (const QString &text, const int index, const int
 
         if (N % 2 == 0)
         {
+            if (data)
+                data->insertLastFormattedRegex (nxtPos + match.capturedLength());
             pos = qMax (pos, 0);
             setFormat (pos, nxtPos - pos + match.capturedLength(), commentFormat);
         }
@@ -208,6 +219,17 @@ bool Highlighter::isXxmlComment (const QString &text, const int index, const int
             res = false;
         }
         pos = nxtPos;
+    }
+
+    if (nxtPos == -1)
+    { // either there's no other comment or the last comment is open
+        if (data)
+            data->insertLastFormattedRegex (text.length());
+        if (N % 2 != 0)
+        { // open comment
+            pos = qMax (pos, 0);
+            setFormat (pos, text.length() - pos, commentFormat);
+        }
     }
 
     return res;
@@ -521,6 +543,19 @@ void Highlighter::highlightXmlBlock (const QString &text)
     setCurrentBlockUserData (data);
     setCurrentBlockState (0);
 
+    int txtL = text.length();
+    if (txtL > 30000)
+    {
+        setFormat (0, txtL, translucentFormat);
+        data->setHighlighted();
+        return;
+    }
+
+    int bn = currentBlock().blockNumber();
+    bool mainFormatting (bn >= startCursor.blockNumber() && bn <= endCursor.blockNumber());
+    if (mainFormatting)
+        setFormat (0, txtL, mainFormat);
+
     xmlValues (text);
     xmlQuotes (text);
     xmlComment (text);
@@ -684,8 +719,7 @@ void Highlighter::highlightXmlBlock (const QString &text)
      * Main Formatting *
      *******************/
 
-    int bn = currentBlock().blockNumber();
-    if (bn >= startCursor.blockNumber() && bn <= endCursor.blockNumber())
+    if (mainFormatting)
     {
         data->setHighlighted(); // completely highlighted
         QRegularExpressionMatch match;
