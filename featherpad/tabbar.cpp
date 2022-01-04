@@ -134,7 +134,9 @@ void TabBar::mouseMoveEvent (QMouseEvent *event)
 #if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
             QToolTip::showText (event->globalPos(), tabToolTip (index));
 #else
-            QToolTip::showText (event->globalPosition().toPoint(), tabToolTip (index));
+            /* WARNING: For tabbars, event->globalPosition() may return a totally
+                        wrong position with Qt6. */
+            QToolTip::showText (QCursor::pos(), tabToolTip (index));
 #endif
         else
             QToolTip::hideText();

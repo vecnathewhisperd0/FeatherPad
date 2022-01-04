@@ -2,6 +2,7 @@ V1.1.1
 ---------
  * Fixed highlighting of Markdown's single-line codes with multiple backquotes. Also, faster syntax highlighting for Markdown.
  * Prevented a rare hang-like behavior with malformed XML documents that have huge lines. Also, followed stricter rules for highlighting of "<" in XML.
+ * Workaround for wrong positions of instant tab tooltips with Qt6.
 
 V1.1.0
 ---------
