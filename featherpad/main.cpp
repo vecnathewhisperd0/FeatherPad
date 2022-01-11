@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2021 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2022 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -43,7 +43,7 @@ void handleQuitSignals (const std::vector<int>& quitSignals)
 int main (int argc, char **argv)
 {
     const QString name = "FeatherPad";
-    const QString version = "1.1.1";
+    const QString version = "1.1.2";
     const QString option = QString::fromUtf8 (argv[1]);
     if (option == "--help" || option == "-h")
     {

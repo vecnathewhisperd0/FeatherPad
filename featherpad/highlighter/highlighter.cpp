@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2021 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2022 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -747,7 +747,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     }
     else if (progLan == "xml")
     {
-        xmlLt.setPattern ("(<|&lt;)(?=(/?(?!\\.|\\-)[A-Za-z0-9_\\.\\-:]+|!(DOCTYPE|ENTITY|ELEMENT|ATTLIST|NOTATION))(\\s|$|>|&gt;))");
+        xmlLt.setPattern ("(<|&lt;)(?=(/?(?!\\.|\\-)[A-Za-z0-9_\\.\\-:]+|!(DOCTYPE|ENTITY|ELEMENT|ATTLIST|NOTATION))(\\s|$|/?(>|&gt;)))");
         xmlGt.setPattern (">");
 
         errorFormat.setForeground (Red);
@@ -772,7 +772,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         xmlElementFormat.setFontWeight (QFont::Bold);
         xmlElementFormat.setForeground (Violet);
         /* after </ or before /> */
-        rule.pattern.setPattern ("(<|&lt;)(/?(?!\\.|\\-)[A-Za-z0-9_\\.\\-:]+|!(DOCTYPE|ENTITY|ELEMENT|ATTLIST|NOTATION))(\\s|$|>|&gt;)|/?(>|&gt;)");
+        rule.pattern.setPattern ("(<|&lt;)(/?(?!\\.|\\-)[A-Za-z0-9_\\.\\-:]+|!(DOCTYPE|ENTITY|ELEMENT|ATTLIST|NOTATION))(\\s|$|/?(>|&gt;))|/?(>|&gt;)");
         rule.format = xmlElementFormat;
         highlightingRules.append (rule);
 
@@ -813,7 +813,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         /* # is the sh comment sign when it doesn't follow a character */
         if (progLan == "sh" || progLan == "makefile" || progLan == "cmake")
         {
-            rule.pattern.setPattern ("(?<=^|\\s|;)#.*");
+            rule.pattern.setPattern ("(?<=^|\\s|;|\\(|\\))#.*");
 
             if (progLan == "sh")
             {
