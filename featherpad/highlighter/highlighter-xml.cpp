@@ -245,9 +245,15 @@ bool Highlighter::isXmlValue (const QString &text, const int index, const int st
     int N = 0;
     QRegularExpressionMatch match;
     QRegularExpression xmlSign;
-    if (pos >= 0
-        || (previousBlockState() != xmlValueState
-            && previousBlockState() != commentState))
+    int prevState = previousBlockState();
+    if (start == 0 && prevState == -1) // consider the document start to be "xmlGt"
+    {
+        N = 1;
+        res = true;
+        xmlSign = xmlLt;
+    }
+    else if (pos >= 0
+             || (prevState != xmlValueState && prevState != commentState))
     {
         xmlSign = xmlGt;
     }
@@ -325,7 +331,8 @@ void Highlighter::xmlValues (const QString &text)
     QRegularExpressionMatch startMatch;
     QRegularExpressionMatch endMatch;
 
-    if (prevState != xmlValueState && prevState != commentState)
+    if (prevState != -1  // consider the document start to be "xmlGt"
+        && prevState != xmlValueState && prevState != commentState)
     {
         index = text.indexOf (xmlGt, index, &startMatch);
         /* skip quotes (comments can start only after this position) */
@@ -732,7 +739,9 @@ void Highlighter::highlightXmlBlock (const QString &text)
             {
                 while (index >= 0
                        && (fi == quoteFormat || fi == altQuoteFormat || fi == commentFormat
-                           || fi == regexFormat || fi == errorFormat))
+                           || fi == regexFormat || fi == errorFormat
+                           // don't format attributes inside values
+                           || (rule.format.foreground().color() == Blue && fi == neutralFormat)))
                 {
                     index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
                     fi = format (index);
@@ -756,7 +765,8 @@ void Highlighter::highlightXmlBlock (const QString &text)
                 {
                     while (index >= 0
                            && (fi == quoteFormat || fi == altQuoteFormat || fi == commentFormat
-                               || fi == regexFormat || fi == errorFormat))
+                               || fi == regexFormat || fi == errorFormat
+                               || (rule.format.foreground().color() == Blue && fi == neutralFormat)))
                     {
                         index = text.indexOf (rule.pattern, index + match.capturedLength(), &match);
                         fi = format (index);

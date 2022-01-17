@@ -1,3 +1,7 @@
+V1.1.2
+---------
+ * Covered some details in XML syntax highlighting.
+
 V1.1.1
 ---------
  * Fixed highlighting of Markdown's single-line codes with multiple backquotes. Also, faster syntax highlighting for Markdown.
