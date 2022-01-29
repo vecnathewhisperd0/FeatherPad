@@ -138,7 +138,7 @@ void FPwin::hlight() const
     Qt::CaseSensitivity cs = tabPage->matchCase() ? Qt::CaseSensitive : Qt::CaseInsensitive;
     if (tabPage->matchRegex() || str.contains (txt, cs)) // don't waste time if the searched text isn't visible
     {
-        while (!(found = textEdit->finding (txt, start, searchFlags,  tabPage->matchRegex(), endLimit)).isNull())
+        while (!(found = textEdit->finding (txt, start, searchFlags, tabPage->matchRegex(), endLimit)).isNull())
         {
             QTextEdit::ExtraSelection extra;
             extra.format.setBackground (color);

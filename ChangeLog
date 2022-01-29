@@ -1,6 +1,7 @@
 V1.1.2
 ---------
  * Covered some details in XML syntax highlighting.
+ * Fixed searching in unusually large documents and also highlighting of their selections (scrolling took a lot of CPU time in some cases). Also, prevented high memory and CPU usages when searching regular expressions in such documents.
 
 V1.1.1
 ---------
