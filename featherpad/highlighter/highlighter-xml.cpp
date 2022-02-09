@@ -22,7 +22,7 @@
 namespace FeatherPad {
 
 // The following three methods are only called for quote, comment and value signs,
-// i.e., ", ', <, >, <!-- and --> (plus "&lt;", as an exception).
+// i.e., ", ', <, >, <!-- and -->.
 // "start" means that nothing interesting comes before it. An appropriate value
 // for it can save lots of CPU time in some cases.
 
@@ -34,7 +34,7 @@ bool Highlighter::isXmlQuoted (const QString &text, const int index)
     QTextCharFormat fi = format (index);
     if (fi == quoteFormat || fi == altQuoteFormat
         || fi == errorFormat // only when this function is called for "<!--" or "<"
-        || fi == regexFormat) // only with "&lt;", as an exception
+        || fi == regexFormat) // not needed
     {
         return true;
     }
@@ -323,7 +323,7 @@ bool Highlighter::isXmlValue (const QString &text, const int index, const int st
     return res;
 }
 /*************************/
-// Starting with ">" and ending with "<" (or "&lt;", as an exception).
+// Starting with ">" and ending with "<".
 void Highlighter::xmlValues (const QString &text)
 {
     int prevState = previousBlockState();

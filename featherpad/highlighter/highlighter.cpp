@@ -748,7 +748,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     else if (progLan == "xml")
     {
         /* NOTE: Here, "<!DOCTYPE " is intentionally not included while "<?xml" is included. */
-        xmlLt.setPattern ("(<|&lt;)(?=(/?(?!\\.|\\-)[A-Za-z0-9_\\.\\-:]+|\\?(xml|XML)|!(ENTITY|ELEMENT|ATTLIST|NOTATION))(\\s|$|/?(>|&gt;)))");
+        xmlLt.setPattern ("<(?=(/?(?!\\.|\\-)[A-Za-z0-9_\\.\\-:]+|\\?(xml|XML)|!(ENTITY|ELEMENT|ATTLIST|NOTATION))(\\s|$|/?(>|&gt;)))");
         xmlGt.setPattern (">");
 
         errorFormat.setForeground (Red);
