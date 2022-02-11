@@ -2168,12 +2168,8 @@ void TextEdit::mousePressEvent (QMouseEvent *event)
 
     QPlainTextEdit::mousePressEvent (event);
 
-    if (highlighter_
-        && event->button() == Qt::LeftButton
-        && (qApp->keyboardModifiers() & Qt::ControlModifier))
-    {
+    if (event->button() == Qt::LeftButton)
         pressPoint_ = event->pos();
-    }
 }
 /*************************/
 void TextEdit::mouseReleaseEvent (QMouseEvent *event)
