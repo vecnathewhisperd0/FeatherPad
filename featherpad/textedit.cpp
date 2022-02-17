@@ -2971,18 +2971,43 @@ void TextEdit::setViewPostion (const int curPos,
     int endPos = cur.position();
     if (midPos < 0)
     {
-        if (curPos >= 0)
+        if (curPos >= 0) // never happens here
         {
             cur.setPosition (qMin (curPos, endPos));
             setTextCursor (cur);
         }
         return;
     }
+
     /* first center the middle cursor */
     cur.setPosition (qMin (midPos, endPos));
     setTextCursor (cur);
     centerCursor();
-    /* then ensure that the top and bottom cursors are visible */
+
+    /* if the middle cursor isn't at the line start, the text has changed */
+    if (auto vp = viewport())
+    {
+        QRect vr = vp->rect();
+        QRect cRect = cursorRect (cur);
+        QTextCursor tmp;
+        if (cur.block().text().isRightToLeft())
+            tmp = cursorForPosition (QPoint (vr.right() + 1, cRect.center().y()));
+        else
+            tmp = cursorForPosition (QPoint (vr.left(), cRect.center().y()));
+        if (tmp != cur)
+        {
+            setTextCursor (tmp);
+            centerCursor();
+            if (curPos >= 0)
+            {
+                tmp.setPosition (qMin (curPos, endPos));
+                setTextCursor (tmp);
+            }
+            return;
+        }
+    }
+
+    /* also ensure that the top and bottom cursors are visible */
     QTextCursor tmp = cur;
     if (topPos >= 0)
     {
@@ -2994,6 +3019,7 @@ void TextEdit::setViewPostion (const int curPos,
         tmp.setPosition (qMin (bottomPos, endPos));
         setTextCursor (tmp);
     }
+
     /* restore the original text cursor if it's visible;
        otherwise, go back to the middle cursor */
     if (curPos >= 0)
