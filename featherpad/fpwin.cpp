@@ -2285,7 +2285,16 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
 
     textEdit->setLang (QString()); // remove the enforced syntax
 
-    /* uninstall the syntax highlgihter to reinstall it below (when the text is reloaded,
+    /* for restoring the cursor and/or scrollbar position later,
+       the needed info should be gathered before removing the highlighter */
+    int curPos = -1, topPos = -1, midPos = -1, bottomPos = -1;
+    if (reload)
+    {
+        textEdit->forgetTxtCurHPos();
+        textEdit->getViewPosition (curPos, topPos, midPos, bottomPos);
+    }
+
+    /* uninstall the syntax highlighter to reinstall it below (when the text is reloaded,
        its encoding is enforced, or a new tab with normal as url was opened here) */
     if (textEdit->getHighlighter())
     {
@@ -2314,24 +2323,6 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
         textEdit->document()->setDefaultTextOption (opt);
     }*/
 
-    /* we want to restore the cursor later */
-    int pos = 0, anchor = 0;
-    //int scrollbarValue = -1;
-    if (reload)
-    {
-        textEdit->forgetTxtCurHPos();
-        pos = textEdit->textCursor().position();
-        anchor = textEdit->textCursor().anchor();
-        /* The scrollbar position can't be restored precisely because text wrapping
-           can make the scrollbar value unreliable. Even a long delay may not give
-           good results. */
-        /*if (QScrollBar *scrollbar = textEdit->verticalScrollBar())
-        {
-            if (scrollbar->isVisible())
-                scrollbarValue = scrollbar->value();
-        }*/
-    }
-
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
 
     /* set the text */
@@ -2339,21 +2330,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
     textEdit->setPlainText (text); // undo/redo is reset
     inactiveTabModified_ = false;
 
-    /* now, restore the cursor */
-    if (reload)
-    {
-        QTextCursor cur = textEdit->textCursor();
-        cur.movePosition (QTextCursor::End);
-        int curPos = cur.position();
-        if (anchor <= curPos && pos <= curPos)
-        {
-            cur.setPosition (anchor);
-            cur.setPosition (pos, QTextCursor::KeepAnchor);
-        }
-        textEdit->setTextCursor (cur);
-        textEdit->centerCursor(); // we don't restore scrollbar position
-    }
-    else if (restoreCursor != 0)
+    if (!reload && restoreCursor != 0)
     {
         if (restoreCursor == 1 || restoreCursor == -1) // restore cursor from settings
         {
@@ -2363,7 +2340,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
             {
                 QTextCursor cur = textEdit->textCursor();
                 cur.movePosition (QTextCursor::End);
-                pos = qMin (qMax (cursorPos.value (fileName, 0).toInt(), 0), cur.position());
+                int pos = qMin (qMax (cursorPos.value (fileName, 0).toInt(), 0), cur.position());
                 cur.setPosition (pos);
                 QTimer::singleShot (0, textEdit, [textEdit, cur]() {
                     textEdit->setTextCursor (cur); // ensureCursorVisible() is called by this
@@ -2536,20 +2513,16 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
     {
         ui->tabWidget->tabBar()->lockTabs (false);
         updateShortcuts (false, false);
-        /*if (reload && scrollbarValue > -1)
-        { // restore the scrollbar position
+        if (reload)
+        { // restore the cursor and/or scrollbar position
             lambdaConnection_ = QObject::connect (this, &FPwin::finishedLoading, textEdit,
-                                                  [this, textEdit, scrollbarValue]() {
-                if (QScrollBar *scrollbar = textEdit->verticalScrollBar())
-                {
-                    if (scrollbar->isVisible())
-                        scrollbar->setValue (scrollbarValue);
-                }
+                                                  [this, textEdit, curPos, topPos, midPos, bottomPos]() {
+                textEdit->setViewPostion (curPos, topPos, midPos, bottomPos);
                 disconnectLambda();
             });
-        }*/
+        }
         /* select the first item (sidePane_ exists) */
-        /*else*/ if (firstItem)
+        else if (firstItem)
             sidePane_->listWidget()->setCurrentItem (firstItem);
         /* reset the static variables */
         scrollToFirstItem = false;
@@ -2564,10 +2537,10 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
     }
 }
 /*************************/
-/*void FPwin::disconnectLambda()
+void FPwin::disconnectLambda()
 {
     QObject::disconnect (lambdaConnection_);
-}*/
+}
 /*************************/
 void FPwin::onOpeningHugeFiles()
 {
@@ -3546,7 +3519,7 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
 }
 /*************************/
 void FPwin::reloadSyntaxHighlighter (TextEdit *textEdit)
-{ // uninstall and reinstall the syntax highlgihter if the programming language is changed
+{ // uninstall and reinstall the syntax highlighter if the programming language is changed
     QString prevLan = textEdit->getProg();
     setProgLang (textEdit);
     if (prevLan == textEdit->getProg())
@@ -5962,7 +5935,7 @@ void FPwin::saveAllFiles (bool showWarning)
             thisTextEdit->setLastModified (fInfo.lastModified());
             setTitle (fname, (!inactiveTabModified_ ? -1 : indx));
             config.addRecentFile (fname); // recently saved also means recently opened
-            /* uninstall and reinstall the syntax highlgihter if the programming language is changed */
+            /* uninstall and reinstall the syntax highlighter if the programming language is changed */
             QString prevLan = thisTextEdit->getProg();
             setProgLang (thisTextEdit);
             if (prevLan != thisTextEdit->getProg())

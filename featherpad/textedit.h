@@ -267,6 +267,11 @@ public:
                          QTextDocument::FindFlags flags = QTextDocument::FindFlags(),
                          bool isRegex = false, const int end = 0) const;
 
+    void getViewPosition (int& curPos,
+                          int& topPos, int& midPos, int& bottomPos) const;
+    void setViewPostion (const int curPos,
+                         const int topPos, const int midPos, const int bottomPos);
+
 signals:
     /* inform the main widget */
     void fileDropped (const QString& localFile,

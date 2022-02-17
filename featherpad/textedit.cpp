@@ -94,7 +94,7 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
             }
         }
         /* Use alpha in paintEvent to gray out the paragraph separators and
-           document terminators. The real text will be formatted by the highlgihter. */
+           document terminators. The real text will be formatted by the highlighter. */
         separatorColor_ = Qt::white;
         separatorColor_.setAlpha (95 - qRound (3 * static_cast<qreal>(darkValue_) / 5));
     }
@@ -2879,6 +2879,126 @@ bool TextEdit::toSoftTabs()
     }
     start.endEditBlock();
     return res;
+}
+
+/*******************************************************************************
+ ***** The scrollbar position can't be restored precisely in a direct way  *****
+ ***** on reloading because text wrapping can make it unreliable. However, *****
+ ***** we can restore it as precisely as possible by finding and restoring *****
+ ***** the top, middle and bottom cursors in the following two functions.  *****
+ *******************************************************************************/
+void TextEdit::getViewPosition (int& curPos,
+                                int& topPos, int& midPos, int& bottomPos) const
+{
+    if (auto vp = viewport())
+    {
+        QRect vr = vp->rect();
+
+        /* current cursor (if it's visible) */
+        QRect cRect = cursorRect();
+        if (cRect.top() >= vr.top() && cRect.bottom() <= vr.bottom()
+            && cRect.left() >= vr.left() && cRect.right() <= vr.right())
+        {
+            curPos = textCursor().position();
+        }
+        else curPos = -1;
+
+        /* top cursor (the top edge never overlaps it) */
+        int h = QFontMetrics (document()->defaultFont()).lineSpacing();
+        QTextCursor topCur = cursorForPosition (QPoint (vr.left(), vr.top() + h / 2));
+        if (topCur.block().text().isRightToLeft())
+            topCur = cursorForPosition (QPoint (vr.right() + 1, vr.top() + h / 2));
+        cRect = cursorRect (topCur);
+        int top = cRect.top();
+        topPos = topCur.position();
+
+        /* bottom cursor (the bottom edge shouldn't overlap it) */
+        QTextCursor bottomCur = cursorForPosition (QPoint (vr.left(), vr.bottom()));
+        if (bottomCur.block().text().isRightToLeft())
+            bottomCur = cursorForPosition (QPoint (vr.right() + 1, vr.bottom()));
+        cRect = cursorRect (bottomCur);
+        int bottom = cRect.bottom();
+        QTextCursor tmp = bottomCur;
+        while (!bottomCur.atStart() && bottom > vr.bottom())
+        {
+            tmp.setPosition (qMax (bottomCur.position() - 1, 0));
+            cRect = cursorRect (tmp);
+            if (tmp.block().text().isRightToLeft())
+                tmp = cursorForPosition (QPoint (vr.right() + 1, cRect.center().y()));
+            else
+                tmp = cursorForPosition (QPoint (vr.left(), cRect.center().y()));
+            if (cRect.bottom() >= bottom || cRect.top() < vr.top())
+                break;
+            bottomCur.setPosition (tmp.position());
+            bottom = cRect.bottom();
+        }
+        bottomPos = bottomCur.position();
+
+        /* middle cursor */
+        int midHeight = (top + bottom + 1) / 2
+                        /* at the top of the document, the vertical
+                           offset should be taken into account */
+                        - (topCur.position() == 0 ? contentOffset().y() : 0);
+        tmp = cursorForPosition (QPoint (vr.left(), midHeight));
+        if (tmp.block().text().isRightToLeft())
+            tmp = cursorForPosition (QPoint (vr.right() + 1, midHeight));
+        cRect = cursorRect (tmp);
+        if (cRect.top() >= midHeight)
+        {
+            tmp.setPosition (qMax (tmp.position() - 1, 0));
+            cRect = cursorRect (tmp);
+            if (tmp.block().text().isRightToLeft())
+                tmp = cursorForPosition (QPoint (vr.right() + 1, cRect.center().y()));
+            else
+                tmp = cursorForPosition (QPoint (vr.left(), cRect.center().y()));
+        }
+        midPos = tmp.position();
+    }
+    else
+    {
+        curPos = -1;
+        topPos = -1;
+        midPos = -1;
+        bottomPos = -1;
+    }
+}
+/*************************/
+void TextEdit::setViewPostion (const int curPos,
+                               const int topPos, const int midPos, const int bottomPos)
+{
+    QTextCursor cur = textCursor();
+    cur.movePosition (QTextCursor::End);
+    int endPos = cur.position();
+    if (midPos < 0)
+    {
+        if (curPos >= 0)
+        {
+            cur.setPosition (qMin (curPos, endPos));
+            setTextCursor (cur);
+        }
+        return;
+    }
+    /* first center the middle cursor */
+    cur.setPosition (qMin (midPos, endPos));
+    setTextCursor (cur);
+    centerCursor();
+    /* then ensure that the top and bottom cursors are visible */
+    QTextCursor tmp = cur;
+    if (topPos >= 0)
+    {
+        tmp.setPosition (qMin (topPos, endPos));
+        setTextCursor (tmp);
+    }
+    if (bottomPos >= 0)
+    {
+        tmp.setPosition (qMin (bottomPos, endPos));
+        setTextCursor (tmp);
+    }
+    /* restore the original text cursor if it's visible;
+       otherwise, go back to the middle cursor */
+    if (curPos >= 0)
+        cur.setPosition (qMin (curPos, endPos));
+    setTextCursor (cur);
 }
 
 }
