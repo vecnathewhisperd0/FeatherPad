@@ -2887,21 +2887,21 @@ bool TextEdit::toSoftTabs()
  ***** we can restore it as precisely as possible by finding and restoring *****
  ***** the top, middle and bottom cursors in the following two functions.  *****
  *******************************************************************************/
-void TextEdit::getViewPosition (int& curPos,
-                                int& topPos, int& midPos, int& bottomPos) const
+TextEdit::viewPosition TextEdit::getViewPosition() const
 {
+    viewPosition vPos;
     if (auto vp = viewport())
     {
         QRect vr = vp->rect();
 
-        /* current cursor (if it's visible) */
+        /* current cursor */
         QRect cRect = cursorRect();
         if (cRect.top() >= vr.top() && cRect.bottom() <= vr.bottom()
             && cRect.left() >= vr.left() && cRect.right() <= vr.right())
         {
-            curPos = textCursor().position();
+            vPos.curPos = textCursor().position();
         }
-        else curPos = -1;
+        else vPos.curPos = -1; // invisible
 
         /* top cursor (the top edge never overlaps it) */
         int h = QFontMetrics (document()->defaultFont()).lineSpacing();
@@ -2910,7 +2910,7 @@ void TextEdit::getViewPosition (int& curPos,
             topCur = cursorForPosition (QPoint (vr.right() + 1, vr.top() + h / 2));
         cRect = cursorRect (topCur);
         int top = cRect.top();
-        topPos = topCur.position();
+        vPos.topPos = topCur.position();
 
         /* bottom cursor (the bottom edge shouldn't overlap it) */
         QTextCursor bottomCur = cursorForPosition (QPoint (vr.left(), vr.bottom()));
@@ -2932,7 +2932,7 @@ void TextEdit::getViewPosition (int& curPos,
             bottomCur.setPosition (tmp.position());
             bottom = cRect.bottom();
         }
-        bottomPos = bottomCur.position();
+        vPos.bottomPos = bottomCur.position();
 
         /* middle cursor */
         int midHeight = (top + bottom + 1) / 2
@@ -2952,35 +2952,35 @@ void TextEdit::getViewPosition (int& curPos,
             else
                 tmp = cursorForPosition (QPoint (vr.left(), cRect.center().y()));
         }
-        midPos = tmp.position();
+        vPos.midPos = tmp.position();
     }
     else
     {
-        curPos = -1;
-        topPos = -1;
-        midPos = -1;
-        bottomPos = -1;
+        vPos.curPos = -1;
+        vPos.topPos = -1;
+        vPos.midPos = -1;
+        vPos.bottomPos = -1;
     }
+    return vPos;
 }
 /*************************/
-void TextEdit::setViewPostion (const int curPos,
-                               const int topPos, const int midPos, const int bottomPos)
+void TextEdit::setViewPostion (const viewPosition vPos)
 {
     QTextCursor cur = textCursor();
     cur.movePosition (QTextCursor::End);
     int endPos = cur.position();
-    if (midPos < 0)
+    if (vPos.midPos < 0)
     {
-        if (curPos >= 0) // never happens here
+        if (vPos.curPos >= 0) // never happens here
         {
-            cur.setPosition (qMin (curPos, endPos));
+            cur.setPosition (qMin (vPos.curPos, endPos));
             setTextCursor (cur);
         }
         return;
     }
 
     /* first center the middle cursor */
-    cur.setPosition (qMin (midPos, endPos));
+    cur.setPosition (qMin (vPos.midPos, endPos));
     setTextCursor (cur);
     centerCursor();
 
@@ -2998,9 +2998,9 @@ void TextEdit::setViewPostion (const int curPos,
         {
             setTextCursor (tmp);
             centerCursor();
-            if (curPos >= 0)
+            if (vPos.curPos >= 0)
             {
-                tmp.setPosition (qMin (curPos, endPos));
+                tmp.setPosition (qMin (vPos.curPos, endPos));
                 setTextCursor (tmp);
             }
             return;
@@ -3009,21 +3009,21 @@ void TextEdit::setViewPostion (const int curPos,
 
     /* also ensure that the top and bottom cursors are visible */
     QTextCursor tmp = cur;
-    if (topPos >= 0)
+    if (vPos.topPos >= 0)
     {
-        tmp.setPosition (qMin (topPos, endPos));
+        tmp.setPosition (qMin (vPos.topPos, endPos));
         setTextCursor (tmp);
     }
-    if (bottomPos >= 0)
+    if (vPos.bottomPos >= 0)
     {
-        tmp.setPosition (qMin (bottomPos, endPos));
+        tmp.setPosition (qMin (vPos.bottomPos, endPos));
         setTextCursor (tmp);
     }
 
     /* restore the original text cursor if it's visible;
        otherwise, go back to the middle cursor */
-    if (curPos >= 0)
-        cur.setPosition (qMin (curPos, endPos));
+    if (vPos.curPos >= 0)
+        cur.setPosition (qMin (vPos.curPos, endPos));
     setTextCursor (cur);
 }
 

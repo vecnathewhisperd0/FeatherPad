@@ -2287,11 +2287,11 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
 
     /* for restoring the cursor and/or scrollbar position later,
        the needed info should be gathered before removing the highlighter */
-    int curPos = -1, topPos = -1, midPos = -1, bottomPos = -1;
+    TextEdit::viewPosition vPos;
     if (reload)
     {
         textEdit->forgetTxtCurHPos();
-        textEdit->getViewPosition (curPos, topPos, midPos, bottomPos);
+        vPos = textEdit->getViewPosition();
     }
 
     /* uninstall the syntax highlighter to reinstall it below (when the text is reloaded,
@@ -2516,8 +2516,8 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
         if (reload)
         { // restore the cursor and/or scrollbar position
             lambdaConnection_ = QObject::connect (this, &FPwin::finishedLoading, textEdit,
-                                                  [this, textEdit, curPos, topPos, midPos, bottomPos]() {
-                textEdit->setViewPostion (curPos, topPos, midPos, bottomPos);
+                                                  [this, textEdit, vPos]() {
+                textEdit->setViewPostion (vPos);
                 disconnectLambda();
             });
         }

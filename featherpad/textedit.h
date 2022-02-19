@@ -267,10 +267,17 @@ public:
                          QTextDocument::FindFlags flags = QTextDocument::FindFlags(),
                          bool isRegex = false, const int end = 0) const;
 
-    void getViewPosition (int& curPos,
-                          int& topPos, int& midPos, int& bottomPos) const;
-    void setViewPostion (const int curPos,
-                         const int topPos, const int midPos, const int bottomPos);
+    /*************************
+     ***** View Position *****
+     *************************/
+    struct viewPosition {
+      int curPos;
+      int topPos;
+      int midPos;
+      int bottomPos;
+    };
+    viewPosition getViewPosition() const;
+    void setViewPostion (const viewPosition vPos);
 
 signals:
     /* inform the main widget */
