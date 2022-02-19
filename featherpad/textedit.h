@@ -271,10 +271,10 @@ public:
      ***** View Position *****
      *************************/
     struct viewPosition {
-      int curPos;
-      int topPos;
-      int midPos;
-      int bottomPos;
+      int curPos {-1};
+      int topPos {-1};
+      int midPos {-1};
+      int bottomPos {-1};
     };
     viewPosition getViewPosition() const;
     void setViewPostion (const viewPosition vPos);

@@ -2901,7 +2901,7 @@ TextEdit::viewPosition TextEdit::getViewPosition() const
         {
             vPos.curPos = textCursor().position();
         }
-        else vPos.curPos = -1; // invisible
+        //else vPos.curPos = -1; // invisible
 
         /* top cursor (the top edge never overlaps it) */
         int h = QFontMetrics (document()->defaultFont()).lineSpacing();
@@ -2954,13 +2954,6 @@ TextEdit::viewPosition TextEdit::getViewPosition() const
         }
         vPos.midPos = tmp.position();
     }
-    else
-    {
-        vPos.curPos = -1;
-        vPos.topPos = -1;
-        vPos.midPos = -1;
-        vPos.bottomPos = -1;
-    }
     return vPos;
 }
 /*************************/
@@ -2971,7 +2964,7 @@ void TextEdit::setViewPostion (const viewPosition vPos)
     int endPos = cur.position();
     if (vPos.midPos < 0)
     {
-        if (vPos.curPos >= 0) // never happens here
+        if (vPos.curPos >= 0)
         {
             cur.setPosition (qMin (vPos.curPos, endPos));
             setTextCursor (cur);
