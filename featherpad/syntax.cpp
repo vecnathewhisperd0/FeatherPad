@@ -216,7 +216,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
                 progLan = "cmake";
             else if (mime == "application/vnd.nokia.qt.qmakeprofile")
                 progLan = "qmake";
-            else if (mime == "text/troff")
+            else if (mime == "text/troff" || mime == "application/x-troff-man")
                 progLan = "troff";
             else if (mime == "text/x-tex" || mime == "application/x-lyx")
                 progLan = "LaTeX";
