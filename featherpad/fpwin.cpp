@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2021 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2022 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -771,7 +771,7 @@ void FPwin::addRemoveLangBtn (bool add)
                  << "go" << "log" << "lua" << "m3u" << "markdown"
                  << "makefile" << "pascal" << "perl" << "php" << "python"
                  << "qmake" << "qml" << "reST" << "ruby" << "scss"
-                 << "sh" << "tcl" << "troff" << "theme" << "xml" << "yaml";
+                 << "sh" << "tcl" << "troff" << "xml" << "yaml";
         langList.sort (Qt::CaseInsensitive);
     }
 
@@ -4494,7 +4494,7 @@ void FPwin::enforceLang (QAction *action)
     if (lang == tr ("Normal"))
     {
         if (textEdit->getProg() == "srt" || textEdit->getProg() == "gtkrc"
-            || textEdit->getProg() == "changelog")
+            || textEdit->getProg() == "changelog" || textEdit->getProg() == "theme")
         { // not listed
             lang = textEdit->getProg();
         }
