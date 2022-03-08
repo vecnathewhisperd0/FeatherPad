@@ -381,7 +381,8 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     if (progLan == "c" || progLan == "cpp"
         || progLan == "lua" || progLan == "python"
         || progLan == "php" || progLan == "dart"
-        || progLan == "go" || progLan == "java")
+        || progLan == "go" || progLan == "rust"
+        || progLan == "java")
     {
         QTextCharFormat ft;
 
@@ -405,6 +406,10 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
                                      "|"
                                      "([1-9]\\d*|0[0-7]*)(L|l|F|f)?|(0[xX][0-9a-fA-F]+|0[bB][01]+)(L|l)?" // integer
                                      ")(?=[^\\w\\d\\.]|$)");
+        else if (progLan == "rust")
+            rule.pattern.setPattern ("\\b0(?:x[0-9a-fA-F_]+|o[0-7_]+|b[01_]+)(?:[iu](?:8|16|32|64|128|size)?)?\\b" // hexadecimal, octal, binary
+                                    "|"
+                                    "\\b[0-9][0-9_]*(?:(?:\\.[0-9][0-9_]*)?(?:[eE][\\+\\-]?[0-9_]+)?(?:f32|f64)?|(?:[iu](?:8|16|32|64|128|size)?)?)\\b"); // float, decimal
         else
             rule.pattern.setPattern ("(?<=^|[^\\w\\d\\.])("
                                      "(\\d*\\.\\d+|\\d+\\.|(\\d*\\.?\\d+|\\d+\\.)(e|E)(\\+|-)?\\d+)(L|l|F|f)?"
@@ -1507,6 +1512,57 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = goFormat;
         highlightingRules.append (rule);
     }
+    else if (progLan == "rust")
+    {
+        QTextCharFormat rustFormat;
+
+        /* wrong numbers */
+        rustFormat.setForeground (Red);
+        rustFormat.setFontUnderline (true);
+        rule.pattern.setPattern ("\\b0(?:b[01_]*[^01_]|o[0-7_]*[^0-7_]|x[0-9a-fA-F_]*[^0-9a-fA-F_])\\w*(?:[iu](?:8|16|32|64|128|size)?)?\\b");
+        rule.format = rustFormat;
+        highlightingRules.append (rule);
+        rustFormat.setFontUnderline (false);
+
+        /* before :: */
+        rustFormat.setForeground (Blue);
+        rustFormat.setFontWeight (QFont::Bold);
+        rule.pattern.setPattern ("(?<![a-zA-Z]|'|\\\")[a-zA-Z]\\w*::");
+        rule.format = rustFormat;
+        highlightingRules.append (rule);
+
+        /* traits */
+        rustFormat.setForeground (DarkMagenta);
+        rustFormat.setFontItalic (true);
+        rule.pattern.setPattern ("\\b(?<!(\\\"|@|#|\\$))(Add|AddAssign|Alloc|Any|AsMut|AsRef|Binary|BitAnd|BitAndAssign|BitOr|BitOrAssign|BitXor|BitXorAssign|Borrow|BorrowMut|BuildHasher|Clone|CoerceUnsized|Copy|Debug|Default|Deref|DerefMut|DispatchFromDyn|Display|Div|DivAssign|DoubleEndedIterator|Drop|Eq|ExactSizeIterator|Extend|FixedSizeArray|Fn|FnBox|FnMut|FnOnce|From|FromIterator|FromStr|FusedIterator|Future|Generator|GlobalAlloc|Hash|Hasher|Index|IndexMut|Into|IntoIterator|Iterator|LowerExp|LowerHex|Mul|MulAssign|Neg|Not|Octal|Ord|PartialEq|PartialOrd|Pointer|Product|RangeBounds|Rem|RemAssign|Send|Shl|ShlAssign|Shr|ShrAssign|Sized|SliceIndex|Step|Sub|SubAssign|Sum|Sync|TrustedLen|Try|TryFrom|TryInto|Unpin|Unsize|UpperExp|UpperHex|Write|AsSlice|BufRead|CharExt|Decodable|Encodable|Error|FromPrimitive|IteratorExt|MultiSpan|MutPtrExt|Pattern|PtrExt|Rand|Read|RefUnwindSafe|Seek|SliceConcatExt|SliceExt|Str|StrExt|TDynBenchFn|Termination|ToOwned|ToSocketAddrs|ToString|UnwindSafe)(?!(\\\"|'|@|\\$))\\b");
+        rule.format = rustFormat;
+        highlightingRules.append (rule);
+
+        /* constants */
+        rustFormat.setForeground (DarkBlue);
+        rule.pattern.setPattern ("\\b(?<!(\\\"|@|#|\\$))(true|false|Some|None|Ok|Err|Success|Failure|Cons|Nil|MAX|REPLACEMENT_CHARACTER|UNICODE_VERSION|DIGITS|EPSILON|INFINITY|MANTISSA_DIGITS|MAX_10_EXP|MAX_EXP|MIN|MIN_10_EXP|MIN_EXP|MIN_POSITIVE|NAN|NEG_INFINITY|RADIX|MAIN_SEPARATOR|ONCE_INIT|UNIX_EPOCH|EXIT_FAILURE|EXIT_SUCCESS|RAND_MAX|EOF|SEEK_SET|SEEK_CUR|SEEK_END|_IOFBF|_IONBF|_IOLBF|BUFSIZ|FOPEN_MAX|FILENAME_MAX|L_tmpnam|TMP_MAX|O_RDONLY|O_WRONLY|O_RDWR|O_APPEND|O_CREAT|O_EXCL|O_TRUNC|S_IFIFO|S_IFCHR|S_IFBLK|S_IFDIR|S_IFREG|S_IFMT|S_IEXEC|S_IWRITE|S_IREAD|S_IRWXU|S_IXUSR|S_IWUSR|S_IRUSR|F_OK|R_OK|W_OK|X_OK|STDIN_FILENO|STDOUT_FILENO|STDERR_FILENO)(?!(\\\"|'|@|\\$))\\b");
+        rule.format = rustFormat;
+        highlightingRules.append (rule);
+
+        /* self */
+        rustFormat.setFontItalic (false);
+        rustFormat.setForeground (DarkRed);
+        rule.pattern.setPattern ("\\b(?<!(\\\"|@|#|\\$))self(?!(\\\"|'|@|\\$))\\b");
+        rule.format = rustFormat;
+        highlightingRules.append (rule);
+
+        /* single quotes */
+        rule.pattern.setPattern ("'([^'\\\\]{0,1}|\\\\(r|t|n|'|\\\"|\\\\|x[0-9a-fA-F]{2}))'");
+        rule.format = altQuoteFormat;
+        highlightingRules.append (rule);
+
+        /* apostrophe */
+        rustFormat.setFontWeight (QFont::Normal);
+        rustFormat.setForeground (Violet);
+        rule.pattern.setPattern ("'[a-zA-Z]\\w*(?!')");
+        rule.format = rustFormat;
+        highlightingRules.append (rule);
+    }
     else if (progLan == "tcl")
     {
         QTextCharFormat tclFormat;
@@ -1686,7 +1742,8 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     if (progLan == "c" || progLan == "cpp"
         || Lang == "javascript" || progLan == "qml"
         || progLan == "scss" || progLan == "dart"
-        || progLan == "go" || progLan == "java")
+        || progLan == "go" || progLan == "rust"
+        || progLan == "java")
     {
         rule.pattern.setPattern ("//.*"); // why had I set it to ("//(?!\\*).*")?
     }
@@ -1730,7 +1787,8 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         || progLan == "javascript" || progLan == "qml"
         || progLan == "php" || progLan == "css" || progLan == "scss"
         || progLan == "fountain" || progLan == "dart"
-        || progLan == "go" || progLan == "java")
+        || progLan == "go" || progLan == "rust"
+        || progLan == "java")
     {
         commentStartExpression.setPattern ("/\\*");
         commentEndExpression.setPattern ("\\*/");
@@ -1919,6 +1977,18 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
         }
         return isEscapedChar (text, pos);
     }
+    else if (progLan == "rust")
+    {
+        if (isStartQuote)
+        {
+            if (pos < text.length() - 1 && text.at (pos + 1) == '\''
+                && (pos > 0 && (text.at (pos - 1) == '\''
+                    || (pos > 1 && text.at (pos - 2) == '\'' && text.at (pos - 1) == '\\'))))
+            {
+                return true;
+            }
+        }
+    }
 
     /* there's no need to check for quote marks because this function is used only with them */
     /*if (progLan == "perl"
@@ -2008,6 +2078,8 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
             || progLan == "dart"
             || progLan == "php"
             || progLan == "ruby"
+            /* rust only has double quotes */
+            || progLan == "rust"
             /* however, in Bash, single quote can be escaped only at start */
             || ((progLan == "sh" || progLan == "makefile" || progLan == "cmake")
                 && (isStartQuote || text.at (pos) == quoteMark.pattern().at (0))))
@@ -2885,6 +2957,11 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
     if (progLan == "javascript" || progLan == "qml")
     {
         multiLineJSlQuote (text, start, comState);
+        return false;
+    }
+    if (progLan == "rust")
+    {
+        multiLineRustQuote (text);
         return false;
     }
     /* For Tcl, this function is never called. */
@@ -3925,7 +4002,7 @@ void Highlighter::highlightBlock (const QString &text)
 
     bool rehighlightNextBlock = false;
     int oldOpenNests = 0; QSet<int> oldOpenQuotes; // to be used in SH_CmndSubstVar() (and perl, ruby and css)
-    bool oldProperty = false; // to be used with perl, ruby, pascal and java
+    bool oldProperty = false; // to be used with perl, ruby, pascal, java and rust
     QString oldLabel; // to be used with perl, ruby and LaTeX
     if (TextBlockData *oldData = static_cast<TextBlockData *>(currentBlockUserData()))
     {
@@ -4103,11 +4180,16 @@ void Highlighter::highlightBlock (const QString &text)
 
     /* only javascript, qml, perl and ruby */
     multiLineRegex (text, 0);
-    /* "Property" is used for knowing about backquotes, "label" is used
-       for delimiter strings and "OpenNests" for paired delimiters. */
-    if ((progLan == "perl" || progLan == "ruby") && currentBlockState() == data->lastState())
+
+    /* "Property" is used for knowing about Perl's backquotes
+        as well as Rust's raw string literals, "label" is used
+        for delimiter strings, and "OpenNests" for paired delimiters. */
+    if ((progLan == "perl" || progLan == "ruby" || progLan == "rust")
+        && currentBlockState() == data->lastState())
+    {
         rehighlightNextBlock |= (data->labelInfo() != oldLabel || data->getProperty() != oldProperty
                                  || data->openNests() != oldOpenNests);
+    }
 
     QTextCharFormat fi;
 

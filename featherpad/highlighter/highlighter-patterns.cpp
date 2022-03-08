@@ -160,6 +160,8 @@ QStringList Highlighter::keywords (const QString &lang)
                         << "\\b(true|false|null)(?!(\\.|-|@|#|\\$))\\b";
     else if (lang == "go")
         keywordPatterns << "\\b(break|case|chan|const|continue|default|defer|else|fallthrough|false|for|func|go|goto|if|import|interface|iota|map|nil|package|range|return|select|struct|switch|true|type|var)(?!(\\.|-|@|#|\\$))\\b";
+    else if (lang == "rust")
+        keywordPatterns << "\\b(?<!(\\\"|@|#|\\$))(abstract|alignof|as|async|await|become|box|break|const|continue|crate|default|do|dyn|else|enum|extern|final|fn|for|if|impl|in|let|loop|match|macro|mod|move|mut|offsetof|override|priv|proc|pub|pure|ref|return|sizeof|static|struct|super|trait|try|type|typeof|union|unsafe|unsized|use|virtual|where|while|yield)(?!(\\\"|'|@|#|\\$))\\b";
     else if (lang == "tcl") // backslash should also be taken into account (in a complex way)
         keywordPatterns << "(?<!\\\\)(\\\\{2})*(?<!((#|\\$|@|\"|\'|`)(?!\\\\)))(\\\\(#|\\$|@|\"|\'|`)){0,1}\\K\\b("
                            "after|append|AppleScript|apply|argc|argv|array|auto_execk|auto_execok|auto_import|auto_load|auto_load_index|auto_mkindex|auto_mkindex_old|auto_path|auto_qualify|auto_reset|binary|bgerror|break|case|catch|cd|clock|close|concat|continue|dde|dict|else|elseif|encoding|env|eof|error|errorCode|errorInfo|eval|exec|exit|expr|fblocked|fconfigure|fcopy|file|fileevent|flush|for|foreach|format|gets|glob|global|history|if|info|interp|join|lappend|lindex|linsert|list|llength|lmap|load|lrange|lremove|lrepeat|lreplace|lreverse|lsearch|lset|lsort|my|namespace|next|nextto|open|package|parray|pid|pkg_mkIndex|prefix|proc|puts|pwd|read|regexp|regsub|rename|resource|return|scan|seek|set|socket|source|split|string|subst|switch|tcl_library|tcl_patchLevel|tcl_pkgPath|tcl_platform|tcl_precision|tcl_rcFileName|tcl_rcRsrcName|tcl_traceCompile|tcl_traceExec|tcl_version|tclLog|tell|timerate|throw|time|trace|trap|try|unknown|unload|unset|update|uplevel|upvar|variable|vwait|while|yield|yieldto"
@@ -209,6 +211,11 @@ QStringList Highlighter::types()
     {
         typePatterns << "\\b(bool|byte|complex64|complex128|error|float32|float64|int8|int16|int32|int64|uint8|uint16|uint32|uint64|int|uint|rune|string|uintptr)(?!(\\.|-|@|#|\\$))\\b";
     }
+    else if (progLan == "rust")
+    {
+        typePatterns << "\\b(?<!(\\\"|@|#|\\$))(bool|isize|usize|i8|i16|i32|i64|i128|u8|u16|u32|u64|u128|f32|f64|char|str|Option|Result|Self|Box|Vec|String|Path|PathBuf|c_float|c_double|c_void|FILE|fpos_t|DIR|dirent|c_char|c_schar|c_uchar|c_short|c_ushort|c_int|c_uint|c_long|c_ulong|size_t|ptrdiff_t|clock_t|time_t|c_longlong|c_ulonglong|intptr_t|uintptr_t|off_t|dev_t|ino_t|pid_t|mode_t|ssize_t)(?!(\\\"|'|@|#|\\$))\\b";
+    }
+
     return typePatterns;
 }
 

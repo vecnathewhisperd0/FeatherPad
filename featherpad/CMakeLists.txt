@@ -133,6 +133,7 @@ set(featherpad_SRCS
     highlighter/highlighter-regex.cpp
     highlighter/highlighter-rest.cpp
     highlighter/highlighter-ruby.cpp
+    highlighter/highlighter-rust.cpp
     highlighter/highlighter-sh.cpp
     highlighter/highlighter-tcl.cpp
     highlighter/highlighter-xml.cpp

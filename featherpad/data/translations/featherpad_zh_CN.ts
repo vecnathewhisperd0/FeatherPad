@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="169"/>
+        <location filename="../../about.ui" line="171"/>
         <source>License</source>
         <translation>许可</translation>
     </message>
@@ -1265,7 +1265,7 @@
         <translation>前1000个替换项高亮。</translation>
     </message>
     <message>
-        <location filename="../../syntax.cpp" line="302"/>
+        <location filename="../../syntax.cpp" line="306"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
         <translation>超出了语法突出显示的大小限制。</translation>
     </message>

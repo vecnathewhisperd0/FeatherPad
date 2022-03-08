@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="169"/>
+        <location filename="../../about.ui" line="171"/>
         <source>License</source>
         <translation>Ліцензія</translation>
     </message>
@@ -1267,7 +1267,7 @@
         <translation>Перші 1000 замін буде підсвічено.</translation>
     </message>
     <message>
-        <location filename="../../syntax.cpp" line="302"/>
+        <location filename="../../syntax.cpp" line="306"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
         <translation>Перевищено обмеження розміру підсвічування синтаксису.</translation>
     </message>

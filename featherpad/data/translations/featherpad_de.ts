@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="169"/>
+        <location filename="../../about.ui" line="171"/>
         <source>License</source>
         <translation>Lizenz</translation>
     </message>
@@ -1266,7 +1266,7 @@
         <translation>Die ersten 1000 Ersetzungen sind hervorgehoben.</translation>
     </message>
     <message>
-        <location filename="../../syntax.cpp" line="302"/>
+        <location filename="../../syntax.cpp" line="306"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
         <translation>Das Größenlimit für die Syntaxhervorhebung ist überschritten.</translation>
     </message>

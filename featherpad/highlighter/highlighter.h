@@ -292,6 +292,9 @@ private:
     void multiLineTclQuote (const QString &text);
     void highlightTclBlock (const QString &text);
 
+    /* Rust */
+    void multiLineRustQuote (const QString &text);
+
     struct HighlightingRule
     {
         QRegularExpression pattern;

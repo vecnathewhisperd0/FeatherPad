@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="169"/>
+        <location filename="../../about.ui" line="171"/>
         <source>License</source>
         <translation>라이선스</translation>
     </message>
@@ -1265,7 +1265,7 @@
         <translation>처음 1000개의 교체가 강조표시됩니다.</translation>
     </message>
     <message>
-        <location filename="../../syntax.cpp" line="302"/>
+        <location filename="../../syntax.cpp" line="306"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
         <translation>구문 강조 표시의 크기 제한을 초과했습니다.</translation>
     </message>

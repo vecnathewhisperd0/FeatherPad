@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="169"/>
+        <location filename="../../about.ui" line="171"/>
         <source>License</source>
         <translation>Лиценз</translation>
     </message>
@@ -1265,7 +1265,7 @@
         <translation>Първите 1000 замествания са подчертани.</translation>
     </message>
     <message>
-        <location filename="../../syntax.cpp" line="302"/>
+        <location filename="../../syntax.cpp" line="306"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
         <translation>Превишен е размерът на лимита за подчертаване на синтаксиса.</translation>
     </message>
