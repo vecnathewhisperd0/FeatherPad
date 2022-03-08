@@ -4001,8 +4001,8 @@ void Highlighter::highlightBlock (const QString &text)
     }
 
     bool rehighlightNextBlock = false;
-    int oldOpenNests = 0; QSet<int> oldOpenQuotes; // to be used in SH_CmndSubstVar() (and perl, ruby and css)
-    bool oldProperty = false; // to be used with perl, ruby, pascal, java and rust
+    int oldOpenNests = 0; QSet<int> oldOpenQuotes; // to be used in SH_CmndSubstVar() (and perl, ruby, css and rust)
+    bool oldProperty = false; // to be used with perl, ruby, pascal and java
     QString oldLabel; // to be used with perl, ruby and LaTeX
     if (TextBlockData *oldData = static_cast<TextBlockData *>(currentBlockUserData()))
     {
@@ -4181,9 +4181,9 @@ void Highlighter::highlightBlock (const QString &text)
     /* only javascript, qml, perl and ruby */
     multiLineRegex (text, 0);
 
-    /* "Property" is used for knowing about Perl's backquotes
-        as well as Rust's raw string literals, "label" is used
-        for delimiter strings, and "OpenNests" for paired delimiters. */
+    /* "Property" is used for knowing about Perl's backquotes,
+        "label" is used for delimiter strings, and "OpenNests" for
+        paired delimiters as well as Rust's raw string literals. */
     if ((progLan == "perl" || progLan == "ruby" || progLan == "rust")
         && currentBlockState() == data->lastState())
     {

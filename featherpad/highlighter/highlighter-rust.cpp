@@ -21,50 +21,71 @@
 
 namespace FeatherPad {
 
-static inline bool isRustRawLiteral (const QString &text, int index)
+static inline int rustRawLiteral (const QString &text, int index)
 {
-    bool res = false;
-    if (index > 1
-        && text.at (index - 1) == '#' && text.at (index - 2) == 'r')
+    /* The start should be b?r#+\" and the number of occurrences
+       of "#" determines what the end should be. */
+    int N = 0;
+    while (index > 0 && text.at (index - 1) == '#')
     {
-        if (index == 2)
-            res = true;
-        else
-        {
-            QChar c = text.at (index - 3);
-            if (c == '\'')
-            {
-                // -> highlighter.cpp -> rust single quotes
-                static const QRegularExpression rustSingleQuote ("'([^'\\\\]{0,1}|\\\\(r|t|n|'|\\\"|\\\\|x[0-9a-fA-F]{2}))\\K'");
-                if (text.lastIndexOf (rustSingleQuote, index - 3) == index - 3)
-                    res = true;
-            }
-            else if (c.isNumber() || !c.isLetterOrNumber())
-                res = true;
-        }
+        ++ N;
+        -- index;
     }
-    return res;
+    if (N > 0 && index > 0 && text.at (index - 1) == 'r')
+    {
+        -- index;
+        if (index == 0) return N;
+        -- index;
+        QChar c = text.at (index);
+        if (c == 'b')
+        {
+            if (index == 0) return N;
+            -- index;
+            c = text.at (index);
+        }
+        if (c == '\'')
+        {
+            // -> highlighter.cpp -> rust single quotes
+            static const QRegularExpression rustSingleQuote ("'([^'\\\\]{0,1}|\\\\(r|t|n|'|\\\"|\\\\|x[0-9a-fA-F]{2}))\\K'");
+            if (text.lastIndexOf (rustSingleQuote, index) == index)
+                return N;
+        }
+        else if (c.isNumber() || !c.isLetterOrNumber())
+            return N;
+    }
+    return 0;
+}
+
+static inline bool endsRawLiteral (const QString &text, int endIndex, int N)
+{
+    if (endIndex > text.length() - 1 - N)
+        return false;
+    for (int i = 1; i <= N; ++i)
+    {
+        if (text.at (endIndex + i) != '#')
+            return false;
+    }
+    return true;
 }
 
 void Highlighter::multiLineRustQuote (const QString &text)
 {
     /* Rust's raw string literals */
-    bool rustLiteral = false;
+    int N = 0;
     TextBlockData *bData = nullptr;
     bData = static_cast<TextBlockData *>(currentBlock().userData());
     QTextBlock prevBlock = currentBlock().previous();
     if (prevBlock.isValid())
     {
         if (TextBlockData *prevData = static_cast<TextBlockData *>(prevBlock.userData()))
-            rustLiteral = prevData->getProperty();
+            N = prevData->openNests();
     }
 
     int index = 0;
-    QRegularExpressionMatch quoteMatch;
 
     /* find the start quote */
     int prevState = previousBlockState();
-    if (prevState != doubleQuoteState || index > 0)
+    if (prevState != doubleQuoteState)
     {
         index = text.indexOf (quoteMark, index);
         /* skip escaped start quotes and all comments */
@@ -73,9 +94,9 @@ void Highlighter::multiLineRustQuote (const QString &text)
         {
             index = text.indexOf (quoteMark, index + 1);
         }
-        while (format (index) == commentFormat || format (index) == urlFormat) // single-line
-            index = text.indexOf (quoteMark, index + 1);
-        rustLiteral = isRustRawLiteral (text, index);
+        if (format (index) == commentFormat || format (index) == urlFormat) // single-line comment
+            return;
+        N = rustRawLiteral (text, index);
     }
 
     while (index >= 0)
@@ -85,23 +106,20 @@ void Highlighter::multiLineRustQuote (const QString &text)
         if (index == 0 && prevState == doubleQuoteState)
         {
             /* ... search for the end quote from the line start */
-            endIndex = text.indexOf (quoteMark, 0, &quoteMatch);
+            endIndex = text.indexOf (quoteMark, 0);
         }
         else // otherwise, search from the start quote
-            endIndex = text.indexOf (quoteMark, index + 1, &quoteMatch);
+            endIndex = text.indexOf (quoteMark, index + 1);
 
-        if (rustLiteral)
+        if (N > 0)
         { // check if the quote is inside a rust raw string literal
-            while (endIndex > -1
-                   && (endIndex == text.length() - 1 || text.at (endIndex + 1) != '#'))
-            {
-                endIndex = text.indexOf (quoteMark, endIndex + 1, &quoteMatch);
-            }
+            while (endIndex > -1 && !endsRawLiteral (text, endIndex, N))
+                endIndex = text.indexOf (quoteMark, endIndex + 1);
         }
         else
         { // check if the quote is escaped
             while (isEscapedQuote (text, endIndex, false))
-                endIndex = text.indexOf (quoteMark, endIndex + 1, &quoteMatch);
+                endIndex = text.indexOf (quoteMark, endIndex + 1);
         }
 
         int quoteLength;
@@ -109,33 +127,30 @@ void Highlighter::multiLineRustQuote (const QString &text)
         {
             setCurrentBlockState (doubleQuoteState);
             quoteLength = text.length() - index;
-
-            /* set the delimiter string for C++11 */
-            if (bData && rustLiteral)
+            if (bData && N > 0)
             {
-                bData->setProperty (true);
+                bData->insertNestInfo (N);
                 setCurrentBlockUserData (bData);
                 /* NOTE: The next block will be rehighlighted at highlightBlock()
-                         if the property is changed. */
+                         if "openNests()" is changed. */
             }
         }
         else
+            quoteLength = endIndex - index + 1 + N; // include #+
+        if (N > 0)
         {
-            quoteLength = endIndex - index
-                          + quoteMatch.capturedLength();
-            if (rustLiteral)
-                quoteLength += 1;
-        }
-        if (rustLiteral)
-        {
-            if (index > 1)
-                setFormat (index - 2, quoteLength + 2, quoteFormat);
+            if (index > N)
+            { // start quote was found
+                if (index > N + 1 && text.at (index - N - 2) == 'b') // include br#+
+                    setFormat (index - N - 2, quoteLength + N + 2, quoteFormat);
+                else // include r#+
+                    setFormat (index - N - 1, quoteLength + N + 1, quoteFormat);
+            }
             else
                 setFormat (index, quoteLength, quoteFormat);
         }
         else
-            setFormat (index, quoteLength, quoteMark == quoteMark ? quoteFormat
-                                                                        : altQuoteFormat);
+            setFormat (index, quoteLength, quoteFormat);
 
 #if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
         QString str = text.mid (index, quoteLength);
@@ -159,7 +174,7 @@ void Highlighter::multiLineRustQuote (const QString &text)
         }
         while (format (index) == commentFormat || format (index) == urlFormat)
             index = text.indexOf (quoteMark, index + 1);
-        rustLiteral = isRustRawLiteral (text, index);
+        N = rustRawLiteral (text, index);
     }
 }
 
