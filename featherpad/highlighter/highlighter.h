@@ -294,6 +294,7 @@ private:
 
     /* Rust */
     void multiLineRustQuote (const QString &text);
+    bool isRustQuoted (const QString &text, const int index, const int start);
 
     struct HighlightingRule
     {

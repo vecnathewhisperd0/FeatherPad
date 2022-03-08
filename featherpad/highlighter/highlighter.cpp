@@ -2111,6 +2111,8 @@ bool Highlighter::isQuoted (const QString &text, const int index,
         return isJSQuoted (text, index);
     if (progLan == "tcl")
         return isTclQuoted (text, index, start);
+    if (progLan == "rust")
+        return isRustQuoted (text, index, start);
 
     if (index < 0 || start < 0 || index < start)
         return false;

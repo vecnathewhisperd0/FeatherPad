@@ -70,23 +70,16 @@ static inline bool endsRawLiteral (const QString &text, int endIndex, int N)
 
 void Highlighter::multiLineRustQuote (const QString &text)
 {
-    /* Rust's raw string literals */
+    int index = 0;
+
+    /* for Rust's raw string literals */
     int N = 0;
     TextBlockData *bData = nullptr;
     bData = static_cast<TextBlockData *>(currentBlock().userData());
-    QTextBlock prevBlock = currentBlock().previous();
-    if (prevBlock.isValid())
-    {
-        if (TextBlockData *prevData = static_cast<TextBlockData *>(prevBlock.userData()))
-            N = prevData->openNests();
-    }
 
-    int index = 0;
-
-    /* find the start quote */
     int prevState = previousBlockState();
     if (prevState != doubleQuoteState)
-    {
+    { // find the start quote
         index = text.indexOf (quoteMark, index);
         /* skip escaped start quotes and all comments */
         while (isEscapedQuote (text, index, true)
@@ -97,6 +90,15 @@ void Highlighter::multiLineRustQuote (const QString &text)
         if (format (index) == commentFormat || format (index) == urlFormat) // single-line comment
             return;
         N = rustRawLiteral (text, index);
+    }
+    else
+    {
+        QTextBlock prevBlock = currentBlock().previous();
+        if (prevBlock.isValid())
+        {
+            if (TextBlockData *prevData = static_cast<TextBlockData *>(prevBlock.userData()))
+                N = prevData->openNests();
+        }
     }
 
     while (index >= 0)
@@ -176,6 +178,76 @@ void Highlighter::multiLineRustQuote (const QString &text)
             index = text.indexOf (quoteMark, index + 1);
         N = rustRawLiteral (text, index);
     }
+}
+/*************************/
+bool Highlighter::isRustQuoted (const QString &text, const int index, const int start)
+{
+    if (index < 0 || start < 0 || index < start)
+        return false;
+
+    int N = 0; // for Rust's raw string literals
+
+    int pos = start - 1;
+    bool res = false;
+    int n;
+    if (pos == -1)
+    {
+        if (previousBlockState() != doubleQuoteState)
+            n = 0;
+        else
+        {
+            n = 1;
+            res = true;
+            QTextBlock prevBlock = currentBlock().previous();
+            if (prevBlock.isValid())
+            {
+                if (TextBlockData *prevData = static_cast<TextBlockData *>(prevBlock.userData()))
+                    N = prevData->openNests();
+            }
+        }
+    }
+    else n = 0; // a new search from the last position
+
+    int nxtPos;
+    while ((nxtPos = text.indexOf (quoteMark, pos + 1)) >= 0)
+    {
+        /* skip formatted comments */
+        if (format (nxtPos) == commentFormat || format (nxtPos) == urlFormat)
+        {
+            pos = nxtPos;
+            continue;
+        }
+
+        ++n;
+        if ((n % 2 == 0 // an escaped end quote...
+             && (N > 0 ? !endsRawLiteral (text, nxtPos, N)
+                       : isEscapedQuote (text, nxtPos, false)))
+            // ... or an escaped start quote
+            || (n % 2 != 0 && isEscapedQuote (text, nxtPos, true)))
+        {
+            --n;
+            pos = nxtPos;
+            continue;
+        }
+
+        if (index < nxtPos)
+        {
+            if (n % 2 == 0) res = true;
+            else res = false;
+            break;
+        }
+
+        if (n % 2 != 0)
+            N = rustRawLiteral (text, nxtPos);
+
+        /* "pos" might be negative next time */
+        if (n % 2 == 0) res = false;
+        else res = true;
+
+        pos = nxtPos;
+    }
+
+    return res;
 }
 
 }
