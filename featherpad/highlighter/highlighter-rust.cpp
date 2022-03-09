@@ -138,21 +138,20 @@ void Highlighter::multiLineRustQuote (const QString &text)
             }
         }
         else
-            quoteLength = endIndex - index + 1 + N; // include #+
+            quoteLength = endIndex - index + 1;
+        setFormat (index, quoteLength, quoteFormat);
         if (N > 0)
         {
             if (index > N)
             { // start quote was found
-                if (index > N + 1 && text.at (index - N - 2) == 'b') // include br#+
-                    setFormat (index - N - 2, quoteLength + N + 2, quoteFormat);
-                else // include r#+
-                    setFormat (index - N - 1, quoteLength + N + 1, quoteFormat);
+                if (index > N + 1 && text.at (index - N - 2) == 'b')
+                    setFormat (index - N - 2, N + 3, rawLiteralFormat); // for br#+\"
+                else
+                    setFormat (index - N - 1, N + 2, rawLiteralFormat); // for r#+\"
             }
-            else
-                setFormat (index, quoteLength, quoteFormat);
+            if (endIndex > -1) // end quote was found
+                setFormat (index + quoteLength - 1, N + 1, rawLiteralFormat); // for \"#+
         }
-        else
-            setFormat (index, quoteLength, quoteFormat);
 
 #if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
         QString str = text.mid (index, quoteLength);

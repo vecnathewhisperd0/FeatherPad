@@ -327,7 +327,7 @@ private:
     QTextCharFormat translucentFormat;
     QTextCharFormat regexFormat;
     QTextCharFormat errorFormat;
-    QTextCharFormat cppLiteralFormat;
+    QTextCharFormat rawLiteralFormat;
 
     /* Programming language: */
     QString progLan;

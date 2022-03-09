@@ -678,8 +678,8 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
                R"(\bR"([^(]*)\(.*(?=\)\1"))"
             */
             cppLiteralStart.setPattern (R"(\bR"([^(]*)\()");
-            cppLiteralFormat = quoteFormat;
-            cppLiteralFormat.setFontWeight (QFont::Bold);
+            rawLiteralFormat = quoteFormat;
+            rawLiteralFormat.setFontWeight (QFont::Bold);
 
             cFormat.setFontItalic (true);
             rule.pattern.setPattern ("\\bq(App)(?!(\\@|#|\\$))\\b|\\bq(Abs|Bound|Critical|Debug|Fatal|FuzzyCompare|InstallMsgHandler|MacVersion|Max|Min|Round64|Round|Version|Warning|getenv|putenv|rand|srand|tTrId|unsetenv|_check_ptr|t_set_sequence_auto_mnemonic|t_symbian_exception2Error|t_symbian_exception2LeaveL|t_symbian_throwIfError)(?!(\\.|-|@|#|\\$))\\b");
@@ -1514,9 +1514,11 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     }
     else if (progLan == "rust")
     {
-        QTextCharFormat rustFormat;
+        rawLiteralFormat = quoteFormat;
+        rawLiteralFormat.setFontWeight (QFont::Bold);
 
         /* wrong numbers */
+        QTextCharFormat rustFormat;
         rustFormat.setForeground (Red);
         rustFormat.setFontUnderline (true);
         rule.pattern.setPattern ("\\b0(?:b[01_]*[^01_]|o[0-7_]*[^0-7_]|x[0-9a-fA-F_]*[^0-9a-fA-F_])\\w*(?:[iu](?:8|16|32|64|128|size)?)?\\b");
@@ -3025,7 +3027,7 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
                             && index - 1 == text.indexOf (cppLiteralStart, index - 1, &cppMatch))
                         {
                             delimStr = ")" + cppMatch.captured (1);
-                            setFormat (index - 1, 1, cppLiteralFormat);
+                            setFormat (index - 1, 1, rawLiteralFormat);
                         }
                     }
                     quoteExpression = quoteMark;
@@ -3069,7 +3071,7 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
                         && index - 1 == text.indexOf (cppLiteralStart, index - 1, &cppMatch))
                     {
                         delimStr = ")" + cppMatch.captured (1);
-                        setFormat (index - 1, 1, cppLiteralFormat);
+                        setFormat (index - 1, 1, rawLiteralFormat);
                     }
                 }
                 quoteExpression = quoteMark;
