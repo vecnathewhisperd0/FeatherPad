@@ -4,7 +4,7 @@ V1.2.0
  * Fixed searching in unusually large documents and also highlighting of their selections (scrolling took a lot of CPU time in some cases). Also, prevented high memory and CPU usages when searching regular expressions in such documents.
  * Select the text between spaces with Ctrl + double click.
  * Restore view position on reloading as precisely as possible by using text cursors.
- * Don't list "theme" among programming languages (in the language menu).
+ * Don't list "theme" and "desktop" in the language menu.
  * Added Rust syntax highlighting.
 
 V1.1.1

@@ -766,12 +766,12 @@ void FPwin::addRemoveLangBtn (bool add)
     if (langList.isEmpty())
     { // no "url" for the language button
         langList << "c" << "cmake" << "config" << "cpp" << "css"
-                 << "dart" << "deb" << "desktop" << "diff" << "fountain"
-                 << "html" << "java" << "javascript" << "json" << "LaTeX"
-                 << "go" << "log" << "lua" << "m3u" << "markdown"
-                 << "makefile" << "pascal" << "perl" << "php" << "python"
-                 << "qmake" << "qml" << "reST" << "ruby" << "rust"
-                 << "scss" << "sh" << "tcl" << "troff" << "xml" << "yaml";
+                 << "dart" << "deb" << "diff" << "fountain" << "html"
+                 << "java" << "javascript" << "json" << "LaTeX" << "go"
+                 << "log" << "lua" << "m3u" << "markdown" << "makefile"
+                 << "pascal" << "perl" << "php" << "python" << "qmake"
+                 << "qml" << "reST" << "ruby" << "rust" << "scss"
+                 << "sh" << "tcl" << "troff" << "xml" << "yaml";
         langList.sort (Qt::CaseInsensitive);
     }
 
@@ -4493,9 +4493,9 @@ void FPwin::enforceLang (QAction *action)
     langButton->setText (lang);
     if (lang == tr ("Normal"))
     {
-        if (textEdit->getProg() == "srt" || textEdit->getProg() == "gtkrc"
-            || textEdit->getProg() == "changelog" || textEdit->getProg() == "theme")
-        { // not listed
+        if (textEdit->getProg() == "desktop" || textEdit->getProg() == "changelog"
+            || textEdit->getProg() == "theme" || textEdit->getProg() == "srt" || textEdit->getProg() == "gtkrc")
+        { // not listed by the language button
             lang = textEdit->getProg();
         }
         else
