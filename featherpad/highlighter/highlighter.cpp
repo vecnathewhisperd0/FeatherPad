@@ -1496,7 +1496,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         /* dart:core classes */
         dartFormat.setFontWeight (QFont::Bold);
         dartFormat.setForeground (DarkMagenta);
-        rule.pattern.setPattern ("\\b(BidirectionalIterator|BigInt|Comparable|DateTime|Deprecated|Duration|Expando|Function|Future|Invocation|Iterable|Iterator|List|Map|MapEntry|Match|Object|Pattern|RegExp|RegExpMatch|RuneIterator|Runes|Set|Sink|StackTrace|Stopwatch|Stream|String|StringBuffer|StringSink|Symbol|Type|Uri|UriData)\\b");
+        rule.pattern.setPattern ("\\b(?<!(@|#|\\$))(AbstractClassInstantiationError|ArgumentError|AssertionError|BidirectionalIterator|BigInt|CastError|Comparable|ConcurrentModificationError|CyclicInitializationError|DateTime|Deprecated|Duration|Error|Exception|Expando|FallThroughError|FormatException|Function|Future|IndexError|IntegerDivisionByZeroException|Invocation|Iterable|Iterator|JsonCyclicError|JsonUnsupportedObjectError|List|Map|MapEntry|Match|Never|NoSuchMethodError|NullThrownError|Object|OutOfMemoryError|Pattern|RangeError|RegExp|RegExpMatch|RuneIterator|Runes|Set|Sink|StackOverflowError|StackTrace|StateError|Stopwatch|Stream|String|StringBuffer|StringSink|Symbol|Type|TypeError|UnimplementedError|UnsupportedError|Uri|UriData)(?!(@|#|\\$))\\b");
         rule.format = dartFormat;
         highlightingRules.append (rule);
     }
