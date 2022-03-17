@@ -2894,25 +2894,31 @@ TextEdit::viewPosition TextEdit::getViewPosition() const
     {
         QRect vr = vp->rect();
 
-        /* current cursor */
-        QRect cRect = cursorRect();
-        if (cRect.top() >= vr.top() && cRect.bottom() <= vr.bottom()
-            && cRect.left() >= vr.left() && cRect.right() <= vr.right())
-        {
-            vPos.curPos = textCursor().position();
-        }
-        //else vPos.curPos = -1; // invisible
-
-        /* top cursor (the top edge never overlaps it) */
+        /* top cursor (immediately below the top edge of the viewport) */
         int h = QFontMetrics (document()->defaultFont()).lineSpacing();
         QTextCursor topCur = cursorForPosition (QPoint (vr.left(), vr.top() + h / 2));
         if (topCur.block().text().isRightToLeft())
             topCur = cursorForPosition (QPoint (vr.right() + 1, vr.top() + h / 2));
-        cRect = cursorRect (topCur);
+        QRect cRect = cursorRect (topCur);
         int top = cRect.top();
         vPos.topPos = topCur.position();
 
-        /* bottom cursor (the bottom edge shouldn't overlap it) */
+        /* current cursor
+           NOTE: The top edge of its rectangle may be a little above the
+                 top edge of the viewport. So, the position of the top cursor
+                 is used for knowing whether it isn't above the viewport. */
+        int curPosition = textCursor().position();
+        if (curPosition >= vPos.topPos)
+        {
+            cRect = cursorRect();
+            if (cRect.bottom() <= vr.bottom()
+                && cRect.left() >= vr.left() && cRect.right() <= vr.right())
+            {
+                vPos.curPos = curPosition; // otherwise, "vPos.curPos" is -1
+            }
+        }
+
+        /* bottom cursor (immediately above the bottom edge of the viewport) */
         QTextCursor bottomCur = cursorForPosition (QPoint (vr.left(), vr.bottom()));
         if (bottomCur.block().text().isRightToLeft())
             bottomCur = cursorForPosition (QPoint (vr.right() + 1, vr.bottom()));
