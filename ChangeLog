@@ -6,6 +6,7 @@ V1.2.0
  * Restore view position on reloading as precisely as possible by using text cursors.
  * Don't list "theme" and "desktop" in the language menu.
  * Added Rust syntax highlighting.
+ * With Qt6, hide encodings that are not supported by Qt6.
 
 V1.1.1
 ---------

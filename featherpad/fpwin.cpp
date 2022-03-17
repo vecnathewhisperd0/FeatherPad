@@ -190,9 +190,9 @@ FPwin::FPwin (QWidget *parent, bool standalone):QMainWindow (parent), dummyWidge
 
 #if (QT_VERSION >= QT_VERSION_CHECK(6,0,0))
     /* not supported by Qt >= 6 */
-    ui->menuEast_European->setEnabled (false);
-    ui->menuEast_Asian->setEnabled (false);
-    ui->actionWindows_Arabic->setEnabled (false);
+    ui->menuEast_European->menuAction()->setVisible (false);
+    ui->menuEast_Asian->menuAction()->setVisible (false);
+    ui->actionWindows_Arabic->setVisible (false);
 #endif
 
     if (standalone_
@@ -4264,14 +4264,15 @@ void FPwin::encodingToCheck (const QString& encoding)
         ui->actionUTF_8->setChecked (true);
     else if (encoding == "UTF-16")
         ui->actionUTF_16->setChecked (true);
-    else if (encoding == "CP1256")
-        ui->actionWindows_Arabic->setChecked (true);
     else if (encoding == "ISO-8859-1")
         ui->actionISO_8859_1->setChecked (true);
     else if (encoding == "ISO-8859-15")
         ui->actionISO_8859_15->setChecked (true);
     else if (encoding == "CP1252")
         ui->actionWindows_1252->setChecked (true);
+#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
+    else if (encoding == "CP1256")
+        ui->actionWindows_Arabic->setChecked (true);
     else if (encoding == "CP1251")
         ui->actionCyrillic_CP1251->setChecked (true);
     else if (encoding == "KOI8-U")
@@ -4298,6 +4299,7 @@ void FPwin::encodingToCheck (const QString& encoding)
         ui->actionKorean_CP1361->setChecked (true);
     else if (encoding == "EUC-KR")
         ui->actionKorean_EUC_KR->setChecked (true);
+#endif
     else
     {
         ui->actionOther->setDisabled (false);
@@ -4493,8 +4495,10 @@ void FPwin::enforceLang (QAction *action)
     langButton->setText (lang);
     if (lang == tr ("Normal"))
     {
-        if (textEdit->getProg() == "desktop" || textEdit->getProg() == "changelog"
-            || textEdit->getProg() == "theme" || textEdit->getProg() == "srt" || textEdit->getProg() == "gtkrc")
+        if (textEdit->getProg() == "desktop" || textEdit->getProg() == "theme"
+            || textEdit->getProg() == "changelog"
+            || textEdit->getProg() == "srt"
+            || textEdit->getProg() == "gtkrc")
         { // not listed by the language button
             lang = textEdit->getProg();
         }
