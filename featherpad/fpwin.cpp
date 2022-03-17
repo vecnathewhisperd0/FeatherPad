@@ -166,10 +166,10 @@ FPwin::FPwin (QWidget *parent, bool standalone):QMainWindow (parent), dummyWidge
     aGroup_ = new QActionGroup (this);
     ui->actionUTF_8->setActionGroup (aGroup_);
     ui->actionUTF_16->setActionGroup (aGroup_);
-    ui->actionWindows_Arabic->setActionGroup (aGroup_);
     ui->actionISO_8859_1->setActionGroup (aGroup_);
     ui->actionISO_8859_15->setActionGroup (aGroup_);
     ui->actionWindows_1252->setActionGroup (aGroup_);
+    ui->actionWindows_Arabic->setActionGroup (aGroup_);
     ui->actionCyrillic_CP1251->setActionGroup (aGroup_);
     ui->actionCyrillic_KOI8_U->setActionGroup (aGroup_);
     ui->actionCyrillic_ISO_8859_5->setActionGroup (aGroup_);
@@ -2517,7 +2517,9 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
         { // restore the cursor and/or scrollbar position
             lambdaConnection_ = QObject::connect (this, &FPwin::finishedLoading, textEdit,
                                                   [this, textEdit, vPos]() {
-                textEdit->setViewPostion (vPos);
+                QTimer::singleShot (0, textEdit, [textEdit, vPos] {
+                    textEdit->setViewPostion (vPos);
+                });
                 disconnectLambda();
             });
         }
