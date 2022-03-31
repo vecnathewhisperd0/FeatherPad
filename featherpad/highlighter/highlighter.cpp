@@ -3445,7 +3445,8 @@ void Highlighter::multiLineJSlQuote (const QString &text, const int start, int c
         if (endIndex == -1)
         {
             /* In JS, multiline double and single quotes need backslash. */
-            if ((quoteExpression == singleQuoteMark || quoteExpression == quoteMark)
+            if ((quoteExpression == singleQuoteMark
+                 || (quoteExpression == quoteMark && progLan != "qml"))
                 && !textEndsWithBackSlash (text))
             { // see NOTE of isEscapedRegex() and also the end of multiLineRegex()
                 setCurrentBlockState (regexExtraState);
