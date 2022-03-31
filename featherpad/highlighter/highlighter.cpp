@@ -2352,7 +2352,7 @@ bool Highlighter::isPerlQuoted (const QString &text, const int index)
 }
 /*************************/
 // JS has a separate method to support backquotes (template literals).
-// Also see multiLineJSlQuote().
+// Also see multiLineJSQuote().
 bool Highlighter::isJSQuoted (const QString &text, const int index)
 {
     if (index < 0) return false;
@@ -2960,7 +2960,7 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
     }
     if (progLan == "javascript" || progLan == "qml")
     {
-        multiLineJSlQuote (text, start, comState);
+        multiLineJSQuote (text, start, comState);
         return false;
     }
     if (progLan == "rust")
@@ -3342,7 +3342,7 @@ void Highlighter::multiLinePerlQuote (const QString &text)
 /*************************/
 // JS multiline quote highlighting comes here to support backquotes (template literals).
 // Also see isJSQuoted().
-void Highlighter::multiLineJSlQuote (const QString &text, const int start, int comState)
+void Highlighter::multiLineJSQuote (const QString &text, const int start, int comState)
 {
     int index = start;
     QRegularExpressionMatch quoteMatch;

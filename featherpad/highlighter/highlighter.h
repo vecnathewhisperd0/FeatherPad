@@ -169,7 +169,7 @@ private:
                          const int start = 0,
                          int comState = commentState);
     void multiLinePerlQuote(const QString &text);
-    void multiLineJSlQuote (const QString &text, const int start, int comState);
+    void multiLineJSQuote (const QString &text, const int start, int comState);
     void setFormatWithoutOverwrite (int start,
                                     int count,
                                     const QTextCharFormat &newFormat,
