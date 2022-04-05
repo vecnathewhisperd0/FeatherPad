@@ -20,7 +20,8 @@ QT += core gui \
       widgets \
       printsupport \
       network \
-      svg
+      svg \
+      dbus
 
 haiku|macx {
   TARGET = FeatherPad

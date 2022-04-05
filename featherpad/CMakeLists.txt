@@ -5,15 +5,10 @@ set(HUNSPELL_MINIMUM_VERSION "1.6")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
 if(NOT ENABLE_QT5)
-  find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
-  find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core REQUIRED)
-else()
-  set(QT_VERSION_MAJOR 5)
-endif()
-
-if(QT_VERSION_MAJOR EQUAL 6)
+  set(QT_VERSION_MAJOR 6)
   find_package(Qt6Core "${QT6_MINIMUM_VERSION}" REQUIRED)
 else()
+  set(QT_VERSION_MAJOR 5)
   find_package(Qt5Core "${QT5_MINIMUM_VERSION}" REQUIRED)
 endif()
 
@@ -22,6 +17,7 @@ find_package(Qt${QT_VERSION_MAJOR}Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR}Svg REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR}Network REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR}PrintSupport REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR}DBus REQUIRED)
 
 # for spell checking (see FindHUNSPELL.cmake)
 find_package(HUNSPELL "${HUNSPELL_MINIMUM_VERSION}" REQUIRED)
@@ -61,6 +57,7 @@ if(NOT WITHOUT_X11 AND UNIX AND NOT APPLE AND NOT HAIKU)
                         ${Qt6Svg_INCLUDE_DIRS}
                         ${Qt6Network_INCLUDE_DIRS}
                         ${Qt6PrintSupport_INCLUDE_DIRS}
+                        ${Qt6DBus_INCLUDE_DIRS}
                         ${X11_INCLUDE_DIR}
                         ${HUNSPELL_INCLUDE_DIRS})
   else()
@@ -72,6 +69,7 @@ if(NOT WITHOUT_X11 AND UNIX AND NOT APPLE AND NOT HAIKU)
                         ${Qt5X11Extras_INCLUDE_DIRS}
                         ${Qt5Network_INCLUDE_DIRS}
                         ${Qt5PrintSupport_INCLUDE_DIRS}
+                        ${Qt5DBus_INCLUDE_DIRS}
                         ${X11_INCLUDE_DIR}
                         ${HUNSPELL_INCLUDE_DIRS})
   endif()
@@ -84,6 +82,7 @@ else()
                       ${Qt${QT_VERSION_MAJOR}Svg_INCLUDE_DIRS}
                       ${Qt${QT_VERSION_MAJOR}Network_INCLUDE_DIRS}
                       ${Qt${QT_VERSION_MAJOR}PrintSupport_INCLUDE_DIRS}
+                      ${Qt${QT_VERSION_MAJOR}DBus_INCLUDE_DIRS}
                       ${HUNSPELL_INCLUDE_DIRS})
 endif()
 
@@ -194,6 +193,7 @@ if(NOT WITHOUT_X11 AND UNIX AND NOT APPLE AND NOT HAIKU)
                                      ${Qt6Svg_LIBRARIES}
                                      ${Qt6Network_LIBRARIES}
                                      ${Qt6PrintSupport_LIBRARIES}
+                                     ${Qt6DBus_LIBRARIES}
                                      ${X11_LIBRARIES}
                                      ${HUNSPELL_LIBRARIES})
   else()
@@ -204,6 +204,7 @@ if(NOT WITHOUT_X11 AND UNIX AND NOT APPLE AND NOT HAIKU)
                                      ${Qt5X11Extras_LIBRARIES}
                                      ${Qt5Network_LIBRARIES}
                                      ${Qt5PrintSupport_LIBRARIES}
+                                     ${Qt5DBus_LIBRARIES}
                                      ${X11_LIBRARIES}
                                      ${HUNSPELL_LIBRARIES})
   endif()
@@ -214,6 +215,7 @@ else()
                                    ${Qt${QT_VERSION_MAJOR}Svg_LIBRARIES}
                                    ${Qt${QT_VERSION_MAJOR}Network_LIBRARIES}
                                    ${Qt${QT_VERSION_MAJOR}PrintSupport_LIBRARIES}
+                                   ${Qt${QT_VERSION_MAJOR}DBus_LIBRARIES}
                                    ${HUNSPELL_LIBRARIES})
 endif()
 

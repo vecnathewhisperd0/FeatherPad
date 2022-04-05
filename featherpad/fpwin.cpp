@@ -48,6 +48,8 @@
 #include <QStandardPaths>
 #include <QDesktopServices>
 #include <QPushButton>
+#include <QDBusConnection> // for opening containing folder
+#include <QDBusMessage> // for opening containing folder
 #if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
 #include <QTextCodec>
 #else
@@ -5357,14 +5359,27 @@ void FPwin::tabContextMenu (const QPoint& p)
                 newTabFromName (finalTarget, 0, 0);
             });
         }
-        if (QFile::exists (fname))
+        if (!static_cast<FPsingleton*>(qApp)->isRoot() && QFile::exists (fname))
         {
             menu.addSeparator();
             QAction *action = menu.addAction (symbolicIcon::icon (":icons/document-open.svg"), tr ("Open Containing Folder"));
             connect (action, &QAction::triggered, this, [fname] {
-                QString folder = fname.section ("/", 0, -2);
-                if (!QProcess::startDetached ("gio", QStringList() << "open" << folder))
-                    QDesktopServices::openUrl (QUrl::fromLocalFile (folder));
+                QDBusMessage methodCall =
+                QDBusMessage::createMethodCall ("org.freedesktop.FileManager1",
+                                                "/org/freedesktop/FileManager1",
+                                                "",
+                                                "ShowItems");
+                QList<QVariant> args;
+                args.append (QStringList() << fname);
+                args.append ("0");
+                methodCall.setArguments (args);
+                QDBusMessage response = QDBusConnection::sessionBus().call (methodCall, QDBus::Block, 1000);
+                if (response.type() == QDBusMessage::ErrorMessage)
+                {
+                    QString folder = fname.section ("/", 0, -2);
+                    if (!QProcess::startDetached ("gio", QStringList() << "open" << folder))
+                        QDesktopServices::openUrl (QUrl::fromLocalFile (folder));
+                }
             });
         }
     }
@@ -5469,14 +5484,27 @@ void FPwin::listContextMenu (const QPoint& p)
                 newTabFromName (finalTarget, 0, 0);
             });
         }
-        if (QFile::exists (fname))
+        if (!static_cast<FPsingleton*>(qApp)->isRoot() && QFile::exists (fname))
         {
             menu.addSeparator();
             QAction *action = menu.addAction (symbolicIcon::icon (":icons/document-open.svg"), tr ("Open Containing Folder"));
             connect (action, &QAction::triggered, this, [fname] {
-                QString folder = fname.section ("/", 0, -2);
-                if (!QProcess::startDetached ("gio", QStringList() << "open" << folder))
-                    QDesktopServices::openUrl (QUrl::fromLocalFile (folder));
+                QDBusMessage methodCall =
+                QDBusMessage::createMethodCall ("org.freedesktop.FileManager1",
+                                                "/org/freedesktop/FileManager1",
+                                                "",
+                                                "ShowItems");
+                QList<QVariant> args;
+                args.append (QStringList() << fname);
+                args.append ("0");
+                methodCall.setArguments (args);
+                QDBusMessage response = QDBusConnection::sessionBus().call (methodCall, QDBus::Block, 1000);
+                if (response.type() == QDBusMessage::ErrorMessage)
+                {
+                    QString folder = fname.section ("/", 0, -2);
+                    if (!QProcess::startDetached ("gio", QStringList() << "open" << folder))
+                        QDesktopServices::openUrl (QUrl::fromLocalFile (folder));
+                }
             });
         }
     }

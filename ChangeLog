@@ -8,6 +8,8 @@ V1.2.0
  * Added Rust syntax highlighting.
  * Covered multiline double quotes in QML.
  * With Qt6, hide encodings that are not supported by Qt6.
+ * First try the file manager DBus interface when opening the containing folder.
+ * Removed the action for opening the containing folder when running as root (because there are DBus complications with most file managers).
 
 V1.1.1
 ---------

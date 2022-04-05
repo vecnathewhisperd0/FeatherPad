@@ -53,6 +53,9 @@ public:
     bool isWayland() const {
       return isWayland_;
     }
+    bool isRoot() const {
+      return isRoot_;
+    }
     QStandardItemModel *searchModel() const {
         return searchModel_;
     }
