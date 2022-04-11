@@ -1896,14 +1896,16 @@ void TextEdit::lineNumberAreaPaintEvent (QPaintEvent *event)
                 lastCurrentLine_ = QRect (0, top, 1, top + h);
 
                 painter.save();
-                int cur = cursorRect().center().y();
                 painter.setFont (bf);
                 painter.setPen (currentLineFg);
-                painter.fillRect (0, cur - h / 2, w, h, currentLineBg);
                 QTextCursor tmp = textCursor();
                 tmp.movePosition (QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
-                if (!tmp.atBlockStart())
+                if (tmp.atBlockStart())
+                    painter.fillRect (0, top, w, h, currentLineBg);
+                else
                 {
+                    int cur = cursorRect().center().y();
+                    painter.fillRect (0, cur - h / 2, w, h, currentLineBg);
                     painter.drawText (left, cur - h / 2, w - 3, h,
                                       Qt::AlignRight, rtl ? "↲" : "↳");
                     painter.setPen (currentBlockFg);

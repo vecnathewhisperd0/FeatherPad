@@ -2395,8 +2395,9 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
     textEdit->setWordNumber (-1);
     if (uneditable)
     {
-        connect (this, &FPwin::finishedLoading, this, &FPwin::onOpeningUneditable, Qt::UniqueConnection);
-        textEdit->makeUneditable (uneditable);
+        textEdit->makeUneditable (true);
+        if (!reload) // with reloading, this connection will be made later
+            connect (this, &FPwin::finishedLoading, this, &FPwin::onOpeningUneditable, Qt::UniqueConnection);
     }
     setProgLang (textEdit);
     if (ui->actionSyntax->isChecked())
@@ -2516,7 +2517,8 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
         ui->tabWidget->tabBar()->lockTabs (false);
         updateShortcuts (false, false);
         if (reload)
-        { // restore the cursor and/or scrollbar position
+        {
+            /* restore the cursor and/or scrollbar position */
             lambdaConnection_ = QObject::connect (this, &FPwin::finishedLoading, textEdit,
                                                   [this, textEdit, vPos]() {
                 QTimer::singleShot (0, textEdit, [textEdit, vPos] {
@@ -2524,10 +2526,13 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
                 });
                 disconnectLambda();
             });
+            if (uneditable) // should come after the lambda connection; see onOpeningUneditable()
+                connect (this, &FPwin::finishedLoading, this, &FPwin::onOpeningUneditable, Qt::UniqueConnection);
         }
         /* select the first item (sidePane_ exists) */
         else if (firstItem)
             sidePane_->listWidget()->setCurrentItem (firstItem);
+
         /* reset the static variables */
         scrollToFirstItem = false;
         firstItem = nullptr;
