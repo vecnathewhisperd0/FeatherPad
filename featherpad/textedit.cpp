@@ -1909,12 +1909,15 @@ void TextEdit::lineNumberAreaPaintEvent (QPaintEvent *event)
                     painter.drawText (left, cur - h / 2, w - 3, h,
                                       Qt::AlignRight, rtl ? "↲" : "↳");
                     painter.setPen (currentBlockFg);
-                    if (tmp.movePosition (QTextCursor::Up, QTextCursor::MoveAnchor) // always true
-                        && !tmp.atBlockStart())
+                    if (tmp.movePosition (QTextCursor::Up, QTextCursor::MoveAnchor)) // always true
                     {
-                        cur = cursorRect (tmp).center().y();
-                        painter.drawText (left, cur - h / 2, w - 3, h,
-                                          Qt::AlignRight, number);
+                        tmp.movePosition (QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
+                        if (!tmp.atBlockStart())
+                        {
+                            cur = cursorRect (tmp).center().y();
+                            painter.drawText (left, cur - h / 2, w - 3, h,
+                                              Qt::AlignRight, number);
+                        }
                     }
                 }
             }
