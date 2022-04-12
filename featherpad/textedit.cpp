@@ -1388,13 +1388,8 @@ void TextEdit::wheelEvent (QWheelEvent *event)
                                : anglePoint.y();
         if (qAbs (delta) >= QApplication::wheelScrollLines())
         {
-#if (QT_VERSION >= QT_VERSION_CHECK(5,15,0))
             QWheelEvent e (event->position(),
                            event->globalPosition(),
-#else
-            QWheelEvent e (event->posF(),
-                           event->globalPosF(),
-#endif
                            event->pixelDelta(),
                            QPoint (0, delta / QApplication::wheelScrollLines()),
                            event->buttons(),

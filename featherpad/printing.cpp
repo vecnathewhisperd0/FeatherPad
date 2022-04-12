@@ -72,7 +72,6 @@ Printing::~Printing()
     delete printer_;
 }
 /*************************/
-#if (QT_VERSION >= QT_VERSION_CHECK(5,14,0))
 static void printPage (int index, QPainter *painter, const QTextDocument *doc,
                        const QRectF &body, const QPointF &pageNumberPos,
                        const QColor &textColor, const QColor &darkColor)
@@ -110,15 +109,11 @@ static void printPage (int index, QPainter *painter, const QTextDocument *doc,
 
     painter->restore();
 }
-#endif
 
 // Control printing to make it work fine with the dark color scheme and also
 // to enable printing in the reverse order. This is adapted from "QTextDocument::print".
 void Printing::run()
 {
-#if (QT_VERSION < QT_VERSION_CHECK(5,14,0))
-    document_->print (printer_);
-#else
     QPainter p (printer_);
     if (!p.isActive()) return;
 
@@ -180,7 +175,6 @@ void Printing::run()
         if (!printer_->newPage())
             return;
     }
-#endif
 }
 
 }
