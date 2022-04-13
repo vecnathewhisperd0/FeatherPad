@@ -5360,6 +5360,9 @@ void FPwin::tabContextMenu (const QPoint& p)
                                                 "/org/freedesktop/FileManager1",
                                                 "",
                                                 "ShowItems");
+                /* NOTE: The removal of the auto-start flag is needed for switching to
+                         QProcess if "org.freedesktop.FileManager1" doesn't exist. */
+                methodCall.setAutoStartService (false);
                 QList<QVariant> args;
                 args.append (QStringList() << fname);
                 args.append ("0");
@@ -5485,6 +5488,7 @@ void FPwin::listContextMenu (const QPoint& p)
                                                 "/org/freedesktop/FileManager1",
                                                 "",
                                                 "ShowItems");
+                methodCall.setAutoStartService (false);
                 QList<QVariant> args;
                 args.append (QStringList() << fname);
                 args.append ("0");
