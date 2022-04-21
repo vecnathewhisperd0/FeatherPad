@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="171"/>
+        <location filename="../../about.ui" line="173"/>
         <source>License</source>
         <translation>Άδεια χρήσης</translation>
     </message>
@@ -896,7 +896,7 @@
         <location filename="../../fpwin.cpp" line="4475"/>
         <location filename="../../fpwin.cpp" line="4495"/>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Κανονική</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1273"/>
@@ -1068,7 +1068,7 @@
         <location filename="../../fpwin.cpp" line="5151"/>
         <location filename="../../fpwin.cpp" line="6217"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Βοήθεια</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="3552"/>

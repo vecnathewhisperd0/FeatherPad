@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="171"/>
+        <location filename="../../about.ui" line="173"/>
         <source>License</source>
         <translation>लाइसेंस</translation>
     </message>
@@ -1254,6 +1254,7 @@
         <location filename="../../replace.cpp" line="246"/>
         <source>%Ln Replacements</source>
         <translation type="unfinished">
+            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
