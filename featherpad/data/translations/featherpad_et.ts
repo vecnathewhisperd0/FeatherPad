@@ -2418,7 +2418,7 @@ kõik failid kõikides avatud akendes.</translation>
 <context>
     <name>FeatherPad::SidePane</name>
     <message>
-        <location filename="../../sidepane.cpp" line="207"/>
+        <location filename="../../sidepane.cpp" line="210"/>
         <source>Filter...</source>
         <translation>Otsi...</translation>
     </message>

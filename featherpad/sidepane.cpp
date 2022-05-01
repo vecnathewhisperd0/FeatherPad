@@ -57,7 +57,8 @@ bool ListWidgetItem::operator<(const QListWidgetItem &other) const {
 /*************************/
 ListWidget::ListWidget (QWidget *parent) : QListWidget (parent)
 {
-    setAutoScroll (false); // Qt's autoscrolling has bugs; see ListWidget::scrollToCurrentItem()
+    setAutoScroll (false); // -> ListWidget::scrollToCurrentItem()
+    setVerticalScrollMode (QAbstractItemView::ScrollPerPixel); // -> ListWidget::scrollToCurrentItem()
     setMouseTracking (true); // for instant tooltips
     locked_ = false;
 
@@ -117,24 +118,26 @@ QItemSelectionModel::SelectionFlags ListWidget::selectionCommand (const QModelIn
         return QListWidget::selectionCommand (index, event);
 }
 /*************************/
-// QListView::scrollTo() doesn't work fine because it doesn't
-// consider the current scrollbar, after some items are hidden.
+// QListView::scrollTo() doesn't work correctly when the scroll mode is per item
+// and some items are hidden or have different heights. Although the scrolling is
+// set to per-pixel by the c-tor, we use this function for the sake of certainty.
 void ListWidget::scrollToCurrentItem()
 {
     QModelIndex index = currentIndex();
     if (!index.isValid()) return;
     const QRect rect = visualRect (index);
     const QRect area = viewport()->rect();
-    if (area.contains (rect)) return;
+    if (rect.isEmpty()) return;
 
     bool above (rect.top() < area.top());
     bool below (rect.bottom() > area.bottom());
+    if (!above && !below) return;
 
     int verticalValue = verticalScrollBar()->value();
     QRect r = rect.adjusted (-spacing(), -spacing(), spacing(), spacing());
     if (above)
         verticalValue += r.top();
-    else if (below)
+    else
         verticalValue += qMin (r.top(), r.bottom() - area.height() + 1);
     verticalScrollBar()->setValue (verticalValue);
 }

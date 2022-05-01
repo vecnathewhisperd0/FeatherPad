@@ -2416,7 +2416,7 @@ fenêtres seront inclus dans la session sauvegardée.</translation>
 <context>
     <name>FeatherPad::SidePane</name>
     <message>
-        <location filename="../../sidepane.cpp" line="207"/>
+        <location filename="../../sidepane.cpp" line="210"/>
         <source>Filter...</source>
         <translation>Filtrer...</translation>
     </message>
