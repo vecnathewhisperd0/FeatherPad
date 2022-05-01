@@ -640,60 +640,116 @@ void FPwin::applyConfigOnStarting()
 
     ui->actionSave->setEnabled (config.getSaveUnmodified()); // newTab() will be called after this
 
-    ui->actionNew->setIcon (symbolicIcon::icon (":icons/document-new.svg"));
-    ui->actionOpen->setIcon (symbolicIcon::icon (":icons/document-open.svg"));
-    ui->menuOpenRecently->setIcon (symbolicIcon::icon (":icons/document-open-recent.svg"));
-    ui->actionClearRecent->setIcon (symbolicIcon::icon (":icons/edit-clear.svg"));
-    ui->actionSave->setIcon (symbolicIcon::icon (":icons/document-save.svg"));
-    ui->actionSaveAs->setIcon (symbolicIcon::icon (":icons/document-save-as.svg"));
-    ui->actionSaveAllFiles->setIcon (symbolicIcon::icon (":icons/document-save-all.svg"));
-    ui->actionSaveCodec->setIcon (symbolicIcon::icon (":icons/document-save-as.svg"));
-    ui->actionPrint->setIcon (symbolicIcon::icon (":icons/document-print.svg"));
-    ui->actionDoc->setIcon (symbolicIcon::icon (":icons/document-properties.svg"));
-    ui->actionUndo->setIcon (symbolicIcon::icon (":icons/edit-undo.svg"));
-    ui->actionRedo->setIcon (symbolicIcon::icon (":icons/edit-redo.svg"));
-    ui->actionCut->setIcon (symbolicIcon::icon (":icons/edit-cut.svg"));
-    ui->actionCopy->setIcon (symbolicIcon::icon (":icons/edit-copy.svg"));
-    ui->actionPaste->setIcon (symbolicIcon::icon (":icons/edit-paste.svg"));
-    ui->actionDate->setIcon (symbolicIcon::icon (":icons/document-open-recent.svg"));
-    ui->actionDelete->setIcon (symbolicIcon::icon (":icons/edit-delete.svg"));
-    ui->actionSelectAll->setIcon (symbolicIcon::icon (":icons/edit-select-all.svg"));
-    ui->actionReload->setIcon (symbolicIcon::icon (":icons/view-refresh.svg"));
-    ui->actionFind->setIcon (symbolicIcon::icon (":icons/edit-find.svg"));
-    ui->actionReplace->setIcon (symbolicIcon::icon (":icons/edit-find-replace.svg"));
-    ui->actionClose->setIcon (symbolicIcon::icon (":icons/window-close.svg"));
-    ui->actionQuit->setIcon (symbolicIcon::icon (":icons/application-exit.svg"));
-    ui->actionFont->setIcon (symbolicIcon::icon (":icons/preferences-desktop-font.svg"));
-    ui->actionPreferences->setIcon (symbolicIcon::icon (":icons/preferences-system.svg"));
-    ui->actionHelp->setIcon (symbolicIcon::icon (":icons/help-contents.svg"));
-    ui->actionAbout->setIcon (symbolicIcon::icon (":icons/help-about.svg"));
-    ui->actionJump->setIcon (symbolicIcon::icon (":icons/go-jump.svg"));
-    ui->actionEdit->setIcon (symbolicIcon::icon (":icons/document-edit.svg"));
-    ui->actionRun->setIcon (symbolicIcon::icon (":icons/system-run.svg"));
-    ui->actionCopyName->setIcon (symbolicIcon::icon (":icons/edit-copy.svg"));
-    ui->actionCopyPath->setIcon (symbolicIcon::icon (":icons/edit-copy.svg"));
+    if (config.getSysIcons())
+    {
+        ui->actionNew->setIcon (QIcon::fromTheme ("document-new"));
+        ui->actionOpen->setIcon (QIcon::fromTheme ("document-open"));
+        ui->menuOpenRecently->setIcon (QIcon::fromTheme ("document-open-recent"));
+        ui->actionClearRecent->setIcon (QIcon::fromTheme ("edit-clear"));
+        ui->actionSave->setIcon (QIcon::fromTheme ("document-save"));
+        ui->actionSaveAs->setIcon (QIcon::fromTheme ("document-save-as"));
+        ui->actionSaveAllFiles->setIcon (QIcon::fromTheme ("document-save-all"));
+        ui->actionSaveCodec->setIcon (QIcon::fromTheme ("document-save-as"));
+        ui->actionPrint->setIcon (QIcon::fromTheme ("document-print"));
+        ui->actionDoc->setIcon (QIcon::fromTheme ("document-properties"));
+        ui->actionUndo->setIcon (QIcon::fromTheme ("edit-undo"));
+        ui->actionRedo->setIcon (QIcon::fromTheme ("edit-redo"));
+        ui->actionCut->setIcon (QIcon::fromTheme ("edit-cut"));
+        ui->actionCopy->setIcon (QIcon::fromTheme ("edit-copy"));
+        ui->actionPaste->setIcon (QIcon::fromTheme ("edit-paste"));
+        ui->actionDate->setIcon (QIcon::fromTheme ("appointment-new"));
+        ui->actionDelete->setIcon (QIcon::fromTheme ("edit-delete"));
+        ui->actionSelectAll->setIcon (QIcon::fromTheme ("edit-select-all"));
+        ui->actionReload->setIcon (QIcon::fromTheme ("view-refresh"));
+        ui->actionFind->setIcon (QIcon::fromTheme ("edit-find"));
+        ui->actionReplace->setIcon (QIcon::fromTheme ("edit-find-replace"));
+        ui->actionClose->setIcon (QIcon::fromTheme ("window-close"));
+        ui->actionQuit->setIcon (QIcon::fromTheme ("application-exit"));
+        ui->actionFont->setIcon (QIcon::fromTheme ("preferences-desktop-font"));
+        ui->actionPreferences->setIcon (QIcon::fromTheme ("preferences-system"));
+        ui->actionHelp->setIcon (QIcon::fromTheme ("help-contents"));
+        ui->actionAbout->setIcon (QIcon::fromTheme ("help-about"));
+        ui->actionJump->setIcon (QIcon::fromTheme ("go-jump"));
+        ui->actionEdit->setIcon (QIcon::fromTheme ("document-edit"));
+        ui->actionRun->setIcon (QIcon::fromTheme ("system-run"));
+        ui->actionCopyName->setIcon (QIcon::fromTheme ("edit-copy"));
+        ui->actionCopyPath->setIcon (QIcon::fromTheme ("edit-copy"));
 
-    ui->actionCloseOther->setIcon (symbolicIcon::icon (":icons/tab-close-other.svg"));
-    ui->actionMenu->setIcon (symbolicIcon::icon (":icons/application-menu.svg"));
+        ui->actionCloseOther->setIcon (QIcon::fromTheme ("window-close"));
+        ui->actionMenu->setIcon (QIcon::fromTheme ("application-menu"));
+
+        if (QApplication::layoutDirection() == Qt::RightToLeft)
+        {
+            ui->actionCloseRight->setIcon (QIcon::fromTheme ("go-previous"));
+            ui->actionCloseLeft->setIcon (QIcon::fromTheme ("go-next"));
+            ui->actionRightTab->setIcon (QIcon::fromTheme ("go-previous"));
+            ui->actionLeftTab->setIcon (QIcon::fromTheme ("go-next"));
+        }
+        else
+        {
+            ui->actionCloseRight->setIcon (QIcon::fromTheme ("go-next"));
+            ui->actionCloseLeft->setIcon (QIcon::fromTheme ("go-previous"));
+            ui->actionRightTab->setIcon (QIcon::fromTheme ("go-next"));
+            ui->actionLeftTab->setIcon (QIcon::fromTheme ("go-previous"));
+        }
+    }
+    else
+    {
+        ui->actionNew->setIcon (symbolicIcon::icon (":icons/document-new.svg"));
+        ui->actionOpen->setIcon (symbolicIcon::icon (":icons/document-open.svg"));
+        ui->menuOpenRecently->setIcon (symbolicIcon::icon (":icons/document-open-recent.svg"));
+        ui->actionClearRecent->setIcon (symbolicIcon::icon (":icons/edit-clear.svg"));
+        ui->actionSave->setIcon (symbolicIcon::icon (":icons/document-save.svg"));
+        ui->actionSaveAs->setIcon (symbolicIcon::icon (":icons/document-save-as.svg"));
+        ui->actionSaveAllFiles->setIcon (symbolicIcon::icon (":icons/document-save-all.svg"));
+        ui->actionSaveCodec->setIcon (symbolicIcon::icon (":icons/document-save-as.svg"));
+        ui->actionPrint->setIcon (symbolicIcon::icon (":icons/document-print.svg"));
+        ui->actionDoc->setIcon (symbolicIcon::icon (":icons/document-properties.svg"));
+        ui->actionUndo->setIcon (symbolicIcon::icon (":icons/edit-undo.svg"));
+        ui->actionRedo->setIcon (symbolicIcon::icon (":icons/edit-redo.svg"));
+        ui->actionCut->setIcon (symbolicIcon::icon (":icons/edit-cut.svg"));
+        ui->actionCopy->setIcon (symbolicIcon::icon (":icons/edit-copy.svg"));
+        ui->actionPaste->setIcon (symbolicIcon::icon (":icons/edit-paste.svg"));
+        ui->actionDate->setIcon (symbolicIcon::icon (":icons/document-open-recent.svg"));
+        ui->actionDelete->setIcon (symbolicIcon::icon (":icons/edit-delete.svg"));
+        ui->actionSelectAll->setIcon (symbolicIcon::icon (":icons/edit-select-all.svg"));
+        ui->actionReload->setIcon (symbolicIcon::icon (":icons/view-refresh.svg"));
+        ui->actionFind->setIcon (symbolicIcon::icon (":icons/edit-find.svg"));
+        ui->actionReplace->setIcon (symbolicIcon::icon (":icons/edit-find-replace.svg"));
+        ui->actionClose->setIcon (symbolicIcon::icon (":icons/window-close.svg"));
+        ui->actionQuit->setIcon (symbolicIcon::icon (":icons/application-exit.svg"));
+        ui->actionFont->setIcon (symbolicIcon::icon (":icons/preferences-desktop-font.svg"));
+        ui->actionPreferences->setIcon (symbolicIcon::icon (":icons/preferences-system.svg"));
+        ui->actionHelp->setIcon (symbolicIcon::icon (":icons/help-contents.svg"));
+        ui->actionAbout->setIcon (symbolicIcon::icon (":icons/help-about.svg"));
+        ui->actionJump->setIcon (symbolicIcon::icon (":icons/go-jump.svg"));
+        ui->actionEdit->setIcon (symbolicIcon::icon (":icons/document-edit.svg"));
+        ui->actionRun->setIcon (symbolicIcon::icon (":icons/system-run.svg"));
+        ui->actionCopyName->setIcon (symbolicIcon::icon (":icons/edit-copy.svg"));
+        ui->actionCopyPath->setIcon (symbolicIcon::icon (":icons/edit-copy.svg"));
+
+        ui->actionCloseOther->setIcon (symbolicIcon::icon (":icons/tab-close-other.svg"));
+        ui->actionMenu->setIcon (symbolicIcon::icon (":icons/application-menu.svg"));
+
+        if (QApplication::layoutDirection() == Qt::RightToLeft)
+        {
+            ui->actionCloseRight->setIcon (symbolicIcon::icon (":icons/go-previous.svg"));
+            ui->actionCloseLeft->setIcon (symbolicIcon::icon (":icons/go-next.svg"));
+            ui->actionRightTab->setIcon (symbolicIcon::icon (":icons/go-previous.svg"));
+            ui->actionLeftTab->setIcon (symbolicIcon::icon (":icons/go-next.svg"));
+        }
+        else
+        {
+            ui->actionCloseRight->setIcon (symbolicIcon::icon (":icons/go-next.svg"));
+            ui->actionCloseLeft->setIcon (symbolicIcon::icon (":icons/go-previous.svg"));
+            ui->actionRightTab->setIcon (symbolicIcon::icon (":icons/go-next.svg"));
+            ui->actionLeftTab->setIcon (symbolicIcon::icon (":icons/go-previous.svg"));
+        }
+    }
 
     ui->toolButtonNext->setIcon (symbolicIcon::icon (":icons/go-down.svg"));
     ui->toolButtonPrv->setIcon (symbolicIcon::icon (":icons/go-up.svg"));
     ui->toolButtonAll->setIcon (symbolicIcon::icon (":icons/arrow-down-double.svg"));
-
-    if (QApplication::layoutDirection() == Qt::RightToLeft)
-    {
-        ui->actionCloseRight->setIcon (symbolicIcon::icon (":icons/go-previous.svg"));
-        ui->actionCloseLeft->setIcon (symbolicIcon::icon (":icons/go-next.svg"));
-        ui->actionRightTab->setIcon (symbolicIcon::icon (":icons/go-previous.svg"));
-        ui->actionLeftTab->setIcon (symbolicIcon::icon (":icons/go-next.svg"));
-    }
-    else
-    {
-        ui->actionCloseRight->setIcon (symbolicIcon::icon (":icons/go-next.svg"));
-        ui->actionCloseLeft->setIcon (symbolicIcon::icon (":icons/go-previous.svg"));
-        ui->actionRightTab->setIcon (symbolicIcon::icon (":icons/go-next.svg"));
-        ui->actionLeftTab->setIcon (symbolicIcon::icon (":icons/go-previous.svg"));
-    }
 
     QIcon icn = QIcon::fromTheme ("featherpad");
     if (icn.isNull())
@@ -5353,7 +5409,10 @@ void FPwin::tabContextMenu (const QPoint& p)
         if (!static_cast<FPsingleton*>(qApp)->isRoot() && QFile::exists (fname))
         {
             menu.addSeparator();
-            QAction *action = menu.addAction (symbolicIcon::icon (":icons/document-open.svg"), tr ("Open Containing Folder"));
+            QAction *action = menu.addAction (static_cast<FPsingleton*>(qApp)->getConfig().getSysIcons()
+                                                  ? QIcon::fromTheme ("folder")
+                                                  : symbolicIcon::icon (":icons/document-open.svg"),
+                                              tr ("Open Containing Folder"));
             connect (action, &QAction::triggered, this, [fname] {
                 QDBusMessage methodCall =
                 QDBusMessage::createMethodCall ("org.freedesktop.FileManager1",
@@ -5481,7 +5540,10 @@ void FPwin::listContextMenu (const QPoint& p)
         if (!static_cast<FPsingleton*>(qApp)->isRoot() && QFile::exists (fname))
         {
             menu.addSeparator();
-            QAction *action = menu.addAction (symbolicIcon::icon (":icons/document-open.svg"), tr ("Open Containing Folder"));
+            QAction *action = menu.addAction (static_cast<FPsingleton*>(qApp)->getConfig().getSysIcons()
+                                                  ? QIcon::fromTheme ("folder")
+                                                  : symbolicIcon::icon (":icons/document-open.svg"),
+                                              tr ("Open Containing Folder"));
             connect (action, &QAction::triggered, this, [fname] {
                 QDBusMessage methodCall =
                 QDBusMessage::createMethodCall ("org.freedesktop.FileManager1",

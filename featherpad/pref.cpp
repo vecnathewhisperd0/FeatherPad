@@ -125,6 +125,7 @@ PrefDialog::PrefDialog (QWidget *parent)
     whiteSpaceValue_ = config.getWhiteSpaceValue();
     curLineHighlight_ = config.getCurLineHighlight();
     disableMenubarAccel_ = config.getDisableMenubarAccel();
+    sysIcons_ = config.getSysIcons();
 
     /**************
      *** Window ***
@@ -202,6 +203,9 @@ PrefDialog::PrefDialog (QWidget *parent)
 
     ui->accelBox->setChecked (disableMenubarAccel_);
     connect (ui->accelBox, &QCheckBox::stateChanged, this, &PrefDialog::disableMenubarAccel);
+
+    ui->iconBox->setChecked (sysIcons_);
+    connect (ui->iconBox, &QCheckBox::stateChanged, this, &PrefDialog::prefIcon);
 
     /************
      *** Text ***
@@ -572,6 +576,7 @@ void PrefDialog::showPrompt (const QString& str, bool temporary)
                  || (vLineDistance_ > 0 && vLineDistance_ != config.getVLineDistance()))
              || whiteSpaceValue_ != config.getWhiteSpaceValue()
              || disableMenubarAccel_ != config.getDisableMenubarAccel()
+             || sysIcons_ != config.getSysIcons()
              || curLineHighlight_ != config.getCurLineHighlight()
              || origSyntaxColors_ != (!config.customSyntaxColors().isEmpty()
                                           ? config.customSyntaxColors()
@@ -1815,6 +1820,17 @@ void PrefDialog::disableMenubarAccel (int checked)
         config.setDisableMenubarAccel (true);
     else if (checked == Qt::Unchecked)
         config.setDisableMenubarAccel (false);
+
+    showPrompt();
+}
+/*************************/
+void PrefDialog::prefIcon (int checked)
+{
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    if (checked == Qt::Checked)
+        config.setSysIcons (true);
+    else if (checked == Qt::Unchecked)
+        config.setSysIcons (false);
 
     showPrompt();
 }

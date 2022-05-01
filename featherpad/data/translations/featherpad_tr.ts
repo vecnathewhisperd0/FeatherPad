@@ -13,17 +13,17 @@
     <name>FeatherPad::FPwin</name>
     <message>
         <location filename="../../fpwin.cpp" line="459"/>
-        <location filename="../../fpwin.cpp" line="1487"/>
-        <location filename="../../fpwin.cpp" line="1549"/>
-        <location filename="../../fpwin.cpp" line="2096"/>
-        <location filename="../../fpwin.cpp" line="2158"/>
-        <location filename="../../fpwin.cpp" line="2932"/>
-        <location filename="../../fpwin.cpp" line="2952"/>
-        <location filename="../../fpwin.cpp" line="2955"/>
-        <location filename="../../fpwin.cpp" line="3887"/>
-        <location filename="../../fpwin.cpp" line="4600"/>
-        <location filename="../../fpwin.cpp" line="4894"/>
-        <location filename="../../fpwin.cpp" line="5153"/>
+        <location filename="../../fpwin.cpp" line="1543"/>
+        <location filename="../../fpwin.cpp" line="1605"/>
+        <location filename="../../fpwin.cpp" line="2152"/>
+        <location filename="../../fpwin.cpp" line="2214"/>
+        <location filename="../../fpwin.cpp" line="2988"/>
+        <location filename="../../fpwin.cpp" line="3008"/>
+        <location filename="../../fpwin.cpp" line="3011"/>
+        <location filename="../../fpwin.cpp" line="3943"/>
+        <location filename="../../fpwin.cpp" line="4656"/>
+        <location filename="../../fpwin.cpp" line="4950"/>
+        <location filename="../../fpwin.cpp" line="5209"/>
         <source>Untitled</source>
         <translation>İsimsiz</translation>
     </message>
@@ -66,9 +66,9 @@
         <translation>&amp;Seçenekler</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1510"/>
-        <location filename="../../fpwin.cpp" line="2830"/>
-        <location filename="../../fpwin.cpp" line="4410"/>
+        <location filename="../../fpwin.cpp" line="1566"/>
+        <location filename="../../fpwin.cpp" line="2886"/>
+        <location filename="../../fpwin.cpp" line="4466"/>
         <source>Encoding</source>
         <translatorcomment>Reminder: Should really have been &quot;Karakter Kodlama&quot;, but trimmed due to space constraints on status bar.</translatorcomment>
         <translation>Kodlama</translation>
@@ -136,7 +136,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="519"/>
-        <location filename="../../fpwin.cpp" line="1285"/>
+        <location filename="../../fpwin.cpp" line="1341"/>
         <source>&amp;Save</source>
         <translation>&amp;Kaydet</translation>
     </message>
@@ -616,7 +616,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="342"/>
-        <location filename="../../fpwin.cpp" line="3990"/>
+        <location filename="../../fpwin.cpp" line="4046"/>
         <location filename="../../replace.cpp" line="61"/>
         <location filename="../../replace.cpp" line="113"/>
         <source>Replacement</source>
@@ -811,446 +811,446 @@
         <translation>&amp;Son Açılan Belgeler</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1936"/>
+        <location filename="../../fpwin.cpp" line="1992"/>
         <source>Close</source>
         <translation>Kapat</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1271"/>
+        <location filename="../../fpwin.cpp" line="1327"/>
         <source>Save changes?</source>
         <translation>Değişiklikler kaydedilsin mi?</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="923"/>
+        <location filename="../../fpwin.cpp" line="979"/>
         <source>Please attend to that window or just close its dialog!</source>
         <translation>Lütfen o pencereyle ilgilenin, en azından o diyaloğu kapatın!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1275"/>
+        <location filename="../../fpwin.cpp" line="1331"/>
         <source>The document has been modified.</source>
         <translation>Belge değiştirildi.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1286"/>
+        <location filename="../../fpwin.cpp" line="1342"/>
         <source>&amp;Discard changes</source>
         <translation>Kaydetme</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1287"/>
+        <location filename="../../fpwin.cpp" line="1343"/>
         <source>&amp;Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1289"/>
+        <location filename="../../fpwin.cpp" line="1345"/>
         <source>&amp;No to all</source>
         <translation>Hepsine &amp;Hayır</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1492"/>
-        <location filename="../../fpwin.cpp" line="1550"/>
+        <location filename="../../fpwin.cpp" line="1548"/>
+        <location filename="../../fpwin.cpp" line="1606"/>
         <source>Unsaved</source>
         <translation>Kaydedilmedi</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1511"/>
-        <location filename="../../fpwin.cpp" line="2832"/>
-        <location filename="../../fpwin.cpp" line="3556"/>
-        <location filename="../../fpwin.cpp" line="3567"/>
-        <location filename="../../fpwin.cpp" line="3574"/>
-        <location filename="../../fpwin.cpp" line="4415"/>
-        <location filename="../../fpwin.cpp" line="6001"/>
-        <location filename="../../fpwin.cpp" line="6012"/>
-        <location filename="../../fpwin.cpp" line="6019"/>
+        <location filename="../../fpwin.cpp" line="1567"/>
+        <location filename="../../fpwin.cpp" line="2888"/>
+        <location filename="../../fpwin.cpp" line="3612"/>
+        <location filename="../../fpwin.cpp" line="3623"/>
+        <location filename="../../fpwin.cpp" line="3630"/>
+        <location filename="../../fpwin.cpp" line="4471"/>
+        <location filename="../../fpwin.cpp" line="6063"/>
+        <location filename="../../fpwin.cpp" line="6074"/>
+        <location filename="../../fpwin.cpp" line="6081"/>
         <source>Lines</source>
         <translation>Satır</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1512"/>
-        <location filename="../../fpwin.cpp" line="4416"/>
-        <location filename="../../fpwin.cpp" line="4431"/>
+        <location filename="../../fpwin.cpp" line="1568"/>
+        <location filename="../../fpwin.cpp" line="4472"/>
+        <location filename="../../fpwin.cpp" line="4487"/>
         <source>Sel. Chars</source>
         <translation>Seçim</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1513"/>
-        <location filename="../../fpwin.cpp" line="4418"/>
-        <location filename="../../fpwin.cpp" line="4432"/>
+        <location filename="../../fpwin.cpp" line="1569"/>
+        <location filename="../../fpwin.cpp" line="4474"/>
+        <location filename="../../fpwin.cpp" line="4488"/>
         <source>Words</source>
         <translation>Kelime</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1829"/>
+        <location filename="../../fpwin.cpp" line="1885"/>
         <source>Another process is running in this tab!</source>
         <translation>Bu sekmede başka bir süreç çalışıyor!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1927"/>
+        <location filename="../../fpwin.cpp" line="1983"/>
         <source>Script File</source>
         <translation>Betik Dosyası</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="922"/>
+        <location filename="../../fpwin.cpp" line="978"/>
         <source>Another FeatherPad window has a modal dialog!</source>
         <translation>Başka FeatherPad penceresinde cevap bekleyen bir diyalog var!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="759"/>
-        <location filename="../../fpwin.cpp" line="4457"/>
+        <location filename="../../fpwin.cpp" line="815"/>
+        <location filename="../../fpwin.cpp" line="4513"/>
         <source>Position:</source>
         <translation>Konum:</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="807"/>
-        <location filename="../../fpwin.cpp" line="4475"/>
-        <location filename="../../fpwin.cpp" line="4495"/>
+        <location filename="../../fpwin.cpp" line="863"/>
+        <location filename="../../fpwin.cpp" line="4531"/>
+        <location filename="../../fpwin.cpp" line="4551"/>
         <source>Normal</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1273"/>
-        <location filename="../../fpwin.cpp" line="2592"/>
-        <location filename="../../fpwin.cpp" line="5811"/>
+        <location filename="../../fpwin.cpp" line="1329"/>
+        <location filename="../../fpwin.cpp" line="2648"/>
+        <location filename="../../fpwin.cpp" line="5873"/>
         <source>The file does not exist.</source>
         <translation>Böyle bir dosya yok.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1642"/>
+        <location filename="../../fpwin.cpp" line="1698"/>
         <source>Open Link</source>
         <translation>Bağlantıyı Aç</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1655"/>
+        <location filename="../../fpwin.cpp" line="1711"/>
         <source>Copy Link</source>
         <translation>Bağlantıyı Kopyala</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1830"/>
+        <location filename="../../fpwin.cpp" line="1886"/>
         <source>Only one process is allowed per tab.</source>
         <translation>Bir sekmede birden fazla süreç çalışamaz.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1923"/>
+        <location filename="../../fpwin.cpp" line="1979"/>
         <source>Script Output</source>
         <translation>Betik Çıktısı</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1939"/>
+        <location filename="../../fpwin.cpp" line="1995"/>
         <source>Clear</source>
         <translation>Temizle</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2549"/>
+        <location filename="../../fpwin.cpp" line="2605"/>
         <source>FeatherPad does not open files larger than 100 MiB.</source>
         <translation>FeatherPad 100 MB&apos;den büyük dosyaları açmaz.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2557"/>
+        <location filename="../../fpwin.cpp" line="2613"/>
         <source>Non-text file(s) not opened!</source>
         <translation>Metin olmayan dosya(lar) açılmadı!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2558"/>
+        <location filename="../../fpwin.cpp" line="2614"/>
         <source>See Preferences → Files → Do not permit opening of non-text files</source>
         <translation>Tercihler → Dosyalar → Metin olmayan dosyaların açılmasına izin verme bölümüne bakın</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2567"/>
+        <location filename="../../fpwin.cpp" line="2623"/>
         <source>Some file(s) could not be opened!</source>
         <translation>Bazı dosya(lar) açılamadı!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2568"/>
+        <location filename="../../fpwin.cpp" line="2624"/>
         <source>You may not have the permission to read.</source>
         <translation>Dosyayı okuma yetkiniz olmayabilir.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2578"/>
+        <location filename="../../fpwin.cpp" line="2634"/>
         <source>Uneditable file(s)!</source>
         <translation>Düzenlenemeyen dosya(lar)!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2579"/>
+        <location filename="../../fpwin.cpp" line="2635"/>
         <source>Non-text files or files with huge lines cannot be edited.</source>
         <translation>Metin olmayan dosyalar veya aşırı uzun satırlar içeren dosyalar düzenlenemezler.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2643"/>
+        <location filename="../../fpwin.cpp" line="2699"/>
         <source>A previous crash detected!</source>
         <translation>Evvelki çökme tespit edildi!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2644"/>
+        <location filename="../../fpwin.cpp" line="2700"/>
         <source>Preferably, close all FeatherPad windows and start again!</source>
         <translation>Tercihen, tüm FeatherPad pencerelerini kapatıp tekrar başlatın!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2652"/>
+        <location filename="../../fpwin.cpp" line="2708"/>
         <source>Root Instance</source>
         <translation>Yetkili Kullanıcı</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2724"/>
-        <location filename="../../fpwin.cpp" line="2913"/>
-        <location filename="../../fpwin.cpp" line="2941"/>
+        <location filename="../../fpwin.cpp" line="2780"/>
+        <location filename="../../fpwin.cpp" line="2969"/>
+        <location filename="../../fpwin.cpp" line="2997"/>
         <source>All Files (*)</source>
         <translation>Tüm Dosyalar (*)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2729"/>
+        <location filename="../../fpwin.cpp" line="2785"/>
         <source>All Files (*);;.%1 Files (*.%1)</source>
         <translatorcomment>Reminder: %1 refers to file type as in &quot;.txt files (*.txt)&quot;</translatorcomment>
         <translation>Tüm Dosyalar (*);;.%1 Dosyaları (*.%1)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2733"/>
+        <location filename="../../fpwin.cpp" line="2789"/>
         <source>Open file...</source>
         <translation>Dosya aç...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2919"/>
+        <location filename="../../fpwin.cpp" line="2975"/>
         <source>.%1 Files (*.%1);;All Files (*)</source>
         <translatorcomment>Reminder: %1 refers to file type as in &quot;.txt files (*.txt)&quot;</translatorcomment>
         <translation>.%1 Dosyaları (*.%1);;Tüm Dosyalar (*)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2970"/>
-        <location filename="../../fpwin.cpp" line="3008"/>
+        <location filename="../../fpwin.cpp" line="3026"/>
+        <location filename="../../fpwin.cpp" line="3064"/>
         <source>Save as...</source>
         <translation>Farklı Kaydet...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3044"/>
+        <location filename="../../fpwin.cpp" line="3100"/>
         <source>Keep encoding and save as...</source>
         <translation>Karakter kodlamayı koruyarak farklı kaydet...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3379"/>
+        <location filename="../../fpwin.cpp" line="3435"/>
         <source>Saving as root.</source>
         <translation>Yönetici olarak kaydediliyor.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3380"/>
+        <location filename="../../fpwin.cpp" line="3436"/>
         <source>Waiting for authentication...</source>
         <translation>Kimlik doğrulama için bekleniyor...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3500"/>
+        <location filename="../../fpwin.cpp" line="3556"/>
         <source>&quot;pkexec&quot; is not found. Please install Polkit!</source>
         <translation>&quot;pkexec&quot; bulunamadı. Lütfen Polkit&apos;i kurun!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3159"/>
+        <location filename="../../fpwin.cpp" line="3215"/>
         <source>Yes</source>
         <translation>Evet</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3160"/>
+        <location filename="../../fpwin.cpp" line="3216"/>
         <source>No</source>
         <translation>Hayır</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3161"/>
+        <location filename="../../fpwin.cpp" line="3217"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3162"/>
+        <location filename="../../fpwin.cpp" line="3218"/>
         <source>Do you want to use &lt;b&gt;MS Windows&lt;/b&gt; end-of-lines?</source>
         <translation>&lt;b&gt;MS Windows&lt;/b&gt; satır sonlandırmasını kullanmak istiyor musunuz?</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3163"/>
+        <location filename="../../fpwin.cpp" line="3219"/>
         <source>This may be good for readability under MS Windows.</source>
         <translation>MS Windows&apos;da okunabilirlik açısından iyi olabilir.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3276"/>
-        <location filename="../../fpwin.cpp" line="3394"/>
-        <location filename="../../fpwin.cpp" line="3499"/>
-        <location filename="../../fpwin.cpp" line="3511"/>
+        <location filename="../../fpwin.cpp" line="3332"/>
+        <location filename="../../fpwin.cpp" line="3450"/>
+        <location filename="../../fpwin.cpp" line="3555"/>
+        <location filename="../../fpwin.cpp" line="3567"/>
         <source>Cannot be saved!</source>
         <translation>Kaydedilemiyor!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="457"/>
-        <location filename="../../fpwin.cpp" line="3885"/>
-        <location filename="../../fpwin.cpp" line="4892"/>
-        <location filename="../../fpwin.cpp" line="5151"/>
-        <location filename="../../fpwin.cpp" line="6217"/>
+        <location filename="../../fpwin.cpp" line="3941"/>
+        <location filename="../../fpwin.cpp" line="4948"/>
+        <location filename="../../fpwin.cpp" line="5207"/>
+        <location filename="../../fpwin.cpp" line="6279"/>
         <source>Help</source>
         <translation>Yardım</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3552"/>
-        <location filename="../../fpwin.cpp" line="3558"/>
-        <location filename="../../fpwin.cpp" line="3566"/>
-        <location filename="../../fpwin.cpp" line="4413"/>
-        <location filename="../../fpwin.cpp" line="5997"/>
-        <location filename="../../fpwin.cpp" line="6003"/>
-        <location filename="../../fpwin.cpp" line="6011"/>
+        <location filename="../../fpwin.cpp" line="3608"/>
+        <location filename="../../fpwin.cpp" line="3614"/>
+        <location filename="../../fpwin.cpp" line="3622"/>
+        <location filename="../../fpwin.cpp" line="4469"/>
+        <location filename="../../fpwin.cpp" line="6059"/>
+        <location filename="../../fpwin.cpp" line="6065"/>
+        <location filename="../../fpwin.cpp" line="6073"/>
         <source>Syntax</source>
         <translation>Sözdizimi</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2548"/>
+        <location filename="../../fpwin.cpp" line="2604"/>
         <source>Huge file(s) not opened!</source>
         <translation>Aşırı büyük dosya(lar) açılmadı!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3655"/>
+        <location filename="../../fpwin.cpp" line="3711"/>
         <source>Text tabs are converted to spaces.</source>
         <translation>Metin sekmeleri boşluklara dönüştürülür.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3757"/>
+        <location filename="../../fpwin.cpp" line="3813"/>
         <source>The selected text was too long.</source>
         <translation>Seçili metin çok uzundu.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3758"/>
+        <location filename="../../fpwin.cpp" line="3814"/>
         <source>It is not fully processed.</source>
         <translation>Tam olarak işlenmemiş.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3897"/>
-        <location filename="../../fpwin.cpp" line="4089"/>
+        <location filename="../../fpwin.cpp" line="3953"/>
+        <location filename="../../fpwin.cpp" line="4145"/>
         <source>This file has been modified elsewhere or in another way!</source>
         <translation>Bu dosya başka bir yerde veya başka surette değiştirilmiş!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3898"/>
-        <location filename="../../fpwin.cpp" line="4090"/>
+        <location filename="../../fpwin.cpp" line="3954"/>
+        <location filename="../../fpwin.cpp" line="4146"/>
         <source>Please be careful about reloading or saving this document!</source>
         <translation>Lütfen bu dosyayı tekrar yüklerken veya kaydederken dikkatli olun!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4566"/>
+        <location filename="../../fpwin.cpp" line="4622"/>
         <source>Printing in progress...</source>
         <translation>Yazdırma devam ediyor ...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4617"/>
+        <location filename="../../fpwin.cpp" line="4673"/>
         <source>Print Document</source>
         <translation>Belgeyi Yazdır</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4623"/>
+        <location filename="../../fpwin.cpp" line="4679"/>
         <source>Printing completed.</source>
         <translation>Baskı tamamlandı.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5281"/>
-        <location filename="../../fpwin.cpp" line="5402"/>
+        <location filename="../../fpwin.cpp" line="5337"/>
+        <location filename="../../fpwin.cpp" line="5461"/>
         <source>%1 Pages</source>
         <translation>%1 Sayfa</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5312"/>
-        <location filename="../../fpwin.cpp" line="5438"/>
+        <location filename="../../fpwin.cpp" line="5368"/>
+        <location filename="../../fpwin.cpp" line="5497"/>
         <source>Copy Target Path</source>
         <translation>Hedef Yolunu Kopyala</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5316"/>
-        <location filename="../../fpwin.cpp" line="5442"/>
+        <location filename="../../fpwin.cpp" line="5372"/>
+        <location filename="../../fpwin.cpp" line="5501"/>
         <source>Open Target Here</source>
         <translation>Hedefi Buraya Aç</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5335"/>
-        <location filename="../../fpwin.cpp" line="5462"/>
+        <location filename="../../fpwin.cpp" line="5391"/>
+        <location filename="../../fpwin.cpp" line="5521"/>
         <source>Copy Final Target Path</source>
         <translation>Son Hedef Yolunu Kopyala</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5339"/>
-        <location filename="../../fpwin.cpp" line="5466"/>
+        <location filename="../../fpwin.cpp" line="5395"/>
+        <location filename="../../fpwin.cpp" line="5525"/>
         <source>Open Final Target Here</source>
         <translation>Son Hedef Yolunu Aç</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5356"/>
-        <location filename="../../fpwin.cpp" line="5484"/>
+        <location filename="../../fpwin.cpp" line="5415"/>
+        <location filename="../../fpwin.cpp" line="5546"/>
         <source>Open Containing Folder</source>
         <translation>Dosyayı içeren dizini açın</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5607"/>
+        <location filename="../../fpwin.cpp" line="5669"/>
         <source>You need to add a Hunspell dictionary.</source>
         <translation>Hunspell sözlüğü eklemeniz gerekiyor.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5608"/>
-        <location filename="../../fpwin.cpp" line="5615"/>
-        <location filename="../../fpwin.cpp" line="5625"/>
+        <location filename="../../fpwin.cpp" line="5670"/>
+        <location filename="../../fpwin.cpp" line="5677"/>
+        <location filename="../../fpwin.cpp" line="5687"/>
         <source>See Preferences → Text → Spell Checking!</source>
         <translation>Tercihler → Metin → İmla Denetimi&apos;ne bakın!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5614"/>
+        <location filename="../../fpwin.cpp" line="5676"/>
         <source>The Hunspell dictionary does not exist.</source>
         <translation>Hunspell sözlüğü mevcut değil.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5624"/>
+        <location filename="../../fpwin.cpp" line="5686"/>
         <source>The Hunspell dictionary is not accompanied by an affix file.</source>
         <translation>Hunspell sözlüğüne bir ek dosyası eşlik etmez.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5647"/>
-        <location filename="../../fpwin.cpp" line="5665"/>
-        <location filename="../../fpwin.cpp" line="5680"/>
+        <location filename="../../fpwin.cpp" line="5709"/>
+        <location filename="../../fpwin.cpp" line="5727"/>
+        <location filename="../../fpwin.cpp" line="5742"/>
         <source>No misspelling in document.</source>
         <translation>Belgede yazım hatası yok.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5649"/>
-        <location filename="../../fpwin.cpp" line="5667"/>
-        <location filename="../../fpwin.cpp" line="5682"/>
+        <location filename="../../fpwin.cpp" line="5711"/>
+        <location filename="../../fpwin.cpp" line="5729"/>
+        <location filename="../../fpwin.cpp" line="5744"/>
         <source>No misspelling from text cursor.</source>
         <translation>Metin imlecinden yanlış yazım yok.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5698"/>
+        <location filename="../../fpwin.cpp" line="5760"/>
         <source>Spell Checking</source>
         <translation>İmla Denetimi</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6035"/>
+        <location filename="../../fpwin.cpp" line="6097"/>
         <source>Some files cannot be saved!</source>
         <translation>Bazı dosyalar kaydedilemez!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6078"/>
+        <location filename="../../fpwin.cpp" line="6140"/>
         <source>Translators</source>
         <translation>Çevirmenler</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6074"/>
+        <location filename="../../fpwin.cpp" line="6136"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translatorcomment>RAPOR 7: Please see the other comment.</translatorcomment>
         <translation>Hafif, sekmeli, düz metin düzenleyici</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6075"/>
+        <location filename="../../fpwin.cpp" line="6137"/>
         <source>based on Qt</source>
         <translatorcomment>RAPOR 7: Either has to be put at the start or mid-sentence as part of the features, or has to be added to the end as an afterthought. Because of such things, I suggest this and the preceding message be merged in a single compound sentence.</translatorcomment>
         <translation>Qt tabanlı</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6076"/>
+        <location filename="../../fpwin.cpp" line="6138"/>
         <source>Author</source>
         <translation>Yazar</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6077"/>
+        <location filename="../../fpwin.cpp" line="6139"/>
         <source>aka.</source>
         <translatorcomment>Reminder: Lesser alternatives: &quot;yani&quot; (that is) ; &quot;rumuz&quot; (nick) ; &quot;veya&quot; (or)</translatorcomment>
         <translation>nam-ı diğer,</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6078"/>
-        <location filename="../../fpwin.cpp" line="6079"/>
+        <location filename="../../fpwin.cpp" line="6140"/>
+        <location filename="../../fpwin.cpp" line="6141"/>
         <source>About FeatherPad</source>
         <translation>FeatherPad Hakkında</translation>
     </message>
@@ -1474,64 +1474,74 @@ ve özelleştirilmiş kısayollara müdahale edebilir.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="229"/>
+        <source>Internal icons are used by default.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../prefDialog.ui" line="232"/>
+        <source>Use system icons where possible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../prefDialog.ui" line="239"/>
         <source>Hide search &amp;bar by default</source>
         <translation>&amp;Öntanımlı olarak arama çubuğunu gizle</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="236"/>
+        <location filename="../../prefDialog.ui" line="246"/>
         <source>By default, each search entry
 has a separate search history.</source>
         <translation>Varsayılan olarak, her arama girişi
 ayrı bir arama geçmişine sahiptir.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="240"/>
+        <location filename="../../prefDialog.ui" line="250"/>
         <source>Use a shared search history</source>
         <translation>Paylaşılan bir arama geçmişi kullanın</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="247"/>
+        <location filename="../../prefDialog.ui" line="257"/>
         <source>Always show st&amp;atus bar</source>
         <translation>D&amp;urum çubuğunu daima göster</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="272"/>
+        <location filename="../../prefDialog.ui" line="282"/>
         <source>Show cursor position on status bar</source>
         <translation>Durum &amp;çubuğunda imleç konumunu göster</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="283"/>
         <location filename="../../prefDialog.ui" line="293"/>
+        <location filename="../../prefDialog.ui" line="303"/>
         <source>Will take effect after closing this dialog.</source>
         <translation>Pencereyi kapatınca etkinleşecektir.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="286"/>
+        <location filename="../../prefDialog.ui" line="296"/>
         <source>Tab position: </source>
         <translation>Sekme konumu: </translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="297"/>
+        <location filename="../../prefDialog.ui" line="307"/>
         <source>North</source>
         <translation>Üst</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="302"/>
+        <location filename="../../prefDialog.ui" line="312"/>
         <source>South</source>
         <translation>Alt</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="307"/>
+        <location filename="../../prefDialog.ui" line="317"/>
         <source>West</source>
         <translation>Sol</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="312"/>
+        <location filename="../../prefDialog.ui" line="322"/>
         <source>East</source>
         <translation>Sağ</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="338"/>
+        <location filename="../../prefDialog.ui" line="348"/>
         <source>This means that, for LTR, Alt+Right goes to the first tab
 after the last tab is activated, and the same for Alt+Left.
 
@@ -1542,17 +1552,17 @@ sekmeye gider. Alt+Sol ise bunun tam tersi çalışır.
 Fare tekeriyle sekme gezinimi bundan etkilenmez.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="344"/>
+        <location filename="../../prefDialog.ui" line="354"/>
         <source>Tab navigation wraps &amp;around</source>
         <translation>Sekme &amp;gezinimi sondan başa sarsın</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="364"/>
+        <location filename="../../prefDialog.ui" line="374"/>
         <source>Close window on closing its last tab</source>
         <translation>So&amp;n sekmeyi kapatınca pencereyi de kapat</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="371"/>
+        <location filename="../../prefDialog.ui" line="381"/>
         <source>By default, if a FeatherPad window exists on the
 current desktop, files will be opened in its tabs.
 
@@ -1566,12 +1576,12 @@ Lakin, bazı masaüstü yöneticileri birden fazla masaüstü
 kullanıldığını bildirmeyebilirler.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="378"/>
+        <location filename="../../prefDialog.ui" line="388"/>
         <source>Always open in separate windows</source>
         <translation>D&amp;osyaları daima ayrı pencerelerde aç</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="385"/>
+        <location filename="../../prefDialog.ui" line="395"/>
         <source>If this is checked, the file dialog provided by the current
 desktop environment will be used instead of the Qt file dialog.
 
@@ -1582,32 +1592,32 @@ mevcut masaüstü ortamının sağladığı dosya diyaloğu kullanılır.
 KDE ve LXQt gibi bazı masaüstlerinin kendi dosya diyaloğu vardır.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="391"/>
+        <location filename="../../prefDialog.ui" line="401"/>
         <source>Native file dialog</source>
         <translation>Sistem &amp;öntanımlı dosya diyaloğu</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="467"/>
+        <location filename="../../prefDialog.ui" line="477"/>
         <source>Uncheck for Monospace.</source>
         <translation>Monospace kullanmak için boş bırakın.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="470"/>
+        <location filename="../../prefDialog.ui" line="480"/>
         <source>Remember &amp;font</source>
         <translation>&amp;Yazı tipini hatırla</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="491"/>
+        <location filename="../../prefDialog.ui" line="501"/>
         <source>This covers parentheses, braces, brackets and quotes.</source>
         <translation>Parantez, grup parantezi, köşeli parantez ve tırnak işaretlerini kapsar.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="494"/>
+        <location filename="../../prefDialog.ui" line="504"/>
         <source>Auto-&amp;bracket</source>
         <translation>&amp;Otomatik parantezler</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="501"/>
+        <location filename="../../prefDialog.ui" line="511"/>
         <source>By default, a triple period is replaced with an ellipsis
 and a double hyphen with a long dash while typing,
 under proper circumstances.</source>
@@ -1616,115 +1626,115 @@ under proper circumstances.</source>
 çizgi ile değiştirilir.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="506"/>
+        <location filename="../../prefDialog.ui" line="516"/>
         <source>Replace triple periods and double hyphens while typing</source>
         <translation>Yazarken üçlü noktaları ve çift kısa çizgileri değiştir</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="520"/>
+        <location filename="../../prefDialog.ui" line="530"/>
         <source>Highlight case-sensitive and whole matches
 of the selected text.</source>
         <translation>Seçili metnin büyük/küçük harfe duyarlı
  ve tam eşleşmelerini vurgulayın.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="524"/>
+        <location filename="../../prefDialog.ui" line="534"/>
         <source>Selection highlighting</source>
         <translation>Seçim vurgulama</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="587"/>
+        <location filename="../../prefDialog.ui" line="597"/>
         <source>Never highlight syntax for files &gt; </source>
         <translatorcomment>Reminder: MA in caps to stress negation (has double/conflicting meanings)</translatorcomment>
         <translation>Bundan büyük dosyalarda sözdizimini vurgulama </translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="556"/>
+        <location filename="../../prefDialog.ui" line="566"/>
         <source>This creates a menu button on the
 status bar for changing the syntax.</source>
         <translation>Sözdizimini değiştirme için durum çubuğunda menü düğmesi oluşturur.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="560"/>
+        <location filename="../../prefDialog.ui" line="570"/>
         <source>Support syntax override</source>
         <translation>&amp;Farklı sözdizimi seçme imkanı</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="625"/>
+        <location filename="../../prefDialog.ui" line="635"/>
         <source>Show spaces, tabs and tab lines
 when the syntax is highlighted.</source>
         <translation>Sentaks vurgulanırken, boşlukları,
 sekmeleri ve sekme çizgilerini göster.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="629"/>
+        <location filename="../../prefDialog.ui" line="639"/>
         <source>Show whitespaces</source>
         <translation>Boşlukları ve sekmeleri göster</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="645"/>
-        <location filename="../../prefDialog.ui" line="656"/>
+        <location filename="../../prefDialog.ui" line="655"/>
+        <location filename="../../prefDialog.ui" line="666"/>
         <source>The vertical position lines will be drawn only if
 the editor font has a fixed pitch (like Monospace).</source>
         <translation>Düşey çizgiler sadece sabit genişlikte yazı
 tipi (Monospace gibi) kullanılıyorsa çizilir.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="649"/>
+        <location filename="../../prefDialog.ui" line="659"/>
         <source>Show vertical lines starting from this position:</source>
         <translatorcomment>RAPOR 5 : Translated as &quot;Show vertical lines with this spacing&quot; as it seemed more appropriate.</translatorcomment>
         <translation>Bu aralıklarla düşey &amp;çizgi göster:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="636"/>
+        <location filename="../../prefDialog.ui" line="646"/>
         <source>Also show line and document ends</source>
         <translation>&amp;Satır ve belge sonlarını da göster</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="775"/>
+        <location filename="../../prefDialog.ui" line="785"/>
         <source>Date and time format:</source>
         <translation>Tarih ve zaman biçimi:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="845"/>
+        <location filename="../../prefDialog.ui" line="855"/>
         <source>Some text editors cannot open a document
 whose last line is not empty.</source>
         <translation>Bazı metin düzenleyiciler, son satırı
 boş olmayan belgeleri açamazlar.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="849"/>
+        <location filename="../../prefDialog.ui" line="859"/>
         <source>Ensure an empty last line on saving</source>
         <translation>Kaydederken sonda boş satır olduğundan emin olun</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="856"/>
+        <location filename="../../prefDialog.ui" line="866"/>
         <source>Remove trailing spaces on saving</source>
         <translation>Kaydederken en sondaki bo&amp;şlukları kırp</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="874"/>
+        <location filename="../../prefDialog.ui" line="884"/>
         <source>Inertial scrolling with mouse wheel</source>
         <translation>Fare tekeriyle &amp;ataletli kaydırma yap</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="963"/>
+        <location filename="../../prefDialog.ui" line="973"/>
         <source>Files</source>
         <translation>&amp;Dosyalar</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="969"/>
+        <location filename="../../prefDialog.ui" line="979"/>
         <source>File Management</source>
         <translation>Dosya Yönetimi</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1086"/>
+        <location filename="../../prefDialog.ui" line="1096"/>
         <source>Start with files of last window</source>
         <translation>&amp;Son kapatılan penceredeki dosyalarla başla</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1128"/>
-        <location filename="../../prefDialog.ui" line="1147"/>
+        <location filename="../../prefDialog.ui" line="1138"/>
+        <location filename="../../prefDialog.ui" line="1157"/>
         <source>This can be any starting command with
 arguments, for example, &quot;xterm -hold&quot;
 for running the process in XTerm.
@@ -1746,32 +1756,32 @@ Eğer betik bir terminal emülatöründe
 bir diyalog balonuyla gösterilir.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1140"/>
+        <location filename="../../prefDialog.ui" line="1150"/>
         <source>Start with this command: </source>
         <translation>Bu komutla başlat: </translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1159"/>
+        <location filename="../../prefDialog.ui" line="1169"/>
         <source>Command + Arguments</source>
         <translation>Komut + Parametreler</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1044"/>
+        <location filename="../../prefDialog.ui" line="1054"/>
         <source>Show recentl&amp;y modified files</source>
         <translation>Son değiştirilen dosyaları &amp;göster</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1074"/>
+        <location filename="../../prefDialog.ui" line="1084"/>
         <source>Show recentl&amp;y opened files</source>
         <translation>Son &amp;açılan dosyaları göster</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1173"/>
+        <location filename="../../prefDialog.ui" line="1183"/>
         <source>Save changes to opened files every:</source>
         <translation>Dosyaları &amp;otomatik kaydetme aralığı:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1451"/>
+        <location filename="../../prefDialog.ui" line="1461"/>
         <source>Help</source>
         <translation>Yardım</translation>
     </message>
@@ -1781,7 +1791,7 @@ bir diyalog balonuyla gösterilir.</translation>
         <translation>&amp;Yan panel kipinde başla</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="351"/>
+        <location filename="../../prefDialog.ui" line="361"/>
         <source>If this is checked, not only you will lose the informative
 tooltip and context menu of a single tab but you could not
 merge a single tabbed window into another one by tab drag-
@@ -1792,57 +1802,57 @@ sürükle-bırak yöntemiyle tek sekmeli bir pencereyi
 diğeriyle birleştirebilme imkanını da kaybedersiniz.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="357"/>
+        <location filename="../../prefDialog.ui" line="367"/>
         <source>&amp;Do not show a single tab</source>
         <translation>&amp;Tek sekme varsa gösterme</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="422"/>
+        <location filename="../../prefDialog.ui" line="432"/>
         <source>Text</source>
         <translation>&amp;Metin</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="461"/>
+        <location filename="../../prefDialog.ui" line="471"/>
         <source>Text Editor</source>
         <translation>Metin Düzenleyici</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="477"/>
+        <location filename="../../prefDialog.ui" line="487"/>
         <source>&amp;Wrap lines by default</source>
         <translation>Öntanımlı olarak satırları sa&amp;r</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="484"/>
+        <location filename="../../prefDialog.ui" line="494"/>
         <source>Auto-&amp;indent by default</source>
         <translation>Öntanımlı olarak otomatik &amp;girintile</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="513"/>
+        <location filename="../../prefDialog.ui" line="523"/>
         <source>Always show line &amp;numbers</source>
         <translation>Daima satır &amp;numaralarını göster</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="531"/>
+        <location filename="../../prefDialog.ui" line="541"/>
         <source>Highlight s&amp;yntax by default</source>
         <translation>Öntanımlı olarak sentaksı &amp;vurgula</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="691"/>
+        <location filename="../../prefDialog.ui" line="701"/>
         <source>Dark c&amp;olor scheme</source>
         <translation>Koyu renk &amp;tarzı</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="726"/>
+        <location filename="../../prefDialog.ui" line="736"/>
         <source>Background color value: </source>
         <translation>Arkaplan renk değeri: </translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="594"/>
+        <location filename="../../prefDialog.ui" line="604"/>
         <source> MiB</source>
         <translation> MB</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1093"/>
+        <location filename="../../prefDialog.ui" line="1103"/>
         <source>This only includes executable files written
 in script languages like Shell and Python.
 
@@ -1860,13 +1870,13 @@ sahipse, dosya menüsü veya araç çubuğundaki
 Bilahare, program Ctrl+Alt+E ile sonlandırılabilir.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="688"/>
+        <location filename="../../prefDialog.ui" line="698"/>
         <source>Needs window reopening to take effect.</source>
         <translation>Yeni pencere açıldığında etkinleşir.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="716"/>
-        <location filename="../../prefDialog.ui" line="733"/>
+        <location filename="../../prefDialog.ui" line="726"/>
+        <location filename="../../prefDialog.ui" line="743"/>
         <source>The color value of the background.
 255 means white while 0 means black.
 
@@ -1884,13 +1894,13 @@ koyu fonda 0-50 arası olabilir.
 Yeni pencere açıldığında etkinleşir.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1103"/>
+        <location filename="../../prefDialog.ui" line="1113"/>
         <source>Run executable scripts</source>
         <translation>&amp;Çalıştırılabilir betikleri çalıştır</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="977"/>
-        <location filename="../../prefDialog.ui" line="991"/>
+        <location filename="../../prefDialog.ui" line="987"/>
+        <location filename="../../prefDialog.ui" line="1001"/>
         <source>The maximum number of recently modified or
 opened files FeatherPad shows. The default
 is 10.
@@ -1902,8 +1912,8 @@ bu kadarını gösterir. Varsayılan değer 10&apos;dur.
 Uygulama tekrar başlatılınca etkinleşir.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="767"/>
-        <location filename="../../prefDialog.ui" line="782"/>
+        <location filename="../../prefDialog.ui" line="777"/>
+        <location filename="../../prefDialog.ui" line="792"/>
         <source>Used for pasting the date and time.
 
 Takes effect after closing this dialog.
@@ -1921,35 +1931,35 @@ Not: MMM=Ay ; dd=gün ; yyyy=yıl
 hh=saat ; mm=dakika ; ss=saniye</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="804"/>
+        <location filename="../../prefDialog.ui" line="814"/>
         <source>Text tab size:</source>
         <translation>Metin sekme genişliği:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="811"/>
+        <location filename="../../prefDialog.ui" line="821"/>
         <source> spaces</source>
         <translation> boşluk</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="863"/>
+        <location filename="../../prefDialog.ui" line="873"/>
         <source>Thick text cursor</source>
         <translation>Kalın metin imleci</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="870"/>
+        <location filename="../../prefDialog.ui" line="880"/>
         <source>Should the mouse wheel scrolling be inertial
 if the cursor is inside the text view?</source>
         <translation>İmleç metin alanındaysa, fare tekeriyle
 kaydırmada atalet özelliği olsun mu?</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="881"/>
+        <location filename="../../prefDialog.ui" line="891"/>
         <source>Spell Checking</source>
         <translation>İmla Denetimi</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="889"/>
-        <location filename="../../prefDialog.ui" line="901"/>
+        <location filename="../../prefDialog.ui" line="899"/>
+        <location filename="../../prefDialog.ui" line="911"/>
         <source>A Hunspell dictionary has a name that ends with &quot;.dic&quot;
 and should be alongside an affix file with the same
 name but ending with &quot;.aff&quot;.</source>
@@ -1958,51 +1968,51 @@ ve aynı ada sahip ancak &quot;.aff&quot; ile biten bir ek
 dosyası da yanında yer almalıdır.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="894"/>
+        <location filename="../../prefDialog.ui" line="904"/>
         <source>Hunspell dictionary path:</source>
         <translation>Hunspell sözlük yolu:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="913"/>
-        <location filename="../../pref.cpp" line="1648"/>
+        <location filename="../../prefDialog.ui" line="923"/>
+        <location filename="../../pref.cpp" line="1653"/>
         <source>Add dictionary...</source>
         <translation>Sözlük ekle...</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="925"/>
+        <location filename="../../prefDialog.ui" line="935"/>
         <source>If this is unchecked, spell checking
 will be started from the document start.</source>
         <translation>Bu işaretlenmemişse, yazım denetimi
  belge başlangıcından başlayacaktır.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="929"/>
+        <location filename="../../prefDialog.ui" line="939"/>
         <source>Start spell checking from text cursor</source>
         <translation>İmla denetimini metin imlecinden başlat</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="984"/>
+        <location filename="../../prefDialog.ui" line="994"/>
         <source>Number of recent files: </source>
         <translation>Son kullanılan dosya adedi: </translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1083"/>
+        <location filename="../../prefDialog.ui" line="1093"/>
         <source>Only if their number is not greater than 50.</source>
         <translation>Sayılarının 50&apos;yi aşmaması şartıyla.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1170"/>
         <location filename="../../prefDialog.ui" line="1180"/>
+        <location filename="../../prefDialog.ui" line="1190"/>
         <source>Only for files that exist and can be saved.</source>
         <translation>Sadece kaydedilebilir mevcut dosyalar için caridir.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1183"/>
+        <location filename="../../prefDialog.ui" line="1193"/>
         <source> min</source>
         <translation> dk</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1214"/>
+        <location filename="../../prefDialog.ui" line="1224"/>
         <source>If this is checked, the Save button/menu-item could
 be used also when the opened file is not modified.
 
@@ -2016,97 +2026,97 @@ Bazen kullanışlı olabilir. Misal, dosyanın zaman damgasını
 güncellemek veya dosya sonundaki boşlukları kırpmak için.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1222"/>
+        <location filename="../../prefDialog.ui" line="1232"/>
         <source>Allow saving unmodified files</source>
         <translation>D&amp;eğişmemiş dosyalar da kaydedilebilsin</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1229"/>
+        <location filename="../../prefDialog.ui" line="1239"/>
         <source>Show a warning instead.</source>
         <translation>Onun yerine bir uyarı göster.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1232"/>
+        <location filename="../../prefDialog.ui" line="1242"/>
         <source>Do not permit opening of non-text files</source>
         <translation>Metin olmayan dosyaları açma</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1239"/>
+        <location filename="../../prefDialog.ui" line="1249"/>
         <source>By default, when files are copied, they will
 be opened if they are pasted into FeatherPad.</source>
         <translation>Varsayılan olarak, dosyalar kopyalandığında
 FeatherPad&apos;e yapıştırılırsa açılabilir.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1243"/>
+        <location filename="../../prefDialog.ui" line="1253"/>
         <source>Paste paths instead of files</source>
         <translation>Dosyalar yerine yolları yapıştırın</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1270"/>
+        <location filename="../../prefDialog.ui" line="1280"/>
         <source>Shortcuts</source>
         <translation>&amp;Kısayollar</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1292"/>
+        <location filename="../../prefDialog.ui" line="1302"/>
         <source>Action</source>
         <translation>İşlem</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1297"/>
+        <location filename="../../prefDialog.ui" line="1307"/>
         <source>Shortcut</source>
         <translation>Kısayol</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1305"/>
+        <location filename="../../prefDialog.ui" line="1315"/>
         <source>Restore default shortcuts.</source>
         <translation>Öntanımlı kısayolları geri yükle.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1308"/>
-        <location filename="../../prefDialog.ui" line="1382"/>
-        <location filename="../../prefDialog.ui" line="1430"/>
+        <location filename="../../prefDialog.ui" line="1318"/>
+        <location filename="../../prefDialog.ui" line="1392"/>
+        <location filename="../../prefDialog.ui" line="1440"/>
         <source>Default</source>
         <translation>Öntanımlı</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1319"/>
+        <location filename="../../prefDialog.ui" line="1329"/>
         <source>Syntax Colors</source>
         <translation>Sözdizimi Renkleri</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1414"/>
+        <location filename="../../prefDialog.ui" line="1424"/>
         <source>Element</source>
         <translation>Öge</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1419"/>
+        <location filename="../../prefDialog.ui" line="1429"/>
         <source>Text Color</source>
         <translation>Metin Rengi</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1336"/>
+        <location filename="../../prefDialog.ui" line="1346"/>
         <source>Whitespace color value:</source>
         <translation>Boşluk rengi değeri:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1369"/>
         <location filename="../../prefDialog.ui" line="1379"/>
+        <location filename="../../prefDialog.ui" line="1389"/>
         <source>Has effect only if line numbers are shown.</source>
         <translation>Yalnızca satır numaraları gösteriliyorsa etkilidir.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1372"/>
+        <location filename="../../prefDialog.ui" line="1382"/>
         <source>Current line highlight value:</source>
         <translation>Mevcut satır vurgulama değeri:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1427"/>
+        <location filename="../../prefDialog.ui" line="1437"/>
         <source>Restore default syntax colors.</source>
         <translation>Varsayılan sözdizimi renklerini geri yükleyin.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1462"/>
+        <location filename="../../prefDialog.ui" line="1472"/>
         <source>Close</source>
         <translation>Kapat</translation>
     </message>
@@ -2123,112 +2133,112 @@ temizlemek için değiştirici tuşa basın.</translation>
         <translation>Değiştirmek için bir renge çift tıklayın.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="306"/>
-        <location filename="../../pref.cpp" line="1344"/>
+        <location filename="../../pref.cpp" line="310"/>
+        <location filename="../../pref.cpp" line="1349"/>
         <source>files</source>
         <translatorcomment>Reminder: Enumerated items are used in singular (e.g. &quot;7 file&quot; instead of &quot;7 files&quot;).</translatorcomment>
         <translation>dosya</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="306"/>
-        <location filename="../../pref.cpp" line="1344"/>
+        <location filename="../../pref.cpp" line="310"/>
+        <location filename="../../pref.cpp" line="1349"/>
         <source>file</source>
         <translation>dosya</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="359"/>
-        <location filename="../../pref.cpp" line="1463"/>
+        <location filename="../../pref.cpp" line="363"/>
+        <location filename="../../pref.cpp" line="1468"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Uyarı: Muğlak kısayol tespit edildi!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="392"/>
+        <location filename="../../pref.cpp" line="396"/>
         <source>Functions, URLs,…</source>
         <translation>İşlevler, URL&apos;ler,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="393"/>
+        <location filename="../../pref.cpp" line="397"/>
         <source>Built-in Functions</source>
         <translation>Yerleşik İşlevler</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="394"/>
+        <location filename="../../pref.cpp" line="398"/>
         <source>Comments</source>
         <translation>Yorumlar</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="395"/>
+        <location filename="../../pref.cpp" line="399"/>
         <source>Quotations</source>
         <translation>Alıntılar</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="396"/>
+        <location filename="../../pref.cpp" line="400"/>
         <source>Types</source>
         <translation>Türler</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="397"/>
+        <location filename="../../pref.cpp" line="401"/>
         <source>Key Words</source>
         <translation>Anahtar Kelimeler</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="398"/>
+        <location filename="../../pref.cpp" line="402"/>
         <source>Numbers</source>
         <translation>Rakamlar</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="399"/>
+        <location filename="../../pref.cpp" line="403"/>
         <source>Regular Expressions, Code Blocks,…</source>
         <translation>Düzenli İfadeler, Kod Blokları,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="400"/>
+        <location filename="../../pref.cpp" line="404"/>
         <source>Document Blocks, XML/HTML Elements,…</source>
         <translation>Belge Blokları, XML / HTML Öğeleri,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="401"/>
+        <location filename="../../pref.cpp" line="405"/>
         <source>Markdown Headings, CSS Values,…</source>
         <translation>Markdown Başlıkları, CSS Değerleri,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="402"/>
+        <location filename="../../pref.cpp" line="406"/>
         <source>Extra Elements</source>
         <translation>Ekstra Elemanlar</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="563"/>
+        <location filename="../../pref.cpp" line="567"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Uygulama tekrar başlatılınca değişiklikler etkinleşir.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="582"/>
+        <location filename="../../pref.cpp" line="587"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Değişikliklerin etkinleşmesi için yeni pencere açılmalıdır.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1370"/>
+        <location filename="../../pref.cpp" line="1375"/>
         <source>&amp;Recently Opened</source>
         <translation>&amp;Son Açılanlar</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1371"/>
+        <location filename="../../pref.cpp" line="1376"/>
         <source>Recently &amp;Modified</source>
         <translation>&amp;Son Değiştirilenler</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1446"/>
+        <location filename="../../pref.cpp" line="1451"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Girilen kısayol tahsisli (kullanılamaz).</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1650"/>
+        <location filename="../../pref.cpp" line="1655"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>Hunspell Sözlük Dosyaları (* .dic)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="453"/>
-        <location filename="../../pref.cpp" line="1736"/>
+        <location filename="../../pref.cpp" line="457"/>
+        <location filename="../../pref.cpp" line="1741"/>
         <source>Select Syntax Color</source>
         <translation>Sözdizimi Rengini Seçin</translation>
     </message>

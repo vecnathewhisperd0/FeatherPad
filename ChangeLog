@@ -1,3 +1,7 @@
+V1.2.1
+---------
+ * Added an option for using system icons where possible. By default, internal icons are used.
+
 V1.2.0
 ---------
  * Covered some details in XML syntax highlighting.
@@ -10,7 +14,7 @@ V1.2.0
  * With Qt6, hide encodings that are not supported by Qt6.
  * First try the file manager DBus interface when opening the containing folder.
  * Removed the action for opening the containing folder when running as root (because there are DBus complications with most file managers).
- * Bumped the minimum required version of Qt5 to 5.15.0
+ * Bumped the minimum required version of Qt5 to 5.15.0.
 
 V1.1.1
 ---------

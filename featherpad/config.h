@@ -514,6 +514,13 @@ public:
         disableMenubarAccel_ = disable;
     }
 /*************************/
+    bool getSysIcons() const {
+        return sysIcons_;
+    }
+    void setSysIcons (bool sysIcons) {
+        sysIcons_ = sysIcons;
+    }
+/*************************/
     QString getDictPath() const {
         return dictPath_;
     }
@@ -600,7 +607,8 @@ private:
          pastePaths_,
          closeWithLastTab_,
          sharedSearchHistory_,
-         disableMenubarAccel_;
+         disableMenubarAccel_,
+         sysIcons_;
     int vLineDistance_,
         tabPosition_,
         maxSHSize_,

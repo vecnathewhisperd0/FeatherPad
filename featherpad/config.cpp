@@ -63,6 +63,7 @@ Config::Config():
     closeWithLastTab_ (false),
     sharedSearchHistory_ (false),
     disableMenubarAccel_ (false),
+    sysIcons_ (false),
     vLineDistance_ (-80),
     tabPosition_ (0),
     maxSHSize_ (2),
@@ -178,6 +179,9 @@ void Config::readConfig()
 
     if (settings.value ("disableMenubarAccel").toBool())
         disableMenubarAccel_ = true; // false by default
+
+    if (settings.value ("sysIcons").toBool())
+        sysIcons_ = true; // false by default
 
     settings.endGroup();
 
@@ -445,6 +449,7 @@ void Config::writeConfig()
     settings.setValue ("closeWithLastTab", closeWithLastTab_);
     settings.setValue ("sharedSearchHistory", sharedSearchHistory_);
     settings.setValue ("disableMenubarAccel", disableMenubarAccel_);
+    settings.setValue ("sysIcons", sysIcons_);
 
     settings.endGroup();
 
