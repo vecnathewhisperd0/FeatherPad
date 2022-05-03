@@ -353,6 +353,16 @@ FPwin::~FPwin()
 /*************************/
 void FPwin::closeEvent (QCloseEvent *event)
 {
+    /* NOTE: With Qt6, "QCoreApplication::quit()" calls "closeEvent()" when the window
+             is visible. But we want the app to quit without any prompt when receiving
+             SIGTERM and similar signals. Here, we handle the situation by checking if
+             the event is spontaneous or is sent by our action. This is also safe with Qt5. */
+    if (!event->spontaneous() && QObject::sender() != ui->actionQuit)
+    {
+        event->accept();
+        return;
+    }
+
     bool keep = locked_ || closePages (-1, -1, true);
     if (keep)
     {
