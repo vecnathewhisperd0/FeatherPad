@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2021 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2022 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -23,6 +23,60 @@
 
 namespace FeatherPad {
 
+// Qt6 has changed "QFont::toString()" in a backward incompatible way, so that,
+// if a document is saved by the Qt6 version, the Qt5 version will show wrong fonts.
+// This function circumvents the problem when it's used instead of "QFont::toString()".
+static inline void fontFromString (QFont &f, const QString &str)
+{
+#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
+    const QChar comma (QLatin1Char (','));
+    QStringList l = str.split (comma);
+    if (l.size() <= 10)
+        f.fromString (str);
+    else
+    {
+        l = l.mid (0, 10);
+        int weight = l.at (4).toInt();
+        switch (weight) {
+        case 100:
+            weight = 0;
+            break;
+        case 200:
+            weight = 12;
+            break;
+        case 300:
+            weight = 25;
+            break;
+        case 400:
+            weight = 50;
+            break;
+        case 500:
+            weight = 57;
+            break;
+        case 600:
+            weight = 63;
+            break;
+        case 700:
+            weight = 75;
+            break;
+        case 800:
+            weight = 81;
+            break;
+        case 900:
+            weight = 87;
+            break;
+        default:
+            weight = 50;
+            break;
+        }
+        l[4] = QString::number (weight);
+        f.fromString (l.join (comma));
+    }
+#else
+    f.fromString (str);
+#endif
+}
+/*************************/
 Config::Config():
     remSize_ (true),
     remPos_ (false),
@@ -200,7 +254,7 @@ void Config::readConfig()
     {
         QString fontStr = settings.value ("font").toString();
         if (!fontStr.isEmpty())
-            font_.fromString (fontStr);
+            fontFromString (font_, fontStr);
         else
             font_.setPointSize (qMax (QFont().pointSize(), 9));
     }
