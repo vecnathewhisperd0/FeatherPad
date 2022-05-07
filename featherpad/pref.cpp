@@ -639,7 +639,7 @@ void PrefDialog::prefPos (int checked)
     {
         config.setRemPos (true);
         if (FPwin *win = static_cast<FPwin *>(parent_))
-            config.setWinPos (win->pos());
+            config.setWinPos (win->geometry().topLeft());
     }
     else if (checked == Qt::Unchecked)
         config.setRemPos (false);

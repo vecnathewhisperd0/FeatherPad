@@ -380,7 +380,7 @@ void FPwin::closeEvent (QCloseEvent *event)
             if (config.getRemSize())
                 config.setWinSize (size());
             if (config.getRemPos() && !static_cast<FPsingleton*>(qApp)->isWayland())
-                config.setWinPos (pos());
+                config.setWinPos (geometry().topLeft());
         }
         if (sidePane_ && config.getRemSplitterPos())
             config.setSplitterPos (ui->splitter->sizes().at (0));
@@ -4146,7 +4146,7 @@ void FPwin::changeEvent (QEvent *event)
                     && !(stateEvent->oldState() & Qt::WindowFullScreen))
                 {
                     if (config.getRemPos() && !static_cast<FPsingleton*>(qApp)->isWayland())
-                        config.setWinPos (pos());
+                        config.setWinPos (geometry().topLeft());
                     if (config.getRemSize())
                         config.setWinSize (size());
                 }
