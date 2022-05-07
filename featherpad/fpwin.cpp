@@ -71,6 +71,7 @@ FPwin::FPwin (QWidget *parent, bool standalone):QMainWindow (parent), dummyWidge
     standalone_ = standalone;
 
     locked_ = false;
+    shownBefore_ = false;
     closePreviousPages_ = false;
     loadingProcesses_ = 0;
     rightClicked_ = -1;
@@ -374,10 +375,13 @@ void FPwin::closeEvent (QCloseEvent *event)
     {
         FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
         Config& config = singleton->getConfig();
-        if (config.getRemSize() && windowState() == Qt::WindowNoState)
-            config.setWinSize (size());
-        if (config.getRemPos() && !static_cast<FPsingleton*>(qApp)->isWayland())
-            config.setWinPos (pos());
+        if (!isMaximized() && !isFullScreen())
+        {
+            if (config.getRemSize())
+                config.setWinSize (size());
+            if (config.getRemPos() && !static_cast<FPsingleton*>(qApp)->isWayland())
+                config.setWinPos (pos());
+        }
         if (sidePane_ && config.getRemSplitterPos())
             config.setSplitterPos (ui->splitter->sizes().at (0));
         config.setLastFileCursorPos (lastWinFilesCur_);
@@ -559,12 +563,15 @@ void FPwin::applyConfigOnStarting()
     if (config.getRemSize())
     {
         resize (config.getWinSize());
-        if (config.getIsMaxed())
-            setWindowState (Qt::WindowMaximized);
-        if (config.getIsFull() && config.getIsMaxed())
-            setWindowState (windowState() ^ Qt::WindowFullScreen);
-        else if (config.getIsFull())
-            setWindowState (Qt::WindowFullScreen);
+        if (!config.getRemPos() || static_cast<FPsingleton*>(qApp)->isWayland()) // otherwise -> showEvent()
+        {
+            if (config.getIsFull() && config.getIsMaxed())
+                setWindowState (Qt::WindowMaximized | Qt::WindowFullScreen);
+            else if (config.getIsMaxed())
+                setWindowState (Qt::WindowMaximized);
+            else if (config.getIsFull())
+                setWindowState (Qt::WindowFullScreen);
+        }
     }
     else
     {
@@ -585,9 +592,6 @@ void FPwin::applyConfigOnStarting()
         }
         resize (startSize);
     }
-
-    if (config.getRemPos() && !static_cast<FPsingleton*>(qApp)->isWayland())
-        move (config.getWinPos());
 
     ui->mainToolBar->setVisible (!config.getNoToolbar());
     ui->menuBar->setVisible (!config.getNoMenubar());
@@ -4110,28 +4114,69 @@ void FPwin::fontDialog()
 void FPwin::changeEvent (QEvent *event)
 {
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
-    if (config.getRemSize() && event->type() == QEvent::WindowStateChange)
+    if (event->type() == QEvent::WindowStateChange)
     {
-        if (windowState() == Qt::WindowFullScreen)
+        if (config.getRemSize())
         {
-            config.setIsFull (true);
-            config.setIsMaxed (false);
-        }
-        else if (windowState() == (Qt::WindowFullScreen ^ Qt::WindowMaximized))
-        {
-            config.setIsFull (true);
-            config.setIsMaxed (true);
-        }
-        else
-        {
-            config.setIsFull (false);
-            if (windowState() == Qt::WindowMaximized)
-                config.setIsMaxed (true);
-            else
+            if (windowState() == Qt::WindowFullScreen)
+            {
+                config.setIsFull (true);
                 config.setIsMaxed (false);
+            }
+            else if (windowState() == (Qt::WindowFullScreen ^ Qt::WindowMaximized))
+            {
+                config.setIsFull (true);
+                config.setIsMaxed (true);
+            }
+            else
+            {
+                config.setIsFull (false);
+                if (windowState() == Qt::WindowMaximized)
+                    config.setIsMaxed (true);
+                else
+                    config.setIsMaxed (false);
+            }
+        }
+        /* if the window gets maximized/fullscreen, remember its position and size */
+        if ((windowState() & Qt::WindowMaximized) || (windowState() & Qt::WindowFullScreen))
+        {
+            if (auto stateEvent = static_cast<QWindowStateChangeEvent*>(event))
+            {
+                if (!(stateEvent->oldState() & Qt::WindowMaximized)
+                    && !(stateEvent->oldState() & Qt::WindowFullScreen))
+                {
+                    if (config.getRemPos() && !static_cast<FPsingleton*>(qApp)->isWayland())
+                        config.setWinPos (pos());
+                    if (config.getRemSize())
+                        config.setWinSize (size());
+                }
+            }
         }
     }
     QWidget::changeEvent (event);
+}
+/*************************/
+void FPwin::showEvent (QShowEvent *event)
+{
+    /* To position the main window correctly with translucency when it's
+       shown for the first time, we use setGeometry() inside showEvent(). */
+    if (!shownBefore_ && !event->spontaneous())
+    {
+        shownBefore_ = true;
+        Config config = static_cast<FPsingleton*>(qApp)->getConfig();
+        if (config.getRemPos() && !static_cast<FPsingleton*>(qApp)->isWayland())
+        {
+            QSize theSize = (config.getRemSize() ? config.getWinSize() : config.getStartSize());
+            setGeometry (QRect (config.getWinPos(), theSize));
+            if (config.getIsFull() && config.getIsMaxed())
+                setWindowState (Qt::WindowMaximized | Qt::WindowFullScreen);
+            else if (config.getIsMaxed())
+                setWindowState (Qt::WindowMaximized);
+            else if (config.getIsFull())
+                setWindowState (Qt::WindowFullScreen);
+        }
+    }
+    QWidget::showEvent (event);
 }
 /*************************/
 bool FPwin::event (QEvent *event)

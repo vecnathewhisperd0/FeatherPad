@@ -237,6 +237,7 @@ private:
     void dropEvent (QDropEvent *event);
     void dropTab (const QString& str, QObject *source);
     void changeEvent (QEvent *event);
+    void showEvent (QShowEvent *event);
     bool event (QEvent *event);
     QTextDocument::FindFlags getSearchFlags() const;
     void enableWidgets (bool enable) const;
@@ -276,6 +277,7 @@ private:
     QHash<QString, QAction*> langs_; // All programming languages (to be enforced by the user).
     QHash<QAction*, QKeySequence> defaultShortcuts_;
     bool inactiveTabModified_; // The inactive tab is modified (e.g., when saving all files).
+    bool shownBefore_; // Needed for correct restoring of the position.
     // Auto-saving:
     QTimer *autoSaver_;
     QElapsedTimer autoSaverPause_;

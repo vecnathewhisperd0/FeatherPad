@@ -4,6 +4,7 @@ V1.2.1
  * Set the scroll mode to per-pixel in the side-pane as a workaround for a bug in QListWidget's auto-scrolling.
  * With Qt6, accept the close event on receiving SIGTERM and similar signals (because, in Qt6, "qApp->quit()" calls "closeEvent()").
  * Made Qt6 font setting backward-compatible.
+ * Fixed the problems in restoring of window size and position.
 
 V1.2.0
 ---------
