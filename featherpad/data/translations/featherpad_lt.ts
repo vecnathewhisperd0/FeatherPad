@@ -1958,7 +1958,7 @@ tačiau turinčiu &quot;.aff&quot; prievardį.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="923"/>
-        <location filename="../../pref.cpp" line="1653"/>
+        <location filename="../../pref.cpp" line="1663"/>
         <source>Add dictionary...</source>
         <translation>Pridėti žodyną...</translation>
     </message>
@@ -2120,19 +2120,19 @@ paspauskite modifikatoriaus klavišą.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="310"/>
-        <location filename="../../pref.cpp" line="1349"/>
+        <location filename="../../pref.cpp" line="1359"/>
         <source>files</source>
         <translation>failų</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="310"/>
-        <location filename="../../pref.cpp" line="1349"/>
+        <location filename="../../pref.cpp" line="1359"/>
         <source>file</source>
         <translation>failas</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="363"/>
-        <location filename="../../pref.cpp" line="1468"/>
+        <location filename="../../pref.cpp" line="1478"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Įspėjimas: Aptiktas dviprasmiškas spartusis klavišas!</translation>
     </message>
@@ -2202,28 +2202,28 @@ paspauskite modifikatoriaus klavišą.</translation>
         <translation>Tam, kad įsigaliotų pakeitimai, reikia langą atverti iš naujo.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1375"/>
+        <location filename="../../pref.cpp" line="1385"/>
         <source>&amp;Recently Opened</source>
         <translation>Pas&amp;kiausiai atverti</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1376"/>
+        <location filename="../../pref.cpp" line="1386"/>
         <source>Recently &amp;Modified</source>
         <translation>Paskiausiai &amp;modifikuoti</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1451"/>
+        <location filename="../../pref.cpp" line="1461"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Įrašytas spartusis klavišas buvo rezervuotas.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1655"/>
+        <location filename="../../pref.cpp" line="1665"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>Hunspell žodyno failai (*.dic)</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="457"/>
-        <location filename="../../pref.cpp" line="1741"/>
+        <location filename="../../pref.cpp" line="1751"/>
         <source>Select Syntax Color</source>
         <translation>Pasirinkti sintaksės spalvą</translation>
     </message>

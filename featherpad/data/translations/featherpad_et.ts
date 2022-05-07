@@ -1961,7 +1961,7 @@ failis ning tema kõrval peab olema sama nimega ja
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="923"/>
-        <location filename="../../pref.cpp" line="1653"/>
+        <location filename="../../pref.cpp" line="1663"/>
         <source>Add dictionary...</source>
         <translation>Lisa sõnastik...</translation>
     </message>
@@ -2123,19 +2123,19 @@ kustutamiseks muuteklahvi.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="310"/>
-        <location filename="../../pref.cpp" line="1349"/>
+        <location filename="../../pref.cpp" line="1359"/>
         <source>files</source>
         <translation>failid</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="310"/>
-        <location filename="../../pref.cpp" line="1349"/>
+        <location filename="../../pref.cpp" line="1359"/>
         <source>file</source>
         <translation>fail</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="363"/>
-        <location filename="../../pref.cpp" line="1468"/>
+        <location filename="../../pref.cpp" line="1478"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Hoiatus: sama kombinatsioon on kasutusel mitmel kiirklahvil!</translation>
     </message>
@@ -2205,28 +2205,28 @@ kustutamiseks muuteklahvi.</translation>
         <translation>Selle muudatuse jõustamiseks pead rakenduse akna uuesti avama.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1375"/>
+        <location filename="../../pref.cpp" line="1385"/>
         <source>&amp;Recently Opened</source>
         <translation>&amp;Hiljuti avatud</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1376"/>
+        <location filename="../../pref.cpp" line="1386"/>
         <source>Recently &amp;Modified</source>
         <translation>Hiljuti &amp;muudetud failid</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1451"/>
+        <location filename="../../pref.cpp" line="1461"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Sisestatud kiirklahv on reserveeritud muuks kasutuseks.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1655"/>
+        <location filename="../../pref.cpp" line="1665"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>Hunspell&apos;i sõnastikufailid (*.dic)</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="457"/>
-        <location filename="../../pref.cpp" line="1741"/>
+        <location filename="../../pref.cpp" line="1751"/>
         <source>Select Syntax Color</source>
         <translation>Vali süntaksivärv</translation>
     </message>

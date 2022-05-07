@@ -1961,7 +1961,7 @@ nome ma che termina con &quot;.aff&quot;.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="923"/>
-        <location filename="../../pref.cpp" line="1653"/>
+        <location filename="../../pref.cpp" line="1663"/>
         <source>Add dictionary...</source>
         <translation>Aggiungi dizionario...</translation>
     </message>
@@ -2121,19 +2121,19 @@ per rimuovere una scorciatoia.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="310"/>
-        <location filename="../../pref.cpp" line="1349"/>
+        <location filename="../../pref.cpp" line="1359"/>
         <source>files</source>
         <translation>File</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="310"/>
-        <location filename="../../pref.cpp" line="1349"/>
+        <location filename="../../pref.cpp" line="1359"/>
         <source>file</source>
         <translation>File</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="363"/>
-        <location filename="../../pref.cpp" line="1468"/>
+        <location filename="../../pref.cpp" line="1478"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Attenzione: rilevata una scorciatoia ambigua!</translation>
     </message>
@@ -2203,28 +2203,28 @@ per rimuovere una scorciatoia.</translation>
         <translation>La riapertura della finestra è necessaria perché le modifiche abbiano effetto.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1375"/>
+        <location filename="../../pref.cpp" line="1385"/>
         <source>&amp;Recently Opened</source>
         <translation>Modificati &amp;recentemente</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1376"/>
+        <location filename="../../pref.cpp" line="1386"/>
         <source>Recently &amp;Modified</source>
         <translation>Modificati &amp;recentemente</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1451"/>
+        <location filename="../../pref.cpp" line="1461"/>
         <source>The typed shortcut was reserved.</source>
         <translation>La scorciatoia inserita è già in uso.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1655"/>
+        <location filename="../../pref.cpp" line="1665"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>File dizionario Hunspell (*.dic)</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="457"/>
-        <location filename="../../pref.cpp" line="1741"/>
+        <location filename="../../pref.cpp" line="1751"/>
         <source>Select Syntax Color</source>
         <translation>Selezione colore sintassi</translation>
     </message>

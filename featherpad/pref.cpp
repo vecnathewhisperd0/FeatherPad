@@ -611,6 +611,12 @@ void PrefDialog::prefSize (int checked)
     if (checked == Qt::Checked)
     {
         config.setRemSize (true);
+        if (FPwin *win = static_cast<FPwin *>(parent_))
+        {
+            config.setWinSize (win->size());
+            config.setIsMaxed (win->isMaximized());
+            config.setIsFull (win->isFullScreen());
+        }
         ui->spinX->setEnabled (false);
         ui->spinY->setEnabled (false);
         ui->mLabel->setEnabled (false);
@@ -630,7 +636,11 @@ void PrefDialog::prefPos (int checked)
 {
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
     if (checked == Qt::Checked)
+    {
         config.setRemPos (true);
+        if (FPwin *win = static_cast<FPwin *>(parent_))
+            config.setWinPos (win->pos());
+    }
     else if (checked == Qt::Unchecked)
         config.setRemPos (false);
 }

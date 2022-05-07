@@ -1952,7 +1952,7 @@ name but ending with &quot;.aff&quot;.</source>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="923"/>
-        <location filename="../../pref.cpp" line="1653"/>
+        <location filename="../../pref.cpp" line="1663"/>
         <source>Add dictionary...</source>
         <translation>Добавяне на речник...</translation>
     </message>
@@ -2113,19 +2113,19 @@ in the editing mode.</source>
     </message>
     <message>
         <location filename="../../pref.cpp" line="310"/>
-        <location filename="../../pref.cpp" line="1349"/>
+        <location filename="../../pref.cpp" line="1359"/>
         <source>files</source>
         <translation>файла</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="310"/>
-        <location filename="../../pref.cpp" line="1349"/>
+        <location filename="../../pref.cpp" line="1359"/>
         <source>file</source>
         <translation>файл</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="363"/>
-        <location filename="../../pref.cpp" line="1468"/>
+        <location filename="../../pref.cpp" line="1478"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Предупреждение: Повтарящи се комбинации са засечени!</translation>
     </message>
@@ -2195,28 +2195,28 @@ in the editing mode.</source>
         <translation>Необходимо е повторно отваряне на прозореца, за да влезе в сила.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1375"/>
+        <location filename="../../pref.cpp" line="1385"/>
         <source>&amp;Recently Opened</source>
         <translation>Последно отва&amp;ряни</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1376"/>
+        <location filename="../../pref.cpp" line="1386"/>
         <source>Recently &amp;Modified</source>
         <translation>Последно про&amp;меняни</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1451"/>
+        <location filename="../../pref.cpp" line="1461"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Типът на комбинацията беше запазен.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1655"/>
+        <location filename="../../pref.cpp" line="1665"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>Файлове на Hunspell речник (*.dic)</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="457"/>
-        <location filename="../../pref.cpp" line="1741"/>
+        <location filename="../../pref.cpp" line="1751"/>
         <source>Select Syntax Color</source>
         <translation>Избиране цветове на синтаксис</translation>
     </message>

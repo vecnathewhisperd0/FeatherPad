@@ -1955,7 +1955,7 @@ men som slutter med &quot;.aff&quot;.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="923"/>
-        <location filename="../../pref.cpp" line="1653"/>
+        <location filename="../../pref.cpp" line="1663"/>
         <source>Add dictionary...</source>
         <translation>Legg til ordbok ...</translation>
     </message>
@@ -2116,19 +2116,19 @@ i redigeringsmoduset.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="310"/>
-        <location filename="../../pref.cpp" line="1349"/>
+        <location filename="../../pref.cpp" line="1359"/>
         <source>files</source>
         <translation>filer</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="310"/>
-        <location filename="../../pref.cpp" line="1349"/>
+        <location filename="../../pref.cpp" line="1359"/>
         <source>file</source>
         <translation>fil</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="363"/>
-        <location filename="../../pref.cpp" line="1468"/>
+        <location filename="../../pref.cpp" line="1478"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Advarsel: Tvetydig snarvei detektert!</translation>
     </message>
@@ -2198,28 +2198,28 @@ i redigeringsmoduset.</translation>
         <translation>Vinduet må åpnes på nytt før endringene trer i kraft.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1375"/>
+        <location filename="../../pref.cpp" line="1385"/>
         <source>&amp;Recently Opened</source>
         <translation>&amp;Nylig åpnede</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1376"/>
+        <location filename="../../pref.cpp" line="1386"/>
         <source>Recently &amp;Modified</source>
         <translation>Nylig &amp;endrede</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1451"/>
+        <location filename="../../pref.cpp" line="1461"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Den inntastede snarveien er reservert.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1655"/>
+        <location filename="../../pref.cpp" line="1665"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>Hunspell-ordboksfiler (*.dic)</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="457"/>
-        <location filename="../../pref.cpp" line="1741"/>
+        <location filename="../../pref.cpp" line="1751"/>
         <source>Select Syntax Color</source>
         <translation>Velg syntaksfarge</translation>
     </message>

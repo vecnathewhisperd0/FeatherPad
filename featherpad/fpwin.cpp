@@ -4158,8 +4158,8 @@ void FPwin::changeEvent (QEvent *event)
 /*************************/
 void FPwin::showEvent (QShowEvent *event)
 {
-    /* To position the main window correctly with translucency when it's
-       shown for the first time, we use setGeometry() inside showEvent(). */
+    /* To position the main window correctly when it's shown for
+       the first time, we call setGeometry() inside showEvent(). */
     if (!shownBefore_ && !event->spontaneous())
     {
         shownBefore_ = true;
