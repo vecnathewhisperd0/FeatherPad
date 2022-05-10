@@ -85,6 +85,7 @@ signals:
     void finishedLoading();
 
 public slots:
+    bool close();
     void newTabFromName (const QString& fileName,
                          int restoreCursor, /* ==  0 : Do not restore cursor.
                                                ==  1 : Restore cursor in a session file.
@@ -286,6 +287,7 @@ private:
     bool locked_;
     bool closePreviousPages_;
     // Only used internally:
+    bool closeInteractively_; // See the note inside "FPwin::closeEvent()".
     bool standalone_;
 };
 

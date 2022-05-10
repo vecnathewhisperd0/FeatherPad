@@ -70,6 +70,7 @@ FPwin::FPwin (QWidget *parent, bool standalone):QMainWindow (parent), dummyWidge
 
     standalone_ = standalone;
 
+    closeInteractively_ = false;
     locked_ = false;
     shownBefore_ = false;
     closePreviousPages_ = false;
@@ -206,6 +207,7 @@ FPwin::FPwin (QWidget *parent, bool standalone):QMainWindow (parent), dummyWidge
         ui->tabWidget->noTabDND();
     }
 
+    connect (ui->actionQuit, &QAction::triggered, this, &FPwin::close);
     connect (ui->actionNew, &QAction::triggered, this, &FPwin::newTab);
     connect (ui->tabWidget->tabBar(), &TabBar::addEmptyTab, this, &FPwin::newTab);
     connect (ui->actionDetachTab, &QAction::triggered, this, &FPwin::detachTab);
@@ -352,13 +354,19 @@ FPwin::~FPwin()
     delete ui; ui = nullptr;
 }
 /*************************/
+bool FPwin::close()
+{
+    closeInteractively_ = true;
+    return QWidget::close();
+}
+/*************************/
 void FPwin::closeEvent (QCloseEvent *event)
 {
-    /* NOTE: With Qt6, "QCoreApplication::quit()" calls "closeEvent()" when the window
-             is visible. But we want the app to quit without any prompt when receiving
-             SIGTERM and similar signals. Here, we handle the situation by checking if
-             the event is spontaneous or is sent by our action. This is also safe with Qt5. */
-    if (!event->spontaneous() && QObject::sender() != ui->actionQuit)
+    /* NOTE: With Qt6, "QCoreApplication::quit()" calls "closeEvent()" when the window is
+             visible. But we want the app to quit without any prompt when receiving SIGTERM
+             and similar signals. Here, we handle the situation by checking if the event is
+             sent by us without calling "FPwin::close()". This is also safe with Qt5. */
+    if (!event->spontaneous() && !closeInteractively_)
     {
         event->accept();
         return;
@@ -5372,7 +5380,10 @@ void FPwin::dropTab (const QString& str, QObject *source)
     stealFocus();
 
     if (count == 0)
-        QTimer::singleShot (0, dragSource, &QWidget::close);
+    {
+        /* "QWidget::close()" shouldn't be used; see "closeEvent()" */
+        QTimer::singleShot (0, dragSource, &FPwin::close);
+    }
 }
 /*************************/
 void FPwin::tabContextMenu (const QPoint& p)
