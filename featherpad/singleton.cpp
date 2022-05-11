@@ -98,6 +98,7 @@ FPsingleton::FPsingleton (int &argc, char **argv, bool standalone) : QApplicatio
 /*************************/
 FPsingleton::~FPsingleton()
 {
+    qDeleteAll (Wins);
     if (lockFile_)
     {
         lockFile_->unlock();
