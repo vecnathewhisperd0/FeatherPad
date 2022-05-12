@@ -1593,7 +1593,7 @@ TabPage* FPwin::createEmptyTab (bool setCurrent, bool allowNormalHighlighter)
                 showCursorPos();
         }
         connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::statusMsgWithLineCount);
-        connect (textEdit, &QPlainTextEdit::selectionChanged, this, &FPwin::statusMsg);
+        connect (textEdit, &TextEdit::selChanged, this, &FPwin::statusMsg);
         if (showCurPos)
             connect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::showCursorPos);
     }
@@ -4482,7 +4482,7 @@ void FPwin::docProp()
         {
             TextEdit *thisTextEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (i))->textEdit();
             disconnect (thisTextEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::statusMsgWithLineCount);
-            disconnect (thisTextEdit, &QPlainTextEdit::selectionChanged, this, &FPwin::statusMsg);
+            disconnect (thisTextEdit, &TextEdit::selChanged, this, &FPwin::statusMsg);
             if (showCurPos)
                 disconnect (thisTextEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::showCursorPos);
             /* don't delete the cursor position label because the statusbar might be shown later */
@@ -4499,7 +4499,7 @@ void FPwin::docProp()
     {
         TextEdit *thisTextEdit = qobject_cast< TabPage *>(ui->tabWidget->widget (i))->textEdit();
         connect (thisTextEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::statusMsgWithLineCount);
-        connect (thisTextEdit, &QPlainTextEdit::selectionChanged, this, &FPwin::statusMsg);
+        connect (thisTextEdit, &TextEdit::selChanged, this, &FPwin::statusMsg);
         if (showCurPos)
             connect (thisTextEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::showCursorPos);
     }
@@ -4922,7 +4922,7 @@ void FPwin::detachTab()
     if (status)
     {
         disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::statusMsgWithLineCount);
-        disconnect (textEdit, &QPlainTextEdit::selectionChanged, this, &FPwin::statusMsg);
+        disconnect (textEdit, &TextEdit::selChanged, this, &FPwin::statusMsg);
         if (statusCurPos)
             disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::showCursorPos);
     }
@@ -5086,7 +5086,7 @@ void FPwin::detachTab()
             connect (textEdit->document(), &QTextDocument::contentsChange, dropTarget, &FPwin::updateWordInfo);
         }
         connect (textEdit, &QPlainTextEdit::blockCountChanged, dropTarget, &FPwin::statusMsgWithLineCount);
-        connect (textEdit, &QPlainTextEdit::selectionChanged, dropTarget, &FPwin::statusMsg);
+        connect (textEdit, &TextEdit::selChanged, dropTarget, &FPwin::statusMsg);
         if (statusCurPos)
         {
             dropTarget->addCursorPosLabel();
@@ -5178,7 +5178,7 @@ void FPwin::dropTab (const QString& str, QObject *source)
     if (dragSource->ui->statusBar->isVisible())
     {
         disconnect (textEdit, &QPlainTextEdit::blockCountChanged, dragSource, &FPwin::statusMsgWithLineCount);
-        disconnect (textEdit, &QPlainTextEdit::selectionChanged, dragSource, &FPwin::statusMsg);
+        disconnect (textEdit, &TextEdit::selChanged, dragSource, &FPwin::statusMsg);
         if (dragSource->ui->statusBar->findChild<QLabel *>("posLabel"))
             disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, dragSource, &FPwin::showCursorPos);
     }
@@ -5334,7 +5334,7 @@ void FPwin::dropTab (const QString& str, QObject *source)
     if (ui->statusBar->isVisible())
     {
         connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::statusMsgWithLineCount);
-        connect (textEdit, &QPlainTextEdit::selectionChanged, this, &FPwin::statusMsg);
+        connect (textEdit, &TextEdit::selChanged, this, &FPwin::statusMsg);
         if (ui->statusBar->findChild<QLabel *>("posLabel"))
         {
             showCursorPos();

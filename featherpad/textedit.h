@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2021 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2022 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -286,6 +286,7 @@ signals:
                       int posInLine, // Only for connecting to FPwin::newTabFromName().
                       bool multiple); // Multiple files are dropped?
     void resized(); // needed by syntax highlighting
+    void selChanged(); // needed by a workaround
     void updateRect();
     void zoomedOut (TextEdit *textEdit); // needed for reformatting text
     void updateBracketMatching();

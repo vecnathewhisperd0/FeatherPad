@@ -1545,6 +1545,7 @@ void TextEdit::timerEvent (QTimerEvent *event)
         killTimer (event->timerId());
         selectionTimerId_ = 0;
         selectionHlight();
+        emit selChanged();
     }
 }
 /*******************************************************

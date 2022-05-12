@@ -6,6 +6,7 @@ V1.2.1
  * Make sure all windows are deleted when receiving SIGTERM and similar signals.
  * Made Qt6 font setting backward-compatible.
  * Fixed the problems in restoring of window size and position.
+ * Added a workaround for a QPlainTextEdit bug that doesn't report a selection change on undoing/redoing.
 
 V1.2.0
 ---------
