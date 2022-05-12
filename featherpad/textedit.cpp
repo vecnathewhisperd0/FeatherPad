@@ -2778,7 +2778,8 @@ void TextEdit::selectionHlight()
 
     QList<QTextEdit::ExtraSelection> es = extraSelections();
     QTextCursor selCursor = textCursor();
-    const QString selTxt = selCursor.selection().toPlainText();
+    int minSel = qMin (selCursor.anchor(), selCursor.position());
+    int maxSel = qMax (selCursor.anchor(), selCursor.position());
     int nRed = redSel_.count(); // bracket highlights (come last)
 
     /* remove all blue highlights */
@@ -2789,7 +2790,7 @@ void TextEdit::selectionHlight()
         --n;
     }
 
-    if (removeSelectionHighlights_ || selTxt.isEmpty())
+    if (removeSelectionHighlights_ || maxSel == minSel || maxSel - minSel > 100000)
     {
         /* avoid the computations of QWidgetTextControl::setExtraSelections
            as far as possible */
@@ -2801,48 +2802,61 @@ void TextEdit::selectionHlight()
         return;
     }
 
-    blueSel_.clear();
-
-    /* first put a start cursor at the top left edge... */
+    /* first put the start cursor at the top left corner... */
     QPoint Point (0, 0);
     QTextCursor start = cursorForPosition (Point);
-    /* ... then move it backward by the search text length */
-    int startPos = start.position() - selTxt.length();
+    /* ... then move it backward by the selection length */
+    int startPos = start.position() - maxSel + minSel;
     if (startPos >= 0)
         start.setPosition (startPos);
     else
         start.setPosition (0);
-    /* get the visible text to check if the search string is inside it */
+    /* also, move the start cursor outside the selection */
+    if (start.position() >= minSel && start.position() < maxSel)
+        start.setPosition (maxSel);
+
+    /* put the end cursor at the bottom right corner... */
     Point = QPoint (geometry().width(), geometry().height());
     QTextCursor end = cursorForPosition (Point);
     int endLimit = end.anchor();
-    int endPos = end.position() + selTxt.length();
+    /* ... and move it forward by the selection length */
+    int endPos = end.position() + maxSel - minSel;
     end.movePosition (QTextCursor::End);
     if (endPos <= end.position())
         end.setPosition (endPos);
-    QTextCursor visCur = start;
-    visCur.setPosition (end.position(), QTextCursor::KeepAnchor);
-    const QString str = visCur.selection().toPlainText(); // '\n' is included in this way
-    if (str.contains (selTxt)) // don't waste time if the selected text isn't visible
-    {
-        QTextDocument::FindFlags searchFlags = (QTextDocument::FindWholeWords | QTextDocument::FindCaseSensitively);
-        QColor color = hasDarkScheme() ? QColor (0, 77, 160) : QColor (130, 255, 255); // blue highlights
-        QTextCursor found;
+    /* also, move the end cursor outside the selection */
+    if (end.position() > minSel && end.position() <= maxSel)
+        end.setPosition (minSel);
 
-        while (!(found = finding (selTxt, start, searchFlags, false, endLimit)).isNull())
+    /* don't waste time if the selected text is larger that the available space */
+    if (end.position() - start.position() < maxSel - minSel)
+    {
+        if (!blueSel_.isEmpty())
         {
-            if (selCursor.anchor() <= selCursor.position()
-                    ? (found.anchor() != selCursor.anchor() || found.position() != selCursor.position())
-                    : (found.anchor() != selCursor.position() || found.position() != selCursor.anchor()))
-            {
-                QTextEdit::ExtraSelection extra;
-                extra.format.setBackground (color);
-                extra.cursor = found;
-                blueSel_.append (extra);
-                es.insert (es.size() - nRed, extra);
-            }
-            start.setPosition (found.position());
+            blueSel_.clear();
+            setExtraSelections (es);
         }
+        return;
+    }
+
+    blueSel_.clear();
+
+    const QString selTxt = selCursor.selection().toPlainText();
+    QTextDocument::FindFlags searchFlags = (QTextDocument::FindWholeWords | QTextDocument::FindCaseSensitively);
+    QColor color = hasDarkScheme() ? QColor (0, 77, 160) : QColor (130, 255, 255); // blue highlights
+    QTextCursor found;
+
+    while (!(found = finding (selTxt, start, searchFlags, false, endLimit)).isNull())
+    {
+        if (found.anchor() >= maxSel || found.position() <= minSel)
+        {
+            QTextEdit::ExtraSelection extra;
+            extra.format.setBackground (color);
+            extra.cursor = found;
+            blueSel_.append (extra);
+            es.insert (es.size() - nRed, extra);
+        }
+        start.setPosition (found.position());
     }
     setExtraSelections (es);
 }

@@ -115,7 +115,7 @@ void FPwin::hlight() const
                                                                static_cast<int>(static_cast<qreal>(textEdit->getDarkValue() * (textEdit->getDarkValue() - 257)) / static_cast<qreal>(414)) + 90)
                                                      : Qt::yellow);
     QTextCursor found;
-    /* first put a start cursor at the top left edge... */
+    /* first put a start cursor at the top left corner... */
     QPoint Point (0, 0);
     QTextCursor start = textEdit->cursorForPosition (Point);
     /* ... then move it backward by the search text length */
