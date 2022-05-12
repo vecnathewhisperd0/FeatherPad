@@ -4050,8 +4050,8 @@ void FPwin::tabSwitch (int index)
                 wordButton->setVisible (false);
             QLabel *statusLabel = ui->statusBar->findChild<QLabel *>("statusLabel");
             statusLabel->setText (QString ("%1 <i>%2</i>")
-                                  .arg (statusLabel->text())
-                                  .arg (locale().toString (textEdit->getWordNumber())));
+                                  .arg (statusLabel->text(),
+                                        locale().toString (textEdit->getWordNumber())));
         }
         showCursorPos();
     }
@@ -4661,8 +4661,8 @@ void FPwin::updateWordInfo (int /*position*/, int charsRemoved, int charsAdded)
 
         wordButton->setVisible (false);
         statusLabel->setText (QString ("%1 <i>%2</i>")
-                              .arg (statusLabel->text())
-                              .arg (locale().toString (words)));
+                              .arg (statusLabel->text(),
+                                    locale().toString (words)));
         connect (textEdit->document(), &QTextDocument::contentsChange, this, &FPwin::updateWordInfo);
     }
     else if (charsRemoved > 0 || charsAdded > 0) // not if only the format is changed
@@ -5081,8 +5081,8 @@ void FPwin::detachTab()
                 wordButton->setVisible (false);
             QLabel *statusLabel = dropTarget->ui->statusBar->findChild<QLabel *>("statusLabel");
             statusLabel->setText (QString ("%1 <i>%2</i>")
-                                  .arg (statusLabel->text())
-                                  .arg (locale().toString (textEdit->getWordNumber())));
+                                  .arg (statusLabel->text(),
+                                        locale().toString (textEdit->getWordNumber())));
             connect (textEdit->document(), &QTextDocument::contentsChange, dropTarget, &FPwin::updateWordInfo);
         }
         connect (textEdit, &QPlainTextEdit::blockCountChanged, dropTarget, &FPwin::statusMsgWithLineCount);
