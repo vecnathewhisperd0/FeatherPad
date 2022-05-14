@@ -1165,8 +1165,6 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         highlightingRules.append (rule);
 
         /* booleans */
-        yamlFormat.setForeground (DarkBlue);
-        yamlFormat.setFontWeight (QFont::Bold);
         rule.pattern.setPattern ("^((\\s*-\\s)+)?\\s*\\K(true|false|yes|no|TRUE|FALSE|YES|NO|True|False|Yes|No)\\s*(?=(#|$))");
         rule.format = yamlFormat;
         highlightingRules.append (rule);

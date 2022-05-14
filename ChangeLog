@@ -8,6 +8,7 @@ V1.2.1
  * Fixed the problems in restoring of window size and position.
  * Added a workaround for a QPlainTextEdit bug that doesn't report a selection change on undoing/redoing.
  * Fixed the selection highlighting with huge selections.
+ * Fixed a problem in highlighting of Yaml literal blocks.
 
 V1.2.0
 ---------

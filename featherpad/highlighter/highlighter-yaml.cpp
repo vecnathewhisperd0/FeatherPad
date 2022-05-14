@@ -165,16 +165,30 @@ void Highlighter::yamlLiteralBlock (const QString &text)
     /* the start of a literal block (which is formatted near the end of the main formatting
        because, if it was formatted here, its format might be overridden by that of a value) */
     static const QRegularExpression yamlBlockStartExp ("^(?!#)(?:(?!\\s#).)*\\s+\\K(\\||>)-?\\s*(?=\\s#|$)");
+    static const QRegularExpression yamlKey ("\\s*[^\\s\"\'#][^:,#]*:\\s+");
     int index = text.indexOf (yamlBlockStartExp, 0);
     if (index >= 0)
     {
-        setCurrentBlockState (codeBlockState);
+        if (text.contains (yamlKey))
+        { // consider the list sign as a space if the block is a value
 #if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-        text.indexOf (QRegularExpression ("^\\s*"), 0, &match);
+            text.indexOf (QRegularExpression ("^\\s*(-\\s)?\\s*"), 0, &match);
 #else
-        (void)text.indexOf (QRegularExpression ("^\\s*"), 0, &match);
+            (void)text.indexOf (QRegularExpression ("^\\s*(-\\s)?\\s*"), 0, &match);
 #endif
-        data->insertInfo ("i" + match.captured());
+        }
+        else
+        {
+            if (text.indexOf (QRegularExpression ("^\\s*-\\s")) == -1)
+                return; // if the block isn't a value, it should be a list
+#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
+            text.indexOf (QRegularExpression ("^\\s*"), 0, &match);
+#else
+            (void)text.indexOf (QRegularExpression ("^\\s*"), 0, &match);
+#endif
+        }
+        setCurrentBlockState (codeBlockState);
+        data->insertInfo ("i" + match.captured().replace ("-", " "));
     }
 }
 /*************************/
