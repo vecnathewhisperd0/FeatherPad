@@ -164,7 +164,7 @@ private:
                            const QRegularExpression &commentStartExp, const QRegularExpression &commentEndExp,
                            const int commState,
                            const QTextCharFormat &comFormat);
-    bool textEndsWithBackSlash (const QString &text);
+    bool textEndsWithBackSlash (const QString &text) const;
     bool multiLineQuote (const QString &text,
                          const int start = 0,
                          int comState = commentState);

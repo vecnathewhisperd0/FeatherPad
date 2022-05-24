@@ -2933,7 +2933,7 @@ bool Highlighter::multiLineComment (const QString &text,
 }
 /*************************/
 // Handles escaped backslashes too.
-bool Highlighter::textEndsWithBackSlash (const QString &text)
+bool Highlighter::textEndsWithBackSlash (const QString &text) const
 {
     QString str = text;
     int n = 0;
