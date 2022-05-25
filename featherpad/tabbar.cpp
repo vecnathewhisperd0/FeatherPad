@@ -61,6 +61,9 @@ void TabBar::mousePressEvent (QMouseEvent *event)
 /*************************/
 void TabBar::mouseReleaseEvent (QMouseEvent *event)
 {
+    dragStarted_ = false;
+    dragStartPosition_ = QPoint();
+
     QTabBar::mouseReleaseEvent (event);
     if (event->button() == Qt::MiddleButton)
     {
