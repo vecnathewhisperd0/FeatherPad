@@ -102,7 +102,7 @@ static void printPage (int index, QPainter *painter, const QTextDocument *doc,
         painter->setFont (QFont (doc->defaultFont()));
         const QString pageString = QString::number (index);
 
-        painter->drawText(qRound (pageNumberPos.x() - painter->fontMetrics().horizontalAdvance (pageString)),
+        painter->drawText(qRound (pageNumberPos.x() - painter->fontMetrics().horizontalAdvance (pageString) / 2),
                           qRound (pageNumberPos.y() + view.top()),
                           pageString);
     }
@@ -123,7 +123,6 @@ void Printing::run()
     QAbstractTextDocumentLayout *layout = document_->documentLayout();
     layout->setPaintDevice (p.device());
 
-    const qreal dpiScaleX = static_cast<qreal>(printer_->logicalDpiX()) / sourceDpiX_;
     const qreal dpiScaleY = static_cast<qreal>(printer_->logicalDpiY()) / sourceDpiY_;
 
     const int horizontalMargin = static_cast<int>((2/2.54) * sourceDpiX_);
@@ -137,10 +136,10 @@ void Printing::run()
 
     const int dpiy = p.device()->logicalDpiY();
     QRectF body (0, 0, printer_->width(), printer_->height());
-    QPointF pageNumberPos (body.width() - horizontalMargin * dpiScaleX,
+    QPointF pageNumberPos (body.width() / 2,
                            body.height() - verticalMargin * dpiScaleY
-                           + QFontMetrics (document_->defaultFont(), p.device()).ascent()
-                           + 5 * dpiy / 72.0);
+                               + QFontMetrics (document_->defaultFont(), p.device()).ascent()
+                               + 5 * dpiy / 72.0);
     document_->setPageSize (body.size());
 
     int fromPage = printer_->fromPage();

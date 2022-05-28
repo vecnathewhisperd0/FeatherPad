@@ -9,6 +9,7 @@ V1.2.1
  * Added a workaround for a QPlainTextEdit bug that doesn't report a selection change on undoing/redoing.
  * Fixed the selection highlighting with huge selections.
  * Fixed a problem in highlighting of Yaml literal blocks.
+ * Center page numbers horizontally when printing.
 
 V1.2.0
 ---------
