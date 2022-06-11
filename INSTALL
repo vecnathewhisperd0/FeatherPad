@@ -43,7 +43,7 @@ And, finally, in OpenSUSE:
  * libqt5-qttools-devel
 
 
-NOTE: `pkgconf` is required for finding Hunspell with `cmake`.
+NOTE: `pkgconfig` is required for finding Hunspell's version with cmake. Since it may be provided by more that one package in some distros, it is not listed above.
 
 With cmake
 ==========
