@@ -124,6 +124,7 @@ set(featherpad_SRCS
     spellChecker.cpp
     spellDialog.cpp
     highlighter/highlighter.cpp
+    highlighter/highlighter-cmake.cpp
     highlighter/highlighter-css.cpp
     highlighter/highlighter-fountain.cpp
     highlighter/highlighter-java.cpp

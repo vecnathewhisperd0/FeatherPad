@@ -819,7 +819,10 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         /* # is the sh comment sign when it doesn't follow a character */
         if (progLan == "sh" || progLan == "makefile" || progLan == "cmake")
         {
-            rule.pattern.setPattern ("(?<=^|\\s|;|\\(|\\))#.*");
+            if (progLan == "cmake") // not the start of a bracket comment in cmake
+                rule.pattern.setPattern ("(?<=^|\\s|;|\\(|\\))#(?!\\[\\=*\\[).*");
+            else
+                rule.pattern.setPattern ("(?<=^|\\s|;|\\(|\\))#.*");
 
             if (progLan == "sh")
             {
@@ -2471,6 +2474,9 @@ bool Highlighter::isJSQuoted (const QString &text, const int index)
 bool Highlighter::isMLCommented (const QString &text, const int index, int comState,
                                  const int start)
 {
+    if (progLan == "cmake")
+        return isMLCmakeCommented (text, index, start);
+
     if (index < 0 || start < 0 || index < start
         // commentEndExpression is always set if commentStartExpression is
         || commentStartExpression.pattern().isEmpty())
@@ -4004,8 +4010,8 @@ void Highlighter::highlightBlock (const QString &text)
     }
 
     bool rehighlightNextBlock = false;
-    int oldOpenNests = 0; QSet<int> oldOpenQuotes; // to be used in SH_CmndSubstVar() (and perl, ruby, css and rust)
-    bool oldProperty = false; // to be used with perl, ruby, pascal and java
+    int oldOpenNests = 0; QSet<int> oldOpenQuotes; // to be used in SH_CmndSubstVar() (and perl, ruby, css, rust and cmake)
+    bool oldProperty = false; // to be used with perl, ruby, pascal, java and cmake
     QString oldLabel; // to be used with perl, ruby and LaTeX
     if (TextBlockData *oldData = static_cast<TextBlockData *>(currentBlockUserData()))
     {
@@ -4176,7 +4182,9 @@ void Highlighter::highlightBlock (const QString &text)
      * Multiline Comments *
      **********************/
 
-    if (!commentStartExpression.pattern().isEmpty() && progLan != "python")
+    if (progLan == "cmake")
+        rehighlightNextBlock |= cmakeDoubleBrackets (text, oldOpenNests, oldProperty);
+    else if (!commentStartExpression.pattern().isEmpty() && progLan != "python")
         rehighlightNextBlock |= multiLineComment (text, 0,
                                                   commentStartExpression, commentEndExpression,
                                                   commentState, commentFormat);

@@ -43,6 +43,8 @@ And, finally, in OpenSUSE:
  * libqt5-qttools-devel
 
 
+NOTE: `pkgconf` is required for finding Hunspell with `cmake`.
+
 With cmake
 ==========
 Then, open a terminal inside this folder and issue the following commands:
