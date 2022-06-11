@@ -1,4 +1,4 @@
-V1.2.1
+V1.3.0
 ---------
  * Added an option for using system icons where possible. By default, internal icons are used.
  * Set the scroll mode to per-pixel in the side-pane as a workaround for a bug in QListWidget's auto-scrolling.
