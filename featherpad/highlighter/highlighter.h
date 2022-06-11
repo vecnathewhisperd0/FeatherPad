@@ -88,7 +88,7 @@ private:
     QVector<BracketInfo *> allBrackets;
     QString label; // A label (can be a delimiter string, like that of a here-doc).
     bool Highlighted; // Is this block completely highlighted?
-    bool Property; // A general boolean property (used with SH, Perl and YAML).
+    bool Property; // A general boolean property (used with SH, Perl, YAML and cmake).
     int LastState; // The state of this block before it is highlighted (again).
     /* "Nest" is a generalized bracket. This variable
        is the number of unclosed nests in a block. */
@@ -297,7 +297,7 @@ private:
     bool isRustQuoted (const QString &text, const int index, const int start);
 
     /* cmake */
-    bool isMLCmakeCommented (const QString &text, const int index, const int start);
+    bool isCmakeDoubleBracketed (const QString &text, const int index, const int start);
     bool cmakeDoubleBrackets (const QString &text, int oldBracketLength, bool wasComment);
 
     struct HighlightingRule

@@ -25,7 +25,7 @@ namespace FeatherPad {
 static const QRegularExpression cmakeBracketStart ("\\[\\=*\\[");
 static const QRegularExpression cmakeBracketEnd ("\\]\\]");
 
-bool Highlighter::isMLCmakeCommented (const QString &text, const int index, const int start)
+bool Highlighter::isCmakeDoubleBracketed (const QString &text, const int index, const int start)
 {
     if (index < 0 || start < 0 || index < start)
         return false;
@@ -205,7 +205,7 @@ bool Highlighter::cmakeDoubleBrackets (const QString &text, int oldBracketLength
         {
             if (startIndex == 0 && prevState == commentState)
                 setFormat (startIndex, commentLength, commentFormat);
-            else
+            else // also format the starting "#"
                 setFormat (startIndex - 1, commentLength + 1, commentFormat);
 
         	/* format urls and email addresses inside the comment */
@@ -230,7 +230,7 @@ bool Highlighter::cmakeDoubleBrackets (const QString &text, int oldBracketLength
                 pIndex += urlMatch.capturedLength();
             }
         }
-        else
+        else // regexFormat isn't used elsewhere with cmake
             setFormat (startIndex, commentLength, regexFormat);
 
         startIndex = text.indexOf (cmakeBracketStart, startIndex + commentLength, &startMatch);

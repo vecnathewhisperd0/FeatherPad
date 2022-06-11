@@ -646,7 +646,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     /* these are used for all comments */
     commentFormat.setForeground (Red);
     commentFormat.setFontItalic (true);
-    /* WARNING: This is used by Fountain's synopses too. */
+    /* WARNING: This is also used by Fountain's synopses. */
     noteFormat.setFontWeight (QFont::Bold);
     noteFormat.setFontItalic (true);
     noteFormat.setForeground (DarkRed);
@@ -2475,7 +2475,7 @@ bool Highlighter::isMLCommented (const QString &text, const int index, int comSt
                                  const int start)
 {
     if (progLan == "cmake")
-        return isMLCmakeCommented (text, index, start);
+        return isCmakeDoubleBracketed (text, index, start);
 
     if (index < 0 || start < 0 || index < start
         // commentEndExpression is always set if commentStartExpression is
@@ -2973,6 +2973,7 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
         return false;
     }
     /* For Tcl, this function is never called. */
+
 //--------------------
     /* these are only for C++11 raw string literals */
     bool rehighlightNextBlock = false;
@@ -3674,7 +3675,9 @@ bool Highlighter::isHereDocument (const QString &text)
             TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData());
             if (!data) return false;
             data->insertInfo (delimStr);
-            /* inherit the previous data property and open nests */
+            /* inherit the previous data property and open nests
+               (the property shows if the here-doc is double quoted;
+               it's set for the delimiter in "SH_MultiLineQuote()") */
             if (bool p = prevData->getProperty())
                 data->setProperty (p);
             int N = prevData->openNests();
@@ -3686,7 +3689,7 @@ bool Highlighter::isHereDocument (const QString &text)
                     data->insertOpenQuotes (Q);
             }
             setCurrentBlockUserData (data);
-            if (prevState % 2 == 0)
+            if (prevState % 2 == 0) // the delimiter was in the previous line
                 setCurrentBlockState (prevState - 1);
             else
                 setCurrentBlockState (prevState);

@@ -27,8 +27,10 @@ void Highlighter::SH_MultiLineQuote (const QString &text)
     int index = 0;
     QRegularExpressionMatch quoteMatch;
     QRegularExpression quoteExpression = mixedQuoteMark;
-    int initialState = currentBlockState();
     int prevState = previousBlockState();
+    /* this tells us whether we are at the start of a here-doc or inside an
+       open quote of a command substitution continued from the previous line */
+    int initialState = currentBlockState();
 
     bool wasDQuoted (prevState == doubleQuoteState
                      || prevState == SH_MixedDoubleQuoteState || prevState == SH_MixedSingleQuoteState);
@@ -39,7 +41,7 @@ void Highlighter::SH_MultiLineQuote (const QString &text)
     {
         prevData = static_cast<TextBlockData *>(prevBlock.userData());
         if (prevData && prevData->getProperty())
-        { // at the end delimiter of a here-doc starting like VAR="$(cat<<EOF
+        { // at the end delimiter of a here-doc started like VAR="$(cat<<EOF
             wasQuoted = wasDQuoted = true;
         }
     }
@@ -121,10 +123,10 @@ void Highlighter::SH_MultiLineQuote (const QString &text)
             {
                 setCurrentBlockState (quoteExpression == quoteMark
                                                          ? initialState == SH_DoubleQuoteState
-                                                           ? SH_MixedDoubleQuoteState
-                                                           : initialState == SH_SingleQuoteState
-                                                             ? SH_MixedSingleQuoteState
-                                                             : doubleQuoteState
+                                                             ? SH_MixedDoubleQuoteState
+                                                             : initialState == SH_SingleQuoteState
+                                                                 ? SH_MixedSingleQuoteState
+                                                                 : doubleQuoteState
                                                          : singleQuoteState);
             }
             else if (curData->openNests() > 0) // like VAR="$(cat<<EOF
