@@ -168,7 +168,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
             progLan = "tcl";
         else if (baseName.startsWith ("makefile.", Qt::CaseInsensitive) && !baseName.endsWith (".txt", Qt::CaseInsensitive))
             progLan = "makefile";
-        else if (baseName.compare ("CMakeLists.txt", Qt::CaseInsensitive) == 0)
+        else if (baseName.compare ("CMakeLists.txt", Qt::CaseInsensitive) == 0
+                 || baseName.endsWith (".cmake.in", Qt::CaseInsensitive))
             progLan = "cmake";
     }
     else if (baseName == "PKGBUILD" || baseName == "fstab")

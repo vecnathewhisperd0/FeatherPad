@@ -1265,7 +1265,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../syntax.cpp" line="306"/>
+        <location filename="../../syntax.cpp" line="307"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
         <translation>超過語法標示的大小限制。</translation>
     </message>
