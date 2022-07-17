@@ -2715,15 +2715,6 @@ void FPwin::showWarningBar (const QString& message, int timeout, bool startupBar
         connect (tabPage->textEdit(), &QPlainTextEdit::updateRequest, bar, &WarningBar::closeBarOnScrolling);
 }
 /*************************/
-void FPwin::showCrashWarning()
-{
-    QTimer::singleShot (0, this, [=]() {
-        showWarningBar ("<center><b><big>" + tr ("A previous crash detected!") + "</big></b></center>"
-                        + "<center><i>" + tr ("Preferably, close all FeatherPad windows and start again!") + "</i></center>",
-                        10, true);
-    });
-}
-/*************************/
 void FPwin::showRootWarning()
 {
     QTimer::singleShot (0, this, [=]() {

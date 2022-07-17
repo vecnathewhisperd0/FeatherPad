@@ -148,6 +148,24 @@ if(NOT WITHOUT_X11 AND UNIX AND NOT APPLE AND NOT HAIKU)
   set(featherpad_SRCS ${featherpad_SRCS} x11.cpp)
 endif()
 
+if(QT_VERSION_MAJOR EQUAL 6)
+  qt6_add_dbus_adaptor(featherpad_DBUS_SRCS
+      org.featherpad.Application.xml
+      singleton.h
+      FeatherPad::FPsingleton
+      featherpadadaptor
+      FeatherPadAdaptor
+  )
+else()
+  qt5_add_dbus_adaptor(featherpad_DBUS_SRCS
+      org.featherpad.Application.xml
+      singleton.h
+      FeatherPad::FPsingleton
+      featherpadadaptor
+      FeatherPadAdaptor
+  )
+endif()
+
 set(featherpad_RESOURCES data/fp.qrc)
 set(DESKTOP_FILE data/featherpad.desktop)
 set(METAINFO_FILE data/featherpad.metainfo.xml)
@@ -179,7 +197,7 @@ if(Qt${QT_VERSION_MAJOR}LinguistTools_FOUND)
   else()
     qt5_add_translation(QM_FILES ${TS_FILES})
   endif()
-  add_executable(featherpad ${featherpad_SRCS} ${featherpad_RESOURCES} ${EXTRA_HEADERS} ${DESKTOP_FILE} ${QM_FILES})
+  add_executable(featherpad ${featherpad_SRCS} ${featherpad_DBUS_SRCS} ${featherpad_RESOURCES} ${EXTRA_HEADERS} ${DESKTOP_FILE} ${QM_FILES})
   if(HAIKU)
     install(FILES ${QM_FILES} DESTINATION "${CMAKE_INSTALL_PREFIX}/translations")
   elseif(APPLE)
@@ -188,7 +206,7 @@ if(Qt${QT_VERSION_MAJOR}LinguistTools_FOUND)
     install(FILES ${QM_FILES} DESTINATION "${CMAKE_INSTALL_PREFIX}/share/featherpad/translations")
   endif()
 else(Qt${QT_VERSION_MAJOR}LinguistTools_FOUND)
-  add_executable(featherpad ${featherpad_SRCS} ${featherpad_RESOURCES} ${EXTRA_HEADERS} ${DESKTOP_FILE})
+  add_executable(featherpad ${featherpad_SRCS} ${featherpad_DBUS_SRCS} ${featherpad_RESOURCES} ${EXTRA_HEADERS} ${DESKTOP_FILE})
 endif(Qt${QT_VERSION_MAJOR}LinguistTools_FOUND)
 
 if(NOT WITHOUT_X11 AND UNIX AND NOT APPLE AND NOT HAIKU)

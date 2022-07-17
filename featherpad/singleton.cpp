@@ -19,23 +19,25 @@
 
 #include <QDir>
 #include <QScreen>
-#include <QLocalSocket>
 #include <QDialog>
-#include <QStandardPaths>
-#include <QCryptographicHash>
-#include <QThread>
+#include <QDBusConnection>
+#include <QDBusInterface>
 
 #if defined Q_OS_LINUX || defined Q_OS_FREEBSD || defined Q_OS_OPENBSD || defined Q_OS_NETBSD || defined Q_OS_HURD
 #include <unistd.h> // for geteuid()
 #endif
 
 #include "singleton.h"
+#include "featherpadadaptor.h"
 
 #ifdef HAS_X11
 #include "x11.h"
 #endif
 
 namespace FeatherPad {
+
+static const char *serviceName = "org.featherpad.FeatherPad";
+static const char *ifaceName = "org.featherpad.Application";
 
 FPsingleton::FPsingleton (int &argc, char **argv, bool standalone) : QApplication (argc, argv)
 {
@@ -51,7 +53,6 @@ FPsingleton::FPsingleton (int &argc, char **argv, bool standalone) : QApplicatio
         isWayland_ = (QString::compare (QGuiApplication::platformName(), "wayland", Qt::CaseInsensitive) == 0);
 
     standalone_ = standalone;
-    socketFailure_ = false;
     isRoot_ = false;
     config_.readConfig();
     lastFiles_ = config_.getLastFiles();
@@ -60,50 +61,22 @@ FPsingleton::FPsingleton (int &argc, char **argv, bool standalone) : QApplicatio
     else
         searchModel_ = nullptr;
 
-    if (standalone)
+    isPrimaryInstance_ = standalone_;
+    if (!standalone_)
     {
-        lockFile_ = nullptr;
-        localServer_ = nullptr;
-        return;
-    }
-
-    /* Instead of QSharedMemory, a lock file is used for creating a single instance because
-       QSharedMemory not only would be unsafe with a crash but also might persist without a
-       crash and even after being attached and detached, resulting in an unchangeable state. */
-    QByteArray user = qgetenv ("USER");
-    uniqueKey_ = "featherpad-" + QString::fromLocal8Bit (user) + QLatin1Char ('-')
-                 + QCryptographicHash::hash (user, QCryptographicHash::Sha1).toHex();
-    QString lockFilePath = QStandardPaths::writableLocation (QStandardPaths::TempLocation)
-                           + "/" + uniqueKey_ + ".lock";
-    lockFile_ = new QLockFile (lockFilePath);
-
-    if (lockFile_->tryLock())
-    { // create a local server and listen to incoming messages from other instances
-        localServer_ = new QLocalServer (this);
-        connect (localServer_, &QLocalServer::newConnection, this, &FPsingleton::receiveMessage);
-        if (!localServer_->listen (uniqueKey_))
+        QDBusConnection dbus = QDBusConnection::sessionBus();
+        if (dbus.registerService (QLatin1String (serviceName)))
         {
-            if (localServer_->removeServer (uniqueKey_))
-                localServer_->listen (uniqueKey_);
-            else
-                qDebug ("Unable to remove server instance (from a previous crash).");
+            isPrimaryInstance_ = true;
+            new FeatherPadAdaptor (this);
+            dbus.registerObject (QStringLiteral ("/Application"), this);
         }
-    }
-    else
-    {
-        delete lockFile_; lockFile_ = nullptr;
-        localServer_ = nullptr;
     }
 }
 /*************************/
 FPsingleton::~FPsingleton()
 {
     qDeleteAll (Wins);
-    if (lockFile_)
-    {
-        lockFile_->unlock();
-        delete lockFile_;
-    }
 }
 /*************************/
 void FPsingleton::quitting()
@@ -118,64 +91,16 @@ void FPsingleton::quitting()
     config_.writeConfig();
 }
 /*************************/
-void FPsingleton::receiveMessage()
+void FPsingleton::sendInfo (const QStringList &info)
 {
-    QLocalSocket *localSocket = localServer_->nextPendingConnection();
-    if (!localSocket)
-    {
-        qDebug ("Unable to find local socket.");
-        return;
-    }
-    if (!localSocket->waitForReadyRead (timeout_))
-    {
-        qDebug ("%s", (const char *) localSocket->errorString().toLatin1());
-        return;
-    }
-    QByteArray byteArray = localSocket->readAll();
-    QString message = QString::fromUtf8 (byteArray.constData());
-    emit messageReceived (message);
-    localSocket->disconnectFromServer();
+    QDBusConnection dbus = QDBusConnection::sessionBus();
+    QDBusInterface iface (QLatin1String (serviceName),
+                          QStringLiteral ("/Application"),
+                          QLatin1String (ifaceName), dbus, this);
+    iface.call (QStringLiteral ("handleInfo"), info);
 }
 /*************************/
-// A new instance will be started only if this function returns false.
-bool FPsingleton::sendMessage (const QString& message)
-{
-    if (standalone_ // it's standalone or...
-        || localServer_ != nullptr) // ... no other instance was running
-    {
-        return false;
-    }
-
-    QLocalSocket localSocket (this);
-    localSocket.connectToServer (uniqueKey_, QIODevice::WriteOnly);
-    /* NOTE: If "QStandardPaths::TempLocation" isn't on RAM, the socket may not be
-             ready yet. So, we retry a few times to make sure this isn't about a crash. */
-    int waiting = 0;
-    while (waiting < 5 && !localSocket.waitForConnected (timeout_))
-    {
-        QThread::msleep (500);
-        localSocket.connectToServer (uniqueKey_, QIODevice::WriteOnly);
-        ++ waiting;
-    }
-    if (waiting == 5 && !localSocket.waitForConnected (timeout_))
-    {
-        socketFailure_ = true;
-        qDebug ("%s", (const char *) localSocket.errorString().toLatin1());
-        return false;
-    }
-
-    localSocket.write (message.toUtf8());
-    if (!localSocket.waitForBytesWritten (timeout_))
-    {
-        socketFailure_ = true;
-        qDebug ("%s", (const char *) localSocket.errorString().toLatin1());
-        return false;
-    }
-    localSocket.disconnectFromServer();
-    return true;
-}
-/*************************/
-bool FPsingleton::cursorInfo (const QString& commndOpt, int& lineNum, int& posInLine)
+bool FPsingleton::cursorInfo (const QString &commndOpt, int &lineNum, int &posInLine)
 {
     if (commndOpt.isEmpty()) return false;
     lineNum = 0; // no cursor placing
@@ -218,32 +143,33 @@ bool FPsingleton::cursorInfo (const QString& commndOpt, int& lineNum, int& posIn
     return false;
 }
 /*************************/
-QStringList FPsingleton::processInfo (const QString& message,
-                                      long &desktop, int& lineNum, int& posInLine,
+QStringList FPsingleton::processInfo (const QStringList &info,
+                                      long &desktop, int &lineNum, int &posInLine,
                                       bool *newWindow)
 {
     desktop = -1;
     lineNum = 0; // no cursor placing
     posInLine = 0;
-    QStringList sl = message.split ("\n\r"); // "\n\r" was used as the splitter
-    if (sl.count() < 3) // impossible because "\n\r" is appended to desktop number plus current directory
+    QStringList sl = info;
+    if (sl.isEmpty()) // normally impossible, because of desktop number and current directory
     {
         *newWindow = true;
         return QStringList();
     }
+    *newWindow = false;
     desktop = sl.at (0).toInt();
     sl.removeFirst();
+    if (sl.isEmpty())
+        return QStringList();
     QDir curDir (sl.at (0));
     sl.removeFirst();
     if (standalone_)
     {
         *newWindow = true;
         sl.removeFirst(); // "--standalone" is always the first optionn
-        if (sl.isEmpty())
-            return QStringList();
     }
-    else
-        *newWindow = false;
+    if (sl.isEmpty())
+        return QStringList();
     bool hasCurInfo = cursorInfo (sl.at (0), lineNum, posInLine);
     if (hasCurInfo)
     {
@@ -297,7 +223,7 @@ QStringList FPsingleton::processInfo (const QString& message,
     return filesList;
 }
 /*************************/
-void FPsingleton::firstWin (const QString& message)
+void FPsingleton::firstWin (const QStringList &info)
 {
 #if defined Q_OS_LINUX || defined Q_OS_FREEBSD || defined Q_OS_OPENBSD || defined Q_OS_NETBSD || defined Q_OS_HURD
     isRoot_ = (geteuid() == 0);
@@ -305,7 +231,7 @@ void FPsingleton::firstWin (const QString& message)
     int lineNum = 0, posInLine = 0;
     long d = -1;
     bool openNewWin;
-    const QStringList filesList = processInfo (message, d, lineNum, posInLine, &openNewWin);
+    const QStringList filesList = processInfo (info, d, lineNum, posInLine, &openNewWin);
     if (config_.getOpenInWindows() && !filesList.isEmpty())
     {
         for (const auto &file : filesList)
@@ -316,14 +242,12 @@ void FPsingleton::firstWin (const QString& message)
     lastFiles_ = QStringList(); // they should be called only with the session start
 }
 /*************************/
-FPwin* FPsingleton::newWin (const QStringList& filesList,
+FPwin* FPsingleton::newWin (const QStringList &filesList,
                             int lineNum, int posInLine)
 {
     FPwin *fp = new FPwin (nullptr, standalone_);
     fp->show();
-    if (socketFailure_)
-        fp->showCrashWarning();
-    else if (isRoot_)
+    if (isRoot_)
         fp->showRootWarning();
     Wins.append (fp);
 
@@ -349,12 +273,12 @@ void FPsingleton::removeWin (FPwin *win)
     win->deleteLater();
 }
 /*************************/
-void FPsingleton::handleMessage (const QString& message)
+void FPsingleton::handleInfo (const QStringList &info)
 {
     int lineNum = 0, posInLine = 0;
     long d = -1;
     bool openNewWin;
-    const QStringList filesList = processInfo (message, d, lineNum, posInLine, &openNewWin);
+    const QStringList filesList = processInfo (info, d, lineNum, posInLine, &openNewWin);
     if (openNewWin && !config_.getOpenInWindows())
     {
         newWin (filesList, lineNum, posInLine);

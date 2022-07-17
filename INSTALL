@@ -1,9 +1,12 @@
+Installing FeatherPad from distro repositories is most recommended. The following instructions are for those who have experience in compilation from source.
+
 ************************************
 *   Compilation And Installation   *
 ************************************
 
-To compile FeatherPad from its source, first install build dependencies. In Debian-based systems, they are:
+To compile FeatherPad from its source, first install its build dependencies. In Debian-based systems, they are:
 
+ * cmake
  * g++ >= 5
  * libx11-dev and libxext-dev (for X11)
  * qtbase5-dev and libqt5x11extras5-dev (for Qt5)
@@ -13,6 +16,7 @@ To compile FeatherPad from its source, first install build dependencies. In Debi
 
 In Arch-based systems, the required package are:
 
+ * cmake
  * gcc (or gcc-multilib for multilib systems)
  * libx11 and libxext (for X11)
  * qt5-base and qt5-x11extras (for Qt5)
@@ -22,6 +26,7 @@ In Arch-based systems, the required package are:
 
 In Red Hat based systems like Fedora:
 
+ * cmake
  * gcc-c++
  * libX11-devel
  * libXext-devel
@@ -33,6 +38,7 @@ In Red Hat based systems like Fedora:
 
 And, finally, in OpenSUSE:
 
+ * cmake
  * gcc-c++
  * libX11-devel
  * libXext-devel
@@ -45,8 +51,6 @@ And, finally, in OpenSUSE:
 
 NOTE: `pkgconfig` is required for finding Hunspell's version with cmake. Since it may be provided by more that one package in some distros, it is not listed above.
 
-With cmake
-==========
 Then, open a terminal inside this folder and issue the following commands:
 
 	mkdir build && cd build
@@ -56,17 +60,6 @@ Then, open a terminal inside this folder and issue the following commands:
 
 NOTE: Experimental compilation against Qt6 can be done with `cmake .. -DENABLE_QT5=OFF`. When Qt6 becomes the default version of Qt in some distros, that compilation option will be set to `OFF` by default.
 
-With qmake
-==========
-If you prefer qmake, use these commands instead:
-
-	qmake && make
-	sudo make install
-
-You might need to put the full path of qmake in the first command (it can belong to Qt5 or Qt6). After a qmake compilation, you could clean the source directory with this command:
-
-	make distclean
-
 *******************************
 *   Compilation without X11   *
 *******************************
@@ -74,10 +67,6 @@ You might need to put the full path of qmake in the first command (it can belong
 If, for whatever reason, you do not want the X11 support, you could first turn on the option "WITHOUT_X11" with cmake:
 
 	cmake .. -DWITHOUT_X11=ON
-
-Or, if you use qmake:
-
-	qmake WITHOUT_X11=YES
 
 The result will have all features except for virtual desktop awareness and tab DND.
 

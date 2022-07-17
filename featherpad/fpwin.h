@@ -71,7 +71,6 @@ public:
     void addCursorPosLabel();
     void addRemoveLangBtn (bool add);
 
-    void showCrashWarning();
     void showRootWarning();
     void updateCustomizableShortcuts (bool disable = false);
 

@@ -18,6 +18,7 @@
  */
 
 #include <QDir>
+#include <QTextStream>
 #include "singleton.h"
 
 #ifdef HAS_X11
@@ -43,7 +44,7 @@ void handleQuitSignals (const std::vector<int>& quitSignals)
 int main (int argc, char **argv)
 {
     const QString name = "FeatherPad";
-    const QString version = "1.3.0";
+    const QString version = "1.3.1";
     const QString option = QString::fromUtf8 (argv[1]);
     if (option == "--help" || option == "-h")
     {
@@ -134,31 +135,25 @@ int main (int argc, char **argv)
 
     singleton.installTranslator (&FPTranslator);
 
-    QString info;
+    QStringList info;
 #ifdef HAS_X11
     int d = singleton.isX11() ? static_cast<int>(FeatherPad::fromDesktop()) : -1;
 #else
     int d = -1;
 #endif
-    info.setNum (d);
-    info += "\n\r"; // a string that can't be used in file names
-    info += QDir::currentPath();
-    info += "\n\r";
+    info << QString::number (d);
+    info << QDir::currentPath();
     for (int i = 1; i < argc; ++i)
-    {
-        info += QString::fromUtf8 (argv[i]);
-        if (i < argc - 1)
-            info += "\n\r";
-    }
+        info << QString::fromUtf8 (argv[i]);
 
-    // the slot is executed in the receiver's thread
-    if (singleton.sendMessage (info))
+    if (!singleton.isPrimaryInstance())
+    {
+        singleton.sendInfo (info); // is sent to the primary instance
         return 0;
+    }
 
     QObject::connect (&singleton, &QCoreApplication::aboutToQuit, &singleton, &FeatherPad::FPsingleton::quitting);
     singleton.firstWin (info);
-    QObject::connect (&singleton, &FeatherPad::FPsingleton::messageReceived,
-                      &singleton, &FeatherPad::FPsingleton::handleMessage);
 
     return singleton.exec();
 }

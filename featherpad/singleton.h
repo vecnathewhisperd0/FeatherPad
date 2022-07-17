@@ -21,8 +21,6 @@
 #define SINGLETON_H
 
 #include <QApplication>
-#include <QLocalServer>
-#include <QLockFile>
 #include "fpwin.h"
 #include "config.h"
 
@@ -36,8 +34,10 @@ public:
     FPsingleton (int &argc, char **argv, bool standalone);
     ~FPsingleton();
 
-    bool sendMessage (const QString& message);
-    void firstWin(const QString& message);
+    void sendInfo (const QStringList &info);
+    void handleInfo (const QStringList &info);
+
+    void firstWin (const QStringList &info);
     FPwin* newWin (const QStringList &filesList = QStringList(),
                    int lineNum = 0, int posInLine = 0);
     void removeWin (FPwin *win);
@@ -47,46 +47,41 @@ public:
     Config& getConfig() {
         return config_;
     }
+
+    bool isPrimaryInstance() const {
+        return isPrimaryInstance_;
+    }
     bool isX11() const {
-      return isX11_;
+        return isX11_;
     }
     bool isWayland() const {
-      return isWayland_;
+        return isWayland_;
     }
     bool isRoot() const {
-      return isRoot_;
+        return isRoot_;
     }
+
     QStandardItemModel *searchModel() const {
         return searchModel_;
     }
 
 public slots:
-    void receiveMessage();
-    void handleMessage (const QString& message);
     void quitting();
 
-signals:
-    void messageReceived (const QString& message);
-
 private:
-    bool cursorInfo (const QString& commndOpt, int& lineNum, int& posInLine);
-    QStringList processInfo (const QString& message,
-                             long &desktop, int& lineNum, int& posInLine,
+    bool cursorInfo (const QString &commndOpt, int &lineNum, int &posInLine);
+    QStringList processInfo (const QStringList &info,
+                             long &desktop, int &lineNum, int &posInLine,
                              bool *newWindow);
 
-    QString uniqueKey_;
-    QLockFile *lockFile_;
-    QLocalServer *localServer_;
-    static const int timeout_ = 1000;
     Config config_;
     QStringList lastFiles_;
+    bool isPrimaryInstance_;
+    bool standalone_; // Whether this is a standalone instance.
     bool isX11_;
     bool isWayland_;
-    bool socketFailure_;
     bool isRoot_;
     QStandardItemModel *searchModel_; // The common search history if any.
-
-    bool standalone_; // Whether this is a standalone instance.
 };
 
 }
