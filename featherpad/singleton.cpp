@@ -65,7 +65,9 @@ FPsingleton::FPsingleton (int &argc, char **argv, bool standalone) : QApplicatio
     if (!standalone_)
     {
         QDBusConnection dbus = QDBusConnection::sessionBus();
-        if (dbus.registerService (QLatin1String (serviceName)))
+        if (!dbus.isConnected()) // interpret it as the lack of D-Bus
+            isPrimaryInstance_ = true;
+        else if (dbus.registerService (QLatin1String (serviceName)))
         {
             isPrimaryInstance_ = true;
             new FeatherPadAdaptor (this);
