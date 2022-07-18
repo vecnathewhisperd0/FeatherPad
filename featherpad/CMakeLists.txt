@@ -10,7 +10,6 @@ if(NOT ENABLE_QT5)
   find_package(Qt6Gui "${QT6_MINIMUM_VERSION}" REQUIRED)
   find_package(Qt6Widgets "${QT6_MINIMUM_VERSION}" REQUIRED)
   find_package(Qt6Svg "${QT6_MINIMUM_VERSION}" REQUIRED)
-  find_package(Qt6Network "${QT6_MINIMUM_VERSION}" REQUIRED)
   find_package(Qt6PrintSupport "${QT6_MINIMUM_VERSION}" REQUIRED)
   find_package(Qt6DBus "${QT6_MINIMUM_VERSION}" REQUIRED)
 else()
@@ -19,7 +18,6 @@ else()
   find_package(Qt5Gui "${QT5_MINIMUM_VERSION}" REQUIRED)
   find_package(Qt5Widgets "${QT5_MINIMUM_VERSION}" REQUIRED)
   find_package(Qt5Svg "${QT5_MINIMUM_VERSION}" REQUIRED)
-  find_package(Qt5Network "${QT5_MINIMUM_VERSION}" REQUIRED)
   find_package(Qt5PrintSupport "${QT5_MINIMUM_VERSION}" REQUIRED)
   find_package(Qt5DBus "${QT5_MINIMUM_VERSION}" REQUIRED)
 endif()
@@ -60,7 +58,6 @@ if(NOT WITHOUT_X11 AND UNIX AND NOT APPLE AND NOT HAIKU)
                         ${Qt6Gui_INCLUDE_DIRS}
                         ${Qt6Widgets_INCLUDE_DIRS}
                         ${Qt6Svg_INCLUDE_DIRS}
-                        ${Qt6Network_INCLUDE_DIRS}
                         ${Qt6PrintSupport_INCLUDE_DIRS}
                         ${Qt6DBus_INCLUDE_DIRS}
                         ${X11_INCLUDE_DIR}
@@ -72,7 +69,6 @@ if(NOT WITHOUT_X11 AND UNIX AND NOT APPLE AND NOT HAIKU)
                         ${Qt5Widgets_INCLUDE_DIRS}
                         ${Qt5Svg_INCLUDE_DIRS}
                         ${Qt5X11Extras_INCLUDE_DIRS}
-                        ${Qt5Network_INCLUDE_DIRS}
                         ${Qt5PrintSupport_INCLUDE_DIRS}
                         ${Qt5DBus_INCLUDE_DIRS}
                         ${X11_INCLUDE_DIR}
@@ -85,7 +81,6 @@ else()
                       ${Qt${QT_VERSION_MAJOR}Gui_INCLUDE_DIRS}
                       ${Qt${QT_VERSION_MAJOR}Widgets_INCLUDE_DIRS}
                       ${Qt${QT_VERSION_MAJOR}Svg_INCLUDE_DIRS}
-                      ${Qt${QT_VERSION_MAJOR}Network_INCLUDE_DIRS}
                       ${Qt${QT_VERSION_MAJOR}PrintSupport_INCLUDE_DIRS}
                       ${Qt${QT_VERSION_MAJOR}DBus_INCLUDE_DIRS}
                       ${HUNSPELL_INCLUDE_DIRS})
@@ -215,7 +210,6 @@ if(NOT WITHOUT_X11 AND UNIX AND NOT APPLE AND NOT HAIKU)
                                      ${Qt6Gui_LIBRARIES}
                                      ${Qt6Widgets_LIBRARIES}
                                      ${Qt6Svg_LIBRARIES}
-                                     ${Qt6Network_LIBRARIES}
                                      ${Qt6PrintSupport_LIBRARIES}
                                      ${Qt6DBus_LIBRARIES}
                                      ${X11_LIBRARIES}
@@ -226,7 +220,6 @@ if(NOT WITHOUT_X11 AND UNIX AND NOT APPLE AND NOT HAIKU)
                                      ${Qt5Widgets_LIBRARIES}
                                      ${Qt5Svg_LIBRARIES}
                                      ${Qt5X11Extras_LIBRARIES}
-                                     ${Qt5Network_LIBRARIES}
                                      ${Qt5PrintSupport_LIBRARIES}
                                      ${Qt5DBus_LIBRARIES}
                                      ${X11_LIBRARIES}
@@ -237,7 +230,6 @@ else()
                                    ${Qt${QT_VERSION_MAJOR}Gui_LIBRARIES}
                                    ${Qt${QT_VERSION_MAJOR}Widgets_LIBRARIES}
                                    ${Qt${QT_VERSION_MAJOR}Svg_LIBRARIES}
-                                   ${Qt${QT_VERSION_MAJOR}Network_LIBRARIES}
                                    ${Qt${QT_VERSION_MAJOR}PrintSupport_LIBRARIES}
                                    ${Qt${QT_VERSION_MAJOR}DBus_LIBRARIES}
                                    ${HUNSPELL_LIBRARIES})
