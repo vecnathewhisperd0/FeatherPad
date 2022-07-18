@@ -41,7 +41,7 @@ class FPwin : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit FPwin (QWidget *parent = nullptr, bool standalone = false);
+    explicit FPwin (QWidget *parent = nullptr);
     ~FPwin();
 
     void saveInfoOnTerminating (Config &config, bool isLastWin);
@@ -287,7 +287,6 @@ private:
     bool closePreviousPages_;
     // Only used internally:
     bool closeInteractively_; // See the note inside "FPwin::closeEvent()".
-    bool standalone_;
 };
 
 }

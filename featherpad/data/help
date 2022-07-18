@@ -12,6 +12,8 @@ The standalone mode is an exception to the window/tab managing rules that are ex
 
 Enter "featherpad --help" in a terminal emulator to see all command-line options.
 
+NOTE: FeatherPad makes use of D-Bus to have a single process. Therefore, in non-Linux systems without D-Bus, it is a multi-process application, with only the standalone mode.
+
 *********************
 *   Drag-and-Drop   *
 *********************

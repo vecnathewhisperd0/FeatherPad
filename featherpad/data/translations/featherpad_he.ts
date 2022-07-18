@@ -12,18 +12,18 @@
 <context>
     <name>FeatherPad::FPwin</name>
     <message>
-        <location filename="../../fpwin.cpp" line="481"/>
-        <location filename="../../fpwin.cpp" line="1565"/>
-        <location filename="../../fpwin.cpp" line="1627"/>
-        <location filename="../../fpwin.cpp" line="2174"/>
-        <location filename="../../fpwin.cpp" line="2236"/>
-        <location filename="../../fpwin.cpp" line="3001"/>
-        <location filename="../../fpwin.cpp" line="3021"/>
-        <location filename="../../fpwin.cpp" line="3024"/>
-        <location filename="../../fpwin.cpp" line="3956"/>
-        <location filename="../../fpwin.cpp" line="4710"/>
-        <location filename="../../fpwin.cpp" line="5004"/>
-        <location filename="../../fpwin.cpp" line="5263"/>
+        <location filename="../../fpwin.cpp" line="479"/>
+        <location filename="../../fpwin.cpp" line="1563"/>
+        <location filename="../../fpwin.cpp" line="1625"/>
+        <location filename="../../fpwin.cpp" line="2172"/>
+        <location filename="../../fpwin.cpp" line="2234"/>
+        <location filename="../../fpwin.cpp" line="2999"/>
+        <location filename="../../fpwin.cpp" line="3019"/>
+        <location filename="../../fpwin.cpp" line="3022"/>
+        <location filename="../../fpwin.cpp" line="3954"/>
+        <location filename="../../fpwin.cpp" line="4708"/>
+        <location filename="../../fpwin.cpp" line="5002"/>
+        <location filename="../../fpwin.cpp" line="5261"/>
         <source>Untitled</source>
         <translation>ללא שם</translation>
     </message>
@@ -66,9 +66,9 @@
         <translation>&amp;אפשרויות</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1588"/>
-        <location filename="../../fpwin.cpp" line="2899"/>
-        <location filename="../../fpwin.cpp" line="4520"/>
+        <location filename="../../fpwin.cpp" line="1586"/>
+        <location filename="../../fpwin.cpp" line="2897"/>
+        <location filename="../../fpwin.cpp" line="4518"/>
         <source>Encoding</source>
         <translation>קידוד</translation>
     </message>
@@ -135,7 +135,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="519"/>
-        <location filename="../../fpwin.cpp" line="1363"/>
+        <location filename="../../fpwin.cpp" line="1361"/>
         <source>&amp;Save</source>
         <translation>&amp;שמירה</translation>
     </message>
@@ -610,7 +610,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="342"/>
-        <location filename="../../fpwin.cpp" line="4059"/>
+        <location filename="../../fpwin.cpp" line="4057"/>
         <location filename="../../replace.cpp" line="61"/>
         <location filename="../../replace.cpp" line="113"/>
         <source>Replacement</source>
@@ -777,458 +777,458 @@
         <translation>תפריט</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="105"/>
+        <location filename="../../fpwin.cpp" line="103"/>
         <source>Calculate number of words
 (For huge texts, this may be CPU-intensive.)</source>
         <translation>לחשב מספר מילים
 (לקטעי טקסט ארוכים, עלול לחנוק את המעבד.)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="120"/>
+        <location filename="../../fpwin.cpp" line="118"/>
         <source>Next</source>
         <translation>הבא</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="121"/>
+        <location filename="../../fpwin.cpp" line="119"/>
         <source>Previous</source>
         <translation>הקודם</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="122"/>
+        <location filename="../../fpwin.cpp" line="120"/>
         <source>Replace all</source>
         <translation>להחליף הכול</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="643"/>
+        <location filename="../../fpwin.cpp" line="641"/>
         <source>&amp;Recently Opened</source>
         <translation>נפתחו ל&amp;אחרונה</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2014"/>
+        <location filename="../../fpwin.cpp" line="2012"/>
         <source>Close</source>
         <translation>סגירה</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1349"/>
+        <location filename="../../fpwin.cpp" line="1347"/>
         <source>Save changes?</source>
         <translation>לשמור שינויים?</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1001"/>
+        <location filename="../../fpwin.cpp" line="999"/>
         <source>Please attend to that window or just close its dialog!</source>
         <translation>נא להתייחס לחלון הזה או פשוט לסגור את תיבת הדו־שיח שלו!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1353"/>
+        <location filename="../../fpwin.cpp" line="1351"/>
         <source>The document has been modified.</source>
         <translation>המסמך נערך.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1364"/>
+        <location filename="../../fpwin.cpp" line="1362"/>
         <source>&amp;Discard changes</source>
         <translation>הת&amp;עלמות מהשינויים</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1365"/>
+        <location filename="../../fpwin.cpp" line="1363"/>
         <source>&amp;Cancel</source>
         <translation>&amp;ביטול</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1367"/>
+        <location filename="../../fpwin.cpp" line="1365"/>
         <source>&amp;No to all</source>
         <translation>לא לה&amp;כול</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1570"/>
-        <location filename="../../fpwin.cpp" line="1628"/>
+        <location filename="../../fpwin.cpp" line="1568"/>
+        <location filename="../../fpwin.cpp" line="1626"/>
         <source>Unsaved</source>
         <translation>לא נשמר</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1589"/>
-        <location filename="../../fpwin.cpp" line="2901"/>
-        <location filename="../../fpwin.cpp" line="3625"/>
-        <location filename="../../fpwin.cpp" line="3636"/>
-        <location filename="../../fpwin.cpp" line="3643"/>
-        <location filename="../../fpwin.cpp" line="4525"/>
-        <location filename="../../fpwin.cpp" line="6120"/>
-        <location filename="../../fpwin.cpp" line="6131"/>
-        <location filename="../../fpwin.cpp" line="6138"/>
+        <location filename="../../fpwin.cpp" line="1587"/>
+        <location filename="../../fpwin.cpp" line="2899"/>
+        <location filename="../../fpwin.cpp" line="3623"/>
+        <location filename="../../fpwin.cpp" line="3634"/>
+        <location filename="../../fpwin.cpp" line="3641"/>
+        <location filename="../../fpwin.cpp" line="4523"/>
+        <location filename="../../fpwin.cpp" line="6118"/>
+        <location filename="../../fpwin.cpp" line="6129"/>
+        <location filename="../../fpwin.cpp" line="6136"/>
         <source>Lines</source>
         <translation>שורות</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1590"/>
-        <location filename="../../fpwin.cpp" line="4526"/>
-        <location filename="../../fpwin.cpp" line="4541"/>
+        <location filename="../../fpwin.cpp" line="1588"/>
+        <location filename="../../fpwin.cpp" line="4524"/>
+        <location filename="../../fpwin.cpp" line="4539"/>
         <source>Sel. Chars</source>
         <translation>תווים נבחרים</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1591"/>
-        <location filename="../../fpwin.cpp" line="4528"/>
-        <location filename="../../fpwin.cpp" line="4542"/>
+        <location filename="../../fpwin.cpp" line="1589"/>
+        <location filename="../../fpwin.cpp" line="4526"/>
+        <location filename="../../fpwin.cpp" line="4540"/>
         <source>Words</source>
         <translation>מילים</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1907"/>
+        <location filename="../../fpwin.cpp" line="1905"/>
         <source>Another process is running in this tab!</source>
         <translation>תהליך אחר פועל בלשונית הזו!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2005"/>
+        <location filename="../../fpwin.cpp" line="2003"/>
         <source>Script File</source>
         <translation>קובץ סקריפט</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1000"/>
+        <location filename="../../fpwin.cpp" line="998"/>
         <source>Another FeatherPad window has a modal dialog!</source>
         <translation>בחלון אחר של FeatherPad נפתחה תיבת דו־שיח חוסמת!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="837"/>
-        <location filename="../../fpwin.cpp" line="4567"/>
+        <location filename="../../fpwin.cpp" line="835"/>
+        <location filename="../../fpwin.cpp" line="4565"/>
         <source>Position:</source>
         <translation>מיקום:</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="885"/>
-        <location filename="../../fpwin.cpp" line="4585"/>
-        <location filename="../../fpwin.cpp" line="4605"/>
+        <location filename="../../fpwin.cpp" line="883"/>
+        <location filename="../../fpwin.cpp" line="4583"/>
+        <location filename="../../fpwin.cpp" line="4603"/>
         <source>Normal</source>
         <translation>רגיל</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1351"/>
-        <location filename="../../fpwin.cpp" line="2670"/>
-        <location filename="../../fpwin.cpp" line="5930"/>
+        <location filename="../../fpwin.cpp" line="1349"/>
+        <location filename="../../fpwin.cpp" line="2668"/>
+        <location filename="../../fpwin.cpp" line="5928"/>
         <source>The file does not exist.</source>
         <translation>קובץ זה אינו קיים.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1720"/>
+        <location filename="../../fpwin.cpp" line="1718"/>
         <source>Open Link</source>
         <translation>פתיחת קישור</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1733"/>
+        <location filename="../../fpwin.cpp" line="1731"/>
         <source>Copy Link</source>
         <translation>העתקת קישור</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1908"/>
+        <location filename="../../fpwin.cpp" line="1906"/>
         <source>Only one process is allowed per tab.</source>
         <translation>מותר רק תהליך אחד לכל לשונית.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2001"/>
+        <location filename="../../fpwin.cpp" line="1999"/>
         <source>Script Output</source>
         <translation>פלט סקריפט</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2017"/>
+        <location filename="../../fpwin.cpp" line="2015"/>
         <source>Clear</source>
         <translation>פינוי</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2627"/>
+        <location filename="../../fpwin.cpp" line="2625"/>
         <source>FeatherPad does not open files larger than 100 MiB.</source>
         <translation>FeatherPad אינו פותח קבצים בגודל של מעל ‎100 MiB.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2635"/>
+        <location filename="../../fpwin.cpp" line="2633"/>
         <source>Non-text file(s) not opened!</source>
         <translation>קבצים שאינם טקסט לא נפתחו!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2636"/>
+        <location filename="../../fpwin.cpp" line="2634"/>
         <source>See Preferences → Files → Do not permit opening of non-text files</source>
         <translation>יש לעיין בהעדפות ← קבצים ← לא להרשות פתיחת קבצים שאינם טקסט</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2645"/>
+        <location filename="../../fpwin.cpp" line="2643"/>
         <source>Some file(s) could not be opened!</source>
         <translation>לא ניתן לפתוח מספר קבצים!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2646"/>
+        <location filename="../../fpwin.cpp" line="2644"/>
         <source>You may not have the permission to read.</source>
         <translation>ייתכן ואין לך הרשאה לקריאה.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2656"/>
+        <location filename="../../fpwin.cpp" line="2654"/>
         <source>Uneditable file(s)!</source>
         <translation>קבצים שאינם פתוחים לעריכה!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2657"/>
+        <location filename="../../fpwin.cpp" line="2655"/>
         <source>Non-text files or files with huge lines cannot be edited.</source>
         <translation>אי אפשר לערוך קבצים שאינם טקסט או קבצים עם שורות ארוכות במיוחד.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2721"/>
+        <location filename="../../fpwin.cpp" line="2719"/>
         <source>Root Instance</source>
         <translation>עותק משתמש על</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2793"/>
-        <location filename="../../fpwin.cpp" line="2982"/>
-        <location filename="../../fpwin.cpp" line="3010"/>
+        <location filename="../../fpwin.cpp" line="2791"/>
+        <location filename="../../fpwin.cpp" line="2980"/>
+        <location filename="../../fpwin.cpp" line="3008"/>
         <source>All Files (*)</source>
         <translation>כל הקבצים (*)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2798"/>
+        <location filename="../../fpwin.cpp" line="2796"/>
         <source>All Files (*);;.%1 Files (*.%1)</source>
         <translation>כל הקבצים (*);;קובצי ‎.%1 ‏(‎*.%1)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2802"/>
+        <location filename="../../fpwin.cpp" line="2800"/>
         <source>Open file...</source>
         <translation>פתיחת קובץ…</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2988"/>
+        <location filename="../../fpwin.cpp" line="2986"/>
         <source>.%1 Files (*.%1);;All Files (*)</source>
         <translation>קובצי ‎.%1‏ (‎*.%1);;כל הקבצים (*)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3039"/>
-        <location filename="../../fpwin.cpp" line="3077"/>
+        <location filename="../../fpwin.cpp" line="3037"/>
+        <location filename="../../fpwin.cpp" line="3075"/>
         <source>Save as...</source>
         <translation>שמירה בשם…</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3113"/>
+        <location filename="../../fpwin.cpp" line="3111"/>
         <source>Keep encoding and save as...</source>
         <translation>לשמר את הקידוד ולשמור בשם…</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3448"/>
+        <location filename="../../fpwin.cpp" line="3446"/>
         <source>Saving as root.</source>
         <translation>מתבצעת שמירה כמשתמש על.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3449"/>
+        <location filename="../../fpwin.cpp" line="3447"/>
         <source>Waiting for authentication...</source>
         <translation>בהמתנה לאימות…</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3569"/>
+        <location filename="../../fpwin.cpp" line="3567"/>
         <source>&quot;pkexec&quot; is not found. Please install Polkit!</source>
         <translation>„pkexec” לא נמצא. נא להתקין את Polkit!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3228"/>
+        <location filename="../../fpwin.cpp" line="3226"/>
         <source>Yes</source>
         <translation>כן</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3229"/>
+        <location filename="../../fpwin.cpp" line="3227"/>
         <source>No</source>
         <translation>לא</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3230"/>
+        <location filename="../../fpwin.cpp" line="3228"/>
         <source>Cancel</source>
         <translation>ביטול</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3231"/>
+        <location filename="../../fpwin.cpp" line="3229"/>
         <source>Do you want to use &lt;b&gt;MS Windows&lt;/b&gt; end-of-lines?</source>
         <translation>להשתמש בסיומות שורה בסגנון &lt;b&gt;MS Windows&lt;/b&gt;?</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3232"/>
+        <location filename="../../fpwin.cpp" line="3230"/>
         <source>This may be good for readability under MS Windows.</source>
         <translation>עשוי להקל על הקריאה עם MS Windows.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3345"/>
-        <location filename="../../fpwin.cpp" line="3463"/>
-        <location filename="../../fpwin.cpp" line="3568"/>
-        <location filename="../../fpwin.cpp" line="3580"/>
+        <location filename="../../fpwin.cpp" line="3343"/>
+        <location filename="../../fpwin.cpp" line="3461"/>
+        <location filename="../../fpwin.cpp" line="3566"/>
+        <location filename="../../fpwin.cpp" line="3578"/>
         <source>Cannot be saved!</source>
         <translation>אי אפשר לשמור!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="479"/>
-        <location filename="../../fpwin.cpp" line="3954"/>
-        <location filename="../../fpwin.cpp" line="5002"/>
-        <location filename="../../fpwin.cpp" line="5261"/>
-        <location filename="../../fpwin.cpp" line="6336"/>
+        <location filename="../../fpwin.cpp" line="477"/>
+        <location filename="../../fpwin.cpp" line="3952"/>
+        <location filename="../../fpwin.cpp" line="5000"/>
+        <location filename="../../fpwin.cpp" line="5259"/>
+        <location filename="../../fpwin.cpp" line="6334"/>
         <source>Help</source>
         <translation>עזרה</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3621"/>
-        <location filename="../../fpwin.cpp" line="3627"/>
-        <location filename="../../fpwin.cpp" line="3635"/>
-        <location filename="../../fpwin.cpp" line="4523"/>
-        <location filename="../../fpwin.cpp" line="6116"/>
-        <location filename="../../fpwin.cpp" line="6122"/>
-        <location filename="../../fpwin.cpp" line="6130"/>
+        <location filename="../../fpwin.cpp" line="3619"/>
+        <location filename="../../fpwin.cpp" line="3625"/>
+        <location filename="../../fpwin.cpp" line="3633"/>
+        <location filename="../../fpwin.cpp" line="4521"/>
+        <location filename="../../fpwin.cpp" line="6114"/>
+        <location filename="../../fpwin.cpp" line="6120"/>
+        <location filename="../../fpwin.cpp" line="6128"/>
         <source>Syntax</source>
         <translation>תחביר</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2626"/>
+        <location filename="../../fpwin.cpp" line="2624"/>
         <source>Huge file(s) not opened!</source>
         <translation>קובצי ענק לא נפתחו!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3724"/>
+        <location filename="../../fpwin.cpp" line="3722"/>
         <source>Text tabs are converted to spaces.</source>
         <translation>טאבים בטקסט מומרים לרווחים.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3826"/>
+        <location filename="../../fpwin.cpp" line="3824"/>
         <source>The selected text was too long.</source>
         <translation>הטקסט הנבחר היה ארוך מדי.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3827"/>
+        <location filename="../../fpwin.cpp" line="3825"/>
         <source>It is not fully processed.</source>
         <translation>הוא לא עובד במלואו.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3966"/>
-        <location filename="../../fpwin.cpp" line="4199"/>
+        <location filename="../../fpwin.cpp" line="3964"/>
+        <location filename="../../fpwin.cpp" line="4197"/>
         <source>This file has been modified elsewhere or in another way!</source>
         <translation>הקובץ נערך במקום אחר או בדרך אחרת!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3967"/>
-        <location filename="../../fpwin.cpp" line="4200"/>
+        <location filename="../../fpwin.cpp" line="3965"/>
+        <location filename="../../fpwin.cpp" line="4198"/>
         <source>Please be careful about reloading or saving this document!</source>
         <translation>נא להיזהר ברענון או שמירת המסמך הזה!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4676"/>
+        <location filename="../../fpwin.cpp" line="4674"/>
         <source>Printing in progress...</source>
         <translation>מתבצעת הדפסה…</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4727"/>
+        <location filename="../../fpwin.cpp" line="4725"/>
         <source>Print Document</source>
         <translation>הדפסת המסמך</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4733"/>
+        <location filename="../../fpwin.cpp" line="4731"/>
         <source>Printing completed.</source>
         <translation>ההדפסה הושלמה.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5394"/>
-        <location filename="../../fpwin.cpp" line="5518"/>
+        <location filename="../../fpwin.cpp" line="5392"/>
+        <location filename="../../fpwin.cpp" line="5516"/>
         <source>%1 Pages</source>
         <translation>%1 דפים</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5425"/>
-        <location filename="../../fpwin.cpp" line="5554"/>
+        <location filename="../../fpwin.cpp" line="5423"/>
+        <location filename="../../fpwin.cpp" line="5552"/>
         <source>Copy Target Path</source>
         <translation>העתקת נתיב היעד</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5429"/>
-        <location filename="../../fpwin.cpp" line="5558"/>
+        <location filename="../../fpwin.cpp" line="5427"/>
+        <location filename="../../fpwin.cpp" line="5556"/>
         <source>Open Target Here</source>
         <translation>לפתוח את היעד כאן</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5448"/>
-        <location filename="../../fpwin.cpp" line="5578"/>
+        <location filename="../../fpwin.cpp" line="5446"/>
+        <location filename="../../fpwin.cpp" line="5576"/>
         <source>Copy Final Target Path</source>
         <translation>העתקת נתיב היעד הסופי</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5452"/>
-        <location filename="../../fpwin.cpp" line="5582"/>
+        <location filename="../../fpwin.cpp" line="5450"/>
+        <location filename="../../fpwin.cpp" line="5580"/>
         <source>Open Final Target Here</source>
         <translation>פתיחת היעד הסופי להלן</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5472"/>
-        <location filename="../../fpwin.cpp" line="5603"/>
+        <location filename="../../fpwin.cpp" line="5470"/>
+        <location filename="../../fpwin.cpp" line="5601"/>
         <source>Open Containing Folder</source>
         <translation>לפתוח את התיקייה המכילה</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5726"/>
+        <location filename="../../fpwin.cpp" line="5724"/>
         <source>You need to add a Hunspell dictionary.</source>
         <translation>עליך להוסיף מילון Hunspell.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5727"/>
-        <location filename="../../fpwin.cpp" line="5734"/>
-        <location filename="../../fpwin.cpp" line="5744"/>
+        <location filename="../../fpwin.cpp" line="5725"/>
+        <location filename="../../fpwin.cpp" line="5732"/>
+        <location filename="../../fpwin.cpp" line="5742"/>
         <source>See Preferences → Text → Spell Checking!</source>
         <translation>מוטב לגשת אל העדפות ← טקסט ← בדיקת איות!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5733"/>
+        <location filename="../../fpwin.cpp" line="5731"/>
         <source>The Hunspell dictionary does not exist.</source>
         <translation>מילון Hunspell לא קיים.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5743"/>
+        <location filename="../../fpwin.cpp" line="5741"/>
         <source>The Hunspell dictionary is not accompanied by an affix file.</source>
         <translation>מילון ה־Hunspell לא מלווה בקובץ מוספית.</translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="5764"/>
+        <location filename="../../fpwin.cpp" line="5782"/>
+        <location filename="../../fpwin.cpp" line="5797"/>
+        <source>No misspelling in document.</source>
+        <translation>אין שגיאות איות במסמך.</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="5766"/>
         <location filename="../../fpwin.cpp" line="5784"/>
         <location filename="../../fpwin.cpp" line="5799"/>
-        <source>No misspelling in document.</source>
-        <translation>אין שגיאות איות במסמך.</translation>
-    </message>
-    <message>
-        <location filename="../../fpwin.cpp" line="5768"/>
-        <location filename="../../fpwin.cpp" line="5786"/>
-        <location filename="../../fpwin.cpp" line="5801"/>
         <source>No misspelling from text cursor.</source>
         <translation>אין שגיאות איות בסמן הטקסט.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5817"/>
+        <location filename="../../fpwin.cpp" line="5815"/>
         <source>Spell Checking</source>
         <translation>בדיקת איות</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6154"/>
+        <location filename="../../fpwin.cpp" line="6152"/>
         <source>Some files cannot be saved!</source>
         <translation>לא ניתן לשמור חלק מהקבצים!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6197"/>
+        <location filename="../../fpwin.cpp" line="6195"/>
         <source>Translators</source>
         <translation>מתרגמים</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6193"/>
+        <location filename="../../fpwin.cpp" line="6191"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translation>עורך טקסט פשוט, קליל ומסודר בלשוניות</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6194"/>
+        <location filename="../../fpwin.cpp" line="6192"/>
         <source>based on Qt</source>
         <translation>מבוסס על Qt</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6195"/>
+        <location filename="../../fpwin.cpp" line="6193"/>
         <source>Author</source>
         <translation>יוצר</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6196"/>
+        <location filename="../../fpwin.cpp" line="6194"/>
         <source>aka.</source>
         <translation>ידוע גם בתור</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6197"/>
-        <location filename="../../fpwin.cpp" line="6198"/>
+        <location filename="../../fpwin.cpp" line="6195"/>
+        <location filename="../../fpwin.cpp" line="6196"/>
         <source>About FeatherPad</source>
         <translation>על אודות FeatherPad</translation>
     </message>
@@ -1946,7 +1946,7 @@ name but ending with &quot;.aff&quot;.</source>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="923"/>
-        <location filename="../../pref.cpp" line="1663"/>
+        <location filename="../../pref.cpp" line="1664"/>
         <source>Add dictionary...</source>
         <translation>הוספת מילון…</translation>
     </message>
@@ -2105,111 +2105,111 @@ in the editing mode.</source>
         <translation>יש ללחוץ על צבע לחיצה כפולה כדי לשנות אותו.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="310"/>
-        <location filename="../../pref.cpp" line="1359"/>
+        <location filename="../../pref.cpp" line="311"/>
+        <location filename="../../pref.cpp" line="1360"/>
         <source>files</source>
         <translation>קבצים</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="310"/>
-        <location filename="../../pref.cpp" line="1359"/>
+        <location filename="../../pref.cpp" line="311"/>
+        <location filename="../../pref.cpp" line="1360"/>
         <source>file</source>
         <translation>קובץ</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="363"/>
-        <location filename="../../pref.cpp" line="1478"/>
+        <location filename="../../pref.cpp" line="364"/>
+        <location filename="../../pref.cpp" line="1479"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>אזהרה: התגלה קיצור דרך דו־משמעי!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="396"/>
+        <location filename="../../pref.cpp" line="397"/>
         <source>Functions, URLs,…</source>
         <translation>פונקציות, כתובות, …</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="397"/>
+        <location filename="../../pref.cpp" line="398"/>
         <source>Built-in Functions</source>
         <translation>פונקציות מובנות</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="398"/>
+        <location filename="../../pref.cpp" line="399"/>
         <source>Comments</source>
         <translation>הערות</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="399"/>
+        <location filename="../../pref.cpp" line="400"/>
         <source>Quotations</source>
         <translation>ציטוטים</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="400"/>
+        <location filename="../../pref.cpp" line="401"/>
         <source>Types</source>
         <translation>סוגים</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="401"/>
+        <location filename="../../pref.cpp" line="402"/>
         <source>Key Words</source>
         <translation>מילות מפתח</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="402"/>
+        <location filename="../../pref.cpp" line="403"/>
         <source>Numbers</source>
         <translation>מספרים</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="403"/>
+        <location filename="../../pref.cpp" line="404"/>
         <source>Regular Expressions, Code Blocks,…</source>
         <translation>ביטויים רגולריים, מקטעי קוד, …</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="404"/>
+        <location filename="../../pref.cpp" line="405"/>
         <source>Document Blocks, XML/HTML Elements,…</source>
         <translation>מקטעי מסמך, רכיבי XML/HTML, …</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="405"/>
+        <location filename="../../pref.cpp" line="406"/>
         <source>Markdown Headings, CSS Values,…</source>
         <translation>כותרות Markdown, ערכי CSS, …</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="406"/>
+        <location filename="../../pref.cpp" line="407"/>
         <source>Extra Elements</source>
         <translation>אלמנטים נוספים</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="567"/>
+        <location filename="../../pref.cpp" line="568"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>הפעלת היישום מחדש נחוצה כדי להכניס השינויים לתוקף.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="587"/>
+        <location filename="../../pref.cpp" line="588"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>פתיחת החלון מחדש נחוצה כדי להכניס את השינויים לתוקף.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1385"/>
+        <location filename="../../pref.cpp" line="1386"/>
         <source>&amp;Recently Opened</source>
         <translation>נפתחו ל&amp;אחרונה</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1386"/>
+        <location filename="../../pref.cpp" line="1387"/>
         <source>Recently &amp;Modified</source>
         <translation>נ&amp;ערכו לאחרונה</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1461"/>
+        <location filename="../../pref.cpp" line="1462"/>
         <source>The typed shortcut was reserved.</source>
         <translation>קיצור הדרך שהוקלד נשמר.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1665"/>
+        <location filename="../../pref.cpp" line="1666"/>
         <source>Hunspell Dictionary Files (*.dic)</source>
         <translation>קובצי מילון Hunspell‏ (‎*.dic)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="457"/>
-        <location filename="../../pref.cpp" line="1751"/>
+        <location filename="../../pref.cpp" line="458"/>
+        <location filename="../../pref.cpp" line="1752"/>
         <source>Select Syntax Color</source>
         <translation>בחירת צבע תחביר</translation>
     </message>

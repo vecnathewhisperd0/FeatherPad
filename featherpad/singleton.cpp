@@ -66,7 +66,10 @@ FPsingleton::FPsingleton (int &argc, char **argv, bool standalone) : QApplicatio
     {
         QDBusConnection dbus = QDBusConnection::sessionBus();
         if (!dbus.isConnected()) // interpret it as the lack of D-Bus
+        {
             isPrimaryInstance_ = true;
+            standalone_ = true;
+        }
         else if (dbus.registerService (QLatin1String (serviceName)))
         {
             isPrimaryInstance_ = true;
@@ -158,18 +161,15 @@ QStringList FPsingleton::processInfo (const QStringList &info,
         *newWindow = true;
         return QStringList();
     }
-    *newWindow = false;
+    *newWindow = standalone_; // standalone_ is true without D-Bus
     desktop = sl.at (0).toInt();
     sl.removeFirst();
     if (sl.isEmpty())
         return QStringList();
     QDir curDir (sl.at (0));
     sl.removeFirst();
-    if (standalone_)
-    {
-        *newWindow = true;
-        sl.removeFirst(); // "--standalone" is always the first optionn
-    }
+    if (!sl.isEmpty() && (sl.at (0) == "--standalone" || sl.at (0) == "-s"))
+        sl.removeFirst(); // "--standalone" is always the first option
     if (sl.isEmpty())
         return QStringList();
     bool hasCurInfo = cursorInfo (sl.at (0), lineNum, posInLine);
@@ -247,7 +247,7 @@ void FPsingleton::firstWin (const QStringList &info)
 FPwin* FPsingleton::newWin (const QStringList &filesList,
                             int lineNum, int posInLine)
 {
-    FPwin *fp = new FPwin (nullptr, standalone_);
+    FPwin *fp = new FPwin (nullptr);
     fp->show();
     if (isRoot_)
         fp->showRootWarning();

@@ -188,6 +188,7 @@ PrefDialog::PrefDialog (QWidget *parent)
     connect (ui->singleTabBox, &QCheckBox::stateChanged, this, &PrefDialog::prefHideSingleTab);
 
     ui->windowBox->setChecked (config.getOpenInWindows());
+    ui->windowBox->setEnabled (!static_cast<FPsingleton*>(qApp)->isStandAlone());
     connect (ui->windowBox, &QCheckBox::stateChanged, this, &PrefDialog::prefOpenInWindows);
 
     ui->nativeDialogBox->setChecked (config.getNativeDialog());

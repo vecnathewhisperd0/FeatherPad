@@ -51,6 +51,9 @@ public:
     bool isPrimaryInstance() const {
         return isPrimaryInstance_;
     }
+    bool isStandAlone() const {
+        return standalone_;
+    }
     bool isX11() const {
         return isX11_;
     }

@@ -64,11 +64,9 @@
 
 namespace FeatherPad {
 
-FPwin::FPwin (QWidget *parent, bool standalone):QMainWindow (parent), dummyWidget (nullptr), ui (new Ui::FPwin)
+FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (new Ui::FPwin)
 {
     ui->setupUi (this);
-
-    standalone_ = standalone;
 
     closeInteractively_ = false;
     locked_ = false;
@@ -199,7 +197,7 @@ FPwin::FPwin (QWidget *parent, bool standalone):QMainWindow (parent), dummyWidge
     ui->actionWindows_Arabic->setVisible (false);
 #endif
 
-    if (standalone_
+    if (static_cast<FPsingleton*>(qApp)->isStandAlone()
         /* since Wayland has a serious issue related to QDrag that interferes with
            dropping tabs outside all windows, we don't enable tab DND without X11 */
         || !static_cast<FPsingleton*>(qApp)->isX11())
@@ -1006,7 +1004,7 @@ bool FPwin::hasAnotherDialog()
 /*************************/
 void FPwin::updateGUIForSingleTab (bool single)
 {
-    ui->actionDetachTab->setEnabled (!single && !standalone_);
+    ui->actionDetachTab->setEnabled (!single && !static_cast<FPsingleton*>(qApp)->isStandAlone());
     ui->actionRightTab->setEnabled (!single);
     ui->actionLeftTab->setEnabled (!single);
     ui->actionLastTab->setEnabled (!single);
@@ -5532,7 +5530,7 @@ void FPwin::listContextMenu (const QPoint& p)
             menu.addAction (ui->actionCloseOther);
         }
         menu.addAction (ui->actionCloseAll);
-        if (!standalone_)
+        if (!static_cast<FPsingleton*>(qApp)->isStandAlone())
         {
             menu.addSeparator();
             menu.addAction (ui->actionDetachTab);
