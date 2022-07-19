@@ -45,8 +45,8 @@ int main (int argc, char **argv)
 {
     const QString name = "FeatherPad";
     const QString version = "1.3.1";
-    const QString option = QString::fromUtf8 (argv[1]);
-    if (option == "--help" || option == "-h")
+    const QString firstArg = QString::fromUtf8 (argv[1]);
+    if (firstArg == "--help" || firstArg == "-h")
     {
         QTextStream out (stdout);
         out << "FeatherPad - Lightweight Qt text editor\n"\
@@ -70,14 +70,14 @@ int main (int argc, char **argv)
             << Qt::endl;
         return 0;
     }
-    else if (option == "--version" || option == "-v")
+    else if (firstArg == "--version" || firstArg == "-v")
     {
         QTextStream out (stdout);
         out << name << " " << version << Qt::endl;
         return 0;
     }
 
-    FeatherPad::FPsingleton singleton (argc, argv, option == "--standalone" || option == "-s");
+    FeatherPad::FPsingleton singleton (argc, argv, firstArg == "--standalone" || firstArg == "-s");
     singleton.setApplicationName (name);
     singleton.setApplicationVersion (version);
 
@@ -113,24 +113,12 @@ int main (int argc, char **argv)
 
     QTranslator FPTranslator;
 
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-
-#if defined(Q_OS_HAIKU)
-    FPTranslator.load ("featherpad_" + lang, QStringLiteral (DATADIR) + "/../translations");
-#elif defined(Q_OS_MAC)
-    FPTranslator.load ("featherpad_" + lang, singleton.applicationDirPath() + QStringLiteral ("/../Resources/translations/"));
-#else
-    FPTranslator.load ("featherpad_" + lang, QStringLiteral (DATADIR) + "/featherpad/translations");
-#endif
-
-#else
 #if defined(Q_OS_HAIKU)
     (void)FPTranslator.load ("featherpad_" + lang, QStringLiteral (DATADIR) + "/../translations");
 #elif defined(Q_OS_MAC)
     (void)FPTranslator.load ("featherpad_" + lang, singleton.applicationDirPath() + QStringLiteral ("/../Resources/translations/"));
 #else
     (void)FPTranslator.load ("featherpad_" + lang, QStringLiteral (DATADIR) + "/featherpad/translations");
-#endif
 #endif
 
     singleton.installTranslator (&FPTranslator);
@@ -141,9 +129,10 @@ int main (int argc, char **argv)
 #else
     int d = -1;
 #endif
-    info << QString::number (d);
-    info << QDir::currentPath();
-    for (int i = 1; i < argc; ++i)
+    info << QString::number (d) << QDir::currentPath();
+    if (argc > 1)
+        info << firstArg;
+    for (int i = 2; i < argc; ++i)
         info << QString::fromUtf8 (argv[i]);
 
     if (!singleton.isPrimaryInstance())
