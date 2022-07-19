@@ -2,17 +2,19 @@
 *   General   *
 ***************
 
-FeatherPad is a single-instance application by default; all its windows share the same process, which will terminate only if all windows are closed.
+FeatherPad is a single-instance application by default; all its windows share the same configuration and the same process, which will terminate only if all windows are closed.
 
 However, if FeatherPad is started with the command-line option "--standalone" or "-s", it will have a single window with a separate process, independently of other FeatherPad windows.
 
 Rarely, the standalone mode may be needed. For example, if you want to use FeatherPad as the "git" editor, you will need "featherpad -s" as the editor command because "git" does not work correctly with single-instance editors.
 
-The standalone mode is an exception to the window/tab managing rules that are explained in this document.
+Use the standalone mode with care. If a standalone window is opened alongside other windows, any change in configuration, recent files, etc., that may have been made in those windows, will not be reflected by it, and if it is the last closed window, it will overwrite those changes.
+
+The standalone mode is also an exception to the window/tab managing rules that are explained in this document.
 
 Enter "featherpad --help" in a terminal emulator to see all command-line options.
 
-NOTE: FeatherPad makes use of D-Bus to have a single process. Therefore, in non-Linux systems without D-Bus, it is a multi-process application, with only the standalone mode.
+NOTE: FeatherPad makes use of D-Bus to have a single process. Therefore, in (non-Linux) systems without D-Bus, it is always in the standalone mode, which means that its windows do not know about each other.
 
 *********************
 *   Drag-and-Drop   *

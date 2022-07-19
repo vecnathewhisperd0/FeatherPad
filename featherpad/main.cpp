@@ -131,9 +131,11 @@ int main (int argc, char **argv)
 #endif
     info << QString::number (d) << QDir::currentPath();
     if (argc > 1)
+    {
         info << firstArg;
-    for (int i = 2; i < argc; ++i)
-        info << QString::fromUtf8 (argv[i]);
+        for (int i = 2; i < argc; ++i)
+            info << QString::fromUtf8 (argv[i]);
+    }
 
     if (!singleton.isPrimaryInstance())
     {
