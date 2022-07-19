@@ -1802,6 +1802,17 @@ void FPwin::clearRecentMenu()
     updateRecenMenu();
 }
 /*************************/
+void FPwin::addRecentFile (const QString& file)
+{
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    config.addRecentFile (file);
+
+    /* also, try to make other windows know about this file */
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    if (singleton->isStandAlone())
+        singleton->sendRecentFile (file, config.getRecentOpened());
+}
+/*************************/
 void FPwin::reformat (TextEdit *textEdit)
 {
     formatTextRect(); // in "syntax.cpp"
@@ -2456,7 +2467,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
     textEdit->setLastModified (fInfo.lastModified());
     lastFile_ = fileName;
     if (config.getRecentOpened())
-        config.addRecentFile (lastFile_);
+        addRecentFile (lastFile_);
     textEdit->setEncoding (charset);
     textEdit->setWordNumber (-1);
     if (uneditable)
@@ -3303,7 +3314,7 @@ bool FPwin::saveFile (bool keepSyntax,
                 wi->setToolTip (elidedTip);
         }
         lastFile_ = fname;
-        config.addRecentFile (lastFile_);
+        addRecentFile (lastFile_);
 
         /* if this isn't about deleting after saving, correct the
            encoding (set it to UTF-8) if needed, as in enforceEncoding() */
@@ -3494,8 +3505,7 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
                     else index = -1; // never happens
                 }
                 lastFile_ = fileName;
-                Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
-                config.addRecentFile (lastFile_);
+                addRecentFile (lastFile_);
 
                 if (index > first && (index < last || last < 0))
                 {
@@ -6080,7 +6090,7 @@ void FPwin::saveAllFiles (bool showWarning)
             thisTextEdit->setSize (fInfo.size());
             thisTextEdit->setLastModified (fInfo.lastModified());
             setTitle (fname, (!inactiveTabModified_ ? -1 : indx));
-            config.addRecentFile (fname); // recently saved also means recently opened
+            addRecentFile (fname); // recently saved also means recently opened
             /* uninstall and reinstall the syntax highlighter if the programming language is changed */
             QString prevLan = thisTextEdit->getProg();
             setProgLang (thisTextEdit);

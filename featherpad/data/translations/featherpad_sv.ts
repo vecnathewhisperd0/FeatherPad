@@ -15,15 +15,15 @@
         <location filename="../../fpwin.cpp" line="479"/>
         <location filename="../../fpwin.cpp" line="1563"/>
         <location filename="../../fpwin.cpp" line="1625"/>
-        <location filename="../../fpwin.cpp" line="2172"/>
-        <location filename="../../fpwin.cpp" line="2234"/>
-        <location filename="../../fpwin.cpp" line="2999"/>
-        <location filename="../../fpwin.cpp" line="3019"/>
-        <location filename="../../fpwin.cpp" line="3022"/>
-        <location filename="../../fpwin.cpp" line="3954"/>
-        <location filename="../../fpwin.cpp" line="4708"/>
-        <location filename="../../fpwin.cpp" line="5002"/>
-        <location filename="../../fpwin.cpp" line="5261"/>
+        <location filename="../../fpwin.cpp" line="2183"/>
+        <location filename="../../fpwin.cpp" line="2245"/>
+        <location filename="../../fpwin.cpp" line="3010"/>
+        <location filename="../../fpwin.cpp" line="3030"/>
+        <location filename="../../fpwin.cpp" line="3033"/>
+        <location filename="../../fpwin.cpp" line="3964"/>
+        <location filename="../../fpwin.cpp" line="4718"/>
+        <location filename="../../fpwin.cpp" line="5012"/>
+        <location filename="../../fpwin.cpp" line="5271"/>
         <source>Untitled</source>
         <translation>Namnlös</translation>
     </message>
@@ -67,8 +67,8 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1586"/>
-        <location filename="../../fpwin.cpp" line="2897"/>
-        <location filename="../../fpwin.cpp" line="4518"/>
+        <location filename="../../fpwin.cpp" line="2908"/>
+        <location filename="../../fpwin.cpp" line="4528"/>
         <source>Encoding</source>
         <translation>Kodning</translation>
     </message>
@@ -610,7 +610,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="342"/>
-        <location filename="../../fpwin.cpp" line="4057"/>
+        <location filename="../../fpwin.cpp" line="4067"/>
         <location filename="../../replace.cpp" line="61"/>
         <location filename="../../replace.cpp" line="113"/>
         <source>Replacement</source>
@@ -803,7 +803,7 @@
         <translation>&amp;Senaste öppnad</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2012"/>
+        <location filename="../../fpwin.cpp" line="2023"/>
         <source>Close</source>
         <translation>Stäng</translation>
     </message>
@@ -845,38 +845,38 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1587"/>
-        <location filename="../../fpwin.cpp" line="2899"/>
-        <location filename="../../fpwin.cpp" line="3623"/>
-        <location filename="../../fpwin.cpp" line="3634"/>
-        <location filename="../../fpwin.cpp" line="3641"/>
-        <location filename="../../fpwin.cpp" line="4523"/>
-        <location filename="../../fpwin.cpp" line="6118"/>
-        <location filename="../../fpwin.cpp" line="6129"/>
-        <location filename="../../fpwin.cpp" line="6136"/>
+        <location filename="../../fpwin.cpp" line="2910"/>
+        <location filename="../../fpwin.cpp" line="3633"/>
+        <location filename="../../fpwin.cpp" line="3644"/>
+        <location filename="../../fpwin.cpp" line="3651"/>
+        <location filename="../../fpwin.cpp" line="4533"/>
+        <location filename="../../fpwin.cpp" line="6128"/>
+        <location filename="../../fpwin.cpp" line="6139"/>
+        <location filename="../../fpwin.cpp" line="6146"/>
         <source>Lines</source>
         <translation>Wiersze</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1588"/>
-        <location filename="../../fpwin.cpp" line="4524"/>
-        <location filename="../../fpwin.cpp" line="4539"/>
+        <location filename="../../fpwin.cpp" line="4534"/>
+        <location filename="../../fpwin.cpp" line="4549"/>
         <source>Sel. Chars</source>
         <translation>Markerade tecken</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1589"/>
-        <location filename="../../fpwin.cpp" line="4526"/>
-        <location filename="../../fpwin.cpp" line="4540"/>
+        <location filename="../../fpwin.cpp" line="4536"/>
+        <location filename="../../fpwin.cpp" line="4550"/>
         <source>Words</source>
         <translation>Ord</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1905"/>
+        <location filename="../../fpwin.cpp" line="1916"/>
         <source>Another process is running in this tab!</source>
         <translation>En annan process körs i denna flik!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2003"/>
+        <location filename="../../fpwin.cpp" line="2014"/>
         <source>Script File</source>
         <translation>Script-fil</translation>
     </message>
@@ -887,21 +887,21 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="835"/>
-        <location filename="../../fpwin.cpp" line="4565"/>
+        <location filename="../../fpwin.cpp" line="4575"/>
         <source>Position:</source>
         <translation>Placering:</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="883"/>
-        <location filename="../../fpwin.cpp" line="4583"/>
-        <location filename="../../fpwin.cpp" line="4603"/>
+        <location filename="../../fpwin.cpp" line="4593"/>
+        <location filename="../../fpwin.cpp" line="4613"/>
         <source>Normal</source>
         <translation>Normal</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1349"/>
-        <location filename="../../fpwin.cpp" line="2668"/>
-        <location filename="../../fpwin.cpp" line="5928"/>
+        <location filename="../../fpwin.cpp" line="2679"/>
+        <location filename="../../fpwin.cpp" line="5938"/>
         <source>The file does not exist.</source>
         <translation>Filen existerar inte.</translation>
     </message>
@@ -916,318 +916,318 @@
         <translation>Kopiera länk</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1906"/>
+        <location filename="../../fpwin.cpp" line="1917"/>
         <source>Only one process is allowed per tab.</source>
         <translation>Bara en process är tillåten per flik.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1999"/>
+        <location filename="../../fpwin.cpp" line="2010"/>
         <source>Script Output</source>
         <translation>Script-output</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2015"/>
+        <location filename="../../fpwin.cpp" line="2026"/>
         <source>Clear</source>
         <translation>Töm</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2625"/>
+        <location filename="../../fpwin.cpp" line="2636"/>
         <source>FeatherPad does not open files larger than 100 MiB.</source>
         <translation>FeatherPad öppnar inte filer större än 100 MiB.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2633"/>
+        <location filename="../../fpwin.cpp" line="2644"/>
         <source>Non-text file(s) not opened!</source>
         <translation>Fil(er) som inte är text kan inte öppnas!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2634"/>
+        <location filename="../../fpwin.cpp" line="2645"/>
         <source>See Preferences → Files → Do not permit opening of non-text files</source>
         <translation>Se Inställningar → Filer → Tillåt inte öppning av icke-text filer</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2643"/>
+        <location filename="../../fpwin.cpp" line="2654"/>
         <source>Some file(s) could not be opened!</source>
         <translation>Somliga fil(er) kunde inte öppnas!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2644"/>
+        <location filename="../../fpwin.cpp" line="2655"/>
         <source>You may not have the permission to read.</source>
         <translation>Du har inte rättighet att läsa.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2654"/>
+        <location filename="../../fpwin.cpp" line="2665"/>
         <source>Uneditable file(s)!</source>
         <translation>Icke-redigerbar fil(er)!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2655"/>
+        <location filename="../../fpwin.cpp" line="2666"/>
         <source>Non-text files or files with huge lines cannot be edited.</source>
         <translation>Icke-text fil(er) med ofantliga rader går inte redigeras.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2719"/>
+        <location filename="../../fpwin.cpp" line="2730"/>
         <source>Root Instance</source>
         <translation>Root instans</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2791"/>
-        <location filename="../../fpwin.cpp" line="2980"/>
-        <location filename="../../fpwin.cpp" line="3008"/>
+        <location filename="../../fpwin.cpp" line="2802"/>
+        <location filename="../../fpwin.cpp" line="2991"/>
+        <location filename="../../fpwin.cpp" line="3019"/>
         <source>All Files (*)</source>
         <translation>Alla filer (*)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2796"/>
+        <location filename="../../fpwin.cpp" line="2807"/>
         <source>All Files (*);;.%1 Files (*.%1)</source>
         <translation>Alla filer (*);;.%1 filer (*.%1)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2800"/>
+        <location filename="../../fpwin.cpp" line="2811"/>
         <source>Open file...</source>
         <translation>Öppna fil...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2986"/>
+        <location filename="../../fpwin.cpp" line="2997"/>
         <source>.%1 Files (*.%1);;All Files (*)</source>
         <translation>.%1 filer (*.%1);;Alla filer (*)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3037"/>
-        <location filename="../../fpwin.cpp" line="3075"/>
+        <location filename="../../fpwin.cpp" line="3048"/>
+        <location filename="../../fpwin.cpp" line="3086"/>
         <source>Save as...</source>
         <translation>Spara som...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3111"/>
+        <location filename="../../fpwin.cpp" line="3122"/>
         <source>Keep encoding and save as...</source>
         <translation>Bevara kodning och spara som...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3446"/>
+        <location filename="../../fpwin.cpp" line="3457"/>
         <source>Saving as root.</source>
         <translation>Spara som root.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3447"/>
+        <location filename="../../fpwin.cpp" line="3458"/>
         <source>Waiting for authentication...</source>
         <translation>Väntar på autentisering...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3567"/>
+        <location filename="../../fpwin.cpp" line="3577"/>
         <source>&quot;pkexec&quot; is not found. Please install Polkit!</source>
         <translation>&quot;pkexec&quot; hittades inte. Vänligen installera Polkit!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3226"/>
+        <location filename="../../fpwin.cpp" line="3237"/>
         <source>Yes</source>
         <translation>Ja</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3227"/>
+        <location filename="../../fpwin.cpp" line="3238"/>
         <source>No</source>
         <translation>Nej</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3228"/>
+        <location filename="../../fpwin.cpp" line="3239"/>
         <source>Cancel</source>
         <translation>Avbryt</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3229"/>
+        <location filename="../../fpwin.cpp" line="3240"/>
         <source>Do you want to use &lt;b&gt;MS Windows&lt;/b&gt; end-of-lines?</source>
         <translation>Vil du använda &lt;b&gt;MS Windows&lt;/b&gt; end-of-lines?</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3230"/>
+        <location filename="../../fpwin.cpp" line="3241"/>
         <source>This may be good for readability under MS Windows.</source>
         <translation>Detta kan vara bra för läsbarheten i MS Windows.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3343"/>
-        <location filename="../../fpwin.cpp" line="3461"/>
-        <location filename="../../fpwin.cpp" line="3566"/>
-        <location filename="../../fpwin.cpp" line="3578"/>
+        <location filename="../../fpwin.cpp" line="3354"/>
+        <location filename="../../fpwin.cpp" line="3472"/>
+        <location filename="../../fpwin.cpp" line="3576"/>
+        <location filename="../../fpwin.cpp" line="3588"/>
         <source>Cannot be saved!</source>
         <translation>Kan inte sparas!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="477"/>
-        <location filename="../../fpwin.cpp" line="3952"/>
-        <location filename="../../fpwin.cpp" line="5000"/>
-        <location filename="../../fpwin.cpp" line="5259"/>
-        <location filename="../../fpwin.cpp" line="6334"/>
+        <location filename="../../fpwin.cpp" line="3962"/>
+        <location filename="../../fpwin.cpp" line="5010"/>
+        <location filename="../../fpwin.cpp" line="5269"/>
+        <location filename="../../fpwin.cpp" line="6344"/>
         <source>Help</source>
         <translation>Hjälp</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3619"/>
-        <location filename="../../fpwin.cpp" line="3625"/>
-        <location filename="../../fpwin.cpp" line="3633"/>
-        <location filename="../../fpwin.cpp" line="4521"/>
-        <location filename="../../fpwin.cpp" line="6114"/>
-        <location filename="../../fpwin.cpp" line="6120"/>
-        <location filename="../../fpwin.cpp" line="6128"/>
+        <location filename="../../fpwin.cpp" line="3629"/>
+        <location filename="../../fpwin.cpp" line="3635"/>
+        <location filename="../../fpwin.cpp" line="3643"/>
+        <location filename="../../fpwin.cpp" line="4531"/>
+        <location filename="../../fpwin.cpp" line="6124"/>
+        <location filename="../../fpwin.cpp" line="6130"/>
+        <location filename="../../fpwin.cpp" line="6138"/>
         <source>Syntax</source>
         <translation>Syntax</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2624"/>
+        <location filename="../../fpwin.cpp" line="2635"/>
         <source>Huge file(s) not opened!</source>
         <translation>Stora fil(er) öppnas inte!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3722"/>
+        <location filename="../../fpwin.cpp" line="3732"/>
         <source>Text tabs are converted to spaces.</source>
         <translation>Text tabulatorer konverteres til mellanslag.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3824"/>
+        <location filename="../../fpwin.cpp" line="3834"/>
         <source>The selected text was too long.</source>
         <translation>Den markerade texten är för lång.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3825"/>
+        <location filename="../../fpwin.cpp" line="3835"/>
         <source>It is not fully processed.</source>
         <translation>Den är inte färdig behandlad.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3964"/>
-        <location filename="../../fpwin.cpp" line="4197"/>
+        <location filename="../../fpwin.cpp" line="3974"/>
+        <location filename="../../fpwin.cpp" line="4207"/>
         <source>This file has been modified elsewhere or in another way!</source>
         <translation>Denna fil har blivit modifierad någon annan stans!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3965"/>
-        <location filename="../../fpwin.cpp" line="4198"/>
+        <location filename="../../fpwin.cpp" line="3975"/>
+        <location filename="../../fpwin.cpp" line="4208"/>
         <source>Please be careful about reloading or saving this document!</source>
         <translation>Var försiktig med att återladda eller spara detta dokument!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4674"/>
+        <location filename="../../fpwin.cpp" line="4684"/>
         <source>Printing in progress...</source>
         <translation>Utskrivt pågår...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4725"/>
+        <location filename="../../fpwin.cpp" line="4735"/>
         <source>Print Document</source>
         <translation>Skriv ut dokument</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4731"/>
+        <location filename="../../fpwin.cpp" line="4741"/>
         <source>Printing completed.</source>
         <translation>Utskrivt fördig.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5392"/>
-        <location filename="../../fpwin.cpp" line="5516"/>
+        <location filename="../../fpwin.cpp" line="5402"/>
+        <location filename="../../fpwin.cpp" line="5526"/>
         <source>%1 Pages</source>
         <translation>%1 sidor</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5423"/>
-        <location filename="../../fpwin.cpp" line="5552"/>
+        <location filename="../../fpwin.cpp" line="5433"/>
+        <location filename="../../fpwin.cpp" line="5562"/>
         <source>Copy Target Path</source>
         <translation>Kopiera Mål Sökväg</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5427"/>
-        <location filename="../../fpwin.cpp" line="5556"/>
+        <location filename="../../fpwin.cpp" line="5437"/>
+        <location filename="../../fpwin.cpp" line="5566"/>
         <source>Open Target Here</source>
         <translation>Öppna mål här</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5446"/>
-        <location filename="../../fpwin.cpp" line="5576"/>
+        <location filename="../../fpwin.cpp" line="5456"/>
+        <location filename="../../fpwin.cpp" line="5586"/>
         <source>Copy Final Target Path</source>
         <translation>Kopiera Slutgiltig Mål Sökväg</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5450"/>
-        <location filename="../../fpwin.cpp" line="5580"/>
+        <location filename="../../fpwin.cpp" line="5460"/>
+        <location filename="../../fpwin.cpp" line="5590"/>
         <source>Open Final Target Here</source>
         <translation>Öppna slutgiltig Mål Sökväg</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5470"/>
-        <location filename="../../fpwin.cpp" line="5601"/>
+        <location filename="../../fpwin.cpp" line="5480"/>
+        <location filename="../../fpwin.cpp" line="5611"/>
         <source>Open Containing Folder</source>
         <translation>Öppna innehållande mapp</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5724"/>
+        <location filename="../../fpwin.cpp" line="5734"/>
         <source>You need to add a Hunspell dictionary.</source>
         <translation>Du måste lägga till en Hunspell ordbok.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5725"/>
-        <location filename="../../fpwin.cpp" line="5732"/>
+        <location filename="../../fpwin.cpp" line="5735"/>
         <location filename="../../fpwin.cpp" line="5742"/>
+        <location filename="../../fpwin.cpp" line="5752"/>
         <source>See Preferences → Text → Spell Checking!</source>
         <translation>Se: Inställningar → Text → Stavningskontroll</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5731"/>
+        <location filename="../../fpwin.cpp" line="5741"/>
         <source>The Hunspell dictionary does not exist.</source>
         <translation>Hunspell ordboken existerar inte.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5741"/>
+        <location filename="../../fpwin.cpp" line="5751"/>
         <source>The Hunspell dictionary is not accompanied by an affix file.</source>
         <translation>Det medföljer inte en affix-fil till Hunspell ordboken</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5764"/>
-        <location filename="../../fpwin.cpp" line="5782"/>
-        <location filename="../../fpwin.cpp" line="5797"/>
+        <location filename="../../fpwin.cpp" line="5774"/>
+        <location filename="../../fpwin.cpp" line="5792"/>
+        <location filename="../../fpwin.cpp" line="5807"/>
         <source>No misspelling in document.</source>
         <translation>Inga stavningsfel i dokumentet.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5766"/>
-        <location filename="../../fpwin.cpp" line="5784"/>
-        <location filename="../../fpwin.cpp" line="5799"/>
+        <location filename="../../fpwin.cpp" line="5776"/>
+        <location filename="../../fpwin.cpp" line="5794"/>
+        <location filename="../../fpwin.cpp" line="5809"/>
         <source>No misspelling from text cursor.</source>
         <translation>Inga stavningsfel från textmarkören.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5815"/>
+        <location filename="../../fpwin.cpp" line="5825"/>
         <source>Spell Checking</source>
         <translation>Stavningskontroll</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6152"/>
+        <location filename="../../fpwin.cpp" line="6162"/>
         <source>Some files cannot be saved!</source>
         <translation>Några filer kan inte sparas!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6195"/>
+        <location filename="../../fpwin.cpp" line="6205"/>
         <source>Translators</source>
         <translation>Översättare</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6191"/>
+        <location filename="../../fpwin.cpp" line="6201"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translation>En lättviktig,flikbaserad, textredigeringsprogram </translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6192"/>
+        <location filename="../../fpwin.cpp" line="6202"/>
         <source>based on Qt</source>
         <translation>baserad på Qt</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6193"/>
+        <location filename="../../fpwin.cpp" line="6203"/>
         <source>Author</source>
         <translation>Författare</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6194"/>
+        <location filename="../../fpwin.cpp" line="6204"/>
         <source>aka.</source>
         <translation>även känd som</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6195"/>
-        <location filename="../../fpwin.cpp" line="6196"/>
+        <location filename="../../fpwin.cpp" line="6205"/>
+        <location filename="../../fpwin.cpp" line="6206"/>
         <source>About FeatherPad</source>
         <translation>Om FeatherPad</translation>
     </message>

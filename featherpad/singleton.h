@@ -37,6 +37,9 @@ public:
     void sendInfo (const QStringList &info);
     void handleInfo (const QStringList &info);
 
+    void sendRecentFile (const QString &file, bool recentOpened);
+    void addRecentFile (const QString &file, bool recentOpened);
+
     void firstWin (const QStringList &info);
     FPwin* newWin (const QStringList &filesList = QStringList(),
                    int lineNum = 0, int posInLine = 0);

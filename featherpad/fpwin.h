@@ -264,6 +264,7 @@ private:
     void updateGUIForSingleTab (bool single);
     void stealFocus (QWidget *w);
     void stealFocus();
+    void addRecentFile (const QString& file);
 
     QActionGroup *aGroup_;
     QString lastFile_; // The last opened or saved file (for file dialogs).
