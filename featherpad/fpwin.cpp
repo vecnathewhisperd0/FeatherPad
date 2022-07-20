@@ -6237,13 +6237,30 @@ void FPwin::helpDoc()
     }
 
     /* see if a translated help file exists */
+    QString lang;
+    QStringList langs (QLocale::system().uiLanguages());
+    if (!langs.isEmpty())
+        lang = langs.first().replace ('-', '_');
+
 #if defined (Q_OS_HAIKU)
-    QString helpPath (QStringLiteral (DATADIR) + "/help_" + QLocale::system().name());
+    QString helpPath (QStringLiteral (DATADIR) + "/help_" + lang);
 #elif defined (Q_OS_MAC)
-    QString helpPath (qApp->applicationDirPath() + QStringLiteral ("/../Resources/") + "/help_" + QLocale::system().name());
+    QString helpPath (qApp->applicationDirPath() + QStringLiteral ("/../Resources/") + "/help_" + lang);
 #else
-    QString helpPath (QStringLiteral (DATADIR) + "/featherpad/help_" + QLocale::system().name());
+    QString helpPath (QStringLiteral (DATADIR) + "/featherpad/help_" + lang);
 #endif
+
+    if (!QFile::exists (helpPath) && !langs.isEmpty())
+    {
+        lang = langs.first().split (QLatin1Char ('_')).first();
+#if defined(Q_OS_HAIKU)
+        helpPath = QStringLiteral (DATADIR) + "/help_" + lang;
+#elif defined(Q_OS_MAC)
+        helpPath = qApp->applicationDirPath() + QStringLiteral ("/../Resources/") + "/help_" + lang;
+#else
+        helpPath = QStringLiteral (DATADIR) + "/featherpad/help_" + lang;
+#endif
+    }
 
     if (!QFile::exists (helpPath))
     {

@@ -1057,7 +1057,7 @@
         <location filename="../../fpwin.cpp" line="3962"/>
         <location filename="../../fpwin.cpp" line="5010"/>
         <location filename="../../fpwin.cpp" line="5269"/>
-        <location filename="../../fpwin.cpp" line="6327"/>
+        <location filename="../../fpwin.cpp" line="6344"/>
         <source>Help</source>
         <translation>Žinynas</translation>
     </message>
