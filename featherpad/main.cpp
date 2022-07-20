@@ -87,41 +87,27 @@ int main (int argc, char **argv)
     singleton.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
 #endif
 
-    QStringList langs (QLocale::system().uiLanguages());
-    QString lang; // bcp47Name() doesn't work under vbox
-    if (!langs.isEmpty())
-        lang = langs.first().replace ('-', '_');
-
     QTranslator qtTranslator;
 #if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-    if (!qtTranslator.load ("qt_" + lang, QLibraryInfo::location (QLibraryInfo::TranslationsPath)))
+    if (qtTranslator.load ("qt_" + QLocale::system().name(), QLibraryInfo::location (QLibraryInfo::TranslationsPath)))
 #else
-    if (!qtTranslator.load ("qt_" + lang, QLibraryInfo::path (QLibraryInfo::TranslationsPath)))
+    if (qtTranslator.load ("qt_" + QLocale::system().name(), QLibraryInfo::path (QLibraryInfo::TranslationsPath)))
 #endif
-    { // shouldn't be needed
-        if (!langs.isEmpty())
-        {
-            lang = langs.first().split (QLatin1Char ('_')).first();
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-            qtTranslator.load ("qt_" + lang, QLibraryInfo::location (QLibraryInfo::TranslationsPath));
-#else
-            (void)qtTranslator.load ("qt_" + lang, QLibraryInfo::path (QLibraryInfo::TranslationsPath));
-#endif
-        }
+    {
+        singleton.installTranslator (&qtTranslator);
     }
-    singleton.installTranslator (&qtTranslator);
 
     QTranslator FPTranslator;
-
 #if defined(Q_OS_HAIKU)
-    (void)FPTranslator.load ("featherpad_" + lang, QStringLiteral (DATADIR) + "/../translations");
+    if (FPTranslator.load ("featherpad_" + QLocale::system().name(), QStringLiteral (DATADIR) + "/../translations"))
 #elif defined(Q_OS_MAC)
-    (void)FPTranslator.load ("featherpad_" + lang, singleton.applicationDirPath() + QStringLiteral ("/../Resources/translations/"));
+    if (FPTranslator.load ("featherpad_" + QLocale::system().name(), singleton.applicationDirPath() + QStringLiteral ("/../Resources/translations/")))
 #else
-    (void)FPTranslator.load ("featherpad_" + lang, QStringLiteral (DATADIR) + "/featherpad/translations");
+    if (FPTranslator.load ("featherpad_" + QLocale::system().name(), QStringLiteral (DATADIR) + "/featherpad/translations"))
 #endif
-
-    singleton.installTranslator (&FPTranslator);
+    {
+        singleton.installTranslator (&FPTranslator);
+    }
 
     QStringList info;
 #ifdef HAS_X11

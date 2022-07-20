@@ -105,13 +105,14 @@ void FPsingleton::sendInfo (const QStringList &info)
     iface.call (QStringLiteral ("handleInfo"), info);
 }
 /*************************/
+// Called only in standalone mode.
 void FPsingleton::sendRecentFile (const QString &file, bool recentOpened)
-{ // only in the standalone mode
+{
     QDBusMessage methodCall =
-    QDBusMessage::createMethodCall ("org.featherpad.FeatherPad",
-                                    "/Application",
-                                    "",
-                                    "addRecentFile");
+    QDBusMessage::createMethodCall (QLatin1String (serviceName),
+                                    QStringLiteral ("/Application"),
+                                    QString(),
+                                    QStringLiteral ("addRecentFile"));
     methodCall.setAutoStartService (false);
     QList<QVariant> args;
     args.append (file);
@@ -290,8 +291,9 @@ void FPsingleton::removeWin (FPwin *win)
     win->deleteLater();
 }
 /*************************/
+// Called only by D-Bus.
 void FPsingleton::handleInfo (const QStringList &info)
-{ // only called by D-Bus
+{
     int lineNum = 0, posInLine = 0;
     long d = -1;
     bool openNewWin;
@@ -383,8 +385,9 @@ void FPsingleton::handleInfo (const QStringList &info)
     }
 }
 /*************************/
+// Called only by D-Bus.
 void FPsingleton::addRecentFile (const QString &file, bool recentOpened)
-{ // only called by D-Bus
+{
     if (config_.getRecentOpened() == recentOpened)
         config_.addRecentFile (file);
 }

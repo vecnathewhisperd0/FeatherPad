@@ -5480,10 +5480,10 @@ void FPwin::tabContextMenu (const QPoint& p)
                                               tr ("Open Containing Folder"));
             connect (action, &QAction::triggered, this, [fname] {
                 QDBusMessage methodCall =
-                QDBusMessage::createMethodCall ("org.freedesktop.FileManager1",
-                                                "/org/freedesktop/FileManager1",
-                                                "",
-                                                "ShowItems");
+                QDBusMessage::createMethodCall (QStringLiteral ("org.freedesktop.FileManager1"),
+                                                QStringLiteral ("/org/freedesktop/FileManager1"),
+                                                QString(),
+                                                QStringLiteral ("ShowItems"));
                 /* NOTE: The removal of the auto-start flag is needed for switching to
                          QProcess if "org.freedesktop.FileManager1" doesn't exist. */
                 methodCall.setAutoStartService (false);
@@ -5611,10 +5611,10 @@ void FPwin::listContextMenu (const QPoint& p)
                                               tr ("Open Containing Folder"));
             connect (action, &QAction::triggered, this, [fname] {
                 QDBusMessage methodCall =
-                QDBusMessage::createMethodCall ("org.freedesktop.FileManager1",
-                                                "/org/freedesktop/FileManager1",
-                                                "",
-                                                "ShowItems");
+                QDBusMessage::createMethodCall (QStringLiteral ("org.freedesktop.FileManager1"),
+                                                QStringLiteral ("/org/freedesktop/FileManager1"),
+                                                QString(),
+                                                QStringLiteral ("ShowItems"));
                 methodCall.setAutoStartService (false);
                 QList<QVariant> args;
                 args.append (QStringList() << fname);
@@ -6237,30 +6237,13 @@ void FPwin::helpDoc()
     }
 
     /* see if a translated help file exists */
-    QString lang;
-    QStringList langs (QLocale::system().uiLanguages());
-    if (!langs.isEmpty())
-        lang = langs.first().replace ('-', '_');
-
 #if defined (Q_OS_HAIKU)
-    QString helpPath (QStringLiteral (DATADIR) + "/help_" + lang);
+    QString helpPath (QStringLiteral (DATADIR) + "/help_" + QLocale::system().name());
 #elif defined (Q_OS_MAC)
-    QString helpPath (qApp->applicationDirPath() + QStringLiteral ("/../Resources/") + "/help_" + lang);
+    QString helpPath (qApp->applicationDirPath() + QStringLiteral ("/../Resources/") + "/help_" + QLocale::system().name());
 #else
-    QString helpPath (QStringLiteral (DATADIR) + "/featherpad/help_" + lang);
+    QString helpPath (QStringLiteral (DATADIR) + "/featherpad/help_" + QLocale::system().name());
 #endif
-
-    if (!QFile::exists (helpPath) && !langs.isEmpty())
-    { // shouldn't be needed
-        lang = langs.first().split (QLatin1Char ('_')).first();
-#if defined(Q_OS_HAIKU)
-        helpPath = QStringLiteral (DATADIR) + "/help_" + lang;
-#elif defined(Q_OS_MAC)
-        helpPath = qApp->applicationDirPath() + QStringLiteral ("/../Resources/") + "/help_" + lang;
-#else
-        helpPath = QStringLiteral (DATADIR) + "/featherpad/help_" + lang;
-#endif
-    }
 
     if (!QFile::exists (helpPath))
     {

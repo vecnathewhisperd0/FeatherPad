@@ -1057,7 +1057,7 @@ tento řádek (Ctrl+Shift+J)</translation>
         <location filename="../../fpwin.cpp" line="3962"/>
         <location filename="../../fpwin.cpp" line="5010"/>
         <location filename="../../fpwin.cpp" line="5269"/>
-        <location filename="../../fpwin.cpp" line="6344"/>
+        <location filename="../../fpwin.cpp" line="6327"/>
         <source>Help</source>
         <translation>Nápověda</translation>
     </message>
