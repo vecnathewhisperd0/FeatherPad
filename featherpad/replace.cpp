@@ -68,13 +68,13 @@ void FPwin::replaceDock()
     }
 
     ui->dockReplace->setVisible (false);
-    // closeReplaceDock(false) is automatically called here
+    // dockVisibilityChanged(false) is automatically called here
 }
 /*************************/
 // When the dock becomes invisible, clear the replacing text and remove only green highlights.
 // Although it doesn't concern us, when docking or undocking, the widget first becomes invisible
 // for a moment and then visible again.
-void FPwin::closeReplaceDock (bool visible)
+void FPwin::dockVisibilityChanged (bool visible)
 {
     if (visible || isMinimized()) return;
 

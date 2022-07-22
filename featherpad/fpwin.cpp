@@ -285,7 +285,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     connect (ui->toolButtonNext, &QAbstractButton::clicked, this, &FPwin::replace);
     connect (ui->toolButtonPrv, &QAbstractButton::clicked, this, &FPwin::replace);
     connect (ui->toolButtonAll, &QAbstractButton::clicked, this, &FPwin::replaceAll);
-    connect (ui->dockReplace, &QDockWidget::visibilityChanged, this, &FPwin::closeReplaceDock);
+    connect (ui->dockReplace, &QDockWidget::visibilityChanged, this, &FPwin::dockVisibilityChanged);
     connect (ui->dockReplace, &QDockWidget::topLevelChanged, this, &FPwin::resizeDock);
 
     connect (ui->actionDoc, &QAction::triggered, this, &FPwin::docProp);
@@ -399,8 +399,12 @@ void FPwin::closeEvent (QCloseEvent *event)
 // This method should be called only when the app quits without closing its windows
 // (e.g., with SIGTERM). It saves the important info that can be queried only at the
 // session end and, for now, covers cursor positions of sessions and last files.
-void FPwin::saveInfoOnTerminating (Config &config, bool isLastWin)
+void FPwin::cleanUpOnTerminating (Config &config, bool isLastWin)
 {
+    /* WARNING: Qt5 has a bug that will cause a crash if "QDockWidget::visibilityChanged"
+                isn't disconnected here. This is also good with Qt6. */
+    disconnect (ui->dockReplace, &QDockWidget::visibilityChanged, this, &FPwin::dockVisibilityChanged);
+
     lastWinFilesCur_.clear();
     for (int i = 0; i < ui->tabWidget->count(); ++i)
     {

@@ -44,7 +44,7 @@ public:
     explicit FPwin (QWidget *parent = nullptr);
     ~FPwin();
 
-    void saveInfoOnTerminating (Config &config, bool isLastWin);
+    void cleanUpOnTerminating (Config &config, bool isLastWin);
 
     bool isScriptLang (const QString& lang) const;
 
@@ -146,7 +146,7 @@ private slots:
     void toggleIndent();
     void replace();
     void replaceAll();
-    void closeReplaceDock (bool visible);
+    void dockVisibilityChanged (bool visible);
     void replaceDock();
     void resizeDock (bool topLevel);
     void jumpTo();
