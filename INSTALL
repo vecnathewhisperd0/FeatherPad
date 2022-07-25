@@ -64,7 +64,7 @@ NOTE: Experimental compilation against Qt6 can be done with `cmake .. -DENABLE_Q
 *   Compilation without X11   *
 *******************************
 
-If, for whatever reason, you do not want the X11 support, you could first turn on the option "WITHOUT_X11" with cmake:
+If, for whatever reason, you do not want the X11 support, you could first turn on the option "WITHOUT_X11":
 
 	cmake .. -DWITHOUT_X11=ON
 
