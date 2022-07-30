@@ -4739,8 +4739,8 @@ void FPwin::filePrint()
     dlg.setWindowTitle (tr ("Print Document"));
     if (dlg.exec() == QDialog::Accepted)
     {
-        connect (thread, &Loading::finished, thread, &QObject::deleteLater);
-        connect (thread, &Loading::finished, tabPage, [this, tabPage] {
+        connect (thread, &QThread::finished, thread, &QObject::deleteLater);
+        connect (thread, &QThread::finished, tabPage, [this, tabPage] {
             lockWindow (tabPage, false);
             showWarningBar ("<center><b><big>" + tr ("Printing completed.") + "</big></b></center>");
         });
