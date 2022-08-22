@@ -38,6 +38,8 @@ bool Highlighter::isLuaQuote (const QString &text, const int index) const
 bool Highlighter::isSingleLineLuaComment (const QString &text, const int index, const int start) const
 {
     if (start < 0 || index < start) return false;
+    if (currentBlock().blockNumber() == 0 && text.startsWith ("#!"))
+        return true; // the interpreter ignores the first line if it starts with "#"
     int i = start;
     QTextCharFormat fi;
     while ((i = text.indexOf (luaSLCommentExp, i)) > -1)
@@ -222,42 +224,47 @@ void Highlighter::highlightLuaBlock (const QString &text)
          * Single-line comments *
          ************************/
         index = 0;
-        while ((index = text.indexOf (luaSLCommentExp, index)) > -1)
+        if (bn == 0 && text.startsWith ("#!"))
+            setFormat (0, text.length(), commentFormat);
+        else
         {
-            /* skip quotes, multi-line comments and string blocks */
-            fi = format (index);
-            if (fi == commentFormat || fi == urlFormat || fi == regexFormat
-                || isLuaQuote (text, index))
+            while ((index = text.indexOf (luaSLCommentExp, index)) > -1)
             {
-                ++ index;
+                /* skip quotes, multi-line comments and string blocks */
+                fi = format (index);
+                if (fi == commentFormat || fi == urlFormat || fi == regexFormat
+                    || isLuaQuote (text, index))
+                {
+                    ++ index;
+                }
+                else break;
             }
-            else break;
-        }
-        if (index >= 0)
-        {
-            int l = text.length() - index;
-            setFormat (index, l, commentFormat);
-            /* format urls and email addresses inside the comment */
+            if (index >= 0)
+            {
+                int l = text.length() - index;
+                setFormat (index, l, commentFormat);
+                /* format urls and email addresses inside the comment */
 #if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-            QString str = text.mid (index, l);
+                QString str = text.mid (index, l);
 #else
-            QString str = text.sliced (index, l);
+                QString str = text.sliced (index, l);
 #endif
-            int pIndex = 0;
-            while ((pIndex = str.indexOf (urlPattern, pIndex, &match)) > -1)
-            {
-                setFormat (pIndex + index, match.capturedLength(), urlFormat);
-                pIndex += match.capturedLength();
-            }
-            /* format note patterns too */
-            pIndex = 0;
-            while ((pIndex = str.indexOf (notePattern, pIndex, &match)) > -1)
-            {
-                if (format (pIndex + index) != urlFormat)
-                    setFormat (pIndex + index, match.capturedLength(), noteFormat);
-                pIndex += match.capturedLength();
-            }
+                int pIndex = 0;
+                while ((pIndex = str.indexOf (urlPattern, pIndex, &match)) > -1)
+                {
+                    setFormat (pIndex + index, match.capturedLength(), urlFormat);
+                    pIndex += match.capturedLength();
+                }
+                /* format note patterns too */
+                pIndex = 0;
+                while ((pIndex = str.indexOf (notePattern, pIndex, &match)) > -1)
+                {
+                    if (format (pIndex + index) != urlFormat)
+                        setFormat (pIndex + index, match.capturedLength(), noteFormat);
+                    pIndex += match.capturedLength();
+                }
 
+            }
         }
 
         /*****************************************
