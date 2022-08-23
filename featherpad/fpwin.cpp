@@ -191,7 +191,12 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     ui->actionOther->setDisabled (true);
 
 #if (QT_VERSION >= QT_VERSION_CHECK(6,0,0))
-    /* not supported by Qt >= 6 */
+    /* Qt >= 6 doesn't support legacy encodings */
+    ui->menuEncoding->insertAction (ui->actionOther, ui->actionUTF_8);
+    ui->menuEncoding->insertAction (ui->actionOther, ui->actionUTF_16);
+    ui->menuEncoding->insertAction (ui->actionOther, ui->actionISO_8859_1);
+    ui->menuUnicode->menuAction()->setVisible (false);
+    ui->menuWestern_European->menuAction()->setVisible (false);
     ui->menuEast_European->menuAction()->setVisible (false);
     ui->menuEast_Asian->menuAction()->setVisible (false);
     ui->actionWindows_Arabic->setVisible (false);
@@ -4386,11 +4391,11 @@ void FPwin::encodingToCheck (const QString& encoding)
         ui->actionUTF_16->setChecked (true);
     else if (encoding == "ISO-8859-1")
         ui->actionISO_8859_1->setChecked (true);
+#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
     else if (encoding == "ISO-8859-15")
         ui->actionISO_8859_15->setChecked (true);
     else if (encoding == "CP1252")
         ui->actionWindows_1252->setChecked (true);
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
     else if (encoding == "CP1256")
         ui->actionWindows_Arabic->setChecked (true);
     else if (encoding == "CP1251")

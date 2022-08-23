@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2020 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2022 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -34,6 +34,8 @@
 
 namespace FeatherPad {
 
+/* Qt >= 6 doesn't support legacy encodings. */
+#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
 #define MAX_COUNTRY_NUM 10
 enum
 {
@@ -493,6 +495,7 @@ static const std::string detectCharsetKorean (const char *text)
 
 }
 /*************************/
+#endif
 // The character set of the locale
 // ("UTF-8" for me)
 static const std::string getDefaultCharset()
@@ -503,6 +506,7 @@ static const std::string getDefaultCharset()
     return charset;
 }
 /*************************/
+#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
 static bool detect_noniso (const char *text)
 {
     uint8_t c = *text;
@@ -514,6 +518,7 @@ static bool detect_noniso (const char *text)
     }
     return false;
 }
+#endif
 /*************************/
 /* In the GTK+ version, I used g_utf8_validate()
    but this function validates UTF-8 directly
@@ -632,10 +637,17 @@ const QString detectCharset (const QByteArray& byteArray)
         }
         if (charset.empty())
             charset = getDefaultCharset();
+#if (QT_VERSION >= QT_VERSION_CHECK(6,0,0))
+        if (charset != "UTF-8")
+            charset = "ISO-8859-1";
+#endif
     }
 
     if (charset.empty())
     {
+#if (QT_VERSION >= QT_VERSION_CHECK(6,0,0))
+        charset = "ISO-8859-1";
+#else
         switch (localeNum)
         {
             case LATIN1:
@@ -678,6 +690,7 @@ const QString detectCharset (const QByteArray& byteArray)
                 if (charset.empty())
                     charset = encodingItem[IANA];
         }
+#endif
     }
 
     return QString::fromStdString (charset);
