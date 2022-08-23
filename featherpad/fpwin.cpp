@@ -4378,8 +4378,7 @@ void FPwin::toggleIndent()
 /*************************/
 void FPwin::encodingToCheck (const QString& encoding)
 {
-    if (encoding != "UTF-8")
-        ui->actionOther->setDisabled (true);
+    ui->actionOther->setDisabled (true);
 
     if (encoding == "UTF-8")
         ui->actionUTF_8->setChecked (true);

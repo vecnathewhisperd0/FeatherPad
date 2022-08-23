@@ -1,6 +1,7 @@
 V1.3.2
 ---------
  * Consider the script sign in Lua.
+ * Fixed the enabled state of the "Other" action in the "Encoding" menu.
 
 V1.3.1
 ---------
