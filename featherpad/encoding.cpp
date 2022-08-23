@@ -495,7 +495,6 @@ static const std::string detectCharsetKorean (const char *text)
 
 }
 /*************************/
-#endif
 // The character set of the locale
 // ("UTF-8" for me)
 static const std::string getDefaultCharset()
@@ -506,7 +505,6 @@ static const std::string getDefaultCharset()
     return charset;
 }
 /*************************/
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
 static bool detect_noniso (const char *text)
 {
     uint8_t c = *text;
@@ -518,8 +516,8 @@ static bool detect_noniso (const char *text)
     }
     return false;
 }
-#endif
 /*************************/
+#endif
 /* In the GTK+ version, I used g_utf8_validate()
    but this function validates UTF-8 directly
    and seems faster than using QTextCodec::ConverterState
@@ -589,6 +587,11 @@ bool validateUTF8 (const QByteArray byteArray)
 /*************************/
 const QString detectCharset (const QByteArray& byteArray)
 {
+#if (QT_VERSION >= QT_VERSION_CHECK(6,0,0))
+    if (validateUTF8 (byteArray))
+        return QStringLiteral ("UTF-8");
+    return QStringLiteral ("ISO-8859-1");
+#else
     const char* text = byteArray.constData();
     uint8_t c = *text;
     std::string charset;
@@ -637,17 +640,10 @@ const QString detectCharset (const QByteArray& byteArray)
         }
         if (charset.empty())
             charset = getDefaultCharset();
-#if (QT_VERSION >= QT_VERSION_CHECK(6,0,0))
-        if (charset != "UTF-8")
-            charset = "ISO-8859-1";
-#endif
     }
 
     if (charset.empty())
     {
-#if (QT_VERSION >= QT_VERSION_CHECK(6,0,0))
-        charset = "ISO-8859-1";
-#else
         switch (localeNum)
         {
             case LATIN1:
@@ -690,10 +686,10 @@ const QString detectCharset (const QByteArray& byteArray)
                 if (charset.empty())
                     charset = encodingItem[IANA];
         }
-#endif
     }
 
     return QString::fromStdString (charset);
+#endif
 }
 
 }
