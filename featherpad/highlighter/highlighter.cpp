@@ -212,6 +212,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     startCursor = start;
     endCursor = end;
     progLan = lang;
+    maxBlockSize_ = progLan == "html" ? 5000 : 10000;
 
     /* whether multiLineQuote() should be used in a normal way */
     multilineQuote_ =
@@ -225,6 +226,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
          && progLan != "srt" && progLan != "html"
          && progLan != "deb" && progLan != "m3u"
          && progLan != "reST" && progLan != "troff"
+         && progLan != "toml" // Toml will be formated separately
          && progLan != "yaml"); // yaml will be formated separately
 
     /* only for isQuoted() and multiLineQuote() (not used with JS, qml and perl) */
@@ -237,7 +239,8 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
          || progLan == "ruby"
          || progLan == "html" // not used in multiLineQuote()
          || progLan == "scss" || progLan == "yaml" || progLan == "dart"
-         || progLan == "go" || progLan == "php");
+         || progLan == "go" || progLan == "php"
+         || progLan == "toml");
 
     quoteMark.setPattern ("\""); // the standard quote mark (always a single character)
     singleQuoteMark.setPattern ("\'"); // will be changed only for Go
@@ -1089,7 +1092,8 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.pattern.setPattern ("^\\s*\\d{2}:\\d{2}:\\d{2},\\d{3}\\s+-->\\s+\\d{2}:\\d{2}:\\K\\d{2}(?=,\\d{3}\\s*$)");
         highlightingRules.append (rule);
     }
-    else if (progLan == "desktop" || progLan == "config" || progLan == "theme")
+    else if (progLan == "desktop" || progLan == "config"
+             || progLan == "theme" || progLan == "toml")
     {
         QTextCharFormat desktopFormat = neutralFormat;
         if (progLan == "config")
@@ -1108,6 +1112,19 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
             rule.format = urlFormat;
             highlightingRules.append (rule);
         }
+        else if (progLan == "toml")
+        {
+            desktopFormat.setForeground (Brown);
+            rule.pattern.setPattern ("(?<=^|[^\\w\\d\\.])("
+                                     "([0-9_]*\\.[0-9_]+|[0-9_]+\\.|([0-9_]*\\.?[0-9_]+|[0-9_]+\\.)(e|E)(\\+|-)?[0-9_]+)"
+                                     "|"
+                                     "0[xX]([0-9a-fA-F_]*\\.?[0-9a-fA-F_]+|[0-9a-fA-F_]+\\.)(p|P)(\\+|-)?[0-9_]+"
+                                     "|"
+                                     "([1-9][0-9_]*|0[0-7_]*|0[xX][0-9a-fA-F_]+|0[bB][01_]+|0[oO][0-7_]+)"
+                                     ")(?=[^\\w\\d\\.]|$)");
+            rule.format = desktopFormat;
+            highlightingRules.append (rule);
+        }
 
         desktopFormat.setForeground (DarkMagenta);
         rule.pattern.setPattern ("^[^\\=\\[]+=|^[^\\=\\[]+\\[.*\\]=|;|/|%|\\+|-");
@@ -1117,7 +1134,10 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         desktopFormat = neutralFormat;
         desktopFormat.setFontWeight (QFont::Bold);
         /* [...] */
-        rule.pattern.setPattern ("^\\[.*\\]$");
+        if (progLan == "toml")
+            rule.pattern.setPattern ("^\\s*(\\[[A-Za-z0-9_\\-\\.\"']*\\]|\\[\\[[A-Za-z0-9_\\-\\.\"']*\\]\\])");
+        else
+            rule.pattern.setPattern ("^\\[.*\\]$");
         rule.format = desktopFormat;
         highlightingRules.append (rule);
 
@@ -1127,9 +1147,18 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = desktopFormat;
         highlightingRules.append (rule);
 
-        desktopFormat.setForeground (DarkGreenAlt);
-        /* before = and [] */
-        rule.pattern.setPattern ("^[^\\=\\[]+(?=(\\[.*\\])*\\s*\\=)");
+        if (progLan == "toml")
+        {
+            desktopFormat.setForeground (Violet);
+            /* before = */
+            rule.pattern.setPattern ("[A-Za-z0-9_\\-\\.\"']+(?=\\s*\\=)");
+        }
+        else
+        {
+            desktopFormat.setForeground (DarkGreenAlt);
+            /* before = and [] */
+            rule.pattern.setPattern ("^[^\\=\\[]+(?=(\\[.*\\])*\\s*\\=)");
+        }
         rule.format = desktopFormat;
         highlightingRules.append (rule);
     }
@@ -1756,7 +1785,8 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     }
     else if (progLan == "python"
              || progLan == "qmake"
-             || progLan == "gtkrc")
+             || progLan == "gtkrc"
+             || progLan == "toml")
     {
         rule.pattern.setPattern ("#.*"); // or "#[^\n]*"
     }
@@ -2071,7 +2101,7 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
     /* only an odd number of backslashes means that the quote is escaped */
     if (
         i % 2 != 0
-        && ((progLan == "yaml"
+        && (((progLan == "yaml" || progLan == "toml")
              && text.at (pos) == quoteMark.pattern().at (0))
             /* for these languages, both single and double quotes can be escaped (also for perl?) */
             || progLan == "c" || progLan == "cpp"
@@ -3180,8 +3210,8 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
         QRegularExpressionMatch urlMatch;
         while ((urlIndex = str.indexOf (urlPattern, urlIndex, &urlMatch)) > -1)
         {
-                setFormat (urlIndex + index, urlMatch.capturedLength(), urlInsideQuoteFormat);
-                urlIndex += urlMatch.capturedLength();
+            setFormat (urlIndex + index, urlMatch.capturedLength(), urlInsideQuoteFormat);
+            urlIndex += urlMatch.capturedLength();
         }
 
         /* the next quote may be different */
@@ -3329,8 +3359,8 @@ void Highlighter::multiLinePerlQuote (const QString &text)
         QRegularExpressionMatch urlMatch;
         while ((urlIndex = str.indexOf (urlPattern, urlIndex, &urlMatch)) > -1)
         {
-             setFormat (urlIndex + index, urlMatch.capturedLength(), urlInsideQuoteFormat);
-             urlIndex += urlMatch.capturedLength();
+            setFormat (urlIndex + index, urlMatch.capturedLength(), urlInsideQuoteFormat);
+            urlIndex += urlMatch.capturedLength();
         }
 
         /* the next quote may be different */
@@ -3972,7 +4002,7 @@ void Highlighter::highlightBlock (const QString &text)
     bool mainFormatting (bn >= startCursor.blockNumber() && bn <= endCursor.blockNumber());
 
     int txtL = text.length();
-    if (txtL <= 10000)
+    if (txtL <= maxBlockSize_)
     {
         /* If the paragraph separators are shown, the unformatted text
            will be grayed out. So, we should restore its real color here.
@@ -4031,7 +4061,7 @@ void Highlighter::highlightBlock (const QString &text)
     setCurrentBlockState (0); // start highlightng, with 0 as the neutral state
 
     /* set a limit on line length */
-    if (txtL > 10000)
+    if (txtL > maxBlockSize_)
     {
         setFormat (0, txtL, translucentFormat);
         data->setHighlighted(); // completely highlighted
@@ -4173,6 +4203,8 @@ void Highlighter::highlightBlock (const QString &text)
      *****************************************/
     else if (progLan == "sh") // bash has its own method
         SH_MultiLineQuote (text);
+    else if (progLan == "toml") // Toml has its own method
+        tomlQuote (text);
     else if (progLan == "css")
     { // quotes and urls are highlighted by cssHighlighter() inside CSS values
         cssHighlighter (text, mainFormatting);

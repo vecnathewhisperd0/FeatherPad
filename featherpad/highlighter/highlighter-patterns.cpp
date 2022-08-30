@@ -171,6 +171,8 @@ QStringList Highlighter::keywords (const QString &lang)
                            "|"
                            "beep|button|chan|checkbutton|combobox|console|entry|frame|incr|label|labelframe|lassign|menubutton|notebook|panedwindow|progressbar|radiobutton|registry|scale|scrollbar|separator|sizegrip|spinbox|style|traverseTo|treeview"
                            ")(?!(@|#|\\$|\"|\'|`))\\b";
+    else if (lang == "toml")
+        keywordPatterns << "\\b(false|inf|nan|true)(?!(\\.|-|@|#|\\$))\\b";
 
     return keywordPatterns;
 }

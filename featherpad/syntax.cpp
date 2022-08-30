@@ -166,6 +166,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
             progLan = "rust";
         else if (fname.endsWith (".tcl") || fname.endsWith (".tk"))
             progLan = "tcl";
+        else if (fname.endsWith (".toml"))
+            progLan = "toml";
         else if (baseName.startsWith ("makefile.", Qt::CaseInsensitive) && !baseName.endsWith (".txt", Qt::CaseInsensitive))
             progLan = "makefile";
         else if (baseName.compare ("CMakeLists.txt", Qt::CaseInsensitive) == 0
@@ -268,6 +270,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
                 progLan = "rust";
             else if (mime == "text/x-tcl" || mime == "text/tcl")
                 progLan = "tcl";
+            else if (mime == "application/toml")
+                progLan = "toml";
             else if (fname.endsWith (".conf") || fname.endsWith (".ini"))
                 progLan = "config"; // only if the mime type isn't found
             else // fall back to the default language

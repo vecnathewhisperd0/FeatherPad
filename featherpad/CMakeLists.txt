@@ -136,6 +136,7 @@ set(featherpad_SRCS
     highlighter/highlighter-rust.cpp
     highlighter/highlighter-sh.cpp
     highlighter/highlighter-tcl.cpp
+    highlighter/highlighter-toml.cpp
     highlighter/highlighter-xml.cpp
     highlighter/highlighter-yaml.cpp)
 

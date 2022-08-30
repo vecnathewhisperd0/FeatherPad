@@ -3,6 +3,8 @@ V1.3.2
  * Consider the script sign in Lua.
  * Fixed the enabled state of the "Other" action in the "Encoding" menu.
  * Removed the detection of legacy encodings and simplified the "Encoding" menu with Qt6.
+ * Added Toml syntax highlighting.
+ * Reduced the maximum block size of HTML for syntax highlighting to 5000.
 
 V1.3.1
 ---------

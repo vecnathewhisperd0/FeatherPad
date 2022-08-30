@@ -1256,7 +1256,7 @@
         <translation>Ensimmäiset 1000 korvausta ovat korostettu.</translation>
     </message>
     <message>
-        <location filename="../../syntax.cpp" line="307"/>
+        <location filename="../../syntax.cpp" line="311"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
         <translation>Syntaksikorostuksen kokoraja on ylitetty.</translation>
     </message>

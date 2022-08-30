@@ -300,6 +300,9 @@ private:
     bool isCmakeDoubleBracketed (const QString &text, const int index, const int start);
     bool cmakeDoubleBrackets (const QString &text, int oldBracketLength, bool wasComment);
 
+    /* Toml */
+    void tomlQuote (const QString &text);
+
     struct HighlightingRule
     {
         QRegularExpression pattern;
@@ -343,6 +346,8 @@ private:
 
     /* The start and end cursors of the visible text: */
     QTextCursor startCursor, endCursor;
+
+    int maxBlockSize_;
 
     bool multilineQuote_;
     bool mixedQuotes_;
