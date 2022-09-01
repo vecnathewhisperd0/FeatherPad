@@ -66,12 +66,16 @@ public:
     bool isRoot() const {
         return isRoot_;
     }
+    bool isQuitSignalReceived() const {
+        return quitSignalReceived_;
+    }
 
     QStandardItemModel *searchModel() const {
         return searchModel_;
     }
 
 public slots:
+    void quitSignalReceived();
     void quitting();
 
 private:
@@ -80,6 +84,7 @@ private:
                              long &desktop, int &lineNum, int &posInLine,
                              bool *newWindow);
 
+    bool quitSignalReceived_;
     Config config_;
     QStringList lastFiles_;
     bool isPrimaryInstance_;

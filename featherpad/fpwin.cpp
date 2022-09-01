@@ -68,7 +68,6 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
 {
     ui->setupUi (this);
 
-    closeInteractively_ = false;
     locked_ = false;
     shownBefore_ = false;
     closePreviousPages_ = false;
@@ -210,7 +209,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
         ui->tabWidget->noTabDND();
     }
 
-    connect (ui->actionQuit, &QAction::triggered, this, &FPwin::close);
+    connect (ui->actionQuit, &QAction::triggered, this, &QWidget::close);
     connect (ui->actionNew, &QAction::triggered, this, &FPwin::newTab);
     connect (ui->tabWidget->tabBar(), &TabBar::addEmptyTab, this, &FPwin::newTab);
     connect (ui->actionDetachTab, &QAction::triggered, this, &FPwin::detachTab);
@@ -357,19 +356,14 @@ FPwin::~FPwin()
     delete ui; ui = nullptr;
 }
 /*************************/
-bool FPwin::close()
-{
-    closeInteractively_ = true;
-    return QWidget::close();
-}
-/*************************/
 void FPwin::closeEvent (QCloseEvent *event)
 {
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
     /* NOTE: With Qt6, "QCoreApplication::quit()" calls "closeEvent()" when the window is
              visible. But we want the app to quit without any prompt when receiving SIGTERM
-             and similar signals. Here, we handle the situation by checking if the event is
-             sent by us without calling "FPwin::close()". This is also safe with Qt5. */
-    if (!event->spontaneous() && !closeInteractively_)
+             and similar signals. Here, we handle the situation by checking if a quit signal
+             is received. This is also safe with Qt5. */
+    if (singleton->isQuitSignalReceived())
     {
         event->accept();
         return;
@@ -384,7 +378,6 @@ void FPwin::closeEvent (QCloseEvent *event)
     }
     else
     {
-        FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
         Config& config = singleton->getConfig();
         if (!isMaximized() && !isFullScreen())
         {
@@ -5387,10 +5380,7 @@ void FPwin::dropTab (const QString& str, QObject *source)
     stealFocus();
 
     if (count == 0)
-    {
-        /* "QWidget::close()" shouldn't be used; see "closeEvent()" */
-        QTimer::singleShot (0, dragSource, &FPwin::close);
-    }
+        QTimer::singleShot (0, dragSource, &QWidget::close);
 }
 /*************************/
 void FPwin::tabContextMenu (const QPoint& p)

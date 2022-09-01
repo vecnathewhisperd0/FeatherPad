@@ -20,6 +20,7 @@
 #include <QDir>
 #include <QTextStream>
 #include "singleton.h"
+#include "signalDaemon.h"
 
 #ifdef HAS_X11
 #include "x11.h"
@@ -29,16 +30,36 @@
 #include <QLibraryInfo>
 #include <QTranslator>
 
-void handleQuitSignals (const std::vector<int>& quitSignals)
+static bool setup_unix_signal_handlers()
 {
-    auto handler = [](int sig) ->void {
-        Q_UNUSED (sig)
-        //printf("\nUser signal = %d.\n", sig);
-        QCoreApplication::quit();
-    };
+    struct sigaction hup, term;
 
-    for (int sig : quitSignals)
-        signal (sig, handler); // handle these signals by quitting gracefully
+    hup.sa_handler = FeatherPad::signalDaemon::hupSignalHandler;
+    sigemptyset (&hup.sa_mask);
+    hup.sa_flags = 0;
+    hup.sa_flags |= SA_RESTART;
+    if (sigaction (SIGHUP, &hup, nullptr) != 0)
+       return false;
+
+    term.sa_handler = FeatherPad::signalDaemon::termSignalHandler;
+    sigemptyset (&term.sa_mask);
+    term.sa_flags |= SA_RESTART;
+    if (sigaction (SIGTERM, &term, nullptr) != 0)
+       return false;
+
+    term.sa_handler = FeatherPad::signalDaemon::intSignalHandler;
+    sigemptyset (&term.sa_mask);
+    term.sa_flags |= SA_RESTART;
+    if (sigaction (SIGINT, &term, nullptr) != 0)
+       return false;
+
+    term.sa_handler = FeatherPad::signalDaemon::quitSignalHandler;
+    sigemptyset (&term.sa_mask);
+    term.sa_flags |= SA_RESTART;
+    if (sigaction (SIGQUIT, &term, nullptr) != 0)
+       return false;
+
+    return true;
 }
 
 int main (int argc, char **argv)
@@ -80,8 +101,6 @@ int main (int argc, char **argv)
     FeatherPad::FPsingleton singleton (argc, argv, firstArg == "--standalone" || firstArg == "-s");
     singleton.setApplicationName (name);
     singleton.setApplicationVersion (version);
-
-    handleQuitSignals ({SIGQUIT, SIGINT, SIGTERM, SIGHUP}); // -> https://en.wikipedia.org/wiki/Unix_signal
 
 #if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
     singleton.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
@@ -145,6 +164,16 @@ int main (int argc, char **argv)
     {
         singleton.sendInfo (info); // is sent to the primary instance
         return 0;
+    }
+
+    // Handle SIGQUIT, SIGINT, SIGTERM and SIGHUP (-> https://en.wikipedia.org/wiki/Unix_signal).
+    FeatherPad::signalDaemon D;
+    if (setup_unix_signal_handlers())
+    {
+        QObject::connect (&D, &FeatherPad::signalDaemon::sigHUP, &singleton, &FeatherPad::FPsingleton::quitSignalReceived);
+        QObject::connect (&D, &FeatherPad::signalDaemon::sigTERM, &singleton, &FeatherPad::FPsingleton::quitSignalReceived);
+        QObject::connect (&D, &FeatherPad::signalDaemon::sigINT, &singleton, &FeatherPad::FPsingleton::quitSignalReceived);
+        QObject::connect (&D, &FeatherPad::signalDaemon::sigQUIT, &singleton, &FeatherPad::FPsingleton::quitSignalReceived);
     }
 
     QObject::connect (&singleton, &QCoreApplication::aboutToQuit, &singleton, &FeatherPad::FPsingleton::quitting);

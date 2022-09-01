@@ -52,6 +52,7 @@ FPsingleton::FPsingleton (int &argc, char **argv, bool standalone) : QApplicatio
     else
         isWayland_ = (QString::compare (QGuiApplication::platformName(), "wayland", Qt::CaseInsensitive) == 0);
 
+    quitSignalReceived_ = false;
     standalone_ = standalone;
     isRoot_ = false;
     config_.readConfig();
@@ -94,6 +95,12 @@ void FPsingleton::quitting()
     if (searchModel_)
         delete searchModel_;
     config_.writeConfig();
+}
+/*************************/
+void FPsingleton::quitSignalReceived()
+{
+    quitSignalReceived_ = true;
+    quit();
 }
 /*************************/
 void FPsingleton::sendInfo (const QStringList &info)

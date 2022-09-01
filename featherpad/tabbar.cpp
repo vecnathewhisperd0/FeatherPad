@@ -132,6 +132,7 @@ void TabBar::mouseMoveEvent (QMouseEvent *event)
     else
     {
         QTabBar::mouseMoveEvent (event);
+        if (noTabDND_) return;
         int index = tabAt (event->pos());
         if (index > -1)
 #if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
@@ -150,7 +151,7 @@ void TabBar::mouseMoveEvent (QMouseEvent *event)
 bool TabBar::event (QEvent *event)
 {
 #ifndef QT_NO_TOOLTIP
-    if (event->type() == QEvent::ToolTip)
+    if (!noTabDND_ && event->type() == QEvent::ToolTip)
         return QWidget::event (event);
     else
        return QTabBar::event (event);

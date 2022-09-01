@@ -95,6 +95,7 @@ endif()
 set(featherpad_SRCS
     main.cpp
     singleton.cpp
+    signalDaemon.cpp
     fpwin.cpp
     encoding.cpp
     tabwidget.cpp
