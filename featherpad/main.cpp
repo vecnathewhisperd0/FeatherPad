@@ -32,31 +32,34 @@
 
 static bool setup_unix_signal_handlers()
 {
-    struct sigaction hup, term;
+    struct sigaction hupA, termA, intA, quitA;
 
-    hup.sa_handler = FeatherPad::signalDaemon::hupSignalHandler;
-    sigemptyset (&hup.sa_mask);
-    hup.sa_flags = 0;
-    hup.sa_flags |= SA_RESTART;
-    if (sigaction (SIGHUP, &hup, nullptr) != 0)
+    hupA.sa_handler = FeatherPad::signalDaemon::hupSignalHandler;
+    sigemptyset (&hupA.sa_mask);
+    hupA.sa_flags = 0;
+    hupA.sa_flags |= SA_RESTART;
+    if (sigaction (SIGHUP, &hupA, nullptr) != 0)
        return false;
 
-    term.sa_handler = FeatherPad::signalDaemon::termSignalHandler;
-    sigemptyset (&term.sa_mask);
-    term.sa_flags |= SA_RESTART;
-    if (sigaction (SIGTERM, &term, nullptr) != 0)
+    termA.sa_handler = FeatherPad::signalDaemon::termSignalHandler;
+    sigemptyset (&termA.sa_mask);
+    termA.sa_flags = 0;
+    termA.sa_flags |= SA_RESTART;
+    if (sigaction (SIGTERM, &termA, nullptr) != 0)
        return false;
 
-    term.sa_handler = FeatherPad::signalDaemon::intSignalHandler;
-    sigemptyset (&term.sa_mask);
-    term.sa_flags |= SA_RESTART;
-    if (sigaction (SIGINT, &term, nullptr) != 0)
+    intA.sa_handler = FeatherPad::signalDaemon::intSignalHandler;
+    sigemptyset (&intA.sa_mask);
+    intA.sa_flags = 0;
+    intA.sa_flags |= SA_RESTART;
+    if (sigaction (SIGINT, &intA, nullptr) != 0)
        return false;
 
-    term.sa_handler = FeatherPad::signalDaemon::quitSignalHandler;
-    sigemptyset (&term.sa_mask);
-    term.sa_flags |= SA_RESTART;
-    if (sigaction (SIGQUIT, &term, nullptr) != 0)
+    quitA.sa_handler = FeatherPad::signalDaemon::quitSignalHandler;
+    sigemptyset (&quitA.sa_mask);
+    quitA.sa_flags = 0;
+    quitA.sa_flags |= SA_RESTART;
+    if (sigaction (SIGQUIT, &quitA, nullptr) != 0)
        return false;
 
     return true;
@@ -170,10 +173,14 @@ int main (int argc, char **argv)
     FeatherPad::signalDaemon D;
     if (setup_unix_signal_handlers())
     {
-        QObject::connect (&D, &FeatherPad::signalDaemon::sigHUP, &singleton, &FeatherPad::FPsingleton::quitSignalReceived);
-        QObject::connect (&D, &FeatherPad::signalDaemon::sigTERM, &singleton, &FeatherPad::FPsingleton::quitSignalReceived);
-        QObject::connect (&D, &FeatherPad::signalDaemon::sigINT, &singleton, &FeatherPad::FPsingleton::quitSignalReceived);
-        QObject::connect (&D, &FeatherPad::signalDaemon::sigQUIT, &singleton, &FeatherPad::FPsingleton::quitSignalReceived);
+        QObject::connect (&D, &FeatherPad::signalDaemon::sigHUP,
+                          &singleton, &FeatherPad::FPsingleton::quitSignalReceived);
+        QObject::connect (&D, &FeatherPad::signalDaemon::sigTERM,
+                          &singleton, &FeatherPad::FPsingleton::quitSignalReceived);
+        QObject::connect (&D, &FeatherPad::signalDaemon::sigINT,
+                          &singleton, &FeatherPad::FPsingleton::quitSignalReceived);
+        QObject::connect (&D, &FeatherPad::signalDaemon::sigQUIT,
+                          &singleton, &FeatherPad::FPsingleton::quitSignalReceived);
     }
 
     QObject::connect (&singleton, &QCoreApplication::aboutToQuit, &singleton, &FeatherPad::FPsingleton::quitting);

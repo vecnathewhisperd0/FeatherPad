@@ -78,7 +78,7 @@ signalDaemon::signalDaemon (QObject *parent) : QObject (parent)
         qDebug ("Couldn't create QUIT socketpair");
     }
 }
-
+/*************************/
 signalDaemon::~signalDaemon()
 {
     delete snHup;
@@ -86,7 +86,8 @@ signalDaemon::~signalDaemon()
     delete snInt;
     delete snQuit;
 }
-
+/*************************/
+// Write a byte to the "write" end of a socket pair and return.
 void signalDaemon::hupSignalHandler (int)
 {
     char a = 1;
@@ -114,6 +115,16 @@ void signalDaemon::quitSignalHandler (int)
     auto w = ::write (sigquitFd[0], &a, sizeof (a));
     Q_UNUSED (w);
 }
+/*************************/
+// Read the byte and emit the corresponding Qt signal.
+void signalDaemon::handleSigHup()
+{
+    snHup->setEnabled (false);
+    char tmp;
+    if (::read (sighupFd[1], &tmp, sizeof (tmp)) != -1)
+        emit sigHUP();
+    snHup->setEnabled (true);
+}
 
 void signalDaemon::handleSigTerm()
 {
@@ -122,15 +133,6 @@ void signalDaemon::handleSigTerm()
     if (::read (sigtermFd[1], &tmp, sizeof (tmp)) != -1)
         emit sigTERM();
     snTerm->setEnabled (true);
-}
-
-void signalDaemon::handleSigHup()
-{
-    snHup->setEnabled (false);
-    char tmp;
-    if (::read (sighupFd[1], &tmp, sizeof (tmp)) != -1)
-        emit sigHUP();
-    snHup->setEnabled (true);
 }
 
 void signalDaemon::handleSigINT()
