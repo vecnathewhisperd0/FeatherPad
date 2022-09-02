@@ -26,44 +26,8 @@
 #include "x11.h"
 #endif
 
-#include <signal.h>
 #include <QLibraryInfo>
 #include <QTranslator>
-
-static bool setup_unix_signal_handlers()
-{
-    struct sigaction hupA, termA, intA, quitA;
-
-    hupA.sa_handler = FeatherPad::signalDaemon::hupSignalHandler;
-    sigemptyset (&hupA.sa_mask);
-    hupA.sa_flags = 0;
-    hupA.sa_flags |= SA_RESTART;
-    if (sigaction (SIGHUP, &hupA, nullptr) != 0)
-       return false;
-
-    termA.sa_handler = FeatherPad::signalDaemon::termSignalHandler;
-    sigemptyset (&termA.sa_mask);
-    termA.sa_flags = 0;
-    termA.sa_flags |= SA_RESTART;
-    if (sigaction (SIGTERM, &termA, nullptr) != 0)
-       return false;
-
-    intA.sa_handler = FeatherPad::signalDaemon::intSignalHandler;
-    sigemptyset (&intA.sa_mask);
-    intA.sa_flags = 0;
-    intA.sa_flags |= SA_RESTART;
-    if (sigaction (SIGINT, &intA, nullptr) != 0)
-       return false;
-
-    quitA.sa_handler = FeatherPad::signalDaemon::quitSignalHandler;
-    sigemptyset (&quitA.sa_mask);
-    quitA.sa_flags = 0;
-    quitA.sa_flags |= SA_RESTART;
-    if (sigaction (SIGQUIT, &quitA, nullptr) != 0)
-       return false;
-
-    return true;
-}
 
 int main (int argc, char **argv)
 {
@@ -171,17 +135,9 @@ int main (int argc, char **argv)
 
     // Handle SIGQUIT, SIGINT, SIGTERM and SIGHUP (-> https://en.wikipedia.org/wiki/Unix_signal).
     FeatherPad::signalDaemon D;
-    if (setup_unix_signal_handlers())
-    {
-        QObject::connect (&D, &FeatherPad::signalDaemon::sigHUP,
-                          &singleton, &FeatherPad::FPsingleton::quitSignalReceived);
-        QObject::connect (&D, &FeatherPad::signalDaemon::sigTERM,
-                          &singleton, &FeatherPad::FPsingleton::quitSignalReceived);
-        QObject::connect (&D, &FeatherPad::signalDaemon::sigINT,
-                          &singleton, &FeatherPad::FPsingleton::quitSignalReceived);
-        QObject::connect (&D, &FeatherPad::signalDaemon::sigQUIT,
-                          &singleton, &FeatherPad::FPsingleton::quitSignalReceived);
-    }
+    D.watchUnixSignals();
+    QObject::connect (&D, &FeatherPad::signalDaemon::sigQUIT,
+                      &singleton, &FeatherPad::FPsingleton::quitSignalReceived);
 
     QObject::connect (&singleton, &QCoreApplication::aboutToQuit, &singleton, &FeatherPad::FPsingleton::quitting);
     singleton.firstWin (info);
