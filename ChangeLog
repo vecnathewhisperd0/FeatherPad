@@ -1,12 +1,13 @@
 V1.3.2
 ---------
- * Added a real Unix signal handler.
+ * Added a real Unix signal handler. It was needed to work around a Qt6 bug under Wayland, which reported close signals of Wayland WMs as non-spontaneous (there was no prompt on closing windows by Wayland WMs).
  * Removed instant tab tooltips when tab DND is disabled (because some Wayland compositors have problem with instant tooltips of inactive windows).
  * Consider the script sign in Lua.
  * Fixed the enabled state of the "Other" action in the "Encoding" menu.
  * Removed the detection of legacy encodings and simplified the "Encoding" menu with Qt6.
  * Added Toml syntax highlighting.
  * Reduced the maximum block size of HTML for syntax highlighting to 5000.
+ * Simplified finding of Qt modules with cmake.
 
 V1.3.1
 ---------
