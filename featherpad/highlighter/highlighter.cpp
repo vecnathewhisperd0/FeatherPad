@@ -1141,12 +1141,6 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = desktopFormat;
         highlightingRules.append (rule);
 
-        desktopFormat.setForeground (Blue);
-        /* [...] and before = (like ...[en]=)*/
-        rule.pattern.setPattern ("^[^\\=\\[]+\\[.*\\](?=\\s*\\=)");
-        rule.format = desktopFormat;
-        highlightingRules.append (rule);
-
         if (progLan == "toml")
         {
             desktopFormat.setForeground (Violet);
@@ -1155,6 +1149,12 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         }
         else
         {
+            desktopFormat.setForeground (Blue);
+            /* [...] and before = (like ...[en]=) */
+            rule.pattern.setPattern ("^[^\\=\\[]+\\[.*\\](?=\\s*\\=)");
+            rule.format = desktopFormat;
+            highlightingRules.append (rule);
+
             desktopFormat.setForeground (DarkGreenAlt);
             /* before = and [] */
             rule.pattern.setPattern ("^[^\\=\\[]+(?=(\\[.*\\])*\\s*\\=)");
