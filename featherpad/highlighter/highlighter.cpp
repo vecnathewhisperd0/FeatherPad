@@ -841,7 +841,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
             /* without space after "<<" and with ";" at the end */
             //hereDocDelimiter.setPattern ("<<([A-Za-z0-9_]+)(?:;)|<<(\'[A-Za-z0-9_]+\')(?:;)|<<(\"[A-Za-z0-9_]+\")(?:;)");
             /* can contain spaces inside quote marks or backquotes and usually has ";" at the end */
-            hereDocDelimiter.setPattern ("<<(?![0-9]+\\b)([A-Za-z0-9_]+)(?:;{0,1})|<<(?:\\s*)(\'[A-Za-z0-9_\\s]+\')(?:;{0,1})|<<(?:\\s*)(\"[A-Za-z0-9_\\s]+\")(?:;{0,1})|<<(?:\\s*)(`[A-Za-z0-9_\\s]+`)(?:;{0,1})");
+            hereDocDelimiter.setPattern ("<<~?(?![0-9]+\\b)([A-Za-z0-9_]+)(?:;{0,1})|<<~?(?:\\s*)(\'[A-Za-z0-9_\\s]+\')(?:;{0,1})|<<~?(?:\\s*)(\"[A-Za-z0-9_\\s]+\")(?:;{0,1})|<<~?(?:\\s*)(`[A-Za-z0-9_\\s]+`)(?:;{0,1})");
         }
         else
         {
@@ -2042,11 +2042,13 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
         && currentBlockState() % 2 == 0)
     {
         QRegularExpressionMatch match;
-        QRegularExpression delimPart (progLan == "ruby" ? "<<(-|~){0,1}" : "<<\\s*");
+        QRegularExpression delimPart (progLan == "ruby" ? "<<(-|~){0,1}" :
+                                      progLan == "perl" ? "<<~?\\s*" :
+                                      "<<\\s*");
         if (text.lastIndexOf (delimPart, pos, &match) == pos - match.capturedLength())
             return true; // escaped start quote
         if (progLan == "perl") // space is allowed
-            delimPart.setPattern ("<<(?:\\s*)(\'[A-Za-z0-9_\\s]+)|<<(?:\\s*)(\"[A-Za-z0-9_\\s]+)|<<(?:\\s*)(`[A-Za-z0-9_\\s]+)");
+            delimPart.setPattern ("<<~?(?:\\s*)(\'[A-Za-z0-9_\\s]+)|<<~?(?:\\s*)(\"[A-Za-z0-9_\\s]+)|<<~?(?:\\s*)(`[A-Za-z0-9_\\s]+)");
         else if (progLan == "ruby")
             delimPart.setPattern ("<<(?:-|~){0,1}(\'[A-Za-z0-9]+)|<<(?:-|~){0,1}(\"[A-Za-z0-9]+)");
         else
