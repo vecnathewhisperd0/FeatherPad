@@ -1,3 +1,7 @@
+V1.3.3
+---------
+ * Covered tab-indented here-docs in Bash syntax highlighting.
+
 V1.3.2
 ---------
  * Added a real Unix signal handler. It was needed to work around a Qt6 bug under Wayland, which reported close signals of Wayland WMs as non-spontaneous (there was no prompt on closing windows by Wayland WMs).

@@ -3641,6 +3641,17 @@ bool Highlighter::isHereDocument (const QString &text)
 
                 if (!delimStr.isEmpty())
                 {
+                    setFormat (text.indexOf (delimStr, pos),
+                               delimStr.length(),
+                               delimFormat);
+
+                    if (progLan == "sh"
+                        && text.length() > pos + 2 && text.at (pos + 2) == '-')
+                    {
+                        /* "<<-" causes all leading tab characters to be ignored at
+                           the end of the here-doc. So, it should be distinguished. */
+                        delimStr = "-" + delimStr;
+                    }
                     int n = static_cast<int>(qHash (delimStr));
                     int state = 2 * (n + (n >= 0 ? endState/2 + 1 : 0)); // always an even number but maybe negative
                     if (progLan == "sh")
@@ -3655,9 +3666,6 @@ bool Highlighter::isHereDocument (const QString &text)
                         }
                     }
                     setCurrentBlockState (state);
-                    setFormat (text.indexOf (delimStr, pos),
-                               delimStr.length(),
-                               delimFormat);
 
                     TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData());
                     if (!data) return false;
@@ -3683,15 +3691,29 @@ bool Highlighter::isHereDocument (const QString &text)
         {
             QRegularExpressionMatch rMatch;
             /* the terminating string must appear on a line by itself */
-            QRegularExpression r ("\\s*" + delimStr + "(?=\\s*$)");
+            QRegularExpression r ("^\\s*" + delimStr + "(?=\\s*$)");
             if (text.indexOf (r, 0, &rMatch) == 0)
                 l = rMatch.capturedLength();
         }
-        else if (text == delimStr
-                 || (text.startsWith (delimStr)
-                     && text.indexOf (QRegularExpression ("\\W+")) == delimStr.length()))
+        else // if (progLan == "sh")
         {
-            l = delimStr.length();
+            if (!delimStr.startsWith ("-"))
+            {
+                if (text == delimStr)
+                    l = delimStr.length();
+            }
+            else if (delimStr.length() > 1)
+            { // the here-doc started with "<<-"
+#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
+                QString tmp = delimStr.mid (1);
+#else
+                QString tmp = delimStr.sliced (1);
+#endif
+                QRegularExpression r ("^\\t*" + tmp + "$");
+                QRegularExpressionMatch rMatch;
+                if (text.indexOf (r, 0, &rMatch) == 0)
+                    l = rMatch.capturedLength();
+            }
         }
         if (l > 0)
         {
