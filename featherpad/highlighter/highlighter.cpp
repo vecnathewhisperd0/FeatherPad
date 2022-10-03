@@ -3636,8 +3636,8 @@ bool Highlighter::isHereDocument (const QString &text)
                         delimStr = delimStr.split ('\'').at (1);
                     if (delimStr.contains ('\"'))
                         delimStr = delimStr.split ('\"').at (1);
-                    /* remove the start backslash if it exists */
-                    if (QString (delimStr.at (0)) == "\\")
+                    /* remove the start backslash (with bash) if it exists */
+                    if (delimStr.startsWith ("\\"))
                         delimStr = delimStr.remove (0, 1);
                 }
 
