@@ -3,6 +3,7 @@ V1.3.3
  * Fixed crash on pasting when there is nothing to paste.
  * Covered tab-indented here-docs in Bash syntax highlighting.
  * Covered indented here-docs in Perl syntax highlighting.
+ * Silenced the compilation warnings with Qt ≥ 6.4.
 
 V1.3.2
 ---------

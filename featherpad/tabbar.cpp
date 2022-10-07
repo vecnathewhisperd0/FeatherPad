@@ -187,13 +187,21 @@ void TabBar::tabInserted (int/* index*/)
 /*************************/
 void TabBar::finishMouseMoveEvent()
 {
-    QMouseEvent finishingEvent (QEvent::MouseMove, QPoint(), Qt::NoButton, Qt::NoButton, Qt::NoModifier);
+    QMouseEvent finishingEvent (QEvent::MouseMove, QPoint(),
+#if (QT_VERSION >= QT_VERSION_CHECK(6,4,0))
+                                QCursor::pos(),
+#endif
+                                Qt::NoButton, Qt::NoButton, Qt::NoModifier);
     mouseMoveEvent (&finishingEvent);
 }
 /*************************/
 void TabBar::releaseMouse()
 {
-    QMouseEvent releasingEvent (QEvent::MouseButtonRelease, QPoint(), Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+    QMouseEvent releasingEvent (QEvent::MouseButtonRelease, QPoint(),
+#if (QT_VERSION >= QT_VERSION_CHECK(6,4,0))
+                                QCursor::pos(),
+#endif
+                                Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
     mouseReleaseEvent (&releasingEvent);
 }
 /*************************/

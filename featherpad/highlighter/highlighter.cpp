@@ -3797,12 +3797,12 @@ void Highlighter::debControlFormatting (const QString &text)
             setFormat (indx, 1, debFormat);
             indx ++;
 
-            if (indx < text.count())
+            if (indx < text.size())
             {
                 /* after ":" */
                 debFormat.setFontWeight (QFont::Normal);
                 debFormat.setForeground (DarkGreenAlt);
-                setFormat (indx, text.count() - indx , debFormat);
+                setFormat (indx, text.size() - indx , debFormat);
             }
         }
     }
@@ -3810,7 +3810,7 @@ void Highlighter::debControlFormatting (const QString &text)
     {
         formatFurther = true;
         debFormat.setForeground (DarkGreenAlt);
-        setFormat (0, text.count(), debFormat);
+        setFormat (0, text.size(), debFormat);
     }
 
     if (formatFurther)

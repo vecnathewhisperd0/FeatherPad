@@ -2912,7 +2912,7 @@ void FPwin::enforceEncoding (QAction *a)
             QString lineStr = "</i>&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
             int i = str.indexOf (encodStr);
             int j = str.indexOf (lineStr);
-            int offset = encodStr.count() + 9; // size of ":</b> <i>"
+            int offset = encodStr.size() + 9; // size of ":</b> <i>"
             str.replace (i + offset, j - i - offset, checkToEncoding());
             statusLabel->setText (str);
         }
@@ -3652,7 +3652,7 @@ void FPwin::reloadSyntaxHighlighter (TextEdit *textEdit)
             {
                 QString lineStr = "</i>&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
                 int j = str.indexOf (lineStr);
-                int offset = syntaxStr.count() + 9; // size of ":</b> <i>"
+                int offset = syntaxStr.size() + 9; // size of ":</b> <i>"
                 str.replace (i + offset, j - i - offset, textEdit->getProg());
             }
         }
@@ -4549,7 +4549,7 @@ void FPwin::statusMsg()
     QString str = statusLabel->text();
     QString selStr = tr ("Sel. Chars");
     QString wordStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Words");
-    int i = str.indexOf (selStr) + selStr.count();
+    int i = str.indexOf (selStr) + selStr.size();
     int j = str.indexOf (wordStr);
     if (sel == 0)
     {
@@ -4574,8 +4574,8 @@ void FPwin::showCursorPos()
     charN.setNum (pos); charN = "<i> " + charN + "</i>";
     QString str = posLabel->text();
     QString scursorStr = "<b>" + tr ("Position:") + "</b>";
-    int i = scursorStr.count();
-    str.replace (i, str.count() - i, charN);
+    int i = scursorStr.size();
+    str.replace (i, str.size() - i, charN);
     posLabel->setText (str);
 }
 /*************************/
@@ -6143,7 +6143,7 @@ void FPwin::saveAllFiles (bool showWarning)
                         {
                             QString lineStr = "</i>&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines");
                             int j = str.indexOf (lineStr);
-                            int offset = syntaxStr.count() + 9; // size of ":</b> <i>"
+                            int offset = syntaxStr.size() + 9; // size of ":</b> <i>"
                             str.replace (i + offset, j - i - offset, thisTextEdit->getProg());
                         }
                     }

@@ -367,8 +367,8 @@ QString TextEdit::remainingSpaces (const QString& spaceTab, const QTextCursor& c
         n += qMax (qRound (qAbs (x) / spaceL) - 1, 0); // x is negative for RTL
         ++i;
     }
-    n += txt.count();
-    n = spaceTab.count() - n % spaceTab.count();
+    n += txt.size();
+    n = spaceTab.size() - n % spaceTab.size();
     QString res;
     for (int i = 0 ; i < n; ++i)
         res += " ";
@@ -404,9 +404,9 @@ QTextCursor TextEdit::backTabCursor (const QTextCursor& cursor, bool twoSpace) c
         n += qMax (qRound (qAbs (x) / spaceL) - 1, 0);
         ++i;
     }
-    n += txt.count();
-    n = n % textTab_.count();
-    if (n == 0) n = textTab_.count();
+    n += txt.size();
+    n = n % textTab_.size();
+    if (n == 0) n = textTab_.size();
 
     if (twoSpace) n = qMin (n, 2);
 
@@ -2601,7 +2601,7 @@ QTextCursor TextEdit::finding (const QString& str, const QTextCursor& start, QTe
                             i = 0;
                             continue;
                         }
-                        cursor.setPosition (cursor.anchor() + subStr.count());
+                        cursor.setPosition (cursor.anchor() + subStr.size());
                         break;
                     }
                     else
@@ -2649,7 +2649,7 @@ QTextCursor TextEdit::finding (const QString& str, const QTextCursor& start, QTe
                         while (cursor.anchor() > cursor.block().position())
                         {
                             /* ... move the cursor to left and search backward until a match is found */
-                            cursor.setPosition (cursor.block().position() + subStr.count());
+                            cursor.setPosition (cursor.block().position() + subStr.size());
                             if (!findBackward (document(), subStr, cursor, flags))
                                 return QTextCursor();
                         }
@@ -2695,7 +2695,7 @@ QTextCursor TextEdit::finding (const QString& str, const QTextCursor& start, QTe
                             i = 0;
                             continue;
                         }
-                        cursor.setPosition (cursor.anchor() - subStr.count());
+                        cursor.setPosition (cursor.anchor() - subStr.size());
                         break;
                     }
                     else
