@@ -1281,6 +1281,7 @@ void TextEdit::paste()
 {
     keepTxtCurHPos_ = false; // txtCurHPos_ isn't reset here because there may be nothing to paste
 
+    if (!canPaste()) return;
     pasting_ = true;  // see insertFromMimeData()
     QPlainTextEdit::paste();
     pasting_ = false;
@@ -1316,12 +1317,12 @@ QMimeData* TextEdit::createMimeDataFromSelection() const
 // We also want to control whether the pasted URLs should be opened.
 bool TextEdit::canInsertFromMimeData (const QMimeData* source) const
 {
-    return source->hasUrls() || QPlainTextEdit::canInsertFromMimeData (source);
+    return (source && source->hasUrls()) || QPlainTextEdit::canInsertFromMimeData (source);
 }
 void TextEdit::insertFromMimeData (const QMimeData* source)
 {
     keepTxtCurHPos_ = false;
-    if (source->hasUrls())
+    if (source && source->hasUrls())
     {
         const QList<QUrl> urlList = source->urls();
         bool multiple (urlList.count() > 1);
