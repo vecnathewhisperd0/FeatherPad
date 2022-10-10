@@ -101,7 +101,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     wordButton->setToolTip ("<p style='white-space:pre'>"
                             + tr ("Calculate number of words\n(For huge texts, this may be CPU-intensive.)")
                             + "</p>");
-    connect (wordButton, &QAbstractButton::clicked, [=]{updateWordInfo();});
+    connect (wordButton, &QAbstractButton::clicked, [this] {updateWordInfo();});
     ui->statusBar->addWidget (statusLabel);
     ui->statusBar->addWidget (wordButton);
 
@@ -221,10 +221,10 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     connect (ui->actionOpen, &QAction::triggered, this, &FPwin::fileOpen);
     connect (ui->actionReload, &QAction::triggered, this, &FPwin::reload);
     connect (aGroup_, &QActionGroup::triggered, this, &FPwin::enforceEncoding);
-    connect (ui->actionSave, &QAction::triggered, this, [=]{saveFile (false);});
-    connect (ui->actionSaveAs, &QAction::triggered, this, [=]{saveFile (false);});
-    connect (ui->actionSaveCodec, &QAction::triggered, this, [=]{saveFile (false);});
-    connect (ui->actionSaveAllFiles, &QAction::triggered, this, [=]{saveAllFiles (true);});
+    connect (ui->actionSave, &QAction::triggered, this, [this] {saveFile (false);});
+    connect (ui->actionSaveAs, &QAction::triggered, this, [this] {saveFile (false);});
+    connect (ui->actionSaveCodec, &QAction::triggered, this, [this] {saveFile (false);});
+    connect (ui->actionSaveAllFiles, &QAction::triggered, this, [this] {saveAllFiles (true);});
 
     connect (ui->actionCut, &QAction::triggered, this, &FPwin::cutText);
     connect (ui->actionCopy, &QAction::triggered, this, &FPwin::copyText);
@@ -238,9 +238,9 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     connect (ui->actionLowerCase, &QAction::triggered, this, &FPwin::lowerCase);
     connect (ui->actionStartCase, &QAction::triggered, this, &FPwin::startCase);
 
-    /* because sort line actions don't have shortcuts,
-       their state can be set when their menu is going to be shown */
-    connect (ui->menuEdit, &QMenu::aboutToShow, this, &FPwin::enableSortLines);
+    connect (ui->menuEdit, &QMenu::aboutToShow, this, &FPwin::showingEditMenu);
+    connect (ui->menuEdit, &QMenu::aboutToHide, this, &FPwin::hidngEditMenu);
+
     connect (ui->actionSortLines, &QAction::triggered, this, &FPwin::sortLines);
     connect (ui->actionRSortLines, &QAction::triggered, this, &FPwin::sortLines);
 
@@ -3839,21 +3839,41 @@ void FPwin::startCase()
     }
 }
 /*************************/
-void FPwin::enableSortLines()
+// Because sort line actions don't have shortcuts, their state can be set when
+// their menu is going to be shown. Also, the state of the paste action is set.
+void FPwin::showingEditMenu()
 {
     if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget()))
     {
         TextEdit *textEdit = tabPage->textEdit();
-        if (!textEdit->isReadOnly()
-            && textEdit->textCursor().selectedText().contains (QChar (QChar::ParagraphSeparator)))
+        if (!textEdit->isReadOnly())
         {
-            ui->actionSortLines->setEnabled (true);
-            ui->actionRSortLines->setEnabled (true);
-            return;
+            ui->actionPaste->setEnabled (textEdit->canPaste());
+            if (textEdit->textCursor().selectedText().contains (QChar (QChar::ParagraphSeparator)))
+            {
+                ui->actionSortLines->setEnabled (true);
+                ui->actionRSortLines->setEnabled (true);
+                return;
+            }
         }
+        else
+            ui->actionPaste->setEnabled (false);
     }
+    else
+        ui->actionPaste->setEnabled (false);
     ui->actionSortLines->setEnabled (false);
     ui->actionRSortLines->setEnabled (false);
+}
+/*************************/
+void FPwin::hidngEditMenu()
+{
+    if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget()))
+    {
+        /* QPlainTextEdit::canPaste() isn't consulted because it might change later */
+        ui->actionPaste->setEnabled (!tabPage->textEdit()->isReadOnly());
+    }
+    else
+        ui->actionPaste->setEnabled (false);
 }
 /*************************/
 void FPwin::sortLines()
@@ -3890,7 +3910,7 @@ void FPwin::makeEditable()
     }
     ui->actionEdit->setVisible (false);
 
-    ui->actionPaste->setEnabled (true);
+    ui->actionPaste->setEnabled (true); // it might change temporarily in showingEditMenu()
     ui->actionSoftTab->setEnabled (true);
     ui->actionDate->setEnabled (true);
     ui->actionCopy->setEnabled (textIsSelected);
@@ -4013,7 +4033,7 @@ void FPwin::tabSwitch (int index)
         ui->actionSaveAs->setEnabled (!textEdit->isUneditable());
         ui->actionSaveCodec->setEnabled (!textEdit->isUneditable());
     }
-    ui->actionPaste->setEnabled (!readOnly);
+    ui->actionPaste->setEnabled (!readOnly); // it might change temporarily in showingEditMenu()
     ui->actionSoftTab->setEnabled (!readOnly);
     ui->actionDate->setEnabled (!readOnly);
     bool textIsSelected = textEdit->textCursor().hasSelection();

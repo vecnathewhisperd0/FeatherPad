@@ -242,7 +242,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
                 progLan = "desktop";
             else if (mime == "audio/x-scpls" || mime == "application/vnd.kde.kcfgc")
                 progLan = "config";
-            else if (mime == "application/javascript")
+            else if (mime == "application/javascript" || mime == "text/javascript")
                 progLan = "javascript";
             else if (mime == "text/x-java")
                 progLan = "java";
