@@ -86,6 +86,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
         else if (fname.endsWith (".c"))
             progLan = "c";
         else if (fname.endsWith (".sh") || fname.endsWith (".bashrc") || fname.endsWith (".rules")
+                 || fname.endsWith (".zsh")
                  || baseName == ".bash_profile" || baseName == ".bash_functions"
                  || baseName == ".xprofile" || baseName == ".profile"
                  || baseName == ".bash_aliases" || baseName == ".mkshrc"

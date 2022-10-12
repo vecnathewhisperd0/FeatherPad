@@ -1256,7 +1256,7 @@
         <translation>La unuaj 1000 anstataŭigoj estas markitaj.</translation>
     </message>
     <message>
-        <location filename="../../syntax.cpp" line="311"/>
+        <location filename="../../syntax.cpp" line="312"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
         <translation>La grandeca limo por la sintaks-markado estas transpasita.</translation>
     </message>
