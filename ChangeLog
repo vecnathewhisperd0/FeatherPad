@@ -1,6 +1,7 @@
 V1.3.4
 ---------
  * Enable/disable the Paste action of the Edit menu appropriately.
+ * Covered single quote as digit separator in C++(≥14) syntax highlighting.
 
 V1.3.3
 ---------

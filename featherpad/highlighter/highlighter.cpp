@@ -413,6 +413,14 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
             rule.pattern.setPattern ("\\b0(?:x[0-9a-fA-F_]+|o[0-7_]+|b[01_]+)(?:[iu](?:8|16|32|64|128|size)?)?\\b" // hexadecimal, octal, binary
                                     "|"
                                     "\\b[0-9][0-9_]*(?:(?:\\.[0-9][0-9_]*)?(?:[eE][\\+\\-]?[0-9_]+)?(?:f32|f64)?|(?:[iu](?:8|16|32|64|128|size)?)?)\\b"); // float, decimal
+        else if (progLan == "cpp") // handled separately because of ' as separator
+            rule.pattern.setPattern ("(?<=^|[^\\w\\d\\.])("
+                                     "((\\d*|\\d+(\'\\d+)*)\\.\\d+(\'\\d+)*|\\d+(\'\\d+)*\\.|(\\d*\\.?\\d+(\'\\d+)*|\\d+(\'\\d+)*\\.)(e|E)(\\+|-)?\\d+(\'\\d+)*)(L|l|F|f)?"
+                                     "|"
+                                     "0[xX](([0-9a-fA-F]*|[0-9a-fA-F]+(\'[0-9a-fA-F]+)*)\\.?[0-9a-fA-F]+(\'[0-9a-fA-F]+)*|[0-9a-fA-F]+(\'[0-9a-fA-F]+)*\\.)(p|P)(\\+|-)?\\d+(L|l|F|f)?"
+                                     "|"
+                                     "([1-9]\\d*(\'\\d+)*|0[0-7]*(\'[0-7]+)*|0[xX][0-9a-fA-F]+(\'[0-9a-fA-F]+)*|0[bB][01]+(\'[01]+)*)(L|l|U|u|UL|ul|LU|lu|LL|ll|ULL|ull|uLL|LLU|llu)?" // integer
+                                     ")(?=[^\\w\\d\\.]|$)");
         else
             rule.pattern.setPattern ("(?<=^|[^\\w\\d\\.])("
                                      "(\\d*\\.\\d+|\\d+\\.|(\\d*\\.?\\d+|\\d+\\.)(e|E)(\\+|-)?\\d+)(L|l|F|f)?"
@@ -2083,6 +2091,15 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
                 }
             }
             return false; // no other case of escaping at the start
+        }
+        else if (progLan == "c" || progLan == "cpp")
+        {
+            if (text.at (pos) == '\''
+                && pos > 0 && text.at (pos - 1).isLetterOrNumber())
+            {
+                return true;
+            }
+            return false;
         }
         else if (progLan != "sh" && progLan != "makefile" && progLan != "cmake"
                  && progLan != "yaml")
