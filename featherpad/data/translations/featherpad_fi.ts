@@ -2455,7 +2455,7 @@ ikkunoista sisällytetään tallennettuun istuntoon.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="147"/>
+        <location filename="../../textedit.cpp" line="148"/>
         <source>Double click to center current line</source>
         <translation>Kaksoisklikkaa keskittääksesi tämänhetkinen rivi</translation>
     </message>

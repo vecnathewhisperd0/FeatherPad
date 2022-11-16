@@ -60,6 +60,17 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
 
     textTab_ = "    "; // the default text tab is four spaces
 
+    resizeTimerId_ = 0;
+    selectionTimerId_ = 0;
+    selectionHighlighting_ = false;
+    highlightThisSelection_ = true;
+    removeSelectionHighlights_ = false;
+    size_ = 0;
+    wordNumber_ = -1; // not calculated yet
+    encoding_= "UTF-8";
+    uneditable_ = false;
+    highlighter_ = nullptr;
+
     setMouseTracking (true);
     //document()->setUseDesignMetrics (true);
 
@@ -127,16 +138,6 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     }
     setCurLineHighlight (-1);
 
-    resizeTimerId_ = 0;
-    selectionTimerId_ = 0;
-    selectionHighlighting_ = false;
-    highlightThisSelection_ = true;
-    removeSelectionHighlights_ = false;
-    size_ = 0;
-    wordNumber_ = -1; // not calculated yet
-    encoding_= "UTF-8";
-    uneditable_ = false;
-    highlighter_ = nullptr;
     setFrameShape (QFrame::NoFrame);
     /* first we replace the widget's vertical scrollbar with ours because
        we want faster wheel scrolling when the mouse cursor is on the scrollbar */

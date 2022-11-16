@@ -2430,7 +2430,7 @@ alla fönster kommer inkluderas in den sparade sessionen.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="147"/>
+        <location filename="../../textedit.cpp" line="148"/>
         <source>Double click to center current line</source>
         <translation>Dubbelklicka för centrera nuvarande rad</translation>
     </message>

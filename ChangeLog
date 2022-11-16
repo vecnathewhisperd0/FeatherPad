@@ -2,6 +2,7 @@ V1.3.4
 ---------
  * Enable/disable the Paste action of the Edit menu appropriately.
  * Covered single quote as digit separator in C++(≥14) syntax highlighting.
+ * Initialize variables of "TextEdit" and "TabBar" before events are triggered.
 
 V1.3.3
 ---------

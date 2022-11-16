@@ -2451,7 +2451,7 @@ les finestress&apos;inclouran a la sessió desada.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="147"/>
+        <location filename="../../textedit.cpp" line="148"/>
         <source>Double click to center current line</source>
         <translation>Feu doble clic per centrar la línia actual</translation>
     </message>

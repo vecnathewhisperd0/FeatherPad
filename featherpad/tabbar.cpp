@@ -31,12 +31,13 @@ namespace FeatherPad {
 TabBar::TabBar (QWidget *parent)
     : QTabBar (parent)
 {
-    setMouseTracking (true);
-    setElideMode (Qt::ElideMiddle); // works with minimumTabSizeHint()
     hideSingle_ = false;
     locked_ = false;
-    dragStarted_ = false; // not needed
+    dragStarted_ = false;
     noTabDND_ = false;
+
+    setMouseTracking (true);
+    setElideMode (Qt::ElideMiddle); // works with minimumTabSizeHint()
 }
 /*************************/
 void TabBar::mousePressEvent (QMouseEvent *event)
