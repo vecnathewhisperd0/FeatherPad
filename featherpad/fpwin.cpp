@@ -5412,7 +5412,7 @@ void FPwin::tabContextMenu (const QPoint& p)
 
     QString fname = qobject_cast< TabPage *>(ui->tabWidget->widget (rightClicked_))
                     ->textEdit()->getFileName();
-    QMenu menu;
+    QMenu menu (this); // "this" is for Wayland, when the window isn't active
     bool showMenu = false;
     if (tabNum > 1)
     {
@@ -5536,7 +5536,7 @@ void FPwin::listContextMenu (const QPoint& p)
     rightClicked_ = lw->row (item);
     QString fname = sideItems_.value (item)->textEdit()->getFileName();
 
-    QMenu menu;
+    QMenu menu (this); // "this" is for Wayland, when the window isn't active
     menu.addAction (ui->actionClose);
     if (lw->count() > 1)
     {

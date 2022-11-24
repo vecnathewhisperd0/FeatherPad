@@ -170,12 +170,12 @@ void ListWidget::mouseMoveEvent (QMouseEvent *event)
 {
     QListWidget::mouseMoveEvent (event);
     if (event->button() == Qt::NoButton && !(event->buttons() & Qt::LeftButton))
-    {
+    { // "this" is for Wayland, when the window isn't active
         if (QListWidgetItem *item = itemAt (event->pos()))
 #if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-            QToolTip::showText (event->globalPos(), item->toolTip());
+            QToolTip::showText (event->globalPos(), item->toolTip(), this);
 #else
-            QToolTip::showText (event->globalPosition().toPoint(), item->toolTip());
+            QToolTip::showText (event->globalPosition().toPoint(), item->toolTip(), this);
 #endif
         else
             QToolTip::hideText();

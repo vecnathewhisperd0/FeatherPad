@@ -131,17 +131,16 @@ void TabBar::mouseMoveEvent (QMouseEvent *event)
         drag->deleteLater();
     }
     else
-    {
+    { // "this" is for Wayland, when the window isn't active
         QTabBar::mouseMoveEvent (event);
-        if (noTabDND_) return;
         int index = tabAt (event->pos());
         if (index > -1)
 #if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-            QToolTip::showText (event->globalPos(), tabToolTip (index));
+            QToolTip::showText (event->globalPos(), tabToolTip (index), this);
 #else
             /* WARNING: For tabbars, event->globalPosition() may return a totally
                         wrong position with Qt6. */
-            QToolTip::showText (QCursor::pos(), tabToolTip (index));
+            QToolTip::showText (QCursor::pos(), tabToolTip (index), this);
 #endif
         else
             QToolTip::hideText();
@@ -152,7 +151,7 @@ void TabBar::mouseMoveEvent (QMouseEvent *event)
 bool TabBar::event (QEvent *event)
 {
 #ifndef QT_NO_TOOLTIP
-    if (!noTabDND_ && event->type() == QEvent::ToolTip)
+    if (event->type() == QEvent::ToolTip)
         return QWidget::event (event);
     else
        return QTabBar::event (event);
