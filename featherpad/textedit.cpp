@@ -69,7 +69,6 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     wordNumber_ = -1; // not calculated yet
     encoding_= "UTF-8";
     uneditable_ = false;
-    highlighter_ = nullptr;
 
     setMouseTracking (true);
     //document()->setUseDesignMetrics (true);

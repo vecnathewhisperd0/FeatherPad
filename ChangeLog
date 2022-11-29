@@ -1,3 +1,7 @@
+V1.3.5
+---------
+ * Used QPointer for TextEdit's highlighter (for a more robust code but without behavior change).
+
 V1.3.4
 ---------
  * Enable/disable the Paste action of the Edit menu appropriately.

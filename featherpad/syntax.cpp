@@ -374,7 +374,6 @@ void FPwin::syntaxHighlighting (TextEdit *textEdit, bool highlight, const QStrin
         textEdit->setDrawIndetLines (false);
         textEdit->setVLineDistance (0);
 
-        textEdit->setHighlighter (nullptr);
         delete highlighter; highlighter = nullptr;
     }
 }

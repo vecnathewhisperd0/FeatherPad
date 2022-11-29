@@ -5330,7 +5330,6 @@ void FPwin::dropTab (const QString& str, QObject *source)
     { // there's no connction to the drag target yet
         textEdit->setDrawIndetLines (false);
         Highlighter *highlighter = qobject_cast< Highlighter *>(textEdit->getHighlighter());
-        textEdit->setHighlighter (nullptr);
         delete highlighter; highlighter = nullptr;
     }
     if (ui->spinBox->isVisible())
