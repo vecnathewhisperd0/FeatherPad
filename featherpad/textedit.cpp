@@ -1550,9 +1550,9 @@ void TextEdit::timerEvent (QTimerEvent *event)
         emit selChanged();
     }
 }
-/*******************************************************
-***** Workaround for the RTL bug in QPlainTextEdit *****
-********************************************************/
+/**********************
+***** Paint event *****
+***********************/
 static void fillBackground (QPainter *p, const QRectF &rect, QBrush brush, const QRectF &gradientRect = QRectF())
 {
     p->save();
@@ -1572,9 +1572,8 @@ static void fillBackground (QPainter *p, const QRectF &rect, QBrush brush, const
     p->restore();
 }
 
-// Exactly like QPlainTextEdit::paintEvent(),
-// except for setting layout text option for RTL
-// and drawing vertical indentation lines (if needed).
+// Changes are made to QPlainTextEdit::paintEvent() for setting the
+// RTL layout text option, drawing vertical indentation lines, etc.
 void TextEdit::paintEvent (QPaintEvent *event)
 {
     QPainter painter (viewport());
@@ -1609,7 +1608,7 @@ void TextEdit::paintEvent (QPaintEvent *event)
 
         if (r.bottom() >= er.top() && r.top() <= er.bottom())
         {
-            /* take care of RTL */
+            /* take care of RTL (workaround for the RTL bug in QPlainTextEdit) */
             bool rtl (block.text().isRightToLeft());
             QTextOption opt = document()->defaultTextOption();
             if (rtl)
@@ -1825,9 +1824,9 @@ void TextEdit::paintEvent (QPaintEvent *event)
         painter.fillRect (QRect (QPoint (static_cast<int>(er.left()), static_cast<int>(offset.y())), er.bottomRight()), palette().window());
     }
 }
-/************************************************
-***** End of the Workaround for the RTL bug *****
-*************************************************/
+/*********************************
+***** End of the paint event *****
+**********************************/
 
 void TextEdit::highlightCurrentLine()
 {
