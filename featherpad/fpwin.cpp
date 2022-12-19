@@ -1284,7 +1284,7 @@ void FPwin::dropEvent (QDropEvent *event)
         if (QObject *sourseObject = event->source())
         {
             /* announce that the drop is accepted by us (see "TabBar::mouseMoveEvent") */
-            sourseObject->setProperty ("_fpad_tab_dropped", true);
+            sourseObject->setProperty (TabBar::tabDropped, true);
             /* the tab will be dropped after the DND is finished */
             auto data = event->mimeData()->data ("application/featherpad-tab");
             QTimer::singleShot (0, sourseObject, [this, sourseObject, data]() {

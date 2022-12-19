@@ -28,6 +28,8 @@
 
 namespace FeatherPad {
 
+const char *TabBar::tabDropped = "_fpad_tab_dropped";
+
 TabBar::TabBar (QWidget *parent)
     : QTabBar (parent)
 {
@@ -133,12 +135,11 @@ void TabBar::mouseMoveEvent (QMouseEvent *event)
         }
         else
         {
-            /* WARNING: Theoretically, only FeatherPad should accept its tab drops,
-               but another app (like Dolphin or KDE's desktop) may incorrectly accept
-               any drop. Therefore, we check the object property "_fpad_tab_dropped"
-               (set by "FPwin::dropEvent") and detach the tab if it's missing. */
-            if (property ("_fpad_tab_dropped").toBool())
-                setProperty ("_fpad_tab_dropped", QVariant()); // reset
+            /* WARNING: Since another app can also accept this drop, we check
+               the object property "_fpad_tab_dropped" (set by "FPwin::dropEvent")
+               and detach the tab if it's missing. */
+            if (property (TabBar::tabDropped).toBool())
+                setProperty (TabBar::tabDropped, QVariant()); // reset
             else
             {
                 if (N > 1)

@@ -24,8 +24,6 @@
 
 namespace FeatherPad {
 
-/* The tab dropping signal (for tab detaching) should come here and not in TabWidget
-   because, otherwise, the tabMoved() signal wouldn't do its job completely. */
 class TabBar : public QTabBar
 {
     Q_OBJECT
@@ -47,6 +45,10 @@ public:
     void noTabDND() {
         noTabDND_ = true;
     }
+
+    /* An object property used for knowing whether
+       a tab is dropped into one of our windows: */
+    static const char *tabDropped;
 
 signals:
     void tabDetached();

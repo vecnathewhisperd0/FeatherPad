@@ -1,7 +1,7 @@
 V1.3.5
 ---------
  * Used QPointer for TextEdit's highlighter (for a more robust code but without behavior change).
- * Enable tab DND under Wayland (by detaching or dropping the tab after finishing the DND).
+ * Enabled tab DND under Wayland (by detaching or dropping the tab after finishing the DND) and improved tab DND in general.
 
 V1.3.4
 ---------
