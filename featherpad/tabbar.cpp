@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2021 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2022 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -100,6 +100,18 @@ void TabBar::mouseMoveEvent (QMouseEvent *event)
             return;
         }
 
+        /*
+           NOTE:
+
+           To be on the safe side (especially under Wayland), we detach or drop the tab
+           only after finishing the DND; see "FPwin::dropEvent()" and the queued
+           connection of "tabDetached()" in "fpwin.cpp".
+
+           Also, it's important to release the mouse after DND but before tab removal;
+           otherwise, the tabbar might not be updated properly. That's done in
+           "FPwin::detachTab" and "FPwin::dropTab".
+        */
+
         QPointer<QDrag> drag = new QDrag (this);
         QMimeData *mimeData = new QMimeData;
         QByteArray array = QString::number (index).toUtf8();
@@ -112,20 +124,28 @@ void TabBar::mouseMoveEvent (QMouseEvent *event)
         Qt::DropAction dragged = drag->exec (Qt::MoveAction);
         if (dragged != Qt::MoveAction)
         {
-            /* A tab is dropped outside all windows. WARNING: Under Enlightenment,
-               this may be Qt::CopyAction, not IgnoreAction (an E bug). */
+            /* The drop hasn't been accepted (by any FeatherPad window).
+               The tab will be detached if there's more than one tab. */
             if (N > 1)
                 emit tabDetached();
             else
                 finishMouseMoveEvent();
         }
-        else // a tab is dropped into another window
+        else
         {
-            /* WARNING: Theoretically, only FeatherPad should accept its tab drops
-               but another app (like Dolphin) may incorrectly accept any drop. So,
-               if no tab is removed here, we release the mouse as a workaround. */
-            if (count() == N)
-                releaseMouse();
+            /* WARNING: Theoretically, only FeatherPad should accept its tab drops,
+               but another app (like Dolphin or KDE's desktop) may incorrectly accept
+               any drop. Therefore, we check the object property "_fpad_tab_dropped"
+               (set by "FPwin::dropEvent") and detach the tab if it's missing. */
+            if (property ("_fpad_tab_dropped").toBool())
+                setProperty ("_fpad_tab_dropped", QVariant()); // reset
+            else
+            {
+                if (N > 1)
+                    emit tabDetached();
+                else
+                    finishMouseMoveEvent();
+            }
         }
         event->accept();
         drag->deleteLater();

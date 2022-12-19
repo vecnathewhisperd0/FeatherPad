@@ -201,13 +201,8 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     ui->actionWindows_Arabic->setVisible (false);
 #endif
 
-    if (static_cast<FPsingleton*>(qApp)->isStandAlone()
-        /* since Wayland has a serious issue related to QDrag that interferes with
-           dropping tabs outside all windows, we don't enable tab DND without X11 */
-        || !static_cast<FPsingleton*>(qApp)->isX11())
-    {
+    if (static_cast<FPsingleton*>(qApp)->isStandAlone())
         ui->tabWidget->noTabDND();
-    }
 
     connect (ui->actionQuit, &QAction::triggered, this, &QWidget::close);
     connect (ui->actionNew, &QAction::triggered, this, &FPwin::newTab);
@@ -258,7 +253,10 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     connect (ui->tabWidget, &TabWidget::hasLastActiveTab, [this] (bool hasLastActive) {
         ui->actionLastActiveTab->setEnabled (hasLastActive);
     });
-    connect (ui->tabWidget->tabBar(), &TabBar::tabDetached, this, &FPwin::detachTab);
+
+    /* the tab will be detached after the DND is finished */
+    connect (ui->tabWidget->tabBar(), &TabBar::tabDetached, this, &FPwin::detachTab, Qt::QueuedConnection);
+
     connect (ui->tabWidget->tabBar(), &TabBar::hideTabBar, this, &FPwin::toggleSidePane);
     ui->tabWidget->tabBar()->setContextMenuPolicy (Qt::CustomContextMenu);
     connect (ui->tabWidget->tabBar(), &QWidget::customContextMenuRequested, this, &FPwin::tabContextMenu);
@@ -1283,8 +1281,16 @@ void FPwin::dropEvent (QDropEvent *event)
     if (locked_) return;
     if (event->mimeData()->hasFormat ("application/featherpad-tab"))
     {
-        dropTab (QString::fromUtf8 (event->mimeData()->data ("application/featherpad-tab").constData()),
-                 event->source());
+        if (QObject *sourseObject = event->source())
+        {
+            /* announce that the drop is accepted by us (see "TabBar::mouseMoveEvent") */
+            sourseObject->setProperty ("_fpad_tab_dropped", true);
+            /* the tab will be dropped after the DND is finished */
+            auto data = event->mimeData()->data ("application/featherpad-tab");
+            QTimer::singleShot (0, sourseObject, [this, sourseObject, data]() {
+                dropTab (QString::fromUtf8 (data.constData()), sourseObject);
+            });
+        }
     }
     else
     {
