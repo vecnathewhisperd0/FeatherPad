@@ -2402,7 +2402,7 @@ windows will be included in the saved session.</source>
 <context>
     <name>FeatherPad::SidePane</name>
     <message>
-        <location filename="../../sidepane.cpp" line="210"/>
+        <location filename="../../sidepane.cpp" line="224"/>
         <source>Filter...</source>
         <translation>필터...</translation>
     </message>

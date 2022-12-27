@@ -2401,7 +2401,7 @@ i alle vinduer, i den lagrede økten.</translation>
 <context>
     <name>FeatherPad::SidePane</name>
     <message>
-        <location filename="../../sidepane.cpp" line="210"/>
+        <location filename="../../sidepane.cpp" line="224"/>
         <source>Filter...</source>
         <translation>Filter...</translation>
     </message>

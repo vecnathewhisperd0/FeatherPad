@@ -2405,7 +2405,7 @@ fenestroj estos inkluzivitaj de la konservota sesio.</translation>
 <context>
     <name>FeatherPad::SidePane</name>
     <message>
-        <location filename="../../sidepane.cpp" line="210"/>
+        <location filename="../../sidepane.cpp" line="224"/>
         <source>Filter...</source>
         <translation>Filtru...</translation>
     </message>

@@ -96,6 +96,7 @@ ListWidget::ListWidget (QWidget *parent) : QListWidget (parent)
 // To prevent deselection by Ctrl + left click; see "qabstractitemview.cpp".
 QItemSelectionModel::SelectionFlags ListWidget::selectionCommand (const QModelIndex &index, const QEvent *event) const
 {
+#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
     Qt::KeyboardModifiers keyModifiers = Qt::NoModifier;
     if (event)
     {
@@ -112,10 +113,23 @@ QItemSelectionModel::SelectionFlags ListWidget::selectionCommand (const QModelIn
                 keyModifiers = QApplication::keyboardModifiers();
         }
     }
-    if (selectionMode() == QAbstractItemView::SingleSelection && (keyModifiers & Qt::ControlModifier) && selectionModel()->isSelected (index))
-        return QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows;
-    else
-        return QListWidget::selectionCommand (index, event);
+#else
+    Qt::KeyboardModifiers keyModifiers = event != nullptr && event->isInputEvent()
+                                             ? (static_cast<const QInputEvent*>(event))->modifiers()
+                                             : Qt::NoModifier;
+
+#endif
+    if (selectionMode() == QAbstractItemView::SingleSelection)
+    {
+        if (!index.isValid())
+            return QItemSelectionModel::NoUpdate;
+        if ((keyModifiers & Qt::ControlModifier)
+            && selectionModel()->isSelected (index))
+        {
+            return QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows;
+        }
+    }
+    return QListWidget::selectionCommand (index, event);
 }
 /*************************/
 // QListView::scrollTo() doesn't work correctly when the scroll mode is per item

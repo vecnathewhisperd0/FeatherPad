@@ -2401,7 +2401,7 @@ as janelas serão incluídos na sessão salva.</translation>
 <context>
     <name>FeatherPad::SidePane</name>
     <message>
-        <location filename="../../sidepane.cpp" line="210"/>
+        <location filename="../../sidepane.cpp" line="224"/>
         <source>Filter...</source>
         <translation>Filtrar...</translation>
     </message>
