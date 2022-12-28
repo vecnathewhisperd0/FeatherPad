@@ -323,6 +323,9 @@
    <addaction name="actionReplace"/>
    <addaction name="actionJump"/>
    <addaction name="separator"/>
+   <addaction name="actionSidePane"/>
+   <addaction name="actionSession"/>
+   <addaction name="separator"/>
    <addaction name="actionEdit"/>
    <addaction name="actionRun"/>
    <addaction name="actionMenu"/>

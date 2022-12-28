@@ -664,6 +664,7 @@ void FPwin::applyConfigOnStarting()
     {
         ui->actionNew->setIcon (QIcon::fromTheme ("document-new"));
         ui->actionOpen->setIcon (QIcon::fromTheme ("document-open"));
+        ui->actionSession->setIcon (QIcon::fromTheme ("bookmark-new"));
         ui->menuOpenRecently->setIcon (QIcon::fromTheme ("document-open-recent"));
         ui->actionClearRecent->setIcon (QIcon::fromTheme ("edit-clear"));
         ui->actionSave->setIcon (QIcon::fromTheme ("document-save"));
@@ -690,6 +691,7 @@ void FPwin::applyConfigOnStarting()
         ui->actionHelp->setIcon (QIcon::fromTheme ("help-contents"));
         ui->actionAbout->setIcon (QIcon::fromTheme ("help-about"));
         ui->actionJump->setIcon (QIcon::fromTheme ("go-jump"));
+        ui->actionSidePane->setIcon (QIcon::fromTheme ("sidebar-expand-left"));
         ui->actionEdit->setIcon (QIcon::fromTheme ("document-edit"));
         ui->actionRun->setIcon (QIcon::fromTheme ("system-run"));
         ui->actionCopyName->setIcon (QIcon::fromTheme ("edit-copy"));
@@ -717,6 +719,7 @@ void FPwin::applyConfigOnStarting()
     {
         ui->actionNew->setIcon (symbolicIcon::icon (":icons/document-new.svg"));
         ui->actionOpen->setIcon (symbolicIcon::icon (":icons/document-open.svg"));
+        ui->actionSession->setIcon (symbolicIcon::icon (":icons/session.svg"));
         ui->menuOpenRecently->setIcon (symbolicIcon::icon (":icons/document-open-recent.svg"));
         ui->actionClearRecent->setIcon (symbolicIcon::icon (":icons/edit-clear.svg"));
         ui->actionSave->setIcon (symbolicIcon::icon (":icons/document-save.svg"));
@@ -743,6 +746,7 @@ void FPwin::applyConfigOnStarting()
         ui->actionHelp->setIcon (symbolicIcon::icon (":icons/help-contents.svg"));
         ui->actionAbout->setIcon (symbolicIcon::icon (":icons/help-about.svg"));
         ui->actionJump->setIcon (symbolicIcon::icon (":icons/go-jump.svg"));
+        ui->actionSidePane->setIcon (symbolicIcon::icon (":icons/side-pane.svg"));
         ui->actionEdit->setIcon (symbolicIcon::icon (":icons/document-edit.svg"));
         ui->actionRun->setIcon (symbolicIcon::icon (":icons/system-run.svg"));
         ui->actionCopyName->setIcon (symbolicIcon::icon (":icons/edit-copy.svg"));

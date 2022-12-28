@@ -64,7 +64,7 @@ Sessions can be saved and opened by using the Session Manager dialog. As mention
 
 FeatherPad also has a side-pane mode, which can be enabled either temporarily or with startup. It is most suitable for working with sessions because its file list is alphabetically ordered and can be filtered. Each pane item has a right-click menu, which contains menu-items for various jobs when there is more than one page. Items can also be removed by middle-clicking without being selected.
 
-The side-pane mode does not have features provided by tabs — for example, tab drag-and-drop is missing from it — and conversely — for example, tabs are not sorted and cannot be filtered — but the side-pane and tab modes can be used interchangeably through the Side-Pane menu-item or its shortcut and also by middle-clicking an empty space inside the tab-bar or side-pane.
+The side-pane mode does not have features provided by tabs — for example, tab drag-and-drop is missing from it — and conversely — for example, tabs are not sorted and cannot be filtered — but the side-pane and tab modes can be used interchangeably by means of the Side-Pane menu-item, its toolbar button or its shortcut and also by middle-clicking an empty space inside the tab-bar or side-pane.
 
 The side-pane can be opened by its shortcut (Ctrl+Alt+P by default). If it is already open but does not have focus, the same shortcut focuses it and, if it has focus, the shortcut closes it.
 

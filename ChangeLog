@@ -4,6 +4,7 @@ V1.3.5
  * Enabled tab DND under Wayland (by detaching or dropping the tab after finishing the DND) and improved tab DND in general.
  * Always open a group of files in a single window, even when the app is configured to open files in separate windows.
  * Prevented total item deselection in the side-pane mode with Qt6.
+ * Added the side-pane and session actions to the toolbar.
 
 V1.3.4
 ---------
