@@ -2878,8 +2878,8 @@ bool FPwin::alreadyOpen (TabPage *tabPage) const
 /*************************/
 void FPwin::enforceEncoding (QAction *a)
 {
-    /* here, we don't need to check if some files are loading
-       because encoding has no keyboard shortcut or tool button */
+    /* not needed because encoding has no keyboard shortcut or tool button */
+    if (isLoading()) return;
 
     int index = ui->tabWidget->currentIndex();
     TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->widget (index));
