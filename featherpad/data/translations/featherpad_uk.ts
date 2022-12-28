@@ -2265,99 +2265,99 @@ in the editing mode.</source>
         <translation>Менеджер сеансів</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="101"/>
-        <location filename="../../sessionDialog.ui" line="270"/>
+        <location filename="../../sessionDialog.ui" line="113"/>
+        <location filename="../../sessionDialog.ui" line="294"/>
         <source>&amp;Remove</source>
         <translation>&amp;Вилучити</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="33"/>
+        <location filename="../../sessionDialog.ui" line="45"/>
         <source>&lt;b&gt;Save/Restore Session&lt;/b&gt;</source>
         <translation>&lt;b&gt;Зберегти/відновити сеанс&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="56"/>
+        <location filename="../../sessionDialog.ui" line="68"/>
         <source>Filter...</source>
         <translation>Фільтр...</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="69"/>
+        <location filename="../../sessionDialog.ui" line="81"/>
         <source>Open the selected session(s).</source>
         <translation>Відкрити вибраний сеанс(и).</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="72"/>
-        <location filename="../../sessionDialog.ui" line="275"/>
+        <location filename="../../sessionDialog.ui" line="84"/>
+        <location filename="../../sessionDialog.ui" line="299"/>
         <source>&amp;Open</source>
         <translation>&amp;Відкрити</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="98"/>
-        <location filename="../../sessionDialog.ui" line="108"/>
+        <location filename="../../sessionDialog.ui" line="110"/>
+        <location filename="../../sessionDialog.ui" line="120"/>
         <source>Del</source>
         <translation>Del</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="115"/>
-        <location filename="../../sessionDialog.ui" line="125"/>
+        <location filename="../../sessionDialog.ui" line="127"/>
+        <location filename="../../sessionDialog.ui" line="137"/>
         <source>Ctrl+Del</source>
         <translation>Ctrl+Del</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="159"/>
+        <location filename="../../sessionDialog.ui" line="171"/>
         <source>By default, all files that are opened in all
 windows will be included in the saved session.</source>
         <translation>Типово усі файли, які відкрито у всіх
 вікнах будуть включені до збереженого сеансу.</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="163"/>
+        <location filename="../../sessionDialog.ui" line="175"/>
         <source>Save only from this &amp;window</source>
         <translation>Зберегти лише з цього в&amp;ікна</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="180"/>
+        <location filename="../../sessionDialog.ui" line="204"/>
         <source>&lt;b&gt;Warning&lt;/b&gt;</source>
         <translation>&lt;b&gt;Попередження&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="226"/>
+        <location filename="../../sessionDialog.ui" line="250"/>
         <location filename="../../session.cpp" line="328"/>
         <source>&amp;Yes</source>
         <translation>&amp;Так</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="233"/>
+        <location filename="../../sessionDialog.ui" line="257"/>
         <source>&amp;No</source>
         <translation>&amp;Ні</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="283"/>
+        <location filename="../../sessionDialog.ui" line="307"/>
         <source>Re&amp;name</source>
         <translation>Пере&amp;йменувати</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="118"/>
+        <location filename="../../sessionDialog.ui" line="130"/>
         <source>Remove &amp;All</source>
         <translation>Видалити в&amp;се</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="260"/>
+        <location filename="../../sessionDialog.ui" line="284"/>
         <source>&amp;Close</source>
         <translation>Закр&amp;ити</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="135"/>
+        <location filename="../../sessionDialog.ui" line="147"/>
         <source>Save the current session under the given title.</source>
         <translation>Зберегти поточний сеанс із цією назвою.</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="138"/>
+        <location filename="../../sessionDialog.ui" line="150"/>
         <source>&amp;Save</source>
         <translation>З&amp;берегти</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="149"/>
+        <location filename="../../sessionDialog.ui" line="161"/>
         <source>Type a name to save session</source>
         <translation>Уведіть назву для збереження сеансу</translation>
     </message>

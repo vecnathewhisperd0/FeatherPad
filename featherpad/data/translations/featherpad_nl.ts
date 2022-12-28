@@ -2266,99 +2266,99 @@ om een sneltoets te wissen.</translation>
         <translation>Sessiebeheer</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="101"/>
-        <location filename="../../sessionDialog.ui" line="270"/>
+        <location filename="../../sessionDialog.ui" line="113"/>
+        <location filename="../../sessionDialog.ui" line="294"/>
         <source>&amp;Remove</source>
         <translation>Ve&amp;rwijderen</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="33"/>
+        <location filename="../../sessionDialog.ui" line="45"/>
         <source>&lt;b&gt;Save/Restore Session&lt;/b&gt;</source>
         <translation>&lt;b&gt;Sessie herstellen/opslaan&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="56"/>
+        <location filename="../../sessionDialog.ui" line="68"/>
         <source>Filter...</source>
         <translation>Filteren…</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="69"/>
+        <location filename="../../sessionDialog.ui" line="81"/>
         <source>Open the selected session(s).</source>
         <translation>Open de geselecteerde sessie(s).</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="72"/>
-        <location filename="../../sessionDialog.ui" line="275"/>
+        <location filename="../../sessionDialog.ui" line="84"/>
+        <location filename="../../sessionDialog.ui" line="299"/>
         <source>&amp;Open</source>
         <translation>&amp;Openen</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="98"/>
-        <location filename="../../sessionDialog.ui" line="108"/>
+        <location filename="../../sessionDialog.ui" line="110"/>
+        <location filename="../../sessionDialog.ui" line="120"/>
         <source>Del</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="115"/>
-        <location filename="../../sessionDialog.ui" line="125"/>
+        <location filename="../../sessionDialog.ui" line="127"/>
+        <location filename="../../sessionDialog.ui" line="137"/>
         <source>Ctrl+Del</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="159"/>
+        <location filename="../../sessionDialog.ui" line="171"/>
         <source>By default, all files that are opened in all
 windows will be included in the saved session.</source>
         <translation>Standaard worden alle geopende bestanden bewaard
 in de opgeslagen sessie.</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="163"/>
+        <location filename="../../sessionDialog.ui" line="175"/>
         <source>Save only from this &amp;window</source>
         <translation>Alleen bestanden uit dit &amp;venster opslaan</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="180"/>
+        <location filename="../../sessionDialog.ui" line="204"/>
         <source>&lt;b&gt;Warning&lt;/b&gt;</source>
         <translation>&lt;b&gt;Waarschuwing&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="226"/>
+        <location filename="../../sessionDialog.ui" line="250"/>
         <location filename="../../session.cpp" line="328"/>
         <source>&amp;Yes</source>
         <translation>&amp;Ja</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="233"/>
+        <location filename="../../sessionDialog.ui" line="257"/>
         <source>&amp;No</source>
         <translation>&amp;Nee</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="283"/>
+        <location filename="../../sessionDialog.ui" line="307"/>
         <source>Re&amp;name</source>
         <translation>&amp;Naam wijzigen</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="118"/>
+        <location filename="../../sessionDialog.ui" line="130"/>
         <source>Remove &amp;All</source>
         <translation>&amp;Alles verwijderen</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="260"/>
+        <location filename="../../sessionDialog.ui" line="284"/>
         <source>&amp;Close</source>
         <translation>&amp;Sluiten</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="135"/>
+        <location filename="../../sessionDialog.ui" line="147"/>
         <source>Save the current session under the given title.</source>
         <translation>Sla de huidige sessie op met de opgegeven naam.</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="138"/>
+        <location filename="../../sessionDialog.ui" line="150"/>
         <source>&amp;Save</source>
         <translation>Op&amp;slaan</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="149"/>
+        <location filename="../../sessionDialog.ui" line="161"/>
         <source>Type a name to save session</source>
         <translation>Geef de sessie een naam</translation>
     </message>

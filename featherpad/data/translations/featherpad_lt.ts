@@ -2265,99 +2265,99 @@ paspauskite modifikatoriaus klavišą.</translation>
         <translation>Seansų tvarkytuvė</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="101"/>
-        <location filename="../../sessionDialog.ui" line="270"/>
+        <location filename="../../sessionDialog.ui" line="113"/>
+        <location filename="../../sessionDialog.ui" line="294"/>
         <source>&amp;Remove</source>
         <translation>Ša&amp;linti</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="33"/>
+        <location filename="../../sessionDialog.ui" line="45"/>
         <source>&lt;b&gt;Save/Restore Session&lt;/b&gt;</source>
         <translation>&lt;b&gt;Įrašyti/Atkurti seansą&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="56"/>
+        <location filename="../../sessionDialog.ui" line="68"/>
         <source>Filter...</source>
         <translation>Filtruoti...</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="69"/>
+        <location filename="../../sessionDialog.ui" line="81"/>
         <source>Open the selected session(s).</source>
         <translation>Atverti pasirinktą seansą(-us).</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="72"/>
-        <location filename="../../sessionDialog.ui" line="275"/>
+        <location filename="../../sessionDialog.ui" line="84"/>
+        <location filename="../../sessionDialog.ui" line="299"/>
         <source>&amp;Open</source>
         <translation>A&amp;tverti</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="98"/>
-        <location filename="../../sessionDialog.ui" line="108"/>
+        <location filename="../../sessionDialog.ui" line="110"/>
+        <location filename="../../sessionDialog.ui" line="120"/>
         <source>Del</source>
         <translation>Del</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="115"/>
-        <location filename="../../sessionDialog.ui" line="125"/>
+        <location filename="../../sessionDialog.ui" line="127"/>
+        <location filename="../../sessionDialog.ui" line="137"/>
         <source>Ctrl+Del</source>
         <translation>Ctrl+Del</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="159"/>
+        <location filename="../../sessionDialog.ui" line="171"/>
         <source>By default, all files that are opened in all
 windows will be included in the saved session.</source>
         <translation>Pagal numatymą, visi visuose languose atverti failai
 bus įtraukti į įrašytą seansą.</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="163"/>
+        <location filename="../../sessionDialog.ui" line="175"/>
         <source>Save only from this &amp;window</source>
         <translation>Įrašyti tik iš šio &amp;lango</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="180"/>
+        <location filename="../../sessionDialog.ui" line="204"/>
         <source>&lt;b&gt;Warning&lt;/b&gt;</source>
         <translation>&lt;b&gt;Įspėjimas&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="226"/>
+        <location filename="../../sessionDialog.ui" line="250"/>
         <location filename="../../session.cpp" line="328"/>
         <source>&amp;Yes</source>
         <translation>&amp;Taip</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="233"/>
+        <location filename="../../sessionDialog.ui" line="257"/>
         <source>&amp;No</source>
         <translation>&amp;Ne</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="283"/>
+        <location filename="../../sessionDialog.ui" line="307"/>
         <source>Re&amp;name</source>
         <translation>Pervadi&amp;nti</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="118"/>
+        <location filename="../../sessionDialog.ui" line="130"/>
         <source>Remove &amp;All</source>
         <translation>Šalinti &amp;visus</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="260"/>
+        <location filename="../../sessionDialog.ui" line="284"/>
         <source>&amp;Close</source>
         <translation>&amp;Užverti</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="135"/>
+        <location filename="../../sessionDialog.ui" line="147"/>
         <source>Save the current session under the given title.</source>
         <translation>Įrašyti esamą seansą nurodytuoju pavadinimu.</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="138"/>
+        <location filename="../../sessionDialog.ui" line="150"/>
         <source>&amp;Save</source>
         <translation>Į&amp;rašyti</translation>
     </message>
     <message>
-        <location filename="../../sessionDialog.ui" line="149"/>
+        <location filename="../../sessionDialog.ui" line="161"/>
         <source>Type a name to save session</source>
         <translation>Įrašykite pavadinimą, norėdami įrašyti seansą</translation>
     </message>
