@@ -809,7 +809,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     else if (progLan == "changelog")
     {
         /* before colon */
-        rule.pattern.setPattern ("^\\s+\\*\\s+[^:]+:");
+        rule.pattern.setPattern ("^\\s+\\*\\s+[^:]+:(?!(:|//))");
         rule.format = keywordFormat;
         highlightingRules.append (rule);
 
