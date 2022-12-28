@@ -426,12 +426,12 @@
         <translation>Borrar la lista de archivos modificados recientemente</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1111"/>
+        <location filename="../../fp.ui" line="1114"/>
         <source>Save/Restore Session</source>
         <translation>Guardar/Restaurar la sesión</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1114"/>
+        <location filename="../../fp.ui" line="1111"/>
         <source>Sa&amp;ve/Restore Session</source>
         <translation>&amp;Guardar/Restaurar la sesión</translation>
     </message>

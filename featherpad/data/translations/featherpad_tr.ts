@@ -431,12 +431,12 @@
         <translation>Son belgeler listesini temizle</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1111"/>
+        <location filename="../../fp.ui" line="1114"/>
         <source>Save/Restore Session</source>
         <translation>Oturumu Kaydet/Yükle</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1114"/>
+        <location filename="../../fp.ui" line="1111"/>
         <source>Sa&amp;ve/Restore Session</source>
         <translatorcomment>RAPOR 1 : Message seems to be unused.</translatorcomment>
         <translation>&amp;Oturumu Kaydet / Yükle</translation>

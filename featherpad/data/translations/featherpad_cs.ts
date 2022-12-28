@@ -426,12 +426,12 @@ tento řádek (Ctrl+Shift+J)</translation>
         <translation>Vyčistit seznam nedávnou změněných souborů</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1111"/>
+        <location filename="../../fp.ui" line="1114"/>
         <source>Save/Restore Session</source>
         <translation>Uložit/obnovit relaci</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1114"/>
+        <location filename="../../fp.ui" line="1111"/>
         <source>Sa&amp;ve/Restore Session</source>
         <translation>Uložit/obnovit &amp;relaci</translation>
     </message>

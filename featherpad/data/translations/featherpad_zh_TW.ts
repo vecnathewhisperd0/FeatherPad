@@ -426,12 +426,12 @@
         <translation>清除最近修改的檔案清單</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1111"/>
+        <location filename="../../fp.ui" line="1114"/>
         <source>Save/Restore Session</source>
         <translation>儲存/還原工作階段</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1114"/>
+        <location filename="../../fp.ui" line="1111"/>
         <source>Sa&amp;ve/Restore Session</source>
         <translation>儲存/還原工作階段(&amp;V)</translation>
     </message>

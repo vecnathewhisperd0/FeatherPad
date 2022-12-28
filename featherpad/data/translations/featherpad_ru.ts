@@ -224,7 +224,7 @@
         <translation>Ctrl+R</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1114"/>
+        <location filename="../../fp.ui" line="1111"/>
         <source>Sa&amp;ve/Restore Session</source>
         <translation>&amp;Сохранить/Восстановить сеанс</translation>
     </message>
@@ -469,7 +469,7 @@
         <translation>Очистить список недавно изменённых файлов</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1111"/>
+        <location filename="../../fp.ui" line="1114"/>
         <source>Save/Restore Session</source>
         <translation>Сохранить/Восстановить сеанс</translation>
     </message>

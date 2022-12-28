@@ -425,12 +425,12 @@
         <translation>Vymazať zoznam nedávno upravených súborov</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1111"/>
+        <location filename="../../fp.ui" line="1114"/>
         <source>Save/Restore Session</source>
         <translation>Uložiť/obnoviť sedenie</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1114"/>
+        <location filename="../../fp.ui" line="1111"/>
         <source>Sa&amp;ve/Restore Session</source>
         <translation>&amp;Uložiť/obnoviť sedenie</translation>
     </message>

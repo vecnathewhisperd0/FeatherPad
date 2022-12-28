@@ -426,12 +426,12 @@
         <translation>پاکسازی فهرست فايل‌های تازه‌تغييريافته</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1111"/>
+        <location filename="../../fp.ui" line="1114"/>
         <source>Save/Restore Session</source>
         <translation>ذخيره يا بازنشانی نشست</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1114"/>
+        <location filename="../../fp.ui" line="1111"/>
         <source>Sa&amp;ve/Restore Session</source>
         <translation>ذخيره يا بازنشانی نشست</translation>
     </message>

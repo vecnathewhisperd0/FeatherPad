@@ -426,12 +426,12 @@
         <translation>Neteja la llista de fitxers modificats recents</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1111"/>
+        <location filename="../../fp.ui" line="1114"/>
         <source>Save/Restore Session</source>
         <translation>Desa/Restaura la Sessió</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1114"/>
+        <location filename="../../fp.ui" line="1111"/>
         <source>Sa&amp;ve/Restore Session</source>
         <translation>De&amp;sa/Restaura la Sessió</translation>
     </message>

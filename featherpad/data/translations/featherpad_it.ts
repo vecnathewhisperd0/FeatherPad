@@ -426,12 +426,12 @@ linea (Ctrl + Shift + J)</translation>
         <translation>Cancella l&apos;elenco dei file modificati di recente</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1111"/>
+        <location filename="../../fp.ui" line="1114"/>
         <source>Save/Restore Session</source>
         <translation>Salva/Ripristina sessione</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1114"/>
+        <location filename="../../fp.ui" line="1111"/>
         <source>Sa&amp;ve/Restore Session</source>
         <translation>Sa&amp;lva/Ripristina sessione</translation>
     </message>

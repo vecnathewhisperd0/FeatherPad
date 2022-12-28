@@ -426,12 +426,12 @@
         <translation>Tühjenda hiljuti muudetud failide loend</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1111"/>
+        <location filename="../../fp.ui" line="1114"/>
         <source>Save/Restore Session</source>
         <translation>Salvesta või taasta sessioon</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1114"/>
+        <location filename="../../fp.ui" line="1111"/>
         <source>Sa&amp;ve/Restore Session</source>
         <translation>Sal&amp;vesta või taasta sessioon</translation>
     </message>

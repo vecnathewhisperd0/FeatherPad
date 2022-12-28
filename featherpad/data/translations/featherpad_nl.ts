@@ -426,12 +426,12 @@
         <translation>Wis de lijst met onlangs bewerkte bestanden</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1111"/>
+        <location filename="../../fp.ui" line="1114"/>
         <source>Save/Restore Session</source>
         <translation>Sessie opslaan/herstellen</translation>
     </message>
     <message>
-        <location filename="../../fp.ui" line="1114"/>
+        <location filename="../../fp.ui" line="1111"/>
         <source>Sa&amp;ve/Restore Session</source>
         <translation>&amp;Sessie opslaan/herstellen</translation>
     </message>

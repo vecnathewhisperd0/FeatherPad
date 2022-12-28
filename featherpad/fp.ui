@@ -1108,10 +1108,10 @@
   </action>
   <action name="actionSession">
    <property name="text">
-    <string>Save/Restore Session</string>
+    <string>Sa&amp;ve/Restore Session</string>
    </property>
    <property name="toolTip">
-    <string>Sa&amp;ve/Restore Session</string>
+    <string>Save/Restore Session</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+M</string>
