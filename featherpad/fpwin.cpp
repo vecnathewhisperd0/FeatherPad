@@ -427,7 +427,7 @@ void FPwin::cleanUpOnTerminating (Config &config, bool isLastWin)
 void FPwin::toggleSidePane()
 {
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
-    if (!sidePane_)
+    if (sidePane_ == nullptr)
     {
         ui->tabWidget->tabBar()->hide();
         ui->tabWidget->tabBar()->hideSingle (false); // prevent tabs from reappearing
@@ -445,9 +445,9 @@ void FPwin::toggleSidePane()
         }
         else
         {
-            /* set the side pane width to 1/5 of the window width */
-            int mult = qMax (size().width(), 100) / 100; // for more precision
-            sizes << 20 * mult << 80 * mult;
+            /* don't let the side pane be wider than 1/5 of the window width */
+            int s = qMin (size().width() / 5, 40 * sidePane_->fontMetrics().horizontalAdvance(' '));
+            sizes << s << size().width() - s;
         }
         ui->splitter->setSizes (sizes);
         connect (sidePane_->listWidget(), &QWidget::customContextMenuRequested, this, &FPwin::listContextMenu);
@@ -529,8 +529,8 @@ void FPwin::toggleSidePane()
                 }
                 else
                 {
-                    int mult = qMax (size().width(), 100) / 100;
-                    sizes << 20 * mult << 80 * mult;
+                    int s = qMin (size().width() / 5, 40 * sidePane_->fontMetrics().horizontalAdvance(' '));
+                    sizes << s << size().width() - s;
                 }
                 ui->splitter->setSizes (sizes);
             }
