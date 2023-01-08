@@ -691,7 +691,10 @@ void FPwin::applyConfigOnStarting()
         ui->actionHelp->setIcon (QIcon::fromTheme ("help-contents"));
         ui->actionAbout->setIcon (QIcon::fromTheme ("help-about"));
         ui->actionJump->setIcon (QIcon::fromTheme ("go-jump"));
-        ui->actionSidePane->setIcon (QIcon::fromTheme ("sidebar-expand-left"));
+        QIcon sideIcn = QIcon::fromTheme ("sidebar-expand-left");
+        if (sideIcn.isNull())
+            sideIcn = symbolicIcon::icon (":icons/side-pane.svg");
+        ui->actionSidePane->setIcon (sideIcn);
         ui->actionEdit->setIcon (QIcon::fromTheme ("document-edit"));
         ui->actionRun->setIcon (QIcon::fromTheme ("system-run"));
         ui->actionCopyName->setIcon (QIcon::fromTheme ("edit-copy"));
