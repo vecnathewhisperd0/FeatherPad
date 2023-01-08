@@ -5,6 +5,7 @@ V1.3.5
  * Always open a group of files in a single window, even when the app is configured to open files in separate windows.
  * Prevented total item deselection in the side-pane mode with Qt6.
  * Added the side-pane and session actions to the toolbar.
+ * Limited the side-pane's default width to 40 times the width of the space character of the widget font.
 
 V1.3.4
 ---------
