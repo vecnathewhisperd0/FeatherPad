@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2022 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2023 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -2190,14 +2190,20 @@ void TextEdit::mouseReleaseEvent (QMouseEvent *event)
     QPlainTextEdit::mouseReleaseEvent (event);
     pasting_ = false;
 
-    if (event->button() != Qt::LeftButton
-        || !highlighter_
-        || event->modifiers() != Qt::ControlModifier
-        /* another key may also be pressed (-> keyPressEvent) */
-        || viewport()->cursor().shape() != Qt::PointingHandCursor)
+    if (event->button() != Qt::LeftButton || !highlighter_)
+        return;
+    if (event->modifiers() != Qt::ControlModifier)
     {
+        if (viewport()->cursor().shape() == Qt::PointingHandCursor)
+        {
+            /* this can happen if the window or viewport was inactive when
+               the left mouse button was pressed but Ctrl was released before it */
+            viewport()->setCursor (Qt::IBeamCursor);
+        }
         return;
     }
+    if (viewport()->cursor().shape() != Qt::PointingHandCursor)
+        return; // another key may also be pressed besides Ctrl (-> keyPressEvent)
 
     QTextCursor cur = cursorForPosition (event->pos());
     if (cur == cursorForPosition (pressPoint_))
