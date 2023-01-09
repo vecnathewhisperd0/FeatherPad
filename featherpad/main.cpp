@@ -32,7 +32,7 @@
 int main (int argc, char **argv)
 {
     const QString name = "FeatherPad";
-    const QString version = "1.3.5";
+    const QString version = "1.3.6";
     const QString firstArg = QString::fromUtf8 (argv[1]);
     if (firstArg == "--help" || firstArg == "-h")
     {

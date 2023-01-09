@@ -455,8 +455,11 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                 if (highlighter_)
                 {
                     if (getUrl (cursorForPosition (viewport()->mapFromGlobal (QCursor::pos())).position()).isEmpty())
-                        viewport()->setCursor (Qt::IBeamCursor);
-                    else
+                    {
+                        if (viewport()->cursor().shape() != Qt::IBeamCursor)
+                            viewport()->setCursor (Qt::IBeamCursor);
+                    }
+                    else if (viewport()->cursor().shape() != Qt::PointingHandCursor)
                         viewport()->setCursor (Qt::PointingHandCursor);
                     QPlainTextEdit::keyPressEvent (event);
                     return;
@@ -465,7 +468,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
         }
         if (event->key() != Qt::Key_Control) // another modifier/key is pressed
         {
-            if (highlighter_)
+            if (highlighter_ && viewport()->cursor().shape() != Qt::IBeamCursor)
                 viewport()->setCursor (Qt::IBeamCursor);
         }
     }
@@ -1368,15 +1371,18 @@ void TextEdit::insertFromMimeData (const QMimeData* source)
 void TextEdit::keyReleaseEvent (QKeyEvent *event)
 {
     /* deal with hyperlinks */
-    if (highlighter_ && event->key() == Qt::Key_Control)
+    if (highlighter_ && event->key() == Qt::Key_Control
+        && viewport()->cursor().shape() != Qt::IBeamCursor)
+    {
         viewport()->setCursor (Qt::IBeamCursor);
+    }
     QPlainTextEdit::keyReleaseEvent (event);
 }
 /*************************/
 void TextEdit::wheelEvent (QWheelEvent *event)
 {
     QPoint anglePoint = event->angleDelta();
-    if (event->modifiers() & Qt::ControlModifier)
+    if (event->modifiers() == Qt::ControlModifier)
     {
         float delta = anglePoint.y() / 120.f;
         zooming (delta);
@@ -2105,15 +2111,19 @@ void TextEdit::mouseMoveEvent (QMouseEvent *event)
     QPlainTextEdit::mouseMoveEvent (event);
 
     if (!highlighter_) return;
-    if (!(qApp->keyboardModifiers() & Qt::ControlModifier))
+    if (event->modifiers() != Qt::ControlModifier)
     {
-        viewport()->setCursor (Qt::IBeamCursor);
+        if (viewport()->cursor().shape() != Qt::IBeamCursor)
+            viewport()->setCursor (Qt::IBeamCursor);
         return;
     }
 
     if (getUrl (cursorForPosition (event->pos()).position()).isEmpty())
-        viewport()->setCursor (Qt::IBeamCursor);
-    else
+    {
+        if (viewport()->cursor().shape() != Qt::IBeamCursor)
+            viewport()->setCursor (Qt::IBeamCursor);
+    }
+    else if (viewport()->cursor().shape() != Qt::PointingHandCursor)
         viewport()->setCursor (Qt::PointingHandCursor);
 }
 /*************************/
@@ -2134,7 +2144,7 @@ void TextEdit::mousePressEvent (QMouseEvent *event)
             && event->buttons() == Qt::LeftButton)
         {
             tripleClickTimer_.invalidate();
-            if (!(qApp->keyboardModifiers() & Qt::ControlModifier))
+            if (event->modifiers() != Qt::ControlModifier)
             {
                 QTextCursor txtCur = textCursor();
                 const QString txt = txtCur.block().text();
@@ -2182,7 +2192,7 @@ void TextEdit::mouseReleaseEvent (QMouseEvent *event)
 
     if (event->button() != Qt::LeftButton
         || !highlighter_
-        || !(qApp->keyboardModifiers() & Qt::ControlModifier)
+        || event->modifiers() != Qt::ControlModifier
         /* another key may also be pressed (-> keyPressEvent) */
         || viewport()->cursor().shape() != Qt::PointingHandCursor)
     {
@@ -2213,7 +2223,7 @@ void TextEdit::mouseDoubleClickEvent (QMouseEvent *event)
     /* Select the text between spaces with Ctrl.
        NOTE: QPlainTextEdit should process the event before this. */
     if (event->button() == Qt::LeftButton
-        && (qApp->keyboardModifiers() & Qt::ControlModifier))
+        && event->modifiers() == Qt::ControlModifier)
     {
         QTextCursor txtCur = textCursor();
         const int blockPos = txtCur.block().position();
@@ -2245,7 +2255,8 @@ bool TextEdit::event (QEvent *event)
 {
     if (highlighter_
         && ((event->type() == QEvent::WindowDeactivate && hasFocus()) // another window is activated
-            || event->type() == QEvent::FocusOut)) // another widget has been focused
+            || event->type() == QEvent::FocusOut) // another widget has been focused
+        && viewport()->cursor().shape() != Qt::IBeamCursor)
     {
         viewport()->setCursor (Qt::IBeamCursor);
     }
