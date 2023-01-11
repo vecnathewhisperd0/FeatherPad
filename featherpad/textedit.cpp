@@ -1315,12 +1315,25 @@ QMimeData* TextEdit::createMimeDataFromSelection() const
     return nullptr;
 }
 /*************************/
+static bool containsPlainText (const QStringList &list)
+{
+    for (const auto &str : list)
+    {
+        if (str.compare ("text/plain", Qt::CaseInsensitive) == 0
+            || str.startsWith ("text/plain;charset=", Qt::CaseInsensitive))
+        {
+            return true;
+        }
+    }
+    return false;
+}
 // We want to pass dropping of files to the main widget with a custom signal.
 // We also want to control whether the pasted URLs should be opened.
 bool TextEdit::canInsertFromMimeData (const QMimeData* source) const
 {
     return source != nullptr
-           && (source->hasUrls() || QPlainTextEdit::canInsertFromMimeData (source));
+           && (source->hasUrls()
+               || (containsPlainText (source->formats()) && !source->text().isEmpty()));
 }
 void TextEdit::insertFromMimeData (const QMimeData* source)
 {
@@ -1364,7 +1377,7 @@ void TextEdit::insertFromMimeData (const QMimeData* source)
             }
         }
     }
-    else if (source->hasText())
+    else if (containsPlainText (source->formats()) && !source->text().isEmpty())
         QPlainTextEdit::insertFromMimeData (source);
 }
 /*************************/
