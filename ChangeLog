@@ -2,6 +2,7 @@ V1.3.6
 ---------
  * Check the view cursor before setting it.
  * Recognize `text/plain;charset=…` as plain text (Qt doesn't).
+ * Highlight comments inside formulas with LaTex.
 
 V1.3.5
 ---------

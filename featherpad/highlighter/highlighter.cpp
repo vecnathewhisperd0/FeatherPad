@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2022 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2023 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -214,18 +214,21 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     progLan = lang;
     maxBlockSize_ = progLan == "html" ? 5000 : 10000;
 
+    hasQuotes_ = (progLan != "diff" && progLan != "log"
+                  && progLan != "desktop" && progLan != "config" && progLan != "theme"
+                  && progLan != "changelog" && progLan != "url"
+                  && progLan != "deb" && progLan != "m3u"
+                  && progLan != "LaTeX" && progLan != "troff");
+
     /* whether multiLineQuote() should be used in a normal way */
     multilineQuote_ =
-        (progLan != "xml" // xmlQuotes() is used
+        (hasQuotes_
+         && progLan != "xml" // xmlQuotes() is used
          && progLan != "sh" // SH_MultiLineQuote() is used
          && progLan != "css" // cssHighlighter() is used
-         && progLan != "pascal" && progLan != "LaTeX"
-         && progLan != "diff" && progLan != "log"
-         && progLan != "desktop" && progLan != "config" && progLan != "theme"
-         && progLan != "changelog" && progLan != "url"
+         && progLan != "pascal"
          && progLan != "srt" && progLan != "html"
-         && progLan != "deb" && progLan != "m3u"
-         && progLan != "reST" && progLan != "troff"
+         && progLan != "reST"
          && progLan != "toml" // Toml will be formated separately
          && progLan != "yaml"); // yaml will be formated separately
 
@@ -242,7 +245,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
          || progLan == "go" || progLan == "php"
          || progLan == "toml");
 
-    quoteMark.setPattern ("\""); // the standard quote mark (always a single character)
+    quoteMark.setPattern ("\""); // the standard quote mark (always a single character but will be changed for Pascal)
     singleQuoteMark.setPattern ("\'"); // will be changed only for Go
     mixedQuoteMark.setPattern ("\"|\'"); // will be changed only for Go
     backQuote.setPattern ("`");
@@ -2157,6 +2160,8 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
 bool Highlighter::isQuoted (const QString &text, const int index,
                             bool skipCommandSign, const int start)
 {
+    if (!hasQuotes_) return false;
+
     if (progLan == "perl" || progLan == "ruby")
         return isPerlQuoted (text, index);
     if (progLan == "javascript" || progLan == "qml")
@@ -3873,6 +3878,7 @@ void Highlighter::debControlFormatting (const QString &text)
 void Highlighter::latexFormula (const QString &text)
 {
     int index = 0;
+    int commentStart = text.indexOf ('%');
     QString exp;
     TextBlockData *data = static_cast<TextBlockData *>(currentBlock().userData());
     static const QRegularExpression latexFormulaStart ("\\${2}|\\$|\\\\\\(|\\\\\\[|\\\\begin\\s*{math}|\\\\begin\\s*{displaymath}|\\\\begin\\s*{equation}|\\\\begin\\s*{verbatim}|\\\\begin\\s*{verbatim\\*}");
@@ -3892,14 +3898,13 @@ void Highlighter::latexFormula (const QString &text)
         index = text.indexOf (latexFormulaStart, index, &startMatch);
         while (isEscapedChar (text, index))
             index = text.indexOf (latexFormulaStart, index + 1, &startMatch);
-        /* skip single-line comments */
-        if (format (index) == commentFormat || format (index) == urlFormat)
+        /* skip (single-line) comments */
+        if (commentStart > -1 && index >= commentStart)
             index = -1;
     }
 
     while (index >= 0)
     {
-        int badIndex = -1;
         int endIndex;
 
         if (!exp.isEmpty() && index == 0)
@@ -3950,75 +3955,30 @@ void Highlighter::latexFormula (const QString &text)
         while (isEscapedChar (text, endIndex))
             endIndex = text.indexOf (endExp, endIndex + 1, &endMatch);
 
-        /* if the formula ends ... */
-        if (endIndex >= 0)
-        {
-            /* ... clear the comment format from there to reformat later
-               because "%" may be inside a formula now */
-            badIndex = endIndex + (endMatch.capturedLength() > 2 ? 0 : endMatch.capturedLength());
-            for (int i = badIndex; i < text.length(); ++i)
-            {
-                if (format (i) == commentFormat || format (i) == urlFormat)
-                    setFormat (i, 1, neutralFormat);
-            }
-        }
+        if (commentStart > -1 && endIndex >= commentStart)
+            endIndex = -1; // comments can be inside formulas
 
         int formulaLength;
         if (endIndex == -1)
         {
             if (data)
                 data->insertInfo (endExp.pattern());
-            formulaLength = text.length() - index;
+            formulaLength = (commentStart > -1 ? commentStart : text.length()) - index;
         }
         else
+        {
             formulaLength = endIndex - index
                             + (endMatch.capturedLength() > 2
                                    ? 0 // don't format "\end{math}" or "\end{equation}"
                                    : endMatch.capturedLength());
+        }
 
         setFormat (index, formulaLength, codeBlockFormat);
-
-        /* reformat the single-line comment from here if the format was cleared before */
-        if (badIndex >= 0)
-        {
-            for (const HighlightingRule &rule : qAsConst (highlightingRules))
-            {
-                if (rule.format == commentFormat)
-                {
-                    int INDX = text.indexOf (rule.pattern, badIndex);
-                    if (INDX >= 0)
-                    {
-                        setFormat (INDX, text.length() - INDX, commentFormat);
-                        /* URLs and notes were cleared too */
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-                        QString str = text.mid (INDX, text.length() - INDX);
-#else
-                        QString str = text.sliced (INDX, text.length() - INDX);
-#endif
-                        int pIndex = 0;
-                        QRegularExpressionMatch urlMatch;
-                        while ((pIndex = str.indexOf (urlPattern, pIndex, &urlMatch)) > -1)
-                        {
-                            setFormat (pIndex + INDX, urlMatch.capturedLength(), urlFormat);
-                            pIndex += urlMatch.capturedLength();
-                        }
-                        pIndex = 0;
-                        while ((pIndex = str.indexOf (notePattern, pIndex, &urlMatch)) > -1)
-                        {
-                            if (format (pIndex + INDX) != urlFormat)
-                                setFormat (pIndex + INDX, urlMatch.capturedLength(), noteFormat);
-                            pIndex += urlMatch.capturedLength();
-                        }
-                    }
-                    break;
-                }
-            }
-        }
 
         index = text.indexOf (latexFormulaStart, index + formulaLength, &startMatch);
         while (isEscapedChar (text, index))
             index = text.indexOf (latexFormulaStart, index + 1, &startMatch);
-        if (format (index) == commentFormat || format (index) == urlFormat)
+        if (commentStart > -1 && index >= commentStart)
             index = -1;
     }
 }
