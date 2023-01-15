@@ -1020,38 +1020,31 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = logFormat;
         highlightingRules.append (rule);
 
-        QTextCharFormat logFormat1;
-        logFormat1.setForeground (Magenta);
+        logFormat.setForeground (Magenta);
         rule.pattern.setPattern ("\\b(\\d{4}-\\d{2}-\\d{2}|\\d{2}/(\\d{2}|[A-Za-z]{3})/\\d{4}|\\d{4}/(\\d{2}|[A-Za-z]{3})/\\d{2}|[A-Za-z]{3}\\s+\\d{1,2})(T|\\s)\\d{2}:\\d{2}(:\\d{2}((\\+|-)\\d+)?)?(AM|PM|am|pm)?\\s+[A-Za-z0-9_]+(?=\\s|$|:)");
-        rule.format = logFormat1;
+        rule.format = logFormat;
         highlightingRules.append (rule);
 
-        QTextCharFormat logDateFormat;
-        logDateFormat.setFontWeight (QFont::Bold);
-        logDateFormat.setForeground (Blue);
+        /* date */
+        logFormat.setForeground (Blue);
         rule.pattern.setPattern ("\\b(\\d{4}-\\d{2}-\\d{2}|\\d{2}/(\\d{2}|[A-Za-z]{3})/\\d{4}|\\d{4}/(\\d{2}|[A-Za-z]{3})/\\d{2}|[A-Za-z]{3}\\s+\\d{1,2})(?=(T|\\s)\\d{2}:\\d{2}(:\\d{2}((\\+|-)\\d+)?)?(AM|PM|am|pm)?\\b)");
-        rule.format = logDateFormat;
+        rule.format = logFormat;
         highlightingRules.append (rule);
 
-        QTextCharFormat logTimeFormat;
-        logTimeFormat.setFontWeight (QFont::Bold);
-        logTimeFormat.setForeground (DarkGreenAlt);
+        /* time */
+        logFormat.setForeground (DarkGreenAlt);
         rule.pattern.setPattern ("(?<=T|\\s)\\d{2}:\\d{2}(:\\d{2}((\\+|-)\\d+)?)?(AM|PM|am|pm)?\\b");
-        rule.format = logTimeFormat;
+        rule.format = logFormat;
         highlightingRules.append (rule);
 
-        QTextCharFormat logInOutFormat;
-        logInOutFormat.setFontWeight (QFont::Bold);
-        logInOutFormat.setForeground (Brown);
+        logFormat.setForeground (Brown);
         rule.pattern.setPattern ("\\s+IN(?=\\s*\\=)|\\s+OUT(?=\\s*\\=)");
-        rule.format = logInOutFormat;
+        rule.format = logFormat;
         highlightingRules.append (rule);
 
-        QTextCharFormat logRootFormat;
-        logRootFormat.setFontWeight (QFont::Bold);
-        logRootFormat.setForeground (Red);
+        logFormat.setForeground (Red);
         rule.pattern.setPattern ("\\broot\\b");
-        rule.format = logRootFormat;
+        rule.format = logFormat;
         highlightingRules.append (rule);
     }
     else if (progLan == "srt")
@@ -2774,15 +2767,15 @@ void Highlighter::singleLineComment (const QString &text, const int start)
                 startIndex = text.indexOf (rule.pattern, startIndex);
                 /* skip quoted comments (and, automatically, those inside multiline python comments) */
                 while (startIndex > -1
-                           /* check quote formats (only for multiLineComment()) */
+                           // check quote formats (only for multiLineComment())
                        && (format (startIndex) == quoteFormat
                            || format (startIndex) == altQuoteFormat
                            || format (startIndex) == urlInsideQuoteFormat
-                           /* check whether the comment sign is quoted or inside regex */
+                           // check whether the comment sign is quoted or inside regex
                            || isQuoted (text, startIndex, false, qMax (start, 0)) || isInsideRegex (text, startIndex)
-                           /* with troff and LaTeX, the comment sign may be escaped */
+                           // with troff and LaTeX, the comment sign may be escaped
                            || ((progLan == "troff" || progLan == "LaTeX")
-                               && isEscapedChar(text, startIndex))
+                               && isEscapedChar (text, startIndex))
                            || (progLan == "tcl"
                                && text.at (startIndex) == ';'
                                && insideTclBracedVariable (text, startIndex, qMax (start, 0)))))
@@ -3563,7 +3556,7 @@ void Highlighter::setFormatWithoutOverwrite (int start,
         QTextCharFormat fi = format (index);
         while (index < start + count
                && (fi == oldFormat
-                   /* skip comments and quotes */
+                   // skip comments and quotes
                    || fi == commentFormat || fi == urlFormat
                    || fi == quoteFormat || fi == altQuoteFormat || fi == urlInsideQuoteFormat))
         {
@@ -4294,8 +4287,7 @@ void Highlighter::highlightBlock (const QString &text)
                 if (rule.format != whiteSpaceFormat)
                 {
                     while (format (index + l - 1) == commentFormat
-                           /*|| format (index + l - 1) == commentFormat
-                           || format (index + l - 1) == urlFormat
+                           /*|| format (index + l - 1) == urlFormat
                            || format (index + l - 1) == quoteFormat
                            || format (index + l - 1) == altQuoteFormat
                            || format (index + l - 1) == urlInsideQuoteFormat
