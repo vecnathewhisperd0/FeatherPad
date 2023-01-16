@@ -112,7 +112,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
                  || fname.endsWith (".rdf") || fname.endsWith (".docbook") || fname.endsWith (".fnx")
                  || fname.endsWith (".ts") || fname.endsWith (".menu") || fname.endsWith (".kml", Qt::CaseInsensitive)
                  || fname.endsWith (".xspf", Qt::CaseInsensitive) || fname.endsWith (".asx", Qt::CaseInsensitive)
-                 || fname.endsWith (".nfo")/* || fname.endsWith (".ui") || fname.endsWith (".xul")*/)
+                 || fname.endsWith (".nfo") || fname.endsWith (".dae") /* || fname.endsWith (".ui") || fname.endsWith (".xul")*/)
             progLan = "xml";
         else if (fname.endsWith (".css") || fname.endsWith (".qss"))
             progLan = "css";
