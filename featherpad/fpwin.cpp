@@ -33,6 +33,7 @@
 #include "warningbar.h"
 #include "svgicons.h"
 
+#include <QMimeDatabase>
 #include <QPrintDialog>
 #include <QToolTip>
 #include <QScreen>
@@ -1792,11 +1793,15 @@ void FPwin::updateRecenMenu()
     int recentSize = recentFiles.count();
     QFontMetrics metrics (ui->menuOpenRecently->font());
     int w = 150 * metrics.horizontalAdvance (' ');
+    QMimeDatabase mimeDatabase;
     for (int i = 0; i < recentNumber; ++i)
     {
         if (i < recentSize)
         {
             actions.at (i)->setText (metrics.elidedText (recentFiles.at (i), Qt::ElideMiddle, w));
+            auto mimes = mimeDatabase.mimeTypesForFileName (recentFiles.at (i).section ("/", -1));
+            if (!mimes.isEmpty())
+                actions.at (i)->setIcon (QIcon::fromTheme (mimes.at (0).iconName()));
             actions.at (i)->setData (recentFiles.at (i));
             actions.at (i)->setVisible (true);
         }
