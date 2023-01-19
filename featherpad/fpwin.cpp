@@ -1787,10 +1787,9 @@ void FPwin::updateRecenMenu()
 {
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
     QStringList recentFiles = config.getRecentFiles();
-    int recentNumber = config.getCurRecentFilesNumber();
-
-    QList<QAction *> actions = ui->menuOpenRecently->actions();
     int recentSize = recentFiles.count();
+    int recentNumber = config.getCurRecentFilesNumber();
+    QList<QAction*> actions = ui->menuOpenRecently->actions();
     QFontMetrics metrics (ui->menuOpenRecently->font());
     int w = 150 * metrics.horizontalAdvance (' ');
     QMimeDatabase mimeDatabase;
@@ -1808,6 +1807,7 @@ void FPwin::updateRecenMenu()
         else
         {
             actions.at (i)->setText (QString());
+            actions.at (i)->setIcon (QIcon());
             actions.at (i)->setData (QVariant());
             actions.at (i)->setVisible (false);
         }
