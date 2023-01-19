@@ -1798,9 +1798,11 @@ void FPwin::updateRecenMenu()
         if (i < recentSize)
         {
             actions.at (i)->setText (metrics.elidedText (recentFiles.at (i), Qt::ElideMiddle, w));
+            QIcon icon;
             auto mimes = mimeDatabase.mimeTypesForFileName (recentFiles.at (i).section ("/", -1));
             if (!mimes.isEmpty())
-                actions.at (i)->setIcon (QIcon::fromTheme (mimes.at (0).iconName()));
+                icon = QIcon::fromTheme (mimes.at (0).iconName());
+            actions.at (i)->setIcon (icon);
             actions.at (i)->setData (recentFiles.at (i));
             actions.at (i)->setVisible (true);
         }
