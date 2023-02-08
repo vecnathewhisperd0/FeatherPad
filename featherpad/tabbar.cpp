@@ -208,6 +208,9 @@ void TabBar::tabInserted (int/* index*/)
 /*************************/
 void TabBar::finishMouseMoveEvent()
 {
+    dragStarted_ = false;
+    dragStartPosition_ = QPoint();
+
     QMouseEvent finishingEvent (QEvent::MouseMove, QPoint(),
 #if (QT_VERSION >= QT_VERSION_CHECK(6,4,0))
                                 QCursor::pos(),
