@@ -5,6 +5,7 @@ V1.3.6
  * Highlight comments inside formulas with LaTex.
  * Use icons in the recent files menu where possible.
  * Prevent tab DND from tab close button.
+ * Focus side-pane with Ctrl+Escape.
 
 V1.3.5
 ---------

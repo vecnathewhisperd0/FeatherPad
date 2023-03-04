@@ -332,6 +332,9 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     QShortcut *focusView = new QShortcut (QKeySequence (Qt::Key_Escape), this);
     connect (focusView, &QShortcut::activated, this, &FPwin::focusView);
 
+    QShortcut *focusSidePane = new QShortcut (QKeySequence (Qt::CTRL | Qt::Key_Escape), this);
+    connect (focusSidePane, &QShortcut::activated, this, &FPwin::focusSidePane);
+
     /* this workaround, for the RTL bug in QPlainTextEdit, isn't needed
        because a better workaround is included in textedit.cpp */
     /*QShortcut *align = new QShortcut (QKeySequence (tr ("Ctrl+Shift+A", "Alignment")), this);
@@ -518,48 +521,26 @@ void FPwin::toggleSidePane()
     else
     {
         QList<int> sizes = ui->splitter->sizes();
-        if (!sidePane_->listWidget()->hasFocus())
-        {
-            if (sizes.size() == 2 && sizes.at (0) == 0) // with RTL too
-            { // first, ensure its visibility
-                sizes.clear();
-                if (config.getRemSplitterPos())
-                {
-                    sizes.append (qBound (16, config.getSplitterPos(), size().width() / 2));
-                    sizes.append (100);
-                }
-                else
-                {
-                    int s = qMin (size().width() / 5, 40 * sidePane_->fontMetrics().horizontalAdvance(' '));
-                    sizes << s << size().width() - s;
-                }
-                ui->splitter->setSizes (sizes);
-            }
-            sidePane_->listWidget()->setFocus();
-        }
-        else
-        {
-            if (config.getRemSplitterPos()) // remember the position also when the side-pane is removed
-                config.setSplitterPos (sizes.at (0));
-            sideItems_.clear();
-            delete sidePane_;
-            sidePane_ = nullptr;
-            bool hideSingleTab = config.getHideSingleTab();
-            ui->tabWidget->tabBar()->hideSingle (hideSingleTab);
-            if (!hideSingleTab || ui->tabWidget->count() > 1)
-                ui->tabWidget->tabBar()->show();
-            /* return focus to the document */
-            if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget()))
-                tabPage->textEdit()->setFocus();
+        if (config.getRemSplitterPos()) // remember the position also when the side-pane is removed
+            config.setSplitterPos (sizes.at (0));
+        sideItems_.clear();
+        delete sidePane_;
+        sidePane_ = nullptr;
+        bool hideSingleTab = config.getHideSingleTab();
+        ui->tabWidget->tabBar()->hideSingle (hideSingleTab);
+        if (!hideSingleTab || ui->tabWidget->count() > 1)
+            ui->tabWidget->tabBar()->show();
+        /* return focus to the document */
+        if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget()))
+            tabPage->textEdit()->setFocus();
 
-            disconnect(ui->actionLastTab, nullptr, this, nullptr);
-            disconnect(ui->actionFirstTab, nullptr, this, nullptr);
-            QString txt = ui->actionFirstTab->text();
-            ui->actionFirstTab->setText (ui->actionLastTab->text());
-            ui->actionLastTab->setText (txt);
-            connect (ui->actionLastTab, &QAction::triggered, this, &FPwin::lastTab);
-            connect (ui->actionFirstTab, &QAction::triggered, this, &FPwin::firstTab);
-        }
+        disconnect(ui->actionLastTab, nullptr, this, nullptr);
+        disconnect(ui->actionFirstTab, nullptr, this, nullptr);
+        QString txt = ui->actionFirstTab->text();
+        ui->actionFirstTab->setText (ui->actionLastTab->text());
+        ui->actionLastTab->setText (txt);
+        connect (ui->actionLastTab, &QAction::triggered, this, &FPwin::lastTab);
+        connect (ui->actionFirstTab, &QAction::triggered, this, &FPwin::firstTab);
     }
 }
 /*************************/
@@ -787,24 +768,29 @@ void FPwin::applyConfigOnStarting()
     if (!config.hasReservedShortcuts())
     { // the reserved shortcuts list could also be in "singleton.cpp"
         QStringList reserved;
-                    /* QPLainTextEdit */
+                    // QPLainTextEdit
         reserved << QKeySequence (Qt::CTRL | Qt::SHIFT | Qt::Key_Z).toString() << QKeySequence (Qt::CTRL | Qt::Key_Z).toString() << QKeySequence (Qt::CTRL | Qt::Key_X).toString() << QKeySequence (Qt::CTRL | Qt::Key_C).toString() << QKeySequence (Qt::CTRL | Qt::Key_V).toString() << QKeySequence (Qt::CTRL | Qt::Key_A).toString()
                  << QKeySequence (Qt::SHIFT | Qt::Key_Insert).toString() << QKeySequence (Qt::SHIFT | Qt::Key_Delete).toString() << QKeySequence (Qt::CTRL | Qt::Key_Insert).toString()
                  << QKeySequence (Qt::CTRL | Qt::Key_Left).toString() << QKeySequence (Qt::CTRL | Qt::Key_Right).toString() << QKeySequence (Qt::CTRL | Qt::Key_Up).toString() << QKeySequence (Qt::CTRL | Qt::Key_Down).toString() << QKeySequence (Qt::CTRL | Qt::Key_PageUp).toString() << QKeySequence (Qt::CTRL | Qt::Key_PageDown).toString()
                  << QKeySequence (Qt::CTRL | Qt::Key_Home).toString() << QKeySequence (Qt::CTRL | Qt::Key_End).toString()
                  << QKeySequence (Qt::CTRL | Qt::SHIFT | Qt::Key_Up).toString() << QKeySequence (Qt::CTRL | Qt::SHIFT | Qt::Key_Down).toString()
                  << QKeySequence (Qt::META | Qt::Key_Up).toString() << QKeySequence (Qt::META | Qt::Key_Down).toString() << QKeySequence (Qt::META | Qt::SHIFT | Qt::Key_Up).toString() << QKeySequence (Qt::META | Qt::SHIFT | Qt::Key_Down).toString()
-
-                    /* search and replacement */
+                    // search and replacement
                  << QKeySequence (Qt::Key_F3).toString() << QKeySequence (Qt::Key_F4).toString() << QKeySequence (Qt::Key_F5).toString() << QKeySequence (Qt::Key_F6).toString() << QKeySequence (Qt::Key_F7).toString()
                  << QKeySequence (Qt::Key_F8).toString() << QKeySequence (Qt::Key_F9).toString() << QKeySequence (Qt::Key_F10).toString()
                  << QKeySequence (Qt::Key_F11).toString()
-
-                 << QKeySequence (Qt::CTRL | Qt::Key_Equal).toString() << QKeySequence (Qt::CTRL | Qt::Key_Plus).toString() << QKeySequence (Qt::CTRL | Qt::Key_Minus).toString() << QKeySequence (Qt::CTRL | Qt::Key_0).toString() // zooming
-                 << QKeySequence (Qt::CTRL | Qt::ALT | Qt::Key_E).toString() // exiting a process
-                 << QKeySequence (Qt::SHIFT | Qt::Key_Enter).toString() << QKeySequence (Qt::SHIFT | Qt::Key_Return).toString() << QKeySequence (Qt::Key_Tab).toString() << QKeySequence (Qt::CTRL | Qt::Key_Tab).toString() << QKeySequence (Qt::CTRL | Qt::META | Qt::Key_Tab).toString() // text tabulation
-                 << QKeySequence (Qt::CTRL | Qt::SHIFT | Qt::Key_J).toString() // select text on jumping (not an action)
-                 << QKeySequence (Qt::CTRL | Qt::Key_K).toString(); // used by LineEdit as well as QPlainTextEdit
+                    // side-pane focusing
+                 << QKeySequence (Qt::CTRL | Qt::Key_Escape).toString()
+                    // zooming
+                 << QKeySequence (Qt::CTRL | Qt::Key_Equal).toString() << QKeySequence (Qt::CTRL | Qt::Key_Plus).toString() << QKeySequence (Qt::CTRL | Qt::Key_Minus).toString() << QKeySequence (Qt::CTRL | Qt::Key_0).toString()
+                    // exiting a process
+                 << QKeySequence (Qt::CTRL | Qt::ALT | Qt::Key_E).toString()
+                    // text tabulation
+                 << QKeySequence (Qt::SHIFT | Qt::Key_Enter).toString() << QKeySequence (Qt::SHIFT | Qt::Key_Return).toString() << QKeySequence (Qt::Key_Tab).toString() << QKeySequence (Qt::CTRL | Qt::Key_Tab).toString() << QKeySequence (Qt::CTRL | Qt::META | Qt::Key_Tab).toString()
+                    // select text on jumping (not an action)
+                 << QKeySequence (Qt::CTRL | Qt::SHIFT | Qt::Key_J).toString()
+                    // used by LineEdit as well as QPlainTextEdit
+                 << QKeySequence (Qt::CTRL | Qt::Key_K).toString();
         config.setReservedShortcuts (reserved);
         config.readShortcuts();
     }
@@ -1915,6 +1901,31 @@ void FPwin::focusView()
     {
         if (!tabPage->hasPopup())
             tabPage->textEdit()->setFocus();
+    }
+}
+/*************************/
+void FPwin::focusSidePane()
+{
+    if (sidePane_)
+    {
+        QList<int> sizes = ui->splitter->sizes();
+        if (sizes.size() == 2 && sizes.at (0) == 0) // with RTL too
+        { // first, ensure its visibility (see toggleSidePane())
+            sizes.clear();
+            Config config = static_cast<FPsingleton*>(qApp)->getConfig();
+            if (config.getRemSplitterPos())
+            {
+                sizes.append (qBound (16, config.getSplitterPos(), size().width() / 2));
+                sizes.append (100);
+            }
+            else
+            {
+                int s = qMin (size().width() / 5, 40 * sidePane_->fontMetrics().horizontalAdvance(' '));
+                sizes << s << size().width() - s;
+            }
+            ui->splitter->setSizes (sizes);
+        }
+        sidePane_->listWidget()->setFocus();
     }
 }
 /*************************/

@@ -159,6 +159,7 @@ private slots:
     void zoomZero();
     void defaultSize();
     void focusView();
+    void focusSidePane();
     //void align();
     void manageSessions();
     void executeProcess();
