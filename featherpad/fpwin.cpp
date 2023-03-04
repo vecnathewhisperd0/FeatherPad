@@ -1898,10 +1898,7 @@ void FPwin::defaultSize()
 void FPwin::focusView()
 {
     if (TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget()))
-    {
-        if (!tabPage->hasPopup())
-            tabPage->textEdit()->setFocus();
-    }
+        tabPage->textEdit()->setFocus();
 }
 /*************************/
 void FPwin::focusSidePane()
