@@ -932,18 +932,6 @@
         <translation>Radika Instanco</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2832"/>
-        <location filename="../../fpwin.cpp" line="3021"/>
-        <location filename="../../fpwin.cpp" line="3049"/>
-        <source>All Files (*)</source>
-        <translation>Ĉiuj Dosieroj (*)</translation>
-    </message>
-    <message>
-        <location filename="../../fpwin.cpp" line="2837"/>
-        <source>All Files (*);;.%1 Files (*.%1)</source>
-        <translation>Ĉiuj Dosieroj (*);;.%1-Dosieroj (*.%1)</translation>
-    </message>
-    <message>
         <location filename="../../fpwin.cpp" line="2841"/>
         <source>Open file...</source>
         <translation>Malfermi dosieron...</translation>
@@ -978,6 +966,15 @@
         <location filename="../../fpwin.cpp" line="3267"/>
         <source>Yes</source>
         <translation>Jes</translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="2832"/>
+        <location filename="../../fpwin.cpp" line="2837"/>
+        <location filename="../../fpwin.cpp" line="3021"/>
+        <location filename="../../fpwin.cpp" line="3027"/>
+        <location filename="../../fpwin.cpp" line="3049"/>
+        <source>All Files</source>
+        <translation>Ĉiuj Dosieroj</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="3268"/>
@@ -1186,11 +1183,6 @@
         <location filename="../../fpwin.cpp" line="2665"/>
         <source>Huge file(s) not opened!</source>
         <translation>Grandega(j) dosiero(j) ne malfermita(j)!</translation>
-    </message>
-    <message>
-        <location filename="../../fpwin.cpp" line="3027"/>
-        <source>.%1 Files (*.%1);;All Files (*)</source>
-        <translation>.%1-Dosieroj (*.%1);;Ĉiuj Dosieroj (*)</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="3270"/>
@@ -2208,8 +2200,8 @@ en la redakta reĝimo.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="1666"/>
-        <source>Hunspell Dictionary Files (*.dic)</source>
-        <translation>Hunspell-Vortaraj Dosieroj (*.dic)</translation>
+        <source>Hunspell Dictionary Files</source>
+        <translation>Hunspell-Vortaraj Dosieroj</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="458"/>

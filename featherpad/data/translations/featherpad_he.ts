@@ -972,26 +972,9 @@
         <translation>עותק משתמש על</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2832"/>
-        <location filename="../../fpwin.cpp" line="3021"/>
-        <location filename="../../fpwin.cpp" line="3049"/>
-        <source>All Files (*)</source>
-        <translation>כל הקבצים (*)</translation>
-    </message>
-    <message>
-        <location filename="../../fpwin.cpp" line="2837"/>
-        <source>All Files (*);;.%1 Files (*.%1)</source>
-        <translation>כל הקבצים (*);;קובצי ‎.%1 ‏(‎*.%1)</translation>
-    </message>
-    <message>
         <location filename="../../fpwin.cpp" line="2841"/>
         <source>Open file...</source>
         <translation>פתיחת קובץ…</translation>
-    </message>
-    <message>
-        <location filename="../../fpwin.cpp" line="3027"/>
-        <source>.%1 Files (*.%1);;All Files (*)</source>
-        <translation>קובצי ‎.%1‏ (‎*.%1);;כל הקבצים (*)</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="3078"/>
@@ -1076,6 +1059,15 @@
         <location filename="../../fpwin.cpp" line="2665"/>
         <source>Huge file(s) not opened!</source>
         <translation>קובצי ענק לא נפתחו!</translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="2832"/>
+        <location filename="../../fpwin.cpp" line="2837"/>
+        <location filename="../../fpwin.cpp" line="3021"/>
+        <location filename="../../fpwin.cpp" line="3027"/>
+        <location filename="../../fpwin.cpp" line="3049"/>
+        <source>All Files</source>
+        <translation>כל הקבצים</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="3762"/>
@@ -2204,8 +2196,8 @@ in the editing mode.</source>
     </message>
     <message>
         <location filename="../../pref.cpp" line="1666"/>
-        <source>Hunspell Dictionary Files (*.dic)</source>
-        <translation>קובצי מילון Hunspell‏ (‎*.dic)</translation>
+        <source>Hunspell Dictionary Files</source>
+        <translation>קובצי מילון Hunspell‏</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="458"/>

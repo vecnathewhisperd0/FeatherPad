@@ -972,26 +972,9 @@
         <translation>Instância root</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2832"/>
-        <location filename="../../fpwin.cpp" line="3021"/>
-        <location filename="../../fpwin.cpp" line="3049"/>
-        <source>All Files (*)</source>
-        <translation>Todos os ficheiros (*)</translation>
-    </message>
-    <message>
-        <location filename="../../fpwin.cpp" line="2837"/>
-        <source>All Files (*);;.%1 Files (*.%1)</source>
-        <translation>Todos os ficheiros (*);; Ficheiros .%1 (*.%1)</translation>
-    </message>
-    <message>
         <location filename="../../fpwin.cpp" line="2841"/>
         <source>Open file...</source>
         <translation>Abrir ficheiro...</translation>
-    </message>
-    <message>
-        <location filename="../../fpwin.cpp" line="3027"/>
-        <source>.%1 Files (*.%1);;All Files (*)</source>
-        <translation>Ficheiros .%1 (*.%1);; Todos os ficheiros (*)</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="3078"/>
@@ -1076,6 +1059,15 @@
         <location filename="../../fpwin.cpp" line="2665"/>
         <source>Huge file(s) not opened!</source>
         <translation>O(s) ficheiro(s) muito grandes não conseguem ser abertos!</translation>
+    </message>
+    <message>
+        <location filename="../../fpwin.cpp" line="2832"/>
+        <location filename="../../fpwin.cpp" line="2837"/>
+        <location filename="../../fpwin.cpp" line="3021"/>
+        <location filename="../../fpwin.cpp" line="3027"/>
+        <location filename="../../fpwin.cpp" line="3049"/>
+        <source>All Files</source>
+        <translation>Todos os ficheiros</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="3762"/>
@@ -2206,8 +2198,8 @@ no modo de edição.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="1666"/>
-        <source>Hunspell Dictionary Files (*.dic)</source>
-        <translation>Arquivos do Dicionário Hunspell (* .dic)</translation>
+        <source>Hunspell Dictionary Files</source>
+        <translation>Arquivos do Dicionário Hunspell</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="458"/>

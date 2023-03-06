@@ -987,6 +987,15 @@
         <translation>Annuler</translation>
     </message>
     <message>
+        <location filename="../../fpwin.cpp" line="2832"/>
+        <location filename="../../fpwin.cpp" line="2837"/>
+        <location filename="../../fpwin.cpp" line="3021"/>
+        <location filename="../../fpwin.cpp" line="3027"/>
+        <location filename="../../fpwin.cpp" line="3049"/>
+        <source>All Files</source>
+        <translation>Tous les fichiers</translation>
+    </message>
+    <message>
         <location filename="../../fpwin.cpp" line="3762"/>
         <source>Text tabs are converted to spaces.</source>
         <translation>Les tabulations sont converties en espaces.</translation>
@@ -1126,26 +1135,9 @@
         <translation>FeatherPad ne peut pas ouvrir les fichiers de plus de 100 Mio.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2832"/>
-        <location filename="../../fpwin.cpp" line="3021"/>
-        <location filename="../../fpwin.cpp" line="3049"/>
-        <source>All Files (*)</source>
-        <translation>Tous les fichiers (*)</translation>
-    </message>
-    <message>
-        <location filename="../../fpwin.cpp" line="2837"/>
-        <source>All Files (*);;.%1 Files (*.%1)</source>
-        <translation>Tous les fichiers (*);;.%1 Fichiers (*.%1)</translation>
-    </message>
-    <message>
         <location filename="../../fpwin.cpp" line="2841"/>
         <source>Open file...</source>
         <translation>Ouvrir fichier...</translation>
-    </message>
-    <message>
-        <location filename="../../fpwin.cpp" line="3027"/>
-        <source>.%1 Files (*.%1);;All Files (*)</source>
-        <translation>.%1 Fichiers (*.%1);;Tous les fichiers (*)</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="3078"/>
@@ -2209,8 +2201,8 @@ en mode édition.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="1666"/>
-        <source>Hunspell Dictionary Files (*.dic)</source>
-        <translation>Fichier(s) de dictionnaire(s) Hunspell (*.dic)</translation>
+        <source>Hunspell Dictionary Files</source>
+        <translation>Fichier(s) de dictionnaire(s) Hunspell</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="458"/>

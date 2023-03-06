@@ -6,6 +6,7 @@ V1.3.6
  * Use icons in the recent files menu where possible.
  * Prevent tab DND from tab close button.
  * Focus side-pane with Ctrl+Escape.
+ * Safeguard the file type filters of file dialogs from bad translations.
 
 V1.3.5
 ---------
