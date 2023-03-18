@@ -7,6 +7,7 @@ V1.3.6
  * Prevent tab DND from tab close button.
  * Focus side-pane with Ctrl+Escape.
  * Safeguard the file type filters of file dialogs from bad translations.
+ * Added `application/x-zerosize` to the desktop file (after a change in GLib).
 
 V1.3.5
 ---------
