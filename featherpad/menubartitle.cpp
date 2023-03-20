@@ -20,6 +20,7 @@
 #include "menubartitle.h"
 #include <QMenuBar>
 #include <QStyleOption>
+#include <QRegularExpression>
 
 namespace FeatherPad {
 
@@ -39,7 +40,7 @@ MenuBarTitle::MenuBarTitle (QWidget *parent, Qt::WindowFlags f)
     setFont (fnt);
 }
 /*************************/
-void MenuBarTitle::paintEvent (QPaintEvent */*event*/)
+void MenuBarTitle::paintEvent (QPaintEvent* /*event*/)
 {
     QRect cr = contentsRect().adjusted (margin(), margin(), -margin(), -margin());
     QString txt = text();
@@ -49,7 +50,7 @@ void MenuBarTitle::paintEvent (QPaintEvent */*event*/)
     {
         lastText_ = txt;
         lastWidth_ = cr.width();
-        elidedText_ = fontMetrics().elidedText (txt, Qt::ElideMiddle, cr.width());
+        elidedText_ = fontMetrics().elidedText (txt, Qt::ElideMiddle, lastWidth_);
     }
     /* ... then, draw the (elided) text */
     if (!elidedText_.isEmpty())
@@ -60,6 +61,13 @@ void MenuBarTitle::paintEvent (QPaintEvent */*event*/)
         style()->drawItemText (&painter, cr, Qt::AlignRight | Qt::AlignVCenter,
                                opt.palette, isEnabled(), elidedText_, foregroundRole());
     }
+}
+/*************************/
+void MenuBarTitle::setTitle (const QString &title)
+{
+    static const QRegularExpression tabNewline (R"([\t\n]+)");
+    QString str = title;
+    setText (str.replace(tabNewline, " "));
 }
 /*************************/
 QSize MenuBarTitle::sizeHint() const

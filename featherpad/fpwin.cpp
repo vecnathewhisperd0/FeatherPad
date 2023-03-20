@@ -570,28 +570,8 @@ void FPwin::menubarTitle (bool add, bool setTitle)
     }
     mbTitle->show(); // needed if the menubar is already visible, i.e., not at the startup
 
-    if (!setTitle) return;
-    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
-    if (tabPage == nullptr) return;
-    TextEdit *textEdit = tabPage->textEdit();
-    QString fname = textEdit->getFileName();
-    bool modified (textEdit->document()->isModified());
-    QString shownName;
-    if (fname.isEmpty())
-    {
-        if (textEdit->getProg() == "help")
-            shownName = "** " + tr ("Help") + " **";
-        else
-            shownName = tr ("Untitled");
-    }
-    else
-    {
-        shownName = (fname.contains ("/") ? fname
-                                          : QFileInfo (fname).absolutePath() + "/" + fname);
-    }
-    if (modified)
-        shownName.prepend ("*");
-    mbTitle->setText (shownName);
+    if (setTitle && ui->tabWidget->currentIndex() > -1)
+      mbTitle->setTitle (windowTitle());
 }
 /*************************/
 void FPwin::applyConfigOnStarting()
@@ -2257,8 +2237,8 @@ void FPwin::setWinTitle (const QString& title)
     setWindowTitle (title);
     if (!ui->menuBar->isHidden())
     {
-        if (auto label = qobject_cast<QLabel*>(ui->menuBar->cornerWidget()))
-            label->setText (title);
+        if (auto mbt = qobject_cast<MenuBarTitle*>(ui->menuBar->cornerWidget()))
+            mbt->setTitle (title);
     }
 }
 /*************************/
@@ -6454,8 +6434,8 @@ void FPwin::helpDoc()
     QString title = "** " + tr ("Help") + " **";
     ui->tabWidget->setTabText (index, title);
     setWindowTitle (title + "[*]");
-    if (auto label = qobject_cast<QLabel*>(ui->menuBar->cornerWidget()))
-        label->setText (title);
+    if (auto mbt = qobject_cast<MenuBarTitle*>(ui->menuBar->cornerWidget()))
+        mbt->setTitle (title);
     setWindowModified (false);
     ui->tabWidget->setTabToolTip (index, title);
     if (sidePane_)

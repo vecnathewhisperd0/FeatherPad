@@ -32,6 +32,8 @@ class MenuBarTitle : public QLabel
 public:
     MenuBarTitle (QWidget *parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
 
+    void setTitle (const QString &title);
+
     void setStart (int s) {
         start_ = s;
     }
