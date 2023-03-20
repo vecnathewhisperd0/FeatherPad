@@ -20,7 +20,6 @@
 #include "menubartitle.h"
 #include <QMenuBar>
 #include <QStyleOption>
-#include <QRegularExpression>
 
 namespace FeatherPad {
 
@@ -65,9 +64,7 @@ void MenuBarTitle::paintEvent (QPaintEvent* /*event*/)
 /*************************/
 void MenuBarTitle::setTitle (const QString &title)
 {
-    static const QRegularExpression tabNewline (R"([\t\n]+)");
-    QString str = title;
-    setText (str.replace(tabNewline, " "));
+    setText (title.simplified());
 }
 /*************************/
 QSize MenuBarTitle::sizeHint() const
