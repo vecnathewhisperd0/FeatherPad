@@ -204,6 +204,13 @@ public:
         noMenubar_ = noMB;
     }
 
+    bool getMenubarTitle() const {
+        return menubarTitle_;
+    }
+    void setMenubarTitle (bool mt) {
+        menubarTitle_ = mt;
+    }
+
     bool getHideSearchbar() const {
         return hideSearchbar_;
     }
@@ -585,6 +592,7 @@ private:
 
     bool remSize_, remPos_, remSplitterPos_,
          noToolbar_, noMenubar_,
+         menubarTitle_,
          hideSearchbar_,
          showStatusbar_, showCursorPos_, showLangSelector_,
          sidePaneMode_,

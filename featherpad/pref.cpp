@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2022 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2023 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -165,6 +165,9 @@ PrefDialog::PrefDialog (QWidget *parent)
     connect (ui->toolbarBox, &QCheckBox::stateChanged, this, &PrefDialog::prefToolbar);
     ui->menubarBox->setChecked (config.getNoMenubar());
     connect (ui->menubarBox, &QCheckBox::stateChanged, this, &PrefDialog::prefMenubar);
+
+    ui->menubarTitleBox->setChecked (config.getMenubarTitle());
+    connect (ui->menubarTitleBox, &QCheckBox::stateChanged, this, &PrefDialog::prefMenubarTitle);
 
     ui->searchbarBox->setChecked (config.getHideSearchbar());
     connect (ui->searchbarBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSearchbar);
@@ -677,6 +680,7 @@ void PrefDialog::prefMenubar (int checked)
         config.setNoMenubar (true);
         for (int i = 0; i < singleton->Wins.count(); ++i)
         {
+            singleton->Wins.at (i)->menubarTitle (false);
             singleton->Wins.at (i)->ui->menuBar->setVisible (false);
             singleton->Wins.at (i)->ui->actionMenu->setVisible (true);
         }
@@ -688,6 +692,32 @@ void PrefDialog::prefMenubar (int checked)
         {
             singleton->Wins.at (i)->ui->menuBar->setVisible (true);
             singleton->Wins.at (i)->ui->actionMenu->setVisible (false);
+            if (config.getMenubarTitle())
+                singleton->Wins.at (i)->menubarTitle (true, true);
+        }
+    }
+}
+/*************************/
+void PrefDialog::prefMenubarTitle (int checked)
+{
+    FPsingleton *singleton = static_cast<FPsingleton*>(qApp);
+    Config& config = singleton->getConfig();
+    if (checked == Qt::Checked)
+    {
+        config.setMenubarTitle (true);
+        if (!config.getNoMenubar())
+        {
+            for (int i = 0; i < singleton->Wins.count(); ++i)
+                singleton->Wins.at (i)->menubarTitle (true, true);
+        }
+    }
+    else if (checked == Qt::Unchecked)
+    {
+        config.setMenubarTitle (false);
+        if (!config.getNoMenubar())
+        {
+            for (int i = 0; i < singleton->Wins.count(); ++i)
+                singleton->Wins.at (i)->menubarTitle (false);
         }
     }
 }

@@ -83,6 +83,7 @@ Config::Config():
     remSplitterPos_ (true),
     noToolbar_ (false),
     noMenubar_ (false),
+    menubarTitle_ (false),
     hideSearchbar_ (false),
     showStatusbar_ (true),
     showCursorPos_ (false),
@@ -191,6 +192,9 @@ void Config::readConfig()
         noToolbar_ = false;
         noMenubar_ = true;
     }
+
+    if (settings.value ("menubarTitle").toBool())
+        menubarTitle_ = true; // false by default
 
     if (settings.value ("hideSearchbar").toBool())
         hideSearchbar_ = true; // false by default
@@ -490,6 +494,7 @@ void Config::writeConfig()
     settings.setValue ("startSize", startSize_);
     settings.setValue ("noToolbar", noToolbar_);
     settings.setValue ("noMenubar", noMenubar_);
+    settings.setValue ("menubarTitle", menubarTitle_);
     settings.setValue ("hideSearchbar", hideSearchbar_);
     settings.setValue ("showStatusbar", showStatusbar_);
     settings.setValue ("showCursorPos", showCursorPos_);

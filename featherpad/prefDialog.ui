@@ -213,6 +213,13 @@ a menu button appears on the toolbar.</string>
                </widget>
               </item>
               <item>
+               <widget class="QCheckBox" name="menubarTitleBox">
+                <property name="text">
+                 <string>Show window title on menubar</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QCheckBox" name="accelBox">
                 <property name="toolTip">
                  <string>Menubar accelerators are activated by Alt

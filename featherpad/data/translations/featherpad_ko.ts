@@ -12,18 +12,19 @@
 <context>
     <name>FeatherPad::FPwin</name>
     <message>
-        <location filename="../../fpwin.cpp" line="483"/>
-        <location filename="../../fpwin.cpp" line="1565"/>
-        <location filename="../../fpwin.cpp" line="1627"/>
-        <location filename="../../fpwin.cpp" line="2213"/>
-        <location filename="../../fpwin.cpp" line="2275"/>
-        <location filename="../../fpwin.cpp" line="3040"/>
-        <location filename="../../fpwin.cpp" line="3060"/>
-        <location filename="../../fpwin.cpp" line="3063"/>
-        <location filename="../../fpwin.cpp" line="4014"/>
-        <location filename="../../fpwin.cpp" line="4767"/>
-        <location filename="../../fpwin.cpp" line="5061"/>
-        <location filename="../../fpwin.cpp" line="5320"/>
+        <location filename="../../fpwin.cpp" line="484"/>
+        <location filename="../../fpwin.cpp" line="585"/>
+        <location filename="../../fpwin.cpp" line="1618"/>
+        <location filename="../../fpwin.cpp" line="1680"/>
+        <location filename="../../fpwin.cpp" line="2276"/>
+        <location filename="../../fpwin.cpp" line="2338"/>
+        <location filename="../../fpwin.cpp" line="3103"/>
+        <location filename="../../fpwin.cpp" line="3123"/>
+        <location filename="../../fpwin.cpp" line="3126"/>
+        <location filename="../../fpwin.cpp" line="4079"/>
+        <location filename="../../fpwin.cpp" line="4832"/>
+        <location filename="../../fpwin.cpp" line="5126"/>
+        <location filename="../../fpwin.cpp" line="5385"/>
         <source>Untitled</source>
         <translation>제목 없음</translation>
     </message>
@@ -66,9 +67,9 @@
         <translation>옵션(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1588"/>
-        <location filename="../../fpwin.cpp" line="2938"/>
-        <location filename="../../fpwin.cpp" line="4577"/>
+        <location filename="../../fpwin.cpp" line="1641"/>
+        <location filename="../../fpwin.cpp" line="3001"/>
+        <location filename="../../fpwin.cpp" line="4642"/>
         <source>Encoding</source>
         <translation>인코딩</translation>
     </message>
@@ -135,7 +136,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="522"/>
-        <location filename="../../fpwin.cpp" line="1363"/>
+        <location filename="../../fpwin.cpp" line="1416"/>
         <source>&amp;Save</source>
         <translation>저장(&amp;S)</translation>
     </message>
@@ -610,7 +611,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="345"/>
-        <location filename="../../fpwin.cpp" line="4117"/>
+        <location filename="../../fpwin.cpp" line="4182"/>
         <location filename="../../replace.cpp" line="61"/>
         <location filename="../../replace.cpp" line="113"/>
         <source>Replacement</source>
@@ -777,450 +778,451 @@
         <translation>메뉴</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="103"/>
+        <location filename="../../fpwin.cpp" line="104"/>
         <source>Calculate number of words
 (For huge texts, this may be CPU-intensive.)</source>
         <translation>단어 수 계산
 (텍스트 양이 많을 경우 CPU에 부하가 걸릴 수 있습니다.)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="118"/>
+        <location filename="../../fpwin.cpp" line="119"/>
         <source>Next</source>
         <translation>다음</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="119"/>
+        <location filename="../../fpwin.cpp" line="120"/>
         <source>Previous</source>
         <translation>이전</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="120"/>
+        <location filename="../../fpwin.cpp" line="121"/>
         <source>Replace all</source>
         <translation>모두 바꾸기</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="623"/>
+        <location filename="../../fpwin.cpp" line="676"/>
         <source>&amp;Recently Opened</source>
         <translation>최근 열어본 파일(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2053"/>
+        <location filename="../../fpwin.cpp" line="2106"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1349"/>
+        <location filename="../../fpwin.cpp" line="1402"/>
         <source>Save changes?</source>
         <translation>변경된 내용을 저장하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="993"/>
+        <location filename="../../fpwin.cpp" line="1046"/>
         <source>Please attend to that window or just close its dialog!</source>
         <translation>해당 창을 확인하거나 대화 상자를 닫으십시오!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1353"/>
+        <location filename="../../fpwin.cpp" line="1406"/>
         <source>The document has been modified.</source>
         <translation>이 문서는 변경됩니다.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1364"/>
+        <location filename="../../fpwin.cpp" line="1417"/>
         <source>&amp;Discard changes</source>
         <translation>변경 사항을 취소(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1365"/>
+        <location filename="../../fpwin.cpp" line="1418"/>
         <source>&amp;Cancel</source>
         <translation>취소(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1367"/>
+        <location filename="../../fpwin.cpp" line="1420"/>
         <source>&amp;No to all</source>
         <translation>모두 아니요(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1570"/>
-        <location filename="../../fpwin.cpp" line="1628"/>
+        <location filename="../../fpwin.cpp" line="1623"/>
+        <location filename="../../fpwin.cpp" line="1681"/>
         <source>Unsaved</source>
         <translation>저장 안 됨</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1589"/>
-        <location filename="../../fpwin.cpp" line="2940"/>
-        <location filename="../../fpwin.cpp" line="3663"/>
-        <location filename="../../fpwin.cpp" line="3674"/>
-        <location filename="../../fpwin.cpp" line="3681"/>
-        <location filename="../../fpwin.cpp" line="4582"/>
-        <location filename="../../fpwin.cpp" line="6173"/>
-        <location filename="../../fpwin.cpp" line="6184"/>
-        <location filename="../../fpwin.cpp" line="6191"/>
+        <location filename="../../fpwin.cpp" line="1642"/>
+        <location filename="../../fpwin.cpp" line="3003"/>
+        <location filename="../../fpwin.cpp" line="3726"/>
+        <location filename="../../fpwin.cpp" line="3737"/>
+        <location filename="../../fpwin.cpp" line="3744"/>
+        <location filename="../../fpwin.cpp" line="4647"/>
+        <location filename="../../fpwin.cpp" line="6238"/>
+        <location filename="../../fpwin.cpp" line="6249"/>
+        <location filename="../../fpwin.cpp" line="6256"/>
         <source>Lines</source>
         <translation>줄</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1590"/>
-        <location filename="../../fpwin.cpp" line="4583"/>
-        <location filename="../../fpwin.cpp" line="4598"/>
+        <location filename="../../fpwin.cpp" line="1643"/>
+        <location filename="../../fpwin.cpp" line="4648"/>
+        <location filename="../../fpwin.cpp" line="4663"/>
         <source>Sel. Chars</source>
         <translation>선택된 문자수</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1591"/>
-        <location filename="../../fpwin.cpp" line="4585"/>
-        <location filename="../../fpwin.cpp" line="4599"/>
+        <location filename="../../fpwin.cpp" line="1644"/>
+        <location filename="../../fpwin.cpp" line="4650"/>
+        <location filename="../../fpwin.cpp" line="4664"/>
         <source>Words</source>
         <translation>단어</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1946"/>
+        <location filename="../../fpwin.cpp" line="1999"/>
         <source>Another process is running in this tab!</source>
         <translation>다른 프로세스가 이 탭에 실행 중입니다!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2044"/>
+        <location filename="../../fpwin.cpp" line="2097"/>
         <source>Script File</source>
         <translation>스크립트 파일</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="992"/>
+        <location filename="../../fpwin.cpp" line="1045"/>
         <source>Another FeatherPad window has a modal dialog!</source>
         <translation>다른 FeatherPad 윈도우에 대화 상자가 열려있습니다!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="829"/>
-        <location filename="../../fpwin.cpp" line="4624"/>
+        <location filename="../../fpwin.cpp" line="882"/>
+        <location filename="../../fpwin.cpp" line="4689"/>
         <source>Position:</source>
         <translation>위치:</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="877"/>
-        <location filename="../../fpwin.cpp" line="4642"/>
-        <location filename="../../fpwin.cpp" line="4662"/>
+        <location filename="../../fpwin.cpp" line="930"/>
+        <location filename="../../fpwin.cpp" line="4707"/>
+        <location filename="../../fpwin.cpp" line="4727"/>
         <source>Normal</source>
         <translation>일반</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1351"/>
-        <location filename="../../fpwin.cpp" line="2709"/>
-        <location filename="../../fpwin.cpp" line="5983"/>
+        <location filename="../../fpwin.cpp" line="1404"/>
+        <location filename="../../fpwin.cpp" line="2772"/>
+        <location filename="../../fpwin.cpp" line="6048"/>
         <source>The file does not exist.</source>
         <translation>파일이 존재하지 않습니다.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1720"/>
+        <location filename="../../fpwin.cpp" line="1773"/>
         <source>Open Link</source>
         <translation>링크 열</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1733"/>
+        <location filename="../../fpwin.cpp" line="1786"/>
         <source>Copy Link</source>
         <translation>링크 복사</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1947"/>
+        <location filename="../../fpwin.cpp" line="2000"/>
         <source>Only one process is allowed per tab.</source>
         <translation>한 탭에 하나의 프로세스만 허용됩니다.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2040"/>
+        <location filename="../../fpwin.cpp" line="2093"/>
         <source>Script Output</source>
         <translation>스크립트 출력</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2056"/>
+        <location filename="../../fpwin.cpp" line="2109"/>
         <source>Clear</source>
         <translation>지우기</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2666"/>
+        <location filename="../../fpwin.cpp" line="2729"/>
         <source>FeatherPad does not open files larger than 100 MiB.</source>
         <translation>FeatherPad는 100 MiB 이상의 파일을 열 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2674"/>
+        <location filename="../../fpwin.cpp" line="2737"/>
         <source>Non-text file(s) not opened!</source>
         <translation>텍스트가 아닌 파일은 열 수 없습니다!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2675"/>
+        <location filename="../../fpwin.cpp" line="2738"/>
         <source>See Preferences → Files → Do not permit opening of non-text files</source>
         <translation>속성 → 파일 → 텍스트가 아닌 파일을 열지 않기 항목을 확인하세요</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2684"/>
+        <location filename="../../fpwin.cpp" line="2747"/>
         <source>Some file(s) could not be opened!</source>
         <translation>일부 파일이 열리지 않았습니다!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2685"/>
+        <location filename="../../fpwin.cpp" line="2748"/>
         <source>You may not have the permission to read.</source>
         <translation>파일을 읽을 수 있는 권한이 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2695"/>
+        <location filename="../../fpwin.cpp" line="2758"/>
         <source>Uneditable file(s)!</source>
         <translation>수정할 수 없는 파일입니다!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2696"/>
+        <location filename="../../fpwin.cpp" line="2759"/>
         <source>Non-text files or files with huge lines cannot be edited.</source>
         <translation>텍스트 파일이 아니거나 긴 줄을 포함하는 파일은 편집할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2760"/>
+        <location filename="../../fpwin.cpp" line="2823"/>
         <source>Root Instance</source>
         <translation>루트 인스턴스</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2841"/>
+        <location filename="../../fpwin.cpp" line="2904"/>
         <source>Open file...</source>
         <translation>파일 열기...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3078"/>
-        <location filename="../../fpwin.cpp" line="3116"/>
+        <location filename="../../fpwin.cpp" line="3141"/>
+        <location filename="../../fpwin.cpp" line="3179"/>
         <source>Save as...</source>
         <translation>다른 이름으로 저장...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3152"/>
+        <location filename="../../fpwin.cpp" line="3215"/>
         <source>Keep encoding and save as...</source>
         <translation>인코딩을 유지하고 다른 이름으로 저장...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3487"/>
+        <location filename="../../fpwin.cpp" line="3550"/>
         <source>Saving as root.</source>
         <translation>루트로 저장중입니다.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3488"/>
+        <location filename="../../fpwin.cpp" line="3551"/>
         <source>Waiting for authentication...</source>
         <translation>인증을 기다리는 중...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3607"/>
+        <location filename="../../fpwin.cpp" line="3670"/>
         <source>&quot;pkexec&quot; is not found. Please install Polkit!</source>
         <translation>&quot;pkexec&quot;을 찾을 수 없습니다. Polkit를 설치하십시오!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3267"/>
+        <location filename="../../fpwin.cpp" line="3330"/>
         <source>Yes</source>
         <translation>예</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3268"/>
+        <location filename="../../fpwin.cpp" line="3331"/>
         <source>No</source>
         <translation>아니오</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3269"/>
+        <location filename="../../fpwin.cpp" line="3332"/>
         <source>Cancel</source>
         <translation>취소</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3270"/>
+        <location filename="../../fpwin.cpp" line="3333"/>
         <source>Do you want to use &lt;b&gt;MS Windows&lt;/b&gt; end-of-lines?</source>
         <translation>&lt;b&gt;MS Windows&lt;/b&gt;의 EOL(end-of-lines)를 사용하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3271"/>
+        <location filename="../../fpwin.cpp" line="3334"/>
         <source>This may be good for readability under MS Windows.</source>
         <translation>MS Windows에서의 가독성이 더 높아질 것입니다.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3384"/>
-        <location filename="../../fpwin.cpp" line="3502"/>
-        <location filename="../../fpwin.cpp" line="3606"/>
-        <location filename="../../fpwin.cpp" line="3618"/>
+        <location filename="../../fpwin.cpp" line="3447"/>
+        <location filename="../../fpwin.cpp" line="3565"/>
+        <location filename="../../fpwin.cpp" line="3669"/>
+        <location filename="../../fpwin.cpp" line="3681"/>
         <source>Cannot be saved!</source>
         <translation>저장되지 않음!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="481"/>
-        <location filename="../../fpwin.cpp" line="4012"/>
-        <location filename="../../fpwin.cpp" line="5059"/>
-        <location filename="../../fpwin.cpp" line="5318"/>
-        <location filename="../../fpwin.cpp" line="6389"/>
+        <location filename="../../fpwin.cpp" line="482"/>
+        <location filename="../../fpwin.cpp" line="583"/>
+        <location filename="../../fpwin.cpp" line="4077"/>
+        <location filename="../../fpwin.cpp" line="5124"/>
+        <location filename="../../fpwin.cpp" line="5383"/>
+        <location filename="../../fpwin.cpp" line="6454"/>
         <source>Help</source>
         <translation>도움말</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3659"/>
-        <location filename="../../fpwin.cpp" line="3665"/>
-        <location filename="../../fpwin.cpp" line="3673"/>
-        <location filename="../../fpwin.cpp" line="4580"/>
-        <location filename="../../fpwin.cpp" line="6169"/>
-        <location filename="../../fpwin.cpp" line="6175"/>
-        <location filename="../../fpwin.cpp" line="6183"/>
+        <location filename="../../fpwin.cpp" line="3722"/>
+        <location filename="../../fpwin.cpp" line="3728"/>
+        <location filename="../../fpwin.cpp" line="3736"/>
+        <location filename="../../fpwin.cpp" line="4645"/>
+        <location filename="../../fpwin.cpp" line="6234"/>
+        <location filename="../../fpwin.cpp" line="6240"/>
+        <location filename="../../fpwin.cpp" line="6248"/>
         <source>Syntax</source>
         <translation>문법</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2665"/>
+        <location filename="../../fpwin.cpp" line="2728"/>
         <source>Huge file(s) not opened!</source>
         <translation>양이 많은 파일은 열 수 없습니다!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2832"/>
-        <location filename="../../fpwin.cpp" line="2837"/>
-        <location filename="../../fpwin.cpp" line="3021"/>
-        <location filename="../../fpwin.cpp" line="3027"/>
-        <location filename="../../fpwin.cpp" line="3049"/>
+        <location filename="../../fpwin.cpp" line="2895"/>
+        <location filename="../../fpwin.cpp" line="2900"/>
+        <location filename="../../fpwin.cpp" line="3084"/>
+        <location filename="../../fpwin.cpp" line="3090"/>
+        <location filename="../../fpwin.cpp" line="3112"/>
         <source>All Files</source>
         <translation>모든 파일</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3762"/>
+        <location filename="../../fpwin.cpp" line="3825"/>
         <source>Text tabs are converted to spaces.</source>
         <translation>텍스트 탭 공간으로 변환됩니다.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3864"/>
+        <location filename="../../fpwin.cpp" line="3927"/>
         <source>The selected text was too long.</source>
         <translation>선택한 텍스트가 너무 깁니다.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3865"/>
+        <location filename="../../fpwin.cpp" line="3928"/>
         <source>It is not fully processed.</source>
         <translation>완전히 처리되지 않았습니다.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4024"/>
-        <location filename="../../fpwin.cpp" line="4257"/>
+        <location filename="../../fpwin.cpp" line="4089"/>
+        <location filename="../../fpwin.cpp" line="4322"/>
         <source>This file has been modified elsewhere or in another way!</source>
         <translation>이 파일은 다른 곳이나 다른 방법으로 수정되었습니다!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4025"/>
-        <location filename="../../fpwin.cpp" line="4258"/>
+        <location filename="../../fpwin.cpp" line="4090"/>
+        <location filename="../../fpwin.cpp" line="4323"/>
         <source>Please be careful about reloading or saving this document!</source>
         <translation>이 문서를 다시 불러오거나 저장합니다!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4733"/>
+        <location filename="../../fpwin.cpp" line="4798"/>
         <source>Printing in progress...</source>
         <translation>진행 중인 인쇄...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4784"/>
+        <location filename="../../fpwin.cpp" line="4849"/>
         <source>Print Document</source>
         <translation>인쇄 문서</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4790"/>
+        <location filename="../../fpwin.cpp" line="4855"/>
         <source>Printing completed.</source>
         <translation>인쇄가 완료되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5447"/>
-        <location filename="../../fpwin.cpp" line="5571"/>
+        <location filename="../../fpwin.cpp" line="5512"/>
+        <location filename="../../fpwin.cpp" line="5636"/>
         <source>%1 Pages</source>
         <translation>%1 페이지</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5478"/>
-        <location filename="../../fpwin.cpp" line="5607"/>
+        <location filename="../../fpwin.cpp" line="5543"/>
+        <location filename="../../fpwin.cpp" line="5672"/>
         <source>Copy Target Path</source>
         <translation>복사 대상 경로</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5482"/>
-        <location filename="../../fpwin.cpp" line="5611"/>
+        <location filename="../../fpwin.cpp" line="5547"/>
+        <location filename="../../fpwin.cpp" line="5676"/>
         <source>Open Target Here</source>
         <translation>이 경로에 열기</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5501"/>
-        <location filename="../../fpwin.cpp" line="5631"/>
+        <location filename="../../fpwin.cpp" line="5566"/>
+        <location filename="../../fpwin.cpp" line="5696"/>
         <source>Copy Final Target Path</source>
         <translation>최종 대상 경로 복사</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5505"/>
-        <location filename="../../fpwin.cpp" line="5635"/>
+        <location filename="../../fpwin.cpp" line="5570"/>
+        <location filename="../../fpwin.cpp" line="5700"/>
         <source>Open Final Target Here</source>
         <translation>여기에서 최종 대상 열기</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5525"/>
-        <location filename="../../fpwin.cpp" line="5656"/>
+        <location filename="../../fpwin.cpp" line="5590"/>
+        <location filename="../../fpwin.cpp" line="5721"/>
         <source>Open Containing Folder</source>
         <translation>포함하는 폴더 열기</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5779"/>
+        <location filename="../../fpwin.cpp" line="5844"/>
         <source>You need to add a Hunspell dictionary.</source>
         <translation>Hunspell 사전을 추가해야 합니다.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5780"/>
-        <location filename="../../fpwin.cpp" line="5787"/>
-        <location filename="../../fpwin.cpp" line="5797"/>
+        <location filename="../../fpwin.cpp" line="5845"/>
+        <location filename="../../fpwin.cpp" line="5852"/>
+        <location filename="../../fpwin.cpp" line="5862"/>
         <source>See Preferences → Text → Spell Checking!</source>
         <translation>속성 → 텍스트 → 맞춤법 검사를 확인하세요!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5786"/>
+        <location filename="../../fpwin.cpp" line="5851"/>
         <source>The Hunspell dictionary does not exist.</source>
         <translation>Hunspell 사전이 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5796"/>
+        <location filename="../../fpwin.cpp" line="5861"/>
         <source>The Hunspell dictionary is not accompanied by an affix file.</source>
         <translation>Hunspell 사전은 접미사 파일파일이 동반되지 않습니다.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5819"/>
-        <location filename="../../fpwin.cpp" line="5837"/>
-        <location filename="../../fpwin.cpp" line="5852"/>
+        <location filename="../../fpwin.cpp" line="5884"/>
+        <location filename="../../fpwin.cpp" line="5902"/>
+        <location filename="../../fpwin.cpp" line="5917"/>
         <source>No misspelling in document.</source>
         <translation>이 문서에 잘못된 표현이 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5821"/>
-        <location filename="../../fpwin.cpp" line="5839"/>
-        <location filename="../../fpwin.cpp" line="5854"/>
+        <location filename="../../fpwin.cpp" line="5886"/>
+        <location filename="../../fpwin.cpp" line="5904"/>
+        <location filename="../../fpwin.cpp" line="5919"/>
         <source>No misspelling from text cursor.</source>
         <translation>이 커서의 위치에 잘못된 표현이 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5870"/>
+        <location filename="../../fpwin.cpp" line="5935"/>
         <source>Spell Checking</source>
         <translation>맞춤법 검사</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6207"/>
+        <location filename="../../fpwin.cpp" line="6272"/>
         <source>Some files cannot be saved!</source>
         <translation>일부 파일이 저장되지 않았습니다!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6250"/>
+        <location filename="../../fpwin.cpp" line="6315"/>
         <source>Translators</source>
         <translation>번역</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6246"/>
+        <location filename="../../fpwin.cpp" line="6311"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translation>가볍고, 탭이 있는 텍스트 에디터</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6247"/>
+        <location filename="../../fpwin.cpp" line="6312"/>
         <source>based on Qt</source>
         <translation>Qt에 기반함</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6248"/>
+        <location filename="../../fpwin.cpp" line="6313"/>
         <source>Author</source>
         <translation>저자</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6249"/>
+        <location filename="../../fpwin.cpp" line="6314"/>
         <source>aka.</source>
         <translation>일명.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6250"/>
-        <location filename="../../fpwin.cpp" line="6251"/>
+        <location filename="../../fpwin.cpp" line="6315"/>
+        <location filename="../../fpwin.cpp" line="6316"/>
         <source>About FeatherPad</source>
         <translation>FeatherPad 정보</translation>
     </message>
@@ -1430,86 +1432,91 @@ a menu button appears on the toolbar.</source>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="218"/>
+        <source>Show window title on menubar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../prefDialog.ui" line="225"/>
         <source>Menubar accelerators are activated by Alt
 and may interfere with customized shortcuts.</source>
         <translation>메뉴 모음 가속기는 Alt에 의해 활성화되며
 사용자 정의 단축키를 방해할 수 있습니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="222"/>
+        <location filename="../../prefDialog.ui" line="229"/>
         <source>Disable menubar accelerators</source>
         <translation>메뉴 모음 가속기 비활성화</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="229"/>
+        <location filename="../../prefDialog.ui" line="236"/>
         <source>Internal icons are used by default.</source>
         <translation>기본적으로 내부 아이콘이 사용됩니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="232"/>
+        <location filename="../../prefDialog.ui" line="239"/>
         <source>Use system icons where possible</source>
         <translation>가능한 경우 시스템 아이콘 사용</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="239"/>
+        <location filename="../../prefDialog.ui" line="246"/>
         <source>Hide search &amp;bar by default</source>
         <translation>기본적으로 검색창 숨김(&amp;B)</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="246"/>
+        <location filename="../../prefDialog.ui" line="253"/>
         <source>By default, each search entry
 has a separate search history.</source>
         <translation>기본적으로 각 검색 항목에는
 별도의 검색 기록이 있습니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="250"/>
+        <location filename="../../prefDialog.ui" line="257"/>
         <source>Use a shared search history</source>
         <translation>공유 검색 기록 사용</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="257"/>
+        <location filename="../../prefDialog.ui" line="264"/>
         <source>Always show st&amp;atus bar</source>
         <translation>항상 상태 표시줄 표시(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="282"/>
+        <location filename="../../prefDialog.ui" line="289"/>
         <source>Show cursor position on status bar</source>
         <translation>상태 표시줄에 커서 위치 표시</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="293"/>
-        <location filename="../../prefDialog.ui" line="303"/>
+        <location filename="../../prefDialog.ui" line="300"/>
+        <location filename="../../prefDialog.ui" line="310"/>
         <source>Will take effect after closing this dialog.</source>
         <translation>이 대화 상자를 닫은 후에 적용됩니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="296"/>
+        <location filename="../../prefDialog.ui" line="303"/>
         <source>Tab position: </source>
         <translation>탭 위치: </translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="307"/>
+        <location filename="../../prefDialog.ui" line="314"/>
         <source>North</source>
         <translation>북</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="312"/>
+        <location filename="../../prefDialog.ui" line="319"/>
         <source>South</source>
         <translation>남</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="317"/>
+        <location filename="../../prefDialog.ui" line="324"/>
         <source>West</source>
         <translation>서</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="322"/>
+        <location filename="../../prefDialog.ui" line="329"/>
         <source>East</source>
         <translation>동</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="348"/>
+        <location filename="../../prefDialog.ui" line="355"/>
         <source>This means that, for LTR, Alt+Right goes to the first tab
 after the last tab is activated, and the same for Alt+Left.
 
@@ -1521,17 +1528,17 @@ Tab navigation with mouse wheel is not affected.</source>
 마우스 휠을 사용한 탭 탐색은 영향을 받지 않습니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="354"/>
+        <location filename="../../prefDialog.ui" line="361"/>
         <source>Tab navigation wraps &amp;around</source>
         <translation>탭 탐색 둘러보기(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="374"/>
+        <location filename="../../prefDialog.ui" line="381"/>
         <source>Close window on closing its last tab</source>
         <translation>마지막 탭을 닫을 때 창 닫기</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="381"/>
+        <location filename="../../prefDialog.ui" line="388"/>
         <source>By default, if a FeatherPad window exists on the
 current desktop, files will be opened in its tabs.
 
@@ -1544,12 +1551,12 @@ report that they have multiple desktops.</source>
 있다고 보고하지 않을 수 있습니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="388"/>
+        <location filename="../../prefDialog.ui" line="395"/>
         <source>Always open in separate windows</source>
         <translation>항상 별도의 창에서 열기</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="395"/>
+        <location filename="../../prefDialog.ui" line="402"/>
         <source>If this is checked, the file dialog provided by the current
 desktop environment will be used instead of the Qt file dialog.
 
@@ -1561,32 +1568,32 @@ KDE 및 LXQt와 같은 일부 데스크톱 환경에서는
 파일 대화상자를 제공합니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="401"/>
+        <location filename="../../prefDialog.ui" line="408"/>
         <source>Native file dialog</source>
         <translation>기본 파일 대화상자</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="477"/>
+        <location filename="../../prefDialog.ui" line="484"/>
         <source>Uncheck for Monospace.</source>
         <translation>고정 너비의 선택을 취소합니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="480"/>
+        <location filename="../../prefDialog.ui" line="487"/>
         <source>Remember &amp;font</source>
         <translation>글꼴 기억(&amp;F)</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="501"/>
+        <location filename="../../prefDialog.ui" line="508"/>
         <source>This covers parentheses, braces, brackets and quotes.</source>
         <translation>여기에는 괄호, 중괄호, 대괄호 및 따옴표가 포함됩니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="504"/>
+        <location filename="../../prefDialog.ui" line="511"/>
         <source>Auto-&amp;bracket</source>
         <translation>자동 대괄호(&amp;B)</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="511"/>
+        <location filename="../../prefDialog.ui" line="518"/>
         <source>By default, a triple period is replaced with an ellipsis
 and a double hyphen with a long dash while typing,
 under proper circumstances.</source>
@@ -1595,114 +1602,114 @@ under proper circumstances.</source>
 긴 대시로 바뀝니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="516"/>
+        <location filename="../../prefDialog.ui" line="523"/>
         <source>Replace triple periods and double hyphens while typing</source>
         <translation>입력하는 동안 세 개의 마침표와 이중 하이픈 바꾸기</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="530"/>
+        <location filename="../../prefDialog.ui" line="537"/>
         <source>Highlight case-sensitive and whole matches
 of the selected text.</source>
         <translation>선택한 텍스트의 대소문자 구분 및 전체 일치를
 강조 표시합니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="534"/>
+        <location filename="../../prefDialog.ui" line="541"/>
         <source>Selection highlighting</source>
         <translation>선택 강조 표시</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="597"/>
+        <location filename="../../prefDialog.ui" line="604"/>
         <source>Never highlight syntax for files &gt; </source>
         <translation>파일 구문을 강조 표시하지 않음 &gt; </translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="566"/>
+        <location filename="../../prefDialog.ui" line="573"/>
         <source>This creates a menu button on the
 status bar for changing the syntax.</source>
         <translation>이렇게 하면 구문을 변경하기 위한
 상태 표시줄에 메뉴 버튼이 만들어집니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="570"/>
+        <location filename="../../prefDialog.ui" line="577"/>
         <source>Support syntax override</source>
         <translation>구문 재정의 지원</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="635"/>
+        <location filename="../../prefDialog.ui" line="642"/>
         <source>Show spaces, tabs and tab lines
 when the syntax is highlighted.</source>
         <translation>구문이 강조 표시되면 공백,
 탭 및 탭 줄을 표시합니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="639"/>
+        <location filename="../../prefDialog.ui" line="646"/>
         <source>Show whitespaces</source>
         <translation>공백 표시</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="655"/>
-        <location filename="../../prefDialog.ui" line="666"/>
+        <location filename="../../prefDialog.ui" line="662"/>
+        <location filename="../../prefDialog.ui" line="673"/>
         <source>The vertical position lines will be drawn only if
 the editor font has a fixed pitch (like Monospace).</source>
         <translation>편집기 글꼴에 고정된 피치가 있는 경우에만
 (예: 고정 너비)수직 위치선이 그려집니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="659"/>
+        <location filename="../../prefDialog.ui" line="666"/>
         <source>Show vertical lines starting from this position:</source>
         <translation>이 위치에서 시작하는 수직선 표시:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="646"/>
+        <location filename="../../prefDialog.ui" line="653"/>
         <source>Also show line and document ends</source>
         <translation>줄과 문서 끝도 표시</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="785"/>
+        <location filename="../../prefDialog.ui" line="792"/>
         <source>Date and time format:</source>
         <translation>날짜 및 시간 형식:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="855"/>
+        <location filename="../../prefDialog.ui" line="862"/>
         <source>Some text editors cannot open a document
 whose last line is not empty.</source>
         <translation>일부 텍스트 편집기는 마지막 줄이 비어 있지
 않은 문서를 열 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="859"/>
+        <location filename="../../prefDialog.ui" line="866"/>
         <source>Ensure an empty last line on saving</source>
         <translation>저장할 때 빈 마지막 줄 확인</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="866"/>
+        <location filename="../../prefDialog.ui" line="873"/>
         <source>Remove trailing spaces on saving</source>
         <translation>저장할 때 후행 공백 제거</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="884"/>
+        <location filename="../../prefDialog.ui" line="891"/>
         <source>Inertial scrolling with mouse wheel</source>
         <translation>마우스 휠을 사용한 관성 스크롤</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="973"/>
+        <location filename="../../prefDialog.ui" line="980"/>
         <source>Files</source>
         <translation>파일</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="979"/>
+        <location filename="../../prefDialog.ui" line="986"/>
         <source>File Management</source>
         <translation>파일 관리</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1096"/>
+        <location filename="../../prefDialog.ui" line="1103"/>
         <source>Start with files of last window</source>
         <translation>마지막 창의 파일로 시작</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1138"/>
-        <location filename="../../prefDialog.ui" line="1157"/>
+        <location filename="../../prefDialog.ui" line="1145"/>
+        <location filename="../../prefDialog.ui" line="1164"/>
         <source>This can be any starting command with
 arguments, for example, &quot;xterm -hold&quot;
 for running the process in XTerm.
@@ -1724,32 +1731,32 @@ will be shown by a popup dialog.</source>
 팝업 대화상자에 표시됩니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1150"/>
+        <location filename="../../prefDialog.ui" line="1157"/>
         <source>Start with this command: </source>
         <translation>이 명령으로 시작: </translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1169"/>
+        <location filename="../../prefDialog.ui" line="1176"/>
         <source>Command + Arguments</source>
         <translation>명령 + 인수</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1054"/>
+        <location filename="../../prefDialog.ui" line="1061"/>
         <source>Show recentl&amp;y modified files</source>
         <translation>최근 수정된 파일 표시(&amp;Y)</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1084"/>
+        <location filename="../../prefDialog.ui" line="1091"/>
         <source>Show recentl&amp;y opened files</source>
         <translation>최근 열어본 파일 표시(&amp;Y)</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1183"/>
+        <location filename="../../prefDialog.ui" line="1190"/>
         <source>Save changes to opened files every:</source>
         <translation>열려 있는 파일을 자동으로 저장:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1461"/>
+        <location filename="../../prefDialog.ui" line="1468"/>
         <source>Help</source>
         <translation>도움말</translation>
     </message>
@@ -1759,7 +1766,7 @@ will be shown by a popup dialog.</source>
         <translation>사이드 창 모드로 시작</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="361"/>
+        <location filename="../../prefDialog.ui" line="368"/>
         <source>If this is checked, not only you will lose the informative
 tooltip and context menu of a single tab but you could not
 merge a single tabbed window into another one by tab drag-
@@ -1769,57 +1776,57 @@ and-drop either.</source>
 병합할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="367"/>
+        <location filename="../../prefDialog.ui" line="374"/>
         <source>&amp;Do not show a single tab</source>
         <translation>단일 탭 표시 안함(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="432"/>
+        <location filename="../../prefDialog.ui" line="439"/>
         <source>Text</source>
         <translation>텍스트</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="471"/>
+        <location filename="../../prefDialog.ui" line="478"/>
         <source>Text Editor</source>
         <translation>텍스트 편집기</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="487"/>
+        <location filename="../../prefDialog.ui" line="494"/>
         <source>&amp;Wrap lines by default</source>
         <translation>기본적으로 줄 바꿈(&amp;W)</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="494"/>
+        <location filename="../../prefDialog.ui" line="501"/>
         <source>Auto-&amp;indent by default</source>
         <translation>기본적으로 자동 들여쓰기(&amp;I)</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="523"/>
+        <location filename="../../prefDialog.ui" line="530"/>
         <source>Always show line &amp;numbers</source>
         <translation>항상 줄 번호 표시(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="541"/>
+        <location filename="../../prefDialog.ui" line="548"/>
         <source>Highlight s&amp;yntax by default</source>
         <translation>기본적으로 구문 강조 표시(&amp;Y)</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="701"/>
+        <location filename="../../prefDialog.ui" line="708"/>
         <source>Dark c&amp;olor scheme</source>
         <translation>어두운 색상 구성표(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="736"/>
+        <location filename="../../prefDialog.ui" line="743"/>
         <source>Background color value: </source>
         <translation>배경 색상 값: </translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="604"/>
+        <location filename="../../prefDialog.ui" line="611"/>
         <source> MiB</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1103"/>
+        <location filename="../../prefDialog.ui" line="1110"/>
         <source>This only includes executable files written
 in script languages like Shell and Python.
 
@@ -1837,13 +1844,13 @@ process could be killed by Ctrl+Alt+E.</source>
 그런 다음 Ctrl+Alt+E로 프로세스를 종료할 수 있습니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="698"/>
+        <location filename="../../prefDialog.ui" line="705"/>
         <source>Needs window reopening to take effect.</source>
         <translation>적용하려면 창을 다시 열어야 합니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="726"/>
-        <location filename="../../prefDialog.ui" line="743"/>
+        <location filename="../../prefDialog.ui" line="733"/>
+        <location filename="../../prefDialog.ui" line="750"/>
         <source>The color value of the background.
 255 means white while 0 means black.
 
@@ -1861,13 +1868,13 @@ Needs window reopening to take effect.</source>
 적용하려면 창을 다시 열어야 합니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1113"/>
+        <location filename="../../prefDialog.ui" line="1120"/>
         <source>Run executable scripts</source>
         <translation>실행 가능한 스크립트 실행</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="987"/>
-        <location filename="../../prefDialog.ui" line="1001"/>
+        <location filename="../../prefDialog.ui" line="994"/>
+        <location filename="../../prefDialog.ui" line="1008"/>
         <source>The maximum number of recently modified or
 opened files FeatherPad shows. The default
 is 10.
@@ -1879,8 +1886,8 @@ Needs application restart to take effect.</source>
 적용하려면 프로그램을 다시 시작해야 합니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="777"/>
-        <location filename="../../prefDialog.ui" line="792"/>
+        <location filename="../../prefDialog.ui" line="784"/>
+        <location filename="../../prefDialog.ui" line="799"/>
         <source>Used for pasting the date and time.
 
 Takes effect after closing this dialog.
@@ -1895,35 +1902,35 @@ MMM dd, yyyy, hh:mm:ss</source>
 yyyy, MMM dd, hh:mm:ss</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="814"/>
+        <location filename="../../prefDialog.ui" line="821"/>
         <source>Text tab size:</source>
         <translation>텍스트 탭 크기:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="821"/>
+        <location filename="../../prefDialog.ui" line="828"/>
         <source> spaces</source>
         <translation> 공백</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="873"/>
+        <location filename="../../prefDialog.ui" line="880"/>
         <source>Thick text cursor</source>
         <translation>굵은 텍스트 커서</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="880"/>
+        <location filename="../../prefDialog.ui" line="887"/>
         <source>Should the mouse wheel scrolling be inertial
 if the cursor is inside the text view?</source>
         <translation>커서가 텍스트 보기 안에 있는 경우,
 마우스 휠 스크롤이 관성이어야 합니까?</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="891"/>
+        <location filename="../../prefDialog.ui" line="898"/>
         <source>Spell Checking</source>
         <translation>맞춤법 검사</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="899"/>
-        <location filename="../../prefDialog.ui" line="911"/>
+        <location filename="../../prefDialog.ui" line="906"/>
+        <location filename="../../prefDialog.ui" line="918"/>
         <source>A Hunspell dictionary has a name that ends with &quot;.dic&quot;
 and should be alongside an affix file with the same
 name but ending with &quot;.aff&quot;.</source>
@@ -1932,51 +1939,51 @@ name but ending with &quot;.aff&quot;.</source>
 있어야 합니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="904"/>
+        <location filename="../../prefDialog.ui" line="911"/>
         <source>Hunspell dictionary path:</source>
         <translation>Hunspell 사전 경로:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="923"/>
-        <location filename="../../pref.cpp" line="1664"/>
+        <location filename="../../prefDialog.ui" line="930"/>
+        <location filename="../../pref.cpp" line="1694"/>
         <source>Add dictionary...</source>
         <translation>사전에 추가...</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="935"/>
+        <location filename="../../prefDialog.ui" line="942"/>
         <source>If this is unchecked, spell checking
 will be started from the document start.</source>
         <translation>이 옵션을 선택하지 않으면,
 문서 시작부터 맞춤법 검사가 시작됩니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="939"/>
+        <location filename="../../prefDialog.ui" line="946"/>
         <source>Start spell checking from text cursor</source>
         <translation>텍스트 커서에서 맞춤법 검사 시작</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="994"/>
+        <location filename="../../prefDialog.ui" line="1001"/>
         <source>Number of recent files: </source>
         <translation>최근 파일 수: </translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1093"/>
+        <location filename="../../prefDialog.ui" line="1100"/>
         <source>Only if their number is not greater than 50.</source>
         <translation>50보다 크지 않은 경우에만 가능합니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1180"/>
-        <location filename="../../prefDialog.ui" line="1190"/>
+        <location filename="../../prefDialog.ui" line="1187"/>
+        <location filename="../../prefDialog.ui" line="1197"/>
         <source>Only for files that exist and can be saved.</source>
         <translation>존재하며 저장할 수 있는 파일에만 해당됩니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1193"/>
+        <location filename="../../prefDialog.ui" line="1200"/>
         <source> min</source>
         <translation> 분</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1224"/>
+        <location filename="../../prefDialog.ui" line="1231"/>
         <source>If this is checked, the Save button/menu-item could
 be used also when the opened file is not modified.
 
@@ -1991,97 +1998,97 @@ trailing spaces of a text file.</source>
 특정 상황에서 유용할 수 있습니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1232"/>
+        <location filename="../../prefDialog.ui" line="1239"/>
         <source>Allow saving unmodified files</source>
         <translation>수정되지 않은 파일 저장 허용</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1239"/>
+        <location filename="../../prefDialog.ui" line="1246"/>
         <source>Show a warning instead.</source>
         <translation>대신 경고를 표시합니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1242"/>
+        <location filename="../../prefDialog.ui" line="1249"/>
         <source>Do not permit opening of non-text files</source>
         <translation>텍스트가 아닌 파일을 열지 않기</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1249"/>
+        <location filename="../../prefDialog.ui" line="1256"/>
         <source>By default, when files are copied, they will
 be opened if they are pasted into FeatherPad.</source>
         <translation>기본적으로 파일을 복사할 때 FeatherPad에
 붙여넣으면 파일이 열립니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1253"/>
+        <location filename="../../prefDialog.ui" line="1260"/>
         <source>Paste paths instead of files</source>
         <translation>파일 대신 경로 붙여넣기</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1280"/>
+        <location filename="../../prefDialog.ui" line="1287"/>
         <source>Shortcuts</source>
         <translation>바로가기</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1302"/>
+        <location filename="../../prefDialog.ui" line="1309"/>
         <source>Action</source>
         <translation>동작</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1307"/>
+        <location filename="../../prefDialog.ui" line="1314"/>
         <source>Shortcut</source>
         <translation>바로가기</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1315"/>
+        <location filename="../../prefDialog.ui" line="1322"/>
         <source>Restore default shortcuts.</source>
         <translation>기본 바로가기 복원.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1318"/>
-        <location filename="../../prefDialog.ui" line="1392"/>
-        <location filename="../../prefDialog.ui" line="1440"/>
+        <location filename="../../prefDialog.ui" line="1325"/>
+        <location filename="../../prefDialog.ui" line="1399"/>
+        <location filename="../../prefDialog.ui" line="1447"/>
         <source>Default</source>
         <translation>기본값</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1329"/>
+        <location filename="../../prefDialog.ui" line="1336"/>
         <source>Syntax Colors</source>
         <translation>문법 색상</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1424"/>
+        <location filename="../../prefDialog.ui" line="1431"/>
         <source>Element</source>
         <translation>요소</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1429"/>
+        <location filename="../../prefDialog.ui" line="1436"/>
         <source>Text Color</source>
         <translation>텍스트 색상</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1346"/>
+        <location filename="../../prefDialog.ui" line="1353"/>
         <source>Whitespace color value:</source>
         <translation>공백 색상 값:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1379"/>
-        <location filename="../../prefDialog.ui" line="1389"/>
+        <location filename="../../prefDialog.ui" line="1386"/>
+        <location filename="../../prefDialog.ui" line="1396"/>
         <source>Has effect only if line numbers are shown.</source>
         <translation>행 번호가 표시된 경우에만 효과가 있습니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1382"/>
+        <location filename="../../prefDialog.ui" line="1389"/>
         <source>Current line highlight value:</source>
         <translation>현재 줄 강조 표시 값:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1437"/>
+        <location filename="../../prefDialog.ui" line="1444"/>
         <source>Restore default syntax colors.</source>
         <translation>기본 구문 색상을 복원합니다.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1472"/>
+        <location filename="../../prefDialog.ui" line="1479"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
@@ -2098,111 +2105,111 @@ in the editing mode.</source>
         <translation>색을 더블 클릭하여 변경.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="311"/>
-        <location filename="../../pref.cpp" line="1360"/>
+        <location filename="../../pref.cpp" line="314"/>
+        <location filename="../../pref.cpp" line="1390"/>
         <source>files</source>
         <translation>파일</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="311"/>
-        <location filename="../../pref.cpp" line="1360"/>
+        <location filename="../../pref.cpp" line="314"/>
+        <location filename="../../pref.cpp" line="1390"/>
         <source>file</source>
         <translation>파일</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="364"/>
-        <location filename="../../pref.cpp" line="1479"/>
+        <location filename="../../pref.cpp" line="367"/>
+        <location filename="../../pref.cpp" line="1509"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>경고: 모호한 단축키가 감지되었습니다!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="397"/>
+        <location filename="../../pref.cpp" line="400"/>
         <source>Functions, URLs,…</source>
         <translation>기능, URL,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="398"/>
+        <location filename="../../pref.cpp" line="401"/>
         <source>Built-in Functions</source>
         <translation>기본 제공 기능</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="399"/>
+        <location filename="../../pref.cpp" line="402"/>
         <source>Comments</source>
         <translation>주석</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="400"/>
+        <location filename="../../pref.cpp" line="403"/>
         <source>Quotations</source>
         <translation>인용구</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="401"/>
+        <location filename="../../pref.cpp" line="404"/>
         <source>Types</source>
         <translation>유형</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="402"/>
+        <location filename="../../pref.cpp" line="405"/>
         <source>Key Words</source>
         <translation>키워드</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="403"/>
+        <location filename="../../pref.cpp" line="406"/>
         <source>Numbers</source>
         <translation>숫자</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="404"/>
+        <location filename="../../pref.cpp" line="407"/>
         <source>Regular Expressions, Code Blocks,…</source>
         <translation>정규식, 코드블록, …</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="405"/>
+        <location filename="../../pref.cpp" line="408"/>
         <source>Document Blocks, XML/HTML Elements,…</source>
         <translation>문서 블록, XML/HTML 요소…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="406"/>
+        <location filename="../../pref.cpp" line="409"/>
         <source>Markdown Headings, CSS Values,…</source>
         <translation>마크다운 제목, CSS 값,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="407"/>
+        <location filename="../../pref.cpp" line="410"/>
         <source>Extra Elements</source>
         <translation>추가 요소</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="568"/>
+        <location filename="../../pref.cpp" line="571"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>변경 사항을 적용하려면 응용 프로그램을 다시 시작해야 합니다.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="588"/>
+        <location filename="../../pref.cpp" line="591"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>변경 사항을 적용하려면 창을 다시 열어야 합니다.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1386"/>
+        <location filename="../../pref.cpp" line="1416"/>
         <source>&amp;Recently Opened</source>
         <translation>최근 열어본 파일(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1387"/>
+        <location filename="../../pref.cpp" line="1417"/>
         <source>Recently &amp;Modified</source>
         <translation>최근 수정(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1462"/>
+        <location filename="../../pref.cpp" line="1492"/>
         <source>The typed shortcut was reserved.</source>
         <translation>입력한 단축키가 예약되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1666"/>
+        <location filename="../../pref.cpp" line="1696"/>
         <source>Hunspell Dictionary Files</source>
         <translation>Hunspell 사전 파일</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="458"/>
-        <location filename="../../pref.cpp" line="1752"/>
+        <location filename="../../pref.cpp" line="461"/>
+        <location filename="../../pref.cpp" line="1782"/>
         <source>Select Syntax Color</source>
         <translation>구문 색상 선택</translation>
     </message>

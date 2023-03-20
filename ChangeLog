@@ -1,4 +1,4 @@
-V1.3.6
+V1.4.0
 ---------
  * Check the view cursor before setting it.
  * Recognize `text/plain;charset=…` as plain text (Qt doesn't).
@@ -8,6 +8,7 @@ V1.3.6
  * Focus side-pane with Ctrl+Escape.
  * Safeguard the file type filters of file dialogs from bad translations.
  * Added `application/x-zerosize` to the desktop file (after a change in GLib).
+ * Added an option for showing window title on the menubar.
 
 V1.3.5
 ---------

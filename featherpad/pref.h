@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2019 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2023 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -78,6 +78,7 @@ private slots:
     void prefPos (int checked);
     void prefToolbar (int checked);
     void prefMenubar (int checked);
+    void prefMenubarTitle (int checked);
     void prefSearchbar (int checked);
     void prefSearchHistory (int checked);
     void prefStatusbar (int checked);

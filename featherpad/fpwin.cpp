@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2022 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2023 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -31,6 +31,7 @@
 #include "loading.h"
 #include "printing.h"
 #include "warningbar.h"
+#include "menubartitle.h"
 #include "svgicons.h"
 
 #include <QMimeDatabase>
@@ -544,6 +545,55 @@ void FPwin::toggleSidePane()
     }
 }
 /*************************/
+void FPwin::menubarTitle (bool add, bool setTitle)
+{
+    QWidget *cw = ui->menuBar->cornerWidget();
+
+    if (!add) // removing the corner widget
+    {
+        if (cw == nullptr) return;
+        ui->menuBar->setCornerWidget (nullptr);
+        delete cw;
+        return;
+    }
+
+    if (cw != nullptr || ui->menuBar->isHidden())
+        return;
+    MenuBarTitle *mbTitle = new MenuBarTitle();
+    ui->menuBar->setCornerWidget (mbTitle);
+    const auto menubarActions = ui->menuBar->actions();
+    if (!menubarActions.isEmpty())
+    {
+        QRect g = ui->menuBar->actionGeometry (menubarActions.last());
+        mbTitle->setStart (g.right() + 1);
+        mbTitle->setHeight (g.height());
+    }
+    mbTitle->show(); // needed if the menubar is already visible, i.e., not at the startup
+
+    if (!setTitle) return;
+    TabPage *tabPage = qobject_cast< TabPage *>(ui->tabWidget->currentWidget());
+    if (tabPage == nullptr) return;
+    TextEdit *textEdit = tabPage->textEdit();
+    QString fname = textEdit->getFileName();
+    bool modified (textEdit->document()->isModified());
+    QString shownName;
+    if (fname.isEmpty())
+    {
+        if (textEdit->getProg() == "help")
+            shownName = "** " + tr ("Help") + " **";
+        else
+            shownName = tr ("Untitled");
+    }
+    else
+    {
+        shownName = (fname.contains ("/") ? fname
+                                          : QFileInfo (fname).absolutePath() + "/" + fname);
+    }
+    if (modified)
+        shownName.prepend ("*");
+    mbTitle->setText (shownName);
+}
+/*************************/
 void FPwin::applyConfigOnStarting()
 {
     Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
@@ -584,6 +634,9 @@ void FPwin::applyConfigOnStarting()
     ui->mainToolBar->setVisible (!config.getNoToolbar());
     ui->menuBar->setVisible (!config.getNoMenubar());
     ui->actionMenu->setVisible (config.getNoMenubar());
+
+    if (config.getMenubarTitle())
+        menubarTitle();
 
     ui->actionDoc->setVisible (!config.getShowStatusbar());
 
@@ -2199,6 +2252,16 @@ void FPwin::closeTabAtIndex (int tabIndex)
     pauseAutoSaving (false);
 }
 /*************************/
+void FPwin::setWinTitle (const QString& title)
+{
+    setWindowTitle (title);
+    if (!ui->menuBar->isHidden())
+    {
+        if (auto label = qobject_cast<QLabel*>(ui->menuBar->cornerWidget()))
+            label->setText (title);
+    }
+}
+/*************************/
 void FPwin::setTitle (const QString& fileName, int tabIndex)
 {
     int index = tabIndex;
@@ -2212,14 +2275,14 @@ void FPwin::setTitle (const QString& fileName, int tabIndex)
     {
         shownName = tr ("Untitled");
         if (tabIndex < 0)
-            setWindowTitle (shownName);
+            setWinTitle (shownName);
     }
     else
     {
         QFileInfo fInfo (fileName);
         if (tabIndex < 0)
-            setWindowTitle (fileName.contains ("/") ? fileName
-                                                    : fInfo.absolutePath() + "/" + fileName);
+            setWinTitle (fileName.contains ("/") ? fileName
+                                                 : fInfo.absolutePath() + "/" + fileName);
         isLink = fInfo.isSymLink();
         if (!isLink)
         {
@@ -2273,14 +2336,14 @@ void FPwin::asterisk (bool modified)
     if (fname.isEmpty())
     {
         shownName = tr ("Untitled");
-        setWindowTitle ((modified ? "*" : QString()) + shownName);
+        setWinTitle ((modified ? "*" : QString()) + shownName);
     }
     else
     {
         shownName = fname.section ('/', -1);
-        setWindowTitle ((modified ? "*" : QString())
-                        + (fname.contains ("/") ? fname
-                                                : QFileInfo (fname).absolutePath() + "/" + fname));
+        setWinTitle ((modified ? "*" : QString())
+                   + (fname.contains ("/") ? fname
+                                           : QFileInfo (fname).absolutePath() + "/" + fname));
     }
     shownName.replace ("\n", " ");
 
@@ -3994,6 +4057,8 @@ void FPwin::tabSwitch (int index)
     if (tabPage == nullptr)
     {
         setWindowTitle ("FeatherPad[*]");
+        if (auto label = qobject_cast<QLabel*>(ui->menuBar->cornerWidget()))
+            label->clear();
         setWindowModified (false);
         return;
     }
@@ -4027,7 +4092,7 @@ void FPwin::tabSwitch (int index)
     }
     if (modified)
         shownName.prepend ("*");
-    setWindowTitle (shownName);
+    setWinTitle (shownName);
 
     /* although the window size, wrapping state or replacing text may have changed or
        the replace dock may have been closed, hlight() will be called automatically */
@@ -5083,7 +5148,7 @@ void FPwin::detachTab()
     textEdit->setExtraSelections (es);
 
     /* at last, set all properties correctly */
-    dropTarget->setWindowTitle (title);
+    dropTarget->setWinTitle (title);
     dropTarget->ui->tabWidget->setTabToolTip (0, tooltip);
     /* reload buttons, syntax highlighting, jump bar, line numbers */
     dropTarget->encodingToCheck (textEdit->getEncoding());
@@ -6389,6 +6454,8 @@ void FPwin::helpDoc()
     QString title = "** " + tr ("Help") + " **";
     ui->tabWidget->setTabText (index, title);
     setWindowTitle (title + "[*]");
+    if (auto label = qobject_cast<QLabel*>(ui->menuBar->cornerWidget()))
+        label->setText (title);
     setWindowModified (false);
     ui->tabWidget->setTabToolTip (index, title);
     if (sidePane_)

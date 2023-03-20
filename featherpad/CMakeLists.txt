@@ -89,6 +89,7 @@ set(featherpad_SRCS
     fpwin.cpp
     encoding.cpp
     tabwidget.cpp
+    menubartitle.cpp
     lineedit.cpp
     textedit.cpp
     tabbar.cpp
