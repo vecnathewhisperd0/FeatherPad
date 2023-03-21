@@ -21,7 +21,8 @@
 #define MENUBARTITLE_H
 
 #include <QLabel>
-#include <QPainter>
+#include <QPaintEvent>
+#include <QMouseEvent>
 
 namespace FeatherPad {
 
@@ -41,8 +42,12 @@ public:
         height_ = h;
     }
 
+signals:
+    void doubleClicked();
+
 protected:
     void paintEvent (QPaintEvent *event) override;
+    void mouseDoubleClickEvent (QMouseEvent *event) override;
     QSize sizeHint() const override;
 
 private:

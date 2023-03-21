@@ -19,6 +19,7 @@
 
 #include "menubartitle.h"
 #include <QMenuBar>
+#include <QPainter>
 #include <QStyleOption>
 
 namespace FeatherPad {
@@ -62,6 +63,13 @@ void MenuBarTitle::paintEvent (QPaintEvent* /*event*/)
         style()->drawItemText (&painter, cr, Qt::AlignRight | Qt::AlignVCenter,
                                opt.palette, isEnabled(), elidedText_, foregroundRole());
     }
+}
+/*************************/
+void MenuBarTitle::mouseDoubleClickEvent (QMouseEvent *event)
+{
+    QLabel::mouseDoubleClickEvent (event);
+    if (event->button() == Qt::LeftButton)
+        emit doubleClicked();
 }
 /*************************/
 void MenuBarTitle::setTitle (const QString &title)
