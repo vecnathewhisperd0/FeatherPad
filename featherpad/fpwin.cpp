@@ -569,6 +569,7 @@ void FPwin::menubarTitle (bool add, bool setTitle)
         mbTitle->setHeight (g.height());
     }
     mbTitle->show(); // needed if the menubar is already visible, i.e., not at the startup
+    connect (mbTitle, &QWidget::customContextMenuRequested, this, &FPwin::tabContextMenu);
 
     if (setTitle && ui->tabWidget->currentIndex() > -1)
       mbTitle->setTitle (windowTitle());
@@ -5477,35 +5478,39 @@ void FPwin::dropTab (const QString& str, QObject *source)
 /*************************/
 void FPwin::tabContextMenu (const QPoint& p)
 {
-    int tabNum = ui->tabWidget->count();
-    QTabBar *tbar = ui->tabWidget->tabBar();
-    rightClicked_ = tbar->tabAt (p);
+    auto mbt = qobject_cast<MenuBarTitle*>(QObject::sender());
+    rightClicked_ = mbt == nullptr ? ui->tabWidget->tabBar()->tabAt (p)
+                                   : ui->tabWidget->currentIndex();
     if (rightClicked_ < 0) return;
 
     QString fname = qobject_cast< TabPage *>(ui->tabWidget->widget (rightClicked_))
                     ->textEdit()->getFileName();
     QMenu menu (this); // "this" is for Wayland, when the window isn't active
     bool showMenu = false;
-    if (tabNum > 1)
+    if (mbt == nullptr)
     {
-        QWidgetAction *labelAction = new QWidgetAction (&menu);
-        QLabel *label = new QLabel ("<center><b>" + tr ("%1 Pages").arg (tabNum) + "</b></center>");
-        label->setMargin (4);
-        labelAction->setDefaultWidget (label);
-        menu.addAction (labelAction);
-        menu.addSeparator();
-
-        showMenu = true;
-        if (rightClicked_ < tabNum - 1)
-            menu.addAction (ui->actionCloseRight);
-        if (rightClicked_ > 0)
-            menu.addAction (ui->actionCloseLeft);
-        menu.addSeparator();
-        if (rightClicked_ < tabNum - 1 && rightClicked_ > 0)
-            menu.addAction (ui->actionCloseOther);
-        menu.addAction (ui->actionCloseAll);
-        if (!fname.isEmpty())
+        int tabNum = ui->tabWidget->count();
+        if (tabNum > 1)
+        {
+            QWidgetAction *labelAction = new QWidgetAction (&menu);
+            QLabel *label = new QLabel ("<center><b>" + tr ("%1 Pages").arg (tabNum) + "</b></center>");
+            label->setMargin (4);
+            labelAction->setDefaultWidget (label);
+            menu.addAction (labelAction);
             menu.addSeparator();
+
+            showMenu = true;
+            if (rightClicked_ < tabNum - 1)
+                menu.addAction (ui->actionCloseRight);
+            if (rightClicked_ > 0)
+                menu.addAction (ui->actionCloseLeft);
+            menu.addSeparator();
+            if (rightClicked_ < tabNum - 1 && rightClicked_ > 0)
+                menu.addAction (ui->actionCloseOther);
+            menu.addAction (ui->actionCloseAll);
+            if (!fname.isEmpty())
+                menu.addSeparator();
+        }
     }
     if (!fname.isEmpty())
     {
@@ -5592,7 +5597,12 @@ void FPwin::tabContextMenu (const QPoint& p)
         }
     }
     if (showMenu) // we don't want an empty menu
-        menu.exec (tbar->mapToGlobal (p));
+    {
+        if (mbt == nullptr)
+            menu.exec (ui->tabWidget->tabBar()->mapToGlobal (p));
+        else
+            menu.exec (mbt->mapToGlobal (p));
+    }
     rightClicked_ = -1; // reset
 }
 /*************************/

@@ -37,6 +37,8 @@ MenuBarTitle::MenuBarTitle (QWidget *parent, Qt::WindowFlags f)
     fnt.setBold (true);
     fnt.setItalic (true);
     setFont (fnt);
+
+    setContextMenuPolicy (Qt::CustomContextMenu);
 }
 /*************************/
 void MenuBarTitle::paintEvent (QPaintEvent* /*event*/)
