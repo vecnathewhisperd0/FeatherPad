@@ -963,7 +963,7 @@ void FPwin::addRemoveLangBtn (bool add)
                       txt_.clear();
                   });
                 }
-                selectionTimer_->start (400);
+                selectionTimer_->start (600);
                 txt_ += e->text().simplified();
                 QMenu::keyPressEvent (e);
             }
