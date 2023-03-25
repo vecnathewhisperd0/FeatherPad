@@ -1620,22 +1620,12 @@ TabPage* FPwin::createEmptyTab (bool setCurrent, bool allowNormalHighlighter)
     if (ui->statusBar->isVisible()
         || config.getShowStatusbar()) // when the main window is being created, isVisible() isn't set yet
     {
-        int showCurPos = config.getShowCursorPos();
-        if (setCurrent)
-        {
-            if (QToolButton *wordButton = ui->statusBar->findChild<QToolButton *>("wordButton"))
-                wordButton->setVisible (false);
-            QLabel *statusLabel = ui->statusBar->findChild<QLabel *>("statusLabel");
-            statusLabel->setText ("<b>" + tr ("Encoding") + ":</b> <i>UTF-8</i>&nbsp;&nbsp;&nbsp;<b>"
-                                        + tr ("Lines") + ":</b> <i>1</i>&nbsp;&nbsp;&nbsp;<b>"
-                                        + tr ("Sel. Chars") + ":</b> <i>0</i>&nbsp;&nbsp;&nbsp;<b>"
-                                        + tr ("Words") + ":</b> <i>0</i>");
-            if (showCurPos)
-                showCursorPos();
-        }
+        /* If this becomes the current tab, "tabSwitch()" will take care of the status label,
+           the word button and the cursor position label. */
+
         connect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::statusMsgWithLineCount);
         connect (textEdit, &TextEdit::selChanged, this, &FPwin::statusMsg);
-        if (showCurPos)
+        if (config.getShowCursorPos())
             connect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::showCursorPos);
     }
     connect (textEdit->document(), &QTextDocument::undoAvailable, ui->actionUndo, &QAction::setEnabled);
@@ -4620,7 +4610,7 @@ void FPwin::docProp()
 void FPwin::statusMsgWithLineCount (const int lines)
 {
     TextEdit *textEdit = qobject_cast< TabPage *>(ui->tabWidget->currentWidget())->textEdit();
-    /* ensure that the signal comes from the active tab if this is about a tab a signal */
+    /* ensure that the signal comes from the active tab if this is about a connection */
     if (qobject_cast<TextEdit*>(QObject::sender()) && QObject::sender() != textEdit)
         return;
 
