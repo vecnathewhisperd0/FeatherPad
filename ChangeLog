@@ -1,7 +1,7 @@
 V1.4.0
 ---------
  * Check the view cursor before setting it.
- * Recognize `text/plain;charset=…` as plain text (Qt doesn't).
+ * Recognize `text/plain;charset=…` as plain text when pasting (Qt doesn't).
  * Highlight comments inside formulas with LaTex.
  * Use icons in the recent files menu where possible.
  * Prevent tab DND from tab close button.
