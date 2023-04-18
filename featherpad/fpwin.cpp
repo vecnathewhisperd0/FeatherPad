@@ -2554,7 +2554,7 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
                         /* An Old comment not valid anymore: "The index may have changed because syntaxHighlighting()
                            waits for all events to be processed (but it won't change from here on)." */
                         ui->tabWidget->indexOf (tabPage) : -1);
-    QString tip (fInfo.absolutePath());
+    QString tip (fileName.contains ("/") ? fileName.section("/", 0, -2) : fInfo.absolutePath());
     if (!tip.endsWith ("/")) tip += "/";
     QFontMetrics metrics (QToolTip::font());
     QString elidedTip = "<p style='white-space:pre'>"
@@ -3372,7 +3372,7 @@ bool FPwin::saveFile (bool keepSyntax,
         textEdit->setLastModified (fInfo.lastModified());
         ui->actionReload->setDisabled (false);
         setTitle (fname);
-        QString tip (fInfo.absolutePath());
+        QString tip (fname.contains ("/") ? fname.section("/", 0, -2) : fInfo.absolutePath());
         if (!tip.endsWith ("/")) tip += "/";
         QFontMetrics metrics (QToolTip::font());
         QString elidedTip = "<p style='white-space:pre'>"
@@ -3559,7 +3559,7 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
                 textEdit->setLastModified (fInfo.lastModified());
                 ui->actionReload->setDisabled (false);
                 setTitle (fileName);
-                QString tip (fInfo.absolutePath());
+                QString tip (fileName.contains ("/") ? fileName.section("/", 0, -2) : fInfo.absolutePath());
                 if (!tip.endsWith ("/")) tip += "/";
                 QFontMetrics metrics (QToolTip::font());
                 QString elidedTip = "<p style='white-space:pre'>"

@@ -9,6 +9,7 @@ V1.4.0
  * Safeguard the file type filters of file dialogs from bad translations.
  * Added `application/x-zerosize` to the desktop file (after a change in GLib).
  * Added an option for showing window title on the menubar.
+ * Fixed the tab tooltip for special folders.
 
 V1.3.5
 ---------
