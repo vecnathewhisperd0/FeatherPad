@@ -1,3 +1,7 @@
+V1.4.1
+---------
+ * Added more types to C/C++ syntax highlighting.
+
 V1.4.0
 ---------
  * Check the view cursor before setting it.
