@@ -130,6 +130,9 @@ private slots:
     void disableMenubarAccel (int checked);
     void prefIcon (int checked);
 
+protected:
+    bool eventFilter (QObject *object, QEvent *event);
+
 private:
     void closeEvent (QCloseEvent *event);
     void prefTabPosition();

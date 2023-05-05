@@ -30,6 +30,7 @@
 #include <QFileInfo>
 #include <QFileDialog>
 #include <QColorDialog>
+#include <QWheelEvent>
 
 namespace FeatherPad {
 
@@ -127,6 +128,31 @@ PrefDialog::PrefDialog (QWidget *parent)
     curLineHighlight_ = config.getCurLineHighlight();
     disableMenubarAccel_ = config.getDisableMenubarAccel();
     sysIcons_ = config.getSysIcons();
+
+    /* don't let spin and combo boxes accept wheel events when not focused */
+    ui->spinX->setFocusPolicy (Qt::StrongFocus);
+    ui->spinY->setFocusPolicy (Qt::StrongFocus);
+    ui->tabCombo->setFocusPolicy (Qt::StrongFocus);
+    ui->spinBox->setFocusPolicy (Qt::StrongFocus);
+    ui->vLineSpin->setFocusPolicy (Qt::StrongFocus);
+    ui->colorValueSpin->setFocusPolicy (Qt::StrongFocus);
+    ui->textTabSpin->setFocusPolicy (Qt::StrongFocus);
+    ui->recentSpin->setFocusPolicy (Qt::StrongFocus);
+    ui->autoSaveSpin->setFocusPolicy (Qt::StrongFocus);
+    ui->whiteSpaceSpin->setFocusPolicy (Qt::StrongFocus);
+    ui->curLineSpin->setFocusPolicy (Qt::StrongFocus);
+
+    ui->spinX->installEventFilter (this);
+    ui->spinY->installEventFilter (this);
+    ui->tabCombo->installEventFilter (this);
+    ui->spinBox->installEventFilter (this);
+    ui->vLineSpin->installEventFilter (this);
+    ui->colorValueSpin->installEventFilter (this);
+    ui->textTabSpin->installEventFilter (this);
+    ui->recentSpin->installEventFilter (this);
+    ui->autoSaveSpin->installEventFilter (this);
+    ui->whiteSpaceSpin->installEventFilter (this);
+    ui->curLineSpin->installEventFilter (this);
 
     /**************
      *** Window ***
@@ -612,6 +638,26 @@ void PrefDialog::showPrompt (const QString& str, bool temporary)
 void PrefDialog::showWhatsThis()
 {
     QWhatsThis::enterWhatsThisMode();
+}
+/*************************/
+bool PrefDialog::eventFilter (QObject *object, QEvent *event)
+{
+    if (event->type() == QEvent::Wheel
+       && (qobject_cast<QSpinBox *>(object) || static_cast<QComboBox *>(object))
+       && !qobject_cast<QWidget *>(object)->hasFocus())
+    {
+        /* Don't let unfocused spin and combo boxes accept wheel events;
+           let the parent widget scroll instead.
+           NOTE: Sending the wheel event to the parent widget wasn't
+                 needed with Qt5, but the behavior has changed in Qt6. */
+        if (auto p = qobject_cast<QWidget *>(object)->parentWidget())
+        {
+            if (QWheelEvent *we = static_cast<QWheelEvent *>(event))
+                QCoreApplication::sendEvent (p, we);
+        }
+        return true;
+    }
+    return QDialog::eventFilter (object, event);
 }
 /*************************/
 void PrefDialog::prefSize (int checked)

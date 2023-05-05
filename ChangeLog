@@ -4,6 +4,7 @@ V1.4.1
  * Get the main arguments from `QCoreApplication::arguments()`, instead of getting them directly (some OS's, like Haiku, might show problems otherwise).
  * Added an option for adding a small margin around the text.
  * Prevented window dragging from the line number strip (which was possible with widget styles like Kvantum).
+ * In Preferences dialog, don't let the mouse wheel focus spin and combo boxes or change their values when they aren't focused.
 
 V1.4.0
 ---------

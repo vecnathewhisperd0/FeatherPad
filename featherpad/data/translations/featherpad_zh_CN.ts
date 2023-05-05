@@ -1923,7 +1923,7 @@ name but ending with &quot;.aff&quot;.</source>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="941"/>
-        <location filename="../../pref.cpp" line="1710"/>
+        <location filename="../../pref.cpp" line="1756"/>
         <source>Add dictionary...</source>
         <translation>添加词典......</translation>
     </message>
@@ -2070,122 +2070,122 @@ be opened if they are pasted into FeatherPad.</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="104"/>
+        <location filename="../../pref.cpp" line="105"/>
         <source>Press a modifier key to clear a shortcut
 in the editing mode.</source>
         <translation>在编辑模式下，按修饰键清除快捷方式。</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="110"/>
+        <location filename="../../pref.cpp" line="111"/>
         <source>Double click a color to change it.</source>
         <translation>双击一个颜色来修改它。</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="318"/>
-        <location filename="../../pref.cpp" line="1406"/>
+        <location filename="../../pref.cpp" line="344"/>
+        <location filename="../../pref.cpp" line="1452"/>
         <source>files</source>
         <translation>文件</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="318"/>
-        <location filename="../../pref.cpp" line="1406"/>
+        <location filename="../../pref.cpp" line="344"/>
+        <location filename="../../pref.cpp" line="1452"/>
         <source>file</source>
         <translation>文件</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="371"/>
-        <location filename="../../pref.cpp" line="1525"/>
+        <location filename="../../pref.cpp" line="397"/>
+        <location filename="../../pref.cpp" line="1571"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>警告：检测到不明确的快捷方式！</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="404"/>
+        <location filename="../../pref.cpp" line="430"/>
         <source>Functions, URLs,…</source>
         <translation>方法，链接，…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="405"/>
+        <location filename="../../pref.cpp" line="431"/>
         <source>Built-in Functions</source>
         <translation>内建功能</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="406"/>
+        <location filename="../../pref.cpp" line="432"/>
         <source>Comments</source>
         <translation>评论</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="407"/>
+        <location filename="../../pref.cpp" line="433"/>
         <source>Quotations</source>
         <translation>字符串</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="408"/>
+        <location filename="../../pref.cpp" line="434"/>
         <source>Types</source>
         <translation>类型</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="409"/>
+        <location filename="../../pref.cpp" line="435"/>
         <source>Key Words</source>
         <translation>关键字</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="410"/>
+        <location filename="../../pref.cpp" line="436"/>
         <source>Numbers</source>
         <translation>数字</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="411"/>
+        <location filename="../../pref.cpp" line="437"/>
         <source>Regular Expressions, Code Blocks,…</source>
         <translation>正则表达式，代码块等…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="412"/>
+        <location filename="../../pref.cpp" line="438"/>
         <source>Document Blocks, XML/HTML Elements,…</source>
         <translation>文档块，XML / HTML元素，…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="413"/>
+        <location filename="../../pref.cpp" line="439"/>
         <source>Markdown Headings, CSS Values,…</source>
         <translation>Markdown 标题, CSS 值,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="414"/>
+        <location filename="../../pref.cpp" line="440"/>
         <source>Extra Elements</source>
         <translation>扩展元素</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="575"/>
+        <location filename="../../pref.cpp" line="601"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>需要重新启动应用程序以使更改生效。</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="596"/>
+        <location filename="../../pref.cpp" line="622"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>需要重新开启窗口以生效。</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1432"/>
+        <location filename="../../pref.cpp" line="1478"/>
         <source>&amp;Recently Opened</source>
         <translation>最近打开的文件(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1433"/>
+        <location filename="../../pref.cpp" line="1479"/>
         <source>Recently &amp;Modified</source>
         <translation>最近更改的文件(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1508"/>
+        <location filename="../../pref.cpp" line="1554"/>
         <source>The typed shortcut was reserved.</source>
         <translation>输入的快捷方式已被保留。</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1712"/>
+        <location filename="../../pref.cpp" line="1758"/>
         <source>Hunspell Dictionary Files</source>
         <translation>Hunspell 字典文件</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="465"/>
-        <location filename="../../pref.cpp" line="1798"/>
+        <location filename="../../pref.cpp" line="491"/>
+        <location filename="../../pref.cpp" line="1844"/>
         <source>Select Syntax Color</source>
         <translation>选中的语法颜色</translation>
     </message>
