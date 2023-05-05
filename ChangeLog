@@ -1,6 +1,7 @@
 V1.4.1
 ---------
  * Added more types to C/C++ syntax highlighting.
+ * Get the main arguments from `QCoreApplication::arguments()`, instead of getting them directly (some OS's, like Haiku, might show problems otherwise).
 
 V1.4.0
 ---------
