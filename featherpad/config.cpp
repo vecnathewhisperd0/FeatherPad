@@ -98,6 +98,7 @@ Config::Config():
     syntaxByDefault_ (true),
     showWhiteSpace_ (false),
     showEndings_ (false),
+    textMargin_ (false),
     isMaxed_ (false),
     isFull_ (false),
     darkColScheme_ (false),
@@ -286,6 +287,9 @@ void Config::readConfig()
 
     if (settings.value ("showEndings").toBool())
         showEndings_ = true; // false by default
+
+    if (settings.value ("textMargin").toBool())
+        textMargin_ = true; // false by default
 
     if (settings.value ("darkColorScheme").toBool())
         darkColScheme_ = true; // false by default
@@ -531,6 +535,7 @@ void Config::writeConfig()
     settings.setValue ("noSyntaxHighlighting", !syntaxByDefault_);
     settings.setValue ("showWhiteSpace", showWhiteSpace_);
     settings.setValue ("showEndings", showEndings_);
+    settings.setValue ("textMargin", textMargin_);
     settings.setValue ("darkColorScheme", darkColScheme_);
     settings.setValue ("thickCursor", thickCursor_);
     settings.setValue ("inertialScrolling", inertialScrolling_);

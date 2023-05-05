@@ -94,6 +94,7 @@ private slots:
     void prefVLine (int checked);
     void prefVLineDistance (int value);
     void prefEndings (int checked);
+    void prefTextMargin (int checked);
     void prefDarkColScheme (int checked);
     void prefColValue (int value);
     void prefAppendEmptyLine (int checked);
@@ -143,7 +144,7 @@ private:
 
     Ui::PrefDialog *ui;
     QWidget * parent_;
-    bool darkBg_, showWhiteSpace_, showEndings_, saveUnmodified_, sharedSearchHistory_, selHighlighting_, pastePaths_, disableMenubarAccel_, sysIcons_;
+    bool darkBg_, showWhiteSpace_, showEndings_, textMargin_, saveUnmodified_, sharedSearchHistory_, selHighlighting_, pastePaths_, disableMenubarAccel_, sysIcons_;
     int vLineDistance_, darkColValue_, lightColValue_, recentNumber_, textTabSize_, whiteSpaceValue_, curLineHighlight_;
     QHash<QString, QString> shortcuts_, newShortcuts_;
     QString prevtMsg_;

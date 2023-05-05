@@ -2,6 +2,8 @@ V1.4.1
 ---------
  * Added more types to C/C++ syntax highlighting.
  * Get the main arguments from `QCoreApplication::arguments()`, instead of getting them directly (some OS's, like Haiku, might show problems otherwise).
+ * Added an option for adding a small margin around the text.
+ * Prevented window dragging from the line number strip (which was possible with widget styles like Kvantum).
 
 V1.4.0
 ---------

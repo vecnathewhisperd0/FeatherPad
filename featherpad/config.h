@@ -324,6 +324,13 @@ public:
         showEndings_ = show;
     }
 
+    bool getTextMargin() const {
+        return textMargin_;
+    }
+    void setTextMargin (bool margin) {
+        textMargin_ = margin;
+    }
+
     int getVLineDistance() const {
         return vLineDistance_;
     }
@@ -598,6 +605,7 @@ private:
          sidePaneMode_,
          remFont_, wrapByDefault_, indentByDefault_, autoReplace_, autoBracket_, lineByDefault_,
          syntaxByDefault_, showWhiteSpace_, showEndings_,
+         textMargin_,
          isMaxed_, isFull_,
          darkColScheme_,
          thickCursor_,

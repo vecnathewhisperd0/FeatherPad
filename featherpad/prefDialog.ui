@@ -781,6 +781,13 @@ Needs window reopening to take effect.</string>
                </layout>
               </item>
               <item>
+               <widget class="QCheckBox" name="marginBox">
+                <property name="text">
+                 <string>Add a small margin around text</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <layout class="QHBoxLayout" name="horizontalLayout_8">
                 <item>
                  <widget class="QLabel" name="dateLabel">

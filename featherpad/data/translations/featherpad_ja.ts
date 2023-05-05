@@ -92,7 +92,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="345"/>
-        <location filename="../../fpwin.cpp" line="4160"/>
+        <location filename="../../fpwin.cpp" line="4165"/>
         <location filename="../../replace.cpp" line="61"/>
         <location filename="../../replace.cpp" line="113"/>
         <source>Replacement</source>
@@ -777,26 +777,26 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="482"/>
-        <location filename="../../fpwin.cpp" line="4055"/>
-        <location filename="../../fpwin.cpp" line="5102"/>
-        <location filename="../../fpwin.cpp" line="5361"/>
-        <location filename="../../fpwin.cpp" line="6441"/>
+        <location filename="../../fpwin.cpp" line="4060"/>
+        <location filename="../../fpwin.cpp" line="5107"/>
+        <location filename="../../fpwin.cpp" line="5366"/>
+        <location filename="../../fpwin.cpp" line="6446"/>
         <source>Help</source>
         <translation>ヘルプ</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="484"/>
-        <location filename="../../fpwin.cpp" line="1606"/>
-        <location filename="../../fpwin.cpp" line="1658"/>
-        <location filename="../../fpwin.cpp" line="2254"/>
-        <location filename="../../fpwin.cpp" line="2316"/>
-        <location filename="../../fpwin.cpp" line="3081"/>
-        <location filename="../../fpwin.cpp" line="3101"/>
-        <location filename="../../fpwin.cpp" line="3104"/>
-        <location filename="../../fpwin.cpp" line="4057"/>
-        <location filename="../../fpwin.cpp" line="4810"/>
-        <location filename="../../fpwin.cpp" line="5104"/>
-        <location filename="../../fpwin.cpp" line="5363"/>
+        <location filename="../../fpwin.cpp" line="1611"/>
+        <location filename="../../fpwin.cpp" line="1663"/>
+        <location filename="../../fpwin.cpp" line="2259"/>
+        <location filename="../../fpwin.cpp" line="2321"/>
+        <location filename="../../fpwin.cpp" line="3086"/>
+        <location filename="../../fpwin.cpp" line="3106"/>
+        <location filename="../../fpwin.cpp" line="3109"/>
+        <location filename="../../fpwin.cpp" line="4062"/>
+        <location filename="../../fpwin.cpp" line="4815"/>
+        <location filename="../../fpwin.cpp" line="5109"/>
+        <location filename="../../fpwin.cpp" line="5368"/>
         <source>Untitled</source>
         <translation>無題</translation>
     </message>
@@ -807,14 +807,14 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="870"/>
-        <location filename="../../fpwin.cpp" line="4667"/>
+        <location filename="../../fpwin.cpp" line="4672"/>
         <source>Position:</source>
         <translation>桁位置:</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="918"/>
-        <location filename="../../fpwin.cpp" line="4685"/>
-        <location filename="../../fpwin.cpp" line="4705"/>
+        <location filename="../../fpwin.cpp" line="4690"/>
+        <location filename="../../fpwin.cpp" line="4710"/>
         <source>Normal</source>
         <translation>ノーマル</translation>
     </message>
@@ -835,8 +835,8 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1392"/>
-        <location filename="../../fpwin.cpp" line="2750"/>
-        <location filename="../../fpwin.cpp" line="6035"/>
+        <location filename="../../fpwin.cpp" line="2755"/>
+        <location filename="../../fpwin.cpp" line="6040"/>
         <source>The file does not exist.</source>
         <translation>ファイルは存在しません。</translation>
     </message>
@@ -861,362 +861,362 @@
         <translation>すべて無視(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1611"/>
-        <location filename="../../fpwin.cpp" line="1659"/>
+        <location filename="../../fpwin.cpp" line="1616"/>
+        <location filename="../../fpwin.cpp" line="1664"/>
         <source>Unsaved</source>
         <translation>未保存</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2979"/>
-        <location filename="../../fpwin.cpp" line="4620"/>
+        <location filename="../../fpwin.cpp" line="2984"/>
+        <location filename="../../fpwin.cpp" line="4625"/>
         <source>Encoding</source>
         <translation>エンコーディング</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2981"/>
-        <location filename="../../fpwin.cpp" line="3704"/>
-        <location filename="../../fpwin.cpp" line="3715"/>
-        <location filename="../../fpwin.cpp" line="3722"/>
-        <location filename="../../fpwin.cpp" line="4625"/>
-        <location filename="../../fpwin.cpp" line="6225"/>
-        <location filename="../../fpwin.cpp" line="6236"/>
-        <location filename="../../fpwin.cpp" line="6243"/>
+        <location filename="../../fpwin.cpp" line="2986"/>
+        <location filename="../../fpwin.cpp" line="3709"/>
+        <location filename="../../fpwin.cpp" line="3720"/>
+        <location filename="../../fpwin.cpp" line="3727"/>
+        <location filename="../../fpwin.cpp" line="4630"/>
+        <location filename="../../fpwin.cpp" line="6230"/>
+        <location filename="../../fpwin.cpp" line="6241"/>
+        <location filename="../../fpwin.cpp" line="6248"/>
         <source>Lines</source>
         <translation>全行数</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4626"/>
-        <location filename="../../fpwin.cpp" line="4641"/>
+        <location filename="../../fpwin.cpp" line="4631"/>
+        <location filename="../../fpwin.cpp" line="4646"/>
         <source>Sel. Chars</source>
         <translation>選択文字数</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4628"/>
-        <location filename="../../fpwin.cpp" line="4642"/>
+        <location filename="../../fpwin.cpp" line="4633"/>
+        <location filename="../../fpwin.cpp" line="4647"/>
         <source>Words</source>
         <translation>単語数</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1751"/>
+        <location filename="../../fpwin.cpp" line="1756"/>
         <source>Open Link</source>
         <translation>リンクを開く</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1764"/>
+        <location filename="../../fpwin.cpp" line="1769"/>
         <source>Copy Link</source>
         <translation>リンクをコピー</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1977"/>
+        <location filename="../../fpwin.cpp" line="1982"/>
         <source>Another process is running in this tab!</source>
         <translation>このタブで別のプロセスが実行中です！</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1978"/>
+        <location filename="../../fpwin.cpp" line="1983"/>
         <source>Only one process is allowed per tab.</source>
         <translation>タブごとに許可されるプロセスは1つだけです。</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2071"/>
+        <location filename="../../fpwin.cpp" line="2076"/>
         <source>Script Output</source>
         <translation>スクリプトの出力</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2075"/>
+        <location filename="../../fpwin.cpp" line="2080"/>
         <source>Script File</source>
         <translation>スクリプトファイル</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2084"/>
+        <location filename="../../fpwin.cpp" line="2089"/>
         <source>Close</source>
         <translation>閉じる</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2087"/>
+        <location filename="../../fpwin.cpp" line="2092"/>
         <source>Clear</source>
         <translation>消去</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2706"/>
+        <location filename="../../fpwin.cpp" line="2711"/>
         <source>Huge file(s) not opened!</source>
         <translation>大きすぎるファイルは開けません！</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2707"/>
+        <location filename="../../fpwin.cpp" line="2712"/>
         <source>FeatherPad does not open files larger than 100 MiB.</source>
         <translation>FeatherPad は 100 MiB 以上のファイルを開けません。</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2715"/>
+        <location filename="../../fpwin.cpp" line="2720"/>
         <source>Non-text file(s) not opened!</source>
         <translation>テキスト以外のファイルは開けません！</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2716"/>
+        <location filename="../../fpwin.cpp" line="2721"/>
         <source>See Preferences → Files → Do not permit opening of non-text files</source>
         <translation>次の設定を確認してください: 設定 → ファイル → テキスト以外のファイルを開くことを許可しない</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2725"/>
+        <location filename="../../fpwin.cpp" line="2730"/>
         <source>Some file(s) could not be opened!</source>
         <translation>一部のファイルを開くことができませんでした！</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2726"/>
+        <location filename="../../fpwin.cpp" line="2731"/>
         <source>You may not have the permission to read.</source>
         <translation>おそらく読み取り権限がありません。</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2736"/>
+        <location filename="../../fpwin.cpp" line="2741"/>
         <source>Uneditable file(s)!</source>
         <translation>編集できないファイルです！</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2737"/>
+        <location filename="../../fpwin.cpp" line="2742"/>
         <source>Non-text files or files with huge lines cannot be edited.</source>
         <translation>テキスト形式ではないファイルや大きすぎるファイルは編集できません。</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2801"/>
+        <location filename="../../fpwin.cpp" line="2806"/>
         <source>Root Instance</source>
         <translation>Root 権限のインスタンス</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2882"/>
+        <location filename="../../fpwin.cpp" line="2887"/>
         <source>Open file...</source>
         <translation>ファイルを開く...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3119"/>
-        <location filename="../../fpwin.cpp" line="3157"/>
+        <location filename="../../fpwin.cpp" line="3124"/>
+        <location filename="../../fpwin.cpp" line="3162"/>
         <source>Save as...</source>
         <translation>名前を付けて保存...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3193"/>
+        <location filename="../../fpwin.cpp" line="3198"/>
         <source>Keep encoding and save as...</source>
         <translation>エンコードして保存...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3528"/>
+        <location filename="../../fpwin.cpp" line="3533"/>
         <source>Saving as root.</source>
         <translation>root として保存します。</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3529"/>
+        <location filename="../../fpwin.cpp" line="3534"/>
         <source>Waiting for authentication...</source>
         <translation>認証を待っています...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3648"/>
+        <location filename="../../fpwin.cpp" line="3653"/>
         <source>&quot;pkexec&quot; is not found. Please install Polkit!</source>
         <translation>&quot;pkexec&quot; が見つかりません。Polkit をインストールして下さい！</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3308"/>
+        <location filename="../../fpwin.cpp" line="3313"/>
         <source>Yes</source>
         <translation>はい</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3309"/>
+        <location filename="../../fpwin.cpp" line="3314"/>
         <source>No</source>
         <translation>いいえ</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3310"/>
+        <location filename="../../fpwin.cpp" line="3315"/>
         <source>Cancel</source>
         <translation>キャンセル</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3311"/>
+        <location filename="../../fpwin.cpp" line="3316"/>
         <source>Do you want to use &lt;b&gt;MS Windows&lt;/b&gt; end-of-lines?</source>
         <translation>&lt;b&gt;MS Windows&lt;/b&gt; の改行コード (CR LF) を使いますか？</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3312"/>
+        <location filename="../../fpwin.cpp" line="3317"/>
         <source>This may be good for readability under MS Windows.</source>
         <translation>これにより、MS Windows で文章が読みやすくなります。</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3700"/>
-        <location filename="../../fpwin.cpp" line="3706"/>
-        <location filename="../../fpwin.cpp" line="3714"/>
-        <location filename="../../fpwin.cpp" line="4623"/>
-        <location filename="../../fpwin.cpp" line="6221"/>
-        <location filename="../../fpwin.cpp" line="6227"/>
-        <location filename="../../fpwin.cpp" line="6235"/>
+        <location filename="../../fpwin.cpp" line="3705"/>
+        <location filename="../../fpwin.cpp" line="3711"/>
+        <location filename="../../fpwin.cpp" line="3719"/>
+        <location filename="../../fpwin.cpp" line="4628"/>
+        <location filename="../../fpwin.cpp" line="6226"/>
+        <location filename="../../fpwin.cpp" line="6232"/>
+        <location filename="../../fpwin.cpp" line="6240"/>
         <source>Syntax</source>
         <translation>構文</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3425"/>
-        <location filename="../../fpwin.cpp" line="3543"/>
-        <location filename="../../fpwin.cpp" line="3647"/>
-        <location filename="../../fpwin.cpp" line="3659"/>
+        <location filename="../../fpwin.cpp" line="3430"/>
+        <location filename="../../fpwin.cpp" line="3548"/>
+        <location filename="../../fpwin.cpp" line="3652"/>
+        <location filename="../../fpwin.cpp" line="3664"/>
         <source>Cannot be saved!</source>
         <translation>保存できません！</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2873"/>
         <location filename="../../fpwin.cpp" line="2878"/>
-        <location filename="../../fpwin.cpp" line="3062"/>
-        <location filename="../../fpwin.cpp" line="3068"/>
-        <location filename="../../fpwin.cpp" line="3090"/>
+        <location filename="../../fpwin.cpp" line="2883"/>
+        <location filename="../../fpwin.cpp" line="3067"/>
+        <location filename="../../fpwin.cpp" line="3073"/>
+        <location filename="../../fpwin.cpp" line="3095"/>
         <source>All Files</source>
         <translation>すべてのファイル</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3803"/>
+        <location filename="../../fpwin.cpp" line="3808"/>
         <source>Text tabs are converted to spaces.</source>
         <translation>テキストのタブはスペースに変換されます。</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3905"/>
+        <location filename="../../fpwin.cpp" line="3910"/>
         <source>The selected text was too long.</source>
         <translation>選択したテキストが長すぎます。</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3906"/>
+        <location filename="../../fpwin.cpp" line="3911"/>
         <source>It is not fully processed.</source>
         <translation>完全には処理されていません。</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4067"/>
-        <location filename="../../fpwin.cpp" line="4300"/>
+        <location filename="../../fpwin.cpp" line="4072"/>
+        <location filename="../../fpwin.cpp" line="4305"/>
         <source>This file has been modified elsewhere or in another way!</source>
         <translation>このファイルは他の場所で更新されています！</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4068"/>
-        <location filename="../../fpwin.cpp" line="4301"/>
+        <location filename="../../fpwin.cpp" line="4073"/>
+        <location filename="../../fpwin.cpp" line="4306"/>
         <source>Please be careful about reloading or saving this document!</source>
         <translation>この文書の再読み込みや保存には注意してください！</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4776"/>
+        <location filename="../../fpwin.cpp" line="4781"/>
         <source>Printing in progress...</source>
         <translation>印刷中です...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4827"/>
+        <location filename="../../fpwin.cpp" line="4832"/>
         <source>Print Document</source>
         <translation>文書の印刷</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4833"/>
+        <location filename="../../fpwin.cpp" line="4838"/>
         <source>Printing completed.</source>
         <translation>印刷が完了しました。</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5493"/>
-        <location filename="../../fpwin.cpp" line="5623"/>
+        <location filename="../../fpwin.cpp" line="5498"/>
+        <location filename="../../fpwin.cpp" line="5628"/>
         <source>%1 Pages</source>
         <translation>%1 ページ</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5525"/>
-        <location filename="../../fpwin.cpp" line="5659"/>
+        <location filename="../../fpwin.cpp" line="5530"/>
+        <location filename="../../fpwin.cpp" line="5664"/>
         <source>Copy Target Path</source>
         <translation>対象のパスをコピー</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5529"/>
-        <location filename="../../fpwin.cpp" line="5663"/>
+        <location filename="../../fpwin.cpp" line="5534"/>
+        <location filename="../../fpwin.cpp" line="5668"/>
         <source>Open Target Here</source>
         <translation>対象をここで開く</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5548"/>
-        <location filename="../../fpwin.cpp" line="5683"/>
+        <location filename="../../fpwin.cpp" line="5553"/>
+        <location filename="../../fpwin.cpp" line="5688"/>
         <source>Copy Final Target Path</source>
         <translation>最終的な対象のパスをコピー</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5552"/>
-        <location filename="../../fpwin.cpp" line="5687"/>
+        <location filename="../../fpwin.cpp" line="5557"/>
+        <location filename="../../fpwin.cpp" line="5692"/>
         <source>Open Final Target Here</source>
         <translation>最終的な対象をここで開く</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5572"/>
-        <location filename="../../fpwin.cpp" line="5708"/>
+        <location filename="../../fpwin.cpp" line="5577"/>
+        <location filename="../../fpwin.cpp" line="5713"/>
         <source>Open Containing Folder</source>
         <translation>このファイルのあるフォルダを開く</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5831"/>
+        <location filename="../../fpwin.cpp" line="5836"/>
         <source>You need to add a Hunspell dictionary.</source>
         <translation>Hunspell 辞書を追加してください。</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5832"/>
-        <location filename="../../fpwin.cpp" line="5839"/>
-        <location filename="../../fpwin.cpp" line="5849"/>
+        <location filename="../../fpwin.cpp" line="5837"/>
+        <location filename="../../fpwin.cpp" line="5844"/>
+        <location filename="../../fpwin.cpp" line="5854"/>
         <source>See Preferences → Text → Spell Checking!</source>
         <translation>設定 → テキスト → スペルチェック を参照してください！</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5838"/>
+        <location filename="../../fpwin.cpp" line="5843"/>
         <source>The Hunspell dictionary does not exist.</source>
         <translation>Hunspell 辞書が存在しません。</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5848"/>
+        <location filename="../../fpwin.cpp" line="5853"/>
         <source>The Hunspell dictionary is not accompanied by an affix file.</source>
         <translation>Hunspell 辞書に付属ファイルがありません。</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5871"/>
-        <location filename="../../fpwin.cpp" line="5889"/>
-        <location filename="../../fpwin.cpp" line="5904"/>
+        <location filename="../../fpwin.cpp" line="5876"/>
+        <location filename="../../fpwin.cpp" line="5894"/>
+        <location filename="../../fpwin.cpp" line="5909"/>
         <source>No misspelling in document.</source>
         <translation>文書にスペルミスはありません。</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5873"/>
-        <location filename="../../fpwin.cpp" line="5891"/>
-        <location filename="../../fpwin.cpp" line="5906"/>
+        <location filename="../../fpwin.cpp" line="5878"/>
+        <location filename="../../fpwin.cpp" line="5896"/>
+        <location filename="../../fpwin.cpp" line="5911"/>
         <source>No misspelling from text cursor.</source>
         <translation>テキストのカーソル位置から、スペルミスはありません。</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5922"/>
+        <location filename="../../fpwin.cpp" line="5927"/>
         <source>Spell Checking</source>
         <translation>スペルチェック</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6259"/>
+        <location filename="../../fpwin.cpp" line="6264"/>
         <source>Some files cannot be saved!</source>
         <translation>いくつかのファイルは保存できませんでした！</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6298"/>
+        <location filename="../../fpwin.cpp" line="6303"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translation>軽量なタブ機能付きのプレーンテキストエディター</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6299"/>
+        <location filename="../../fpwin.cpp" line="6304"/>
         <source>based on Qt</source>
         <translation>Qt ベース</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6300"/>
+        <location filename="../../fpwin.cpp" line="6305"/>
         <source>Author</source>
         <translation>作者</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6301"/>
+        <location filename="../../fpwin.cpp" line="6306"/>
         <source>aka.</source>
         <translation>aka.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6302"/>
-        <location filename="../../fpwin.cpp" line="6303"/>
+        <location filename="../../fpwin.cpp" line="6307"/>
+        <location filename="../../fpwin.cpp" line="6308"/>
         <source>About FeatherPad</source>
         <translation>FeatherPad について</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6302"/>
+        <location filename="../../fpwin.cpp" line="6307"/>
         <source>Translators</source>
         <translation>翻訳</translation>
     </message>
@@ -1753,8 +1753,13 @@ Needs window reopening to take effect.</source>
         <translation>背景色の値: </translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="788"/>
-        <location filename="../../prefDialog.ui" line="803"/>
+        <location filename="../../prefDialog.ui" line="786"/>
+        <source>Add a small margin around text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../prefDialog.ui" line="795"/>
+        <location filename="../../prefDialog.ui" line="810"/>
         <source>Used for pasting the date and time.
 
 Takes effect after closing this dialog.
@@ -1771,62 +1776,62 @@ MMM dd, yyyy, hh:mm:ss
 yyyy-MM-dd hh:mm</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="796"/>
+        <location filename="../../prefDialog.ui" line="803"/>
         <source>Date and time format:</source>
         <translation>日付と時刻の形式:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="825"/>
+        <location filename="../../prefDialog.ui" line="832"/>
         <source>Text tab size:</source>
         <translation>タブ文字のサイズ:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="832"/>
+        <location filename="../../prefDialog.ui" line="839"/>
         <source> spaces</source>
         <translation> 個のスペース</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="866"/>
+        <location filename="../../prefDialog.ui" line="873"/>
         <source>Some text editors cannot open a document
 whose last line is not empty.</source>
         <translation>一部のテキストエディターは最後の行が
 空でない文書を開けません。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="870"/>
+        <location filename="../../prefDialog.ui" line="877"/>
         <source>Ensure an empty last line on saving</source>
         <translation>保存時に最後の行が空かどうかを確認する</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="877"/>
+        <location filename="../../prefDialog.ui" line="884"/>
         <source>Remove trailing spaces on saving</source>
         <translation>保存時に末尾のスペースを削除する</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="884"/>
+        <location filename="../../prefDialog.ui" line="891"/>
         <source>Thick text cursor</source>
         <translation>テキストカーソルを太くする</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="891"/>
+        <location filename="../../prefDialog.ui" line="898"/>
         <source>Should the mouse wheel scrolling be inertial
 if the cursor is inside the text view?</source>
         <translation>カーソルがテキストビュー内にある場合に、
 マウスホイールで慣性スクロールを使いますか？</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="895"/>
+        <location filename="../../prefDialog.ui" line="902"/>
         <source>Inertial scrolling with mouse wheel</source>
         <translation>マウスホイールでの慣性スクロールを使う</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="902"/>
+        <location filename="../../prefDialog.ui" line="909"/>
         <source>Spell Checking</source>
         <translation>スペルチェック</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="910"/>
-        <location filename="../../prefDialog.ui" line="922"/>
+        <location filename="../../prefDialog.ui" line="917"/>
+        <location filename="../../prefDialog.ui" line="929"/>
         <source>A Hunspell dictionary has a name that ends with &quot;.dic&quot;
 and should be alongside an affix file with the same
 name but ending with &quot;.aff&quot;.</source>
@@ -1835,41 +1840,41 @@ name but ending with &quot;.aff&quot;.</source>
 一緒にする必要があります。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="915"/>
+        <location filename="../../prefDialog.ui" line="922"/>
         <source>Hunspell dictionary path:</source>
         <translation>Hunspell 辞書のパス:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="934"/>
-        <location filename="../../pref.cpp" line="1694"/>
+        <location filename="../../prefDialog.ui" line="941"/>
+        <location filename="../../pref.cpp" line="1710"/>
         <source>Add dictionary...</source>
         <translation>辞書を追加...</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="946"/>
+        <location filename="../../prefDialog.ui" line="953"/>
         <source>If this is unchecked, spell checking
 will be started from the document start.</source>
         <translation>これがチェックされていない場合、
 文書の先頭からスペルチェックを行います。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="950"/>
+        <location filename="../../prefDialog.ui" line="957"/>
         <source>Start spell checking from text cursor</source>
         <translation>テキストカーソル位置からスペルチェックを開始する</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="984"/>
+        <location filename="../../prefDialog.ui" line="991"/>
         <source>Files</source>
         <translation>ファイル</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="990"/>
+        <location filename="../../prefDialog.ui" line="997"/>
         <source>File Management</source>
         <translation>ファイル管理</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="998"/>
-        <location filename="../../prefDialog.ui" line="1012"/>
+        <location filename="../../prefDialog.ui" line="1005"/>
+        <location filename="../../prefDialog.ui" line="1019"/>
         <source>The maximum number of recently modified or
 opened files FeatherPad shows. The default
 is 10.
@@ -1882,32 +1887,32 @@ Needs application restart to take effect.</source>
 有効にするには、アプリケーションを再起動して下さい。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1005"/>
+        <location filename="../../prefDialog.ui" line="1012"/>
         <source>Number of recent files: </source>
         <translation>記憶しておく最近のファイルの数: </translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1065"/>
+        <location filename="../../prefDialog.ui" line="1072"/>
         <source>Show recentl&amp;y modified files</source>
         <translation>最近更新したファイルを表示する(&amp;Y)</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1095"/>
+        <location filename="../../prefDialog.ui" line="1102"/>
         <source>Show recentl&amp;y opened files</source>
         <translation>最近開いたファイルを表示する(&amp;Y)</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1104"/>
+        <location filename="../../prefDialog.ui" line="1111"/>
         <source>Only if their number is not greater than 50.</source>
         <translation>その数が50を超えない場合のみ。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1107"/>
+        <location filename="../../prefDialog.ui" line="1114"/>
         <source>Start with files of last window</source>
         <translation>最後のウィンドウのファイルを開いて起動する</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1114"/>
+        <location filename="../../prefDialog.ui" line="1121"/>
         <source>This only includes executable files written
 in script languages like Shell and Python.
 
@@ -1925,13 +1930,13 @@ process could be killed by Ctrl+Alt+E.</source>
 Ctrl+Alt+E でプロセスを終了できます。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1124"/>
+        <location filename="../../prefDialog.ui" line="1131"/>
         <source>Run executable scripts</source>
         <translation>実行可能なスクリプトを実行する</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1149"/>
-        <location filename="../../prefDialog.ui" line="1168"/>
+        <location filename="../../prefDialog.ui" line="1156"/>
+        <location filename="../../prefDialog.ui" line="1175"/>
         <source>This can be any starting command with
 arguments, for example, &quot;xterm -hold&quot;
 for running the process in XTerm.
@@ -1951,33 +1956,33 @@ will be shown by a popup dialog.</source>
 出力やエラーメッセージはポップアップダイアログで表示します。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1161"/>
+        <location filename="../../prefDialog.ui" line="1168"/>
         <source>Start with this command: </source>
         <translation>次のコマンドで開始: </translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1180"/>
+        <location filename="../../prefDialog.ui" line="1187"/>
         <source>Command + Arguments</source>
         <translation>コマンド + 引数</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1191"/>
-        <location filename="../../prefDialog.ui" line="1201"/>
+        <location filename="../../prefDialog.ui" line="1198"/>
+        <location filename="../../prefDialog.ui" line="1208"/>
         <source>Only for files that exist and can be saved.</source>
         <translation>実在し保存可能なファイルのみ。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1194"/>
+        <location filename="../../prefDialog.ui" line="1201"/>
         <source>Save changes to opened files every:</source>
         <translation>開いているファイルの変更を指定間隔で保存:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1204"/>
+        <location filename="../../prefDialog.ui" line="1211"/>
         <source> min</source>
         <translation> 分</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1235"/>
+        <location filename="../../prefDialog.ui" line="1242"/>
         <source>If this is checked, the Save button/menu-item could
 be used also when the opened file is not modified.
 
@@ -1993,102 +1998,102 @@ trailing spaces of a text file.</source>
 い場合といった、特定の条件下で役立ちます。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1243"/>
+        <location filename="../../prefDialog.ui" line="1250"/>
         <source>Allow saving unmodified files</source>
         <translation>未更新ファイルの保存を許可する</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1250"/>
+        <location filename="../../prefDialog.ui" line="1257"/>
         <source>Show a warning instead.</source>
         <translation>代わりに警告を表示します。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1253"/>
+        <location filename="../../prefDialog.ui" line="1260"/>
         <source>Do not permit opening of non-text files</source>
         <translation>テキスト以外のファイルを開くことを許可しない</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1260"/>
+        <location filename="../../prefDialog.ui" line="1267"/>
         <source>By default, when files are copied, they will
 be opened if they are pasted into FeatherPad.</source>
         <translation>デフォルトでは、ファイルをコピーして、
 FeatherPad に貼り付ける場合はそのファイルを開きます。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1264"/>
+        <location filename="../../prefDialog.ui" line="1271"/>
         <source>Paste paths instead of files</source>
         <translation>ファイルではなくパスを貼り付ける</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1291"/>
+        <location filename="../../prefDialog.ui" line="1298"/>
         <source>Shortcuts</source>
         <translation>ショートカット</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1313"/>
+        <location filename="../../prefDialog.ui" line="1320"/>
         <source>Action</source>
         <translation>動作</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1318"/>
+        <location filename="../../prefDialog.ui" line="1325"/>
         <source>Shortcut</source>
         <translation>ショートカット</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1326"/>
+        <location filename="../../prefDialog.ui" line="1333"/>
         <source>Restore default shortcuts.</source>
         <translation>ショートカットを初期設定に戻します。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1329"/>
-        <location filename="../../prefDialog.ui" line="1403"/>
-        <location filename="../../prefDialog.ui" line="1451"/>
+        <location filename="../../prefDialog.ui" line="1336"/>
+        <location filename="../../prefDialog.ui" line="1410"/>
+        <location filename="../../prefDialog.ui" line="1458"/>
         <source>Default</source>
         <translation>既定値</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1340"/>
+        <location filename="../../prefDialog.ui" line="1347"/>
         <source>Syntax Colors</source>
         <translation>構文の色</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1435"/>
+        <location filename="../../prefDialog.ui" line="1442"/>
         <source>Element</source>
         <translation>要素</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1440"/>
+        <location filename="../../prefDialog.ui" line="1447"/>
         <source>Text Color</source>
         <translation>文字の色</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1357"/>
+        <location filename="../../prefDialog.ui" line="1364"/>
         <source>Whitespace color value:</source>
         <translation>ホワイトスペースの色の値:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1390"/>
-        <location filename="../../prefDialog.ui" line="1400"/>
+        <location filename="../../prefDialog.ui" line="1397"/>
+        <location filename="../../prefDialog.ui" line="1407"/>
         <source>Has effect only if line numbers are shown.</source>
         <translation>行番号が表示されている場合のみ効果があります。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1393"/>
+        <location filename="../../prefDialog.ui" line="1400"/>
         <source>Current line highlight value:</source>
         <translation>現在行の強調表示の値:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1448"/>
+        <location filename="../../prefDialog.ui" line="1455"/>
         <source>Restore default syntax colors.</source>
         <translation>構文の色を初期設定に戻します。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1472"/>
+        <location filename="../../prefDialog.ui" line="1479"/>
         <source>Help</source>
         <translation>ヘルプ</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1483"/>
+        <location filename="../../prefDialog.ui" line="1490"/>
         <source>Close</source>
         <translation>閉じる</translation>
     </message>
@@ -2105,111 +2110,111 @@ in the editing mode.</source>
         <translation>変更する色をダブルクリックしてください。</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="314"/>
-        <location filename="../../pref.cpp" line="1390"/>
+        <location filename="../../pref.cpp" line="318"/>
+        <location filename="../../pref.cpp" line="1406"/>
         <source>files</source>
         <translation>ファイル</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="314"/>
-        <location filename="../../pref.cpp" line="1390"/>
+        <location filename="../../pref.cpp" line="318"/>
+        <location filename="../../pref.cpp" line="1406"/>
         <source>file</source>
         <translation>ファイル</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="367"/>
-        <location filename="../../pref.cpp" line="1509"/>
+        <location filename="../../pref.cpp" line="371"/>
+        <location filename="../../pref.cpp" line="1525"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>警告: 不正なショートカットを検出しました！</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="400"/>
+        <location filename="../../pref.cpp" line="404"/>
         <source>Functions, URLs,…</source>
         <translation>関数, URL, …</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="401"/>
+        <location filename="../../pref.cpp" line="405"/>
         <source>Built-in Functions</source>
         <translation>組み込み関数</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="402"/>
+        <location filename="../../pref.cpp" line="406"/>
         <source>Comments</source>
         <translation>コメント</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="403"/>
+        <location filename="../../pref.cpp" line="407"/>
         <source>Quotations</source>
         <translation>引用</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="404"/>
+        <location filename="../../pref.cpp" line="408"/>
         <source>Types</source>
         <translation>タイプ</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="405"/>
+        <location filename="../../pref.cpp" line="409"/>
         <source>Key Words</source>
         <translation>キーワード</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="406"/>
+        <location filename="../../pref.cpp" line="410"/>
         <source>Numbers</source>
         <translation>数値</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="407"/>
+        <location filename="../../pref.cpp" line="411"/>
         <source>Regular Expressions, Code Blocks,…</source>
         <translation>正規表現, コードブロック,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="408"/>
+        <location filename="../../pref.cpp" line="412"/>
         <source>Document Blocks, XML/HTML Elements,…</source>
         <translation>文書ブロック, XML/HTML 要素,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="409"/>
+        <location filename="../../pref.cpp" line="413"/>
         <source>Markdown Headings, CSS Values,…</source>
         <translation>マークダウンの見出し, CSS の値,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="410"/>
+        <location filename="../../pref.cpp" line="414"/>
         <source>Extra Elements</source>
         <translation>その他の要素</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="571"/>
+        <location filename="../../pref.cpp" line="575"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>変更を有効にするには、アプリケーションを再起動して下さい。</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="591"/>
+        <location filename="../../pref.cpp" line="596"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>変更を有効にするには、ウィンドウを開き直して下さい。</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1416"/>
+        <location filename="../../pref.cpp" line="1432"/>
         <source>&amp;Recently Opened</source>
         <translation>最近開いたファイル(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1417"/>
+        <location filename="../../pref.cpp" line="1433"/>
         <source>Recently &amp;Modified</source>
         <translation>最近更新したファイル(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1492"/>
+        <location filename="../../pref.cpp" line="1508"/>
         <source>The typed shortcut was reserved.</source>
         <translation>入力したショートカットは予約済みでした。</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1696"/>
+        <location filename="../../pref.cpp" line="1712"/>
         <source>Hunspell Dictionary Files</source>
         <translation>Hunspell 辞書ファイル</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="461"/>
-        <location filename="../../pref.cpp" line="1782"/>
+        <location filename="../../pref.cpp" line="465"/>
+        <location filename="../../pref.cpp" line="1798"/>
         <source>Select Syntax Color</source>
         <translation>構文の色を選択</translation>
     </message>

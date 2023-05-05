@@ -1589,6 +1589,11 @@ TabPage* FPwin::createEmptyTab (bool setCurrent, bool allowNormalHighlighter)
     textEdit->setDateFormat (config.getDateFormat());
     if (config.getThickCursor())
         textEdit->setThickCursor (true);
+    if (config.getTextMargin())
+    {
+        textEdit->document()->setDocumentMargin (12);
+        textEdit->document()->setModified (false);
+    }
 
     if (allowNormalHighlighter && ui->actionSyntax->isChecked())
         syntaxHighlighting (textEdit); // the default (url) syntax highlighter

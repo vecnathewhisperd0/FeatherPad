@@ -116,6 +116,7 @@ PrefDialog::PrefDialog (QWidget *parent)
     recentNumber_ = config.getRecentFilesNumber();
     showWhiteSpace_ = config.getShowWhiteSpace();
     showEndings_ = config.getShowEndings();
+    textMargin_ = config.getTextMargin();
     vLineDistance_ = config.getVLineDistance();
     textTabSize_ = config.getTextTabSize();
     saveUnmodified_ = config.getSaveUnmodified();
@@ -250,6 +251,9 @@ PrefDialog::PrefDialog (QWidget *parent)
 
     ui->endingsBox->setChecked (config.getShowEndings());
     connect (ui->endingsBox, &QCheckBox::stateChanged, this, &PrefDialog::prefEndings);
+
+    ui->marginBox->setChecked (config.getTextMargin());
+    connect (ui->marginBox, &QCheckBox::stateChanged, this, &PrefDialog::prefTextMargin);
 
     ui->colBox->setChecked (config.getDarkColScheme());
     connect (ui->colBox, &QCheckBox::stateChanged, this, &PrefDialog::prefDarkColScheme);
@@ -575,6 +579,7 @@ void PrefDialog::showPrompt (const QString& str, bool temporary)
              || (!darkBg_ && lightColValue_ != config.getLightBgColorValue())
              || showWhiteSpace_ != config.getShowWhiteSpace()
              || showEndings_ != config.getShowEndings()
+             || textMargin_ != config.getTextMargin()
              || textTabSize_ != config.getTextTabSize()
              || (vLineDistance_ * config.getVLineDistance() < 0
                  || (vLineDistance_ > 0 && vLineDistance_ != config.getVLineDistance()))
@@ -1089,6 +1094,17 @@ void PrefDialog::prefEndings (int checked)
         config.setShowEndings (true);
     else if (checked == Qt::Unchecked)
         config.setShowEndings (false);
+
+    showPrompt();
+}
+/*************************/
+void PrefDialog::prefTextMargin (int checked)
+{
+    Config& config = static_cast<FPsingleton*>(qApp)->getConfig();
+    if (checked == Qt::Checked)
+        config.setTextMargin (true);
+    else if (checked == Qt::Unchecked)
+        config.setTextMargin (false);
 
     showPrompt();
 }

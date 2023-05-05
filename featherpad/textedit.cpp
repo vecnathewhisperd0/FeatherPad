@@ -176,13 +176,18 @@ void TextEdit::setCurLineHighlight (int value)
 /*************************/
 bool TextEdit::eventFilter (QObject *watched, QEvent *event)
 {
-    if (watched == lineNumberArea_ && event->type() == QEvent::Wheel)
+    if (watched == lineNumberArea_)
     {
-        if (QWheelEvent *we = static_cast<QWheelEvent*>(event))
+        if (event->type() == QEvent::Wheel)
         {
-            wheelEvent (we);
-            return false;
+            if (QWheelEvent *we = static_cast<QWheelEvent*>(event))
+            {
+                wheelEvent (we);
+                return false;
+            }
         }
+        else if (event->type() == QEvent::MouseButtonPress)
+            return true; // prevent the window from being dragged by widget styles (like Kvantum)
     }
     return QPlainTextEdit::eventFilter (watched, event);
 }
@@ -1540,8 +1545,11 @@ void TextEdit::resizeEvent (QResizeEvent *event)
     QPlainTextEdit::resizeEvent (event);
 
     QRect cr = contentsRect();
-    lineNumberArea_->setGeometry (QRect (QApplication::layoutDirection() == Qt::RightToLeft ? cr.width() - lineNumberAreaWidth() : cr.left(),
-                                         cr.top(), lineNumberAreaWidth(), cr.height()));
+    int lw = lineNumberAreaWidth();
+    lineNumberArea_->setGeometry (QRect (QApplication::layoutDirection() == Qt::RightToLeft
+                                             ? cr.width() - lw : cr.left(),
+                                         cr.top(),
+                                         lw, cr.height()));
 
     if (resizeTimerId_)
     {
