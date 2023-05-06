@@ -1962,7 +1962,7 @@ nombre pero terminando en &quot;.aff&quot;.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="941"/>
-        <location filename="../../pref.cpp" line="1756"/>
+        <location filename="../../pref.cpp" line="1738"/>
         <source>Add dictionary...</source>
         <translation>Agregar un diccionario...</translation>
     </message>
@@ -2123,111 +2123,111 @@ un atajo en el modo de edición.</translation>
         <translation>Pulse dos veces en un color para cambiarlo.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="344"/>
-        <location filename="../../pref.cpp" line="1452"/>
+        <location filename="../../pref.cpp" line="319"/>
+        <location filename="../../pref.cpp" line="1434"/>
         <source>files</source>
         <translation>archivos</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="344"/>
-        <location filename="../../pref.cpp" line="1452"/>
+        <location filename="../../pref.cpp" line="319"/>
+        <location filename="../../pref.cpp" line="1434"/>
         <source>file</source>
         <translation>archivo</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="397"/>
-        <location filename="../../pref.cpp" line="1571"/>
+        <location filename="../../pref.cpp" line="372"/>
+        <location filename="../../pref.cpp" line="1553"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Advertencia: ¡Se detectó un atajo que podría ser problemático!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="430"/>
+        <location filename="../../pref.cpp" line="405"/>
         <source>Functions, URLs,…</source>
         <translation>Funciones, URL, …</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="431"/>
+        <location filename="../../pref.cpp" line="406"/>
         <source>Built-in Functions</source>
         <translation>Funciones integradas</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="432"/>
+        <location filename="../../pref.cpp" line="407"/>
         <source>Comments</source>
         <translation>Comentarios</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="433"/>
+        <location filename="../../pref.cpp" line="408"/>
         <source>Quotations</source>
         <translation>Citas</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="434"/>
+        <location filename="../../pref.cpp" line="409"/>
         <source>Types</source>
         <translation>Tipos</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="435"/>
+        <location filename="../../pref.cpp" line="410"/>
         <source>Key Words</source>
         <translation>Palabras clave</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="436"/>
+        <location filename="../../pref.cpp" line="411"/>
         <source>Numbers</source>
         <translation>Números</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="437"/>
+        <location filename="../../pref.cpp" line="412"/>
         <source>Regular Expressions, Code Blocks,…</source>
         <translation>Expresiones regulares, bloques de código, …</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="438"/>
+        <location filename="../../pref.cpp" line="413"/>
         <source>Document Blocks, XML/HTML Elements,…</source>
         <translation>Bloques de documentos, elementos XML/HTML, …</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="439"/>
+        <location filename="../../pref.cpp" line="414"/>
         <source>Markdown Headings, CSS Values,…</source>
         <translation>Títulos de Markdown, valores de CSS, …</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="440"/>
+        <location filename="../../pref.cpp" line="415"/>
         <source>Extra Elements</source>
         <translation>Elementos adicionales</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="601"/>
+        <location filename="../../pref.cpp" line="583"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Es necesario reiniciar la aplicación para que los cambios tengan efecto.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="622"/>
+        <location filename="../../pref.cpp" line="604"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Los cambios tendrán efecto después de reiniciar la aplicación.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1478"/>
+        <location filename="../../pref.cpp" line="1460"/>
         <source>&amp;Recently Opened</source>
         <translation>Abiertos &amp;recientemente</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1479"/>
+        <location filename="../../pref.cpp" line="1461"/>
         <source>Recently &amp;Modified</source>
         <translation>&amp;Modificados recientemente</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1554"/>
+        <location filename="../../pref.cpp" line="1536"/>
         <source>The typed shortcut was reserved.</source>
         <translation>El atajo escrito esta reservado.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1758"/>
+        <location filename="../../pref.cpp" line="1740"/>
         <source>Hunspell Dictionary Files</source>
         <translation>Archivos de diccionario en formato Hunspell</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="491"/>
-        <location filename="../../pref.cpp" line="1844"/>
+        <location filename="../../pref.cpp" line="466"/>
+        <location filename="../../pref.cpp" line="1826"/>
         <source>Select Syntax Color</source>
         <translation>Seleccionar color de sintaxis</translation>
     </message>

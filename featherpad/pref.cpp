@@ -129,31 +129,6 @@ PrefDialog::PrefDialog (QWidget *parent)
     disableMenubarAccel_ = config.getDisableMenubarAccel();
     sysIcons_ = config.getSysIcons();
 
-    /* don't let spin and combo boxes accept wheel events when not focused */
-    ui->spinX->setFocusPolicy (Qt::StrongFocus);
-    ui->spinY->setFocusPolicy (Qt::StrongFocus);
-    ui->tabCombo->setFocusPolicy (Qt::StrongFocus);
-    ui->spinBox->setFocusPolicy (Qt::StrongFocus);
-    ui->vLineSpin->setFocusPolicy (Qt::StrongFocus);
-    ui->colorValueSpin->setFocusPolicy (Qt::StrongFocus);
-    ui->textTabSpin->setFocusPolicy (Qt::StrongFocus);
-    ui->recentSpin->setFocusPolicy (Qt::StrongFocus);
-    ui->autoSaveSpin->setFocusPolicy (Qt::StrongFocus);
-    ui->whiteSpaceSpin->setFocusPolicy (Qt::StrongFocus);
-    ui->curLineSpin->setFocusPolicy (Qt::StrongFocus);
-
-    ui->spinX->installEventFilter (this);
-    ui->spinY->installEventFilter (this);
-    ui->tabCombo->installEventFilter (this);
-    ui->spinBox->installEventFilter (this);
-    ui->vLineSpin->installEventFilter (this);
-    ui->colorValueSpin->installEventFilter (this);
-    ui->textTabSpin->installEventFilter (this);
-    ui->recentSpin->installEventFilter (this);
-    ui->autoSaveSpin->installEventFilter (this);
-    ui->whiteSpaceSpin->installEventFilter (this);
-    ui->curLineSpin->installEventFilter (this);
-
     /**************
      *** Window ***
      **************/
@@ -521,6 +496,13 @@ PrefDialog::PrefDialog (QWidget *parent)
             /* for the tooltip mess in Qt 5.12 */
             w->setToolTip ("<p style='white-space:pre'>" + w->toolTip() + "</p>");
         }
+
+        /* don't let spin and combo boxes accept wheel events when not focused */
+        if (qobject_cast<QSpinBox *>(w) || qobject_cast<QComboBox *>(w))
+        {
+            w->setFocusPolicy (Qt::StrongFocus);
+            w->installEventFilter (this);
+        }
     }
 
     if (parent != nullptr)
@@ -643,7 +625,7 @@ void PrefDialog::showWhatsThis()
 bool PrefDialog::eventFilter (QObject *object, QEvent *event)
 {
     if (event->type() == QEvent::Wheel
-       && (qobject_cast<QSpinBox *>(object) || static_cast<QComboBox *>(object))
+       && (qobject_cast<QSpinBox *>(object) || qobject_cast<QComboBox *>(object))
        && !qobject_cast<QWidget *>(object)->hasFocus())
     {
         /* Don't let unfocused spin and combo boxes accept wheel events;
