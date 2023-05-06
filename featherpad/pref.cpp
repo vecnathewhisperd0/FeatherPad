@@ -159,6 +159,20 @@ PrefDialog::PrefDialog (QWidget *parent)
     /* old-fashioned: connect (ui->spinX, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),... */
     connect (ui->spinX, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::prefStartSize);
     connect (ui->spinY, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::prefStartSize);
+    if (auto le = ui->spinX->findChild<QLineEdit*>())
+    {
+        connect (le, &QLineEdit::textChanged, this, [this, config] (const QString &txt) {
+            if (txt == ui->spinX->suffix())
+                ui->spinX->setValue (config.getDefaultStartSize().width());
+        });
+    }
+    if (auto le = ui->spinY->findChild<QLineEdit*>())
+    {
+        connect (le, &QLineEdit::textChanged, this, [this, config] (const QString &txt) {
+            if (txt == ui->spinY->suffix())
+                ui->spinY->setValue (config.getDefaultStartSize().height());
+        });
+    }
 
     ui->winPosBox->setChecked (config.getRemPos());
     connect (ui->winPosBox, &QCheckBox::stateChanged, this, &PrefDialog::prefPos);
@@ -249,6 +263,13 @@ PrefDialog::PrefDialog (QWidget *parent)
     ui->vLineSpin->setEnabled (vLineDistance_ >= 10);
     ui->vLineSpin->setValue (qAbs (vLineDistance_));
     connect (ui->vLineSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::prefVLineDistance);
+    if (auto le = ui->vLineSpin->findChild<QLineEdit*>())
+    {
+        connect (le, &QLineEdit::textChanged, this, [this, config] (const QString &txt) {
+            if (txt.isEmpty())
+                ui->vLineSpin->setValue (config.getDefaultVLineDistance());
+        });
+    }
 
     ui->endingsBox->setChecked (config.getShowEndings());
     connect (ui->endingsBox, &QCheckBox::stateChanged, this, &PrefDialog::prefEndings);
@@ -291,6 +312,13 @@ PrefDialog::PrefDialog (QWidget *parent)
 
     ui->spinBox->setValue (config.getMaxSHSize());
     connect (ui->spinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::prefMaxSHSize);
+    if (auto le = ui->spinBox->findChild<QLineEdit*>())
+    {
+        connect (le, &QLineEdit::textChanged, this, [this, config] (const QString &txt) {
+            if (txt == ui->spinBox->suffix())
+                ui->spinBox->setValue (config.getDefaultMaxSHSize());
+        });
+    }
 
     ui->inertiaBox->setChecked (config.getInertialScrolling());
     connect (ui->inertiaBox, &QCheckBox::stateChanged, this, &PrefDialog::prefInertialScrolling);
@@ -318,6 +346,13 @@ PrefDialog::PrefDialog (QWidget *parent)
     ui->recentSpin->setValue (config.getRecentFilesNumber());
     ui->recentSpin->setSuffix (" " + (ui->recentSpin->value() > 1 ? tr ("files") : tr ("file")));
     connect (ui->recentSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::prefRecentFilesNumber);
+    if (auto le = ui->recentSpin->findChild<QLineEdit*>())
+    {
+        connect (le, &QLineEdit::textChanged, this, [this, config] (const QString &txt) {
+            if (txt == ui->recentSpin->suffix())
+                ui->recentSpin->setValue (config.getDefaultRecentFilesNumber());
+        });
+    }
 
     ui->lastFilesBox->setChecked (config.getSaveLastFilesList());
     connect (ui->lastFilesBox, &QCheckBox::stateChanged, this, &PrefDialog::prefSaveLastFilesList);
@@ -453,6 +488,13 @@ PrefDialog::PrefDialog (QWidget *parent)
     ui->whiteSpaceSpin->setMaximum (config.getMaxWhiteSpaceValue());
     ui->whiteSpaceSpin->setValue (whiteSpaceValue_);
     connect (ui->whiteSpaceSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::changeWhitespaceValue);
+    if (auto le = ui->whiteSpaceSpin->findChild<QLineEdit*>())
+    {
+        connect (le, &QLineEdit::textChanged, this, [this, config] (const QString &txt) {
+            if (txt.isEmpty())
+                ui->whiteSpaceSpin->setValue (config.getDefaultWhiteSpaceValue());
+        });
+    }
     connect (ui->defaultSyntaxButton, &QAbstractButton::clicked, this, &PrefDialog::restoreDefaultSyntaxColors);
     ui->defaultSyntaxButton->setDisabled (config.customSyntaxColors().isEmpty()
                                           && whiteSpaceValue_ == config.getDefaultWhiteSpaceValue()
@@ -476,6 +518,13 @@ PrefDialog::PrefDialog (QWidget *parent)
     ui->curLineSpin->setMaximum (config.getMaxCurLineHighlight());
     ui->curLineSpin->setValue (curLineHighlight_);
     connect (ui->curLineSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &PrefDialog::changeCurLineHighlight);
+    if (auto le = ui->curLineSpin->findChild<QLineEdit*>())
+    {
+        connect (le, &QLineEdit::textChanged, this, [this] (const QString &txt) {
+            if (txt.isEmpty())
+                ui->curLineSpin->setValue (ui->curLineSpin->minimum());
+        });
+    }
 
     /*************
      *** Other ***

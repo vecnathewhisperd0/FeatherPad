@@ -1953,7 +1953,7 @@ tačiau turinčiu &quot;.aff&quot; prievardį.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="941"/>
-        <location filename="../../pref.cpp" line="1738"/>
+        <location filename="../../pref.cpp" line="1787"/>
         <source>Add dictionary...</source>
         <translation>Pridėti žodyną...</translation>
     </message>
@@ -2114,111 +2114,111 @@ paspauskite modifikatoriaus klavišą.</translation>
         <translation>Spustelėkite du kartus ant spalvos norėdami ją pakeisti.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="319"/>
-        <location filename="../../pref.cpp" line="1434"/>
+        <location filename="../../pref.cpp" line="347"/>
+        <location filename="../../pref.cpp" line="1483"/>
         <source>files</source>
         <translation>failų</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="319"/>
-        <location filename="../../pref.cpp" line="1434"/>
+        <location filename="../../pref.cpp" line="347"/>
+        <location filename="../../pref.cpp" line="1483"/>
         <source>file</source>
         <translation>failas</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="372"/>
-        <location filename="../../pref.cpp" line="1553"/>
+        <location filename="../../pref.cpp" line="407"/>
+        <location filename="../../pref.cpp" line="1602"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Įspėjimas: Aptiktas dviprasmiškas spartusis klavišas!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="405"/>
+        <location filename="../../pref.cpp" line="440"/>
         <source>Functions, URLs,…</source>
         <translation>Funkcijos, URL,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="406"/>
+        <location filename="../../pref.cpp" line="441"/>
         <source>Built-in Functions</source>
         <translation>Įtaisytosios funkcijos</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="407"/>
+        <location filename="../../pref.cpp" line="442"/>
         <source>Comments</source>
         <translation>Komentarai</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="408"/>
+        <location filename="../../pref.cpp" line="443"/>
         <source>Quotations</source>
         <translation>Citatos</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="409"/>
+        <location filename="../../pref.cpp" line="444"/>
         <source>Types</source>
         <translation>Tipai</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="410"/>
+        <location filename="../../pref.cpp" line="445"/>
         <source>Key Words</source>
         <translation>Raktažodžiai</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="411"/>
+        <location filename="../../pref.cpp" line="446"/>
         <source>Numbers</source>
         <translation>Skaičiai</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="412"/>
+        <location filename="../../pref.cpp" line="447"/>
         <source>Regular Expressions, Code Blocks,…</source>
         <translation>Reguliarieji reiškiniai, kodo blokai,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="413"/>
+        <location filename="../../pref.cpp" line="448"/>
         <source>Document Blocks, XML/HTML Elements,…</source>
         <translation>Dokumento blokai, XML/HTML elementai,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="414"/>
+        <location filename="../../pref.cpp" line="449"/>
         <source>Markdown Headings, CSS Values,…</source>
         <translation>Ženklinimo antraštės, CSS reikšmės,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="415"/>
+        <location filename="../../pref.cpp" line="450"/>
         <source>Extra Elements</source>
         <translation>Papildomi elementai</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="583"/>
+        <location filename="../../pref.cpp" line="632"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Tam, kad įsigaliotų pakeitimai, reikia paleisti programą iš naujo.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="604"/>
+        <location filename="../../pref.cpp" line="653"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Tam, kad įsigaliotų pakeitimai, reikia langą atverti iš naujo.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1460"/>
+        <location filename="../../pref.cpp" line="1509"/>
         <source>&amp;Recently Opened</source>
         <translation>Pas&amp;kiausiai atverti</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1461"/>
+        <location filename="../../pref.cpp" line="1510"/>
         <source>Recently &amp;Modified</source>
         <translation>Paskiausiai &amp;modifikuoti</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1536"/>
+        <location filename="../../pref.cpp" line="1585"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Įrašytas spartusis klavišas buvo rezervuotas.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1740"/>
+        <location filename="../../pref.cpp" line="1789"/>
         <source>Hunspell Dictionary Files</source>
         <translation>Hunspell žodyno failai</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="466"/>
-        <location filename="../../pref.cpp" line="1826"/>
+        <location filename="../../pref.cpp" line="508"/>
+        <location filename="../../pref.cpp" line="1875"/>
         <source>Select Syntax Color</source>
         <translation>Pasirinkti sintaksės spalvą</translation>
     </message>

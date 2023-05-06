@@ -131,6 +131,9 @@ public:
         textTabSize_ = textTab;
     }
 
+    int getDefaultRecentFilesNumber() const {
+        return 10;
+    }
     int getRecentFilesNumber() const {
         return recentFilesNumber_;
     }
@@ -169,6 +172,9 @@ public:
         prefSize_ = s;
     }
 
+    QSize getDefaultStartSize() const {
+        return QSize (700, 500);
+    }
     QSize getStartSize() const {
         return startSize_;
     }
@@ -331,6 +337,9 @@ public:
         textMargin_ = margin;
     }
 
+    int getDefaultVLineDistance() const {
+        return 80;
+    }
     int getVLineDistance() const {
         return vLineDistance_;
     }
@@ -338,6 +347,9 @@ public:
         vLineDistance_ = distance;
     }
 
+    int getDefaultMaxSHSize() const {
+        return 2;
+    }
     int getMaxSHSize() const {
         return maxSHSize_;
     }

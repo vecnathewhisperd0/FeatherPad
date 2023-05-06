@@ -2,9 +2,10 @@ V1.4.1
 ---------
  * Added more types to C/C++ syntax highlighting.
  * To prevent problems on non-Linux systems, don't handle main arguments before calling `QCoreApplication` (Haiku OS may not provide a string argument before `QCoreApplication` is called).
- * Added an option for adding a small margin around the text.
+ * Added an option for a small margin around the text.
  * Prevented window dragging from the line number strip (which was possible with widget styles like Kvantum).
  * In Preferences dialog, don't let the mouse wheel focus spin and combo boxes or change their values when they aren't focused.
+ * In Preferences dialog, set the values of spin-boxes to their defaults if they are cleared.
 
 V1.4.0
 ---------
