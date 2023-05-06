@@ -1955,7 +1955,7 @@ eindigend op ‘.aff’.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="941"/>
-        <location filename="../../pref.cpp" line="1787"/>
+        <location filename="../../pref.cpp" line="1794"/>
         <source>Add dictionary...</source>
         <translation>Woordenboek toevoegen…</translation>
     </message>
@@ -2116,110 +2116,110 @@ om een sneltoets te wissen.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="347"/>
-        <location filename="../../pref.cpp" line="1483"/>
+        <location filename="../../pref.cpp" line="1490"/>
         <source>files</source>
         <translation>bestanden</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="347"/>
-        <location filename="../../pref.cpp" line="1483"/>
+        <location filename="../../pref.cpp" line="1490"/>
         <source>file</source>
         <translation>bestand</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="407"/>
-        <location filename="../../pref.cpp" line="1602"/>
+        <location filename="../../pref.cpp" line="414"/>
+        <location filename="../../pref.cpp" line="1609"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Waarschuwing: dubbelzinnige sneltoets gedetecteerd!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="440"/>
+        <location filename="../../pref.cpp" line="447"/>
         <source>Functions, URLs,…</source>
         <translation>Functies, url&apos;s, …</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="441"/>
+        <location filename="../../pref.cpp" line="448"/>
         <source>Built-in Functions</source>
         <translation>Ingebouwde functies</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="442"/>
+        <location filename="../../pref.cpp" line="449"/>
         <source>Comments</source>
         <translation>Opmerkingen</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="443"/>
+        <location filename="../../pref.cpp" line="450"/>
         <source>Quotations</source>
         <translation>Citaten</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="444"/>
+        <location filename="../../pref.cpp" line="451"/>
         <source>Types</source>
         <translation>Soorten</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="445"/>
+        <location filename="../../pref.cpp" line="452"/>
         <source>Key Words</source>
         <translation>Trefwoorden</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="446"/>
+        <location filename="../../pref.cpp" line="453"/>
         <source>Numbers</source>
         <translation>Getallen</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="447"/>
+        <location filename="../../pref.cpp" line="454"/>
         <source>Regular Expressions, Code Blocks,…</source>
         <translation>Reguliere uitdrukkingen, codeblokken, …</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="448"/>
+        <location filename="../../pref.cpp" line="455"/>
         <source>Document Blocks, XML/HTML Elements,…</source>
         <translation>Documentklokken, xml-/html-elementen, …</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="449"/>
+        <location filename="../../pref.cpp" line="456"/>
         <source>Markdown Headings, CSS Values,…</source>
         <translation>Markdown-koppen, css-waarden, …</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="450"/>
+        <location filename="../../pref.cpp" line="457"/>
         <source>Extra Elements</source>
         <translation>Aanvullende elementen</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="632"/>
+        <location filename="../../pref.cpp" line="639"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Herstart FeatherPad om de wijzigingen toe te passen.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="653"/>
+        <location filename="../../pref.cpp" line="660"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Herstart FeatherPad om de wijzigingen toe te passen.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1509"/>
+        <location filename="../../pref.cpp" line="1516"/>
         <source>&amp;Recently Opened</source>
         <translation>&amp;Onlangs geopend</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1510"/>
+        <location filename="../../pref.cpp" line="1517"/>
         <source>Recently &amp;Modified</source>
         <translation>Onlangs &amp;bewerkt</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1585"/>
+        <location filename="../../pref.cpp" line="1592"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Deze sneltoets is gereserveerd.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1789"/>
+        <location filename="../../pref.cpp" line="1796"/>
         <source>Hunspell Dictionary Files</source>
         <translation>Hunspell-woordenboekbestanden</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="508"/>
-        <location filename="../../pref.cpp" line="1875"/>
+        <location filename="../../pref.cpp" line="515"/>
+        <location filename="../../pref.cpp" line="1882"/>
         <source>Select Syntax Color</source>
         <translation>Kies een syntaxiskleur</translation>
     </message>

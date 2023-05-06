@@ -1957,7 +1957,7 @@ jonka pääte on &quot;.aff&quot;.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="941"/>
-        <location filename="../../pref.cpp" line="1787"/>
+        <location filename="../../pref.cpp" line="1794"/>
         <source>Add dictionary...</source>
         <translation>Lisää sanakirja...</translation>
     </message>
@@ -2118,110 +2118,110 @@ pikanäppäimen arvo editointitilassa.</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="347"/>
-        <location filename="../../pref.cpp" line="1483"/>
+        <location filename="../../pref.cpp" line="1490"/>
         <source>files</source>
         <translation>tiedostoa</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="347"/>
-        <location filename="../../pref.cpp" line="1483"/>
+        <location filename="../../pref.cpp" line="1490"/>
         <source>file</source>
         <translation>tiedosto</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="407"/>
-        <location filename="../../pref.cpp" line="1602"/>
+        <location filename="../../pref.cpp" line="414"/>
+        <location filename="../../pref.cpp" line="1609"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Varoitus: Samaa yhdistelmää käytetty useammin kuin kerran!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="440"/>
+        <location filename="../../pref.cpp" line="447"/>
         <source>Functions, URLs,…</source>
         <translation>Funktiot, URL:t,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="441"/>
+        <location filename="../../pref.cpp" line="448"/>
         <source>Built-in Functions</source>
         <translation>Sisäänrakennetut Funktiot</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="442"/>
+        <location filename="../../pref.cpp" line="449"/>
         <source>Comments</source>
         <translation>Kommentit</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="443"/>
+        <location filename="../../pref.cpp" line="450"/>
         <source>Quotations</source>
         <translation>Lainaukset</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="444"/>
+        <location filename="../../pref.cpp" line="451"/>
         <source>Types</source>
         <translation>Tyypit</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="445"/>
+        <location filename="../../pref.cpp" line="452"/>
         <source>Key Words</source>
         <translation>Avainsanat</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="446"/>
+        <location filename="../../pref.cpp" line="453"/>
         <source>Numbers</source>
         <translation>Numerot</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="447"/>
+        <location filename="../../pref.cpp" line="454"/>
         <source>Regular Expressions, Code Blocks,…</source>
         <translation>Säännölliset Lausekkeet, Koodilohkot,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="448"/>
+        <location filename="../../pref.cpp" line="455"/>
         <source>Document Blocks, XML/HTML Elements,…</source>
         <translation>Asiakirjalohkot, XML/HTML Elementit,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="449"/>
+        <location filename="../../pref.cpp" line="456"/>
         <source>Markdown Headings, CSS Values,…</source>
         <translation>Markdown Otsikot, CSS Arvot,…</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="450"/>
+        <location filename="../../pref.cpp" line="457"/>
         <source>Extra Elements</source>
         <translation>Extra Elementit</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="632"/>
+        <location filename="../../pref.cpp" line="639"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Vaaditaan ohjelman uudelleenkäynnistys muutosten toimeen tulemiseksi.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="653"/>
+        <location filename="../../pref.cpp" line="660"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Vaatii ikkunan uudelleen avaamisen muutoksien voimaan tulemiseksi.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1509"/>
+        <location filename="../../pref.cpp" line="1516"/>
         <source>&amp;Recently Opened</source>
         <translation>&amp;Viimeksi avatut</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1510"/>
+        <location filename="../../pref.cpp" line="1517"/>
         <source>Recently &amp;Modified</source>
         <translation>Viimeksi &amp;muokatut</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1585"/>
+        <location filename="../../pref.cpp" line="1592"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Syötetty yhdistelmä oli varattu.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1789"/>
+        <location filename="../../pref.cpp" line="1796"/>
         <source>Hunspell Dictionary Files</source>
         <translation>Hunspell Sanakirja Tiedostot</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="508"/>
-        <location filename="../../pref.cpp" line="1875"/>
+        <location filename="../../pref.cpp" line="515"/>
+        <location filename="../../pref.cpp" line="1882"/>
         <source>Select Syntax Color</source>
         <translation>Valitse synktaksiväri</translation>
     </message>

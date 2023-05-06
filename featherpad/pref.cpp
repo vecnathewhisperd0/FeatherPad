@@ -363,6 +363,13 @@ PrefDialog::PrefDialog (QWidget *parent)
     ui->autoSaveBox->setChecked (config.getAutoSave());
     ui->autoSaveSpin->setValue (config.getAutoSaveInterval());
     ui->autoSaveSpin->setEnabled (ui->autoSaveBox->isChecked());
+    if (auto le = ui->autoSaveSpin->findChild<QLineEdit*>())
+    {
+        connect (le, &QLineEdit::textChanged, this, [this] (const QString &txt) {
+            if (txt == ui->autoSaveSpin->suffix())
+                ui->autoSaveSpin->setValue (ui->autoSaveSpin->minimum());
+        });
+    }
     connect (ui->autoSaveBox, &QCheckBox::stateChanged, this, &PrefDialog::prefAutoSave);
 
     ui->unmodifiedSaveBox->setChecked (saveUnmodified_);
