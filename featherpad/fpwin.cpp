@@ -3227,6 +3227,8 @@ bool FPwin::saveFile (bool keepSyntax,
         /* using text blocks directly is the fastest
            and lightest way of removing trailing spaces */
         makeBusy();
+        bool doubleSpace (textEdit->getProg() == "markdown" || textEdit->getProg() == "fountain");
+        bool singleSpace (textEdit->getProg() == "LaTeX") ;
         QTextBlock block = textEdit->document()->firstBlock();
         QTextCursor tmpCur = textEdit->textCursor();
         tmpCur.beginEditBlock();
@@ -3235,8 +3237,16 @@ bool FPwin::saveFile (bool keepSyntax,
             if (const int num = trailingSpaces (block.text()))
             {
                 tmpCur.setPosition (block.position() + block.text().length());
-                if (num > 1 && (textEdit->getProg() == "markdown" || textEdit->getProg() == "fountain")) // md sees two trailing spaces as a new line
-                    tmpCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, num - 2);
+                if (doubleSpace)
+                { // markdown sees two trailing spaces as a new line
+                    if (num != 2)
+                        tmpCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, qMax (1, num - 2));
+                }
+                else if (singleSpace)
+                { // LaTeX takes its single trailing spaces into account
+                    if (num > 1)
+                        tmpCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, num - 1);
+                }
                 else
                     tmpCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, num);
                 tmpCur.removeSelectedText();
@@ -6154,6 +6164,8 @@ void FPwin::saveAllFiles (bool showWarning)
         if (config.getRemoveTrailingSpaces() && thisTextEdit->getProg() != "diff")
         {
             makeBusy();
+            bool doubleSpace (thisTextEdit->getProg() == "markdown" || thisTextEdit->getProg() == "fountain");
+            bool singleSpace (thisTextEdit->getProg() == "LaTeX") ;
             QTextBlock block = thisTextEdit->document()->firstBlock();
             QTextCursor tmpCur = thisTextEdit->textCursor();
             tmpCur.beginEditBlock();
@@ -6162,8 +6174,16 @@ void FPwin::saveAllFiles (bool showWarning)
                 if (const int num = trailingSpaces (block.text()))
                 {
                     tmpCur.setPosition (block.position() + block.text().length());
-                    if (num > 1 && (thisTextEdit->getProg() == "markdown" || thisTextEdit->getProg() == "fountain"))
-                        tmpCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, num - 2);
+                    if (doubleSpace)
+                    {
+                        if (num != 2)
+                            tmpCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, qMax (1, num - 2));
+                    }
+                    else if (singleSpace)
+                    {
+                        if (num > 1)
+                            tmpCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, num - 1);
+                    }
                     else
                         tmpCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, num);
                     tmpCur.removeSelectedText();
