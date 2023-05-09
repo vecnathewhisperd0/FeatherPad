@@ -6,7 +6,7 @@ V1.4.1
  * Prevented window dragging from the line number strip (which was possible with widget styles like Kvantum).
  * In Preferences dialog, don't let the mouse wheel focus spin and combo boxes or change their values when they aren't focused.
  * In Preferences dialog, set the values of spin-boxes to their defaults if they are cleared.
- * Don't remove single trailing spaces with LaTeX.
+ * Don't remove single trailing spaces with LaTeX. Also, added more formula keywords to LaTeX.
 
 V1.4.0
 ---------
