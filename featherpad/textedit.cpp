@@ -1998,6 +1998,13 @@ void TextEdit::onSelectionChanged()
         prevAnchor_ = cur.anchor();
         prevPos_ = cur.position();
     }
+    
+    if (selectionTimerId_)
+    {
+        killTimer (selectionTimerId_);
+        selectionTimerId_ = 0;
+    }
+    selectionTimerId_ = startTimer (UPDATE_INTERVAL);
 
     /* selection highlighting */
     if (!selectionHighlighting_) return;
@@ -2008,12 +2015,6 @@ void TextEdit::onSelectionChanged()
         removeSelectionHighlights_ = true;
         highlightThisSelection_ = true; // reset
     }
-    if (selectionTimerId_)
-    {
-        killTimer (selectionTimerId_);
-        selectionTimerId_ = 0;
-    }
-    selectionTimerId_ = startTimer (UPDATE_INTERVAL);
 }
 /*************************/
 void TextEdit::zooming (float range)
@@ -2788,11 +2789,6 @@ void TextEdit::setSelectionHighlighting (bool enable)
         disconnect (document(), &QTextDocument::contentsChange, this, &TextEdit::onContentsChange);
         disconnect (this, &TextEdit::updateRect, this, &TextEdit::selectionHlight);
         disconnect (this, &TextEdit::resized, this, &TextEdit::selectionHlight);
-        if (selectionTimerId_)
-        {
-            killTimer (selectionTimerId_);
-            selectionTimerId_ = 0;
-        }
         /* remove all blue highlights */
         if (!blueSel_.isEmpty())
         {
