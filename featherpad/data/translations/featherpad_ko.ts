@@ -2455,7 +2455,7 @@ windows will be included in the saved session.</source>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="147"/>
+        <location filename="../../textedit.cpp" line="146"/>
         <source>Double click to center current line</source>
         <translatorcomment>정확한 표현인지 의심됨.</translatorcomment>
         <translation>현재 줄을 중심으로 두 번 클릭</translation>

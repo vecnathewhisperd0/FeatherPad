@@ -1645,7 +1645,7 @@ TabPage* FPwin::createEmptyTab (bool setCurrent, bool allowNormalHighlighter)
     connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionLowerCase, &QAction::setEnabled);
     connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionStartCase, &QAction::setEnabled);
 
-    connect (textEdit, &TextEdit::fileDropped, this, &FPwin::newTabFromName);
+    connect (textEdit, &TextEdit::filePasted, this, &FPwin::newTabFromName);
     connect (textEdit, &TextEdit::zoomedOut, this, &FPwin::reformat);
 
     connect (tabPage, &TabPage::find, this, &FPwin::find);
@@ -5040,7 +5040,7 @@ void FPwin::detachTab()
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCopy, &QAction::setEnabled);
     disconnect (textEdit, &QWidget::customContextMenuRequested, this, &FPwin::editorContextMenu);
     disconnect (textEdit, &TextEdit::zoomedOut, this, &FPwin::reformat);
-    disconnect (textEdit, &TextEdit::fileDropped, this, &FPwin::newTabFromName);
+    disconnect (textEdit, &TextEdit::filePasted, this, &FPwin::newTabFromName);
     disconnect (textEdit, &TextEdit::updateBracketMatching, this, &FPwin::matchBrackets);
     disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
     disconnect (textEdit, &TextEdit::updateRect, this, &FPwin::formatTextRect);
@@ -5224,7 +5224,7 @@ void FPwin::detachTab()
         connect (textEdit, &QPlainTextEdit::copyAvailable, dropTarget->ui->actionLowerCase, &QAction::setEnabled);
         connect (textEdit, &QPlainTextEdit::copyAvailable, dropTarget->ui->actionStartCase, &QAction::setEnabled);
     }
-    connect (textEdit, &TextEdit::fileDropped, dropTarget, &FPwin::newTabFromName);
+    connect (textEdit, &TextEdit::filePasted, dropTarget, &FPwin::newTabFromName);
     connect (textEdit, &TextEdit::zoomedOut, dropTarget, &FPwin::reformat);
     connect (textEdit, &QWidget::customContextMenuRequested, dropTarget, &FPwin::editorContextMenu);
 
@@ -5296,7 +5296,7 @@ void FPwin::dropTab (const QString& str, QObject *source)
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, dragSource->ui->actionCopy, &QAction::setEnabled);
     disconnect (textEdit, &QWidget::customContextMenuRequested, dragSource, &FPwin::editorContextMenu);
     disconnect (textEdit, &TextEdit::zoomedOut, dragSource, &FPwin::reformat);
-    disconnect (textEdit, &TextEdit::fileDropped, dragSource, &FPwin::newTabFromName);
+    disconnect (textEdit, &TextEdit::filePasted, dragSource, &FPwin::newTabFromName);
     disconnect (textEdit, &TextEdit::updateBracketMatching, dragSource, &FPwin::matchBrackets);
     disconnect (textEdit, &QPlainTextEdit::blockCountChanged, dragSource, &FPwin::formatOnBlockChange);
     disconnect (textEdit, &TextEdit::updateRect, dragSource, &FPwin::formatTextRect);
@@ -5476,7 +5476,7 @@ void FPwin::dropTab (const QString& str, QObject *source)
         connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionLowerCase, &QAction::setEnabled);
         connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionStartCase, &QAction::setEnabled);
     }
-    connect (textEdit, &TextEdit::fileDropped, this, &FPwin::newTabFromName);
+    connect (textEdit, &TextEdit::filePasted, this, &FPwin::newTabFromName);
     connect (textEdit, &TextEdit::zoomedOut, this, &FPwin::reformat);
     connect (textEdit, &QWidget::customContextMenuRequested, this, &FPwin::editorContextMenu);
 

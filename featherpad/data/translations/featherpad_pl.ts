@@ -2446,7 +2446,7 @@ oknach zostaną uwzględnione w zapisanej sesji.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="147"/>
+        <location filename="../../textedit.cpp" line="146"/>
         <source>Double click to center current line</source>
         <translation>Naciśnij dwukrotnie, aby wyśrodkować obecny wiersz</translation>
     </message>
