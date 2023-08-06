@@ -1236,8 +1236,6 @@
         <translation>
             <numerusform>החלפה אחת</numerusform>
             <numerusform>שתי החלפות</numerusform>
-            <numerusform>%Ln החלפות</numerusform>
-            <numerusform>%Ln החלפות</numerusform>
         </translation>
     </message>
     <message>
@@ -2454,7 +2452,7 @@ windows will be included in the saved session.</source>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="146"/>
+        <location filename="../../textedit.cpp" line="147"/>
         <source>Double click to center current line</source>
         <translation>לחיצה כפולה ממרכזת את השורה הנוכחית</translation>
     </message>
