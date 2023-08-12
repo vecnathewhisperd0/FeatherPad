@@ -52,7 +52,6 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     inertialScrolling_ = false;
     scrollTimer_ = nullptr;
 
-    pasting_ = false;
     keepTxtCurHPos_ = false;
     txtCurHPos_ = -1;
 
@@ -1288,10 +1287,7 @@ void TextEdit::redo()
 void TextEdit::paste()
 {
     keepTxtCurHPos_ = false; // txtCurHPos_ isn't reset here because there may be nothing to paste
-
-    pasting_ = true; // see insertFromMimeData()
     QPlainTextEdit::paste();
-    pasting_ = false;
 }
 void TextEdit::selectAll()
 {
@@ -1332,13 +1328,26 @@ static bool containsPlainText (const QStringList &list)
     }
     return false;
 }
-// We want to pass dropping of files to the main widget with a custom signal.
+// This should be used, instead of "QPlainTextEdit::canPaste()", to set the
+// enabled state of paste actions (when copied files are going to be pasted)
+// because "canInsertFromMimeData()" is overridden below.
+bool TextEdit::pastingIsPossible() const {
+    if (textInteractionFlags() & Qt::TextEditable)
+    {
+        const QMimeData *md = QGuiApplication::clipboard()->mimeData();
+        return md != nullptr
+               && (md->hasUrls()
+                   || (containsPlainText (md->formats()) && !md->text().isEmpty()));
+    }
+    return false;
+}
+// We want to pass dropping of files to the main widget by not accepting it here.
 // We also want to control whether the pasted URLs should be opened.
 bool TextEdit::canInsertFromMimeData (const QMimeData* source) const
 {
     return source != nullptr
-           && (source->hasUrls()
-               || (containsPlainText (source->formats()) && !source->text().isEmpty()));
+           && !source->hasUrls() // let the main widget handle dropped files
+           && containsPlainText (source->formats()) && !source->text().isEmpty();
 }
 void TextEdit::insertFromMimeData (const QMimeData* source)
 {
@@ -1348,7 +1357,7 @@ void TextEdit::insertFromMimeData (const QMimeData* source)
     {
         const QList<QUrl> urlList = source->urls();
         bool multiple (urlList.count() > 1);
-        if (pasting_ && pastePaths_)
+        if (pastePaths_)
         {
             QTextCursor cur = textCursor();
             cur.beginEditBlock();
@@ -1378,7 +1387,7 @@ void TextEdit::insertFromMimeData (const QMimeData* source)
                             .toLocalFile();
                 else
                     continue;
-                emit fileDropped (file, 0, 0, multiple);
+                emit filePasted (file, 0, 0, multiple);
             }
         }
     }
@@ -2208,9 +2217,7 @@ void TextEdit::mousePressEvent (QMouseEvent *event)
 /*************************/
 void TextEdit::mouseReleaseEvent (QMouseEvent *event)
 {
-    pasting_ = true; // see insertFromMimeData()
     QPlainTextEdit::mouseReleaseEvent (event);
-    pasting_ = false;
 
     if (event->button() != Qt::LeftButton || !highlighter_)
         return;
