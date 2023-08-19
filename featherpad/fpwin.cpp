@@ -3907,7 +3907,7 @@ void FPwin::startCase()
             start = 0;
             QRegularExpressionMatch match;
             /* WARNING: "QTextCursor::selectedText()" uses "U+2029" instead of "\n". */
-            while ((start = str.indexOf (QRegularExpression ("[^\\s\\.\\n\\x{2029}]+"), start, &match)) > -1)
+            while ((start = str.indexOf (QRegularExpression ("[^\\s\\-\\.\\n\\x{2029}]+"), start, &match)) > -1)
             {
                 QChar c = str.at (start);
                 /* find the first letter from the start of the word */
