@@ -1287,7 +1287,7 @@ void TextEdit::redo()
 void TextEdit::paste()
 {
     keepTxtCurHPos_ = false; // txtCurHPos_ isn't reset here because there may be nothing to paste
-    QPlainTextEdit::paste();
+    QPlainTextEdit::paste(); // calls insertFromMimeData() in Qt -> "qwidgettextcontrol.cpp"
 }
 void TextEdit::selectAll()
 {

@@ -3882,10 +3882,10 @@ void FPwin::startCase()
             QTextCursor cur = textEdit->textCursor();
             int start = qMin (cur.anchor(), cur.position());
             int end = qMax (cur.anchor(), cur.position());
-            if (end > start + 50000)
+            if (end > start + 100000)
             {
                 showWarning = true;
-                end = start + 50000;
+                end = start + 100000;
             }
 
             cur.setPosition (start);
@@ -3906,10 +3906,18 @@ void FPwin::startCase()
 
             start = 0;
             QRegularExpressionMatch match;
-            /* QTextCursor::selectedText() uses "U+2029" instead of "\n" */
-            while ((start = str.indexOf (QRegularExpression ("[^\\s\\.\\x{2029}]+"), start, &match)) > -1)
+            /* WARNING: "QTextCursor::selectedText()" uses "U+2029" instead of "\n". */
+            while ((start = str.indexOf (QRegularExpression ("[^\\s\\.\\n\\x{2029}]+"), start, &match)) > -1)
             {
-                str.replace (start, 1, str.at (start).toUpper());
+                QChar c = str.at (start);
+                /* find the first letter from the start of the word */
+                int i = 0;
+                while (!c.isLetter() && i + 1 < match.capturedLength())
+                {
+                    ++i;
+                    c = str.at (start + i);
+                }
+                str.replace (start + i, 1, c.toUpper());
                 start += match.capturedLength();
             }
 

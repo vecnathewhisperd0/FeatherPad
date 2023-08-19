@@ -7,7 +7,7 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0</project_license>
   <description>
-    <p>FeatherPad is a lightweight Qt5 plain-text editor for Linux. It is independent of any desktop environment and has:</p>
+    <p>FeatherPad is a lightweight Qt plain-text editor for Linux. It is independent of any desktop environment and has:</p>
     <ul>
       <li>Drag-and-drop support, including tab detachment and attachment</li>
       <li>X11 virtual desktop awareness (using tabs on current desktop but opening a new window on another)</li>
