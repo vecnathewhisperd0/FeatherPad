@@ -1221,24 +1221,24 @@
         <translation>FeatherPad névjegye</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="242"/>
+        <location filename="../../replace.cpp" line="272"/>
         <source>No Replacement</source>
         <translation>Nincs csere</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="244"/>
+        <location filename="../../replace.cpp" line="274"/>
         <source>One Replacement</source>
         <translation>Egy csere</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../replace.cpp" line="246"/>
+        <location filename="../../replace.cpp" line="276"/>
         <source>%Ln Replacements</source>
         <translation>
             <numerusform>%Ln csere</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="250"/>
+        <location filename="../../replace.cpp" line="280"/>
         <source>The first 1000 replacements are highlighted.</source>
         <translation>Az első 1000 csere van kiemelve.</translation>
     </message>

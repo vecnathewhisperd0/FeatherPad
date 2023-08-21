@@ -1221,17 +1221,17 @@ tento řádek (Ctrl+Shift+J)</translation>
         <translation>O aplikaci FeatherPad</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="242"/>
+        <location filename="../../replace.cpp" line="272"/>
         <source>No Replacement</source>
         <translation>Žádné nahrazení</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="244"/>
+        <location filename="../../replace.cpp" line="274"/>
         <source>One Replacement</source>
         <translation>Jedno nahrazení</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../replace.cpp" line="246"/>
+        <location filename="../../replace.cpp" line="276"/>
         <source>%Ln Replacements</source>
         <translation>
             <numerusform>%Ln nahrazení</numerusform>
@@ -1240,7 +1240,7 @@ tento řádek (Ctrl+Shift+J)</translation>
         </translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="250"/>
+        <location filename="../../replace.cpp" line="280"/>
         <source>The first 1000 replacements are highlighted.</source>
         <translation>Je zvýrazněno prvních 1000 nahrazení.</translation>
     </message>

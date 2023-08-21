@@ -1221,17 +1221,17 @@
         <translation>Про FeatherPad</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="242"/>
+        <location filename="../../replace.cpp" line="272"/>
         <source>No Replacement</source>
         <translation>Без заміни</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="244"/>
+        <location filename="../../replace.cpp" line="274"/>
         <source>One Replacement</source>
         <translation>Одна заміна</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../replace.cpp" line="246"/>
+        <location filename="../../replace.cpp" line="276"/>
         <source>%Ln Replacements</source>
         <translation>
             <numerusform>%Ln заміна</numerusform>
@@ -1240,7 +1240,7 @@
         </translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="250"/>
+        <location filename="../../replace.cpp" line="280"/>
         <source>The first 1000 replacements are highlighted.</source>
         <translation>Перші 1000 замін буде підсвічено.</translation>
     </message>

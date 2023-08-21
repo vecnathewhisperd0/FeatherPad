@@ -1221,24 +1221,24 @@
         <translation>FeatherPad 정보</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="242"/>
+        <location filename="../../replace.cpp" line="272"/>
         <source>No Replacement</source>
         <translation>교체 없음</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="244"/>
+        <location filename="../../replace.cpp" line="274"/>
         <source>One Replacement</source>
         <translation>한번 교체</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../replace.cpp" line="246"/>
+        <location filename="../../replace.cpp" line="276"/>
         <source>%Ln Replacements</source>
         <translation>
             <numerusform>%Ln회 교체</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="250"/>
+        <location filename="../../replace.cpp" line="280"/>
         <source>The first 1000 replacements are highlighted.</source>
         <translation>처음 1000개의 교체가 강조표시됩니다.</translation>
     </message>

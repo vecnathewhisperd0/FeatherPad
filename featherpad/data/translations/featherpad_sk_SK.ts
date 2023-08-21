@@ -1219,17 +1219,17 @@
         <translation>O FeatherPad</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="242"/>
+        <location filename="../../replace.cpp" line="272"/>
         <source>No Replacement</source>
         <translation>Žiadna náhrada</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="244"/>
+        <location filename="../../replace.cpp" line="274"/>
         <source>One Replacement</source>
         <translation>Jedno nahradenie</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../replace.cpp" line="246"/>
+        <location filename="../../replace.cpp" line="276"/>
         <source>%Ln Replacements</source>
         <translation>
             <numerusform>%Ln Nahradenie</numerusform>
@@ -1238,7 +1238,7 @@
         </translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="250"/>
+        <location filename="../../replace.cpp" line="280"/>
         <source>The first 1000 replacements are highlighted.</source>
         <translation type="unfinished"></translation>
     </message>

@@ -1,6 +1,7 @@
 V1.4.2
 ---------
  * Prevent the cursor position from being changed when files are dropped into the text view.
+ * Support regex replacement with capturing groups. The credit goes to Marco Holmer for suggesting not only this feature but also the way of implementing it.
  * Enhanced the conversion to start case by including 100,000 characters and also finding the first letter of each word.
  * Changed "Qt5" to "Qt" in the meta-info file (the Qt5 support cannot last indefinitely).
 

@@ -125,6 +125,17 @@ void FPwin::replace()
     bool lineNumShown (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible());
 
     QTextDocument::FindFlags searchFlags = getSearchFlags();
+
+    /* for covering regex capturing groups */
+    QString realTxtReplace;
+    QRegularExpression regexFind;
+    if (tabPage->matchRegex())
+    {
+        regexFind = QRegularExpression (txtFind, (searchFlags & QTextDocument::FindCaseSensitively)
+                                                    ? QRegularExpression::NoPatternOption
+                                                    : QRegularExpression::CaseInsensitiveOption);
+    }
+
     QTextCursor start = textEdit->textCursor();
     QTextCursor tmp = start;
     QTextCursor found;
@@ -142,7 +153,13 @@ void FPwin::replace()
         start.setPosition (found.position(), QTextCursor::KeepAnchor);
         textEdit->skipSelectionHighlighting();
         textEdit->setTextCursor (start);
-        textEdit->insertPlainText (txtReplace_);
+        if (tabPage->matchRegex())
+        { // also, cover capturing groups
+            realTxtReplace = found.selectedText().replace (regexFind, txtReplace_);
+            textEdit->insertPlainText (realTxtReplace);
+        }
+        else
+            textEdit->insertPlainText (txtReplace_);
 
         start = textEdit->textCursor(); // at the end of txtReplace_
         tmp.setPosition (pos);
@@ -157,7 +174,9 @@ void FPwin::replace()
             /* With the cursor at the end of the replacing text, if the backward replacement
                is repeated and the text is matched again (which is especially possible with
                regex), the replacement won't proceed. So, the cursor should be moved. */
-            start.setPosition (start.position() - txtReplace_.length());
+            start.setPosition (start.position() - (tabPage->matchRegex()
+                                                    ? realTxtReplace.length()
+                                                    : txtReplace_.length()));
             textEdit->setTextCursor (start);
         }
     }
@@ -194,6 +213,14 @@ void FPwin::replaceAll()
 
     QTextDocument::FindFlags searchFlags = getSearchFlags();
 
+    QRegularExpression regexFind;
+    if (tabPage->matchRegex())
+    {
+        regexFind = QRegularExpression (txtFind, (searchFlags & QTextDocument::FindCaseSensitively)
+                                                    ? QRegularExpression::NoPatternOption
+                                                    : QRegularExpression::CaseInsensitiveOption);
+    }
+
     QTextCursor orig = textEdit->textCursor();
     orig.setPosition (orig.anchor());
     textEdit->setTextCursor (orig);
@@ -214,7 +241,10 @@ void FPwin::replaceAll()
         start.setPosition (found.anchor());
         pos = found.anchor();
         start.setPosition (found.position(), QTextCursor::KeepAnchor);
-        start.insertText (txtReplace_);
+        if (tabPage->matchRegex())
+            start.insertText (found.selectedText().replace (regexFind, txtReplace_));
+        else
+            start.insertText (txtReplace_);
 
         if (count < 1000)
         {
