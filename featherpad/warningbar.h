@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2020 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2023 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -79,7 +79,7 @@ public:
 
         if (parent)
         { // compress the bar vertically and show it with animation
-            QTimer::singleShot (anotherBar ? DURATION + 10 : 0, this, [=]() {
+            QTimer::singleShot (anotherBar ? DURATION + 10 : 0, this, [this, parent]() {
                 parent->installEventFilter (this);
                 int h = grid_->minimumHeightForWidth (parent->width()) + grid_->contentsMargins().bottom();
                 QRect g (0, parent->height() - h - vOffset_, parent->width(), h);
@@ -130,7 +130,17 @@ public:
             if (QWidget *w = qobject_cast<QWidget*>(o))
             {
                 if (w == parentWidget())
-                { // compress the bar as far as its text is shown completely
+                {
+                    if (animation_)
+                    {
+                        animation_->stop();
+                        if (isClosing_)
+                        {
+                            this->deleteLater();
+                            return false;
+                        }
+                    }
+                    /* compress the bar as far as its text is shown completely */
                     int h = grid_->minimumHeightForWidth (w->width()) + grid_->contentsMargins().bottom();
                     setGeometry (QRect (0, w->height() - h - vOffset_, w->width(), h));
                 }
@@ -154,7 +164,6 @@ public slots:
             if (!isClosing_)
             {
                 isClosing_ = true;
-                parentWidget()->removeEventFilter (this); // no movement on closing
                 animation_->stop();
                 animation_->setStartValue (geometry());
                 animation_->setEndValue (QRect (0, parentWidget()->height() - vOffset_, parentWidget()->width(), 0));
