@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2022 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2023 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -76,7 +76,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
 
     QString progLan;
 
-    /* first check some endings */
+    /* first check some endings and names */
     static const QRegularExpression dotExp ("\\A(?:[^/]*\\.[^/\\.]+)\\z");
     QString baseName = fname.section ('/', -1);
     if (dotExp.match (baseName).hasMatch())
@@ -86,10 +86,10 @@ void FPwin::setProgLang (TextEdit *textEdit)
         else if (fname.endsWith (".c"))
             progLan = "c";
         else if (fname.endsWith (".sh") || fname.endsWith (".bashrc") || fname.endsWith (".rules")
-                 || fname.endsWith (".zsh")
-                 || baseName == ".bash_profile" || baseName == ".bash_functions"
-                 || baseName == ".xprofile" || baseName == ".profile"
-                 || baseName == ".bash_aliases" || baseName == ".mkshrc"
+                 || fname.endsWith (".zsh") || baseName == ".bash_profile"
+                 || baseName == ".bash_functions" || baseName == ".bash_logout"
+                 || baseName == ".bash_aliases" || baseName == ".xprofile"
+                 || baseName == ".profile" || baseName == ".mkshrc"
                  || baseName == ".zprofile" || baseName == ".zlogin"
                  || baseName == ".zshrc" || baseName == ".zshenv")
             progLan = "sh";
