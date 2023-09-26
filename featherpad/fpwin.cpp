@@ -714,10 +714,8 @@ void FPwin::applyConfigOnStarting()
         ui->actionHelp->setIcon (QIcon::fromTheme ("help-contents"));
         ui->actionAbout->setIcon (QIcon::fromTheme ("help-about"));
         ui->actionJump->setIcon (QIcon::fromTheme ("go-jump"));
-        QIcon sideIcn = QIcon::fromTheme ("sidebar-expand-left");
-        if (sideIcn.isNull())
-            sideIcn = symbolicIcon::icon (":icons/side-pane.svg");
-        ui->actionSidePane->setIcon (sideIcn);
+        ui->actionSidePane->setIcon (QIcon::fromTheme ("sidebar-expand-left",
+                                                       symbolicIcon::icon (":icons/side-pane.svg")));
         ui->actionEdit->setIcon (QIcon::fromTheme ("document-edit"));
         ui->actionRun->setIcon (QIcon::fromTheme ("system-run"));
         ui->actionCopyName->setIcon (QIcon::fromTheme ("edit-copy"));
@@ -801,10 +799,7 @@ void FPwin::applyConfigOnStarting()
     ui->toolButtonPrv->setIcon (symbolicIcon::icon (":icons/go-up.svg"));
     ui->toolButtonAll->setIcon (symbolicIcon::icon (":icons/arrow-down-double.svg"));
 
-    QIcon icn = QIcon::fromTheme ("featherpad");
-    if (icn.isNull())
-        icn = QIcon (":icons/featherpad.svg");
-    setWindowIcon (icn);
+    setWindowIcon (QIcon::fromTheme ("featherpad", QIcon (":icons/featherpad.svg")));
 
     if (!config.hasReservedShortcuts())
     { // the reserved shortcuts list could also be in "singleton.cpp"
@@ -6326,10 +6321,7 @@ void FPwin::aboutDialog()
     };
 
     AboutDialog dialog (this);
-    QIcon FPIcon = QIcon::fromTheme ("featherpad");
-    if (FPIcon.isNull())
-        FPIcon = QIcon (":icons/featherpad.svg");
-    dialog.setMainIcon (FPIcon);
+    dialog.setMainIcon (QIcon::fromTheme ("featherpad", QIcon (":icons/featherpad.svg")));
     dialog.settMainTitle (QString ("<center><b><big>%1 %2</big></b></center><br>").arg (qApp->applicationName(), qApp->applicationVersion()));
     dialog.setMainText ("<center> " + tr ("A lightweight, tabbed, plain-text editor") + " </center>\n<center> "
                         + tr ("based on Qt") + " </center><br><center> "
