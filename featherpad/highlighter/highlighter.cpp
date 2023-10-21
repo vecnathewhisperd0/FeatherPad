@@ -1172,7 +1172,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         obpFormat.setFontWeight (QFont::Bold);
         obpFormat.setFontItalic (true);
         /* color values */
-        rule.pattern.setPattern ("#([A-Fa-f0-9]{3}){1,2}(?![A-Za-z0-9_]+)");
+        rule.pattern.setPattern ("#([A-Fa-f0-9]{3}){1,2}(?![A-Za-z0-9_]+)|#([A-Fa-f0-9]{3}){2}[A-Fa-f0-9]{2}(?![A-Za-z0-9_]+)");
         rule.format = obpFormat;
         highlightingRules.append (rule);
         obpFormat.setFontItalic (false);
