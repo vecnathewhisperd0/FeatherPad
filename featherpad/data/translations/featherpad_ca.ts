@@ -1248,7 +1248,7 @@
         <translation>Les primeres 1.000 substitucions estan ressaltades.</translation>
     </message>
     <message>
-        <location filename="../../syntax.cpp" line="312"/>
+        <location filename="../../syntax.cpp" line="314"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
         <translation>S&apos;ha excedit el límit de mida per al ressaltat de sintaxi..</translation>
     </message>

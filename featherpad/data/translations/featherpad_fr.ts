@@ -1244,7 +1244,7 @@
         <translation>Les 1000 premiers remplacements sont surlignés.</translation>
     </message>
     <message>
-        <location filename="../../syntax.cpp" line="312"/>
+        <location filename="../../syntax.cpp" line="314"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
         <translation>La limite accordée à la coloration syntaxique a été atteinte.</translation>
     </message>

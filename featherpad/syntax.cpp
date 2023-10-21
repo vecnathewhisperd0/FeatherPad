@@ -188,6 +188,8 @@ void FPwin::setProgLang (TextEdit *textEdit)
         progLan = "deb";
     else if (baseName == "mirrorlist")
         progLan = "config";
+    else if (baseName == "themerc")
+        progLan = "openbox";
 
     if (progLan.isEmpty()) // now, check the mime type
     {

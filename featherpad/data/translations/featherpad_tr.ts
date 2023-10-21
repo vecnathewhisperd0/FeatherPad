@@ -1255,7 +1255,7 @@
         <translation>İlk 1000 değiştirme vurgulanmıştır.</translation>
     </message>
     <message>
-        <location filename="../../syntax.cpp" line="312"/>
+        <location filename="../../syntax.cpp" line="314"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
         <translation>Sözdizimi vurgulaması için boyut sınırı aşıldı.</translation>
     </message>

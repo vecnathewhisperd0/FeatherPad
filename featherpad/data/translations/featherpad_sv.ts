@@ -1243,7 +1243,7 @@
         <translation>De första 1000 ersättningar är framhävda.</translation>
     </message>
     <message>
-        <location filename="../../syntax.cpp" line="312"/>
+        <location filename="../../syntax.cpp" line="314"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
         <translation>Storlek begränsningen för syntax framhävning är överskriden.</translation>
     </message>

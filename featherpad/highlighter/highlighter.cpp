@@ -215,7 +215,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     maxBlockSize_ = progLan == "html" ? 5000 : 10000;
 
     hasQuotes_ = (progLan != "diff" && progLan != "log"
-                  && progLan != "desktop" && progLan != "config" && progLan != "theme"
+                  && progLan != "desktop" && progLan != "config" && progLan != "theme" && progLan != "openbox"
                   && progLan != "changelog" && progLan != "url"
                   && progLan != "deb" && progLan != "m3u"
                   && progLan != "LaTeX" && progLan != "troff");
@@ -1166,6 +1166,28 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
         rule.format = desktopFormat;
         highlightingRules.append (rule);
     }
+    else if (progLan == "openbox")
+    {
+        QTextCharFormat obpFormat = neutralFormat;
+        obpFormat.setFontWeight (QFont::Bold);
+        obpFormat.setFontItalic (true);
+        /* color values */
+        rule.pattern.setPattern ("#([A-Fa-f0-9]{3}){1,2}(?![A-Za-z0-9_]+)");
+        rule.format = obpFormat;
+        highlightingRules.append (rule);
+        obpFormat.setFontItalic (false);
+
+        obpFormat.setForeground (DarkMagenta);
+        rule.pattern.setPattern ("^[^\\s:]+\\:");
+        rule.format = obpFormat;
+        highlightingRules.append (rule);
+
+        obpFormat.setForeground (DarkGreenAlt);
+        /* before : */
+        rule.pattern.setPattern ("^[^\\s:]+(?=\\s*\\:)");
+        rule.format = obpFormat;
+        highlightingRules.append (rule);
+    }
     else if (progLan == "yaml")
     {
         rule.pattern.setPattern ("(?<=^|\\s)#.*");
@@ -1797,6 +1819,10 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
     else if (progLan == "desktop" || progLan == "config" || progLan == "theme")
     {
         rule.pattern.setPattern ("^\\s*#.*"); // only at start
+    }
+    else if (progLan == "openbox")
+    {
+        rule.pattern.setPattern ("^\\s*(#|\\!).*"); // only at start
     }
     /*else if (progLan == "deb")
     {

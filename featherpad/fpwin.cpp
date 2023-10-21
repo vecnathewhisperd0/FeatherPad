@@ -4725,7 +4725,7 @@ void FPwin::enforceLang (QAction *action)
     langButton->setText (lang);
     if (lang == tr ("Normal"))
     {
-        if (textEdit->getProg() == "desktop" || textEdit->getProg() == "theme"
+        if (textEdit->getProg() == "desktop" || textEdit->getProg() == "theme" || textEdit->getProg() == "openbox"
             || textEdit->getProg() == "changelog"
             || textEdit->getProg() == "srt"
             || textEdit->getProg() == "gtkrc")

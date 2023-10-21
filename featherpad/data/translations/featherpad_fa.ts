@@ -1243,7 +1243,7 @@
         <translation>تنها ۱۰۰۰ جايگزينی نخست رنگی شده‌اند.</translation>
     </message>
     <message>
-        <location filename="../../syntax.cpp" line="312"/>
+        <location filename="../../syntax.cpp" line="314"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
         <translation>فراتر از محدوديت اندازه برای رنگ‌آميزی نگارش.</translation>
     </message>

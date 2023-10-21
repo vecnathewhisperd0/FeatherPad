@@ -1244,7 +1244,7 @@
         <translation>De første 1000 erstatningene er fremhevet.</translation>
     </message>
     <message>
-        <location filename="../../syntax.cpp" line="312"/>
+        <location filename="../../syntax.cpp" line="314"/>
         <source>The size limit for syntax highlighting is exceeded.</source>
         <translation>Størrelsesbegrensningen for syntaksmerking er oversteget.</translation>
     </message>
