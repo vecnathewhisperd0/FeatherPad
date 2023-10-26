@@ -310,7 +310,11 @@ void Highlighter::highlightLuaBlock (const QString &text)
         /*****************
          * Other formats *
          *****************/
+#if (QT_VERSION >= QT_VERSION_CHECK(6,6,0))
+        for (const HighlightingRule &rule : std::as_const (highlightingRules))
+#else
         for (const HighlightingRule &rule : qAsConst (highlightingRules))
+#endif
         {
             index = text.indexOf (rule.pattern, 0, &match);
             /* skip all quotes and comments */

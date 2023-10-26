@@ -2340,7 +2340,7 @@ dosyalar kaydedilen oturuma dahil edilir.</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="250"/>
-        <location filename="../../session.cpp" line="328"/>
+        <location filename="../../session.cpp" line="332"/>
         <source>&amp;Yes</source>
         <translation>&amp;Evet</translation>
     </message>
@@ -2380,42 +2380,42 @@ dosyalar kaydedilen oturuma dahil edilir.</translation>
         <translation>Oturuma bir isim verin</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="179"/>
+        <location filename="../../session.cpp" line="183"/>
         <source>Nothing saved.&lt;br&gt;No file was opened.</source>
         <translation>Kaydedilmedi.&lt;br&gt;Açık dosya yok.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="277"/>
+        <location filename="../../session.cpp" line="281"/>
         <source>No file exists or can be opened.</source>
         <translation>Dosya yok veya açılamıyor.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="279"/>
+        <location filename="../../session.cpp" line="283"/>
         <source>Not all files exist or can be opened.</source>
         <translation>Bazı dosya(lar) yok veya açılamıyor.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="314"/>
+        <location filename="../../session.cpp" line="318"/>
         <source>&amp;OK</source>
         <translation>&amp;Tamam</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="333"/>
+        <location filename="../../session.cpp" line="337"/>
         <source>Do you really want to remove all saved sessions?</source>
         <translation>Tüm kayıtlı oturumları silmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="339"/>
+        <location filename="../../session.cpp" line="343"/>
         <source>Do you really want to remove the selected sessions?</source>
         <translation>Seçilen oturumları silmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="341"/>
+        <location filename="../../session.cpp" line="345"/>
         <source>Do you really want to remove the selected session?</source>
         <translation>Seçilen oturumu silmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="346"/>
+        <location filename="../../session.cpp" line="350"/>
         <source>A session with the same name exists.&lt;br&gt;Do you want to overwrite it?</source>
         <translation>Bu isimde bir oturum zaten var.&lt;br&gt;Üzerine yazmak ister misiniz?</translation>
     </message>

@@ -226,7 +226,11 @@ QStringList FPsingleton::processInfo (const QStringList &info,
 
     /* always return absolute clean paths (works around KDE's double slash bug too) */
     QStringList filesList;
+#if (QT_VERSION >= QT_VERSION_CHECK(6,6,0))
+    for (const auto &path : std::as_const (sl))
+#else
     for (const auto &path : qAsConst (sl))
+#endif
     {
         if (!path.isEmpty()) // no empty path/name
         {

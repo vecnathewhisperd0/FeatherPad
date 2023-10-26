@@ -516,7 +516,11 @@ void Highlighter::highlightMarkdownBlock (const QString &text)
     {
         data->setHighlighted(); // completely highlighted
         QRegularExpressionMatch match;
+#if (QT_VERSION >= QT_VERSION_CHECK(6,6,0))
+        for (const HighlightingRule &rule : std::as_const (highlightingRules))
+#else
         for (const HighlightingRule &rule : qAsConst (highlightingRules))
+#endif
         {
             index = text.indexOf (rule.pattern, 0, &match);
             if (rule.format != whiteSpaceFormat)

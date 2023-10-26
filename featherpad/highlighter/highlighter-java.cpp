@@ -234,7 +234,11 @@ void Highlighter::JavaQuote (const QString &text, const int start)
 /*************************/
 void Highlighter::singleLineJavaComment (const QString &text, const int start)
 {
+#if (QT_VERSION >= QT_VERSION_CHECK(6,6,0))
+    for (const HighlightingRule &rule : std::as_const (highlightingRules))
+#else
     for (const HighlightingRule &rule : qAsConst (highlightingRules))
+#endif
     {
         if (rule.format == commentFormat)
         {
@@ -474,7 +478,11 @@ void Highlighter::javaMainFormatting (const QString &text)
     int index;
     QTextCharFormat fi;
     data->setHighlighted(); // completely highlighted
+#if (QT_VERSION >= QT_VERSION_CHECK(6,6,0))
+    for (const HighlightingRule &rule : std::as_const (highlightingRules))
+#else
     for (const HighlightingRule &rule : qAsConst (highlightingRules))
+#endif
     {
         /* single-line comments are already formatted */
         if (rule.format == commentFormat)

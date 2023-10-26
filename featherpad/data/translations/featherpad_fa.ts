@@ -2299,7 +2299,7 @@ windows will be included in the saved session.</source>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="250"/>
-        <location filename="../../session.cpp" line="328"/>
+        <location filename="../../session.cpp" line="332"/>
         <source>&amp;Yes</source>
         <translation>آری</translation>
     </message>
@@ -2339,42 +2339,42 @@ windows will be included in the saved session.</source>
         <translation>برای ذخيره‌سازی نشست نامی را وارد کنيد</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="179"/>
+        <location filename="../../session.cpp" line="183"/>
         <source>Nothing saved.&lt;br&gt;No file was opened.</source>
         <translation>ذخيره‌سازی صورت نگرفت.&lt;br&gt;فايلی باز نشده است.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="277"/>
+        <location filename="../../session.cpp" line="281"/>
         <source>No file exists or can be opened.</source>
         <translation>فايلی موجود يا قابل بازکردن نيست.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="279"/>
+        <location filename="../../session.cpp" line="283"/>
         <source>Not all files exist or can be opened.</source>
         <translation>همه‌ی فايل‌ها موجود يا قابل بازکردن نيستند.</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="314"/>
+        <location filename="../../session.cpp" line="318"/>
         <source>&amp;OK</source>
         <translation>تاييد</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="333"/>
+        <location filename="../../session.cpp" line="337"/>
         <source>Do you really want to remove all saved sessions?</source>
         <translation>آيا از حذف همه نشست‌های ذخيره‌شده اطمينان داريد؟</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="339"/>
+        <location filename="../../session.cpp" line="343"/>
         <source>Do you really want to remove the selected sessions?</source>
         <translation>آيا از حذف نشست‌های انتخاب‌شده اطمينان داريد؟</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="341"/>
+        <location filename="../../session.cpp" line="345"/>
         <source>Do you really want to remove the selected session?</source>
         <translation>آيا از حذف نشست انتخاب‌شده اطمينان داريد؟</translation>
     </message>
     <message>
-        <location filename="../../session.cpp" line="346"/>
+        <location filename="../../session.cpp" line="350"/>
         <source>A session with the same name exists.&lt;br&gt;Do you want to overwrite it?</source>
         <translation>يک نشست با همين نام وجود دارد.&lt;br&gt;می‌خواهيد آن را بازنويسی کنيد؟</translation>
     </message>

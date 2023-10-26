@@ -2781,7 +2781,11 @@ void Highlighter::pythonMLComment (const QString &text, const int indx)
 /*************************/
 void Highlighter::singleLineComment (const QString &text, const int start)
 {
+#if (QT_VERSION >= QT_VERSION_CHECK(6,6,0))
+    for (const HighlightingRule &rule : std::as_const (highlightingRules))
+#else
     for (const HighlightingRule &rule : qAsConst (highlightingRules))
+#endif
     {
         if (rule.format == commentFormat)
         {
@@ -3791,7 +3795,11 @@ bool Highlighter::isHereDocument (const QString &text)
             setFormat (0, text.length(), blockFormat);
 
             /* also, format whitespaces */
+#if (QT_VERSION >= QT_VERSION_CHECK(6,6,0))
+            for (const HighlightingRule &rule : std::as_const (highlightingRules))
+#else
             for (const HighlightingRule &rule : qAsConst (highlightingRules))
+#endif
             {
                 if (rule.format == whiteSpaceFormat)
                 {
@@ -4242,7 +4250,11 @@ void Highlighter::highlightBlock (const QString &text)
                     dataFormat.setFontWeight (QFont::Bold);
                     setFormat (0, match.capturedLength(), dataFormat);
                 }
+#if (QT_VERSION >= QT_VERSION_CHECK(6,6,0))
+                for (const HighlightingRule &rule : std::as_const (highlightingRules))
+#else
                 for (const HighlightingRule &rule : qAsConst (highlightingRules))
+#endif
                 {
                     if (rule.format == whiteSpaceFormat)
                     {
@@ -4387,7 +4399,11 @@ void Highlighter::highlightBlock (const QString &text)
     {
         data->setHighlighted(); // completely highlighted
         QRegularExpressionMatch match;
+#if (QT_VERSION >= QT_VERSION_CHECK(6,6,0))
+        for (const HighlightingRule &rule : std::as_const (highlightingRules))
+#else
         for (const HighlightingRule &rule : qAsConst (highlightingRules))
+#endif
         {
             /* single-line comments are already formatted */
             if (rule.format == commentFormat)

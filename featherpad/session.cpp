@@ -50,7 +50,11 @@ SessionDialog::SessionDialog (QWidget *parent):QDialog (parent), ui (new Ui::Ses
     if (allItems_.count() > 0)
     {
         /* use ListWidgetItem to add items with a natural sorting */
+#if (QT_VERSION >= QT_VERSION_CHECK(6,6,0))
+        for (const auto &item : std::as_const (allItems_))
+#else
         for (const auto &item : qAsConst (allItems_))
+#endif
         {
             ListWidgetItem *lwi = new ListWidgetItem (item, ui->listWidget);
             ui->listWidget->addItem (lwi);
