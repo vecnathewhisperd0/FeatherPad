@@ -30,7 +30,7 @@ QStringList Highlighter::keywords (const QString &lang)
                         << "\\b(const|case|catch|cdecl|continue)(?!(\\.|-|@|#|\\$))\\b"
                         << "\\b(break|default|do)(?!(\\.|-|@|#|\\$))\\b"
                         << "\\b(enum|explicit|else|extern)(?!(\\.|-|@|#|\\$))\\b"
-                        << "\\b(for|goto|if|NULL|or|pasca|register|return)(?!(\\.|-|@|#|\\$))\\b"
+                        << "\\b(for|goto|if|not|NULL|or|pasca|register|return)(?!(\\.|-|@|#|\\$))\\b"
                         << "\\b(signals|sizeof|static|struct|switch)(?!(\\.|-|@|#|\\$))\\b"
                         << "\\b(typedef|typename|union|volatile|while)(?!(\\.|-|@|#|\\$))\\b";
 
