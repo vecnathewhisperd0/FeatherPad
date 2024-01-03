@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2023 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2024 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -183,9 +183,9 @@ QStringList Highlighter::types()
     if (progLan == "c" || progLan == "cpp")
     {
         typePatterns << "\\b(bool|char|clock_t|double|float|FILE)(?!(\\.|-|@|#|\\$))\\b"
-                     << "\\b(gchar|gint|guint|guint8|guint16|guint32|guint64|gboolean)(?!(\\.|-|@|#|\\$))\\b"
-                     << "\\b(int|ptrdiff_t|long|short|size_t|ssize_t|time_t)(?!(\\.|-|@|#|\\$))\\b"
-                     << "\\b(unsigned|uint|uint8|uint16|uint32|uint64|uint8_t|uint16_t|uint32_t|uint64_t)(?!(\\.|-|@|#|\\$))\\b"
+                     << "\\b(gchar|gint|guint(8|16|32|64)?|gboolean)(?!(\\.|-|@|#|\\$))\\b"
+                     << "\\b(int(8_t|16_t|32_t|64_t)?|ptrdiff_t|long|short|size_t|ssize_t|time_t)(?!(\\.|-|@|#|\\$))\\b"
+                     << "\\b(unsigned|uint(8|16|32|64|8_t|16_t|32_t|64_t)?)(?!(\\.|-|@|#|\\$))\\b"
                      << "\\b(uid_t|gid_t|mode_t)(?!(\\.|-|@|#|\\$))\\b"
                      << "\\b(void|wchar_t|wint_t)(?!(\\.|-|@|#|\\$))\\b";
         if (progLan == "cpp")
