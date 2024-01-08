@@ -1422,7 +1422,7 @@ void TextEdit::wheelEvent (QWheelEvent *event)
     { // line-by-line scrolling when Shift is pressed
         QScrollBar *sbar = nullptr;
         if (horizontal
-            // horizontal sxrolling when Alt is also pressed
+            // horizontal scrolling when Alt is also pressed
             || (event->modifiers() & Qt::AltModifier))
         {
             sbar = horizontalScrollBar();
@@ -1453,7 +1453,7 @@ void TextEdit::wheelEvent (QWheelEvent *event)
     }
 
     if ((event->modifiers() & Qt::AltModifier) && !horizontal)
-    { // horizontal sxrolling when Alt is pressed
+    { // horizontal scrolling when Alt is pressed
         QScrollBar *hbar = horizontalScrollBar();
         if (hbar && hbar->isVisible())
         {
