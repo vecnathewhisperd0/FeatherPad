@@ -229,6 +229,8 @@ Scrolling:
 ***********
 Shift+Mouse Wheel     If cursor is inside view, scroll up/down by one wrapped line;
                       if cursor is on vertical scrollbar, scroll up/down by half the page
+Alt+Mouse Wheel       If cursor is inside view, scroll horizontally when horizontal
+                      scrollbar is visible (which may happen when wrapping is disabled)
 Ctrl+Up/Down          Scroll up/down by one wrapped line without moving text cursor
 Ctrl+PageUp/PageDown  Scroll up/down by one page without moving text cursor
 

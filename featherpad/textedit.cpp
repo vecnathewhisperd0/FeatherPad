@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2023 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2024 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -1417,26 +1417,58 @@ void TextEdit::wheelEvent (QWheelEvent *event)
     }
 
     bool horizontal (qAbs (anglePoint.x()) > qAbs (anglePoint.y()));
+
     if ((event->modifiers() & Qt::ShiftModifier) && QApplication::wheelScrollLines() > 1)
     { // line-by-line scrolling when Shift is pressed
-        int delta = horizontal ? anglePoint.x()
-                               : anglePoint.y();
-        if (qAbs (delta) >= QApplication::wheelScrollLines())
+        QScrollBar *sbar = nullptr;
+        if (horizontal
+            // horizontal sxrolling when Alt is also pressed
+            || (event->modifiers() & Qt::AltModifier))
+        {
+            sbar = horizontalScrollBar();
+            if (!horizontal && !(sbar && sbar->isVisible()))
+                sbar = verticalScrollBar();
+        }
+        else
+            sbar = verticalScrollBar();
+        if (sbar && sbar->isVisible())
+        {
+            int delta = horizontal ? anglePoint.x()
+                                   : anglePoint.y();
+            if (qAbs (delta) >= QApplication::wheelScrollLines())
+            {
+                QWheelEvent e (event->position(),
+                               event->globalPosition(),
+                               event->pixelDelta(),
+                               QPoint (0, delta / QApplication::wheelScrollLines()),
+                               event->buttons(),
+                               Qt::NoModifier,
+                               event->phase(),
+                               false,
+                               event->source());
+                QCoreApplication::sendEvent (sbar, &e);
+            }
+            return;
+        }
+    }
+
+    if ((event->modifiers() & Qt::AltModifier) && !horizontal)
+    { // horizontal sxrolling when Alt is pressed
+        QScrollBar *hbar = horizontalScrollBar();
+        if (hbar && hbar->isVisible())
         {
             QWheelEvent e (event->position(),
                            event->globalPosition(),
                            event->pixelDelta(),
-                           QPoint (0, delta / QApplication::wheelScrollLines()),
+                           QPoint (0, anglePoint.y()),
                            event->buttons(),
                            Qt::NoModifier,
                            event->phase(),
                            false,
                            event->source());
-            QCoreApplication::sendEvent (horizontal
-                                             ? horizontalScrollBar()
-                                             : verticalScrollBar(), &e);
+            QCoreApplication::sendEvent (hbar, &e);
+            return;
         }
-        return;
     }
 
     /* inertial scrolling */
