@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2023 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2024 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -3692,12 +3692,20 @@ bool Highlighter::isHereDocument (const QString &text)
                                delimStr.length(),
                                delimFormat);
 
-                    if (progLan == "sh"
-                        && text.length() > pos + 2 && text.at (pos + 2) == '-')
+                    if (progLan == "sh")
                     {
-                        /* "<<-" causes all leading tab characters to be ignored at
-                           the end of the here-doc. So, it should be distinguished. */
-                        delimStr = "-" + delimStr;
+                        int pos1 = pos;
+                        while (pos1 > 0 && text.at (pos1 - 1) == '<')
+                            -- pos1;
+                        if (pos1 < pos && (pos - pos1) % 3 != 0)
+                            return false; // a here-string, not a here-doc
+
+                        if (text.length() > pos + 2 && text.at (pos + 2) == '-')
+                        {
+                            /* "<<-" causes all leading tab characters to be ignored at
+                            the end of the here-doc. So, it should be distinguished. */
+                            delimStr = "-" + delimStr;
+                        }
                     }
                     int n = static_cast<int>(qHash (delimStr));
                     int state = 2 * (n + (n >= 0 ? endState/2 + 1 : 0)); // always an even number but maybe negative

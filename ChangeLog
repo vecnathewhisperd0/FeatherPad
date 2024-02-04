@@ -6,6 +6,7 @@ V1.4.2
  * Scroll horizontally with mouse wheel inside text view if Alt is pressed and horizontal scrollbar is visible.
  * Highlight Openbox's "themerc" files (revived by LabWC).
  * Fixed a rare issue in the geometry of a warning bar animated during window resizing.
+ * Covered a case of here-strings in bash.
  * Changed "Qt5" to "Qt" in the meta-info file (the Qt5 support cannot last indefinitely).
 
 V1.4.1
