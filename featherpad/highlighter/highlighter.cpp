@@ -3697,13 +3697,13 @@ bool Highlighter::isHereDocument (const QString &text)
                         int pos1 = pos;
                         while (pos1 > 0 && text.at (pos1 - 1) == '<')
                             -- pos1;
-                        if (pos1 < pos && (pos - pos1) % 3 != 0)
+                        if ((pos - pos1) % 3 != 0)
                             return false; // a here-string, not a here-doc
 
                         if (text.length() > pos + 2 && text.at (pos + 2) == '-')
                         {
                             /* "<<-" causes all leading tab characters to be ignored at
-                            the end of the here-doc. So, it should be distinguished. */
+                               the end of the here-doc. So, it should be distinguished. */
                             delimStr = "-" + delimStr;
                         }
                     }
