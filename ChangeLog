@@ -1,5 +1,6 @@
-V1.4.2
+V1.5.0
 ---------
+ * Made the default compilation be against Qt6.
  * Prevent the cursor position from being changed when files are dropped into the text view.
  * Support regex replacement with capturing groups. The credit goes to Marco Holmer for suggesting not only this feature but also the way of implementing it.
  * Enhanced the conversion to start case by including 100,000 characters and also finding the first letter of each word.
@@ -7,7 +8,6 @@ V1.4.2
  * Highlight Openbox's "themerc" files (revived by LabWC).
  * Fixed a rare issue in the geometry of a warning bar animated during window resizing.
  * Covered a case of here-strings in bash.
- * Changed "Qt5" to "Qt" in the meta-info file (the Qt5 support cannot last indefinitely).
 
 V1.4.1
 ---------
