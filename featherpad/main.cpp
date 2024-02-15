@@ -38,10 +38,6 @@ int main (int argc, char **argv)
     singleton.setApplicationName (name);
     singleton.setApplicationVersion (version);
 
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-    singleton.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-#endif
-
     QStringList args = singleton.arguments();
     if (!args.isEmpty())
         args.removeFirst();
@@ -90,25 +86,13 @@ int main (int argc, char **argv)
         lang = langs.first().replace ('-', '_');
 
     QTranslator qtTranslator;
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-    if (qtTranslator.load ("qt_" + lang, QLibraryInfo::location (QLibraryInfo::TranslationsPath)))
-#else
     if (qtTranslator.load ("qt_" + lang, QLibraryInfo::path (QLibraryInfo::TranslationsPath)))
-#endif
-    {
         singleton.installTranslator (&qtTranslator);
-    }
     else if (!langs.isEmpty())
     { // shouldn't be needed
         lang = langs.first().split (QLatin1Char ('_')).first();
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-        if (qtTranslator.load ("qt_" + lang, QLibraryInfo::location (QLibraryInfo::TranslationsPath)))
-#else
         if (qtTranslator.load ("qt_" + lang, QLibraryInfo::path (QLibraryInfo::TranslationsPath)))
-#endif
-        {
             singleton.installTranslator (&qtTranslator);
-        }
     }
 
     QTranslator FPTranslator;

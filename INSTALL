@@ -9,10 +9,10 @@ To compile FeatherPad from its source, first install its build dependencies. In 
  * cmake
  * g++ >= 12
  * libx11-dev and libxext-dev (for X11)
- * qtbase6-dev (for Qt6)
- * libqt6svg6-dev (for hard-coded SVG icons)
+ * qt6-base-dev (for Qt6)
+ * qt6-svg-dev (for hard-coded SVG icons)
  * libhunspell-dev (for spell checking)
- * qttools6-dev-tools (for localization)
+ * qt6-base-dev-tools (for localization)
 
 In Arch-based systems, the required package are:
 
@@ -57,8 +57,6 @@ Then, open a terminal inside this folder and issue the following commands:
 	sudo make install
 
 In some distros, you may need to be more explicit and use `cmake .. -DCMAKE_INSTALL_PREFIX=/usr` for installing FeatherPad under `/usr`, in contrast to `/usr/local`. The latter place may not be good in Linux distros and could cause troubles later.
-
-NOTE: Compilation against Qt5 is still possible with `cmake .. -DENABLE_QT5=ON` but will be removed soon.
 
 *******************************
 *   Compilation without X11   *

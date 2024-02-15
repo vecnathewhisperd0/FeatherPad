@@ -2742,11 +2742,7 @@ void Highlighter::pythonMLComment (const QString &text, const int indx)
         setFormat (index, quoteLength, commentFormat);
 
         /* format urls and email addresses inside the comment */
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-        QString str = text.mid (index, quoteLength);
-#else
         QString str = text.sliced (index, quoteLength);
-#endif
         int pIndex = 0;
         QRegularExpressionMatch urlMatch;
         while ((pIndex = str.indexOf (urlPattern, pIndex, &urlMatch)) > -1)
@@ -2819,11 +2815,7 @@ void Highlighter::singleLineComment (const QString &text, const int start)
                 setFormat (startIndex, l - startIndex, commentFormat);
 
                 /* also format urls and email addresses inside the comment */
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-                QString str = text.mid (startIndex, l - startIndex);
-#else
                 QString str = text.sliced (startIndex, l - startIndex);
-#endif
                 int pIndex = 0;
                 QRegularExpressionMatch urlMatch;
                 while ((pIndex = str.indexOf (urlPattern, pIndex, &urlMatch)) > -1)
@@ -2969,11 +2961,7 @@ bool Highlighter::multiLineComment (const QString &text,
         setFormat (startIndex, commentLength, comFormat);
 
         /* format urls and email addresses inside the comment */
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-        QString str = text.mid (startIndex, commentLength);
-#else
         QString str = text.sliced (startIndex, commentLength);
-#endif
         int pIndex = 0;
         QRegularExpressionMatch urlMatch;
         while ((pIndex = str.indexOf (urlPattern, pIndex, &urlMatch)) > -1)
@@ -3248,11 +3236,7 @@ bool Highlighter::multiLineQuote (const QString &text, const int start, int comS
         /* URLs should be formatted in a different way inside quotes because,
            otherwise, there would be no difference between URLs inside quotes and
            those inside comments and so, they couldn't be escaped correctly when needed. */
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-        QString str = text.mid (index, quoteLength);
-#else
         QString str = text.sliced (index, quoteLength);
-#endif
         int urlIndex = 0;
         QRegularExpressionMatch urlMatch;
         while ((urlIndex = str.indexOf (urlPattern, urlIndex, &urlMatch)) > -1)
@@ -3397,11 +3381,7 @@ void Highlighter::multiLinePerlQuote (const QString &text)
                           + quoteMatch.capturedLength(); // 1
         setFormat (index, quoteLength, quoteExpression == quoteMark ? quoteFormat
                                                                     : altQuoteFormat);
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-        QString str = text.mid (index, quoteLength);
-#else
         QString str = text.sliced (index, quoteLength);
-#endif
         int urlIndex = 0;
         QRegularExpressionMatch urlMatch;
         while ((urlIndex = str.indexOf (urlPattern, urlIndex, &urlMatch)) > -1)
@@ -3544,11 +3524,7 @@ void Highlighter::multiLineJSQuote (const QString &text, const int start, int co
         setFormat (index, quoteLength, quoteExpression == quoteMark ? quoteFormat
                                                                     : altQuoteFormat);
 
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-        QString str = text.mid (index, quoteLength);
-#else
         QString str = text.sliced (index, quoteLength);
-#endif
         int urlIndex = 0;
         QRegularExpressionMatch urlMatch;
         while ((urlIndex = str.indexOf (urlPattern, urlIndex, &urlMatch)) > -1)
@@ -3759,11 +3735,7 @@ bool Highlighter::isHereDocument (const QString &text)
             }
             else if (delimStr.length() > 1)
             { // the here-doc started with "<<-"
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-                QString tmp = delimStr.mid (1);
-#else
                 QString tmp = delimStr.sliced (1);
-#endif
                 QRegularExpression r ("^\\t*" + tmp + "$");
                 QRegularExpressionMatch rMatch;
                 if (text.indexOf (r, 0, &rMatch) == 0)

@@ -16,7 +16,6 @@
       <li>A docked window for text replacement</li>
       <li>Support for showing line numbers and jumping to a specific line</li>
       <li>Optional selection highlighting</li>
-      <li>Automatic detection of text encoding as far as possible and optional saving with encoding</li>
       <li>Syntax highlighting for common programming languages</li>
       <li>Ability to open URLs with appropriate applications</li>
       <li>Session management</li>

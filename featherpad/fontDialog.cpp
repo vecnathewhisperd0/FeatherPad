@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2019-2021 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2019-2024 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -98,11 +98,7 @@ FontDialog::FontDialog (const QFont &font, QWidget *parent)
 
     connect (ui->fontComboBox, &QFontComboBox::currentFontChanged, [this] (const QFont &curFont) {
         int fontSize = font_.pointSize();
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-        int weight = font_.weight();
-#else
         QFont::Weight weight = font_.weight();
-#endif
         bool italic = font_.italic();
         font_ = curFont;
         font_.setPointSize (fontSize);

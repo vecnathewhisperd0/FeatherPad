@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2021 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2021-2024 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -144,11 +144,7 @@ void Highlighter::yamlLiteralBlock (const QString &text)
     QRegularExpressionMatch match;
     if (previousBlockState() == codeBlockState) // the literal block may continue
     {
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-        text.indexOf (QRegularExpression ("^\\s*"), 0, &match);
-#else
         (void)text.indexOf (QRegularExpression ("^\\s*"), 0, &match);
-#endif
         QString startingSpaces = "i" + match.captured();
         if (text == match.captured() // only whitespaces...
             /* ... or the indentation is wider than that of the literal block */
@@ -171,21 +167,13 @@ void Highlighter::yamlLiteralBlock (const QString &text)
     {
         if (text.contains (yamlKey))
         { // consider the list sign as a space if the block is a value
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-            text.indexOf (QRegularExpression ("^\\s*(-\\s)?\\s*"), 0, &match);
-#else
             (void)text.indexOf (QRegularExpression ("^\\s*(-\\s)?\\s*"), 0, &match);
-#endif
         }
         else
         {
             if (text.indexOf (QRegularExpression ("^\\s*-\\s")) == -1)
                 return; // if the block isn't a value, it should be a list
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-            text.indexOf (QRegularExpression ("^\\s*"), 0, &match);
-#else
             (void)text.indexOf (QRegularExpression ("^\\s*"), 0, &match);
-#endif
         }
         setCurrentBlockState (codeBlockState);
         data->insertInfo ("i" + match.captured().replace ("-", " "));

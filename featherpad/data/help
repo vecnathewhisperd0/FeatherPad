@@ -8,9 +8,9 @@ However, if FeatherPad is started with the command-line option "--standalone" or
 
 Rarely, the standalone mode may be needed. For example, if you want to use FeatherPad as the "git" editor, you will need "featherpad -s" as the editor command because "git" does not work correctly with single-instance editors.
 
-Use the standalone mode with care. If a standalone window is opened alongside other windows, any change in configuration, recent files, etc., that may have been made in those windows, will not be reflected by it, and if it is the last closed window, it will overwrite those changes.
+Use the standalone mode with care. If a standalone window is opened alongside other windows, any change in configuration, recent files, etc., which may have been made in those windows, will not be reflected by it, and if it is the last closed window, it will overwrite those changes.
 
-The standalone mode is also an exception to the window/tab managing rules that are explained in this document.
+The standalone mode is also an exception to the window/tab managing rules explained in this document.
 
 Enter "featherpad --help" in a terminal emulator to see all command-line options.
 
@@ -36,7 +36,7 @@ If a file is opened in a tab, the right-click menu of that tab will also contain
 
 For users' comfort, double clicking on an empty area of the tab-bar creates a new tab.
 
-There are (customizable) shortcuts for switching tabs in various ways (see the File menu) but Ctrl+Tab is not one of them because the Tab key is reserved for text editing (see Keyboard Shortcuts, near the end of this document).
+There are (customizable) shortcuts for switching tabs in various ways (see the File menu), but Ctrl+Tab is not one of them because the Tab key is reserved for text editing (see Keyboard Shortcuts, near the end of this document).
 
 ***********************
 *   File Management   *
@@ -46,9 +46,9 @@ Under X11, if there is a FeatherPad window on the current virtual desktop or vie
 
 In this way, FeatherPad is aware of X11 virtual desktops under most Linux desktop environments, although there are exceptions (like Enlightenment).
 
-Files are always opened after the active tab unless it is empty, in which case the first file will be opened in it. If a single file is opened, its tab will be activated but in the case of multiple files, the active tab will not change.
+Files are always opened after the active tab unless it is empty, in which case the first file will be opened in it. If a single file is opened, its tab will be activated, but in the case of multiple files, the active tab will not change.
 
-If a file is opened multiple times, its second (third, …) instance will be uneditable by default and will have a light yellow or dark red background, depending on whether the default or the dark color scheme is used. To make it editable, click on the newly created 'Edit' button on the toolbar or the 'Edit' menu. After that, these two buttons will disappear again.
+If a file is opened multiple times, its second (third,…) instance will be uneditable by default and will have a light yellow or dark red background, depending on whether the default or the dark color scheme is used. To make it editable, click on the newly created 'Edit' button on the toolbar or the 'Edit' menu. After that, these two buttons will disappear again.
 
 If the opened file is a symbolic link (symlink), the context menu of its tab will have two extra items for copying its target path and opening its target inside the current window.
 
@@ -60,7 +60,7 @@ FeatherPad remembers recently modified or opened files, depending on which optio
 *   Sessions and Side-Pane Mode   *
 ***********************************
 
-Sessions can be saved and opened by using the Session Manager dialog. As mentioned above, there is no limit to the number of stored sessions. Each session can have any name and consist of any number of files. All files of a session are opened in the current FeatherPad window and their cursor positions are remembered.
+Sessions can be saved and opened by using the Session Manager dialog. As mentioned above, there is no limit to the number of stored sessions. Each session can have any name and consist of any number of files. All files of a session are opened in the current FeatherPad window, and their cursor positions are remembered.
 
 FeatherPad also has a side-pane mode, which can be enabled either temporarily or with startup. It is most suitable for working with sessions because its file list is alphabetically ordered and can be filtered. Each pane item has a right-click menu, which contains menu-items for various jobs when there is more than one page. Items can also be removed by middle-clicking without being selected.
 
@@ -74,9 +74,7 @@ To focus the side-pane when another widget has the focus, press Ctrl+Escape. To 
 
 FeatherPad tries to guess encodings when opening files. Although it often guesses them right, there is no exact way for that. Therefore, there are some encodings in the Options menu. If you choose one, the text could be saved with it by using the item "Save with Encoding" on the File menu. By default, all texts are saved with UTF-8, which covers all alphabets.
 
-Usually, you do not need to worry about encodings; nowadays, UTF-8 is the standard and is used everywhere.
-
-NOTE: Because Qt6 has removed the support for the legacy encodings, they are also removed from FeatherPad.
+As Qt6 has removed the support for the legacy encodings, they are also removed from FeatherPad. Usually, you do not need to worry about encodings; nowadays, UTF-8 is the standard and is used everywhere.
 
 *****************************
 *   Programming Languages   *
@@ -90,7 +88,7 @@ If the option "Preferences → Text → Support syntax override" is enabled and 
 
 There are also options in the Preferences dialog for showing whitespaces (spaces, tabs), line and document ends, and vertical position lines when syntax highlighting is enabled (by default or temporarily).
 
-The colors of syntax highlighting can be customized in "Preferences → Syntax Colors". Each syntax color may have different meanings in different programming languages but only the most important meanings are mentioned. The color value of whitespaces can be changed in the same place.
+The colors of syntax highlighting can be customized in "Preferences → Syntax Colors". Each syntax color may have different meanings in different programming languages, but only the most important meanings are mentioned. The color value of whitespaces can be changed in the same place.
 
 *******************************
 *   Searching and Replacing   *
@@ -105,7 +103,7 @@ To remove the yellow highlights after finishing a search, you could
 * Empty the search entry and press Enter or F3 in it, or
 * Hide the search bar by focusing it (with Ctrl+F) and then, pressing Ctrl+F (again).
 
-Each search entry has a search history that can be shown as a popup list by clicking its arrow or by pressing Ctrl+Up/Down when it has focus. The topmost item shows the most recent searched text. When the entry has focus, Up and Down arrow keys as well as PageUp and PageDown keys can be used for selecting history items without showing the popup list: Up and Down change the selection by one item, while PageUp and PageDown select the topmost (most recent) and bottommost (oldest) items respectively.
+Each search entry has a search history which can be shown as a popup list by clicking its arrow or by pressing Ctrl+Up/Down when it has focus. The topmost item shows the most recent searched text. When the entry has focus, Up and Down arrow keys as well as PageUp and PageDown keys can be used for selecting history items without showing the popup list: Up and Down change the selection by one item, while PageUp and PageDown select the topmost (most recent) and bottommost (oldest) items respectively.
 
 FeatherPad can use a shared history for all search entries, whether they are in the same window or in different windows of the same FeatherPad process. By default, each search entry has a separate history but that can be changed by checking "Preferences → Window → Use a shared search history".
 
@@ -191,7 +189,7 @@ Some other strings may also be replaced appropriately in non-programming languag
 *   Spell Checking   *
 **********************
 
-For spell checking, a Hunspell dictionary should be first added to Preferences → Text → Hunspell dictionary path (a Hunspell dictionary has the suffix ".dic" and should be accompanied by an affix file with the suffix ".aff"). Spell checking can be done by F2 but the shortcut can be customized.
+For spell checking, a Hunspell dictionary should be first added to Preferences → Text → Hunspell dictionary path (a Hunspell dictionary has the suffix ".dic" and should be accompanied by an affix file with the suffix ".aff"). Spell checking can be done by F2, but its shortcut can be customized.
 
 If "Ignore All" is clicked, all instances of the word will be ignored during the current check. If you know that the word is correct, you could click "Add To Dictionary" and it will be saved for all checks. If "Correct All" is clicked, other instances of the word will be corrected in the same way when reached during the current check.
 
@@ -201,7 +199,7 @@ If "Ignore All" is clicked, all instances of the word will be ignored during the
 
 To change a customizable shortcut, double click it and press your chosen shortcut inside the shortcut editor of the Preferences dialog. To clear a shortcut, use a modifier key (like Shift). To cancel, press the Escape key before the shortcut loses focus.
 
-All shortcuts, except for the extra ones below, can be found on menus or as tooltips and many of them can be customized in the Preferences dialog.
+All shortcuts, except for the extra ones below, can be found on menus or as tooltips, and many of them can be customized in the Preferences dialog.
 
 NOTE: Text editing shortcuts may be different for non-Linux OS's.
 

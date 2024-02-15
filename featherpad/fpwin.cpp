@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2023 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2024 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -52,11 +52,7 @@
 #include <QPushButton>
 #include <QDBusConnection> // for opening containing folder
 #include <QDBusMessage> // for opening containing folder
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-#include <QTextCodec>
-#else
 #include <QStringDecoder>
-#endif
 
 #ifdef HAS_X11
 #include "x11.h"
@@ -170,38 +166,10 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     ui->actionUTF_8->setActionGroup (aGroup_);
     ui->actionUTF_16->setActionGroup (aGroup_);
     ui->actionISO_8859_1->setActionGroup (aGroup_);
-    ui->actionISO_8859_15->setActionGroup (aGroup_);
-    ui->actionWindows_1252->setActionGroup (aGroup_);
-    ui->actionWindows_Arabic->setActionGroup (aGroup_);
-    ui->actionCyrillic_CP1251->setActionGroup (aGroup_);
-    ui->actionCyrillic_KOI8_U->setActionGroup (aGroup_);
-    ui->actionCyrillic_ISO_8859_5->setActionGroup (aGroup_);
-    ui->actionChinese_BIG5->setActionGroup (aGroup_);
-    ui->actionChinese_GB18030->setActionGroup (aGroup_);
-    ui->actionJapanese_ISO_2022_JP->setActionGroup (aGroup_);
-    ui->actionJapanese_ISO_2022_JP_2->setActionGroup (aGroup_);
-    ui->actionJapanese_ISO_2022_KR->setActionGroup (aGroup_);
-    ui->actionJapanese_CP932->setActionGroup (aGroup_);
-    ui->actionJapanese_EUC_JP->setActionGroup (aGroup_);
-    ui->actionKorean_CP949->setActionGroup (aGroup_);
-    ui->actionKorean_CP1361->setActionGroup (aGroup_);
-    ui->actionKorean_EUC_KR->setActionGroup (aGroup_);
     ui->actionOther->setActionGroup (aGroup_);
 
     ui->actionUTF_8->setChecked (true);
     ui->actionOther->setDisabled (true);
-
-#if (QT_VERSION >= QT_VERSION_CHECK(6,0,0))
-    /* Qt >= 6 doesn't support legacy encodings */
-    ui->menuEncoding->insertAction (ui->actionOther, ui->actionUTF_8);
-    ui->menuEncoding->insertAction (ui->actionOther, ui->actionUTF_16);
-    ui->menuEncoding->insertAction (ui->actionOther, ui->actionISO_8859_1);
-    ui->menuUnicode->menuAction()->setVisible (false);
-    ui->menuWestern_European->menuAction()->setVisible (false);
-    ui->menuEast_European->menuAction()->setVisible (false);
-    ui->menuEast_Asian->menuAction()->setVisible (false);
-    ui->actionWindows_Arabic->setVisible (false);
-#endif
 
     if (static_cast<FPsingleton*>(qApp)->isStandAlone())
         ui->tabWidget->noTabDND();
@@ -3025,7 +2993,6 @@ static inline int trailingSpaces (const QString &str)
     return i;
 }
 
-#if (QT_VERSION >= QT_VERSION_CHECK(6,0,0))
 static inline QStringEncoder getEncoder (const QString &encoding)
 {
     if (encoding.compare ("UTF-16", Qt::CaseInsensitive) == 0)
@@ -3039,7 +3006,6 @@ static inline QStringEncoder getEncoder (const QString &encoding)
                                QStringConverter::Utf32
                            : QStringConverter::Latin1);
 }
-#endif
 /*************************/
 // This is for both "Save" and "Save As".
 // See savePrompt() for the meanings of "first" and its following variables.
@@ -3279,11 +3245,7 @@ bool FPwin::saveFile (bool keepSyntax,
 
         QString encoding  = checkToEncoding();
         QString contents;
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-        QTextCodec *codec;
-#else
         QStringEncoder encoder = getEncoder (encoding);
-#endif
         QByteArray encodedString;
         const char *txt;
 
@@ -3293,12 +3255,7 @@ bool FPwin::saveFile (bool keepSyntax,
             contents = textEdit->document()->toPlainText();
             contents.replace ("\n", "\r\n");
             size_t ln = static_cast<size_t>(contents.length()); // for fwrite()
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-            codec = QTextCodec::codecForName (encoding.toUtf8());
-            encodedString = codec->fromUnicode (contents);
-#else
             encodedString = encoder.encode (contents);
-#endif
             txt = encodedString.constData();
             FILE *file;
             file = fopen (fname.toUtf8().constData(), "wb");
@@ -3331,12 +3288,7 @@ bool FPwin::saveFile (bool keepSyntax,
                 MSWinLineEnd = true;
                 contents = textEdit->document()->toPlainText();
                 contents.replace ("\n", "\r\n");
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-                codec = QTextCodec::codecForName (encoding.toUtf8());
-                encodedString = codec->fromUnicode (contents);
-#else
                 encodedString = encoder.encode (contents);
-#endif
                 txt = encodedString.constData();
                 file.open (fname.toUtf8().constData());
                 if (file.is_open())
@@ -3347,9 +3299,6 @@ bool FPwin::saveFile (bool keepSyntax,
                 }
                 break;
             case QMessageBox::No:
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-                writer.setCodec (QTextCodec::codecForName (encoding.toUtf8()));
-#else
                 contents = textEdit->document()->toPlainText();
                 encodedString = encoder.encode (contents);
                 txt = encodedString.constData();
@@ -3360,7 +3309,6 @@ bool FPwin::saveFile (bool keepSyntax,
                     file.close();
                     success = true;
                 }
-#endif
                 break;
             default:
                 updateShortcuts (false);
@@ -3470,13 +3418,8 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
             QString contents = textEdit->document()->toPlainText();
             contents.replace ("\n", "\r\n");
             size_t ln = static_cast<size_t>(contents.length());
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-            QTextCodec *codec = QTextCodec::codecForName (encoding.toUtf8());
-            QByteArray encodedString = codec->fromUnicode (contents);
-#else
             QStringEncoder encoder = getEncoder (encoding);
             QByteArray encodedString = encoder.encode (contents);
-#endif
             const char *txt = encodedString.constData();
             FILE *file;
             file = fopen (fname.toUtf8().constData(), "wb");
@@ -3493,13 +3436,8 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
             {
                 QString contents =textEdit->document()->toPlainText();
                 contents.replace ("\n", "\r\n");
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-                QTextCodec *codec = QTextCodec::codecForName (encoding.toUtf8());
-                QByteArray encodedString = codec->fromUnicode (contents);
-#else
                 QStringEncoder encoder = getEncoder (encoding);
                 QByteArray encodedString = encoder.encode (contents);
-#endif
                 const char *txt = encodedString.constData();
                 std::ofstream file;
                 file.open (fname.toUtf8().constData());
@@ -3512,9 +3450,6 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
             }
             else
             {
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-                writer.setCodec (QTextCodec::codecForName (encoding.toUtf8()));
-#else
                 QString contents = textEdit->document()->toPlainText();
                 QStringEncoder encoder = getEncoder (encoding);
                 QByteArray encodedString = encoder.encode (contents);
@@ -3527,7 +3462,6 @@ void FPwin::saveAsRoot (const QString& fileName, TabPage *tabPage,
                     file.close();
                     success = true;
                 }
-#endif
             }
         }
     }
@@ -4496,40 +4430,6 @@ void FPwin::encodingToCheck (const QString& encoding)
         ui->actionUTF_16->setChecked (true);
     else if (encoding == "ISO-8859-1")
         ui->actionISO_8859_1->setChecked (true);
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-    else if (encoding == "ISO-8859-15")
-        ui->actionISO_8859_15->setChecked (true);
-    else if (encoding == "CP1252")
-        ui->actionWindows_1252->setChecked (true);
-    else if (encoding == "CP1256")
-        ui->actionWindows_Arabic->setChecked (true);
-    else if (encoding == "CP1251")
-        ui->actionCyrillic_CP1251->setChecked (true);
-    else if (encoding == "KOI8-U")
-        ui->actionCyrillic_KOI8_U->setChecked (true);
-    else if (encoding == "ISO-8859-5")
-        ui->actionCyrillic_ISO_8859_5->setChecked (true);
-    else if (encoding == "BIG5")
-        ui->actionChinese_BIG5->setChecked (true);
-    else if (encoding == "GB18030")
-        ui->actionChinese_GB18030->setChecked (true);
-    else if (encoding == "ISO-2022-JP")
-        ui->actionJapanese_ISO_2022_JP->setChecked (true);
-    else if (encoding == "ISO-2022-JP-2")
-        ui->actionJapanese_ISO_2022_JP_2->setChecked (true);
-    else if (encoding == "ISO-2022-KR")
-        ui->actionJapanese_ISO_2022_KR->setChecked (true);
-    else if (encoding == "CP932")
-        ui->actionJapanese_CP932->setChecked (true);
-    else if (encoding == "EUC-JP")
-        ui->actionJapanese_EUC_JP->setChecked (true);
-    else if (encoding == "CP949")
-        ui->actionKorean_CP949->setChecked (true);
-    else if (encoding == "CP1361")
-        ui->actionKorean_CP1361->setChecked (true);
-    else if (encoding == "EUC-KR")
-        ui->actionKorean_EUC_KR->setChecked (true);
-#endif
     else
     {
         ui->actionOther->setDisabled (false);
@@ -4545,40 +4445,8 @@ const QString FPwin::checkToEncoding() const
         encoding = "UTF-8";
     else if (ui->actionUTF_16->isChecked())
         encoding = "UTF-16";
-    else if (ui->actionWindows_Arabic->isChecked())
-        encoding = "CP1256";
     else if (ui->actionISO_8859_1->isChecked())
         encoding = "ISO-8859-1";
-    else if (ui->actionISO_8859_15->isChecked())
-        encoding = "ISO-8859-15";
-    else if (ui->actionWindows_1252->isChecked())
-        encoding = "CP1252";
-    else if (ui->actionCyrillic_CP1251->isChecked())
-        encoding = "CP1251";
-    else if (ui->actionCyrillic_KOI8_U->isChecked())
-        encoding = "KOI8-U";
-    else if (ui->actionCyrillic_ISO_8859_5->isChecked())
-        encoding = "ISO-8859-5";
-    else if (ui->actionChinese_BIG5->isChecked())
-        encoding = "BIG5";
-    else if (ui->actionChinese_GB18030->isChecked())
-        encoding = "GB18030";
-    else if (ui->actionJapanese_ISO_2022_JP->isChecked())
-        encoding = "ISO-2022-JP";
-    else if (ui->actionJapanese_ISO_2022_JP_2->isChecked())
-        encoding = "ISO-2022-JP-2";
-    else if (ui->actionJapanese_ISO_2022_KR->isChecked())
-        encoding = "ISO-2022-KR";
-    else if (ui->actionJapanese_CP932->isChecked())
-        encoding = "CP932";
-    else if (ui->actionJapanese_EUC_JP->isChecked())
-        encoding = "EUC-JP";
-    else if (ui->actionKorean_CP949->isChecked())
-        encoding = "CP949";
-    else if (ui->actionKorean_CP1361->isChecked())
-        encoding = "CP1361";
-    else if (ui->actionKorean_EUC_KR->isChecked())
-        encoding = "EUC-KR";
     else
         encoding = "UTF-8";
 
@@ -6421,13 +6289,8 @@ void FPwin::helpDoc()
 
     QByteArray data = helpFile.readAll();
     helpFile.close();
-#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
-    QTextCodec *codec = QTextCodec::codecForName ("UTF-8");
-    QString str = codec->toUnicode (data);
-#else
     auto decoder = QStringDecoder (QStringDecoder::Utf8);
     QString str = decoder.decode (data);
-#endif
     textEdit->setPlainText (str);
 
     textEdit->setReadOnly (true);
