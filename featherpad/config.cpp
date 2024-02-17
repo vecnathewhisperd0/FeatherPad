@@ -393,7 +393,7 @@ void Config::readSyntaxColors()// may be called multiple times
     {
         QColor col;
 #if (QT_VERSION >= QT_VERSION_CHECK(6,6,0))
-        col.fromString (settingsColors.value (syntax).toString());
+        col = QColor::fromString (settingsColors.value (syntax).toString());
 #else
         col.setNamedColor (settingsColors.value (syntax).toString());
 #endif
