@@ -1,6 +1,7 @@
 V1.5.1
 ---------
  * Added a safe and simple workaround for KWin6 under X11.
+ * Under X11, if there is a minimized window on the current desktop, open files as new tabs in it and unminimize it.
 
 V1.5.0
 ---------
