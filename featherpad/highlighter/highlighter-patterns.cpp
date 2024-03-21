@@ -37,7 +37,7 @@ QStringList Highlighter::keywords (const QString &lang)
         if (lang == "c")
             keywordPatterns << "\\b(FALSE|TRUE)(?!(\\.|-|@|#|\\$))\\b";
         else
-            keywordPatterns << "\\b(class|const_cast|delete|dynamic_cast)(?!(\\.|-|@|#|\\$))\\b"
+            keywordPatterns << "\\b(class|constexpr|const_cast|delete|dynamic_cast)(?!(\\.|-|@|#|\\$))\\b"
                             << "\\b(false|foreach|friend|inline|namespace|new|operator)(?!(\\.|-|@|#|\\$))\\b"
                             << "\\b(nullptr|override|private|protected|public|qobject_cast|reinterpret_cast|slots|static_cast)(?!(\\.|-|@|#|\\$))\\b"
                             << "\\b(template|true|this|throw|try|typeid|using|virtual)(?!(\\.|-|@|#|\\$))\\b"
