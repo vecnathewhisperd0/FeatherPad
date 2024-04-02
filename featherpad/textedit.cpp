@@ -1710,7 +1710,7 @@ void TextEdit::paintEvent (QPaintEvent *event)
                 }
             }
 
-            QVector<QTextLayout::FormatRange> selections;
+            QList<QTextLayout::FormatRange> selections;
             int blpos = block.position();
             int bllen = block.length();
             for (int i = 0; i < context.selections.size(); ++i)

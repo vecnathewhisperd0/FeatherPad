@@ -53,7 +53,7 @@ Printing::Printing (QTextDocument *document, const QString &fileName,
          srcBlock.isValid() && dstBlock.isValid();
          srcBlock = srcBlock.next(), dstBlock = dstBlock.next())
     {
-        QVector<QTextLayout::FormatRange> formatList = srcBlock.layout()->formats();
+        QList<QTextLayout::FormatRange> formatList = srcBlock.layout()->formats();
         if (darkValue > -1)
         {
             for (int i = formatList.count() - 1; i >= 0; --i)

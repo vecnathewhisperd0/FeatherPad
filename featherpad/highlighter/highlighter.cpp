@@ -50,17 +50,17 @@ TextBlockData::~TextBlockData()
     }
 }
 /*************************/
-QVector<ParenthesisInfo *> TextBlockData::parentheses() const
+QList<ParenthesisInfo *> TextBlockData::parentheses() const
 {
     return allParentheses;
 }
 /*************************/
-QVector<BraceInfo *> TextBlockData::braces() const
+QList<BraceInfo *> TextBlockData::braces() const
 {
     return allBraces;
 }
 /*************************/
-QVector<BracketInfo *> TextBlockData::brackets() const
+QList<BracketInfo *> TextBlockData::brackets() const
 {
     return allBrackets;
 }
