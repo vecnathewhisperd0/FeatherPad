@@ -715,7 +715,7 @@ Highlighter::Highlighter (QTextDocument *parent, const QString& lang,
 
         /* preprocess */
         cFormat.setForeground (Blue);
-        rule.pattern.setPattern ("^\\s*#\\s*include\\s|^\\s*#\\s*ifdef\\s|^\\s*#\\s*elif\\s|^\\s*#\\s*ifndef\\s|^\\s*#\\s*endif\\b|^\\s*#\\s*define\\s|^\\s*#\\s*undef\\s|^\\s*#\\s*error\\s|^\\s*#\\s*if\\s|^\\s*#\\s*else(?!(\\.|-|@|#|\\$))\\b");
+        rule.pattern.setPattern ("^\\s*#\\s*(define|elif|error|if|ifdef|ifndef|include|pragma|undef)\\s|^\\s*#\\s*endif\\b|^\\s*#\\s*else(?!(\\.|-|@|#|\\$))\\b");
         rule.format = cFormat;
         highlightingRules.append (rule);
     }
