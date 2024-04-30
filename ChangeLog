@@ -1,3 +1,7 @@
+V1.5.2
+---------
+ * Don't try to save as root when the parent directory doesn't exist.
+
 V1.5.1
 ---------
  * Added a safe and simple workaround for KWin6 under X11.

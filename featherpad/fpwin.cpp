@@ -3362,25 +3362,25 @@ bool FPwin::saveFile (bool keepSyntax,
     }
     else
     {
-        /* when every attempt at saving fails, try to save as root */
         if (QFile::exists (fname))
-        {
+        { // when every attempt at saving fails, try to save as root
             if (!QFileInfo (fname).permission (QFile::WriteUser))
             {
                 saveAsRoot (fname, tabPage, first, last, closingWindow, curItem, curPage, MSWinLineEnd);
-                return false; // the probable saving will be done with a dealy
+                return false; // the probable saving will be done with a delay
             }
         }
-        /* check the containing folder (which is guaranteed to exist) */
-        else if (!QFileInfo (fname.section ("/", 0, -2)).permission (QFile::WriteUser))
-        {
-            saveAsRoot (fname, tabPage, first, last, closingWindow, curItem, curPage, MSWinLineEnd);
-            return false;
+        else
+        { // check the containing folder
+            QFileInfo pDir (fname.section ("/", 0, -2));
+            if (pDir.isDir() && !pDir.permission (QFile::WriteUser))
+            {
+                saveAsRoot (fname, tabPage, first, last, closingWindow, curItem, curPage, MSWinLineEnd);
+                return false;
+            }
         }
 
         closePreviousPages_ = false;
-        /* NOTE: Is it possible to reach this?
-                 It was needed before saveAsRoot() was added. */
         QString error = writer.device()->errorString();
         QTimer::singleShot (0, this, [this, error]() {
             showWarningBar ("<center><b><big>" + tr ("Cannot be saved!") + "</big></b></center>\n"
