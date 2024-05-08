@@ -1,3 +1,7 @@
+V1.5.3
+---------
+ * Demand attention under Wayland when a window needs activation, although window managers may ignore it.
+
 V1.5.2
 ---------
  * Don't try to save as root when the parent directory doesn't exist.

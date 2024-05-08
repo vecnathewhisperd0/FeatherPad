@@ -6370,6 +6370,12 @@ void FPwin::stealFocus (QWidget *w)
                 win->requestActivate();
         });
     }
+    else if (!w->isActiveWindow())
+    {
+        /* This is the only way to demand attention under Wayland,
+           although Wayland WMs may ignore it. */
+        QApplication::alert(w);
+    }
 }
 /*************************/
 void FPwin::stealFocus()
