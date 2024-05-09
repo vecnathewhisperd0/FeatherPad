@@ -2116,11 +2116,11 @@ bool Highlighter::isEscapedQuote (const QString &text, const int pos, bool isSta
         }
         else if (progLan == "c" || progLan == "cpp")
         {
-            if (text.at (pos) == '\''
+            /*if (text.at (pos) == '\''
                 && pos > 0 && text.at (pos - 1).isLetterOrNumber())
             {
                 return true;
-            }
+            }*/
             return false;
         }
         else if (progLan != "sh" && progLan != "makefile" && progLan != "cmake"
