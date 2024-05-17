@@ -3186,39 +3186,43 @@ bool FPwin::saveFile (bool keepSyntax,
         updateShortcuts (false);
     }
 
-    if (config.getRemoveTrailingSpaces() && textEdit->getProg() != "diff")
+    if (config.getRemoveTrailingSpaces())
     {
-        /* using text blocks directly is the fastest
-           and lightest way of removing trailing spaces */
-        makeBusy();
-        bool doubleSpace (textEdit->getProg() == "markdown" || textEdit->getProg() == "fountain");
-        bool singleSpace (textEdit->getProg() == "LaTeX") ;
-        QTextBlock block = textEdit->document()->firstBlock();
-        QTextCursor tmpCur = textEdit->textCursor();
-        tmpCur.beginEditBlock();
-        while (block.isValid())
+        QString lang = textEdit->getFileName().isEmpty() ? textEdit->getLang() : textEdit->getProg();
+        if (lang != "diff")
         {
-            if (const int num = trailingSpaces (block.text()))
+            /* using text blocks directly is the fastest
+            and lightest way of removing trailing spaces */
+            makeBusy();
+            bool doubleSpace (lang == "markdown" || lang == "fountain");
+            bool singleSpace (lang == "LaTeX") ;
+            QTextBlock block = textEdit->document()->firstBlock();
+            QTextCursor tmpCur = textEdit->textCursor();
+            tmpCur.beginEditBlock();
+            while (block.isValid())
             {
-                tmpCur.setPosition (block.position() + block.text().length());
-                if (doubleSpace)
-                { // markdown sees two trailing spaces as a new line
-                    if (num != 2)
-                        tmpCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, qMax (1, num - 2));
+                if (const int num = trailingSpaces (block.text()))
+                {
+                    tmpCur.setPosition (block.position() + block.text().length());
+                    if (doubleSpace)
+                    { // markdown sees two trailing spaces as a new line
+                        if (num != 2)
+                            tmpCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, qMax (1, num - 2));
+                    }
+                    else if (singleSpace)
+                    { // LaTeX takes its single trailing spaces into account
+                        if (num > 1)
+                            tmpCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, num - 1);
+                    }
+                    else
+                        tmpCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, num);
+                    tmpCur.removeSelectedText();
                 }
-                else if (singleSpace)
-                { // LaTeX takes its single trailing spaces into account
-                    if (num > 1)
-                        tmpCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, num - 1);
-                }
-                else
-                    tmpCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, num);
-                tmpCur.removeSelectedText();
+                block = block.next();
             }
-            block = block.next();
+            tmpCur.endEditBlock();
+            unbusy();
         }
-        tmpCur.endEditBlock();
-        unbusy();
     }
 
     if (config.getAppendEmptyLine()

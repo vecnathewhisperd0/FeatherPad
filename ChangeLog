@@ -1,11 +1,9 @@
-V1.5.3
+V1.5.2
 ---------
  * Demand attention under Wayland when a window needs activation, although window managers may ignore it.
  * Don't escape a start single quote in C/C++ when it follows a letter or number.
-
-V1.5.2
----------
  * Don't try to save as root when the parent directory doesn't exist.
+ * Respect the enforced syntax of an unsaved document when removing its trailing spaces on saving it.
 
 V1.5.1
 ---------
