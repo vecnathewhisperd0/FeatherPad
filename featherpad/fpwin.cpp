@@ -1727,7 +1727,7 @@ void FPwin::editorContextMenu (const QPoint& p)
                     url = QUrl::fromUserInput (str, "/");
                 /* QDesktopServices::openUrl() may resort to "xdg-open", which isn't
                    the best choice. "gio" is always reliable, so we check it first. */
-                if (!QProcess::startDetached ("gio", QStringList() << "open" << url.toString()))
+                //if (!QProcess::startDetached ("gio", QStringList() << "open" << url.toString()))
                     QDesktopServices::openUrl (url);
             });
             if (str.startsWith ("mailto:")) // see getUrl()
@@ -5470,7 +5470,7 @@ void FPwin::tabContextMenu (const QPoint& p)
                                                 QString(),
                                                 QStringLiteral ("ShowItems"));
                 /* NOTE: The removal of the auto-start flag is needed for switching to
-                         QProcess if "org.freedesktop.FileManager1" doesn't exist. */
+                         URL opening if "org.freedesktop.FileManager1" doesn't exist. */
                 methodCall.setAutoStartService (false);
                 QList<QVariant> args;
                 args.append (QStringList() << fname);
@@ -5480,7 +5480,7 @@ void FPwin::tabContextMenu (const QPoint& p)
                 if (response.type() == QDBusMessage::ErrorMessage)
                 {
                     QString folder = fname.section ("/", 0, -2);
-                    if (!QProcess::startDetached ("gio", QStringList() << "open" << folder))
+                    //if (!QProcess::startDetached ("gio", QStringList() << "open" << folder))
                         QDesktopServices::openUrl (QUrl::fromLocalFile (folder));
                 }
             });
@@ -5614,7 +5614,7 @@ void FPwin::listContextMenu (const QPoint& p)
                 if (response.type() == QDBusMessage::ErrorMessage)
                 {
                     QString folder = fname.section ("/", 0, -2);
-                    if (!QProcess::startDetached ("gio", QStringList() << "open" << folder))
+                    //if (!QProcess::startDetached ("gio", QStringList() << "open" << folder))
                         QDesktopServices::openUrl (QUrl::fromLocalFile (folder));
                 }
             });
