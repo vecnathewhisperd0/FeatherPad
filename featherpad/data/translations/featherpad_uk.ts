@@ -15,15 +15,15 @@
         <location filename="../../fpwin.cpp" line="452"/>
         <location filename="../../fpwin.cpp" line="1574"/>
         <location filename="../../fpwin.cpp" line="1626"/>
-        <location filename="../../fpwin.cpp" line="2225"/>
-        <location filename="../../fpwin.cpp" line="2287"/>
-        <location filename="../../fpwin.cpp" line="3050"/>
-        <location filename="../../fpwin.cpp" line="3070"/>
+        <location filename="../../fpwin.cpp" line="2228"/>
+        <location filename="../../fpwin.cpp" line="2290"/>
+        <location filename="../../fpwin.cpp" line="3053"/>
         <location filename="../../fpwin.cpp" line="3073"/>
-        <location filename="../../fpwin.cpp" line="4016"/>
-        <location filename="../../fpwin.cpp" line="4703"/>
-        <location filename="../../fpwin.cpp" line="4997"/>
-        <location filename="../../fpwin.cpp" line="5256"/>
+        <location filename="../../fpwin.cpp" line="3076"/>
+        <location filename="../../fpwin.cpp" line="4019"/>
+        <location filename="../../fpwin.cpp" line="4706"/>
+        <location filename="../../fpwin.cpp" line="5000"/>
+        <location filename="../../fpwin.cpp" line="5259"/>
         <source>Untitled</source>
         <translation>Новий</translation>
     </message>
@@ -66,8 +66,8 @@
         <translation>&amp;Опції</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2950"/>
-        <location filename="../../fpwin.cpp" line="4513"/>
+        <location filename="../../fpwin.cpp" line="2953"/>
+        <location filename="../../fpwin.cpp" line="4516"/>
         <source>Encoding</source>
         <translation>Кодування</translation>
     </message>
@@ -589,7 +589,7 @@
     </message>
     <message>
         <location filename="../../fp.ui" line="305"/>
-        <location filename="../../fpwin.cpp" line="4119"/>
+        <location filename="../../fpwin.cpp" line="4122"/>
         <location filename="../../replace.cpp" line="61"/>
         <location filename="../../replace.cpp" line="113"/>
         <source>Replacement</source>
@@ -703,7 +703,7 @@
         <translation>&amp;Остання відкрита</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2055"/>
+        <location filename="../../fpwin.cpp" line="2058"/>
         <source>Close</source>
         <translation>Закрити</translation>
     </message>
@@ -744,36 +744,36 @@
         <translation>Незбережене</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2952"/>
-        <location filename="../../fpwin.cpp" line="3655"/>
-        <location filename="../../fpwin.cpp" line="3666"/>
-        <location filename="../../fpwin.cpp" line="3673"/>
-        <location filename="../../fpwin.cpp" line="4518"/>
-        <location filename="../../fpwin.cpp" line="6128"/>
-        <location filename="../../fpwin.cpp" line="6139"/>
-        <location filename="../../fpwin.cpp" line="6146"/>
+        <location filename="../../fpwin.cpp" line="2955"/>
+        <location filename="../../fpwin.cpp" line="3658"/>
+        <location filename="../../fpwin.cpp" line="3669"/>
+        <location filename="../../fpwin.cpp" line="3676"/>
+        <location filename="../../fpwin.cpp" line="4521"/>
+        <location filename="../../fpwin.cpp" line="6137"/>
+        <location filename="../../fpwin.cpp" line="6148"/>
+        <location filename="../../fpwin.cpp" line="6155"/>
         <source>Lines</source>
         <translation>Рядки</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4519"/>
-        <location filename="../../fpwin.cpp" line="4534"/>
+        <location filename="../../fpwin.cpp" line="4522"/>
+        <location filename="../../fpwin.cpp" line="4537"/>
         <source>Sel. Chars</source>
         <translation>Вибр. символи</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4521"/>
-        <location filename="../../fpwin.cpp" line="4535"/>
+        <location filename="../../fpwin.cpp" line="4524"/>
+        <location filename="../../fpwin.cpp" line="4538"/>
         <source>Words</source>
         <translation>Слова</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1948"/>
+        <location filename="../../fpwin.cpp" line="1951"/>
         <source>Another process is running in this tab!</source>
         <translation>Інший процес запущений у цій вкладці!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2046"/>
+        <location filename="../../fpwin.cpp" line="2049"/>
         <source>Script File</source>
         <translation>Файл скрипту</translation>
     </message>
@@ -784,21 +784,21 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="833"/>
-        <location filename="../../fpwin.cpp" line="4560"/>
+        <location filename="../../fpwin.cpp" line="4563"/>
         <source>Position:</source>
         <translation>Позиція:</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="881"/>
-        <location filename="../../fpwin.cpp" line="4578"/>
-        <location filename="../../fpwin.cpp" line="4598"/>
+        <location filename="../../fpwin.cpp" line="4581"/>
+        <location filename="../../fpwin.cpp" line="4601"/>
         <source>Normal</source>
         <translation>Звичайна</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1355"/>
-        <location filename="../../fpwin.cpp" line="2721"/>
-        <location filename="../../fpwin.cpp" line="5928"/>
+        <location filename="../../fpwin.cpp" line="2724"/>
+        <location filename="../../fpwin.cpp" line="5937"/>
         <source>The file does not exist.</source>
         <translation>Файлу не існує.</translation>
     </message>
@@ -808,315 +808,315 @@
         <translation>Відкрити посилання</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1735"/>
+        <location filename="../../fpwin.cpp" line="1738"/>
         <source>Copy Link</source>
         <translation>Скопіювати посилання</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="1949"/>
+        <location filename="../../fpwin.cpp" line="1952"/>
         <source>Only one process is allowed per tab.</source>
         <translation>Лише один процес дозволений у вкладці.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2042"/>
+        <location filename="../../fpwin.cpp" line="2045"/>
         <source>Script Output</source>
         <translation>Вивід скрипту</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2058"/>
+        <location filename="../../fpwin.cpp" line="2061"/>
         <source>Clear</source>
         <translation>Очистити</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2678"/>
+        <location filename="../../fpwin.cpp" line="2681"/>
         <source>FeatherPad does not open files larger than 100 MiB.</source>
         <translation>FeatherPad не відкриває файли більші за 100 МіБ.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2686"/>
+        <location filename="../../fpwin.cpp" line="2689"/>
         <source>Non-text file(s) not opened!</source>
         <translation>Не текстові файли не відкриваються!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2687"/>
+        <location filename="../../fpwin.cpp" line="2690"/>
         <source>See Preferences → Files → Do not permit opening of non-text files</source>
         <translation>Перегляньте Налаштування → Файли → Не дозволяти відкриття не текстових файлів</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2696"/>
+        <location filename="../../fpwin.cpp" line="2699"/>
         <source>Some file(s) could not be opened!</source>
         <translation>Не можливо відкрити деякі файли!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2697"/>
+        <location filename="../../fpwin.cpp" line="2700"/>
         <source>You may not have the permission to read.</source>
         <translation>Можливо, у вас немає дозволу на читання.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2707"/>
+        <location filename="../../fpwin.cpp" line="2710"/>
         <source>Uneditable file(s)!</source>
         <translation>Незмінювані файли!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2708"/>
+        <location filename="../../fpwin.cpp" line="2711"/>
         <source>Non-text files or files with huge lines cannot be edited.</source>
         <translation>Нетекстові файли або файли з великими рядками не можна редагувати.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2772"/>
+        <location filename="../../fpwin.cpp" line="2775"/>
         <source>Root Instance</source>
         <translation>Кореневий екземпляр</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2853"/>
+        <location filename="../../fpwin.cpp" line="2856"/>
         <source>Open file...</source>
         <translation>Відкрити файл...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3088"/>
-        <location filename="../../fpwin.cpp" line="3126"/>
+        <location filename="../../fpwin.cpp" line="3091"/>
+        <location filename="../../fpwin.cpp" line="3129"/>
         <source>Save as...</source>
         <translation>Зберегти як...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3162"/>
+        <location filename="../../fpwin.cpp" line="3165"/>
         <source>Keep encoding and save as...</source>
         <translation>Залишити поточне кодування та зберегти як...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3479"/>
+        <location filename="../../fpwin.cpp" line="3482"/>
         <source>Saving as root.</source>
         <translation>Збереження кореневим.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3480"/>
+        <location filename="../../fpwin.cpp" line="3483"/>
         <source>Waiting for authentication...</source>
         <translation>Очікування автентифікації...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3599"/>
+        <location filename="../../fpwin.cpp" line="3602"/>
         <source>&quot;pkexec&quot; is not found. Please install Polkit!</source>
         <translation>«pkexec» не знайдено. Встановіть Polkit!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3282"/>
+        <location filename="../../fpwin.cpp" line="3285"/>
         <source>Yes</source>
         <translation>Так</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3283"/>
+        <location filename="../../fpwin.cpp" line="3286"/>
         <source>No</source>
         <translation>Ні</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3284"/>
+        <location filename="../../fpwin.cpp" line="3287"/>
         <source>Cancel</source>
         <translation>Скасувати</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3285"/>
+        <location filename="../../fpwin.cpp" line="3288"/>
         <source>Do you want to use &lt;b&gt;MS Windows&lt;/b&gt; end-of-lines?</source>
         <translation>Ви хочете використовувати кінці рядків &lt;b&gt;MS Windows&lt;/b&gt;?</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3286"/>
+        <location filename="../../fpwin.cpp" line="3289"/>
         <source>This may be good for readability under MS Windows.</source>
         <translation>Це може бути добре для читання в MS Windows.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3390"/>
-        <location filename="../../fpwin.cpp" line="3494"/>
-        <location filename="../../fpwin.cpp" line="3598"/>
-        <location filename="../../fpwin.cpp" line="3610"/>
+        <location filename="../../fpwin.cpp" line="3393"/>
+        <location filename="../../fpwin.cpp" line="3497"/>
+        <location filename="../../fpwin.cpp" line="3601"/>
+        <location filename="../../fpwin.cpp" line="3613"/>
         <source>Cannot be saved!</source>
         <translation>Неможливо зберегти!</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="450"/>
-        <location filename="../../fpwin.cpp" line="4014"/>
-        <location filename="../../fpwin.cpp" line="4995"/>
-        <location filename="../../fpwin.cpp" line="5254"/>
-        <location filename="../../fpwin.cpp" line="6336"/>
+        <location filename="../../fpwin.cpp" line="4017"/>
+        <location filename="../../fpwin.cpp" line="4998"/>
+        <location filename="../../fpwin.cpp" line="5257"/>
+        <location filename="../../fpwin.cpp" line="6345"/>
         <source>Help</source>
         <translation>Довідка</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3651"/>
-        <location filename="../../fpwin.cpp" line="3657"/>
-        <location filename="../../fpwin.cpp" line="3665"/>
-        <location filename="../../fpwin.cpp" line="4516"/>
-        <location filename="../../fpwin.cpp" line="6124"/>
-        <location filename="../../fpwin.cpp" line="6130"/>
-        <location filename="../../fpwin.cpp" line="6138"/>
+        <location filename="../../fpwin.cpp" line="3654"/>
+        <location filename="../../fpwin.cpp" line="3660"/>
+        <location filename="../../fpwin.cpp" line="3668"/>
+        <location filename="../../fpwin.cpp" line="4519"/>
+        <location filename="../../fpwin.cpp" line="6133"/>
+        <location filename="../../fpwin.cpp" line="6139"/>
+        <location filename="../../fpwin.cpp" line="6147"/>
         <source>Syntax</source>
         <translation>Синтаксис</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2677"/>
+        <location filename="../../fpwin.cpp" line="2680"/>
         <source>Huge file(s) not opened!</source>
         <translation>Великі файли не відкриваються!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="2844"/>
-        <location filename="../../fpwin.cpp" line="2849"/>
-        <location filename="../../fpwin.cpp" line="3031"/>
-        <location filename="../../fpwin.cpp" line="3037"/>
-        <location filename="../../fpwin.cpp" line="3059"/>
+        <location filename="../../fpwin.cpp" line="2847"/>
+        <location filename="../../fpwin.cpp" line="2852"/>
+        <location filename="../../fpwin.cpp" line="3034"/>
+        <location filename="../../fpwin.cpp" line="3040"/>
+        <location filename="../../fpwin.cpp" line="3062"/>
         <source>All Files</source>
         <translation>Усі файли</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3754"/>
+        <location filename="../../fpwin.cpp" line="3757"/>
         <source>Text tabs are converted to spaces.</source>
         <translation>Текстові табулятори змінені на пробіли.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3864"/>
+        <location filename="../../fpwin.cpp" line="3867"/>
         <source>The selected text was too long.</source>
         <translation>Вибраний текст був надто довгим.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="3865"/>
+        <location filename="../../fpwin.cpp" line="3868"/>
         <source>It is not fully processed.</source>
         <translation>Не повністю оброблено.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4026"/>
-        <location filename="../../fpwin.cpp" line="4259"/>
+        <location filename="../../fpwin.cpp" line="4029"/>
+        <location filename="../../fpwin.cpp" line="4262"/>
         <source>This file has been modified elsewhere or in another way!</source>
         <translation>Цей файл був змінений в іншому місці або іншим способом!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4027"/>
-        <location filename="../../fpwin.cpp" line="4260"/>
+        <location filename="../../fpwin.cpp" line="4030"/>
+        <location filename="../../fpwin.cpp" line="4263"/>
         <source>Please be careful about reloading or saving this document!</source>
         <translation>Будьте обережні, перезавантажуючи або зберігаючи цей документ!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4669"/>
+        <location filename="../../fpwin.cpp" line="4672"/>
         <source>Printing in progress...</source>
         <translation>Друкується...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4720"/>
+        <location filename="../../fpwin.cpp" line="4723"/>
         <source>Print Document</source>
         <translation>Друкувати документ</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4726"/>
+        <location filename="../../fpwin.cpp" line="4729"/>
         <source>Printing completed.</source>
         <translation>Друкування виконано.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5386"/>
-        <location filename="../../fpwin.cpp" line="5516"/>
+        <location filename="../../fpwin.cpp" line="5389"/>
+        <location filename="../../fpwin.cpp" line="5522"/>
         <source>%1 Pages</source>
         <translation>%1 сторінок</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5418"/>
-        <location filename="../../fpwin.cpp" line="5552"/>
+        <location filename="../../fpwin.cpp" line="5421"/>
+        <location filename="../../fpwin.cpp" line="5558"/>
         <source>Copy Target Path</source>
         <translation>Скопіювати шлях до цілі</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5422"/>
-        <location filename="../../fpwin.cpp" line="5556"/>
+        <location filename="../../fpwin.cpp" line="5425"/>
+        <location filename="../../fpwin.cpp" line="5562"/>
         <source>Open Target Here</source>
         <translation>Відкрити ціль тут</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5441"/>
-        <location filename="../../fpwin.cpp" line="5576"/>
+        <location filename="../../fpwin.cpp" line="5444"/>
+        <location filename="../../fpwin.cpp" line="5582"/>
         <source>Copy Final Target Path</source>
         <translation>Скопіювати шлях до кінцевої цілі</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5445"/>
-        <location filename="../../fpwin.cpp" line="5580"/>
+        <location filename="../../fpwin.cpp" line="5448"/>
+        <location filename="../../fpwin.cpp" line="5586"/>
         <source>Open Final Target Here</source>
         <translation>Відкрити фінальну ціль тут</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5465"/>
-        <location filename="../../fpwin.cpp" line="5601"/>
+        <location filename="../../fpwin.cpp" line="5468"/>
+        <location filename="../../fpwin.cpp" line="5607"/>
         <source>Open Containing Folder</source>
         <translation>Відкрити теку, що містить</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5724"/>
+        <location filename="../../fpwin.cpp" line="5733"/>
         <source>You need to add a Hunspell dictionary.</source>
         <translation>Вам потрібно додати словник Hunspell.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5725"/>
-        <location filename="../../fpwin.cpp" line="5732"/>
-        <location filename="../../fpwin.cpp" line="5742"/>
+        <location filename="../../fpwin.cpp" line="5734"/>
+        <location filename="../../fpwin.cpp" line="5741"/>
+        <location filename="../../fpwin.cpp" line="5751"/>
         <source>See Preferences → Text → Spell Checking!</source>
         <translation>Перегляньте Налаштування → Текст → Перевірка правопису!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5731"/>
+        <location filename="../../fpwin.cpp" line="5740"/>
         <source>The Hunspell dictionary does not exist.</source>
         <translation>Словника Hunspell не існує.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5741"/>
+        <location filename="../../fpwin.cpp" line="5750"/>
         <source>The Hunspell dictionary is not accompanied by an affix file.</source>
         <translation>Словник Hunspell не супроводжується додатковим файлом.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5764"/>
-        <location filename="../../fpwin.cpp" line="5782"/>
-        <location filename="../../fpwin.cpp" line="5797"/>
+        <location filename="../../fpwin.cpp" line="5773"/>
+        <location filename="../../fpwin.cpp" line="5791"/>
+        <location filename="../../fpwin.cpp" line="5806"/>
         <source>No misspelling in document.</source>
         <translation>У документі немає помилок.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5766"/>
-        <location filename="../../fpwin.cpp" line="5784"/>
-        <location filename="../../fpwin.cpp" line="5799"/>
+        <location filename="../../fpwin.cpp" line="5775"/>
+        <location filename="../../fpwin.cpp" line="5793"/>
+        <location filename="../../fpwin.cpp" line="5808"/>
         <source>No misspelling from text cursor.</source>
         <translation>Немає помилок у тексті після курсора.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5815"/>
+        <location filename="../../fpwin.cpp" line="5824"/>
         <source>Spell Checking</source>
         <translation>Перевірка правопису</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6162"/>
+        <location filename="../../fpwin.cpp" line="6171"/>
         <source>Some files cannot be saved!</source>
         <translation>Деякі файли неможливо зберегти!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6202"/>
+        <location filename="../../fpwin.cpp" line="6211"/>
         <source>Translators</source>
         <translation>Перекладачі</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6198"/>
+        <location filename="../../fpwin.cpp" line="6207"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translation>Легкий текстовий редактор з вкладками</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6199"/>
+        <location filename="../../fpwin.cpp" line="6208"/>
         <source>based on Qt</source>
         <translation>заснований на Qt</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6200"/>
+        <location filename="../../fpwin.cpp" line="6209"/>
         <source>Author</source>
         <translation>Автор</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6201"/>
+        <location filename="../../fpwin.cpp" line="6210"/>
         <source>aka.</source>
         <translation>псевдонім</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6202"/>
-        <location filename="../../fpwin.cpp" line="6203"/>
+        <location filename="../../fpwin.cpp" line="6211"/>
+        <location filename="../../fpwin.cpp" line="6212"/>
         <source>About FeatherPad</source>
         <translation>Про FeatherPad</translation>
     </message>
@@ -2356,7 +2356,7 @@ windows will be included in the saved session.</source>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="146"/>
+        <location filename="../../textedit.cpp" line="147"/>
         <source>Double click to center current line</source>
         <translation>Центрувати поточний рядок подвійним клацанням</translation>
     </message>

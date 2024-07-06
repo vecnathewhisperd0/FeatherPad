@@ -4,7 +4,7 @@ V1.5.2
  * Don't escape a start single quote in C/C++ when it follows a letter or number.
  * Don't try to save as root when the parent directory doesn't exist.
  * Respect the enforced syntax of an unsaved document when removing its trailing spaces on saving it.
- * Dropped using of "gio" for opening hyperlinks.
+ * Check the existence of "gio" before using it for opening URLs.
 
 V1.5.1
 ---------

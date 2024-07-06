@@ -23,7 +23,8 @@
 #include <QPainter>
 #include <QMenu>
 #include <QDesktopServices>
-//#include <QProcess>
+#include <QStandardPaths>
+#include <QProcess>
 #include <QRegularExpression>
 #include <QClipboard>
 #include <QTextDocumentFragment>
@@ -2275,8 +2276,11 @@ void TextEdit::mouseReleaseEvent (QMouseEvent *event)
             QUrl url (str);
             if (url.isRelative()) // treat relative URLs as local paths (not needed here)
                 url = QUrl::fromUserInput (str, "/");
-            //if (!QProcess::startDetached ("gio", QStringList() << "open" << url.toString()))
+            if (QStandardPaths::findExecutable ("gio").isEmpty()
+                || !QProcess::startDetached ("gio", QStringList() << "open" << url.toString()))
+            {
                 QDesktopServices::openUrl (url);
+            }
         }
     }
     pressPoint_ = QPoint();

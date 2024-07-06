@@ -1727,8 +1727,11 @@ void FPwin::editorContextMenu (const QPoint& p)
                     url = QUrl::fromUserInput (str, "/");
                 /* QDesktopServices::openUrl() may resort to "xdg-open", which isn't
                    the best choice. "gio" is always reliable, so we check it first. */
-                //if (!QProcess::startDetached ("gio", QStringList() << "open" << url.toString()))
+                if (QStandardPaths::findExecutable ("gio").isEmpty()
+                    || !QProcess::startDetached ("gio", QStringList() << "open" << url.toString()))
+                {
                     QDesktopServices::openUrl (url);
+                }
             });
             if (str.startsWith ("mailto:")) // see getUrl()
                 str.remove (0, 7);
@@ -5480,8 +5483,11 @@ void FPwin::tabContextMenu (const QPoint& p)
                 if (response.type() == QDBusMessage::ErrorMessage)
                 {
                     QString folder = fname.section ("/", 0, -2);
-                    //if (!QProcess::startDetached ("gio", QStringList() << "open" << folder))
+                    if (QStandardPaths::findExecutable ("gio").isEmpty()
+                        || !QProcess::startDetached ("gio", QStringList() << "open" << folder))
+                    {
                         QDesktopServices::openUrl (QUrl::fromLocalFile (folder));
+                    }
                 }
             });
         }
@@ -5614,8 +5620,11 @@ void FPwin::listContextMenu (const QPoint& p)
                 if (response.type() == QDBusMessage::ErrorMessage)
                 {
                     QString folder = fname.section ("/", 0, -2);
-                    //if (!QProcess::startDetached ("gio", QStringList() << "open" << folder))
+                    if (QStandardPaths::findExecutable ("gio").isEmpty()
+                        || !QProcess::startDetached ("gio", QStringList() << "open" << folder))
+                    {
                         QDesktopServices::openUrl (QUrl::fromLocalFile (folder));
+                    }
                 }
             });
         }
