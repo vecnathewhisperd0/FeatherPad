@@ -3670,6 +3670,14 @@ bool Highlighter::isHereDocument (const QString &text)
 
                     if (progLan == "sh")
                     {
+                        /* skip double-parenthesis constructs */
+                        static const QRegularExpression dpc ("(^\\s*|\\$|[\\);&`\\|]\\s*)\\(\\(.+\\)\\)");
+                        int index = text.lastIndexOf (dpc , pos, &match);
+                        if (index > -1 && index < pos && index + match.capturedLength() > pos)
+                        {
+                            return false;
+                        }
+
                         int pos1 = pos;
                         while (pos1 > 0 && text.at (pos1 - 1) == '<')
                             -- pos1;

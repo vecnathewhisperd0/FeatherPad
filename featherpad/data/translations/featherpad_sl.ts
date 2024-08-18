@@ -1134,6 +1134,9 @@
         <source>%Ln Replacements</source>
         <translation type="unfinished">
             <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message>
@@ -2122,7 +2125,7 @@ in the editing mode.</source>
         <location filename="../../sessionDialog.ui" line="84"/>
         <location filename="../../sessionDialog.ui" line="299"/>
         <source>&amp;Open</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Odpri</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="110"/>
@@ -2176,7 +2179,7 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../sessionDialog.ui" line="284"/>
         <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Zapri</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="147"/>
@@ -2186,7 +2189,7 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../sessionDialog.ui" line="150"/>
         <source>&amp;Save</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Shrani</translation>
     </message>
     <message>
         <location filename="../../sessionDialog.ui" line="161"/>
@@ -2257,7 +2260,7 @@ windows will be included in the saved session.</source>
     <message>
         <location filename="../../spellDialog.ui" line="62"/>
         <source>Replace with:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zamenjaj z:</translation>
     </message>
     <message>
         <location filename="../../spellDialog.ui" line="129"/>
