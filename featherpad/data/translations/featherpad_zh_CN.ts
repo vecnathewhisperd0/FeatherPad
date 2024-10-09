@@ -1554,49 +1554,49 @@ the editor font has a fixed pitch (like Monospace).</source>
         <translation>也显示行与文档结尾</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="803"/>
+        <location filename="../../prefDialog.ui" line="801"/>
         <source>Date and time format:</source>
         <translation>日期与时间格式:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="873"/>
+        <location filename="../../prefDialog.ui" line="869"/>
         <source>Some text editors cannot open a document
 whose last line is not empty.</source>
         <translation>某些文本编辑器只能打开最后一行为空的文档。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="877"/>
+        <location filename="../../prefDialog.ui" line="873"/>
         <source>Ensure an empty last line on saving</source>
         <translation>确保保存时在文档末尾留下一行空白</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="884"/>
+        <location filename="../../prefDialog.ui" line="880"/>
         <source>Remove trailing spaces on saving</source>
         <translation>保存时移除结尾空白</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="902"/>
+        <location filename="../../prefDialog.ui" line="898"/>
         <source>Inertial scrolling with mouse wheel</source>
         <translation>鼠标滚论滚动时带惯性</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="991"/>
+        <location filename="../../prefDialog.ui" line="987"/>
         <source>Files</source>
         <translation>文件</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="997"/>
+        <location filename="../../prefDialog.ui" line="993"/>
         <source>File Management</source>
         <translation>文件管理</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1114"/>
+        <location filename="../../prefDialog.ui" line="1110"/>
         <source>Start with files of last window</source>
         <translation>从最后一个窗口的文件开始</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1156"/>
-        <location filename="../../prefDialog.ui" line="1175"/>
+        <location filename="../../prefDialog.ui" line="1152"/>
+        <location filename="../../prefDialog.ui" line="1171"/>
         <source>This can be any starting command with
 arguments, for example, &quot;xterm -hold&quot;
 for running the process in XTerm.
@@ -1614,32 +1614,32 @@ will be shown by a popup dialog.</source>
 与错误信息会在弹出的对话框中显示。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1168"/>
+        <location filename="../../prefDialog.ui" line="1164"/>
         <source>Start with this command: </source>
         <translation>以此命令运行脚本: </translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1187"/>
+        <location filename="../../prefDialog.ui" line="1183"/>
         <source>Command + Arguments</source>
         <translation>命令 + 参数</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1072"/>
+        <location filename="../../prefDialog.ui" line="1068"/>
         <source>Show recentl&amp;y modified files</source>
         <translation>显示最近更改的文件(&amp;Y)</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1102"/>
+        <location filename="../../prefDialog.ui" line="1098"/>
         <source>Show recentl&amp;y opened files</source>
         <translation>显示最近打开的文件(&amp;Y)</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1201"/>
+        <location filename="../../prefDialog.ui" line="1197"/>
         <source>Save changes to opened files every:</source>
         <translation>自动保存时间间隔:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1479"/>
+        <location filename="../../prefDialog.ui" line="1475"/>
         <source>Help</source>
         <translation>帮助</translation>
     </message>
@@ -1708,7 +1708,7 @@ and-drop either.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1121"/>
+        <location filename="../../prefDialog.ui" line="1117"/>
         <source>This only includes executable files written
 in script languages like Shell and Python.
 
@@ -1747,13 +1747,13 @@ Needs window reopening to take effect.</source>
 需要重新启动应用程序以生效。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1131"/>
+        <location filename="../../prefDialog.ui" line="1127"/>
         <source>Run executable scripts</source>
         <translation>运行可执行脚本</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1005"/>
-        <location filename="../../prefDialog.ui" line="1019"/>
+        <location filename="../../prefDialog.ui" line="1001"/>
+        <location filename="../../prefDialog.ui" line="1015"/>
         <source>The maximum number of recently modified or
 opened files FeatherPad shows. The default
 is 10.
@@ -1771,45 +1771,45 @@ Needs application restart to take effect.</source>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="795"/>
-        <location filename="../../prefDialog.ui" line="810"/>
+        <location filename="../../prefDialog.ui" line="808"/>
         <source>Used for pasting the date and time.
+Leave empty for the system default.
 
-Takes effect after closing this dialog.
+Takes effect after closing this dialog.</source>
+        <translation>用于粘贴日期和时间。
+留空以使用系统默认值。
 
-Leave empty for:
-MMM dd, yyyy, hh:mm:ss</source>
-        <translation>用于粘贴日期与时间，在关闭此对话框后生效。
-默认格式为：MMM dd, yyyy, hh:mm:ss</translation>
+关闭此对话框后生效。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="832"/>
+        <location filename="../../prefDialog.ui" line="828"/>
         <source>Text tab size:</source>
         <translation>文本tab缩进:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="839"/>
+        <location filename="../../prefDialog.ui" line="835"/>
         <source> spaces</source>
         <translation> 空格</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="891"/>
+        <location filename="../../prefDialog.ui" line="887"/>
         <source>Thick text cursor</source>
         <translation>文本光标</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="898"/>
+        <location filename="../../prefDialog.ui" line="894"/>
         <source>Should the mouse wheel scrolling be inertial
 if the cursor is inside the text view?</source>
         <translation>如光标在文本视图内，鼠标滚轮滚动是否应带惯性？</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="909"/>
+        <location filename="../../prefDialog.ui" line="905"/>
         <source>Spell Checking</source>
         <translation>拼写检查</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="917"/>
-        <location filename="../../prefDialog.ui" line="929"/>
+        <location filename="../../prefDialog.ui" line="913"/>
+        <location filename="../../prefDialog.ui" line="925"/>
         <source>A Hunspell dictionary has a name that ends with &quot;.dic&quot;
 and should be alongside an affix file with the same
 name but ending with &quot;.aff&quot;.</source>
@@ -1818,51 +1818,51 @@ name but ending with &quot;.aff&quot;.</source>
 名称，但以“.aff”结尾。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="922"/>
+        <location filename="../../prefDialog.ui" line="918"/>
         <source>Hunspell dictionary path:</source>
         <translation>Hunspell字典路径：</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="941"/>
+        <location filename="../../prefDialog.ui" line="937"/>
         <location filename="../../pref.cpp" line="1794"/>
         <source>Add dictionary...</source>
         <translation>添加词典......</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="953"/>
+        <location filename="../../prefDialog.ui" line="949"/>
         <source>If this is unchecked, spell checking
 will be started from the document start.</source>
         <translation>如果未选中，则拼写检查
 将从文件开始启动。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="957"/>
+        <location filename="../../prefDialog.ui" line="953"/>
         <source>Start spell checking from text cursor</source>
         <translation>从文本光标开始拼写检查</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1012"/>
+        <location filename="../../prefDialog.ui" line="1008"/>
         <source>Number of recent files: </source>
         <translation>最近文件的数量: </translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1111"/>
+        <location filename="../../prefDialog.ui" line="1107"/>
         <source>Only if their number is not greater than 50.</source>
         <translation>除非数量不超过50。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1198"/>
-        <location filename="../../prefDialog.ui" line="1208"/>
+        <location filename="../../prefDialog.ui" line="1194"/>
+        <location filename="../../prefDialog.ui" line="1204"/>
         <source>Only for files that exist and can be saved.</source>
         <translation>仅对于存在且可被保存的文件。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1211"/>
+        <location filename="../../prefDialog.ui" line="1207"/>
         <source> min</source>
         <translation> 分钟</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1242"/>
+        <location filename="../../prefDialog.ui" line="1238"/>
         <source>If this is checked, the Save button/menu-item could
 be used also when the opened file is not modified.
 
@@ -1877,96 +1877,96 @@ trailing spaces of a text file.</source>
 文本文件的尾随空格。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1250"/>
+        <location filename="../../prefDialog.ui" line="1246"/>
         <source>Allow saving unmodified files</source>
         <translation>允许保存未修改的文件</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1257"/>
+        <location filename="../../prefDialog.ui" line="1253"/>
         <source>Show a warning instead.</source>
         <translation>改为显示一个警告。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1260"/>
+        <location filename="../../prefDialog.ui" line="1256"/>
         <source>Do not permit opening of non-text files</source>
         <translation>不允许打开非文本文件</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1267"/>
+        <location filename="../../prefDialog.ui" line="1263"/>
         <source>By default, when files are copied, they will
 be opened if they are pasted into FeatherPad.</source>
         <translation>一般情况下，被复制的文件粘贴进 FeatherPad ，这些文件会被打开。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1271"/>
+        <location filename="../../prefDialog.ui" line="1267"/>
         <source>Paste paths instead of files</source>
         <translation>粘贴路径而不是文件</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1298"/>
+        <location filename="../../prefDialog.ui" line="1294"/>
         <source>Shortcuts</source>
         <translation>快捷方式</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1320"/>
+        <location filename="../../prefDialog.ui" line="1316"/>
         <source>Action</source>
         <translation>动作</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1325"/>
+        <location filename="../../prefDialog.ui" line="1321"/>
         <source>Shortcut</source>
         <translation>快捷方式</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1333"/>
+        <location filename="../../prefDialog.ui" line="1329"/>
         <source>Restore default shortcuts.</source>
         <translation>恢复默认快捷方式。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1336"/>
-        <location filename="../../prefDialog.ui" line="1410"/>
-        <location filename="../../prefDialog.ui" line="1458"/>
+        <location filename="../../prefDialog.ui" line="1332"/>
+        <location filename="../../prefDialog.ui" line="1406"/>
+        <location filename="../../prefDialog.ui" line="1454"/>
         <source>Default</source>
         <translation>默认</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1347"/>
+        <location filename="../../prefDialog.ui" line="1343"/>
         <source>Syntax Colors</source>
         <translation>语法颜色</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1442"/>
+        <location filename="../../prefDialog.ui" line="1438"/>
         <source>Element</source>
         <translation>元素</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1447"/>
+        <location filename="../../prefDialog.ui" line="1443"/>
         <source>Text Color</source>
         <translation>文本颜色</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1364"/>
+        <location filename="../../prefDialog.ui" line="1360"/>
         <source>Whitespace color value:</source>
         <translation>空格颜色值：</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1397"/>
-        <location filename="../../prefDialog.ui" line="1407"/>
+        <location filename="../../prefDialog.ui" line="1393"/>
+        <location filename="../../prefDialog.ui" line="1403"/>
         <source>Has effect only if line numbers are shown.</source>
         <translation>仅在显示行号时有效。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1400"/>
+        <location filename="../../prefDialog.ui" line="1396"/>
         <source>Current line highlight value:</source>
         <translation>当前行高亮值：</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1455"/>
+        <location filename="../../prefDialog.ui" line="1451"/>
         <source>Restore default syntax colors.</source>
         <translation>恢复默认语法颜色。</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1490"/>
+        <location filename="../../prefDialog.ui" line="1486"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>

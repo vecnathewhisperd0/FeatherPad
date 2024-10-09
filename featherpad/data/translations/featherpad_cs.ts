@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="cs">
+<TS version="2.1" language="cs_CZ">
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
@@ -1567,50 +1567,50 @@ písmo editoru má pevné pitch (jako Monospace).</translation>
         <translation>Také zobrazovat konce čáry a dokumentu</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="803"/>
+        <location filename="../../prefDialog.ui" line="801"/>
         <source>Date and time format:</source>
         <translation>Formát data a času:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="873"/>
+        <location filename="../../prefDialog.ui" line="869"/>
         <source>Some text editors cannot open a document
 whose last line is not empty.</source>
         <translation>Některé textové editory nedovedou otevřít
 dokument, jehož poslední řádek není prázdný.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="877"/>
+        <location filename="../../prefDialog.ui" line="873"/>
         <source>Ensure an empty last line on saving</source>
         <translation>Při ukládání zajistit, že bude (přidán) poslední prázdný řádek</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="884"/>
+        <location filename="../../prefDialog.ui" line="880"/>
         <source>Remove trailing spaces on saving</source>
         <translation>Při ukládání odebrat mezery na konci</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="902"/>
+        <location filename="../../prefDialog.ui" line="898"/>
         <source>Inertial scrolling with mouse wheel</source>
         <translation>Inerciální posouvání kolečkem myši</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="991"/>
+        <location filename="../../prefDialog.ui" line="987"/>
         <source>Files</source>
         <translation>Soubory</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="997"/>
+        <location filename="../../prefDialog.ui" line="993"/>
         <source>File Management</source>
         <translation>Správa souborů</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1114"/>
+        <location filename="../../prefDialog.ui" line="1110"/>
         <source>Start with files of last window</source>
         <translation>Začít soubory posledního okna</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1156"/>
-        <location filename="../../prefDialog.ui" line="1175"/>
+        <location filename="../../prefDialog.ui" line="1152"/>
+        <location filename="../../prefDialog.ui" line="1171"/>
         <source>This can be any starting command with
 arguments, for example, &quot;xterm -hold&quot;
 for running the process in XTerm.
@@ -1633,32 +1633,32 @@ terminálu, výstup a chybová hlášení budou
 zobrazena ve vyskakovacím dialogu.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1168"/>
+        <location filename="../../prefDialog.ui" line="1164"/>
         <source>Start with this command: </source>
         <translation>Začít tímto příkazem: </translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1187"/>
+        <location filename="../../prefDialog.ui" line="1183"/>
         <source>Command + Arguments</source>
         <translation>Příkaz + argumenty</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1072"/>
+        <location filename="../../prefDialog.ui" line="1068"/>
         <source>Show recentl&amp;y modified files</source>
         <translation>Zobrazit nedávno změněné soubor&amp;y</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1102"/>
+        <location filename="../../prefDialog.ui" line="1098"/>
         <source>Show recentl&amp;y opened files</source>
         <translation>Zobrazit nedávno otevřené soubor&amp;y</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1201"/>
+        <location filename="../../prefDialog.ui" line="1197"/>
         <source>Save changes to opened files every:</source>
         <translation>Uložit změny v otevřených souborech každých:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1479"/>
+        <location filename="../../prefDialog.ui" line="1475"/>
         <source>Help</source>
         <translation>Nápověda</translation>
     </message>
@@ -1729,7 +1729,7 @@ panelu.</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1121"/>
+        <location filename="../../prefDialog.ui" line="1117"/>
         <source>This only includes executable files written
 in script languages like Shell and Python.
 
@@ -1773,13 +1773,13 @@ Aby se projevilo, je třeba okno zavřít
 a otevřít znovu.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1131"/>
+        <location filename="../../prefDialog.ui" line="1127"/>
         <source>Run executable scripts</source>
         <translation>Spouštět vykonavatelné skripty</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1005"/>
-        <location filename="../../prefDialog.ui" line="1019"/>
+        <location filename="../../prefDialog.ui" line="1001"/>
+        <location filename="../../prefDialog.ui" line="1015"/>
         <source>The maximum number of recently modified or
 opened files FeatherPad shows. The default
 is 10.
@@ -1798,50 +1798,46 @@ Změna se projeví až po restartu aplikace.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="795"/>
-        <location filename="../../prefDialog.ui" line="810"/>
+        <location filename="../../prefDialog.ui" line="808"/>
         <source>Used for pasting the date and time.
+Leave empty for the system default.
 
-Takes effect after closing this dialog.
-
-Leave empty for:
-MMM dd, yyyy, hh:mm:ss</source>
+Takes effect after closing this dialog.</source>
         <translation>Slouží pro vkládání data a času.
+Pokud chcete použít systémový výchozí, nevyplňujte.
 
-Projeví se po zavření tohoto dialogu.
-
-Pokud chcete použít výchozí, nevyplňujte:
-MMM dd, rrrr, hh:mm:ss</translation>
+Uplatní se po zavření tohoto dialogu.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="832"/>
+        <location filename="../../prefDialog.ui" line="828"/>
         <source>Text tab size:</source>
         <translation>Velikost panelu s textem:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="839"/>
+        <location filename="../../prefDialog.ui" line="835"/>
         <source> spaces</source>
         <translation> mezery</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="891"/>
+        <location filename="../../prefDialog.ui" line="887"/>
         <source>Thick text cursor</source>
         <translation>Tlustý textový kurzor</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="898"/>
+        <location filename="../../prefDialog.ui" line="894"/>
         <source>Should the mouse wheel scrolling be inertial
 if the cursor is inside the text view?</source>
         <translation>Pokud se kurzor nachází v textovém pohledu,
 má být posouvání kolečkem myši inerciální?</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="909"/>
+        <location filename="../../prefDialog.ui" line="905"/>
         <source>Spell Checking</source>
         <translation>Kontrola pravopisu</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="917"/>
-        <location filename="../../prefDialog.ui" line="929"/>
+        <location filename="../../prefDialog.ui" line="913"/>
+        <location filename="../../prefDialog.ui" line="925"/>
         <source>A Hunspell dictionary has a name that ends with &quot;.dic&quot;
 and should be alongside an affix file with the same
 name but ending with &quot;.aff&quot;.</source>
@@ -1850,51 +1846,51 @@ a měl by být doprovázen affix souborem stejného
 názvu ale končící na „.aff“.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="922"/>
+        <location filename="../../prefDialog.ui" line="918"/>
         <source>Hunspell dictionary path:</source>
         <translation>Popis umístění hunspell slovníku:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="941"/>
+        <location filename="../../prefDialog.ui" line="937"/>
         <location filename="../../pref.cpp" line="1794"/>
         <source>Add dictionary...</source>
         <translation>Přidat slovník…</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="953"/>
+        <location filename="../../prefDialog.ui" line="949"/>
         <source>If this is unchecked, spell checking
 will be started from the document start.</source>
         <translation>Pokud je toto odškrtnuto, kontrola
 pravopisu bude zahájena od začátku dokumentu.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="957"/>
+        <location filename="../../prefDialog.ui" line="953"/>
         <source>Start spell checking from text cursor</source>
         <translation>Zahájit kontrolu pravopisu od pozice textového kurzoru</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1012"/>
+        <location filename="../../prefDialog.ui" line="1008"/>
         <source>Number of recent files: </source>
         <translation>Počet nedávných řádků: </translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1111"/>
+        <location filename="../../prefDialog.ui" line="1107"/>
         <source>Only if their number is not greater than 50.</source>
         <translation>Pouze pokud jejich počet není vyšší než 50.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1198"/>
-        <location filename="../../prefDialog.ui" line="1208"/>
+        <location filename="../../prefDialog.ui" line="1194"/>
+        <location filename="../../prefDialog.ui" line="1204"/>
         <source>Only for files that exist and can be saved.</source>
         <translation>Pouze pro soubory které existují a je možné je uložit.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1211"/>
+        <location filename="../../prefDialog.ui" line="1207"/>
         <source> min</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1242"/>
+        <location filename="../../prefDialog.ui" line="1238"/>
         <source>If this is checked, the Save button/menu-item could
 be used also when the opened file is not modified.
 
@@ -1910,97 +1906,97 @@ pro změnu časového razítka nebo odebrání
 mezer na konci textového souboru.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1250"/>
+        <location filename="../../prefDialog.ui" line="1246"/>
         <source>Allow saving unmodified files</source>
         <translation>Umožnit ukládání nezměněných souborů</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1257"/>
+        <location filename="../../prefDialog.ui" line="1253"/>
         <source>Show a warning instead.</source>
         <translation>Namísto toho zobrazit varování.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1260"/>
+        <location filename="../../prefDialog.ui" line="1256"/>
         <source>Do not permit opening of non-text files</source>
         <translation>Nepovolit otevírání netextových souborů</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1267"/>
+        <location filename="../../prefDialog.ui" line="1263"/>
         <source>By default, when files are copied, they will
 be opened if they are pasted into FeatherPad.</source>
         <translation>Ve výchozím stavu, když jsou soubory kopírovány
 budou otevřeny pokud byly vloženy do FeatherPad.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1271"/>
+        <location filename="../../prefDialog.ui" line="1267"/>
         <source>Paste paths instead of files</source>
         <translation>Vkládat popisy umístění namísto souborů</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1298"/>
+        <location filename="../../prefDialog.ui" line="1294"/>
         <source>Shortcuts</source>
         <translation>Klávesové zkratky</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1320"/>
+        <location filename="../../prefDialog.ui" line="1316"/>
         <source>Action</source>
         <translation>Akce</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1325"/>
+        <location filename="../../prefDialog.ui" line="1321"/>
         <source>Shortcut</source>
         <translation>Klávesová zkratka</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1333"/>
+        <location filename="../../prefDialog.ui" line="1329"/>
         <source>Restore default shortcuts.</source>
         <translation>Obnovit výchozí zkratky.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1336"/>
-        <location filename="../../prefDialog.ui" line="1410"/>
-        <location filename="../../prefDialog.ui" line="1458"/>
+        <location filename="../../prefDialog.ui" line="1332"/>
+        <location filename="../../prefDialog.ui" line="1406"/>
+        <location filename="../../prefDialog.ui" line="1454"/>
         <source>Default</source>
         <translation>Výchozí</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1347"/>
+        <location filename="../../prefDialog.ui" line="1343"/>
         <source>Syntax Colors</source>
         <translation>Barvy syntaxe</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1442"/>
+        <location filename="../../prefDialog.ui" line="1438"/>
         <source>Element</source>
         <translation>Prvek</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1447"/>
+        <location filename="../../prefDialog.ui" line="1443"/>
         <source>Text Color</source>
         <translation>Barva textu</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1364"/>
+        <location filename="../../prefDialog.ui" line="1360"/>
         <source>Whitespace color value:</source>
         <translation>Hodnota barvy prázdného znaku:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1397"/>
-        <location filename="../../prefDialog.ui" line="1407"/>
+        <location filename="../../prefDialog.ui" line="1393"/>
+        <location filename="../../prefDialog.ui" line="1403"/>
         <source>Has effect only if line numbers are shown.</source>
         <translation>Má efekt pouze pokud jsou zobrazeny čísla řádků.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1400"/>
+        <location filename="../../prefDialog.ui" line="1396"/>
         <source>Current line highlight value:</source>
         <translation>Stávající hodnota zvýraznění řádku:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1455"/>
+        <location filename="../../prefDialog.ui" line="1451"/>
         <source>Restore default syntax colors.</source>
         <translation>Vrátit barvy syntaxe na výchozí hodnoty.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1490"/>
+        <location filename="../../prefDialog.ui" line="1486"/>
         <source>Close</source>
         <translation>Zavřít</translation>
     </message>

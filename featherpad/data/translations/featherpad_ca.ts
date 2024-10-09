@@ -1570,50 +1570,50 @@ el tipus de lletra de l&apos;editor té un ample fix (com Monospace).</translati
         <translation>Mostra també els finals de línia i de document</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="803"/>
+        <location filename="../../prefDialog.ui" line="801"/>
         <source>Date and time format:</source>
         <translation>Format de la data i l&apos;hora:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="873"/>
+        <location filename="../../prefDialog.ui" line="869"/>
         <source>Some text editors cannot open a document
 whose last line is not empty.</source>
         <translation>Alguns editors de text no poden obrir un document
 si l&apos;última línia no està buida.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="877"/>
+        <location filename="../../prefDialog.ui" line="873"/>
         <source>Ensure an empty last line on saving</source>
         <translation>Assegureu-vos de deixar una última línia buida en desar</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="884"/>
+        <location filename="../../prefDialog.ui" line="880"/>
         <source>Remove trailing spaces on saving</source>
         <translation>Suprimeix els espais finals en desar</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="902"/>
+        <location filename="../../prefDialog.ui" line="898"/>
         <source>Inertial scrolling with mouse wheel</source>
         <translation>Desplaçament inercial amb la roda del ratoli</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="991"/>
+        <location filename="../../prefDialog.ui" line="987"/>
         <source>Files</source>
         <translation>Fitxers</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="997"/>
+        <location filename="../../prefDialog.ui" line="993"/>
         <source>File Management</source>
         <translation>Gestió de fitxers</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1114"/>
+        <location filename="../../prefDialog.ui" line="1110"/>
         <source>Start with files of last window</source>
         <translation>Comença amb els fitxers de l&apos;última finestra</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1156"/>
-        <location filename="../../prefDialog.ui" line="1175"/>
+        <location filename="../../prefDialog.ui" line="1152"/>
+        <location filename="../../prefDialog.ui" line="1171"/>
         <source>This can be any starting command with
 arguments, for example, &quot;xterm -hold&quot;
 for running the process in XTerm.
@@ -1633,32 +1633,32 @@ Si l&apos;script no s&apos;executa en un emulador de terminal,
 els missatges de sortida i d&apos;error es mostraran en un diàleg emergent.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1168"/>
+        <location filename="../../prefDialog.ui" line="1164"/>
         <source>Start with this command: </source>
         <translation>Comença amb aquesta ordre: </translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1187"/>
+        <location filename="../../prefDialog.ui" line="1183"/>
         <source>Command + Arguments</source>
         <translation>Ordre + Arguments</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1072"/>
+        <location filename="../../prefDialog.ui" line="1068"/>
         <source>Show recentl&amp;y modified files</source>
         <translation>Mostra els &amp;fitxers modificats recentment</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1102"/>
+        <location filename="../../prefDialog.ui" line="1098"/>
         <source>Show recentl&amp;y opened files</source>
         <translation>Mostra els fitxers &amp;oberts recentment</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1201"/>
+        <location filename="../../prefDialog.ui" line="1197"/>
         <source>Save changes to opened files every:</source>
         <translation>Desa els canvis de fitxers oberts cada:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1479"/>
+        <location filename="../../prefDialog.ui" line="1475"/>
         <source>Help</source>
         <translation>Ajuda</translation>
     </message>
@@ -1728,7 +1728,7 @@ combinar una finestra amb una altra arrossegant i alliberant la pestanya.</trans
         <translation> MiB</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1121"/>
+        <location filename="../../prefDialog.ui" line="1117"/>
         <source>This only includes executable files written
 in script languages like Shell and Python.
 
@@ -1771,13 +1771,13 @@ Per a fons fosc entre 0 i 50.
 Cal reobrir l&apos;aplicació per fer efectius els canvis.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1131"/>
+        <location filename="../../prefDialog.ui" line="1127"/>
         <source>Run executable scripts</source>
         <translation>Executa scripts</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1005"/>
-        <location filename="../../prefDialog.ui" line="1019"/>
+        <location filename="../../prefDialog.ui" line="1001"/>
+        <location filename="../../prefDialog.ui" line="1015"/>
         <source>The maximum number of recently modified or
 opened files FeatherPad shows. The default
 is 10.
@@ -1796,50 +1796,46 @@ Necessita reiniciar l&apos;aplicació per fer efectius els canvis.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="795"/>
-        <location filename="../../prefDialog.ui" line="810"/>
+        <location filename="../../prefDialog.ui" line="808"/>
         <source>Used for pasting the date and time.
+Leave empty for the system default.
 
-Takes effect after closing this dialog.
+Takes effect after closing this dialog.</source>
+        <translation>S&apos;utilitza per enganxar la data i l&apos;hora.
+Deixeu-ho buit per al valor predeterminat del sistema.
 
-Leave empty for:
-MMM dd, yyyy, hh:mm:ss</source>
-        <translation>Aquí trieu el format que voleu usar en enganxar la
-data i l&apos;hora actuals al document. 
-
-Els canvis tindran efecte després de tancar aquest diàleg. 
-
-Si es deixa buit, s&apos;usarà aquest format: MMM dd, y, hh:mm:ss</translation>
+Té efecte després de tancar aquest diàleg.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="832"/>
+        <location filename="../../prefDialog.ui" line="828"/>
         <source>Text tab size:</source>
         <translation>Mida de text de la pestanya:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="839"/>
+        <location filename="../../prefDialog.ui" line="835"/>
         <source> spaces</source>
         <translation> espais</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="891"/>
+        <location filename="../../prefDialog.ui" line="887"/>
         <source>Thick text cursor</source>
         <translation>Cursor de text gruixut</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="898"/>
+        <location filename="../../prefDialog.ui" line="894"/>
         <source>Should the mouse wheel scrolling be inertial
 if the cursor is inside the text view?</source>
         <translation>Ha de ser inercial el desplaçament amb la roda
 del ratolí si el cursor es troba dins de l&apos;àrea de text?</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="909"/>
+        <location filename="../../prefDialog.ui" line="905"/>
         <source>Spell Checking</source>
         <translation>Comprovació ortogràfica</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="917"/>
-        <location filename="../../prefDialog.ui" line="929"/>
+        <location filename="../../prefDialog.ui" line="913"/>
+        <location filename="../../prefDialog.ui" line="925"/>
         <source>A Hunspell dictionary has a name that ends with &quot;.dic&quot;
 and should be alongside an affix file with the same
 name but ending with &quot;.aff&quot;.</source>
@@ -1848,51 +1844,51 @@ amb &apos;.dic&apos; i ha d&apos;anar acompanyat d&apos;un fitxer en format affi
 amb el mateix nom però acabat en &quot;.aff&quot;.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="922"/>
+        <location filename="../../prefDialog.ui" line="918"/>
         <source>Hunspell dictionary path:</source>
         <translation>Camí del diccionari de Hunspell:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="941"/>
+        <location filename="../../prefDialog.ui" line="937"/>
         <location filename="../../pref.cpp" line="1794"/>
         <source>Add dictionary...</source>
         <translation>Afegeix un diccionari...</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="953"/>
+        <location filename="../../prefDialog.ui" line="949"/>
         <source>If this is unchecked, spell checking
 will be started from the document start.</source>
         <translation>Si desactiva aquesta opció, la verificació ortogràfica
  s&apos;iniciarà des de l&apos;inici del document.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="957"/>
+        <location filename="../../prefDialog.ui" line="953"/>
         <source>Start spell checking from text cursor</source>
         <translation>Comença la comprovació ortogràfica des del cursor</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1012"/>
+        <location filename="../../prefDialog.ui" line="1008"/>
         <source>Number of recent files: </source>
         <translation>Número de fitxers recents: </translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1111"/>
+        <location filename="../../prefDialog.ui" line="1107"/>
         <source>Only if their number is not greater than 50.</source>
         <translation>Només si el número no és superior a 50.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1198"/>
-        <location filename="../../prefDialog.ui" line="1208"/>
+        <location filename="../../prefDialog.ui" line="1194"/>
+        <location filename="../../prefDialog.ui" line="1204"/>
         <source>Only for files that exist and can be saved.</source>
         <translation>Només per als fitxers que existeixen i es poden desar.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1211"/>
+        <location filename="../../prefDialog.ui" line="1207"/>
         <source> min</source>
         <translation> min</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1242"/>
+        <location filename="../../prefDialog.ui" line="1238"/>
         <source>If this is checked, the Save button/menu-item could
 be used also when the opened file is not modified.
 
@@ -1907,97 +1903,97 @@ per exemple, per canviar la marca de temps o suprimir
 els espais finals d&apos;un fitxer de text.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1250"/>
+        <location filename="../../prefDialog.ui" line="1246"/>
         <source>Allow saving unmodified files</source>
         <translation>Permet desar fitxers sense modificar</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1257"/>
+        <location filename="../../prefDialog.ui" line="1253"/>
         <source>Show a warning instead.</source>
         <translation>Mostra un avís.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1260"/>
+        <location filename="../../prefDialog.ui" line="1256"/>
         <source>Do not permit opening of non-text files</source>
         <translation>No permetis obrir fitxers que no siguin de text</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1267"/>
+        <location filename="../../prefDialog.ui" line="1263"/>
         <source>By default, when files are copied, they will
 be opened if they are pasted into FeatherPad.</source>
         <translation>Per defecte, quan es copien els fitxers, s&apos;obriran
 si s&apos;enganxen dins del FeatherPad.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1271"/>
+        <location filename="../../prefDialog.ui" line="1267"/>
         <source>Paste paths instead of files</source>
         <translation>Engantxa camins en lloc de fitxers</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1298"/>
+        <location filename="../../prefDialog.ui" line="1294"/>
         <source>Shortcuts</source>
         <translation>Dreceres</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1320"/>
+        <location filename="../../prefDialog.ui" line="1316"/>
         <source>Action</source>
         <translation>Acció</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1325"/>
+        <location filename="../../prefDialog.ui" line="1321"/>
         <source>Shortcut</source>
         <translation>Drecera</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1333"/>
+        <location filename="../../prefDialog.ui" line="1329"/>
         <source>Restore default shortcuts.</source>
         <translation>Restaura les dreceres per defecte.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1336"/>
-        <location filename="../../prefDialog.ui" line="1410"/>
-        <location filename="../../prefDialog.ui" line="1458"/>
+        <location filename="../../prefDialog.ui" line="1332"/>
+        <location filename="../../prefDialog.ui" line="1406"/>
+        <location filename="../../prefDialog.ui" line="1454"/>
         <source>Default</source>
         <translation>Per defecte</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1347"/>
+        <location filename="../../prefDialog.ui" line="1343"/>
         <source>Syntax Colors</source>
         <translation>Colors de la sintaxi</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1442"/>
+        <location filename="../../prefDialog.ui" line="1438"/>
         <source>Element</source>
         <translation>Element</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1447"/>
+        <location filename="../../prefDialog.ui" line="1443"/>
         <source>Text Color</source>
         <translation>Color del text</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1364"/>
+        <location filename="../../prefDialog.ui" line="1360"/>
         <source>Whitespace color value:</source>
         <translation>Valor de color de l&apos;espai en blanc:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1397"/>
-        <location filename="../../prefDialog.ui" line="1407"/>
+        <location filename="../../prefDialog.ui" line="1393"/>
+        <location filename="../../prefDialog.ui" line="1403"/>
         <source>Has effect only if line numbers are shown.</source>
         <translation>Només té efecte si es mostren els números de línia.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1400"/>
+        <location filename="../../prefDialog.ui" line="1396"/>
         <source>Current line highlight value:</source>
         <translation>Valor de ressaltat de la línia actual:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1455"/>
+        <location filename="../../prefDialog.ui" line="1451"/>
         <source>Restore default syntax colors.</source>
         <translation>Restaura els colors per defecte de la sintaxi.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1490"/>
+        <location filename="../../prefDialog.ui" line="1486"/>
         <source>Close</source>
         <translation>Tanca</translation>
     </message>

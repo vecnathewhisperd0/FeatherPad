@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="sv">
+<TS version="2.1" language="sv_SE">
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
@@ -1554,49 +1554,49 @@ the editor font has a fixed pitch (like Monospace).</source>
         <translation>Visa också linje- och dokumentavslutningar</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="803"/>
+        <location filename="../../prefDialog.ui" line="801"/>
         <source>Date and time format:</source>
         <translation>Datum- och klockslagformat:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="873"/>
+        <location filename="../../prefDialog.ui" line="869"/>
         <source>Some text editors cannot open a document
 whose last line is not empty.</source>
         <translation>Vissa textredigeringsprogram kan inte öppna dokument vars sista rad inte är tom.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="877"/>
+        <location filename="../../prefDialog.ui" line="873"/>
         <source>Ensure an empty last line on saving</source>
         <translation>Säkerhetsställ en tom sista rad vid lagring</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="884"/>
+        <location filename="../../prefDialog.ui" line="880"/>
         <source>Remove trailing spaces on saving</source>
         <translation>Avlägsna avslutande mellanslag vid lagring</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="902"/>
+        <location filename="../../prefDialog.ui" line="898"/>
         <source>Inertial scrolling with mouse wheel</source>
         <translation>Tröghetsbaserad scrollning med mus hjulet</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="991"/>
+        <location filename="../../prefDialog.ui" line="987"/>
         <source>Files</source>
         <translation>Filer</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="997"/>
+        <location filename="../../prefDialog.ui" line="993"/>
         <source>File Management</source>
         <translation>Fil Hantering</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1114"/>
+        <location filename="../../prefDialog.ui" line="1110"/>
         <source>Start with files of last window</source>
         <translation>Start med filer från sista fönster</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1156"/>
-        <location filename="../../prefDialog.ui" line="1175"/>
+        <location filename="../../prefDialog.ui" line="1152"/>
+        <location filename="../../prefDialog.ui" line="1171"/>
         <source>This can be any starting command with
 arguments, for example, &quot;xterm -hold&quot;
 for running the process in XTerm.
@@ -1619,32 +1619,32 @@ så visas resultatet och fel meddelanden
 i en popup dialog.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1168"/>
+        <location filename="../../prefDialog.ui" line="1164"/>
         <source>Start with this command: </source>
         <translation>Starta med detta kommando: </translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1187"/>
+        <location filename="../../prefDialog.ui" line="1183"/>
         <source>Command + Arguments</source>
         <translation>Kommando + Argument</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1072"/>
+        <location filename="../../prefDialog.ui" line="1068"/>
         <source>Show recentl&amp;y modified files</source>
         <translation>&amp;Visa senaste modifierade filer</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1102"/>
+        <location filename="../../prefDialog.ui" line="1098"/>
         <source>Show recentl&amp;y opened files</source>
         <translation>&amp;Visa senaste öppnade filer</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1201"/>
+        <location filename="../../prefDialog.ui" line="1197"/>
         <source>Save changes to opened files every:</source>
         <translation>Spara ändringar till öppnade filer varje:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1479"/>
+        <location filename="../../prefDialog.ui" line="1475"/>
         <source>Help</source>
         <translation>Hjälp</translation>
     </message>
@@ -1712,7 +1712,7 @@ and-drop either.</source>
         <translation> MiB</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1121"/>
+        <location filename="../../prefDialog.ui" line="1117"/>
         <source>This only includes executable files written
 in script languages like Shell and Python.
 
@@ -1755,13 +1755,13 @@ bakgrund, mellan 0 och 50.
 Krävs att fönstet återöppnas för att det träda i kraft.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1131"/>
+        <location filename="../../prefDialog.ui" line="1127"/>
         <source>Run executable scripts</source>
         <translation>Kör exekverbara script</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1005"/>
-        <location filename="../../prefDialog.ui" line="1019"/>
+        <location filename="../../prefDialog.ui" line="1001"/>
+        <location filename="../../prefDialog.ui" line="1015"/>
         <source>The maximum number of recently modified or
 opened files FeatherPad shows. The default
 is 10.
@@ -1780,50 +1780,43 @@ Krävs en omstart av programmet för att detta ska träda i kraft.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="795"/>
-        <location filename="../../prefDialog.ui" line="810"/>
+        <location filename="../../prefDialog.ui" line="808"/>
         <source>Used for pasting the date and time.
+Leave empty for the system default.
 
-Takes effect after closing this dialog.
-
-Leave empty for:
-MMM dd, yyyy, hh:mm:ss</source>
-        <translation>Används för klista in datum och tid.
-
-Träder i kraft efter dialogen stängs.
-
-Låt vara tom för:
-MMM dd, åååå, tt:mm:ss</translation>
+Takes effect after closing this dialog.</source>
+        <translation>Används vid inklistring av datum och tid. Lämna tomt för system standard. Träder i kraft efter denna dialog stängs.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="832"/>
+        <location filename="../../prefDialog.ui" line="828"/>
         <source>Text tab size:</source>
         <translation>Tabulatorstorlek för text:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="839"/>
+        <location filename="../../prefDialog.ui" line="835"/>
         <source> spaces</source>
         <translation> mellanrum</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="891"/>
+        <location filename="../../prefDialog.ui" line="887"/>
         <source>Thick text cursor</source>
         <translation>Fet textmarkör</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="898"/>
+        <location filename="../../prefDialog.ui" line="894"/>
         <source>Should the mouse wheel scrolling be inertial
 if the cursor is inside the text view?</source>
         <translation>Skall mushjulet rullning vara trög 
 om markören är innanför textvisningen?</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="909"/>
+        <location filename="../../prefDialog.ui" line="905"/>
         <source>Spell Checking</source>
         <translation>Stavningskontroll</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="917"/>
-        <location filename="../../prefDialog.ui" line="929"/>
+        <location filename="../../prefDialog.ui" line="913"/>
+        <location filename="../../prefDialog.ui" line="925"/>
         <source>A Hunspell dictionary has a name that ends with &quot;.dic&quot;
 and should be alongside an affix file with the same
 name but ending with &quot;.aff&quot;.</source>
@@ -1832,51 +1825,51 @@ och skall vara tillsammans med en affix file med samma
 name men slutar med &quot;.aff&quot;.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="922"/>
+        <location filename="../../prefDialog.ui" line="918"/>
         <source>Hunspell dictionary path:</source>
         <translation>Sökväg till Hunspell-ordbok:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="941"/>
+        <location filename="../../prefDialog.ui" line="937"/>
         <location filename="../../pref.cpp" line="1794"/>
         <source>Add dictionary...</source>
         <translation>Lägg till ordbok...</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="953"/>
+        <location filename="../../prefDialog.ui" line="949"/>
         <source>If this is unchecked, spell checking
 will be started from the document start.</source>
         <translation>Om detta inte är markerad, så startar stavningskontroll 
 från dokumentets början.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="957"/>
+        <location filename="../../prefDialog.ui" line="953"/>
         <source>Start spell checking from text cursor</source>
         <translation>Startar stavningskontroll från textmarkören</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1012"/>
+        <location filename="../../prefDialog.ui" line="1008"/>
         <source>Number of recent files: </source>
         <translation>Antal senaste filer: </translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1111"/>
+        <location filename="../../prefDialog.ui" line="1107"/>
         <source>Only if their number is not greater than 50.</source>
         <translation>Bara om antalet inte är större än 50.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1198"/>
-        <location filename="../../prefDialog.ui" line="1208"/>
+        <location filename="../../prefDialog.ui" line="1194"/>
+        <location filename="../../prefDialog.ui" line="1204"/>
         <source>Only for files that exist and can be saved.</source>
         <translation>Bara för filer som existerar och kan sparas.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1211"/>
+        <location filename="../../prefDialog.ui" line="1207"/>
         <source> min</source>
         <translation> min</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1242"/>
+        <location filename="../../prefDialog.ui" line="1238"/>
         <source>If this is checked, the Save button/menu-item could
 be used also when the opened file is not modified.
 
@@ -1890,97 +1883,97 @@ Detta kan vara användbart under vissa omständigheter,
 t.ex för att ändra tid stämpel eller avlägsna avslutande mellanrum i en textfil.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1250"/>
+        <location filename="../../prefDialog.ui" line="1246"/>
         <source>Allow saving unmodified files</source>
         <translation>Tillåt spara filer som inte är ändrade</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1257"/>
+        <location filename="../../prefDialog.ui" line="1253"/>
         <source>Show a warning instead.</source>
         <translation>Visa en varning istället.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1260"/>
+        <location filename="../../prefDialog.ui" line="1256"/>
         <source>Do not permit opening of non-text files</source>
         <translation>Tillåt inte öppning av icke text-filer</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1267"/>
+        <location filename="../../prefDialog.ui" line="1263"/>
         <source>By default, when files are copied, they will
 be opened if they are pasted into FeatherPad.</source>
         <translation>Som standard, när filer är kopieras, så 
 öppnas dom som inklistrade i FeatherPad.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1271"/>
+        <location filename="../../prefDialog.ui" line="1267"/>
         <source>Paste paths instead of files</source>
         <translation>Klista in sökväg istället för filer</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1298"/>
+        <location filename="../../prefDialog.ui" line="1294"/>
         <source>Shortcuts</source>
         <translation>Genvägar</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1320"/>
+        <location filename="../../prefDialog.ui" line="1316"/>
         <source>Action</source>
         <translation>Handling</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1325"/>
+        <location filename="../../prefDialog.ui" line="1321"/>
         <source>Shortcut</source>
         <translation>Genväg</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1333"/>
+        <location filename="../../prefDialog.ui" line="1329"/>
         <source>Restore default shortcuts.</source>
         <translation>Återställ standard genvägar.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1336"/>
-        <location filename="../../prefDialog.ui" line="1410"/>
-        <location filename="../../prefDialog.ui" line="1458"/>
+        <location filename="../../prefDialog.ui" line="1332"/>
+        <location filename="../../prefDialog.ui" line="1406"/>
+        <location filename="../../prefDialog.ui" line="1454"/>
         <source>Default</source>
         <translation>Standard</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1347"/>
+        <location filename="../../prefDialog.ui" line="1343"/>
         <source>Syntax Colors</source>
         <translation>Syntax Färger</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1442"/>
+        <location filename="../../prefDialog.ui" line="1438"/>
         <source>Element</source>
         <translation>Element</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1447"/>
+        <location filename="../../prefDialog.ui" line="1443"/>
         <source>Text Color</source>
         <translation>Textfärg</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1364"/>
+        <location filename="../../prefDialog.ui" line="1360"/>
         <source>Whitespace color value:</source>
         <translation>Färgvärde för blanksteg:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1397"/>
-        <location filename="../../prefDialog.ui" line="1407"/>
+        <location filename="../../prefDialog.ui" line="1393"/>
+        <location filename="../../prefDialog.ui" line="1403"/>
         <source>Has effect only if line numbers are shown.</source>
         <translation>Används endast om radnummer visas.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1400"/>
+        <location filename="../../prefDialog.ui" line="1396"/>
         <source>Current line highlight value:</source>
         <translation>Framhävningvärde för nuvarande rad:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1455"/>
+        <location filename="../../prefDialog.ui" line="1451"/>
         <source>Restore default syntax colors.</source>
         <translation>Återställ standardvärde för framhävningsfärg.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1490"/>
+        <location filename="../../prefDialog.ui" line="1486"/>
         <source>Close</source>
         <translation>Stäng</translation>
     </message>

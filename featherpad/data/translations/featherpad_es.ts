@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="es">
+<TS version="2.1" language="es_ES">
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
@@ -1571,50 +1571,50 @@ si el tipo de fuente utilizado es de ancho fijo.</translation>
         <translation>Mostrar símbolos en los saltos de linea y el final del documento</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="803"/>
+        <location filename="../../prefDialog.ui" line="801"/>
         <source>Date and time format:</source>
         <translation>Formato de la fecha y hora:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="873"/>
+        <location filename="../../prefDialog.ui" line="869"/>
         <source>Some text editors cannot open a document
 whose last line is not empty.</source>
         <translation>Algunos editores de texto no pueden abrir un documento
 cuya última línea no esté vacía.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="877"/>
+        <location filename="../../prefDialog.ui" line="873"/>
         <source>Ensure an empty last line on saving</source>
         <translation>Asegurarse de dejar una última línea vacía al guardar</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="884"/>
+        <location filename="../../prefDialog.ui" line="880"/>
         <source>Remove trailing spaces on saving</source>
         <translation>Borrar los espacios al final de las líneas al guardar</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="902"/>
+        <location filename="../../prefDialog.ui" line="898"/>
         <source>Inertial scrolling with mouse wheel</source>
         <translation>Desplazamiento inercial con la rueda del ratón</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="991"/>
+        <location filename="../../prefDialog.ui" line="987"/>
         <source>Files</source>
         <translation>Archivos</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="997"/>
+        <location filename="../../prefDialog.ui" line="993"/>
         <source>File Management</source>
         <translation>Configuración de la gestión de archivos</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1114"/>
+        <location filename="../../prefDialog.ui" line="1110"/>
         <source>Start with files of last window</source>
         <translation>Iniciar con los archivos de la última ventana</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1156"/>
-        <location filename="../../prefDialog.ui" line="1175"/>
+        <location filename="../../prefDialog.ui" line="1152"/>
+        <location filename="../../prefDialog.ui" line="1171"/>
         <source>This can be any starting command with
 arguments, for example, &quot;xterm -hold&quot;
 for running the process in XTerm.
@@ -1634,32 +1634,32 @@ Si el script no se ejecuta en un emulador de terminal, los mensajes
 de salida y de error se mostrarán en una ventana emergente.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1168"/>
+        <location filename="../../prefDialog.ui" line="1164"/>
         <source>Start with this command: </source>
         <translation>Iniciar la aplicación con esta orden: </translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1187"/>
+        <location filename="../../prefDialog.ui" line="1183"/>
         <source>Command + Arguments</source>
         <translation>Orden + Argumentos</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1072"/>
+        <location filename="../../prefDialog.ui" line="1068"/>
         <source>Show recentl&amp;y modified files</source>
         <translation>Mostrar los archivos modificados recientemente</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1102"/>
+        <location filename="../../prefDialog.ui" line="1098"/>
         <source>Show recentl&amp;y opened files</source>
         <translation>Mostrar los archivos abiertos recientemente</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1201"/>
+        <location filename="../../prefDialog.ui" line="1197"/>
         <source>Save changes to opened files every:</source>
         <translation>Guardar los cambios en los archivos abiertos cada:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1479"/>
+        <location filename="../../prefDialog.ui" line="1475"/>
         <source>Help</source>
         <translation>Ayuda</translation>
     </message>
@@ -1730,7 +1730,7 @@ y soltando la pestaña.</translation>
         <translation> MiB</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1121"/>
+        <location filename="../../prefDialog.ui" line="1117"/>
         <source>This only includes executable files written
 in script languages like Shell and Python.
 
@@ -1775,13 +1775,13 @@ Para un fondo oscuro, el valor debe estar entre 0 y 50
 Los cambios tendrán efecto después de reiniciar la aplicación.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1131"/>
+        <location filename="../../prefDialog.ui" line="1127"/>
         <source>Run executable scripts</source>
         <translation>Utilizar un script ejecutable</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1005"/>
-        <location filename="../../prefDialog.ui" line="1019"/>
+        <location filename="../../prefDialog.ui" line="1001"/>
+        <location filename="../../prefDialog.ui" line="1015"/>
         <source>The maximum number of recently modified or
 opened files FeatherPad shows. The default
 is 10.
@@ -1802,52 +1802,46 @@ Los cambios tendrán efecto después de reiniciar la aplicación.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="795"/>
-        <location filename="../../prefDialog.ui" line="810"/>
+        <location filename="../../prefDialog.ui" line="808"/>
         <source>Used for pasting the date and time.
+Leave empty for the system default.
 
-Takes effect after closing this dialog.
+Takes effect after closing this dialog.</source>
+        <translation>Se utiliza para pegar la fecha y la hora.
+Deje en blanco para el valor predeterminado del sistema.
 
-Leave empty for:
-MMM dd, yyyy, hh:mm:ss</source>
-        <translation>Aquí usted elige el formato que desea utilizar
-al pegar la fecha y la hora actual en el documento.
-
-Los cambios tendrán efecto después de cerrar
-esta ventana.
-
-Si se deja vacío se utilizará este formato:
-MMM dd, aaaa, hh:mm:ss</translation>
+Surte efecto tras cerrar este cuadro de diálogo.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="832"/>
+        <location filename="../../prefDialog.ui" line="828"/>
         <source>Text tab size:</source>
         <translation>Tamaño del texto en la pestaña:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="839"/>
+        <location filename="../../prefDialog.ui" line="835"/>
         <source> spaces</source>
         <translation> espacios</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="891"/>
+        <location filename="../../prefDialog.ui" line="887"/>
         <source>Thick text cursor</source>
         <translation>Cursor de texto grueso</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="898"/>
+        <location filename="../../prefDialog.ui" line="894"/>
         <source>Should the mouse wheel scrolling be inertial
 if the cursor is inside the text view?</source>
         <translation>¿Debe ser inercial el desplazamiento con la rueda
 del ratón si el cursor está dentro del área de texto?</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="909"/>
+        <location filename="../../prefDialog.ui" line="905"/>
         <source>Spell Checking</source>
         <translation>Correción Ortográfica</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="917"/>
-        <location filename="../../prefDialog.ui" line="929"/>
+        <location filename="../../prefDialog.ui" line="913"/>
+        <location filename="../../prefDialog.ui" line="925"/>
         <source>A Hunspell dictionary has a name that ends with &quot;.dic&quot;
 and should be alongside an affix file with the same
 name but ending with &quot;.aff&quot;.</source>
@@ -1856,52 +1850,52 @@ y debe estar acompañado de un archivo en formato affix con el mismo
 nombre pero terminando en &quot;.aff&quot;.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="922"/>
+        <location filename="../../prefDialog.ui" line="918"/>
         <source>Hunspell dictionary path:</source>
         <translation>Ruta del diccionario en formato Hunspell:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="941"/>
+        <location filename="../../prefDialog.ui" line="937"/>
         <location filename="../../pref.cpp" line="1794"/>
         <source>Add dictionary...</source>
         <translation>Agregar un diccionario...</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="953"/>
+        <location filename="../../prefDialog.ui" line="949"/>
         <source>If this is unchecked, spell checking
 will be started from the document start.</source>
         <translation>Si desactiva esta opción no está marcada, el corrector
 ortográfico se iniciará desde el inicio del documento.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="957"/>
+        <location filename="../../prefDialog.ui" line="953"/>
         <source>Start spell checking from text cursor</source>
         <translation>Iniciar la corrección ortográfica desde el cursor</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1012"/>
+        <location filename="../../prefDialog.ui" line="1008"/>
         <source>Number of recent files: </source>
         <translation>Número de archivos recientes: </translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1111"/>
+        <location filename="../../prefDialog.ui" line="1107"/>
         <source>Only if their number is not greater than 50.</source>
         <translation>Tenga en cuenta que no debe superar los 50.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1198"/>
-        <location filename="../../prefDialog.ui" line="1208"/>
+        <location filename="../../prefDialog.ui" line="1194"/>
+        <location filename="../../prefDialog.ui" line="1204"/>
         <source>Only for files that exist and can be saved.</source>
         <translation>Esta opción solo funciona si el archivo aún existe y si
 tiene los permisos suficientes para ser guardado.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1211"/>
+        <location filename="../../prefDialog.ui" line="1207"/>
         <source> min</source>
         <translation> min</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1242"/>
+        <location filename="../../prefDialog.ui" line="1238"/>
         <source>If this is checked, the Save button/menu-item could
 be used also when the opened file is not modified.
 
@@ -1916,97 +1910,97 @@ ejemplo, para cambiar la marca de tiempo o eliminar
 los espacios finales de un archivo de texto.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1250"/>
+        <location filename="../../prefDialog.ui" line="1246"/>
         <source>Allow saving unmodified files</source>
         <translation>Permitir guardar archivos sin modificaciones</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1257"/>
+        <location filename="../../prefDialog.ui" line="1253"/>
         <source>Show a warning instead.</source>
         <translation>Mostrar un aviso cuando esto suceda.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1260"/>
+        <location filename="../../prefDialog.ui" line="1256"/>
         <source>Do not permit opening of non-text files</source>
         <translation>No permitir apertura de archivos que no sean de texto</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1267"/>
+        <location filename="../../prefDialog.ui" line="1263"/>
         <source>By default, when files are copied, they will
 be opened if they are pasted into FeatherPad.</source>
         <translation>Por defecto, cuando los archivos son copiados,
 se abrirán si se pegan dentro de FeatherPad.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1271"/>
+        <location filename="../../prefDialog.ui" line="1267"/>
         <source>Paste paths instead of files</source>
         <translation>Pegar rutas en lugar de archivos</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1298"/>
+        <location filename="../../prefDialog.ui" line="1294"/>
         <source>Shortcuts</source>
         <translation>Atajos</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1320"/>
+        <location filename="../../prefDialog.ui" line="1316"/>
         <source>Action</source>
         <translation>Acción</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1325"/>
+        <location filename="../../prefDialog.ui" line="1321"/>
         <source>Shortcut</source>
         <translation>Atajo</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1333"/>
+        <location filename="../../prefDialog.ui" line="1329"/>
         <source>Restore default shortcuts.</source>
         <translation>Restaurar atajos predeterminados.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1336"/>
-        <location filename="../../prefDialog.ui" line="1410"/>
-        <location filename="../../prefDialog.ui" line="1458"/>
+        <location filename="../../prefDialog.ui" line="1332"/>
+        <location filename="../../prefDialog.ui" line="1406"/>
+        <location filename="../../prefDialog.ui" line="1454"/>
         <source>Default</source>
         <translation>Predeterminado</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1347"/>
+        <location filename="../../prefDialog.ui" line="1343"/>
         <source>Syntax Colors</source>
         <translation>Colores de sintaxis</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1442"/>
+        <location filename="../../prefDialog.ui" line="1438"/>
         <source>Element</source>
         <translation>Elemento</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1447"/>
+        <location filename="../../prefDialog.ui" line="1443"/>
         <source>Text Color</source>
         <translation>Color de texto</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1364"/>
+        <location filename="../../prefDialog.ui" line="1360"/>
         <source>Whitespace color value:</source>
         <translation>Valor del color del espacio en blanco:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1397"/>
-        <location filename="../../prefDialog.ui" line="1407"/>
+        <location filename="../../prefDialog.ui" line="1393"/>
+        <location filename="../../prefDialog.ui" line="1403"/>
         <source>Has effect only if line numbers are shown.</source>
         <translation>Sólo tiene efecto si se muestran el número de líneas.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1400"/>
+        <location filename="../../prefDialog.ui" line="1396"/>
         <source>Current line highlight value:</source>
         <translation>Valor del resaltado de la línea actual:</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1455"/>
+        <location filename="../../prefDialog.ui" line="1451"/>
         <source>Restore default syntax colors.</source>
         <translation>Restaurar colores de sintaxis predeterminados.</translation>
     </message>
     <message>
-        <location filename="../../prefDialog.ui" line="1490"/>
+        <location filename="../../prefDialog.ui" line="1486"/>
         <source>Close</source>
         <translation>Cerrar</translation>
     </message>

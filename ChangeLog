@@ -6,6 +6,7 @@ V1.5.2
  * Don't try to save as root when the parent directory doesn't exist.
  * Respect the enforced syntax of an unsaved document when removing its trailing spaces on saving it.
  * Check the existence of "gio" before using it for opening URLs.
+ * Fixed the localization of date and time with Qt6.
 
 V1.5.1
 ---------

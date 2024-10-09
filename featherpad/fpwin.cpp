@@ -3765,9 +3765,9 @@ void FPwin::insertDate()
     {
         Config config = static_cast<FPsingleton*>(qApp)->getConfig();
         QString format  = config.getDateFormat();
-        tabPage->textEdit()->insertPlainText (QDateTime::currentDateTime().toString (format.isEmpty()
-                                                  ? "MMM dd, yyyy, hh:mm:ss"
-                                                  : format));
+        tabPage->textEdit()->insertPlainText (
+            format.isEmpty() ? locale().toString(QDateTime::currentDateTime(), QLocale::ShortFormat)
+                             : locale().toString(QDateTime::currentDateTime(), format));
     }
 }
 /*************************/

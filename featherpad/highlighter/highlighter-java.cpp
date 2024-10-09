@@ -240,7 +240,7 @@ void Highlighter::singleLineJavaComment (const QString &text, const int start)
         {
             int startIndex = qMax (start, 0);
             startIndex = text.indexOf (rule.pattern, startIndex);
-            /* skip quoted comments (and, automatically, those inside multiline python comments) */
+            /* skip quoted comments */
             while (startIndex > -1
                        /* check quote formats (only for multiLineJavaComment()) */
                    && (format (startIndex) == quoteFormat
