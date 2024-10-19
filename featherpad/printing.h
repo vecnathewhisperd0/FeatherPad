@@ -43,12 +43,14 @@ public:
 private:
     void run();
 
-    QTextDocument *document_;
+    QTextDocument *origDoc_;
+    QTextDocument *clonedDoc_;
     QPrinter *printer_;
     QColor textColor_;
     QColor darkColor_;
     qreal sourceDpiX_;
     qreal sourceDpiY_;
+    int darkValue_;
 };
 
 }

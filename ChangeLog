@@ -1,5 +1,6 @@
 V1.5.2
 ---------
+ * Fixed the printing thread. (Previously, it created many instances of the warning message "QBasicTimer::start: Timers cannot be started from another thread" because the document wasn't inside the printing thread.)
  * Demand attention under Wayland when a window needs activation, although window managers may ignore it.
  * Don't escape a start single quote in C/C++ when it follows a letter or number.
  * Skip double-parenthesis constructs with bash here-docs.

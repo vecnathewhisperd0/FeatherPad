@@ -28,47 +28,22 @@ Printing::Printing (QTextDocument *document, const QString &fileName,
                     const QColor &textColor, int darkValue,
                     qreal sourceDpiX, qreal sourceDpiY)
 {
+    origDoc_ = document;
     textColor_ = textColor;
+    darkValue_ = darkValue;
     sourceDpiX_ = sourceDpiX;
     sourceDpiY_ = sourceDpiY;
-
     if (darkValue > -1)
         darkColor_ = QColor (darkValue, darkValue, darkValue);
 
     printer_ = new QPrinter (QPrinter::HighResolution);
     if (printer_->outputFormat() == QPrinter::PdfFormat)
         printer_->setOutputFileName (fileName);
-
-    /************************
-     * Cloning the Document *
-     ***********************/
-
-    /* clone the document */
-    document_ = document->clone();
-    /* ensure that there's a layout
-       (QTextDocument::documentLayout will create the standard layout if there's none) */
-    (void)document_->documentLayout();
-    /* copy the original formats, considering the dark background */
-    for (QTextBlock srcBlock = document->firstBlock(), dstBlock = document_->firstBlock();
-         srcBlock.isValid() && dstBlock.isValid();
-         srcBlock = srcBlock.next(), dstBlock = dstBlock.next())
-    {
-        QList<QTextLayout::FormatRange> formatList = srcBlock.layout()->formats();
-        if (darkValue > -1)
-        {
-            for (int i = formatList.count() - 1; i >= 0; --i)
-            {
-                QTextCharFormat &format = formatList[i].format;
-                format.setBackground (darkColor_);
-            }
-        }
-        dstBlock.layout()->setFormats (formatList);
-    }
 }
 /*************************/
 Printing::~Printing()
 {
-    delete document_;
+    clonedDoc_->deleteLater();
     delete printer_;
 }
 /*************************/
@@ -120,27 +95,49 @@ void Printing::run()
     if (printer_->pageLayout().paintRectPixels (printer_->resolution()).isEmpty())
         return;
 
-    QAbstractTextDocumentLayout *layout = document_->documentLayout();
-    layout->setPaintDevice (p.device());
+    /* clone the document and move it to the printing thread */
+    clonedDoc_ = origDoc_->clone();
+    clonedDoc_->moveToThread (QThread::currentThread());
+    /* ensure that there's a layout
+       (QTextDocument::documentLayout will create the standard layout if there's none) */
+    (void)clonedDoc_->documentLayout();
+    /* copy the original formats, considering the dark background */
+    for (QTextBlock srcBlock = origDoc_->firstBlock(), dstBlock = clonedDoc_->firstBlock();
+         srcBlock.isValid() && dstBlock.isValid();
+         srcBlock = srcBlock.next(), dstBlock = dstBlock.next())
+    {
+        QList<QTextLayout::FormatRange> formatList = srcBlock.layout()->formats();
+        if (darkValue_ > -1)
+        {
+            for (int i = formatList.count() - 1; i >= 0; --i)
+            {
+                QTextCharFormat &format = formatList[i].format;
+                format.setBackground (darkColor_);
+            }
+        }
+        dstBlock.layout()->setFormats (formatList);
+    }
+
+    clonedDoc_->documentLayout()->setPaintDevice (p.device());
 
     const qreal dpiScaleY = static_cast<qreal>(printer_->logicalDpiY()) / sourceDpiY_;
 
     const int horizontalMargin = static_cast<int>((2/2.54) * sourceDpiX_);
     const int verticalMargin = static_cast<int>((2/2.54) * sourceDpiY_);
-    QTextFrameFormat fmt = document_->rootFrame()->frameFormat();
+    QTextFrameFormat fmt = clonedDoc_->rootFrame()->frameFormat();
     fmt.setLeftMargin (horizontalMargin);
     fmt.setRightMargin (horizontalMargin);
     fmt.setTopMargin (verticalMargin);
     fmt.setBottomMargin (verticalMargin);
-    document_->rootFrame()->setFrameFormat (fmt);
+    clonedDoc_->rootFrame()->setFrameFormat (fmt);
 
     const int dpiy = p.device()->logicalDpiY();
     QRectF body (0, 0, printer_->width(), printer_->height());
     QPointF pageNumberPos (body.width() / 2,
                            body.height() - verticalMargin * dpiScaleY
-                               + QFontMetrics (document_->defaultFont(), p.device()).ascent()
+                               + QFontMetrics (clonedDoc_->defaultFont(), p.device()).ascent()
                                + 5 * dpiy / 72.0);
-    document_->setPageSize (body.size());
+    clonedDoc_->setPageSize (body.size());
 
     int fromPage = printer_->fromPage();
     int toPage = printer_->toPage();
@@ -148,11 +145,11 @@ void Printing::run()
     if (fromPage == 0 && toPage == 0)
     {
         fromPage = 1;
-        toPage = document_->pageCount();
+        toPage = clonedDoc_->pageCount();
     }
 
     fromPage = qMax (1, fromPage);
-    toPage = qMin (document_->pageCount(), toPage);
+    toPage = qMin (clonedDoc_->pageCount(), toPage);
 
     if (toPage < fromPage) return;
 
@@ -160,7 +157,7 @@ void Printing::run()
     int page = reverse ? toPage : fromPage;
     while (true)
     {
-        printPage (page, &p, document_, body, pageNumberPos, textColor_, darkColor_);
+        printPage (page, &p, clonedDoc_, body, pageNumberPos, textColor_, darkColor_);
         if (reverse)
         {
             if (page == fromPage) break;
