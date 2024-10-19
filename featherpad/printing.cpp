@@ -28,7 +28,9 @@ Printing::Printing (QTextDocument *document, const QString &fileName,
                     const QColor &textColor, int darkValue,
                     qreal sourceDpiX, qreal sourceDpiY)
 {
-    origDoc_ = document;
+    origDoc_ = document; // should not be deleted before the printing thread is finished
+    clonedDoc_ = nullptr;
+
     textColor_ = textColor;
     darkValue_ = darkValue;
     sourceDpiX_ = sourceDpiX;
@@ -43,7 +45,8 @@ Printing::Printing (QTextDocument *document, const QString &fileName,
 /*************************/
 Printing::~Printing()
 {
-    clonedDoc_->deleteLater();
+    if (clonedDoc_ != nullptr)
+        clonedDoc_->deleteLater();
     delete printer_;
 }
 /*************************/
@@ -89,6 +92,8 @@ static void printPage (int index, QPainter *painter, const QTextDocument *doc,
 // to enable printing in the reverse order. This is adapted from "QTextDocument::print".
 void Printing::run()
 {
+    if (origDoc_ == nullptr) return;
+
     QPainter p (printer_);
     if (!p.isActive()) return;
 
