@@ -1847,7 +1847,7 @@ eindigend op ‘.aff’.</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="937"/>
-        <location filename="../../pref.cpp" line="1794"/>
+        <location filename="../../pref.cpp" line="1800"/>
         <source>Add dictionary...</source>
         <translation>Woordenboek toevoegen…</translation>
     </message>
@@ -1995,123 +1995,123 @@ geopend als ze in FeatherPad worden geplakt.</translation>
         <translation>Sluiten</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="105"/>
+        <location filename="../../pref.cpp" line="111"/>
         <source>Press a modifier key to clear a shortcut
 in the editing mode.</source>
         <translation>Druk in de bewerkmodus op een actietoets
 om een sneltoets te wissen.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="111"/>
+        <location filename="../../pref.cpp" line="117"/>
         <source>Double click a color to change it.</source>
         <translation>Dubbelklik op een kleur om deze te wijzigen.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="347"/>
-        <location filename="../../pref.cpp" line="1490"/>
+        <location filename="../../pref.cpp" line="353"/>
+        <location filename="../../pref.cpp" line="1496"/>
         <source>files</source>
         <translation>bestanden</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="347"/>
-        <location filename="../../pref.cpp" line="1490"/>
+        <location filename="../../pref.cpp" line="353"/>
+        <location filename="../../pref.cpp" line="1496"/>
         <source>file</source>
         <translation>bestand</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="414"/>
-        <location filename="../../pref.cpp" line="1609"/>
+        <location filename="../../pref.cpp" line="420"/>
+        <location filename="../../pref.cpp" line="1615"/>
         <source>Warning: Ambiguous shortcut detected!</source>
         <translation>Waarschuwing: dubbelzinnige sneltoets gedetecteerd!</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="447"/>
+        <location filename="../../pref.cpp" line="453"/>
         <source>Functions, URLs,…</source>
         <translation>Functies, url&apos;s, …</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="448"/>
+        <location filename="../../pref.cpp" line="454"/>
         <source>Built-in Functions</source>
         <translation>Ingebouwde functies</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="449"/>
+        <location filename="../../pref.cpp" line="455"/>
         <source>Comments</source>
         <translation>Opmerkingen</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="450"/>
+        <location filename="../../pref.cpp" line="456"/>
         <source>Quotations</source>
         <translation>Citaten</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="451"/>
+        <location filename="../../pref.cpp" line="457"/>
         <source>Types</source>
         <translation>Soorten</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="452"/>
+        <location filename="../../pref.cpp" line="458"/>
         <source>Key Words</source>
         <translation>Trefwoorden</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="453"/>
+        <location filename="../../pref.cpp" line="459"/>
         <source>Numbers</source>
         <translation>Getallen</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="454"/>
+        <location filename="../../pref.cpp" line="460"/>
         <source>Regular Expressions, Code Blocks,…</source>
         <translation>Reguliere uitdrukkingen, codeblokken, …</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="455"/>
+        <location filename="../../pref.cpp" line="461"/>
         <source>Document Blocks, XML/HTML Elements,…</source>
         <translation>Documentklokken, xml-/html-elementen, …</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="456"/>
+        <location filename="../../pref.cpp" line="462"/>
         <source>Markdown Headings, CSS Values,…</source>
         <translation>Markdown-koppen, css-waarden, …</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="457"/>
+        <location filename="../../pref.cpp" line="463"/>
         <source>Extra Elements</source>
         <translation>Aanvullende elementen</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="639"/>
+        <location filename="../../pref.cpp" line="645"/>
         <source>Application restart is needed for changes to take effect.</source>
         <translation>Herstart FeatherPad om de wijzigingen toe te passen.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="660"/>
+        <location filename="../../pref.cpp" line="666"/>
         <source>Window reopening is needed for changes to take effect.</source>
         <translation>Herstart FeatherPad om de wijzigingen toe te passen.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1516"/>
+        <location filename="../../pref.cpp" line="1522"/>
         <source>&amp;Recently Opened</source>
         <translation>&amp;Onlangs geopend</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1517"/>
+        <location filename="../../pref.cpp" line="1523"/>
         <source>Recently &amp;Modified</source>
         <translation>Onlangs &amp;bewerkt</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1592"/>
+        <location filename="../../pref.cpp" line="1598"/>
         <source>The typed shortcut was reserved.</source>
         <translation>Deze sneltoets is gereserveerd.</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="1796"/>
+        <location filename="../../pref.cpp" line="1802"/>
         <source>Hunspell Dictionary Files</source>
         <translation>Hunspell-woordenboekbestanden</translation>
     </message>
     <message>
-        <location filename="../../pref.cpp" line="515"/>
-        <location filename="../../pref.cpp" line="1882"/>
+        <location filename="../../pref.cpp" line="521"/>
+        <location filename="../../pref.cpp" line="1888"/>
         <source>Select Syntax Color</source>
         <translation>Kies een syntaxiskleur</translation>
     </message>

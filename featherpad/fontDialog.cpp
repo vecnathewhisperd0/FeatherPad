@@ -20,6 +20,12 @@
 #include "fontDialog.h"
 #include "ui_fontDialog.h"
 
+#if (QT_VERSION >= QT_VERSION_CHECK(6,7,0))
+#define CHECKBOX_CHANGED QCheckBox::checkStateChanged
+#else
+#define CHECKBOX_CHANGED QCheckBox::stateChanged
+#endif
+
 namespace FeatherPad {
 
 FontDialog::FontDialog (const QFont &font, QWidget *parent)
@@ -118,7 +124,7 @@ FontDialog::FontDialog (const QFont &font, QWidget *parent)
         ui->lineEdit->setFont (font_);
     });
 
-    connect (ui->codingFontBox, &QCheckBox::stateChanged, [this] (int checked) {
+    connect (ui->codingFontBox, &CHECKBOX_CHANGED, [this] (int checked) {
         int fontSize = font_.pointSize();
 
         if (checked == Qt::Checked)
@@ -153,7 +159,7 @@ FontDialog::FontDialog (const QFont &font, QWidget *parent)
         ui->lineEdit->setFont (font_);
     });
 
-    connect (ui->italicBox, &QCheckBox::stateChanged, [this] (int checked) {
+    connect (ui->italicBox, &CHECKBOX_CHANGED, [this] (int checked) {
         if (checked == Qt::Checked)
             font_.setItalic (true);
         else if (checked == Qt::Unchecked)
