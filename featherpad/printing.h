@@ -24,6 +24,7 @@
 #include <QColor>
 #include <QTextDocument>
 #include <QPrinter>
+#include <QPointer>
 
 namespace FeatherPad {
 
@@ -43,7 +44,7 @@ public:
 private:
     void run();
 
-    QTextDocument *origDoc_;
+    QPointer<QTextDocument> origDoc_;
     QTextDocument *clonedDoc_;
     QPrinter *printer_;
     QColor textColor_;
