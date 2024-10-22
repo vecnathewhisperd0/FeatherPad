@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2019 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2024 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -122,7 +122,7 @@ void FPwin::replace()
     {
         textEdit->setGreenSel (QList<QTextEdit::ExtraSelection>());
         es.clear();
-    };
+    }
 
     bool lineNumShown (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible());
 
