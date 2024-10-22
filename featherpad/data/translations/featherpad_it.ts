@@ -591,7 +591,7 @@ linea (Ctrl + Shift + J)</translation>
         <location filename="../../fp.ui" line="305"/>
         <location filename="../../fpwin.cpp" line="4122"/>
         <location filename="../../replace.cpp" line="61"/>
-        <location filename="../../replace.cpp" line="113"/>
+        <location filename="../../replace.cpp" line="112"/>
         <source>Replacement</source>
         <translation>Sostituzione</translation>
     </message>
@@ -1121,17 +1121,17 @@ linea (Ctrl + Shift + J)</translation>
         <translation>Informazioni su FeatherPad</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="272"/>
+        <location filename="../../replace.cpp" line="275"/>
         <source>No Replacement</source>
         <translation>Nessuna sostituzione</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="274"/>
+        <location filename="../../replace.cpp" line="277"/>
         <source>One Replacement</source>
         <translation>Una sostituzione</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../replace.cpp" line="276"/>
+        <location filename="../../replace.cpp" line="279"/>
         <source>%Ln Replacements</source>
         <translation>
             <numerusform>%Ln Sostituzione</numerusform>
@@ -1139,7 +1139,7 @@ linea (Ctrl + Shift + J)</translation>
         </translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="280"/>
+        <location filename="../../replace.cpp" line="283"/>
         <source>The first 1000 replacements are highlighted.</source>
         <translation>Le prime 1000 sostituzioni sono evidenziate.</translation>
     </message>

@@ -591,7 +591,7 @@
         <location filename="../../fp.ui" line="305"/>
         <location filename="../../fpwin.cpp" line="4122"/>
         <location filename="../../replace.cpp" line="61"/>
-        <location filename="../../replace.cpp" line="113"/>
+        <location filename="../../replace.cpp" line="112"/>
         <source>Replacement</source>
         <translation>Заместване</translation>
     </message>
@@ -1120,17 +1120,17 @@
         <translation>Относно FeatherPad</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="272"/>
+        <location filename="../../replace.cpp" line="275"/>
         <source>No Replacement</source>
         <translation>Без заместване</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="274"/>
+        <location filename="../../replace.cpp" line="277"/>
         <source>One Replacement</source>
         <translation>Едно заместване</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../replace.cpp" line="276"/>
+        <location filename="../../replace.cpp" line="279"/>
         <source>%Ln Replacements</source>
         <translation>
             <numerusform>%Ln заместване</numerusform>
@@ -1138,7 +1138,7 @@
         </translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="280"/>
+        <location filename="../../replace.cpp" line="283"/>
         <source>The first 1000 replacements are highlighted.</source>
         <translation>Първите 1000 замествания са подчертани.</translation>
     </message>

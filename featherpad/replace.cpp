@@ -78,7 +78,6 @@ void FPwin::dockVisibilityChanged (bool visible)
 {
     if (visible || isMinimized()) return;
 
-    txtReplace_.clear();
     removeGreenSel();
 
     /* return focus to the document and remove the title
@@ -115,12 +114,15 @@ void FPwin::replace()
     QString txtFind = ui->lineEditFind->text();
     if (txtFind.isEmpty()) return;
 
+    const QString txtReplace = ui->lineEditReplace->text();
+
+    QList<QTextEdit::ExtraSelection> es = textEdit->getGreenSel();
     /* remove previous green highlights if the replacing text is changed */
-    if (txtReplace_ != ui->lineEditReplace->text())
+    if (!es.isEmpty() && es.first().cursor.selectedText() != txtReplace)
     {
-        txtReplace_ = ui->lineEditReplace->text();
         textEdit->setGreenSel (QList<QTextEdit::ExtraSelection>());
-    }
+        es.clear();
+    };
 
     bool lineNumShown (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible());
 
@@ -145,7 +147,6 @@ void FPwin::replace()
         found = textEdit->finding (txtFind, start, searchFlags | QTextDocument::FindBackward, tabPage->matchRegex());
     QColor color = QColor (textEdit->hasDarkScheme() ? Qt::darkGreen : Qt::green);
     int pos;
-    QList<QTextEdit::ExtraSelection> es = textEdit->getGreenSel();
     if (!found.isNull())
     {
         start.setPosition (found.anchor());
@@ -155,13 +156,13 @@ void FPwin::replace()
         textEdit->setTextCursor (start);
         if (tabPage->matchRegex())
         { // also, cover capturing groups
-            realTxtReplace = found.selectedText().replace (regexFind, txtReplace_);
+            realTxtReplace = found.selectedText().replace (regexFind, txtReplace);
             textEdit->insertPlainText (realTxtReplace);
         }
         else
-            textEdit->insertPlainText (txtReplace_);
+            textEdit->insertPlainText (txtReplace);
 
-        start = textEdit->textCursor(); // at the end of txtReplace_
+        start = textEdit->textCursor(); // at the end of txtReplace
         tmp.setPosition (pos);
         tmp.setPosition (start.position(), QTextCursor::KeepAnchor);
         QTextEdit::ExtraSelection extra;
@@ -176,7 +177,7 @@ void FPwin::replace()
                regex), the replacement won't proceed. So, the cursor should be moved. */
             start.setPosition (start.position() - (tabPage->matchRegex()
                                                     ? realTxtReplace.length()
-                                                    : txtReplace_.length()));
+                                                    : txtReplace.length()));
             textEdit->setTextCursor (start);
         }
     }
@@ -204,11 +205,14 @@ void FPwin::replaceAll()
     QString txtFind = ui->lineEditFind->text();
     if (txtFind.isEmpty()) return;
 
+    const QString txtReplace = ui->lineEditReplace->text();
+
+    QList<QTextEdit::ExtraSelection> es = textEdit->getGreenSel();
     /* remove previous green highlights if the replacing text is changed */
-    if (txtReplace_ != ui->lineEditReplace->text())
+    if (!es.isEmpty() && es.first().cursor.selectedText() != txtReplace)
     {
-        txtReplace_ = ui->lineEditReplace->text();
         textEdit->setGreenSel (QList<QTextEdit::ExtraSelection>());
+        es.clear();
     }
 
     QTextDocument::FindFlags searchFlags = getSearchFlags();
@@ -230,7 +234,6 @@ void FPwin::replaceAll()
     start.beginEditBlock();
     start.setPosition (0);
     QTextCursor tmp = start;
-    QList<QTextEdit::ExtraSelection> es = textEdit->getGreenSel();
     int count = 0;
     QTextEdit::ExtraSelection extra;
     extra.format.setBackground (color);
@@ -242,9 +245,9 @@ void FPwin::replaceAll()
         pos = found.anchor();
         start.setPosition (found.position(), QTextCursor::KeepAnchor);
         if (tabPage->matchRegex())
-            start.insertText (found.selectedText().replace (regexFind, txtReplace_));
+            start.insertText (found.selectedText().replace (regexFind, txtReplace));
         else
-            start.insertText (txtReplace_);
+            start.insertText (txtReplace);
 
         if (count < 1000)
         {
@@ -276,7 +279,7 @@ void FPwin::replaceAll()
         title = tr("%Ln Replacements", "", count);
     ui->dockReplace->setWindowTitle (title);
     textEdit->setReplaceTitle (title);
-    if (count > 1000 && !txtReplace_.isEmpty())
+    if (count > 1000 && !txtReplace.isEmpty())
         showWarningBar ("<center><b><big>" + tr ("The first 1000 replacements are highlighted.") + "</big></b></center>");
 }
 

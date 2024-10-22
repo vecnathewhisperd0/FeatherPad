@@ -591,7 +591,7 @@
         <location filename="../../fp.ui" line="305"/>
         <location filename="../../fpwin.cpp" line="4122"/>
         <location filename="../../replace.cpp" line="61"/>
-        <location filename="../../replace.cpp" line="113"/>
+        <location filename="../../replace.cpp" line="112"/>
         <source>Replacement</source>
         <translation>Tekstvervanging</translation>
     </message>
@@ -1121,17 +1121,17 @@
         <translation>Over FeatherPad</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="272"/>
+        <location filename="../../replace.cpp" line="275"/>
         <source>No Replacement</source>
         <translation>Geen vervanging</translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="274"/>
+        <location filename="../../replace.cpp" line="277"/>
         <source>One Replacement</source>
         <translation>Eén vervanging</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../replace.cpp" line="276"/>
+        <location filename="../../replace.cpp" line="279"/>
         <source>%Ln Replacements</source>
         <translation>
             <numerusform>%Ln vervanging</numerusform>
@@ -1139,7 +1139,7 @@
         </translation>
     </message>
     <message>
-        <location filename="../../replace.cpp" line="280"/>
+        <location filename="../../replace.cpp" line="283"/>
         <source>The first 1000 replacements are highlighted.</source>
         <translation>De eerste 1000 vervangingen zijn gemarkeerd.</translation>
     </message>

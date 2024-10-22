@@ -273,7 +273,6 @@ private:
     QActionGroup *aGroup_;
     QString lastFile_; // The last opened or saved file (for file dialogs).
     QHash<QString, QVariant> lastWinFilesCur_; // The last window files and their cusrors (if restored).
-    QString txtReplace_; // The replacing text.
     int rightClicked_; // The index/row of the right-clicked tab/item.
     int loadingProcesses_; // The number of loading processes (used to prevent early closing).
     QMetaObject::Connection lambdaConnection_; // Captures a lambda connection to disconnect it later.
