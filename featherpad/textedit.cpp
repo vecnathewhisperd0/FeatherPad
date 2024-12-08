@@ -2428,7 +2428,8 @@ static bool findForwardInBlock (const QTextBlock &block, const QString &str, int
             if ((start != 0 && text.at (start - 1).isLetterOrNumber())
                 || (end != text.length() && text.at (end).isLetterOrNumber()))
             { // if this is not a whole word, continue the search
-                offset = end + 1;
+                offset = end + (str.length() == 0 // a zero-length string
+                                || str.at (str.length() - 1).isLetterOrNumber() ? 1 : 0);
                 idx = -1;
                 continue;
             }

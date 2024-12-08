@@ -1552,7 +1552,7 @@ the editor font has a fixed pitch (like Monospace).</source>
     <message>
         <location filename="../../prefDialog.ui" line="657"/>
         <source>Show line and document ends</source>
-        <translation>همچنين نمايش پايان هر خط و کل سند</translation>
+        <translation>نمايش پايان هر خط و کل سند</translation>
     </message>
     <message>
         <location filename="../../prefDialog.ui" line="801"/>
