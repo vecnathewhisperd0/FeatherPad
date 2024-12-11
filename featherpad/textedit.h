@@ -424,7 +424,7 @@ protected:
     }
 
     void mouseDoubleClickEvent (QMouseEvent *event) {
-        if (rect().contains (event->pos()))
+        if (rect().contains (event->position().toPoint()))
             editor->centerCursor();
         QWidget::mouseDoubleClickEvent (event);
     }

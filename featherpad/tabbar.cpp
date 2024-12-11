@@ -55,8 +55,8 @@ void TabBar::mousePressEvent (QMouseEvent *event)
     QTabBar::mousePressEvent (event);
 
     if (event->button() == Qt::LeftButton) {
-        if (tabAt (event->pos()) > -1)
-            dragStartPosition_ = event->pos();
+        if (tabAt (event->position().toPoint()) > -1)
+            dragStartPosition_ = event->position().toPoint();
         else if (event->type() == QEvent::MouseButtonDblClick && count() > 0)
             emit addEmptyTab();
     }
@@ -70,7 +70,7 @@ void TabBar::mouseReleaseEvent (QMouseEvent *event)
     QTabBar::mouseReleaseEvent (event);
     if (event->button() == Qt::MiddleButton)
     {
-        int index = tabAt (event->pos());
+        int index = tabAt (event->position().toPoint());
         if (index > -1)
             emit tabCloseRequested (index);
         else
@@ -81,7 +81,8 @@ void TabBar::mouseReleaseEvent (QMouseEvent *event)
 void TabBar::mouseMoveEvent (QMouseEvent *event)
 {
     if (!dragStarted_ && !dragStartPosition_.isNull()
-        && (event->pos() - dragStartPosition_).manhattanLength() >= QApplication::startDragDistance())
+        && (event->position().toPoint()
+            - dragStartPosition_).manhattanLength() >= QApplication::startDragDistance())
     {
       dragStarted_ = true;
     }
@@ -150,7 +151,7 @@ void TabBar::mouseMoveEvent (QMouseEvent *event)
     else
     { // "this" is for Wayland, when the window isn't active
         QTabBar::mouseMoveEvent (event);
-        int index = tabAt (event->pos());
+        int index = tabAt (event->position().toPoint());
         if (index > -1)
             /* WARNING: For tabbars, event->globalPosition() may return a totally
                         wrong position with Qt6. */
@@ -203,7 +204,7 @@ void TabBar::finishMouseMoveEvent()
     dragStarted_ = false;
     dragStartPosition_ = QPoint();
 
-    QMouseEvent finishingEvent (QEvent::MouseMove, QPoint(),
+    QMouseEvent finishingEvent (QEvent::MouseMove, QPointF(),
 #if (QT_VERSION >= QT_VERSION_CHECK(6,4,0))
                                 QCursor::pos(),
 #endif
@@ -213,7 +214,7 @@ void TabBar::finishMouseMoveEvent()
 /*************************/
 void TabBar::releaseMouse()
 {
-    QMouseEvent releasingEvent (QEvent::MouseButtonRelease, QPoint(),
+    QMouseEvent releasingEvent (QEvent::MouseButtonRelease, QPointF(),
 #if (QT_VERSION >= QT_VERSION_CHECK(6,4,0))
                                 QCursor::pos(),
 #endif

@@ -1,6 +1,7 @@
 V1.5.3
 ---------
  * Fixed a rare case of finding/highlighting whole words.
+ * Replaced the deprecated method QMouseEvent::pos().
 
 V1.5.2
 ---------

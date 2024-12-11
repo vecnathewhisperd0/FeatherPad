@@ -2182,7 +2182,7 @@ void TextEdit::mouseMoveEvent (QMouseEvent *event)
         return;
     }
 
-    if (getUrl (cursorForPosition (event->pos()).position()).isEmpty())
+    if (getUrl (cursorForPosition (event->position().toPoint()).position()).isEmpty())
     {
         if (viewport()->cursor().shape() != Qt::IBeamCursor)
             viewport()->setCursor (Qt::IBeamCursor);
@@ -2245,7 +2245,7 @@ void TextEdit::mousePressEvent (QMouseEvent *event)
     QPlainTextEdit::mousePressEvent (event);
 
     if (event->button() == Qt::LeftButton)
-        pressPoint_ = event->pos();
+        pressPoint_ = event->position().toPoint();
 }
 /*************************/
 void TextEdit::mouseReleaseEvent (QMouseEvent *event)
@@ -2267,7 +2267,7 @@ void TextEdit::mouseReleaseEvent (QMouseEvent *event)
     if (viewport()->cursor().shape() != Qt::PointingHandCursor)
         return; // another key may also be pressed besides Ctrl (-> keyPressEvent)
 
-    QTextCursor cur = cursorForPosition (event->pos());
+    QTextCursor cur = cursorForPosition (event->position().toPoint());
     if (cur == cursorForPosition (pressPoint_))
     {
         QString str = getUrl (cur.position());

@@ -143,7 +143,7 @@ void ListWidget::mousePressEvent (QMouseEvent *event)
     {
         if (event->button() == Qt::MiddleButton)
         {
-            QModelIndex index = indexAt (event->pos());
+            QModelIndex index = indexAt (event->position().toPoint());
             if (QListWidgetItem *item = itemFromIndex (index)) // index is checked for its validity in QListWidget::itemFromIndex()
                 emit closeItem (item);
             else
@@ -161,7 +161,7 @@ void ListWidget::mouseMoveEvent (QMouseEvent *event)
     QListWidget::mouseMoveEvent (event);
     if (event->button() == Qt::NoButton && !(event->buttons() & Qt::LeftButton))
     { // "this" is for Wayland, when the window isn't active
-        if (QListWidgetItem *item = itemAt (event->pos()))
+        if (QListWidgetItem *item = itemAt (event->position().toPoint()))
             QToolTip::showText (event->globalPosition().toPoint(), item->toolTip(), this);
         else
             QToolTip::hideText();
