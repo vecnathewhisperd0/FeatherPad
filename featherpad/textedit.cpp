@@ -2437,14 +2437,13 @@ void TextEdit::highlightColumn (const QTextCursor &endCur)
 /*************************/
 void TextEdit::mouseMoveEvent (QMouseEvent *event)
 {
-    QPoint p = event->position().toPoint();
-
     if (event->buttons() == Qt::LeftButton
         && event->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier))
     { // column highlighting
         colStarted_ = false; // forget the previous start point
-        QTextCursor endCur = cursorForPosition (p);
+        QTextCursor endCur = cursorForPosition (event->position().toPoint());
         highlightColumn (endCur);
+        event->accept();
         return;
     }
 
@@ -2458,7 +2457,7 @@ void TextEdit::mouseMoveEvent (QMouseEvent *event)
         return;
     }
 
-    if (getUrl (cursorForPosition (p).position()).isEmpty())
+    if (getUrl (cursorForPosition (event->position().toPoint()).position()).isEmpty())
     {
         if (viewport()->cursor().shape() != Qt::IBeamCursor)
             viewport()->setCursor (Qt::IBeamCursor);
