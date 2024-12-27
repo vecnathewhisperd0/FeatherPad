@@ -2348,7 +2348,7 @@ void TextEdit::highlightColumn (const QTextCursor &endCur)
 {
     if (pressCur_.isNull()) return; // impossible
 
-    /* just a precaucion */
+    /* just a precaution */
     bool selectionHighlightingOrig = selectionHighlighting_;
     selectionHighlighting_ = false;
 
@@ -2369,18 +2369,18 @@ void TextEdit::highlightColumn (const QTextCursor &endCur)
         tlCur = pressCur_;
         blCur = endCur;
         if (pressIndent > endIndent)
-            tlCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor, hDistance);
+            tlCur.setPosition (tlCur.position() - hDistance);
         else
-            blCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor, hDistance);
+            blCur.setPosition (blCur.position() - hDistance);
     }
     else
     {
         tlCur = endCur;
         blCur = pressCur_;
         if (endIndent > pressIndent)
-            tlCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor, hDistance);
+            tlCur.setPosition (tlCur.position() - hDistance);
         else
-            blCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor, hDistance);
+            blCur.setPosition (blCur.position() - hDistance);
     }
 
     QTextEdit::ExtraSelection extra;
@@ -2403,12 +2403,7 @@ void TextEdit::highlightColumn (const QTextCursor &endCur)
         sel.setPosition (tlCur.position());
         tmp = sel;
         tmp.movePosition (QTextCursor::EndOfLine);
-        int i = 0;
-        while (sel < tmp && i < hDistance)
-        {
-            ++i;
-            sel.movePosition (QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
-        }
+        sel.setPosition (qMin (sel.position() + hDistance, tmp.position()), QTextCursor::KeepAnchor);
 
         extra.cursor = sel;
         es.append (extra);
@@ -2419,12 +2414,7 @@ void TextEdit::highlightColumn (const QTextCursor &endCur)
             break;
         tmp = tlCur;
         tmp.movePosition (QTextCursor::EndOfLine);
-        i = 0;
-        while (tlCur < tmp && i < minIndent)
-        {
-            ++i;
-            tlCur.movePosition (QTextCursor::NextCharacter);
-        }
+        tlCur.setPosition (qMin (tlCur.position() + minIndent, tmp.position()));
     }
 
     es.append (redSel_);
