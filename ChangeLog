@@ -1,5 +1,7 @@
-V1.5.3
+V1.6.0
 ---------
+ * Support column selection.
+ * Dropped the support for translating the Help file because it was not practical. Please use an online translation service instead.
  * Fixed a rare case of finding/highlighting whole words.
  * Replaced the deprecated method QMouseEvent::pos().
 

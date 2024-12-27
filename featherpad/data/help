@@ -147,7 +147,7 @@ If the cursor is inside the text view, the speed of (mouse) wheel scrolling will
 
 For fast wheel scrolling, put the cursor on the vertical scrollbar. Then, each step of wheel turn moves the view by one page. If the Shift key is also pressed, the view will be moved by half the page.
 
-Also, see the section Keyboard Shortcuts → Scrolling, below.
+Also, see the section "Keyboard Shortcuts" → "Scrolling", below.
 
 ********************
 *   Text Tabbing   *
@@ -162,6 +162,22 @@ In FeatherPad, "hard" and "soft" tabs are not mutually exclusive because some te
 With Ctrl+Meta+Tab, the text will be tabbed by 2 spaces, while Shift+Meta+Tab is for 2-space untabbing as far as possible.
 
 All text tabs of a document can be converted to spaces (soft tabs) by using the menu item "Text Tabs to Spaces" in the right-click menu or the "Edit" menu. This conversion is done based on the value of Preferences → Text → Text tab size, which is 4 by default. The document needs to be saved after the conversion.
+
+************************
+*   Column Selection   *
+************************
+
+A text column may be selected in two ways:
+
+* If the target text is inside the visible part of the text view, a column can be selected by pressing the left mouse button and moving the mouse cursor while Shift+Ctrl is pressed; or
+
+* For large texts, two diagonal corners of a column can be set by clicking while Shift+Ctrl is pressed, in which case, clicking the second point results in a selected column. The order is not important, and the second point can be chosen later, but an ordinary click (without pressing Shift+Ctrl) after the first Shift+Ctrl+click neutralizes its effect (and so, can be used for redoing it).
+
+A column is deselected when the text cursor is moved in any way — e.g. by arrow keys or clicking — when the window is resized, and on some other occasions, but it is kept intact on right clicking. With a selected column, the items "Cut", "Copy", "Paste" and "Delete" in the right-click and Edit menus work on that column. Column pasting may be a little confusing at first, but it can be used for pasting a copied column on another.
+
+When a column is selected, the typed characters are prepended to it without deselecting it. This property can be used, e.g., for commenting out multiple lines of codes together. Also, Backspace removes all characters that precede the column at once, and the Delete key deletes the column.
+
+However, the Enter, Tab and BackTab keys do not work with a column but simply deselect it and insert a new line, add a text tab, and untab the text at the cursor position respectively. To tab/untab multiple lines of codes, you can select them in the usual way and press the Tab/BackTab key, as explained in the section "Text Tabbing", above.
 
 ********************
 *   Auto-Bracket   *

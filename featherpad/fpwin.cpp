@@ -1601,15 +1601,16 @@ TabPage* FPwin::createEmptyTab (bool setCurrent, bool allowNormalHighlighter)
     if (!config.getSaveUnmodified())
         connect (textEdit->document(), &QTextDocument::modificationChanged, this, &FPwin::enableSaving);
     connect (textEdit->document(), &QTextDocument::modificationChanged, this, &FPwin::asterisk);
-    connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCut, &QAction::setEnabled);
-    connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionDelete, &QAction::setEnabled);
-    connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCopy, &QAction::setEnabled);
+    connect (textEdit, &TextEdit::canCopy, ui->actionCut, &QAction::setEnabled);
+    connect (textEdit, &TextEdit::canCopy, ui->actionDelete, &QAction::setEnabled);
+    connect (textEdit, &TextEdit::canCopy, ui->actionCopy, &QAction::setEnabled);
     connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionUpperCase, &QAction::setEnabled);
     connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionLowerCase, &QAction::setEnabled);
     connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionStartCase, &QAction::setEnabled);
 
     connect (textEdit, &TextEdit::filePasted, this, &FPwin::newTabFromName);
     connect (textEdit, &TextEdit::zoomedOut, this, &FPwin::reformat);
+    connect (textEdit, &TextEdit::hugeColumn, this, &FPwin::columnWarning);
 
     connect (tabPage, &TabPage::find, this, &FPwin::find);
     connect (tabPage, &TabPage::searchFlagChanged, this, &FPwin::searchFlagChanged);
@@ -1672,6 +1673,7 @@ void FPwin::editorContextMenu (const QPoint& p)
     const QList<QAction*> actions = menu->actions();
     if (!actions.isEmpty())
     {
+        bool hasColumn = !textEdit->getColSel().isEmpty();
         for (QAction* const thisAction : actions)
         {
             /* remove the shortcut strings because shortcuts may change */
@@ -1685,11 +1687,15 @@ void FPwin::editorContextMenu (const QPoint& p)
             {
                 disconnect (thisAction, &QAction::triggered, nullptr, nullptr);
                 connect (thisAction, &QAction::triggered, textEdit, &TextEdit::copy);
+                if (hasColumn && !thisAction->isEnabled())
+                    thisAction->setEnabled (true);
             }
             else if (thisAction->objectName() == "edit-cut")
             {
                 disconnect (thisAction, &QAction::triggered, nullptr, nullptr);
                 connect (thisAction, &QAction::triggered, textEdit, &TextEdit::cut);
+                if (hasColumn && !thisAction->isEnabled())
+                    thisAction->setEnabled (true);
             }
             else if (thisAction->objectName() == "edit-paste")
             {
@@ -1698,6 +1704,13 @@ void FPwin::editorContextMenu (const QPoint& p)
                 /* also, correct the enabled state of the paste action by consulting our
                    "TextEdit::pastingIsPossible()" instead of "QPlainTextEdit::canPaste()" */
                 thisAction->setEnabled (textEdit->pastingIsPossible());
+            }
+            else if (thisAction->objectName() == "edit-delete")
+            {
+                disconnect (thisAction, &QAction::triggered, nullptr, nullptr);
+                connect (thisAction, &QAction::triggered, textEdit, &TextEdit::deleteText);
+                if (hasColumn && !thisAction->isEnabled())
+                    thisAction->setEnabled (true);
             }
             else if (thisAction->objectName() == "edit-undo")
             {
@@ -1772,6 +1785,11 @@ void FPwin::editorContextMenu (const QPoint& p)
 
     menu->exec (textEdit->viewport()->mapToGlobal (p));
     delete menu;
+
+    /* Announce that the mouse button is released, because "TextEdit::mouseReleaseEvent"
+       is not called when the context menu is shown. This is only needed for removing the
+       column highlight on changing the cursor position after closing the context menu. */
+    textEdit->releaseMouse();
 }
 /*************************/
 void FPwin::updateRecenMenu()
@@ -2596,8 +2614,8 @@ void FPwin::addText (const QString& text, const QString& fileName, const QString
             if (config.getSaveUnmodified())
                 ui->actionSave->setDisabled (true);
         }
-        disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCut, &QAction::setEnabled);
-        disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionDelete, &QAction::setEnabled);
+        disconnect (textEdit, &TextEdit::canCopy, ui->actionCut, &QAction::setEnabled);
+        disconnect (textEdit, &TextEdit::canCopy, ui->actionDelete, &QAction::setEnabled);
         disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionUpperCase, &QAction::setEnabled);
         disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionLowerCase, &QAction::setEnabled);
         disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionStartCase, &QAction::setEnabled);
@@ -2724,6 +2742,12 @@ void FPwin::onOpeningNonexistent()
                 showWarningBar ("<center><b><big>" + tr ("The file does not exist.") + "</big></b></center>");
         }
     });
+}
+/*************************/
+void FPwin::columnWarning()
+{
+    showWarningBar ("<center><b><big>" + tr ("Huge column!") + "</big></b></center>\n"
+                    + "<center>" + tr ("Columns with more than 1000 rows are not supported.") + "</center>");
 }
 /*************************/
 void FPwin::showWarningBar (const QString& message, int timeout, bool startupBar)
@@ -3777,7 +3801,7 @@ void FPwin::deleteText()
     {
         TextEdit *textEdit = tabPage->textEdit();
         if (!textEdit->isReadOnly())
-            textEdit->insertPlainText ("");
+            textEdit->deleteText();
     }
 }
 /*************************/
@@ -3922,6 +3946,7 @@ void FPwin::makeEditable()
 
     TextEdit *textEdit = tabPage->textEdit();
     bool textIsSelected = textEdit->textCursor().hasSelection();
+    bool hasColumn = !textEdit->getColSel().isEmpty();
 
     textEdit->setReadOnly (false);
     Config config = static_cast<FPsingleton*>(qApp)->getConfig();
@@ -3944,14 +3969,14 @@ void FPwin::makeEditable()
     ui->actionPaste->setEnabled (true); // it might change temporarily in showingEditMenu()
     ui->actionSoftTab->setEnabled (true);
     ui->actionDate->setEnabled (true);
-    ui->actionCopy->setEnabled (textIsSelected);
-    ui->actionCut->setEnabled (textIsSelected);
-    ui->actionDelete->setEnabled (textIsSelected);
+    ui->actionCopy->setEnabled (textIsSelected || hasColumn);
+    ui->actionCut->setEnabled (textIsSelected || hasColumn);
+    ui->actionDelete->setEnabled (textIsSelected || hasColumn);
     ui->actionUpperCase->setEnabled (textIsSelected);
     ui->actionLowerCase->setEnabled (textIsSelected);
     ui->actionStartCase->setEnabled (textIsSelected);
-    connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCut, &QAction::setEnabled);
-    connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionDelete, &QAction::setEnabled);
+    connect (textEdit, &TextEdit::canCopy, ui->actionCut, &QAction::setEnabled);
+    connect (textEdit, &TextEdit::canCopy, ui->actionDelete, &QAction::setEnabled);
     connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionUpperCase, &QAction::setEnabled);
     connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionLowerCase, &QAction::setEnabled);
     connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionStartCase, &QAction::setEnabled);
@@ -4070,9 +4095,10 @@ void FPwin::tabSwitch (int index)
     ui->actionSoftTab->setEnabled (!readOnly);
     ui->actionDate->setEnabled (!readOnly);
     bool textIsSelected = textEdit->textCursor().hasSelection();
-    ui->actionCopy->setEnabled (textIsSelected);
-    ui->actionCut->setEnabled (!readOnly && textIsSelected);
-    ui->actionDelete->setEnabled (!readOnly && textIsSelected);
+    bool hasColumn = !textEdit->getColSel().isEmpty();
+    ui->actionCopy->setEnabled (textIsSelected || hasColumn);
+    ui->actionCut->setEnabled (!readOnly && (textIsSelected || hasColumn));
+    ui->actionDelete->setEnabled (!readOnly && (textIsSelected || hasColumn));
     ui->actionUpperCase->setEnabled (!readOnly && textIsSelected);
     ui->actionLowerCase->setEnabled (!readOnly && textIsSelected);
     ui->actionStartCase->setEnabled (!readOnly && textIsSelected);
@@ -4300,6 +4326,7 @@ void FPwin::showHideSearch()
             if (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible())
                 es.prepend (textEdit->currentLineSelection());
             es.append (textEdit->getBlueSel());
+            es.append (textEdit->getColSel());
             es.append (textEdit->getRedSel());
             textEdit->setExtraSelections (es);
             /* ... and empty all search entries */
@@ -4405,7 +4432,12 @@ void FPwin::toggleWrapping()
 
     bool wrapLines = ui->actionWrap->isChecked();
     for (int i = 0; i < count; ++i)
-        qobject_cast<TabPage*>(ui->tabWidget->widget (i))->textEdit()->setLineWrapMode (wrapLines ? QPlainTextEdit::WidgetWidth : QPlainTextEdit::NoWrap);
+    {
+        auto textEdit = qobject_cast<TabPage*>(ui->tabWidget->widget (i))->textEdit();
+        textEdit->setLineWrapMode (wrapLines ? QPlainTextEdit::WidgetWidth
+                                             : QPlainTextEdit::NoWrap);
+        textEdit->removeColumnHighlight();
+    }
     if (TabPage *tabPage = qobject_cast<TabPage*>(ui->tabWidget->currentWidget()))
         reformat (tabPage->textEdit());
 }
@@ -4913,14 +4945,15 @@ void FPwin::detachTab()
         if (statusCurPos)
             disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, this, &FPwin::showCursorPos);
     }
-    disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCut, &QAction::setEnabled);
-    disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionDelete, &QAction::setEnabled);
+    disconnect (textEdit, &TextEdit::canCopy, ui->actionCut, &QAction::setEnabled);
+    disconnect (textEdit, &TextEdit::canCopy, ui->actionDelete, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionUpperCase, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionLowerCase, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionStartCase, &QAction::setEnabled);
-    disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCopy, &QAction::setEnabled);
+    disconnect (textEdit, &TextEdit::canCopy, ui->actionCopy, &QAction::setEnabled);
     disconnect (textEdit, &QWidget::customContextMenuRequested, this, &FPwin::editorContextMenu);
     disconnect (textEdit, &TextEdit::zoomedOut, this, &FPwin::reformat);
+    disconnect (textEdit, &TextEdit::hugeColumn, this, &FPwin::columnWarning);
     disconnect (textEdit, &TextEdit::filePasted, this, &FPwin::newTabFromName);
     disconnect (textEdit, &TextEdit::updateBracketMatching, this, &FPwin::matchBrackets);
     disconnect (textEdit, &QPlainTextEdit::blockCountChanged, this, &FPwin::formatOnBlockChange);
@@ -5092,21 +5125,22 @@ void FPwin::detachTab()
     if (!config.getSaveUnmodified())
         connect (textEdit->document(), &QTextDocument::modificationChanged, dropTarget, &FPwin::enableSaving);
     connect (textEdit->document(), &QTextDocument::modificationChanged, dropTarget, &FPwin::asterisk);
-    connect (textEdit, &QPlainTextEdit::copyAvailable, dropTarget->ui->actionCopy, &QAction::setEnabled);
+    connect (textEdit, &TextEdit::canCopy, dropTarget->ui->actionCopy, &QAction::setEnabled);
 
     connect (tabPage, &TabPage::find, dropTarget, &FPwin::find);
     connect (tabPage, &TabPage::searchFlagChanged, dropTarget, &FPwin::searchFlagChanged);
 
     if (!textEdit->isReadOnly())
     {
-        connect (textEdit, &QPlainTextEdit::copyAvailable, dropTarget->ui->actionCut, &QAction::setEnabled);
-        connect (textEdit, &QPlainTextEdit::copyAvailable, dropTarget->ui->actionDelete, &QAction::setEnabled);
+        connect (textEdit, &TextEdit::canCopy, dropTarget->ui->actionCut, &QAction::setEnabled);
+        connect (textEdit, &TextEdit::canCopy, dropTarget->ui->actionDelete, &QAction::setEnabled);
         connect (textEdit, &QPlainTextEdit::copyAvailable, dropTarget->ui->actionUpperCase, &QAction::setEnabled);
         connect (textEdit, &QPlainTextEdit::copyAvailable, dropTarget->ui->actionLowerCase, &QAction::setEnabled);
         connect (textEdit, &QPlainTextEdit::copyAvailable, dropTarget->ui->actionStartCase, &QAction::setEnabled);
     }
     connect (textEdit, &TextEdit::filePasted, dropTarget, &FPwin::newTabFromName);
     connect (textEdit, &TextEdit::zoomedOut, dropTarget, &FPwin::reformat);
+    connect (textEdit, &TextEdit::hugeColumn, dropTarget, &FPwin::columnWarning);
     connect (textEdit, &QWidget::customContextMenuRequested, dropTarget, &FPwin::editorContextMenu);
 
     textEdit->setFocus();
@@ -5169,14 +5203,15 @@ void FPwin::dropTab (const QString& str, QObject *source)
         if (dragSource->ui->statusBar->findChild<QLabel *>("posLabel"))
             disconnect (textEdit, &QPlainTextEdit::cursorPositionChanged, dragSource, &FPwin::showCursorPos);
     }
-    disconnect (textEdit, &QPlainTextEdit::copyAvailable, dragSource->ui->actionCut, &QAction::setEnabled);
-    disconnect (textEdit, &QPlainTextEdit::copyAvailable, dragSource->ui->actionDelete, &QAction::setEnabled);
+    disconnect (textEdit, &TextEdit::canCopy, dragSource->ui->actionCut, &QAction::setEnabled);
+    disconnect (textEdit, &TextEdit::canCopy, dragSource->ui->actionDelete, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, dragSource->ui->actionUpperCase, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, dragSource->ui->actionLowerCase, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, dragSource->ui->actionStartCase, &QAction::setEnabled);
-    disconnect (textEdit, &QPlainTextEdit::copyAvailable, dragSource->ui->actionCopy, &QAction::setEnabled);
+    disconnect (textEdit, &TextEdit::canCopy, dragSource->ui->actionCopy, &QAction::setEnabled);
     disconnect (textEdit, &QWidget::customContextMenuRequested, dragSource, &FPwin::editorContextMenu);
     disconnect (textEdit, &TextEdit::zoomedOut, dragSource, &FPwin::reformat);
+    disconnect (textEdit, &TextEdit::hugeColumn, dragSource, &FPwin::columnWarning);
     disconnect (textEdit, &TextEdit::filePasted, dragSource, &FPwin::newTabFromName);
     disconnect (textEdit, &TextEdit::updateBracketMatching, dragSource, &FPwin::matchBrackets);
     disconnect (textEdit, &QPlainTextEdit::blockCountChanged, dragSource, &FPwin::formatOnBlockChange);
@@ -5344,21 +5379,22 @@ void FPwin::dropTab (const QString& str, QObject *source)
     if (!config.getSaveUnmodified())
         connect (textEdit->document(), &QTextDocument::modificationChanged, this, &FPwin::enableSaving);
     connect (textEdit->document(), &QTextDocument::modificationChanged, this, &FPwin::asterisk);
-    connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCopy, &QAction::setEnabled);
+    connect (textEdit, &TextEdit::canCopy, ui->actionCopy, &QAction::setEnabled);
 
     connect (tabPage, &TabPage::find, this, &FPwin::find);
     connect (tabPage, &TabPage::searchFlagChanged, this, &FPwin::searchFlagChanged);
 
     if (!textEdit->isReadOnly())
     {
-        connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCut, &QAction::setEnabled);
-        connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionDelete, &QAction::setEnabled);
+        connect (textEdit, &TextEdit::canCopy, ui->actionCut, &QAction::setEnabled);
+        connect (textEdit, &TextEdit::canCopy, ui->actionDelete, &QAction::setEnabled);
         connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionUpperCase, &QAction::setEnabled);
         connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionLowerCase, &QAction::setEnabled);
         connect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionStartCase, &QAction::setEnabled);
     }
     connect (textEdit, &TextEdit::filePasted, this, &FPwin::newTabFromName);
     connect (textEdit, &TextEdit::zoomedOut, this, &FPwin::reformat);
+    connect (textEdit, &TextEdit::hugeColumn, this, &FPwin::columnWarning);
     connect (textEdit, &QWidget::customContextMenuRequested, this, &FPwin::editorContextMenu);
 
     textEdit->setFocus();
@@ -6243,7 +6279,7 @@ void FPwin::helpDoc()
     }
 
     /* see if a translated help file exists */
-    QString lang;
+    /*QString lang;
     QStringList langs (QLocale::system().uiLanguages());
     if (!langs.isEmpty())
         lang = langs.first().replace ('-', '_');
@@ -6269,15 +6305,15 @@ void FPwin::helpDoc()
     }
 
     if (!QFile::exists (helpPath))
-    {
+    {*/
 #if defined(Q_OS_HAIKU)
-        helpPath =  QStringLiteral (DATADIR) + "/help";
+        QString helpPath =  QStringLiteral (DATADIR) + "/help";
 #elif defined(Q_OS_MAC)
-        helpPath = qApp->applicationDirPath() + QStringLiteral ("/../Resources/") + "/help";
+        QString helpPath = qApp->applicationDirPath() + QStringLiteral ("/../Resources/") + "/help";
 #else
-        helpPath =  QStringLiteral (DATADIR) + "/featherpad/help";
+        QString helpPath =  QStringLiteral (DATADIR) + "/featherpad/help";
 #endif
-    }
+    //}
 
     QFile helpFile (helpPath);
     if (!helpFile.exists()) return;
@@ -6323,8 +6359,8 @@ void FPwin::helpDoc()
     ui->actionUpperCase->setDisabled (true);
     ui->actionLowerCase->setDisabled (true);
     ui->actionStartCase->setDisabled (true);
-    disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionCut, &QAction::setEnabled);
-    disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionDelete, &QAction::setEnabled);
+    disconnect (textEdit, &TextEdit::canCopy, ui->actionCut, &QAction::setEnabled);
+    disconnect (textEdit, &TextEdit::canCopy, ui->actionDelete, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionUpperCase, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionLowerCase, &QAction::setEnabled);
     disconnect (textEdit, &QPlainTextEdit::copyAvailable, ui->actionStartCase, &QAction::setEnabled);

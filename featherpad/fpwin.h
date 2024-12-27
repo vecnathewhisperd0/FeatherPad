@@ -197,6 +197,7 @@ private slots:
     void onPermissionDenied();
     void onOpeningUneditable();
     void onOpeningNonexistent();
+    void columnWarning();
     void autoSave();
     void pauseAutoSaving (bool pause);
     void enforceLang (QAction *action);

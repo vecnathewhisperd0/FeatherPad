@@ -25,7 +25,7 @@ namespace FeatherPad {
 void FPwin::removeGreenSel()
 {
     /* remove green highlights, considering the selection order, namely,
-       current line -> replacement -> found matches -> selection highlights -> bracket matches */
+       current line -> replacement -> found matches -> selection highlights -> column highlight -> bracket matches */
     int count = ui->tabWidget->count();
     for (int i = 0; i < count; ++i)
     {
@@ -186,6 +186,7 @@ void FPwin::replace()
         es.prepend (textEdit->currentLineSelection());
     /* append blue and red highlights */
     es.append (textEdit->getBlueSel());
+    es.append (textEdit->getColSel());
     es.append (textEdit->getRedSel());
     textEdit->setExtraSelections (es);
     /* add yellow highlights (perhaps with corrections) */
@@ -266,6 +267,7 @@ void FPwin::replaceAll()
     if ((ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible()))
         es.prepend (textEdit->currentLineSelection());
     es.append (textEdit->getBlueSel());
+    es.append (textEdit->getColSel());
     es.append (textEdit->getRedSel());
     textEdit->setExtraSelections (es);
     hlight();

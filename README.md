@@ -13,6 +13,7 @@ FeatherPad (by Pedram Pourang, a.k.a. Tsu Jan <tsujan2000@gmail.com>) is a light
   * Optional selection highlighting;
   * Syntax highlighting for common programming languages;
   * Ability to open URLs with appropriate applications;
+  * Column selection;
   * Session management;
   * Side-pane mode;
   * Auto-saving;

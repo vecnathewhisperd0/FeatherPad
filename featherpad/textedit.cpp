@@ -53,6 +53,9 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     inertialScrolling_ = false;
     scrollTimer_ = nullptr;
 
+    colStarted_ = false;
+    mousePressed_ = false;
+
     keepTxtCurHPos_ = false;
     txtCurHPos_ = -1;
 
@@ -153,8 +156,15 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
         if (!keepTxtCurHPos_)
             txtCurHPos_ = -1; // forget the last cursor position if it shouldn't be remembered
         emit updateBracketMatching();
+        /* also, remove the column highlight if no mouse button is pressed */
+        if (!colSel_.isEmpty() && !mousePressed_)
+            removeColumnHighlight();
     });
     connect (this, &QPlainTextEdit::selectionChanged, this, &TextEdit::onSelectionChanged);
+    connect (this, &QPlainTextEdit::copyAvailable, [this] (bool yes) {
+        if (yes) emit canCopy (true);
+        else if (colSel_.isEmpty()) emit canCopy (false);
+    });
 
     setContextMenuPolicy (Qt::CustomContextMenu);
 }
@@ -432,6 +442,32 @@ QTextCursor TextEdit::backTabCursor (const QTextCursor& cursor, bool twoSpace) c
     return tmp;
 }
 /*************************/
+void TextEdit::prependToColumn (QKeyEvent *event)
+{
+    if (colSel_.count() > 1000)
+    {
+        QTimer::singleShot (0, this, [this]() {emit hugeColumn();});
+        event->accept();
+    }
+    else
+    {
+        bool origMousePressed = mousePressed_;
+        mousePressed_ = true;
+        QTextCursor cur = textCursor();
+        cur.beginEditBlock();
+        for (auto const &extra : std::as_const (colSel_))
+        {
+            cur = extra.cursor;
+            cur.setPosition (qMin (cur.anchor(), cur.position()));
+            setTextCursor (cur);
+            QPlainTextEdit::keyPressEvent (event);
+        }
+        cur.endEditBlock();
+        event->accept();
+        mousePressed_ = origMousePressed;
+    }
+}
+/*************************/
 static inline bool isOnlySpaces (const QString &str)
 {
     int i = 0;
@@ -534,6 +570,12 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
 
     if (event == QKeySequence::Delete || event == QKeySequence::DeleteStartOfWord)
     {
+        if (!colSel_.isEmpty() && event == QKeySequence::Delete)
+        {
+            deleteColumn();
+            event->accept();
+            return;
+        }
         bool hadSelection (textCursor().hasSelection());
         QPlainTextEdit::keyPressEvent (event);
         if (!hadSelection)
@@ -550,7 +592,11 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
             startCur.movePosition (QTextCursor::StartOfLine);
             txtCurHPos_ = qAbs (cursorRect().left() - cursorRect (startCur).left()); // is negative for RTL
         }
-
+        if (!colSel_.isEmpty())
+        {
+            prependToColumn (event);
+            return;
+        }
     }
     else if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter)
     {
@@ -1143,6 +1189,11 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
     }
     else if (event->key() == Qt::Key_Space)
     {
+        if (!colSel_.isEmpty())
+        {
+            prependToColumn (event);
+            return;
+        }
         if (autoReplace_ && event->modifiers() == Qt::NoModifier)
         {
             QTextCursor cur = textCursor();
@@ -1228,6 +1279,11 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
             return;
         }
     }
+    else if (!colSel_.isEmpty() && !event->text().isEmpty())
+    {
+        prependToColumn (event);
+        return;
+    }
 
     QPlainTextEdit::keyPressEvent (event);
 }
@@ -1239,6 +1295,8 @@ void TextEdit::copy()
     QTextCursor cursor = textCursor();
     if (cursor.hasSelection())
         QApplication::clipboard()->setText (cursor.selection().toPlainText());
+    else
+        copyColumn();
 }
 void TextEdit::cut()
 {
@@ -1250,6 +1308,20 @@ void TextEdit::cut()
         QApplication::clipboard()->setText (cursor.selection().toPlainText());
         cursor.removeSelectedText();
     }
+    else
+        cutColumn();
+}
+/*************************/
+void TextEdit::deleteText()
+{
+    if (textCursor().hasSelection())
+    {
+        keepTxtCurHPos_ = false;
+        txtCurHPos_ = -1;
+        insertPlainText ("");
+    }
+    else
+        deleteColumn();
 }
 /*************************/
 // These methods are overridden to forget the horizontal position of the text cursor and...
@@ -1263,6 +1335,7 @@ void TextEdit::undo()
         if (!currentLine_.cursor.isNull())
             es.prepend (currentLine_);
         es.append (blueSel_);
+        es.append (colSel_);
         es.append (redSel_);
         setExtraSelections (es);
     }
@@ -1288,12 +1361,14 @@ void TextEdit::redo()
 void TextEdit::paste()
 {
     keepTxtCurHPos_ = false; // txtCurHPos_ isn't reset here because there may be nothing to paste
-    QPlainTextEdit::paste(); // calls insertFromMimeData() in Qt -> "qwidgettextcontrol.cpp"
+    if (!colSel_.isEmpty()) pasteOnColumn();
+    else QPlainTextEdit::paste(); // calls insertFromMimeData() in Qt -> "qwidgettextcontrol.cpp"
 }
 void TextEdit::selectAll()
 {
     keepTxtCurHPos_ = false;
     txtCurHPos_ = -1; // Qt bug: cursorPositionChanged() isn't emitted with selectAll()
+    removeColumnHighlight();
     QPlainTextEdit::selectAll();
 }
 void TextEdit::insertPlainText (const QString &text)
@@ -1394,6 +1469,103 @@ void TextEdit::insertFromMimeData (const QMimeData* source)
     }
     else if (containsPlainText (source->formats()) && !source->text().isEmpty())
         QPlainTextEdit::insertFromMimeData (source);
+}
+/*************************/
+void TextEdit::copyColumn()
+{
+    QString res;
+    for (auto const &extra : std::as_const (colSel_))
+    {
+        res.append (extra.cursor.selection().toPlainText());
+        res.append (QChar (QChar::ParagraphSeparator));
+    }
+    if (!res.isEmpty())
+    {
+        res.remove (res.size() - 1, 1);
+        if (!res.isEmpty())
+            QApplication::clipboard()->setText (res);
+    }
+}
+/*************************/
+void TextEdit::cutColumn()
+{
+    if (colSel_.isEmpty()) return;
+    if (colSel_.count() > 1000)
+    {
+        emit hugeColumn();
+        return;
+    }
+    QString res;
+    QTextCursor cur = textCursor();
+    cur.beginEditBlock();
+    for (auto const &extra : std::as_const (colSel_))
+    {
+        res.append (extra.cursor.selectedText());
+        res.append (QChar (QChar::ParagraphSeparator));
+        if (extra.cursor.hasSelection())
+        {
+            keepTxtCurHPos_ = false;
+            txtCurHPos_ = -1;
+            cur = extra.cursor;
+            cur.removeSelectedText();
+        }
+    }
+    cur.endEditBlock();
+    if (!res.isEmpty())
+    {
+        res.remove (res.size() - 1, 1);
+        if (!res.isEmpty())
+            QApplication::clipboard()->setText (res);
+    }
+    removeColumnHighlight();
+}
+/*************************/
+void TextEdit::deleteColumn()
+{
+    if (colSel_.isEmpty()) return;
+    if (colSel_.count() > 1000)
+    {
+        emit hugeColumn();
+        return;
+    }
+    QTextCursor cur = textCursor();
+    cur.beginEditBlock();
+    for (auto const &extra : std::as_const (colSel_))
+    {
+        if (extra.cursor.hasSelection())
+        {
+            keepTxtCurHPos_ = false;
+            txtCurHPos_ = -1;
+            cur = extra.cursor;
+            cur.removeSelectedText();
+        }
+    }
+    cur.endEditBlock();
+    removeColumnHighlight();
+}
+/*************************/
+void TextEdit::pasteOnColumn()
+{
+    if (colSel_.isEmpty()) return;
+    if (colSel_.count() > 1000)
+    {
+        emit hugeColumn();
+        return;
+    }
+    QStringList parts = QApplication::clipboard()->text().split (QChar (QChar::ParagraphSeparator));
+    QTextCursor cur = textCursor();
+    cur.beginEditBlock();
+    int i = 0;
+    for (auto const &extra : std::as_const (colSel_))
+    {
+        if (i >= parts.size()) break;
+        cur = extra.cursor;
+        cur.insertText (parts.at (i));
+        ++i;
+    }
+    cur.endEditBlock();
+    if (i > 0)
+        keepTxtCurHPos_ = false;
 }
 /*************************/
 void TextEdit::keyReleaseEvent (QKeyEvent *event)
@@ -1592,6 +1764,8 @@ void TextEdit::resizeEvent (QResizeEvent *event)
                                              ? cr.width() - lw : cr.left(),
                                          cr.top(),
                                          lw, cr.height()));
+
+    removeColumnHighlight();
 
     if (resizeTimerId_)
     {
@@ -2170,8 +2344,110 @@ QString TextEdit::getUrl (const int pos) const
     return url;
 }
 /*************************/
+void TextEdit::highlightColumn (const QTextCursor &endCur)
+{
+    if (pressCur_.isNull()) return; // impossible
+
+    /* just a precaucion */
+    bool selectionHighlightingOrig = selectionHighlighting_;
+    selectionHighlighting_ = false;
+
+    QTextCursor tmp = pressCur_;
+    tmp.movePosition (QTextCursor::StartOfLine);
+    int pressIndent = pressCur_.position() - tmp.position();
+
+    tmp = endCur;
+    tmp.movePosition (QTextCursor::StartOfLine);
+    int endIndent = endCur.position() - tmp.position();
+
+    int hDistance = qAbs (pressIndent - endIndent);
+    int minIndent = qMin (pressIndent, endIndent);
+
+    QTextCursor tlCur, blCur; // top left and bottom left cursors
+    if (pressCur_ < endCur)
+    {
+        tlCur = pressCur_;
+        blCur = endCur;
+        if (pressIndent > endIndent)
+            tlCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor, hDistance);
+        else
+            blCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor, hDistance);
+    }
+    else
+    {
+        tlCur = endCur;
+        blCur = pressCur_;
+        if (endIndent > pressIndent)
+            tlCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor, hDistance);
+        else
+            blCur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor, hDistance);
+    }
+
+    QTextEdit::ExtraSelection extra;
+    extra.format.setBackground (palette().highlight().color());
+    extra.format.setForeground (palette().highlightedText().color());
+    QTextCursor sel = textCursor();
+    if (sel.hasSelection())
+        setTextCursor (endCur);
+    QList<QTextEdit::ExtraSelection> es = extraSelections();
+    int n = colSel_.count() + redSel_.count();
+    while (n > 0 && !es.isEmpty())
+    {
+        es.removeLast();
+        --n;
+    }
+    colSel_.clear();
+
+    while (tlCur <= blCur)
+    {
+        sel.setPosition (tlCur.position());
+        tmp = sel;
+        tmp.movePosition (QTextCursor::EndOfLine);
+        int i = 0;
+        while (sel < tmp && i < hDistance)
+        {
+            ++i;
+            sel.movePosition (QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
+        }
+
+        extra.cursor = sel;
+        es.append (extra);
+        colSel_.append (extra);
+
+        tlCur.movePosition (QTextCursor::StartOfLine);
+        if (!tlCur.movePosition (QTextCursor::Down))
+            break;
+        tmp = tlCur;
+        tmp.movePosition (QTextCursor::EndOfLine);
+        i = 0;
+        while (tlCur < tmp && i < minIndent)
+        {
+            ++i;
+            tlCur.movePosition (QTextCursor::NextCharacter);
+        }
+    }
+
+    es.append (redSel_);
+    setExtraSelections (es);
+
+    selectionHighlighting_ = selectionHighlightingOrig;
+
+    if (!colSel_.isEmpty()) emit canCopy (true);
+}
+/*************************/
 void TextEdit::mouseMoveEvent (QMouseEvent *event)
 {
+    QPoint p = event->position().toPoint();
+
+    if (event->buttons() == Qt::LeftButton
+        && event->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier))
+    { // column highlighting
+        colStarted_ = false; // forget the previous start point
+        QTextCursor endCur = cursorForPosition (p);
+        highlightColumn (endCur);
+        return;
+    }
+
     QPlainTextEdit::mouseMoveEvent (event);
 
     if (!highlighter_) return;
@@ -2182,7 +2458,7 @@ void TextEdit::mouseMoveEvent (QMouseEvent *event)
         return;
     }
 
-    if (getUrl (cursorForPosition (event->position().toPoint()).position()).isEmpty())
+    if (getUrl (cursorForPosition (p).position()).isEmpty())
     {
         if (viewport()->cursor().shape() != Qt::IBeamCursor)
             viewport()->setCursor (Qt::IBeamCursor);
@@ -2196,6 +2472,7 @@ void TextEdit::mousePressEvent (QMouseEvent *event)
     /* forget the last cursor position */
     keepTxtCurHPos_ = false;
     txtCurHPos_ = -1;
+    mousePressed_ = true;
 
     /* With a triple click, QPlainTextEdit selects the current block
        plus its newline, if any. But it is better to select the
@@ -2242,15 +2519,43 @@ void TextEdit::mousePressEvent (QMouseEvent *event)
             tripleClickTimer_.invalidate();
     }
 
-    QPlainTextEdit::mousePressEvent (event);
+    /* remove the column highlight if this is not a right click
+       (also, see "QPlainTextEdit::cursorPositionChanged" in c-tor) */
+    if (!colSel_.isEmpty() && event->button() != Qt::RightButton)
+        removeColumnHighlight();
 
     if (event->button() == Qt::LeftButton)
+    {
+        if (event->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier))
+        {
+            if (colStarted_)
+            { // column highlighting
+                colStarted_ = false;
+                QPoint p = event->position().toPoint();
+                QTextCursor endCur = cursorForPosition (p);
+                highlightColumn (endCur);
+                event->accept();
+                return;
+            }
+            colStarted_ = true;
+        }
+        else
+            colStarted_ = false;
         pressPoint_ = event->position().toPoint();
+        /* Due to a problem in Qt, the position could not be tracked correctly if it
+           gets out of the visible part of the view. Hence using a cursor instead. */
+        pressCur_ = cursorForPosition (pressPoint_);
+    }
+    else
+        colStarted_ = false;
+
+    QPlainTextEdit::mousePressEvent (event);
 }
 /*************************/
 void TextEdit::mouseReleaseEvent (QMouseEvent *event)
 {
     QPlainTextEdit::mouseReleaseEvent (event);
+    mousePressed_ = false;
 
     if (event->button() != Qt::LeftButton || !highlighter_)
         return;
@@ -2320,6 +2625,23 @@ void TextEdit::mouseDoubleClickEvent (QMouseEvent *event)
             event->accept();
         }
     }
+}
+/*************************/
+void TextEdit::removeColumnHighlight()
+{
+    int n = colSel_.count();
+    if (n == 0) return;
+    QList<QTextEdit::ExtraSelection> es = extraSelections();
+    int nRed = redSel_.count();
+    while (n > 0 && es.size() - nRed > 0)
+    {
+        es.removeAt (es.size() - 1 - nRed);
+        --n;
+    }
+    colSel_.clear();
+    setExtraSelections (es);
+    if (!textCursor().hasSelection())
+        emit canCopy (false);
 }
 /*************************/
 bool TextEdit::event (QEvent *event)
@@ -2837,11 +3159,12 @@ void TextEdit::setSelectionHighlighting (bool enable)
         if (!blueSel_.isEmpty())
         {
             QList<QTextEdit::ExtraSelection> es = extraSelections();
+            int nCol = colSel_.count();
             int nRed = redSel_.count();
             int n = blueSel_.count();
-            while (n > 0 && es.size() - nRed > 0)
+            while (n > 0 && es.size() - nCol - nRed > 0)
             {
-                es.removeAt (es.size() - 1 - nRed);
+                es.removeAt (es.size() - 1 - nCol - nRed);
                 --n;
             }
             blueSel_.clear();
@@ -2859,13 +3182,14 @@ void TextEdit::selectionHlight()
     QTextCursor selCursor = textCursor();
     int minSel = qMin (selCursor.anchor(), selCursor.position());
     int maxSel = qMax (selCursor.anchor(), selCursor.position());
+    int nCol = colSel_.count(); // column highlight (comes last but one)
     int nRed = redSel_.count(); // bracket highlights (come last)
 
     /* remove all blue highlights */
     int n = blueSel_.count();
-    while (n > 0 && es.size() - nRed > 0)
+    while (n > 0 && es.size() - nCol - nRed > 0)
     {
-        es.removeAt (es.size() - 1 - nRed);
+        es.removeAt (es.size() - 1 - nCol - nRed);
         --n;
     }
 
@@ -2933,7 +3257,7 @@ void TextEdit::selectionHlight()
             extra.format.setBackground (color);
             extra.cursor = found;
             blueSel_.append (extra);
-            es.insert (es.size() - nRed, extra);
+            es.insert (es.size() - nCol - nRed, extra);
         }
         start.setPosition (found.position());
     }

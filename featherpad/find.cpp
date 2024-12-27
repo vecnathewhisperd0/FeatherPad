@@ -24,7 +24,7 @@
 namespace FeatherPad {
 
 /* This order is preserved everywhere for selections:
-   current line -> replacement -> found matches -> selection highlights -> bracket matches */
+   current line -> replacement -> found matches -> selection highlights -> column highlight -> bracket matches */
 
 void FPwin::find (bool forward)
 {
@@ -54,6 +54,7 @@ void FPwin::find (bool forward)
         if (ui->actionLineNumbers->isChecked() || ui->spinBox->isVisible())
             es.prepend (textEdit->currentLineSelection());
         es.append (textEdit->getBlueSel());
+        es.append (textEdit->getColSel());
         es.append (textEdit->getRedSel());
         textEdit->setExtraSelections (es);
         return;
@@ -155,6 +156,7 @@ void FPwin::hlight() const
         es.prepend (textEdit->currentLineSelection());
     /* append blue and red highlights */
     es.append (textEdit->getBlueSel());
+    es.append (textEdit->getColSel());
     es.append (textEdit->getRedSel());
     textEdit->setExtraSelections (es);
 }
