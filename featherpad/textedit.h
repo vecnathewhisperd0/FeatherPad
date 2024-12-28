@@ -276,6 +276,8 @@ public:
 
     void removeColumnHighlight();
 
+    int selectionSize() const;
+
     QTextCursor finding (const QString& str, const QTextCursor& start,
                          QTextDocument::FindFlags flags = QTextDocument::FindFlags(),
                          bool isRegex = false, const int end = 0) const;

@@ -1597,7 +1597,15 @@ void TextEdit::pasteOnColumn()
     for (auto const &extra : std::as_const (colSel_))
     {
         if (extra.cursor.hasSelection())
+        {
+            if (selectionTimerId_)
+            {
+                killTimer (selectionTimerId_);
+                selectionTimerId_ = 0;
+            }
+            selectionTimerId_ = startTimer (UPDATE_INTERVAL);
             return;
+        }
     }
     removeColumnHighlight();
 }
@@ -2467,6 +2475,13 @@ void TextEdit::highlightColumn (const QTextCursor &endCur)
     selectionHighlighting_ = selectionHighlightingOrig;
 
     if (!colSel_.isEmpty()) emit canCopy (true);
+
+    if (selectionTimerId_)
+    {
+        killTimer (selectionTimerId_);
+        selectionTimerId_ = 0;
+    }
+    selectionTimerId_ = startTimer (UPDATE_INTERVAL);
 }
 /*************************/
 void TextEdit::mouseMoveEvent (QMouseEvent *event)
@@ -2662,6 +2677,24 @@ void TextEdit::removeColumnHighlight()
     setExtraSelections (es);
     if (!textCursor().hasSelection())
         emit canCopy (false);
+
+    if (selectionTimerId_)
+    {
+        killTimer (selectionTimerId_);
+        selectionTimerId_ = 0;
+    }
+    selectionTimerId_ = startTimer (UPDATE_INTERVAL);
+}
+/*************************/
+int TextEdit::selectionSize() const
+{
+    int res = textCursor().selectedText().size();
+    if (res > 0) return res;
+    for (auto const &extra : std::as_const (colSel_))
+    {
+        res += extra.cursor.selectedText().size();
+    }
+    return res;
 }
 /*************************/
 bool TextEdit::event (QEvent *event)

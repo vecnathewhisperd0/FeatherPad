@@ -4552,7 +4552,7 @@ void FPwin::statusMsgWithLineCount (const int lines)
     QLocale l = locale();
     QString lineStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Lines") + QString (":</b> <i>%1</i>").arg (l.toString (lines));
     QString selStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Sel. Chars")
-                     + QString (":</b> <i>%1</i>").arg (l.toString (textEdit->textCursor().selectedText().size()));
+                     + QString (":</b> <i>%1</i>").arg (l.toString (textEdit->selectionSize()));
     QString wordStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Words") + ":</b>";
 
     statusLabel->setText (encodStr + syntaxStr + lineStr + selStr + wordStr);
@@ -4564,7 +4564,7 @@ void FPwin::statusMsg()
     QLocale l = locale();
     QLabel *statusLabel = ui->statusBar->findChild<QLabel *>("statusLabel");
     int sel = qobject_cast< TabPage *>(ui->tabWidget->currentWidget())->textEdit()
-              ->textCursor().selectedText().size();
+              ->selectionSize();
     QString str = statusLabel->text();
     QString selStr = tr ("Sel. Chars");
     QString wordStr = "&nbsp;&nbsp;&nbsp;<b>" + tr ("Words");
