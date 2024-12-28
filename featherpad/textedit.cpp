@@ -610,6 +610,13 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                 }
                 cur.endEditBlock();
                 mousePressed_ = origMousePressed;
+                /* the selection may have changed with a wrapped text */
+                if (selectionTimerId_)
+                {
+                    killTimer (selectionTimerId_);
+                    selectionTimerId_ = 0;
+                }
+                selectionTimerId_ = startTimer (UPDATE_INTERVAL);
             }
             event->accept();
             return;
@@ -1807,7 +1814,8 @@ void TextEdit::resizeEvent (QResizeEvent *event)
                                          cr.top(),
                                          lw, cr.height()));
 
-    removeColumnHighlight();
+    if (lineWrapMode() != QPlainTextEdit::NoWrap)
+        removeColumnHighlight();
 
     if (resizeTimerId_)
     {

@@ -171,11 +171,11 @@ A text column can be selected, starting from the current text cursor, by holding
 
 If the left mouse button is kept pressed and Shift+Ctrl is still held, moving the mouse will change the column, until the left mouse button is released.
 
-A column is deselected when the text cursor is moved in any way (e.g. by arrow keys, or by clicking anywhere without holding Shift+Ctrl), when the window is resized, and on some other occasions, but it is kept intact on right clicking. With a selected column, the items "Cut", "Copy", "Paste" and "Delete" in the right-click and Edit menus work on that column. Column pasting may be a little confusing at first, but it can be used for pasting a copied column on another.
+A column is deselected when the text cursor is moved in any way (e.g. by arrow keys, or by clicking anywhere without holding Shift+Ctrl) and on some other occasions, but it is kept intact on right clicking. With a selected column, the items "Cut", "Copy", "Paste" and "Delete" in the right-click and Edit menus work on that column. Column pasting may be a little confusing at first, but it can be used for pasting a copied column on another.
 
 If a character is typed when a column is selected, that character is inserted before it for all of its rows, without deselecting it. This property can be used, e.g., for commenting out multiple lines of codes together. Also, Backspace moves the whole column backward by removing the characters that immediately precede it, and the Delete key deletes the column.
 
-However, the Enter, Tab and BackTab keys do not work with a column but simply deselect it and insert a new line, add a text tab, and untab the text at the cursor position respectively. To tab/untab multiple lines of codes, you can select them in the usual way and press the Tab/BackTab key, as explained in the section "Text Tabbing", above.
+However, the Enter, Tab and BackTab keys do not work with a column but simply deselect it and insert a new line, add a text tab, and untab the text at the cursor position respectively. To tab/untab multiple lines, you can select them in the usual way and press the Tab/BackTab key, as explained in the section "Text Tabbing", above.
 
 ********************
 *   Auto-Bracket   *
