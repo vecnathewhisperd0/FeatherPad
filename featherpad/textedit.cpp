@@ -610,13 +610,15 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                 }
                 cur.endEditBlock();
                 mousePressed_ = origMousePressed;
-                /* the selection may have changed with a wrapped text */
-                if (selectionTimerId_)
-                {
-                    killTimer (selectionTimerId_);
-                    selectionTimerId_ = 0;
+                if (lineWrapMode() != QPlainTextEdit::NoWrap)
+                { // the selection may have changed with a wrapped text
+                    if (selectionTimerId_)
+                    {
+                        killTimer (selectionTimerId_);
+                        selectionTimerId_ = 0;
+                    }
+                    selectionTimerId_ = startTimer (UPDATE_INTERVAL);
                 }
-                selectionTimerId_ = startTimer (UPDATE_INTERVAL);
             }
             event->accept();
             return;
