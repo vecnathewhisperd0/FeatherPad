@@ -167,15 +167,13 @@ All text tabs of a document can be converted to spaces (soft tabs) by using the 
 *   Column Selection   *
 ************************
 
-A text column may be selected in two ways:
+A text column can be selected, starting from the current text cursor, by holding Shift+Ctrl and pressing the left mouse button anywhere inside the text, such that the positions of the current text cursor and the press point become two diagonal corners of the column.
 
-* If the target text is inside the visible part of the text view, a column can be selected by pressing the left mouse button and moving the mouse cursor while Shift+Ctrl is pressed; or
+If the left mouse button is kept pressed and Shift+Ctrl is still held, moving the mouse will change the column, until the left mouse button is released.
 
-* For large texts, two diagonal corners of a column can be set by clicking while Shift+Ctrl is pressed, in which case, clicking the second point results in a selected column. The order is not important, and the second point can be chosen later, but an ordinary click (without pressing Shift+Ctrl) after the first Shift+Ctrl+click neutralizes its effect (and so, can be used for redoing it).
+A column is deselected when the text cursor is moved in any way (e.g. by arrow keys, or by clicking anywhere without holding Shift+Ctrl), when the window is resized, and on some other occasions, but it is kept intact on right clicking. With a selected column, the items "Cut", "Copy", "Paste" and "Delete" in the right-click and Edit menus work on that column. Column pasting may be a little confusing at first, but it can be used for pasting a copied column on another.
 
-A column is deselected when the text cursor is moved in any way — e.g. by arrow keys or clicking — when the window is resized, and on some other occasions, but it is kept intact on right clicking. With a selected column, the items "Cut", "Copy", "Paste" and "Delete" in the right-click and Edit menus work on that column. Column pasting may be a little confusing at first, but it can be used for pasting a copied column on another.
-
-When a column is selected, the typed characters are prepended to it without deselecting it. This property can be used, e.g., for commenting out multiple lines of codes together. Also, Backspace removes all characters that precede the column at once, and the Delete key deletes the column.
+If a character is typed when a column is selected, that character is inserted before it for all of its rows, without deselecting it. This property can be used, e.g., for commenting out multiple lines of codes together. Also, Backspace moves the whole column backward by removing the characters that immediately precede it, and the Delete key deletes the column.
 
 However, the Enter, Tab and BackTab keys do not work with a column but simply deselect it and insert a new line, add a text tab, and untab the text at the cursor position respectively. To tab/untab multiple lines of codes, you can select them in the usual way and press the Tab/BackTab key, as explained in the section "Text Tabbing", above.
 

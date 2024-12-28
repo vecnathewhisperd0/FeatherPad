@@ -53,7 +53,6 @@ TextEdit::TextEdit (QWidget *parent, int bgColorValue) : QPlainTextEdit (parent)
     inertialScrolling_ = false;
     scrollTimer_ = nullptr;
 
-    colStarted_ = false;
     mousePressed_ = false;
 
     keepTxtCurHPos_ = false;
@@ -332,12 +331,7 @@ QString TextEdit::computeIndentation (const QTextCursor &cur) const
 {
     QTextCursor cusror = cur;
     if (cusror.hasSelection())
-    {// this is more intuitive to me
-        if (cusror.anchor() <= cusror.position())
-            cusror.setPosition (cusror.anchor());
-        else
-            cusror.setPosition (cusror.position());
-    }
+        cusror.setPosition (qMin (cusror.anchor(), cusror.position()));
     QTextCursor tmp = cusror;
     tmp.movePosition (QTextCursor::StartOfBlock);
     QString str;
@@ -458,9 +452,12 @@ void TextEdit::prependToColumn (QKeyEvent *event)
         for (auto const &extra : std::as_const (colSel_))
         {
             cur = extra.cursor;
-            cur.setPosition (qMin (cur.anchor(), cur.position()));
-            setTextCursor (cur);
-            QPlainTextEdit::keyPressEvent (event);
+            if (cur.hasSelection())
+            {
+                cur.setPosition (qMin (cur.anchor(), cur.position()));
+                setTextCursor (cur);
+                QPlainTextEdit::keyPressEvent (event);
+            }
         }
         cur.endEditBlock();
         event->accept();
@@ -2346,15 +2343,20 @@ QString TextEdit::getUrl (const int pos) const
 /*************************/
 void TextEdit::highlightColumn (const QTextCursor &endCur)
 {
-    if (pressCur_.isNull()) return; // impossible
-
     /* just a precaution */
     bool selectionHighlightingOrig = selectionHighlighting_;
     selectionHighlighting_ = false;
 
-    QTextCursor tmp = pressCur_;
+    QTextCursor cur = textCursor();
+    if (cur.hasSelection())
+    {
+        cur.setPosition (cur.position());
+        setTextCursor (cur);
+    }
+
+    QTextCursor tmp = cur;
     tmp.movePosition (QTextCursor::StartOfLine);
-    int pressIndent = pressCur_.position() - tmp.position();
+    int pressIndent = cur.position() - tmp.position();
 
     tmp = endCur;
     tmp.movePosition (QTextCursor::StartOfLine);
@@ -2364,9 +2366,9 @@ void TextEdit::highlightColumn (const QTextCursor &endCur)
     int minIndent = qMin (pressIndent, endIndent);
 
     QTextCursor tlCur, blCur; // top left and bottom left cursors
-    if (pressCur_ < endCur)
+    if (cur < endCur)
     {
-        tlCur = pressCur_;
+        tlCur = cur;
         blCur = endCur;
         if (pressIndent > endIndent)
             tlCur.setPosition (tlCur.position() - hDistance);
@@ -2376,7 +2378,7 @@ void TextEdit::highlightColumn (const QTextCursor &endCur)
     else
     {
         tlCur = endCur;
-        blCur = pressCur_;
+        blCur = cur;
         if (endIndent > pressIndent)
             tlCur.setPosition (tlCur.position() - hDistance);
         else
@@ -2386,9 +2388,6 @@ void TextEdit::highlightColumn (const QTextCursor &endCur)
     QTextEdit::ExtraSelection extra;
     extra.format.setBackground (palette().highlight().color());
     extra.format.setForeground (palette().highlightedText().color());
-    QTextCursor sel = textCursor();
-    if (sel.hasSelection())
-        setTextCursor (endCur);
     QList<QTextEdit::ExtraSelection> es = extraSelections();
     int n = colSel_.count() + redSel_.count();
     while (n > 0 && !es.isEmpty())
@@ -2400,12 +2399,12 @@ void TextEdit::highlightColumn (const QTextCursor &endCur)
 
     while (tlCur <= blCur)
     {
-        sel.setPosition (tlCur.position());
-        tmp = sel;
+        cur.setPosition (tlCur.position());
+        tmp = cur;
         tmp.movePosition (QTextCursor::EndOfLine);
-        sel.setPosition (qMin (sel.position() + hDistance, tmp.position()), QTextCursor::KeepAnchor);
+        cur.setPosition (qMin (cur.position() + hDistance, tmp.position()), QTextCursor::KeepAnchor);
 
-        extra.cursor = sel;
+        extra.cursor = cur;
         es.append (extra);
         colSel_.append (extra);
 
@@ -2430,7 +2429,6 @@ void TextEdit::mouseMoveEvent (QMouseEvent *event)
     if (event->buttons() == Qt::LeftButton
         && event->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier))
     { // column highlighting
-        colStarted_ = false; // forget the previous start point
         QTextCursor endCur = cursorForPosition (event->position().toPoint());
         highlightColumn (endCur);
         event->accept();
@@ -2516,27 +2514,15 @@ void TextEdit::mousePressEvent (QMouseEvent *event)
     if (event->button() == Qt::LeftButton)
     {
         if (event->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier))
-        {
-            if (colStarted_)
-            { // column highlighting
-                colStarted_ = false;
-                QPoint p = event->position().toPoint();
-                QTextCursor endCur = cursorForPosition (p);
-                highlightColumn (endCur);
-                event->accept();
-                return;
-            }
-            colStarted_ = true;
+        { // column highlighting
+            QPoint p = event->position().toPoint();
+            QTextCursor endCur = cursorForPosition (p);
+            highlightColumn (endCur);
+            event->accept();
+            return;
         }
-        else
-            colStarted_ = false;
         pressPoint_ = event->position().toPoint();
-        /* Due to a problem in Qt, the position could not be tracked correctly if it
-           gets out of the visible part of the view. Hence using a cursor instead. */
-        pressCur_ = cursorForPosition (pressPoint_);
     }
-    else
-        colStarted_ = false;
 
     QPlainTextEdit::mousePressEvent (event);
 }
