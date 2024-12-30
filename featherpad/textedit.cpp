@@ -2458,6 +2458,12 @@ void TextEdit::highlightColumn (const QTextCursor &endCur)
     while (tlCur <= blCur)
     {
         ++i;
+        if (i > 1000)
+        {
+            emit hugeColumn();
+            break;
+        }
+
         cur.setPosition (tlCur.position());
         tmp = cur;
         tmp.movePosition (QTextCursor::EndOfLine);
@@ -2467,12 +2473,6 @@ void TextEdit::highlightColumn (const QTextCursor &endCur)
 
         extra.cursor = cur;
         colSel_.append (extra);
-
-        if (i == 1000)
-        {
-            emit hugeColumn();
-            break;
-        }
 
         tlCur.movePosition (QTextCursor::StartOfLine);
         if (!tlCur.movePosition (QTextCursor::Down))
