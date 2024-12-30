@@ -1164,12 +1164,43 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
         }
         else if (event->modifiers() & Qt::ControlModifier)
         {
+            if (!colSel_.isEmpty())
+            {
+                if (colSel_.count() > 1000)
+                    QTimer::singleShot (0, this, [this]() {emit hugeColumn();});
+                else
+                {
+                    bool origMousePressed = mousePressed_;
+                    mousePressed_ = true;
+                    QTextCursor cur = textCursor();
+                    cur.beginEditBlock();
+                    for (auto const &extra : std::as_const (colSel_))
+                    {
+                        cur = extra.cursor;
+                        if (cur.hasSelection())
+                        {
+                            cur.setPosition (qMin (cur.anchor(), cur.position()));
+                            cur.insertText (remainingSpaces (event->modifiers() & Qt::MetaModifier
+                                                             ? "  " : textTab_, cur));
+                        }
+                    }
+                    cur.endEditBlock();
+                    mousePressed_ = origMousePressed;
+                }
+                event->accept();
+                return;
+            }
             QTextCursor tmp (cursor);
             tmp.setPosition (qMin (tmp.anchor(), tmp.position()));
             cursor.insertText (remainingSpaces (event->modifiers() & Qt::MetaModifier
                                                 ? "  " : textTab_, tmp));
             ensureCursorVisible();
             event->accept();
+            return;
+        }
+        else if (!colSel_.isEmpty())
+        {
+            prependToColumn (event);
             return;
         }
     }
