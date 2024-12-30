@@ -177,6 +177,8 @@ If a character is typed when a column is selected, that character is inserted be
 
 However, the Enter, Tab and BackTab keys do not work with a column but simply deselect it and insert a new line, add a text tab, and untab the text at the cursor position respectively. To tab/untab multiple lines, you can select them in the usual way and press the Tab/BackTab key, as explained in the section "Text Tabbing", above.
 
+NOTE: Column selection is useful only with unwrapped lines, although it is possible with wrapped lines too. Also, it may seem counter-intuitive with non-monospace fonts, with multi-character or double-width graphemes, or when "hard" text tabs are used instead of soft tabs, because it is based on the number of characters, not their widths.
+
 ********************
 *   Auto-Bracket   *
 ********************

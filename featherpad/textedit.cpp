@@ -2454,8 +2454,10 @@ void TextEdit::highlightColumn (const QTextCursor &endCur)
     extra.format.setForeground (palette().highlightedText().color());
 
     bool empty (true);
+    int i = 0;
     while (tlCur <= blCur)
     {
+        ++i;
         cur.setPosition (tlCur.position());
         tmp = cur;
         tmp.movePosition (QTextCursor::EndOfLine);
@@ -2465,6 +2467,12 @@ void TextEdit::highlightColumn (const QTextCursor &endCur)
 
         extra.cursor = cur;
         colSel_.append (extra);
+
+        if (i == 1000)
+        {
+            emit hugeColumn();
+            break;
+        }
 
         tlCur.movePosition (QTextCursor::StartOfLine);
         if (!tlCur.movePosition (QTextCursor::Down))

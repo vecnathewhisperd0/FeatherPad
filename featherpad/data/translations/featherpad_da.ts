@@ -2361,7 +2361,7 @@ vinduer i den gemte session.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="150"/>
+        <location filename="../../textedit.cpp" line="149"/>
         <source>Double click to center current line</source>
         <translation>Dobbeltklik for at centrere nuværende linje</translation>
     </message>

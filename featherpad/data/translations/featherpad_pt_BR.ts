@@ -2357,7 +2357,7 @@ as janelas serão incluídos na sessão salva.</translation>
 <context>
     <name>FeatherPad::TextEdit</name>
     <message>
-        <location filename="../../textedit.cpp" line="150"/>
+        <location filename="../../textedit.cpp" line="149"/>
         <source>Double click to center current line</source>
         <translation>Clique duas vezes para centralizar a linha atual</translation>
     </message>
