@@ -441,10 +441,7 @@ QTextCursor TextEdit::backTabCursor (const QTextCursor& cursor, bool twoSpace) c
 void TextEdit::prependToColumn (QKeyEvent *event)
 {
     if (colSel_.count() > 1000)
-    {
         QTimer::singleShot (0, this, [this]() {emit hugeColumn();});
-        event->accept();
-    }
     else
     {
         bool origMousePressed = mousePressed_;
@@ -453,18 +450,16 @@ void TextEdit::prependToColumn (QKeyEvent *event)
         cur.beginEditBlock();
         for (auto const &extra : std::as_const (colSel_))
         {
+            if (!extra.cursor.hasSelection()) continue;
             cur = extra.cursor;
-            if (cur.hasSelection())
-            {
-                cur.setPosition (qMin (cur.anchor(), cur.position()));
-                cur.insertText (event->text());
-                // TODO: overwriteMode() ?
-            }
+            cur.setPosition (qMin (cur.anchor(), cur.position()));
+            cur.insertText (event->text());
+            // TODO: overwriteMode() ?
         }
         cur.endEditBlock();
-        event->accept();
         mousePressed_ = origMousePressed;
     }
+    event->accept();
 }
 /*************************/
 static inline bool isOnlySpaces (const QString &str)
@@ -598,15 +593,13 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                 cur.beginEditBlock();
                 for (auto const &extra : std::as_const (colSel_))
                 {
+                    if (!extra.cursor.hasSelection()) continue;
                     cur = extra.cursor;
-                    if (cur.hasSelection())
-                    {
-                        cur.setPosition (qMin (cur.anchor(), cur.position()));
-                        if (cur.columnNumber() == 0)
-                            continue; // don't go to the previous line
-                        cur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor);
-                        cur.insertText ("");
-                    }
+                    cur.setPosition (qMin (cur.anchor(), cur.position()));
+                    if (cur.columnNumber() == 0)
+                        continue; // don't go to the previous line
+                    cur.movePosition (QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor);
+                    cur.insertText ("");
                 }
                 cur.endEditBlock();
                 mousePressed_ = origMousePressed;
@@ -1172,19 +1165,16 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                 {
                     bool origMousePressed = mousePressed_;
                     mousePressed_ = true;
-                    QTextCursor cur = textCursor();
-                    cur.beginEditBlock();
+                    const QString spaceTab (event->modifiers() & Qt::MetaModifier ? "  " : textTab_);
+                    cursor.beginEditBlock();
                     for (auto const &extra : std::as_const (colSel_))
                     {
-                        cur = extra.cursor;
-                        if (cur.hasSelection())
-                        {
-                            cur.setPosition (qMin (cur.anchor(), cur.position()));
-                            cur.insertText (remainingSpaces (event->modifiers() & Qt::MetaModifier
-                                                             ? "  " : textTab_, cur));
-                        }
+                        if (!extra.cursor.hasSelection()) continue;
+                        cursor = extra.cursor;
+                        cursor.setPosition (qMin (cursor.anchor(), cursor.position()));
+                        cursor.insertText (remainingSpaces (spaceTab, cursor));
                     }
-                    cur.endEditBlock();
+                    cursor.endEditBlock();
                     mousePressed_ = origMousePressed;
                 }
                 event->accept();
@@ -1566,13 +1556,11 @@ void TextEdit::cutColumn()
     {
         res.append (extra.cursor.selectedText());
         res.append ('\n');
-        if (extra.cursor.hasSelection())
-        {
-            keepTxtCurHPos_ = false;
-            txtCurHPos_ = -1;
-            cur = extra.cursor;
-            cur.removeSelectedText();
-        }
+        if (!extra.cursor.hasSelection()) continue;
+        keepTxtCurHPos_ = false;
+        txtCurHPos_ = -1;
+        cur = extra.cursor;
+        cur.removeSelectedText();
     }
     cur.endEditBlock();
     if (!res.isEmpty())
@@ -1596,13 +1584,11 @@ void TextEdit::deleteColumn()
     cur.beginEditBlock();
     for (auto const &extra : std::as_const (colSel_))
     {
-        if (extra.cursor.hasSelection())
-        {
-            keepTxtCurHPos_ = false;
-            txtCurHPos_ = -1;
-            cur = extra.cursor;
-            cur.removeSelectedText();
-        }
+        if (!extra.cursor.hasSelection()) continue;
+        keepTxtCurHPos_ = false;
+        txtCurHPos_ = -1;
+        cur = extra.cursor;
+        cur.removeSelectedText();
     }
     cur.endEditBlock();
     removeColumnHighlight();
