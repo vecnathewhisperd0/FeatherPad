@@ -4,7 +4,7 @@
 <context>
     <name>FeatherPad::AboutDialog</name>
     <message>
-        <location filename="../../about.ui" line="173"/>
+        <location filename="../../about.ui" line="175"/>
         <source>License</source>
         <translation>ლიცენზია</translation>
     </message>
@@ -2035,12 +2035,12 @@ in the editing mode.</source>
     <message>
         <location filename="../../pref.cpp" line="1522"/>
         <source>&amp;Recently Opened</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;ახახანს გახსნილი</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="1523"/>
         <source>Recently &amp;Modified</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ახლახანს &amp;შეცვლილი</translation>
     </message>
     <message>
         <location filename="../../pref.cpp" line="1598"/>

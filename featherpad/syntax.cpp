@@ -275,7 +275,7 @@ void FPwin::setProgLang (TextEdit *textEdit)
                 progLan = "tcl";
             else if (mime == "application/toml")
                 progLan = "toml";
-            else if (fname.endsWith (".conf") || fname.endsWith (".ini"))
+            else if (fname.endsWith (".conf") || fname.endsWith (".ini") || fname.endsWith (".cfg"))
                 progLan = "config"; // only if the mime type isn't found
             else // fall back to the default language
                 progLan = "url";
