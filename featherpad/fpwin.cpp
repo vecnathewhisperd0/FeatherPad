@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2024 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2025 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -3216,10 +3216,10 @@ bool FPwin::saveFile (bool keepSyntax,
     if (config.getRemoveTrailingSpaces())
     {
         QString lang = textEdit->getFileName().isEmpty() ? textEdit->getLang() : textEdit->getProg();
-        if (lang != "diff")
+        if (lang != "diff" && textEdit->getFileName().section ('/', -1) != "locale.gen")
         {
             /* using text blocks directly is the fastest
-            and lightest way of removing trailing spaces */
+               and lightest way of removing trailing spaces */
             makeBusy();
             bool doubleSpace (lang == "markdown" || lang == "fountain");
             bool singleSpace (lang == "LaTeX") ;
@@ -6084,7 +6084,7 @@ void FPwin::saveAllFiles (bool showWarning)
         if (fname.isEmpty() || !QFile::exists (fname))
             continue;
         /* make changes to the document if needed */
-        if (config.getRemoveTrailingSpaces() && thisTextEdit->getProg() != "diff")
+        if (config.getRemoveTrailingSpaces() && thisTextEdit->getProg() != "diff" && fname.section ('/', -1) != "locale.gen")
         {
             makeBusy();
             bool doubleSpace (thisTextEdit->getProg() == "markdown" || thisTextEdit->getProg() == "fountain");
