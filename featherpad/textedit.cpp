@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2024 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2014-2025 <tsujan2000@gmail.com>
  *
  * FeatherPad is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -2491,8 +2491,12 @@ void TextEdit::highlightColumn (const QTextCursor &endCur)
         extra.cursor = cur;
         colSel_.append (extra);
 
-        tlCur.movePosition (QTextCursor::StartOfLine);
-        if (!tlCur.movePosition (QTextCursor::Down))
+        /* WARNING: QTextCursor::movePosition(QTextCursor::Down) can be a mess with RTL. */
+        //tlCur.movePosition (QTextCursor::StartOfLine);
+        //if (!tlCur.movePosition (QTextCursor::Down))
+        //    break;
+        tlCur.movePosition (QTextCursor::EndOfLine);
+        if (!tlCur.movePosition (QTextCursor::NextCharacter))
             break;
         tmp = tlCur;
         tmp.movePosition (QTextCursor::EndOfLine);

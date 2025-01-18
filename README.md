@@ -11,9 +11,9 @@ FeatherPad (by Pedram Pourang, a.k.a. Tsu Jan <tsujan2000@gmail.com>) is a light
   * A docked window for text replacement;
   * Support for showing line numbers and jumping to a specific line;
   * Optional selection highlighting;
+  * Column selection;
   * Syntax highlighting for common programming languages;
   * Ability to open URLs with appropriate applications;
-  * Column selection;
   * Session management;
   * Side-pane mode;
   * Auto-saving;
