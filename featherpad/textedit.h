@@ -353,7 +353,8 @@ private:
     QString computeIndentation (const QTextCursor &cur) const;
     QString remainingSpaces (const QString& spaceTab, const QTextCursor& cursor) const;
     QTextCursor backTabCursor(const QTextCursor& cursor, bool twoSpace) const;
-    void highlightColumn (const QTextCursor &endCur);
+    void makeColumn (const QPoint &endPoint);
+    void highlightColumn (const QTextCursor &endCur, int gap);
     void prependToColumn (QKeyEvent *event);
     void copyColumn();
     void cutColumn();

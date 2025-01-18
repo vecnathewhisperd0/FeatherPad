@@ -2413,7 +2413,7 @@ QString TextEdit::getUrl (const int pos) const
     return url;
 }
 /*************************/
-void TextEdit::highlightColumn (const QTextCursor &endCur)
+void TextEdit::highlightColumn (const QTextCursor &endCur, int gap)
 {
     /* just a precaution */
     bool selectionHighlightingOrig = selectionHighlighting_;
@@ -2426,35 +2426,30 @@ void TextEdit::highlightColumn (const QTextCursor &endCur)
         setTextCursor (cur);
     }
 
-    QTextCursor tmp = cur;
-    tmp.movePosition (QTextCursor::StartOfLine);
-    int pressIndent = cur.position() - tmp.position();
+    int startIndent = cur.columnNumber();
+    int endIndent = endCur.columnNumber() + gap;
 
-    tmp = endCur;
-    tmp.movePosition (QTextCursor::StartOfLine);
-    int endIndent = endCur.position() - tmp.position();
-
-    int hDistance = qAbs (pressIndent - endIndent);
-    int minIndent = qMin (pressIndent, endIndent);
+    int hDistance = qAbs (endIndent - startIndent);
+    int minIndent = qMin (startIndent, endIndent);
 
     QTextCursor tlCur, blCur; // top left and bottom left cursors
     if (cur < endCur)
     {
         tlCur = cur;
         blCur = endCur;
-        if (pressIndent > endIndent)
-            tlCur.setPosition (tlCur.position() - hDistance);
+        if (startIndent > endIndent)
+            tlCur.setPosition (tlCur.position() - (startIndent - endIndent));
         else
-            blCur.setPosition (blCur.position() - hDistance);
+            blCur.setPosition (blCur.position() - qMax (blCur.columnNumber() - startIndent, 0));
     }
     else
     {
         tlCur = endCur;
         blCur = cur;
-        if (endIndent > pressIndent)
-            tlCur.setPosition (tlCur.position() - hDistance);
+        if (endIndent > startIndent)
+            tlCur.setPosition (tlCur.position() - qMax (tlCur.columnNumber() - startIndent, 0));
         else
-            blCur.setPosition (blCur.position() - hDistance);
+            blCur.setPosition (blCur.position() - (startIndent - endIndent));
     }
 
     QList<QTextEdit::ExtraSelection> es = extraSelections();
@@ -2472,6 +2467,7 @@ void TextEdit::highlightColumn (const QTextCursor &endCur)
 
     bool empty (true);
     int i = 0;
+    QTextCursor tmp;
     while (tlCur <= blCur)
     {
         ++i;
@@ -2523,13 +2519,34 @@ void TextEdit::highlightColumn (const QTextCursor &endCur)
     selectionTimerId_ = startTimer (UPDATE_INTERVAL);
 }
 /*************************/
+void TextEdit::makeColumn (const QPoint &endPoint)
+{
+    QTextCursor endCur = cursorForPosition (endPoint);
+
+    /* limit the position to the viewport */
+    QPoint c (cursorRect (endCur).center());
+    int margin = qRound (document()->documentMargin());
+    QPoint p;
+    p.setX (qBound (qBound (0, c.x(), margin),
+                    endPoint.x(),
+                    viewport()->width()));
+    p.setY (qBound (qBound (0, c.y(), margin),
+                    endPoint.y(),
+                    viewport()->height()));
+    endCur = cursorForPosition (p);
+
+    highlightColumn (endCur,
+                     // the gap between the actual position and the cursor
+                     qRound(qAbs (p.x() - cursorRect (endCur).center().x())
+                            / QFontMetricsF (document()->defaultFont()).horizontalAdvance (" ")));
+}
+/*************************/
 void TextEdit::mouseMoveEvent (QMouseEvent *event)
 {
     if (event->buttons() == Qt::LeftButton
         && event->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier))
     { // column highlighting
-        QTextCursor endCur = cursorForPosition (event->position().toPoint());
-        highlightColumn (endCur);
+        makeColumn (event->position().toPoint());
         event->accept();
         return;
     }
@@ -2614,9 +2631,7 @@ void TextEdit::mousePressEvent (QMouseEvent *event)
     {
         if (event->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier))
         { // column highlighting
-            QPoint p = event->position().toPoint();
-            QTextCursor endCur = cursorForPosition (p);
-            highlightColumn (endCur);
+            makeColumn (event->position().toPoint());
             event->accept();
             return;
         }
