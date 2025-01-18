@@ -2521,24 +2521,21 @@ void TextEdit::highlightColumn (const QTextCursor &endCur, int gap)
 /*************************/
 void TextEdit::makeColumn (const QPoint &endPoint)
 {
-    QTextCursor endCur = cursorForPosition (endPoint);
-
     /* limit the position to the viewport */
+    QPoint p (qBound (0, endPoint.x(), viewport()->width()),
+              qBound (0, endPoint.y(), viewport()->height()));
+    QTextCursor endCur = cursorForPosition (p);
+    /* also, consider the top and left document margins by using the cursor rectangle */
     QPoint c (cursorRect (endCur).center());
-    int margin = qRound (document()->documentMargin());
-    QPoint p;
-    p.setX (qBound (qBound (0, c.x(), margin),
-                    endPoint.x(),
-                    viewport()->width()));
-    p.setY (qBound (qBound (0, c.y(), margin),
-                    endPoint.y(),
-                    viewport()->height()));
+    p.setX (qMax (qMax (0, c.x()), p.x()));
+    p.setY (qMax (qMax (0, c.y()), p.y()));
     endCur = cursorForPosition (p);
 
     highlightColumn (endCur,
                      // the gap between the actual position and the cursor
-                     qRound(qAbs (p.x() - cursorRect (endCur).center().x())
-                            / QFontMetricsF (document()->defaultFont()).horizontalAdvance (" ")));
+                     static_cast<int>(qAbs (p.x() - cursorRect (endCur).center().x())
+                                      / QFontMetricsF (document()->defaultFont())
+                                        .horizontalAdvance (" ")));
 }
 /*************************/
 void TextEdit::mouseMoveEvent (QMouseEvent *event)
