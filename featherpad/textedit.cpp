@@ -1081,7 +1081,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                                          mode))
                 {
                     setTextCursor (cursor); // WARNING: This is needed because of a Qt bug.
-                    bool rtl (cursor.block().text().isRightToLeft());
+                    bool rtl (cursor.block().textDirection() == Qt::RightToLeft);
                     QPoint cc = cursorRect (cursor).center();
                     cursor.setPosition (cursorForPosition (QPoint (cc.x() + (rtl ? -1 : 1) * hPos, cc.y())).position(), mode);
                 }
@@ -1099,7 +1099,7 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
                 { // next/previous line or block
                     cursor.movePosition (QTextCursor::StartOfLine, mode);
                     setTextCursor (cursor); // WARNING: This is needed because of a Qt bug.
-                    bool rtl (cursor.block().text().isRightToLeft());
+                    bool rtl (cursor.block().textDirection() == Qt::RightToLeft);
                     QPoint cc = cursorRect (cursor).center();
                     cursor.setPosition (cursorForPosition (QPoint (cc.x() + (rtl ? -1 : 1) * hPos, cc.y())).position(), mode);
                 }
@@ -1921,7 +1921,7 @@ void TextEdit::paintEvent (QPaintEvent *event)
         if (r.bottom() >= er.top() && r.top() <= er.bottom())
         {
             /* take care of RTL (workaround for the RTL bug in QPlainTextEdit) */
-            bool rtl (block.text().isRightToLeft());
+            bool rtl (block.textDirection() == Qt::RightToLeft);
             QTextOption opt = document()->defaultTextOption();
             if (rtl)
             {
@@ -2432,25 +2432,23 @@ void TextEdit::highlightColumn (const QTextCursor &endCur, int gap)
     int hDistance = qAbs (endIndent - startIndent);
     int minIndent = qMin (startIndent, endIndent);
 
-    QTextCursor tlCur, blCur; // top left and bottom left cursors
+    QTextCursor tlCur; // top left cursor (with LTR)
+    QTextCursor limitCur; // the cursor that sets the loop limit
     if (cur < endCur)
     {
         tlCur = cur;
-        blCur = endCur;
+        limitCur = endCur;
         if (startIndent > endIndent)
             tlCur.setPosition (tlCur.position() - (startIndent - endIndent));
-        else
-            blCur.setPosition (blCur.position() - qMax (blCur.columnNumber() - startIndent, 0));
     }
     else
     {
         tlCur = endCur;
-        blCur = cur;
+        limitCur = cur;
         if (endIndent > startIndent)
             tlCur.setPosition (tlCur.position() - qMax (tlCur.columnNumber() - startIndent, 0));
-        else
-            blCur.setPosition (blCur.position() - (startIndent - endIndent));
     }
+    limitCur.movePosition (QTextCursor::EndOfLine);
 
     QList<QTextEdit::ExtraSelection> es = extraSelections();
     int n = colSel_.count() + redSel_.count();
@@ -2468,7 +2466,7 @@ void TextEdit::highlightColumn (const QTextCursor &endCur, int gap)
     bool empty (true);
     int i = 0;
     QTextCursor tmp;
-    while (tlCur <= blCur)
+    while (tlCur <= limitCur)
     {
         ++i;
         if (i > 1000)
@@ -2525,11 +2523,47 @@ void TextEdit::makeColumn (const QPoint &endPoint)
     QPoint p (qBound (0, endPoint.x(), viewport()->width()),
               qBound (0, endPoint.y(), viewport()->height()));
     QTextCursor endCur = cursorForPosition (p);
+    QRect cRect (cursorRect (endCur));
+    bool rtl (endCur.block().textDirection() == Qt::RightToLeft);
+    if (rtl)
+    { // a partial workaround for Qt's problem with RTL
+        if (p.y() <= cRect.top())
+            endCur.movePosition (QTextCursor::PreviousCharacter);
+        else if (p.y() > cRect.bottom())
+            endCur.movePosition (QTextCursor::NextCharacter);
+        cRect = cursorRect (endCur);
+    }
+    if (p.y() > cRect.bottom())
+    {
+        /* do not stick to the end of the line when there is no text after it
+           and the cursor is below it */
+        p.setY (qMax (0, cRect.center().y()));
+        endCur = cursorForPosition (p);
+        if (rtl)
+        {
+            if (p.y() <= cRect.top())
+                endCur.movePosition (QTextCursor::PreviousCharacter);
+            else if (p.y() > cRect.bottom())
+                endCur.movePosition (QTextCursor::NextCharacter);
+        }
+        cRect = cursorRect (endCur);
+    }
     /* also, consider the top and left document margins by using the cursor rectangle */
-    QPoint c (cursorRect (endCur).center());
-    p.setX (qMax (qMax (0, c.x()), p.x()));
+    QPoint c (cRect.center());
+    if (rtl)
+        p.setX (qMin (p.x(), qMin (c.x(), viewport()->width())));
+    else
+        p.setX (qMax (qMax (0, c.x()), p.x()));
     p.setY (qMax (qMax (0, c.y()), p.y()));
     endCur = cursorForPosition (p);
+    if (rtl)
+    {
+        cRect = cursorRect (endCur);
+        if (p.y() <= cRect.top())
+            endCur.movePosition (QTextCursor::PreviousCharacter);
+        else if (p.y() > cRect.bottom())
+            endCur.movePosition (QTextCursor::NextCharacter);
+    }
 
     highlightColumn (endCur,
                      // the gap between the actual position and the cursor
@@ -3419,7 +3453,7 @@ TextEdit::viewPosition TextEdit::getViewPosition() const
         /* top cursor (immediately below the top edge of the viewport) */
         int h = QFontMetrics (document()->defaultFont()).lineSpacing();
         QTextCursor topCur = cursorForPosition (QPoint (vr.left(), vr.top() + h / 2));
-        if (topCur.block().text().isRightToLeft())
+        if (topCur.block().textDirection() == Qt::RightToLeft)
             topCur = cursorForPosition (QPoint (vr.right() + 1, vr.top() + h / 2));
         QRect cRect = cursorRect (topCur);
         int top = cRect.top();
@@ -3442,7 +3476,7 @@ TextEdit::viewPosition TextEdit::getViewPosition() const
 
         /* bottom cursor (immediately above the bottom edge of the viewport) */
         QTextCursor bottomCur = cursorForPosition (QPoint (vr.left(), vr.bottom()));
-        if (bottomCur.block().text().isRightToLeft())
+        if (bottomCur.block().textDirection() == Qt::RightToLeft)
             bottomCur = cursorForPosition (QPoint (vr.right() + 1, vr.bottom()));
         cRect = cursorRect (bottomCur);
         int bottom = cRect.bottom();
@@ -3451,7 +3485,7 @@ TextEdit::viewPosition TextEdit::getViewPosition() const
         {
             tmp.setPosition (qMax (bottomCur.position() - 1, 0));
             cRect = cursorRect (tmp);
-            if (tmp.block().text().isRightToLeft())
+            if (tmp.block().textDirection() == Qt::RightToLeft)
                 tmp = cursorForPosition (QPoint (vr.right() + 1, cRect.center().y()));
             else
                 tmp = cursorForPosition (QPoint (vr.left(), cRect.center().y()));
@@ -3468,14 +3502,14 @@ TextEdit::viewPosition TextEdit::getViewPosition() const
                            offset should be taken into account */
                         - (topCur.position() == 0 ? contentOffset().y() : 0);
         tmp = cursorForPosition (QPoint (vr.left(), midHeight));
-        if (tmp.block().text().isRightToLeft())
+        if (tmp.block().textDirection() == Qt::RightToLeft)
             tmp = cursorForPosition (QPoint (vr.right() + 1, midHeight));
         cRect = cursorRect (tmp);
         if (cRect.top() >= midHeight)
         {
             tmp.setPosition (qMax (tmp.position() - 1, 0));
             cRect = cursorRect (tmp);
-            if (tmp.block().text().isRightToLeft())
+            if (tmp.block().textDirection() == Qt::RightToLeft)
                 tmp = cursorForPosition (QPoint (vr.right() + 1, cRect.center().y()));
             else
                 tmp = cursorForPosition (QPoint (vr.left(), cRect.center().y()));
@@ -3511,7 +3545,7 @@ void TextEdit::setViewPostion (const viewPosition vPos)
         QRect vr = vp->rect();
         QRect cRect = cursorRect (cur);
         QTextCursor tmp;
-        if (cur.block().text().isRightToLeft())
+        if (cur.block().textDirection() == Qt::RightToLeft)
             tmp = cursorForPosition (QPoint (vr.right() + 1, cRect.center().y()));
         else
             tmp = cursorForPosition (QPoint (vr.left(), cRect.center().y()));
