@@ -1665,6 +1665,11 @@ void FPwin::editorContextMenu (const QPoint& p)
     TextEdit *textEdit = qobject_cast<TextEdit*>(QObject::sender());
     if (textEdit == nullptr) return;
 
+    /* Announce that the mouse button is released, because "TextEdit::mouseReleaseEvent"
+       is not called when the context menu is shown. This is only needed for removing the
+       column highlight on changing the cursor position after opening the context menu. */
+    QTimer::singleShot (0, textEdit, [textEdit]() {textEdit->releaseMouse();});
+
     /* put the cursor at the right-click position if it has no selection */
     if (!textEdit->textCursor().hasSelection())
         textEdit->setTextCursor (textEdit->cursorForPosition (p));
@@ -1785,11 +1790,6 @@ void FPwin::editorContextMenu (const QPoint& p)
 
     menu->exec (textEdit->viewport()->mapToGlobal (p));
     delete menu;
-
-    /* Announce that the mouse button is released, because "TextEdit::mouseReleaseEvent"
-       is not called when the context menu is shown. This is only needed for removing the
-       column highlight on changing the cursor position after closing the context menu. */
-    textEdit->releaseMouse();
 }
 /*************************/
 void FPwin::updateRecenMenu()
