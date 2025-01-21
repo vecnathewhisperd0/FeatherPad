@@ -4589,8 +4589,7 @@ void FPwin::showCursorPos()
     if (tabPage == nullptr) return;
 
     int pos = tabPage->textEdit()->textCursor().positionInBlock();
-    QString charN;
-    charN.setNum (pos); charN = "<i> " + charN + "</i>";
+    QString charN = "<i> " + locale().toString (pos) + "</i>";
     QString str = posLabel->text();
     QString scursorStr = "<b>" + tr ("Position:") + "</b>";
     int i = scursorStr.size();

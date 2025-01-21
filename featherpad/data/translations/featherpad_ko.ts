@@ -21,9 +21,9 @@
         <location filename="../../fpwin.cpp" line="3097"/>
         <location filename="../../fpwin.cpp" line="3100"/>
         <location filename="../../fpwin.cpp" line="4044"/>
-        <location filename="../../fpwin.cpp" line="4738"/>
-        <location filename="../../fpwin.cpp" line="5033"/>
-        <location filename="../../fpwin.cpp" line="5294"/>
+        <location filename="../../fpwin.cpp" line="4737"/>
+        <location filename="../../fpwin.cpp" line="5032"/>
+        <location filename="../../fpwin.cpp" line="5293"/>
         <source>Untitled</source>
         <translation>제목 없음</translation>
     </message>
@@ -749,9 +749,9 @@
         <location filename="../../fpwin.cpp" line="3693"/>
         <location filename="../../fpwin.cpp" line="3700"/>
         <location filename="../../fpwin.cpp" line="4553"/>
-        <location filename="../../fpwin.cpp" line="6173"/>
-        <location filename="../../fpwin.cpp" line="6184"/>
-        <location filename="../../fpwin.cpp" line="6191"/>
+        <location filename="../../fpwin.cpp" line="6172"/>
+        <location filename="../../fpwin.cpp" line="6183"/>
+        <location filename="../../fpwin.cpp" line="6190"/>
         <source>Lines</source>
         <translation>줄</translation>
     </message>
@@ -784,21 +784,21 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="833"/>
-        <location filename="../../fpwin.cpp" line="4595"/>
+        <location filename="../../fpwin.cpp" line="4594"/>
         <source>Position:</source>
         <translation>위치:</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="881"/>
-        <location filename="../../fpwin.cpp" line="4613"/>
-        <location filename="../../fpwin.cpp" line="4633"/>
+        <location filename="../../fpwin.cpp" line="4612"/>
+        <location filename="../../fpwin.cpp" line="4632"/>
         <source>Normal</source>
         <translation>일반</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="1355"/>
         <location filename="../../fpwin.cpp" line="2742"/>
-        <location filename="../../fpwin.cpp" line="5973"/>
+        <location filename="../../fpwin.cpp" line="5972"/>
         <source>The file does not exist.</source>
         <translation>파일이 존재하지 않습니다.</translation>
     </message>
@@ -934,9 +934,9 @@
     <message>
         <location filename="../../fpwin.cpp" line="450"/>
         <location filename="../../fpwin.cpp" line="4042"/>
-        <location filename="../../fpwin.cpp" line="5031"/>
-        <location filename="../../fpwin.cpp" line="5292"/>
-        <location filename="../../fpwin.cpp" line="6381"/>
+        <location filename="../../fpwin.cpp" line="5030"/>
+        <location filename="../../fpwin.cpp" line="5291"/>
+        <location filename="../../fpwin.cpp" line="6380"/>
         <source>Help</source>
         <translation>도움말</translation>
     </message>
@@ -945,9 +945,9 @@
         <location filename="../../fpwin.cpp" line="3684"/>
         <location filename="../../fpwin.cpp" line="3692"/>
         <location filename="../../fpwin.cpp" line="4551"/>
-        <location filename="../../fpwin.cpp" line="6169"/>
-        <location filename="../../fpwin.cpp" line="6175"/>
-        <location filename="../../fpwin.cpp" line="6183"/>
+        <location filename="../../fpwin.cpp" line="6168"/>
+        <location filename="../../fpwin.cpp" line="6174"/>
+        <location filename="../../fpwin.cpp" line="6182"/>
         <source>Syntax</source>
         <translation>문법</translation>
     </message>
@@ -1003,130 +1003,130 @@
         <translation>이 문서를 다시 불러오거나 저장합니다!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4704"/>
+        <location filename="../../fpwin.cpp" line="4703"/>
         <source>Printing in progress...</source>
         <translation>진행 중인 인쇄...</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4755"/>
+        <location filename="../../fpwin.cpp" line="4754"/>
         <source>Print Document</source>
         <translation>인쇄 문서</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="4761"/>
+        <location filename="../../fpwin.cpp" line="4760"/>
         <source>Printing completed.</source>
         <translation>인쇄가 완료되었습니다.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5425"/>
-        <location filename="../../fpwin.cpp" line="5558"/>
+        <location filename="../../fpwin.cpp" line="5424"/>
+        <location filename="../../fpwin.cpp" line="5557"/>
         <source>%1 Pages</source>
         <translation>%1 페이지</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5457"/>
-        <location filename="../../fpwin.cpp" line="5594"/>
+        <location filename="../../fpwin.cpp" line="5456"/>
+        <location filename="../../fpwin.cpp" line="5593"/>
         <source>Copy Target Path</source>
         <translation>복사 대상 경로</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5461"/>
-        <location filename="../../fpwin.cpp" line="5598"/>
+        <location filename="../../fpwin.cpp" line="5460"/>
+        <location filename="../../fpwin.cpp" line="5597"/>
         <source>Open Target Here</source>
         <translation>이 경로에 열기</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5480"/>
-        <location filename="../../fpwin.cpp" line="5618"/>
+        <location filename="../../fpwin.cpp" line="5479"/>
+        <location filename="../../fpwin.cpp" line="5617"/>
         <source>Copy Final Target Path</source>
         <translation>최종 대상 경로 복사</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5484"/>
-        <location filename="../../fpwin.cpp" line="5622"/>
+        <location filename="../../fpwin.cpp" line="5483"/>
+        <location filename="../../fpwin.cpp" line="5621"/>
         <source>Open Final Target Here</source>
         <translation>여기에서 최종 대상 열기</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5504"/>
-        <location filename="../../fpwin.cpp" line="5643"/>
+        <location filename="../../fpwin.cpp" line="5503"/>
+        <location filename="../../fpwin.cpp" line="5642"/>
         <source>Open Containing Folder</source>
         <translation>포함하는 폴더 열기</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5769"/>
+        <location filename="../../fpwin.cpp" line="5768"/>
         <source>You need to add a Hunspell dictionary.</source>
         <translation>Hunspell 사전을 추가해야 합니다.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5770"/>
-        <location filename="../../fpwin.cpp" line="5777"/>
-        <location filename="../../fpwin.cpp" line="5787"/>
+        <location filename="../../fpwin.cpp" line="5769"/>
+        <location filename="../../fpwin.cpp" line="5776"/>
+        <location filename="../../fpwin.cpp" line="5786"/>
         <source>See Preferences → Text → Spell Checking!</source>
         <translation>속성 → 텍스트 → 맞춤법 검사를 확인하세요!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5776"/>
+        <location filename="../../fpwin.cpp" line="5775"/>
         <source>The Hunspell dictionary does not exist.</source>
         <translation>Hunspell 사전이 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5786"/>
+        <location filename="../../fpwin.cpp" line="5785"/>
         <source>The Hunspell dictionary is not accompanied by an affix file.</source>
         <translation>Hunspell 사전은 접미사 파일파일이 동반되지 않습니다.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5809"/>
-        <location filename="../../fpwin.cpp" line="5827"/>
-        <location filename="../../fpwin.cpp" line="5842"/>
+        <location filename="../../fpwin.cpp" line="5808"/>
+        <location filename="../../fpwin.cpp" line="5826"/>
+        <location filename="../../fpwin.cpp" line="5841"/>
         <source>No misspelling in document.</source>
         <translation>이 문서에 잘못된 표현이 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5811"/>
-        <location filename="../../fpwin.cpp" line="5829"/>
-        <location filename="../../fpwin.cpp" line="5844"/>
+        <location filename="../../fpwin.cpp" line="5810"/>
+        <location filename="../../fpwin.cpp" line="5828"/>
+        <location filename="../../fpwin.cpp" line="5843"/>
         <source>No misspelling from text cursor.</source>
         <translation>이 커서의 위치에 잘못된 표현이 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="5860"/>
+        <location filename="../../fpwin.cpp" line="5859"/>
         <source>Spell Checking</source>
         <translation>맞춤법 검사</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6207"/>
+        <location filename="../../fpwin.cpp" line="6206"/>
         <source>Some files cannot be saved!</source>
         <translation>일부 파일이 저장되지 않았습니다!</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6247"/>
+        <location filename="../../fpwin.cpp" line="6246"/>
         <source>Translators</source>
         <translation>번역</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6243"/>
+        <location filename="../../fpwin.cpp" line="6242"/>
         <source>A lightweight, tabbed, plain-text editor</source>
         <translation>가볍고, 탭이 있는 텍스트 에디터</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6244"/>
+        <location filename="../../fpwin.cpp" line="6243"/>
         <source>based on Qt</source>
         <translation>Qt에 기반함</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6245"/>
+        <location filename="../../fpwin.cpp" line="6244"/>
         <source>Author</source>
         <translation>저자</translation>
     </message>
     <message>
-        <location filename="../../fpwin.cpp" line="6246"/>
+        <location filename="../../fpwin.cpp" line="6245"/>
         <source>aka.</source>
         <translation>일명.</translation>
     </message>
     <message>
+        <location filename="../../fpwin.cpp" line="6246"/>
         <location filename="../../fpwin.cpp" line="6247"/>
-        <location filename="../../fpwin.cpp" line="6248"/>
         <source>About FeatherPad</source>
         <translation>FeatherPad 정보</translation>
     </message>

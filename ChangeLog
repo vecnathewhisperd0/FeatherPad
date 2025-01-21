@@ -4,6 +4,7 @@ V1.6.0
  * Dropped the support for translating the Help file because it was not practical. An online translation service can be used instead.
  * Fixed a rare case of finding/highlighting whole words.
  * Replaced the deprecated method QMouseEvent::pos().
+ * Used localized string for position on the statusbar.
 
 V1.5.2
 ---------
