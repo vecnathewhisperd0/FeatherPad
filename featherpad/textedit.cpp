@@ -2526,9 +2526,16 @@ void TextEdit::makeColumn (const QPoint &endPoint)
     QRect cRect (cursorRect (endCur));
     bool rtl (endCur.block().textDirection() == Qt::RightToLeft);
     if (rtl)
-    { // a partial workaround for Qt's problem with RTL
+    { // a partial workaround for an RTL problem of Qt
         if (p.y() <= cRect.top())
-            endCur.movePosition (QTextCursor::PreviousCharacter);
+        {
+            QTextCursor tmp = endCur;
+            if (endCur.movePosition (QTextCursor::StartOfLine))
+            {
+                if (!endCur.movePosition (QTextCursor::PreviousCharacter))
+                    endCur = tmp;
+            }
+        }
         else if (p.y() > cRect.bottom())
             endCur.movePosition (QTextCursor::NextCharacter);
         cRect = cursorRect (endCur);
