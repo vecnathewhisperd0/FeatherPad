@@ -1,3 +1,7 @@
+V1.6.1
+---------
+ * Allow typing double-quote and left parenthesis, brace and square bracket before a selected column.
+
 V1.6.0
 ---------
  * Support column selection.

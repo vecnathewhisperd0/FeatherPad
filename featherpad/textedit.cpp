@@ -860,6 +860,11 @@ void TextEdit::keyPressEvent (QKeyEvent *event)
              || event->key() == Qt::Key_BracketLeft
              || event->key() == Qt::Key_QuoteDbl)
     {
+        if (!colSel_.isEmpty())
+        {
+            prependToColumn (event);
+            return;
+        }
         if (autoBracket_)
         {
             QTextCursor cursor = textCursor();
