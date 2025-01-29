@@ -2453,7 +2453,14 @@ void TextEdit::highlightColumn (const QTextCursor &endCur, int gap)
         if (endIndent > startIndent)
             tlCur.setPosition (tlCur.position() - qMax (tlCur.columnNumber() - startIndent, 0));
     }
-    limitCur.movePosition (QTextCursor::EndOfLine);
+    int colNum = limitCur.columnNumber();
+    if (limitCur.movePosition (QTextCursor::EndOfLine))
+    {
+        /* This and similar checks in the main loop below are for wrapped lines,
+           although column selection is not useful when lines are wrapped. */
+        if (limitCur.columnNumber() <= colNum)
+            limitCur.movePosition (QTextCursor::PreviousCharacter);
+    }
 
     QList<QTextEdit::ExtraSelection> es = extraSelections();
     int n = colSel_.count() + redSel_.count();
@@ -2482,7 +2489,11 @@ void TextEdit::highlightColumn (const QTextCursor &endCur, int gap)
 
         cur.setPosition (tlCur.position());
         tmp = cur;
-        tmp.movePosition (QTextCursor::EndOfLine);
+        if (tmp.movePosition (QTextCursor::EndOfLine))
+        {
+            if (tmp.columnNumber() <= cur.columnNumber() && tmp.position() == cur.position() + 1)
+                tmp.movePosition (QTextCursor::PreviousCharacter);
+        }
         cur.setPosition (qMin (cur.position() + hDistance, tmp.position()), QTextCursor::KeepAnchor);
         if (empty && cur.hasSelection())
             empty = false;
@@ -2494,11 +2505,23 @@ void TextEdit::highlightColumn (const QTextCursor &endCur, int gap)
         //tlCur.movePosition (QTextCursor::StartOfLine);
         //if (!tlCur.movePosition (QTextCursor::Down))
         //    break;
-        tlCur.movePosition (QTextCursor::EndOfLine);
-        if (!tlCur.movePosition (QTextCursor::NextCharacter))
+        colNum = tlCur.columnNumber();
+        if (tlCur.movePosition (QTextCursor::EndOfLine))
+        {
+            if (tlCur.columnNumber() > colNum)
+            {
+                if (!tlCur.movePosition (QTextCursor::NextCharacter))
+                    break;
+            }
+        }
+        else if (!tlCur.movePosition (QTextCursor::NextCharacter))
             break;
         tmp = tlCur;
-        tmp.movePosition (QTextCursor::EndOfLine);
+        if (tmp.movePosition (QTextCursor::EndOfLine))
+        {
+            if (tmp.columnNumber() <= tlCur.columnNumber())
+                tmp.movePosition (QTextCursor::PreviousCharacter);
+        }
         tlCur.setPosition (qMin (tlCur.position() + minIndent, tmp.position()));
     }
 
@@ -2531,34 +2554,82 @@ void TextEdit::makeColumn (const QPoint &endPoint)
     QRect cRect (cursorRect (endCur));
     bool rtl (endCur.block().textDirection() == Qt::RightToLeft);
     if (rtl)
-    { // a partial workaround for an RTL problem of Qt
+    { // a workaround for an RTL problem of Qt
         if (p.y() <= cRect.top())
         {
             QTextCursor tmp = endCur;
-            if (endCur.movePosition (QTextCursor::StartOfLine))
+            if (tmp.movePosition (QTextCursor::StartOfLine)
+                && tmp.movePosition (QTextCursor::PreviousCharacter)
+                && tmp.blockNumber() == endCur.blockNumber())
             {
-                if (!endCur.movePosition (QTextCursor::PreviousCharacter))
-                    endCur = tmp;
+                endCur = tmp;
+                cRect = cursorRect (endCur);
             }
         }
         else if (p.y() > cRect.bottom())
-            endCur.movePosition (QTextCursor::NextCharacter);
-        cRect = cursorRect (endCur);
+        {
+            QTextCursor tmp = endCur;
+            if (tmp.movePosition (QTextCursor::NextCharacter)
+                && tmp.blockNumber() == endCur.blockNumber())
+            {
+                endCur = tmp;
+                cRect = cursorRect (endCur);
+            }
+        }
     }
-    if (p.y() > cRect.bottom())
+    int extraGap = 0;
+    if (p.y() <= cRect.top())
+    {
+        if (rtl ? p.x() <= cRect.right() + 1 : p.x() >= cRect.left())
+        { // if the cursor is in the next wrapped line, move it up
+            QTextCursor tmp = endCur;
+            if (!tmp.movePosition (QTextCursor::StartOfLine)
+                && tmp.movePosition (QTextCursor::PreviousCharacter)
+                && tmp.blockNumber() == endCur.blockNumber())
+            {
+                QRect tRect (cursorRect (tmp));
+                if (p.y() >= tRect.top())
+                { // the point is aligned with this wrapped line (the equality is needed with RTL)
+                    endCur = tmp;
+                    cRect = tRect;
+                    extraGap = static_cast<int>(qAbs (p.x() - cRect.center().x())
+                                                / QFontMetricsF (document()->defaultFont())
+                                                  .horizontalAdvance (" "));
+                    p = cRect.center();
+                }
+            }
+        }
+    }
+    else if (p.y() > cRect.bottom())
     {
         /* do not stick to the end of the line when there is no text after it
            and the cursor is below it */
         p.setY (qMax (0, cRect.center().y()));
         endCur = cursorForPosition (p);
+        cRect = cursorRect (endCur);
         if (rtl)
         {
             if (p.y() <= cRect.top())
-                endCur.movePosition (QTextCursor::PreviousCharacter);
+            {
+                QTextCursor tmp = endCur;
+                if (tmp.movePosition (QTextCursor::PreviousCharacter)
+                    && tmp.blockNumber() == endCur.blockNumber())
+                {
+                    endCur = tmp;
+                    cRect = cursorRect (endCur);
+                }
+            }
             else if (p.y() > cRect.bottom())
-                endCur.movePosition (QTextCursor::NextCharacter);
+            {
+                QTextCursor tmp = endCur;
+                if (tmp.movePosition (QTextCursor::NextCharacter)
+                    && tmp.blockNumber() == endCur.blockNumber())
+                {
+                    endCur = tmp;
+                    cRect = cursorRect (endCur);
+                }
+            }
         }
-        cRect = cursorRect (endCur);
     }
     /* also, consider the top and left document margins by using the cursor rectangle */
     QPoint c (cRect.center());
@@ -2572,16 +2643,30 @@ void TextEdit::makeColumn (const QPoint &endPoint)
     {
         cRect = cursorRect (endCur);
         if (p.y() <= cRect.top())
-            endCur.movePosition (QTextCursor::PreviousCharacter);
+        {
+            QTextCursor tmp = endCur;
+            if (tmp.movePosition (QTextCursor::PreviousCharacter)
+                && tmp.blockNumber() == endCur.blockNumber())
+            {
+                endCur = tmp;
+            }
+        }
         else if (p.y() > cRect.bottom())
-            endCur.movePosition (QTextCursor::NextCharacter);
+        {
+            QTextCursor tmp = endCur;
+            if (tmp.movePosition (QTextCursor::NextCharacter)
+                && tmp.blockNumber() == endCur.blockNumber())
+            {
+                endCur = tmp;
+            }
+        }
     }
 
     highlightColumn (endCur,
                      // the gap between the actual position and the cursor
                      static_cast<int>(qAbs (p.x() - cursorRect (endCur).center().x())
                                       / QFontMetricsF (document()->defaultFont())
-                                        .horizontalAdvance (" ")));
+                                        .horizontalAdvance (" ")) + extraGap);
 }
 /*************************/
 void TextEdit::mouseMoveEvent (QMouseEvent *event)
