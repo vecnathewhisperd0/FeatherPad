@@ -683,10 +683,8 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="100"/>
-        <source>Calculate number of words
-(For huge texts, this may be CPU-intensive.)</source>
-        <translation>Kelime sayısını hesapla
-(Devasa dosyalarda işlemciyi yorabilir.)</translation>
+        <source>Calculate number of words</source>
+        <translation>Kelime sayısını hesapla</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="115"/>
@@ -1519,8 +1517,8 @@ KDE ve LXQt gibi bazı masaüstlerinin kendi dosya diyaloğu vardır.</translati
         <source>By default, a triple period is replaced with an ellipsis
 and a double hyphen with a long dash while typing,
 under proper circumstances.</source>
-        <translation>Varsayılan olarak, uygun koşullar altında, yazarken 
-üçlü nokta üç nokta ve çift kısa çizgi ile uzun bir 
+        <translation>Varsayılan olarak, uygun koşullar altında, yazarken
+üçlü nokta üç nokta ve çift kısa çizgi ile uzun bir
 çizgi ile değiştirilir.</translation>
     </message>
     <message>
@@ -1859,8 +1857,8 @@ kaydırmada atalet özelliği olsun mu?</translation>
         <source>A Hunspell dictionary has a name that ends with &quot;.dic&quot;
 and should be alongside an affix file with the same
 name but ending with &quot;.aff&quot;.</source>
-        <translation>Hunspell sözlüğünün &quot;.dic&quot; ile biten bir eki vardır 
-ve aynı ada sahip ancak &quot;.aff&quot; ile biten bir ek 
+        <translation>Hunspell sözlüğünün &quot;.dic&quot; ile biten bir eki vardır
+ve aynı ada sahip ancak &quot;.aff&quot; ile biten bir ek
 dosyası da yanında yer almalıdır.</translation>
     </message>
     <message>
@@ -2020,7 +2018,7 @@ FeatherPad&apos;e yapıştırılırsa açılabilir.</translation>
         <location filename="../../pref.cpp" line="111"/>
         <source>Press a modifier key to clear a shortcut
 in the editing mode.</source>
-        <translation>Düzenleme modunda bir kısayolu 
+        <translation>Düzenleme modunda bir kısayolu
 temizlemek için değiştirici tuşa basın.</translation>
     </message>
     <message>

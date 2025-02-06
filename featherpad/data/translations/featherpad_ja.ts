@@ -655,10 +655,8 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="100"/>
-        <source>Calculate number of words
-(For huge texts, this may be CPU-intensive.)</source>
-        <translation>単語数を数える
-(巨大なテキストでは CPU 負荷が高くなります)</translation>
+        <source>Calculate number of words</source>
+        <translation>単語数を数える</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="115"/>

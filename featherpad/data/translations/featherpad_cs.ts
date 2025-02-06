@@ -677,10 +677,8 @@ tento řádek (Ctrl+Shift+J)</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="100"/>
-        <source>Calculate number of words
-(For huge texts, this may be CPU-intensive.)</source>
-        <translation>Spočítat počet slov
-(V případě rozsáhlých textů toto může způsobit vysoké vytížení procesoru.)</translation>
+        <source>Calculate number of words</source>
+        <translation>Spočítat počet slov</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="115"/>

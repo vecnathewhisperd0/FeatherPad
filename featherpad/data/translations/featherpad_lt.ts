@@ -677,10 +677,8 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="100"/>
-        <source>Calculate number of words
-(For huge texts, this may be CPU-intensive.)</source>
-        <translation>Skaičiuoti žodžių skaičių
-(Dideliuose tekstuose tai gali naudoti daug procesoriaus išteklių.)</translation>
+        <source>Calculate number of words</source>
+        <translation>Skaičiuoti žodžių skaičių</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="115"/>

@@ -677,10 +677,8 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="100"/>
-        <source>Calculate number of words
-(For huge texts, this may be CPU-intensive.)</source>
-        <translation>Обчислити кількість слів
-(Для великих текстів це може сильно навантажити процесор.)</translation>
+        <source>Calculate number of words</source>
+        <translation>Обчислити кількість слів</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="115"/>
@@ -1776,7 +1774,7 @@ Needs window reopening to take effect.</source>
 
 Для світлого тла може приймати
 значення між 230 та 255;
-для темного тла — між 0 та 50. 
+для темного тла — між 0 та 50.
 
 Для набрання чинності обов&apos;язковий перезапуск вікна.</translation>
     </message>
@@ -1794,7 +1792,7 @@ is 10.
 
 Needs application restart to take effect.</source>
         <translation>Найбільша кількість нещодавно змінених
-або відкритих файлів, які показує FeatherPad. 
+або відкритих файлів, які показує FeatherPad.
 Типово 10.
 
 Для набрання чинності обов&apos;язковий перезапуск програми.</translation>

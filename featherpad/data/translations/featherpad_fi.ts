@@ -677,10 +677,8 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="100"/>
-        <source>Calculate number of words
-(For huge texts, this may be CPU-intensive.)</source>
-        <translation>Laske sanojen lukumäärä
-(Valtavat tekstimäärät voivat olla prosessorille raskaita.)</translation>
+        <source>Calculate number of words</source>
+        <translation>Laske sanojen lukumäärä</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="115"/>
@@ -1853,7 +1851,7 @@ kun kursori on tekstialueen sisällä?</translation>
 and should be alongside an affix file with the same
 name but ending with &quot;.aff&quot;.</source>
         <translation>Hunspell sanakirjalla on tiedostopäätteenä &quot;.dic&quot;,
-ja sen mukaan kuuluu samanniminen affiksitiedosto 
+ja sen mukaan kuuluu samanniminen affiksitiedosto
 jonka pääte on &quot;.aff&quot;.</translation>
     </message>
     <message>

@@ -677,10 +677,8 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="100"/>
-        <source>Calculate number of words
-(For huge texts, this may be CPU-intensive.)</source>
-        <translation>Loe kokku sõnade arv
-(mahuka teksti puhul see tekitab protsessorikoormust)</translation>
+        <source>Calculate number of words</source>
+        <translation>Loe kokku sõnade arv</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="115"/>
@@ -1507,7 +1505,7 @@ eraldi faili avamise vaade on olemas (näiteks KDE ja LXQt).</translation>
 and a double hyphen with a long dash while typing,
 under proper circumstances.</source>
         <translation>Kui kõik klapib, siis vaikimisi asendame
-kolm punkti (...) mõttepunktiga (...) ja 
+kolm punkti (...) mõttepunktiga (...) ja
 kaks sidekriipsu (--) mõttekriipsuga (—).</translation>
     </message>
     <message>
@@ -1519,7 +1517,7 @@ kaks sidekriipsu (--) mõttekriipsuga (—).</translation>
         <location filename="../../prefDialog.ui" line="541"/>
         <source>Highlight case-sensitive and whole matches
 of the selected text.</source>
-        <translation>Tõsta esile tõstutundliku ja täissõna 
+        <translation>Tõsta esile tõstutundliku ja täissõna
 otsingu tulemused.</translation>
     </message>
     <message>
@@ -1548,7 +1546,7 @@ nupu süntaksivaliku muutmiseks.</translation>
         <location filename="../../prefDialog.ui" line="646"/>
         <source>Show spaces, tabs and tab lines
 when the syntax is highlighted.</source>
-        <translation>Süntaksi esiletõstmisel näita tühikuid, 
+        <translation>Süntaksi esiletõstmisel näita tühikuid,
 tabulaatoreid ja tabulaatorijooni.</translation>
     </message>
     <message>
@@ -1561,7 +1559,7 @@ tabulaatoreid ja tabulaatorijooni.</translation>
         <location filename="../../prefDialog.ui" line="677"/>
         <source>The vertical position lines will be drawn only if
 the editor font has a fixed pitch (like Monospace).</source>
-        <translation>Püstist piirjoont saame kuvada vaid siis, kui sa oled kasutatavaks 
+        <translation>Püstist piirjoont saame kuvada vaid siis, kui sa oled kasutatavaks
 kirjatüübiks määranud fikseeritud laiusega fondi (nagu näiteks Monospace).</translation>
     </message>
     <message>
@@ -1750,7 +1748,7 @@ process could be killed by Ctrl+Alt+E.</source>
 kirjutatud mõnes kestakeeles või Pythonis.
 
 Kui see valik on kasutusel ja avatud fail on
-käivitatav, siis menüüsse ja tööriistaribale 
+käivitatav, siis menüüsse ja tööriistaribale
 ilmuvast Käivita nupust saad ta tööle panna.
 Samuti võid käivitamiseks kasutada Ctrl+E kiirklahvi.
 Skripti töö saad lõpetada Ctrl+Alt+E kiirklahviga.</translation>
@@ -1778,7 +1776,7 @@ Heleda tausta jaoks sobib
 230 kuni 255 vahemik ja tumeda
 tausta jaoks sobib 0 kuni 50 vahemik.
 
-Selle muudatuse jõustamiseks pead 
+Selle muudatuse jõustamiseks pead
 rakenduse akna uuesti avama.</translation>
     </message>
     <message>

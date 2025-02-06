@@ -677,10 +677,8 @@ linea (Ctrl + Shift + J)</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="100"/>
-        <source>Calculate number of words
-(For huge texts, this may be CPU-intensive.)</source>
-        <translation>Calcola il numero di parole
-(per testi enormi, questo potrebbe richiedere un uso intensivo della CPU.)</translation>
+        <source>Calculate number of words</source>
+        <translation>Calcola il numero di parole</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="115"/>
@@ -2012,7 +2010,7 @@ vengono aperti se incollati in FeatherPad.</translation>
         <location filename="../../pref.cpp" line="111"/>
         <source>Press a modifier key to clear a shortcut
 in the editing mode.</source>
-        <translation>Premere un tasto modificatore 
+        <translation>Premere un tasto modificatore
 per rimuovere una scorciatoia.</translation>
     </message>
     <message>

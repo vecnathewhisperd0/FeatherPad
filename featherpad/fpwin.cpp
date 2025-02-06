@@ -97,7 +97,7 @@ FPwin::FPwin (QWidget *parent):QMainWindow (parent), dummyWidget (nullptr), ui (
     wordButton->setIconSize (QSize (16, 16));
     wordButton->setIcon (symbolicIcon::icon (":icons/view-refresh.svg"));
     wordButton->setToolTip ("<p style='white-space:pre'>"
-                            + tr ("Calculate number of words\n(For huge texts, this may be CPU-intensive.)")
+                            + tr ("Calculate number of words")
                             + "</p>");
     connect (wordButton, &QAbstractButton::clicked, [this] {updateWordInfo();});
     ui->statusBar->addWidget (statusLabel);

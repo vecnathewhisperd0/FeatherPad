@@ -677,10 +677,8 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="100"/>
-        <source>Calculate number of words
-(For huge texts, this may be CPU-intensive.)</source>
-        <translation>단어 수 계산
-(텍스트 양이 많을 경우 CPU에 부하가 걸릴 수 있습니다.)</translation>
+        <source>Calculate number of words</source>
+        <translation>단어 수 계산</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="115"/>
@@ -1292,7 +1290,7 @@
         <location filename="../../prefDialog.ui" line="148"/>
         <source>Enforcing a window position is not recommended
 and may not work with some window managers.</source>
-        <translation>창 위치를 적용하는 것은 권장되지 않으며 
+        <translation>창 위치를 적용하는 것은 권장되지 않으며
 일부 창 관리자에서는 작동하지 않을 수 있습니다.</translation>
     </message>
     <message>
@@ -1455,10 +1453,10 @@ current desktop, files will be opened in its tabs.
 
 However, some desktop environments may not
 report that they have multiple desktops.</source>
-        <translation>기본적으로 현재 바탕화면에 FeatherPad 창이 
+        <translation>기본적으로 현재 바탕화면에 FeatherPad 창이
 있으면 해당 탭에서 파일이 열립니다.
 
-그러나 일부 데스크탑 환경은 여러 바탕화면이 
+그러나 일부 데스크탑 환경은 여러 바탕화면이
 있다고 보고하지 않을 수 있습니다.</translation>
     </message>
     <message>
@@ -1472,10 +1470,10 @@ report that they have multiple desktops.</source>
 desktop environment will be used instead of the Qt file dialog.
 
 Some desktop environments, like KDE and LXQt, provide files dialogs.</source>
-        <translation>이 옵션을 선택하면, 현재 데스크탑 환경에서 제공하는 
+        <translation>이 옵션을 선택하면, 현재 데스크탑 환경에서 제공하는
 파일 대화 상자가 Qt 파일 대화 상자 대신 사용됩니다.
 
-KDE 및 LXQt와 같은 일부 데스크톱 환경에서는 
+KDE 및 LXQt와 같은 일부 데스크톱 환경에서는
 파일 대화상자를 제공합니다.</translation>
     </message>
     <message>
@@ -1773,7 +1771,7 @@ Needs window reopening to take effect.</source>
         <translation>배경의 색상 값입니다.
 255는 흰색, 0은 검정색을 의미합니다.
 
-밝은 배경의 경우, 230에서 255 사이, 
+밝은 배경의 경우, 230에서 255 사이,
 어두운 배경의 경우, 0에서 50 사이입니다.
 
 적용하려면 창을 다시 열어야 합니다.</translation>

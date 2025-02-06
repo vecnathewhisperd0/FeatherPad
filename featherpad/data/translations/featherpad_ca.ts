@@ -677,10 +677,8 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="100"/>
-        <source>Calculate number of words
-(For huge texts, this may be CPU-intensive.)</source>
-        <translation>Calcular el número de paraules
-(Per a textos enormes, això pot ser intensiu a la CPU.)</translation>
+        <source>Calculate number of words</source>
+        <translation>Calcular el número de paraules</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="115"/>
@@ -1333,7 +1331,7 @@ sense funcionalitat de pestanya.</translation>
         <location filename="../../prefDialog.ui" line="207"/>
         <source>If the menubar is hidden,
 a menu button appears on the toolbar.</source>
-        <translation>Si la barra de menú està oculta, 
+        <translation>Si la barra de menú està oculta,
 apareix un botó de menú a la barra d&apos;eines.</translation>
     </message>
     <message>
@@ -1384,7 +1382,7 @@ i pot interferir amb les dreceres personalitzades.</translation>
         <location filename="../../prefDialog.ui" line="257"/>
         <source>By default, each search entry
 has a separate search history.</source>
-        <translation>Per defecte, cada entrada de cerca 
+        <translation>Per defecte, cada entrada de cerca
 té un historial de cerca separat.</translation>
     </message>
     <message>
@@ -1461,7 +1459,7 @@ current desktop, files will be opened in its tabs.
 However, some desktop environments may not
 report that they have multiple desktops.</source>
         <translation>Per defecte, si hi ha una finestra del FeatherPad a l&apos;escriptori actual,
-els fitxers s&apos;obriran a les pestanyes. 
+els fitxers s&apos;obriran a les pestanyes.
 Tanmateix, alguns entorns d&apos;escriptori poden no informar que hi ha múltiples escriptoris.</translation>
     </message>
     <message>
@@ -1476,9 +1474,9 @@ desktop environment will be used instead of the Qt file dialog.
 
 Some desktop environments, like KDE and LXQt, provide files dialogs.</source>
         <translation>Si habiliteu aquesta opció s&apos;usarà la finestra proporcionada nativament
- per l&apos; entorn d&apos;escriptori actual en lloc del proporcionat per Qt. 
+ per l&apos; entorn d&apos;escriptori actual en lloc del proporcionat per Qt.
 
-Aquesta opció existeix perquè alguns entorns d&apos;escriptori, 
+Aquesta opció existeix perquè alguns entorns d&apos;escriptori,
 com ara KDE i LXQt, poden oferir les pròpies finestres.</translation>
     </message>
     <message>
@@ -1635,9 +1633,9 @@ If the script is not run in a terminal
 emulator, the output and error messages
 will be shown by a popup dialog.</source>
         <translation>Aquesta pot ser qualsevol ordre inicial amb
-arguments, per exemple xterm -hold executa el procés a XTerm. 
+arguments, per exemple xterm -hold executa el procés a XTerm.
 
-Si l&apos;ordre es deixa buida, el fitxer s&apos;executarà directament.. 
+Si l&apos;ordre es deixa buida, el fitxer s&apos;executarà directament..
 
 Si l&apos;script no s&apos;executa en un emulador de terminal,
 els missatges de sortida i d&apos;error es mostraran en un diàleg emergent.</translation>
@@ -1750,8 +1748,8 @@ process could be killed by Ctrl+Alt+E.</source>
         <translation>Això només s&apos;aplica a fitxers executables escrits
 en llenguatges de script com ara Shell i Python.
 
-Si està marcada i el fitxer obert és executable, 
-el fitxer s&apos;executarà fent clic al botó Executa, que 
+Si està marcada i el fitxer obert és executable,
+el fitxer s&apos;executarà fent clic al botó Executa, que
 apareix a la barra d&apos;eines/menú de fitxer
 quan sigui necessari, o per la seva drecera Ctrl+E.
 El procés executat es pot acabar amb Control+Alt+E.</translation>
@@ -1772,11 +1770,11 @@ between 230 and 255; for the dark
 background, between 0 and 50.
 
 Needs window reopening to take effect.</source>
-        <translation>El valor de color del fons 255 significa blanc, mentre 
-que 0 vol dir negre. 
+        <translation>El valor de color del fons 255 significa blanc, mentre
+que 0 vol dir negre.
 
-Per al fons clar, pot ser entre 230 i 255; 
-Per a fons fosc entre 0 i 50. 
+Per al fons clar, pot ser entre 230 i 255;
+Per a fons fosc entre 0 i 50.
 
 Cal reobrir l&apos;aplicació per fer efectius els canvis.</translation>
     </message>
@@ -1794,8 +1792,8 @@ is 10.
 
 Needs application restart to take effect.</source>
         <translation>Nombre màxim de fitxers modificats recentment
- o fitxers oberts que mostra FeatherPad. El valor 
-per defecte es 10. 
+ o fitxers oberts que mostra FeatherPad. El valor
+per defecte es 10.
 
 Necessita reiniciar l&apos;aplicació per fer efectius els canvis.</translation>
     </message>
@@ -1906,9 +1904,9 @@ This can be useful under certain circumstances,
 e.g. for changing the time stamp or removing the
 trailing spaces of a text file.</source>
         <translation>Si activa aquesta opció es pot usar el botó Desa
-fins i tot quan el fitxer obert no s&apos;ha modificat. 
+fins i tot quan el fitxer obert no s&apos;ha modificat.
 
-Això pot ser útil en determinades circumstàncies, 
+Això pot ser útil en determinades circumstàncies,
 per exemple, per canviar la marca de temps o suprimir
 els espais finals d&apos;un fitxer de text.</translation>
     </message>
@@ -2011,7 +2009,7 @@ si s&apos;enganxen dins del FeatherPad.</translation>
         <location filename="../../pref.cpp" line="111"/>
         <source>Press a modifier key to clear a shortcut
 in the editing mode.</source>
-        <translation>Premeu una tecla modificadora per netejar 
+        <translation>Premeu una tecla modificadora per netejar
 una drecera al mode d&apos;edició.</translation>
     </message>
     <message>

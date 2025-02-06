@@ -677,10 +677,8 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="100"/>
-        <source>Calculate number of words
-(For huge texts, this may be CPU-intensive.)</source>
-        <translation>Szavak számának kiszámítása
-(Óriási szövegeknél ez processzor-igényes lehet.)</translation>
+        <source>Calculate number of words</source>
+        <translation>Szavak számának kiszámítása</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="115"/>

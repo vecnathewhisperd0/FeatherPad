@@ -677,10 +677,8 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="100"/>
-        <source>Calculate number of words
-(For huge texts, this may be CPU-intensive.)</source>
-        <translation>Υπολογισμός αριθμού λέξεων
-(Για πάρα πολύ μεγάλα κείμενα, αυτό μπορεί να κάνει εντατική χρήση CPU.)</translation>
+        <source>Calculate number of words</source>
+        <translation>Υπολογισμός αριθμού λέξεων</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="115"/>
@@ -1743,7 +1741,7 @@ process could be killed by Ctrl+Alt+E.</source>
 Αν αυτό είναι αποεπιλεγμένο και το ανοιγμένο αρχείο είναι
 εκτελέσιμο, το αρχείο θα εκτελεστεί κάνοντας κλικ
 στο κουμπί Εκτέλεση, που εμφανίζεται στη γραμμή εργαλείων/στο μενού αρχείου
-όταν χρειάζεται, ή μέσω της συντόμευσης Ctrl+E. Τότε, 
+όταν χρειάζεται, ή μέσω της συντόμευσης Ctrl+E. Τότε,
 η διεργασία θα μπορούσε να τερματιστεί με Ctrl+Alt+E.</translation>
     </message>
     <message>

@@ -677,10 +677,8 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="100"/>
-        <source>Calculate number of words
-(For huge texts, this may be CPU-intensive.)</source>
-        <translation>统计字数
-（对于大量文本，这可能导致 CPU 缓慢。）</translation>
+        <source>Calculate number of words</source>
+        <translation>统计字数</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="115"/>

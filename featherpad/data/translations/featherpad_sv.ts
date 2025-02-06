@@ -677,9 +677,8 @@
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="100"/>
-        <source>Calculate number of words
-(For huge texts, this may be CPU-intensive.)</source>
-        <translation>Räkna ord (detta kan vara CPU-intensivt, om texten är lång)</translation>
+        <source>Calculate number of words</source>
+        <translation>Räkna ord</translation>
     </message>
     <message>
         <location filename="../../fpwin.cpp" line="115"/>
@@ -1449,7 +1448,7 @@ However, some desktop environments may not
 report that they have multiple desktops.</source>
         <translation>Filer öppnas som standard i flikar, om det finns ett FeatherPad-fönster på det nuvarande skrivbordet.
 filer kommer att öppnas i dess flikar.
-        
+
 Men, somliga skrivbordsmiljöer rapporterar
 kanske inte att de har flera skrivbord.</translation>
     </message>
@@ -1499,7 +1498,7 @@ Några skrivbordsmiljöer, som KDE och LXQt, tillhandahåller egna fildialoger.<
 and a double hyphen with a long dash while typing,
 under proper circumstances.</source>
         <translation>Som standard ersättes trippel punkt med en ellips
-och dubbel bindessträck med en lång radlinje medans man skriver, 
+och dubbel bindessträck med en lång radlinje medans man skriver,
 under rätta omständigheter.</translation>
     </message>
     <message>
@@ -1618,14 +1617,14 @@ If the script is not run in a terminal
 emulator, the output and error messages
 will be shown by a popup dialog.</source>
         <translation>Detta kan vara vilken som helst
-startkommando med argumenter, t.ex 
+startkommando med argumenter, t.ex
 &quot;xterm -hold&quot; för att köra processen i XTerm.
 
-Om kommodot utelämnas, so kommer 
+Om kommodot utelämnas, so kommer
 filen bli exekverad direkt.
 
-Om scriptet inte körs från en terminal emulator, 
-så visas resultatet och fel meddelanden 
+Om scriptet inte körs från en terminal emulator,
+så visas resultatet och fel meddelanden
 i en popup dialog.</translation>
     </message>
     <message>
@@ -1731,12 +1730,12 @@ executable, the file will be executed by clicking
 the Run button, that appears on the toolbar/filemenu
 when needed, or by its shortcut Ctrl+E. Then, the
 process could be killed by Ctrl+Alt+E.</source>
-        <translation>Detta inkluderar endast exekverbara filer 
+        <translation>Detta inkluderar endast exekverbara filer
 skrivna i script språk såsom Shell och Python.
 
 Om den är ikryssad och den öppnade filer är exekverbar, kommer filen be exevkverad
 genom klickning av Kör knappen, som visas på verktygsfältet/filmenuen
-när det är nödvändigt, eller med den genväg Ctrl+E. Då, 
+när det är nödvändigt, eller med den genväg Ctrl+E. Då,
 kan processen avslutas genom Ctrl+Alt+E.</translation>
     </message>
     <message>
@@ -1777,8 +1776,8 @@ opened files FeatherPad shows. The default
 is 10.
 
 Needs application restart to take effect.</source>
-        <translation>Det maximala antalet av ändrade eller 
-öppnade filer som FeatherPad viasar. Standard 
+        <translation>Det maximala antalet av ändrade eller
+öppnade filer som FeatherPad viasar. Standard
 är 10.
 
 Krävs en omstart av programmet för att detta ska träda i kraft.</translation>
@@ -1816,7 +1815,7 @@ Takes effect after closing this dialog.</source>
         <location filename="../../prefDialog.ui" line="894"/>
         <source>Should the mouse wheel scrolling be inertial
 if the cursor is inside the text view?</source>
-        <translation>Skall mushjulet rullning vara trög 
+        <translation>Skall mushjulet rullning vara trög
 om markören är innanför textvisningen?</translation>
     </message>
     <message>
@@ -1831,7 +1830,7 @@ om markören är innanför textvisningen?</translation>
 and should be alongside an affix file with the same
 name but ending with &quot;.aff&quot;.</source>
         <translation>En Hunspell ordbok har ett name som slutar med &quot;.dic&quot;
-och skall vara tillsammans med en affix file med samma 
+och skall vara tillsammans med en affix file med samma
 name men slutar med &quot;.aff&quot;.</translation>
     </message>
     <message>
@@ -1849,7 +1848,7 @@ name men slutar med &quot;.aff&quot;.</translation>
         <location filename="../../prefDialog.ui" line="949"/>
         <source>If this is unchecked, spell checking
 will be started from the document start.</source>
-        <translation>Om detta inte är markerad, så startar stavningskontroll 
+        <translation>Om detta inte är markerad, så startar stavningskontroll
 från dokumentets början.</translation>
     </message>
     <message>
@@ -1886,10 +1885,10 @@ be used also when the opened file is not modified.
 This can be useful under certain circumstances,
 e.g. for changing the time stamp or removing the
 trailing spaces of a text file.</source>
-        <translation>Om detta är ikryssad, kan spara knappen/menualternativet 
+        <translation>Om detta är ikryssad, kan spara knappen/menualternativet
 också användas när den öppnade filer inte är modifierad.
 
-Detta kan vara användbart under vissa omständigheter, 
+Detta kan vara användbart under vissa omständigheter,
 t.ex för att ändra tid stämpel eller avlägsna avslutande mellanrum i en textfil.</translation>
     </message>
     <message>
@@ -1911,7 +1910,7 @@ t.ex för att ändra tid stämpel eller avlägsna avslutande mellanrum i en text
         <location filename="../../prefDialog.ui" line="1263"/>
         <source>By default, when files are copied, they will
 be opened if they are pasted into FeatherPad.</source>
-        <translation>Som standard, när filer är kopieras, så 
+        <translation>Som standard, när filer är kopieras, så
 öppnas dom som inklistrade i FeatherPad.</translation>
     </message>
     <message>
@@ -1991,7 +1990,7 @@ be opened if they are pasted into FeatherPad.</source>
         <location filename="../../pref.cpp" line="111"/>
         <source>Press a modifier key to clear a shortcut
 in the editing mode.</source>
-        <translation>Tryck på en ändringstangent för att tömma en genväg 
+        <translation>Tryck på en ändringstangent för att tömma en genväg
 i redigeringstillståndet.</translation>
     </message>
     <message>
@@ -2198,7 +2197,7 @@ i redigeringstillståndet.</translation>
         <location filename="../../sessionDialog.ui" line="171"/>
         <source>By default, all files that are opened in all
 windows will be included in the saved session.</source>
-        <translation>Som standard, alla filer som är öppna i 
+        <translation>Som standard, alla filer som är öppna i
 alla fönster kommer inkluderas in den sparade sessionen.</translation>
     </message>
     <message>
