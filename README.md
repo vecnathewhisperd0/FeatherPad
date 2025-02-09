@@ -2,7 +2,7 @@
 
 ## Overview
 
-FeatherPad (by Pedram Pourang, a.k.a. Tsu Jan <tsujan2000@gmail.com>) is a lightweight Qt plain-text editor for Linux. It is independent of any desktop environment and has:
+FeatherPad (by Pedram Pourang, a.k.a. Tsu Jan <vecnathewhisperd0@gmail.com>) is a lightweight Qt plain-text editor for Linux. It is independent of any desktop environment and has:
 
   * Drag-and-drop support, including tab detachment and attachment;
   * X11 virtual desktop awareness (using tabs on current desktop but opening a new window on another);
