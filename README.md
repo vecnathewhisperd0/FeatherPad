@@ -25,7 +25,7 @@ FeatherPad (vecnathewhisperd0 <vecnathewhisperd0@gmail.com>) is a lightweight Qt
 
 Please see [INSTALL](INSTALL) for instructions on compilation, installation and translation!
 
-FeatherPad was written in GTK+ at first, then ported to Qt with more features. Its homepage is <https://github.com/tsujan/FeatherPad>.
+FeatherPad was written in GTK+ at first, then ported to Qt with more features. Its homepage is <https://github.com/vecnathewhisperd0/FeatherPad>.
 
 ## Credits
 
